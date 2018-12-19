@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{2A1F82AF-85E5-26A0-BFE0-1F8D0006DA7A}</ProjectGuid>
+		<RootNamespace>LowLevel</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/LowLevel/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include;./../../../Include/GeomUtils;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/src;./../../PhysXProfile/include;./../../GeomUtils/headers;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../GeomUtils/src;./../../LowLevel/API/include;./../../LowLevel/common/include;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevel/common/include/pipeline/windows;./../../LowLevel/common/include/utils;./../../LowLevel/software/include;./../../LowLevel/software/include/windows;./../../LowLevelDynamics/include;./../../LowLevelDynamics/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/LowLevel/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include;./../../../Include/GeomUtils;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/src;./../../PhysXProfile/include;./../../GeomUtils/headers;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../GeomUtils/src;./../../LowLevel/API/include;./../../LowLevel/common/include;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevel/common/include/pipeline/windows;./../../LowLevel/common/include/utils;./../../LowLevel/software/include;./../../LowLevel/software/include/windows;./../../LowLevelDynamics/include;./../../LowLevelDynamics/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/LowLevel/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include;./../../../Include/GeomUtils;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/src;./../../PhysXProfile/include;./../../GeomUtils/headers;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../GeomUtils/src;./../../LowLevel/API/include;./../../LowLevel/common/include;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevel/common/include/pipeline/windows;./../../LowLevel/common/include/utils;./../../LowLevel/software/include;./../../LowLevel/software/include/windows;./../../LowLevelDynamics/include;./../../LowLevelDynamics/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/LowLevel/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include;./../../../Include/GeomUtils;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/src;./../../PhysXProfile/include;./../../GeomUtils/headers;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../GeomUtils/src;./../../LowLevel/API/include;./../../LowLevel/common/include;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevel/common/include/pipeline/windows;./../../LowLevel/common/include/utils;./../../LowLevel/software/include;./../../LowLevel/software/include/windows;./../../LowLevelDynamics/include;./../../LowLevelDynamics/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\LowLevel\API\src\px_globals.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevel\API\include\PxsMaterialCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxsMaterialManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvDynamics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvGlobals.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\API\include\PxvSimStats.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsCCD.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsContactManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsContext.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsDefaultMemoryManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsIslandSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsMaterialCombiner.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsNphaseImplementationContext.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\software\src\PxsSimpleIslandManager.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsBodySim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsCCD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsContactManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsContactManagerState.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsDefaultMemoryManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsHeapMemoryAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsIncrementalConstraintPartitioning.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsIslandManagerTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsIslandSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsKernelWrangler.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsMaterialCombiner.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsMemoryManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsNphaseImplementationContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsRigidBody.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsShapeSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsSimpleIslandManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsSimulationController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxsTransformCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\software\include\PxvNphaseImplementationContext.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\LowLevel\common\src\collision\PxcContact.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcContactCache.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcContactMethodImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcMaterialHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcMaterialMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcMaterialMethodImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcMaterialShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcNpBatch.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcNpCacheStreamPair.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcNpContactPrepShared.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcNpMemBlockPool.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevel\common\src\pipeline\PxcNpThreadContext.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevel\common\include\collision\PxcContactMethodImpl.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcCCDStateStreamPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcConstraintBlockStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcContactCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcMaterialMethodImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpBatch.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpCacheStreamPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpContactPrepShared.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpMemBlockPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpThreadContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcNpWorkUnit.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\pipeline\PxcRigidBody.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevel\common\include\utils\PxcScratchAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevel\common\include\utils\PxcThreadCoherentCache.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

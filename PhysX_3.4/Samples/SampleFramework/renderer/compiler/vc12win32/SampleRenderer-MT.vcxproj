@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{67A61354-2C14-B851-8530-DDD43BDC1D9C}</ProjectGuid>
+		<RootNamespace>SampleRenderer-MT</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../lib/vc12win32\</OutDir>
+		<IntDir>./Win32/SampleRenderer-MT/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/EHsc /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../../platform/include;./../../../framework/include;./../../../../PxToolkit/include;./../../../../../Source/Common/include;./../../../../../Source/Common/include/windows;./../../../../../Include;./../../../../../../PxShared/include;./../../../../../../PxShared/src/foundation/include;$(DXSDK_DIR)/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PHYSX_PROFILE_SDK;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../lib/vc12win32\</OutDir>
+		<IntDir>./Win32/SampleRenderer-MT/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../../platform/include;./../../../framework/include;./../../../../PxToolkit/include;./../../../../../Source/Common/include;./../../../../../Source/Common/include/windows;./../../../../../Include;./../../../../../../PxShared/include;./../../../../../../PxShared/src/foundation/include;$(DXSDK_DIR)/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PHYSX_PROFILE_SDK;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../lib/vc12win32\</OutDir>
+		<IntDir>./Win32/SampleRenderer-MT/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../../platform/include;./../../../framework/include;./../../../../PxToolkit/include;./../../../../../Source/Common/include;./../../../../../Source/Common/include/windows;./../../../../../Include;./../../../../../../PxShared/include;./../../../../../../PxShared/src/foundation/include;$(DXSDK_DIR)/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PHYSX_PROFILE_SDK;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../lib/vc12win32\</OutDir>
+		<IntDir>./Win32/SampleRenderer-MT/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../../platform/include;./../../../framework/include;./../../../../PxToolkit/include;./../../../../../Source/Common/include;./../../../../../Source/Common/include/windows;./../../../../../Include;./../../../../../../PxShared/include;./../../../../../../PxShared/src/foundation/include;$(DXSDK_DIR)/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PHYSX_PROFILE_SDK;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\windows\WindowsGLIncludes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\GLIncludes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Renderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererBoxShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererCapsuleShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererClothShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererColor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererDirectionalLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererDirectionalLightDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererFoundation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererGridShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererIndexBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererInstanceBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererInteropableBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererLightDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMaterialDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMaterialInstance.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMemoryMacros.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMeshContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMeshDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererMeshShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererParticleSystemShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererProjection.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererSimpleParticleSystemShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererSpotLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererSpotLightDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTarget.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTargetDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTerrainShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTexture.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTexture2D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTexture2DDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererTextureDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererVertexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererVertexBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RendererWindow.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\ogl\OGLRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererDirectionalLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererSpotLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererTexture2D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\ogl\OGLRendererVertexBuffer.h">
+		</ClInclude>
+		<ClCompile Include="..\..\src\ogl\OGLRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererDirectionalLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererIndexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererInstanceBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererSpotLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererTexture2D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\ogl\OGLRendererVertexBuffer.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\d3d9\D3D9Renderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererDirectionalLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererSpotLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererTarget.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererTexture2D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9RendererVertexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d9\D3D9WPFRenderer.h">
+		</ClInclude>
+		<ClCompile Include="..\..\src\d3d9\D3D9Renderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererDirectionalLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererIndexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererInstanceBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererSpotLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererTarget.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererTexture2D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9RendererVertexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d9\D3D9WPFRenderer.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\d3d11\D3D11Renderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererDirectionalLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererMemoryMacros.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererResourceManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererSpotLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererTarget.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererTexture2D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererTexture3D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererTextureCommon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererTraits.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererVariableManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\d3d11\D3D11RendererVertexBuffer.h">
+		</ClInclude>
+		<ClCompile Include="..\..\src\d3d11\D3D11Renderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererDirectionalLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererIndexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererInstanceBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererSpotLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererTarget.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererTexture2D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererTexture3D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererUtils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererVariableManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\d3d11\D3D11RendererVertexBuffer.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\src\null\NULLRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererDirectionalLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererSpotLight.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererTexture2D.h">
+		</ClInclude>
+		<ClInclude Include="..\..\src\null\NULLRendererVertexBuffer.h">
+		</ClInclude>
+		<ClCompile Include="..\..\src\null\NULLRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererDirectionalLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererIndexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererInstanceBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererSpotLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererTexture2D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\null\NULLRendererVertexBuffer.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\Renderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererBoxShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererCapsuleShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererClothShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererColor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererDirectionalLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererDirectionalLightDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererGridShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererIndexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererIndexBufferDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererInstanceBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererInstanceBufferDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererLightDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMaterialDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMaterialInstance.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMeshContext.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMeshDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererMeshShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererParticleSystemShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererProjection.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererSimpleParticleSystemShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererSpotLight.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererSpotLightDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTarget.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTargetDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTerrainShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTexture.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTexture2D.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTexture2DDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererTextureDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererVertexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererVertexBufferDesc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\RendererWindow.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

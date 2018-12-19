@@ -1,0 +1,33 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor = tex2D(diffuseTexture, params.texcoord0.xy);
+	
+	SurfaceMaterial mout;
+	
+    // calculate eye-space sphere normal from texture coordinates
+    float3 N;
+    N.xy = params.texcoord0.xy*float2(2.0, -2.0) + float2(-1.0, 1.0);
+    float r2 = dot(N.xy, N.xy);
+    if (r2 > 0.5) discard;   // kill pixels outside circle
+    N.z = sqrt(1.0-r2);
+	
+	mout.diffuseColor       = params.color.xyz*diffuseTextureColor.rgb;
+
+    mout.alpha = clamp(1.0 - r2,0.0,1.0);//saturate(1.0 - r2);
+    //alpha *= diffuseTextureColor.a;	
+
+
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(1,1,1); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}
+
+

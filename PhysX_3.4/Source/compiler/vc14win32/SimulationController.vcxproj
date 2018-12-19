@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{49C560C2-F59E-0A40-E1D5-E0F25960F1AB}</ProjectGuid>
+		<RootNamespace>SimulationController</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/SimulationController/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../SimulationController/src/cloth;./../../LowLevel/windows/include;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/math;./../../LowLevel/common/include/utils;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevelCloth/include;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelParticles/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/SimulationController/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../SimulationController/src/cloth;./../../LowLevel/windows/include;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/math;./../../LowLevel/common/include/utils;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevelCloth/include;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelParticles/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/SimulationController/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../SimulationController/src/cloth;./../../LowLevel/windows/include;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/math;./../../LowLevel/common/include/utils;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevelCloth/include;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelParticles/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../Lib/vc14win32\</OutDir>
+		<IntDir>./Win32/SimulationController/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../PhysXGpu/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../SimulationController/src/cloth;./../../LowLevel/windows/include;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/math;./../../LowLevel/common/include/utils;./../../LowLevel/common/include/collision;./../../LowLevel/common/include/pipeline;./../../LowLevelCloth/include;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelParticles/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\SimulationController\include\ScActorCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScArticulationCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScArticulationJointCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScBodyCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScClothCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScClothFabricCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScConstraintCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScIterators.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScMaterialCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScParticleSystemCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScPhysics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScRigidCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScShapeCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\include\ScStaticCore.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\SimulationController\src\particles\ScParticleBodyInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\particles\ScParticlePacketShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\particles\ScParticleSystemSim.h">
+		</ClInclude>
+		<ClCompile Include="..\..\SimulationController\src\particles\ScParticleBodyInteraction.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\particles\ScParticlePacketShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\particles\ScParticleSystemCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\particles\ScParticleSystemSim.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\SimulationController\src\cloth\ScClothShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\cloth\ScClothSim.h">
+		</ClInclude>
+		<ClCompile Include="..\..\SimulationController\src\cloth\ScClothCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\cloth\ScClothFabricCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\cloth\ScClothShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\cloth\ScClothSim.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\SimulationController\src\ScActorElementPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScActorInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScActorPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScActorSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScArticulationJointSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScArticulationSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScBodySim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScConstraintGroupNode.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScConstraintInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScConstraintProjectionManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScConstraintProjectionTree.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScConstraintSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScContactReportBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScContactStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScElementInteractionMarker.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScElementSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScElementSimInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScInteractionFlags.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScNPhaseCore.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScObjectIDTracker.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScRbElementInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScRigidSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScShapeInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScShapeIterator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScShapeSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScSimStateData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScSimStats.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScSimulationController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScSqBoundsManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScStaticSim.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScTriggerInteraction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SimulationController\src\ScTriggerPairs.h">
+		</ClInclude>
+		<ClCompile Include="..\..\SimulationController\src\ScActorCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScActorSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScArticulationCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScArticulationJointCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScArticulationJointSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScArticulationSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScBodyCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScBodyCoreKinematic.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScBodySim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintGroupNode.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintInteraction.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintProjectionManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintProjectionTree.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScConstraintSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScElementInteractionMarker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScElementSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScInteraction.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScIterators.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScMaterialCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScNPhaseCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScPhysics.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScRigidCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScRigidSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScShapeCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScShapeInteraction.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScShapeSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScSimStats.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScSimulationController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScSqBoundsManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScStaticCore.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScStaticSim.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SimulationController\src\ScTriggerInteraction.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

@@ -1,0 +1,165 @@
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+#if defined(RENDERER_D3D11) && !defined(RENDERER_WIN8ARM)
+	float4             screenSpacePosition : SV_POSITION;
+	float4             rotScaleXScaleY     : SEMANTIC_SPRITE_ROT_SCALEX_SCALEY;
+#else
+	float4             screenSpacePosition : POSITION;
+#endif
+	float              pointSize           : PSIZE;
+};
+
+BEGIN_CBUFFER(cbPointSprite)
+CONST_TYPE float windowWidth;
+CONST_TYPE float particleSize;
+CONST_TYPE int   hasRotation;
+CONST_TYPE int   hasScale;
+#if USE_VTF
+CONST_TYPE sampler2D positionTexture;
+CONST_TYPE sampler2D colorTexture;
+CONST_TYPE sampler2D transformTexture;
+CONST_TYPE float vertexTextureWidth;
+CONST_TYPE float vertexTextureHeight;
+#endif
+END_CBUFFER(cbPointSprite)
+
+VertexOut  vmain(
+			   #if USE_VTF
+				 __in(float,      particleIndex,      POSITION)
+			   #else
+				 __in(float4,     localSpacePosition, POSITION)
+			   #endif
+                 __in_opt(half4,  vertexColor,        COLOR)
+                 __in_opt(float3, localSpaceNormal,   NORMAL)
+                 __in_opt(float4, localSpaceTangent,  SEMANTIC_TANGENT)
+                 __in_opt(float4, vertexTexcoord0,    TEXCOORD0)
+                 __in_opt(float4, vertexTexcoord1,    TEXCOORD1)
+                 __in_opt(float4, vertexTexcoord2,    TEXCOORD2)
+                 __in_opt(float4, vertexTexcoord3,    TEXCOORD3)
+               #if RENDERER_INSTANCED
+                 , __in(float3,   instanceOffset,     SEMANTIC_INSTANCE_T)
+                 , __in(float3,   instanceNormalX,    SEMANTIC_INSTANCE_X)
+                 , __in(float3,   instanceNormalY,    SEMANTIC_INSTANCE_Y)
+                 , __in(float3,   instanceNormalZ,    SEMANTIC_INSTANCE_Z)
+               #endif
+                )
+{
+	VertexOut vout;
+
+#if defined(USE_VTF)
+	float f = floor(particleIndex/vertexTextureWidth);
+	float4 tcx = float4((particleIndex - f * vertexTextureWidth) / vertexTextureWidth, f / vertexTextureHeight, 0, 0);
+	float4 pos = tex2Dlod(positionTexture, tcx);
+#else
+	float4 pos = localSpacePosition;
+#endif
+
+#if !defined(GLSL_COMPILER)
+	float4x4 modelMatrix;
+#if RENDERER_INSTANCED
+	modelMatrix = mul(g_modelMatrix, transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1))));
+#else
+	modelMatrix = g_modelMatrix;
+#endif
+#endif
+
+#if !defined(GLSL_COMPILER)
+	float4x4 mvm                   = mul(g_viewMatrix, modelMatrix);
+	float4x4 mvpm                  = mul(g_projMatrix, mvm);
+	vout.screenSpacePosition       = mul(mvpm, pos);
+	vout.params.worldSpacePosition = mul(modelMatrix, pos).xyz;
+#else
+	vout.screenSpacePosition       = mul(g_MVP, pos);
+	vout.params.worldSpacePosition = mul(g_modelMatrix, pos).xyz;
+#endif
+
+#if !defined(GLSL_COMPILER)
+	float3 tbz = normalize(vout.params.worldSpacePosition - g_eyePosition);
+	float3 tbx = cross(float3(0,1,0), tbz);
+
+	vout.params.worldSpaceNormal   = tbz;//normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+	vout.params.worldSpaceTangent  = tbx;//normalize(mul(g_modelMatrix, float4(localSpaceTangent.xyz, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent) * localSpaceTangent.w;
+#else
+#if !defined(PASS_UNLIT)
+	float3 tbz = normalize(vout.params.worldSpacePosition - g_eyePosition);
+	vout.params.worldSpaceNormal   = tbz;//normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+#endif
+#endif
+
+	vout.params.texcoord0   = vertexTexcoord0;
+#if !defined(GLSL_COMPILER)
+	vout.params.texcoord1   = vertexTexcoord1;
+	vout.params.texcoord2   = vertexTexcoord2;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3   = vertexTexcoord3;
+#endif
+#endif
+
+#if defined(USE_VTF)
+	vout.params.color       = swizzle((half4)tex2Dlod(colorTexture, tcx));
+#else
+	vout.params.color       = swizzle(vertexColor);
+#endif
+
+#if defined(RENDERER_D3D11) && !defined(RENDERER_WIN8ARM)
+	vout.pointSize          = particleSize * .75;
+	vout.rotScaleXScaleY    = float4(hasRotation ? vertexTexcoord3.x    : 0,
+	                                 hasScale    ? localSpaceTangent.xy : float2(1,1), 
+	                                 0);
+#else
+	vout.pointSize          = (g_projMatrix[0][0] / vout.screenSpacePosition.w) * windowWidth * particleSize * .5;
+#endif
+	return vout;
+}
+
+#if defined(RENDERER_D3D11) && !defined(RENDERER_WIN8ARM)
+
+struct GeomOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : SV_POSITION;
+	float              pointSize           : PSIZE;
+};
+
+[maxvertexcount(4)]
+void gmain( point VertexOut sprite[1], inout TriangleStream<GeomOut> triStream )
+{
+	GeomOut v;
+	v.params = sprite[0].params;
+	v.pointSize = sprite[0].pointSize;
+
+	const float4 pos  = sprite[0].screenSpacePosition;
+	const float rad   = sprite[0].pointSize;
+	const float theta = sprite[0].rotScaleXScaleY[0];
+	const float radX  = sprite[0].rotScaleXScaleY[1] * rad;
+	const float radY  = sprite[0].rotScaleXScaleY[2] * rad;
+
+	float sinTheta, cosTheta;
+	sincos(theta, sinTheta, cosTheta);
+	const float2x2 rot = {cosTheta, -sinTheta, 
+	                      sinTheta,  cosTheta};
+
+	v.screenSpacePosition = pos + float4(mul(rot, float2(-radX, -radY)), 0, 0);
+	v.params.texcoord0 = float4(0,1,0,0);
+	triStream.Append(v);
+
+	v.screenSpacePosition = pos + float4(mul(rot, float2(-radX,  radY)), 0, 0);
+	v.params.texcoord0 = float4(0,0,0,0);
+	triStream.Append(v);
+
+	v.screenSpacePosition = pos + float4(mul(rot, float2( radX, -radY)), 0, 0);
+	v.params.texcoord0 = float4(1,1,0,0);
+	triStream.Append(v);
+
+	v.screenSpacePosition = pos + float4(mul(rot, float2( radX,  radY)), 0, 0);
+	v.params.texcoord0 = float4(1,0,0,0);
+	triStream.Append(v);
+
+	triStream.RestartStrip();
+}
+#endif

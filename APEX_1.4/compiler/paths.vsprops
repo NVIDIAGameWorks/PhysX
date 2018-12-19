@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ImportGroup Label="PropertySheets" />
+	<PropertyGroup Label="UserMacros">
+		<PHYSXPATH></PHYSXPATH>
+	</PropertyGroup>
+	<PropertyGroup Label="UserMacros">
+		<PXSHAREDPATH></PXSHAREDPATH>
+	</PropertyGroup>
+	<PropertyGroup Label="UserMacros">
+		<NVSIMDPATH></NVSIMDPATH>
+	</PropertyGroup>
+	<ItemGroup>
+		<BuildMacro Include="PHYSXPATH">
+			<Value>$(PHYSXPATH)</Value>
+		</BuildMacro>
+		<BuildMacro Include="PXSHAREDPATH">
+			<Value>$(PXSHAREDPATH)</Value>
+		</BuildMacro>
+		<BuildMacro Include="NVSIMDPATH">
+			<Value>$(NVSIMDPATH)</Value>
+		</BuildMacro>
+	</ItemGroup>
+</Project>

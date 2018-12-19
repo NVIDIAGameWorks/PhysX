@@ -1,0 +1,7 @@
+<material type="unlit">
+	<shader name="vertex">vertex/tablet_buttons.cg</shader>
+	<shader name="fragment">fragment/tablet_buttons.cg</shader>
+	<blending>true</blending>
+	<variables>
+	</variables>
+</material>

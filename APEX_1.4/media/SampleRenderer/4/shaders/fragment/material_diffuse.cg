@@ -1,0 +1,33 @@
+// fragment shader that takes in a diffuse texture and some material parameters.
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+
+BEGIN_CBUFFER(cbMaterialDiffuse)
+CONST_TYPE float4    diffuseColor;
+CONST_TYPE float3    emissiveColor;
+CONST_TYPE float3    specularColor;
+CONST_TYPE float     specularPower;
+END_CBUFFER(cbMaterialDiffuse)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor = (half4)tex2D(diffuseTexture, params.texcoord0.xy);
+
+	SurfaceMaterial mout;
+	mout.diffuseColor       = diffuseTextureColor.rgb * (half3)diffuseColor.rgb;
+	mout.alpha              = diffuseTextureColor.a   * (half)diffuseColor.a;
+
+	//float3 eyeToSurf = normalize(g_eyePosition-params.worldSpacePosition);
+
+	//mout.emissiveColor      = 1-pow(saturate(dot(normalize(g_eyePosition-params.worldSpacePosition),2)), params.worldSpaceNormal);//emissiveColor * saturate(dot(-g_eyeDirection, params.worldSpaceNormal));
+	mout.emissiveColor      = (half3)emissiveColor;
+
+	mout.specularColor      = (half3)specularColor;
+	mout.specularPower      = (half)specularPower;
+	mout.tangentSpaceNormal = half3(0,0,1);
+
+	return mout;
+}

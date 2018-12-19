@@ -1,0 +1,21 @@
+
+struct FragmentParameters
+{
+	float4 worldSpacePosition : TEXCOORD4;
+	float2 texcoord0          : TEXCOORD0;
+	half4  color              : COLOR;
+};
+
+struct Fragment
+{
+	half4 color : COLOR0;
+};
+
+uniform const sampler2D diffuseTexture;
+
+Fragment fmain(FragmentParameters params)
+{
+	Fragment fout;
+	fout.color = half4(tex2D(diffuseTexture, params.texcoord0.xy));
+	return fout;
+}

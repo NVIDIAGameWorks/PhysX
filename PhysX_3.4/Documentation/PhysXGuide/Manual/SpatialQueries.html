@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Spatial Queries &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="Scene Queries" href="SceneQueries.html" />
+    <link rel="prev" title="Geometry Queries" href="GeometryQueries.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="SceneQueries.html" title="Scene Queries"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="GeometryQueries.html" title="Geometry Queries"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="spatial-queries">
+<span id="spatialqueries"></span><h1>Spatial Queries<a class="headerlink" href="#spatial-queries" title="Permalink to this headline">¶</a></h1>
+<p>Applications commonly need to efficiently query volumes in space or trace rays or moving objects through space to determine what might be there. PhysX supports two interfaces for this, one for objects already in a scene, and one for querying against sets of arbitrary AABBs. The scene query system is discussed in <a class="reference internal" href="SceneQueries.html#scenequeries"><em>Scene Queries</em></a>.</p>
+<div class="section" id="pxspatialindex">
+<h2>PxSpatialIndex<a class="headerlink" href="#pxspatialindex" title="Permalink to this headline">¶</a></h2>
+<p>PxSpatialIndex is a BVH data structure that allows spatial queries to be performed without the need to instantiate a PxScene.
+It supports insertion, removal and updating of any objects defining a bounding box, and raycasts, sweeps, and overlap queries
+against those bounds.</p>
+<p>Spatial index has been marked as deprecated in 3.4 and will be removed in future releases.</p>
+<p>SnippetSpatialIndex shows an example of how to use this class.</p>
+<p>PxSpatialIndex has no internal locking, and there are special considerations when using it from multiple threads.
+Query operations (marked const in the interface) must not be issued in parallel with update (non-const) operations,
+or update operations in parallel with each other. When issuing query operations in parallel,
+it is important to be aware that PxSpatialIndex defers some updates to its internal data structures until a query is issued.
+In a single-threaded context this does not affect correctness or safety, but when querying from multiple threads simultaneously
+the internal updates may cause data hazards. In order to avoid these, call the flush() method to force the updates
+to be processed immediately. Between a call to flushUpdates() and any subsequent update operation, queries may be safely issued in parallel.</p>
+<p>A query against a PxSpatialIndex structure will result in a callback for each AABB hit by the query, allowing filtering or precise intersection as desired. The methods in the PxGeometryQuery class can be used to perform these intersection tests. Results will typically be in approximately sorted order, and when looking for the closest object in a raycast or sweep query against PxSpatialIndex, a useful optimization is to clip the length of the query inside the callback.
+For example, in SnippetSpatialIndex:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxAgain</span> <span class="nf">onHit</span><span class="p">(</span><span class="n">PxSpatialIndexItem</span><span class="o">&amp;</span> <span class="n">item</span><span class="p">,</span> <span class="n">PxReal</span> <span class="n">distance</span><span class="p">,</span> <span class="n">PxReal</span><span class="o">&amp;</span> <span class="n">shrunkDistance</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PX_UNUSED</span><span class="p">(</span><span class="n">distance</span><span class="p">);</span>
+
+    <span class="n">Sphere</span><span class="o">&amp;</span> <span class="n">s</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">Sphere</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+    <span class="n">PxRaycastHit</span> <span class="n">hitData</span><span class="p">;</span>
+
+    <span class="c1">// the ray hit the sphere&#39;s AABB, now we do a ray-sphere intersection test to find out if</span>
+    <span class="c1">// the ray hit the sphere</span>
+
+    <span class="n">PxU32</span> <span class="n">hit</span> <span class="o">=</span> <span class="n">PxGeometryQuery</span><span class="o">::</span><span class="n">raycast</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span>
+                                         <span class="n">PxSphereGeometry</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">radius</span><span class="p">),</span> <span class="n">PxTransform</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">position</span><span class="p">),</span>
+                                         <span class="mf">1e6</span><span class="p">,</span> <span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eDEFAULT</span><span class="p">,</span>
+                                         <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hitData</span><span class="p">);</span>
+
+    <span class="c1">// if the raycast hits and is closer than what we had before, shrink the maximum length</span>
+    <span class="c1">// of the raycast</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">hit</span> <span class="o">&amp;&amp;</span> <span class="n">hitData</span><span class="p">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">closest</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">closest</span> <span class="o">=</span> <span class="n">hitData</span><span class="p">.</span><span class="n">distance</span><span class="p">;</span>
+        <span class="n">hitSphere</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">;</span>
+        <span class="n">shrunkDistance</span> <span class="o">=</span> <span class="n">hitData</span><span class="p">.</span><span class="n">distance</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// and continue the query</span>
+
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Methods in PxGeometryQuery may report positive results when shapes are within a numerical tolerance of intersection or impact.
+To obtain results that are identical when using PxSpatialIndex and when not using a culling hierarchy, the bounding boxes must be slightly padded.
+PxGeometryQuery::getWorldBounds adds this padding by default.</p>
+</div>
+<p>PxSpatialIndex has the same performance characteristics as the scene query system using the PxPruningStructureType::eDYNAMIC_AABB_TREE option. If the AABBs correspond to moving objects, or there are many insertions and deletions, the quality of the tree may degrade over time. In order to prevent this, the tree may be rebuilt entirely using the function <em>rebuildFull()</em>. Alternatively, a second tree may be built incrementally in the background over many small steps, using the function  <em>rebuildStep()</em> to performs the same incremental rebuild step as performed by the scene's dynamic pruning structure during <em>fetchResults()</em>. See <a class="reference internal" href="SceneQueries.html#pxpruningstructuretype"><em>PxPruningStructureType</em></a> for details.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Spatial Queries</a><ul>
+<li><a class="reference internal" href="#pxspatialindex">PxSpatialIndex</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="GeometryQueries.html"
+                        title="previous chapter">Geometry Queries</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="SceneQueries.html"
+                        title="next chapter">Scene Queries</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="SceneQueries.html" title="Scene Queries"
+             >next</a></li>
+        <li class="right" >
+          <a href="GeometryQueries.html" title="Geometry Queries"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

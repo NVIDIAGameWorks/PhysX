@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Apex::shared::internal">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Apex::shared::internal\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Apex::shared::internal\src\authoring">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\internal\src\authoring\ApexCSG.cpp">
+			<Filter>Apex::shared::internal\src\authoring</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\internal\src\authoring\ApexCSGHull.cpp">
+			<Filter>Apex::shared::internal\src\authoring</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\internal\src\authoring\ApexCSGMeshCleaning.cpp">
+			<Filter>Apex::shared::internal\src\authoring</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\internal\src\authoring\Cutout.cpp">
+			<Filter>Apex::shared::internal\src\authoring</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\internal\src\authoring\Fracturing.cpp">
+			<Filter>Apex::shared::internal\src\authoring</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\internal\src\PvdNxParamSerializer.cpp">
+			<Filter>Apex::shared::internal\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Apex::shared::internal\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Apex::shared::internal\include\authoring">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSG.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGDefs.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGFastMath.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGFastMath2.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGHull.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGMath.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexCSGSerialization.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\ApexGSA.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\authoring\Fracturing.h">
+			<Filter>Apex::shared::internal\include\authoring</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\internal\include\ApexSharedSerialization.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\ApexStream.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\ApexString.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\FractureTools.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\Link.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\ParamArray.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\internal\include\PvdNxParamSerializer.h">
+			<Filter>Apex::shared::internal\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::shared">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\shared\PxInputDataFromPxFileBuf.h">
+			<Filter>Shared::general::shared</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::floatmath">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::floatmath\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\floatmath\include\FloatMath.h">
+			<Filter>Shared::general::floatmath\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::floatmath\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\general\floatmath\src\FloatMath.cpp">
+			<Filter>Shared::general::floatmath\src</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\shared\general\floatmath\src\FloatMath.inl">
+			<Filter>Shared::general::floatmath\src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::HACD">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::HACD\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\HACD\include\AutoGeometry.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\ConvexDecomposition.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgAABBPolygonSoup.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgArray.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgConvexHull3d.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgGoogol.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgGraph.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgHeap.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgIntersections.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgList.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgMatrix.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgMeshEffect.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgPlane.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgPolygonSoupBuilder.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgPolygonSoupDatabase.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgPolyhedra.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgQuaternion.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgRefCounter.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgSmallDeterminant.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgSphere.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgStack.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgTree.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgTypes.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\include\dgVector.h">
+			<Filter>Shared::general::HACD\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::HACD\public">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\HACD\public\ConvexHull.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\HACD.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\JobSwarm.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\MergeHulls.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\PlatformConfigHACD.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\PxVector.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\SparseArray.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\HACD\public\WuQuantizer.h">
+			<Filter>Shared::general::HACD\public</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::HACD\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\general\HACD\src\AutoGeometry.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\ConvexDecomposition.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\ConvexHull.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgAABBPolygonSoup.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgConvexHull3d.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgGoogol.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgIntersections.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgMatrix.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgMeshEffect.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgPolygonSoupBuilder.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgPolyhedra.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgQuaternion.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgSmallDeterminant.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgSphere.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgTree.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\dgTypes.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\HACD.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\MergeHulls.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\shared\general\HACD\src\WuQuantizer.cpp">
+			<Filter>Shared::general::HACD\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::PAIR_FILTER">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::PAIR_FILTER\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\PairFilter\include\PairFilter.h">
+			<Filter>Shared::general::PAIR_FILTER\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::PAIR_FILTER\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\general\PairFilter\src\PairFilter.cpp">
+			<Filter>Shared::general::PAIR_FILTER\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::stan_hull">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::stan_hull\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\shared\general\stan_hull\include\StanHull.h">
+			<Filter>Shared::general::stan_hull\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\shared\general\stan_hull\include\StanHullConfig.h">
+			<Filter>Shared::general::stan_hull\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Shared::general::stan_hull\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\shared\general\stan_hull\src\StanHull.cpp">
+			<Filter>Shared::general::stan_hull\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

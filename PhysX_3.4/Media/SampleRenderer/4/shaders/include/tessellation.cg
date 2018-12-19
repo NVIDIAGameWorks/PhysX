@@ -1,0 +1,186 @@
+#ifndef TESSELLATION_CG
+#define TESSELLATION_CG
+
+#include <config.cg>
+#include <globals.cg>
+
+#if !defined(ADAPTIVE_TESSELLATION)
+#define ADAPTIVE_TESSELLATION 1
+#endif
+
+#if !defined(WEIGHTED_TESSELLATION)
+#define WEIGHTED_TESSELLATION 1
+#endif
+
+#if !defined(ENABLE_EXTRA_SEMANTICS)
+#define ENABLE_EXTRA_SEMANTICS 1
+#endif
+
+#if !defined(ENABLE_INTERIOR_DISTANCE)
+#define ENABLE_INTERIOR_DISTANCE 1
+#endif
+
+#if ENABLE_TESSELLATION==0
+
+//--------------------------------------------------------------------------------------
+// Vertex Shader Output
+//--------------------------------------------------------------------------------------
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4 screenSpacePosition : POSITION;
+};
+
+#else
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4 screenSpacePosition : POSITION;
+#if ENABLE_EXTRA_SEMANTICS
+	float4      localPosition  : SEMANTIC_MODEL_POSITION;
+	uint        flagsDisp      : SEMANTIC_DISPLACEMENT_FLAGS;
+	float4      modelMatrix[4] : SEMANTIC_MODEL_MATRIX;
+#endif
+};
+
+//--------------------------------------------------------------------------------------
+// Constants
+//--------------------------------------------------------------------------------------
+
+BEGIN_CBUFFER(cbTessellation)
+// x = Edge Factor
+// y = Inside factor
+// z = Distance factor where (1 - (z/x)) clamps distance LOD
+// w = Optional screen-space factor
+CONST_TYPE float4 g_tessFactor             : packoffset(c0);
+
+// x = Min distance for LOD scaling
+// y = Max distance for LOD scaling
+CONST_TYPE float2 g_tessMinMaxDistance     : packoffset(c1);
+
+// x = Height scaling factor
+// y = Height bias (applied before scaling)
+CONST_TYPE float2 g_tessHeightScaleAndBias : packoffset(c1.z);
+
+// x = U scaling factor
+// y = V scaling factor
+CONST_TYPE float2 g_tessUVScale            : packoffset(c2);
+
+END_CBUFFER(cbTessellation)
+
+
+//--------------------------------------------------------------------------------------
+// Static Constants 
+//--------------------------------------------------------------------------------------
+
+static const uint X_FLAG     = 0;
+static const uint Y_FLAG     = 1;
+static const uint Z_FLAG     = 2;
+static const uint AXIS_MASK  = 3;//X_FLAG | Y_FLAG | Z_FLAG;
+static const uint FIXED_FLAG = 4;
+static const uint INTERIOR_FLAG = 8;
+
+//--------------------------------------------------------------------------------------
+// Functions
+//--------------------------------------------------------------------------------------
+
+float getDisplacementWeight(uint uFlags)
+{
+	return (uFlags & FIXED_FLAG) ? 0.f : 1.f;
+}
+
+uint  getDisplacementAxis(uint uFlags)
+{
+	return uFlags & AXIS_MASK;
+}
+
+bool  isEdgeInterior(uint uFlags)
+{
+	return uFlags & INTERIOR_FLAG;
+}
+
+/*
+float getInteriorDistance(float3 vEdgeFactors, float3 vBaryCoords)
+{
+	float3 vEdgeCoords = float3(1,1,1) - 
+	                     normalize(float3(vBaryCoords.x + vBaryCoords.y,
+	                                      vBaryCoords.y + vBaryCoords.z,
+	                                      vBaryCoords.z + vBaryCoords.x) * .5);
+	if(vEdgeFactors.x > 0.)
+		vEdgeCoords.x = 0.;
+	if(vEdgeFactors.y > 0.)
+		vEdgeCoords.y = 0.;
+	if(vEdgeFactors.z > 0.)
+		vEdgeCoords.z = 0.;
+
+	return sqrt(max(vEdgeCoords.x, max(vEdgeCoords.y, vEdgeCoords.z)));
+}*/
+
+float getInteriorDistance(float3 edgeFactors, float3 baryCoords)
+{
+	// Calculate distance from triangle exterior [0...1]
+	float3 vInteriorDistance  = sqrt(baryCoords*edgeFactors);
+	//float3 vInteriorDistance  = baryCoords*edgeFactors;
+	vInteriorDistance        += float3(1,1,1) - edgeFactors;
+	return clamp(min(min(vInteriorDistance.x, vInteriorDistance.y), vInteriorDistance.z), 0, 1);
+	//float fInteriorDistance = 3.f * min(min(fU+input.EdgeFactors.x, fV+input.EdgeFactors.y), fW+input.EdgeFactors.z);
+	//float fInteriorDistance = 3.f * min(min(fU, fV), fW);
+}
+
+// Distance between point and line segment defined by p0 -> p1
+float computeDistance(float3 worldSpacePosition, float3 p0, float3 p1)
+{
+	float3 v = p1 - p1;
+	float3 w = worldSpacePosition - p0;
+
+    float c1 = dot(w,v);
+    if ( c1 <= 0 )
+        return distance(worldSpacePosition, p0);
+
+    float c2 = dot(v,v);
+    if ( c2 <= c1 )
+        return distance(worldSpacePosition, p1);
+
+    float b = c1 / c2;
+    return distance(worldSpacePosition, p0 + b * v);
+}
+
+// LOD distance based on viewpoint
+float computeDistance(float3 worldSpacePosition, float3 eyePosition)
+{
+	// Min and max distance should be chosen according to scene quality requirements
+	const float fMinDistance = g_tessMinMaxDistance.x;//x5.0f;
+	const float fMaxDistance = g_tessMinMaxDistance.y;//100.f;
+
+	// Calculate distance between vertex and camera, and a vertex distance factor issued from it
+	float fDistance = distance( worldSpacePosition.xyz, eyePosition );
+	return 1.0 - clamp( ( ( fDistance - fMinDistance ) / ( fMaxDistance - fMinDistance ) ),
+	                    0.0,
+	                    1.0 - g_tessFactor.z/g_tessFactor.x);
+}
+
+float3 pointInPlane(in float3 n, in float3 p,  in float3 pPlane)
+{
+	return p - dot(n, p - pPlane) * n;
+}
+
+float3 computeBarycentricCoordinates(in float3 p, in float3 n, in float3 a, in float3 b, in float3 c)
+{
+	float3 pProj = pointInPlane(n, p, a);
+
+	float abc = dot(n, cross(b-a,     c-a));
+	float pbc = dot(n, cross(b-pProj, c-pProj));
+	float pca = dot(n, cross(c-pProj, a-pProj));
+
+	float x0 = pbc / abc;
+	float x1 = pca / abc;
+	float x2 = 1.0f - x0 - x1;
+
+	return float3(x0, x1, x2);
+}
+
+#endif /* ENABLE_TESSELLATION==1 */
+
+#endif

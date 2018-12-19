@@ -1,0 +1,37 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="IofxAssetParameters" version="0.2" checksum="0xbb5add57 0xf771d298 0xcd7c3bc3 0x921baa57">
+  <struct name="">
+    <value name="iofxType" type="Ref" included="1" className="SpriteIofxParameters" version="0.4" checksum="0x9763d523 0x7dae1ae1 0x3bb7aa9d 0x67a8d368">    
+      <struct name="">
+        <value name="spriteMaterialName" type="Ref" included="0" className="ApexMaterials" objectName="materials/particle_dust.xml"></value>
+        <array name="spawnModifierList" size="1" type="Ref">
+          <value type="Ref" included="1" className="SimpleScaleModifierParams" version="0.0" checksum="0x7a1ac6ca 0x76ef1cd2 0x991bfe05 0x30c11a09">          
+            <struct name="">
+              <value name="scaleFactor" type="Vec3">1 1 1</value>
+            </struct>
+          </value>
+        </array>
+        <array name="continuousModifierList" size="2" type="Ref">
+          <value type="Ref" included="1" className="ViewDirectionSortingModifierParams" version="0.0" checksum="0x273be54c 0xc9bfbfeb 0x523921d 0x48c3bc2d">          
+            <struct name="">
+              <value name="sortType" type="Enum">default</value>
+            </struct>
+          </value>
+          <value type="Ref" included="1" className="ColorVsLifeCompositeModifierParams" version="0.0" checksum="0x2ee279f3 0x6440bf5b 0x26d89b02 0xc90fa659">          
+            <struct name="">
+              <array name="controlPoints" size="4" type="Struct" structElements="lifeRemaining(F32),color(Vec4)">
+                1 1 1 0 0.813333333,0.795000017 1 1 0 0.786666691,0.460000038 1 0 0 0.613333344,0 1 0.501960814 0.501960814 0
+              </array>
+            </struct>
+          </value>
+        </array>
+      </struct>
+    </value>
+    <struct name="renderOutput">
+      <value name="useUserSemantic" type="Bool">false</value>
+      <value name="useFloat4Color" type="Bool">false</value>
+    </struct>
+  </struct>
+</value>
+</NvParameters>

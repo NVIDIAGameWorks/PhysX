@@ -1,0 +1,21 @@
+.. PhysX SDK documentation master file
+
+.. |reg| unicode:: U+000AE .. REGISTERED SIGN
+   :ltrim:
+
+
+NVIDIA |reg| PhysX |reg| SDK |release| Documentation
+========================================================
+
+.. image:: images/PhysXlogo.png
+
+Built |today| 
+
+
+Contents:
+
+.. toctree::
+   :maxdepth: 3
+
+   Manual/Index
+

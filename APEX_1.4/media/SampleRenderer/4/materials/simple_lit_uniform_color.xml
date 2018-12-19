@@ -1,0 +1,8 @@
+<material type="lit">
+  <shader name="vertex">vertex/staticmesh.cg</shader>
+  <shader name="fragment">fragment/simple_uniform_colors.cg</shader>
+  <variables>
+    <float4 name="diffuseColor">0.6 0.6 0.6 1.0</float4>
+    <float4 name="specularColor">0.2 0.2 0.2 64.0</float4>
+  </variables>
+</material>

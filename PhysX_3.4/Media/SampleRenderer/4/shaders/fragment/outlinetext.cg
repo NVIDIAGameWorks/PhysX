@@ -1,0 +1,39 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+
+uniform const float3 outlineColor = {0.0, 0.0, 0.0};
+uniform const float  invTexWidth  = 1.0/1024.0;
+uniform const float  invTexHeight = 1.0/1024.0;
+
+// should replace the blur with a separable version or some such
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor = tex2D(diffuseTexture, params.texcoord0.xy);
+	
+	half coeffs[9]= { 1.0/16.0, 2.0/16.0, 1.0/16.0,
+	                  2.0/16.0, 4.0/16.0, 2.0/16.0,
+	                  1.0/16.0, 2.0/16.0, 1.0/16.0 };
+	                      
+	float accum = 0.0;
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(-invTexWidth, -invTexHeight)).a * coeffs[0];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(           0, -invTexHeight)).a * coeffs[1];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(invTexWidth,  -invTexHeight)).a * coeffs[2];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(-invTexWidth, 0 )).a * coeffs[3];
+	accum += diffuseTextureColor.a * coeffs[4];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(invTexWidth,  0 )).a * coeffs[5];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(-invTexWidth, invTexHeight)).a * coeffs[6];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(           0, invTexHeight)).a * coeffs[7];
+	accum += tex2D(diffuseTexture, params.texcoord0.xy + half2(invTexWidth,  invTexHeight)).a * coeffs[8];
+	
+	SurfaceMaterial mout;
+	mout.diffuseColor       = lerp(outlineColor, params.color.rgb, diffuseTextureColor.a);
+	mout.alpha              = diffuseTextureColor.a*params.color.a + accum;
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(1,1,1); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}

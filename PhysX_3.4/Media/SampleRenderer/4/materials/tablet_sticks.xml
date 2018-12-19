@@ -1,0 +1,8 @@
+<material type="unlit">
+	<shader name="vertex">vertex/tablet_sticks.cg</shader>
+	<shader name="fragment">fragment/tablet_sticks.cg</shader>
+	<blending>true</blending>
+	<variables>
+		<sampler2D name="diffuseTexture">textures/ui_knob_dxt3.dds</sampler2D>
+	</variables>
+</material>

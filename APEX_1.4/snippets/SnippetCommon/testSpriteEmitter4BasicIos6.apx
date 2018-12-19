@@ -1,0 +1,36 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="ApexEmitterAssetParameters" version="0.8" checksum="0x1835d790 0xa1bfdb02 0xf76e9154 0xae351ee1">
+  <struct name="">
+    <value name="density" type="F32">1</value>
+    <value name="rate" type="F32">1000</value>
+    <value name="lifetimeLow" type="F32">20</value>
+    <value name="lifetimeHigh" type="F32">22</value>
+    <value name="velocityLow" type="Vec3">-3 0 -3</value>
+    <value name="velocityHigh" type="Vec3">3 6 3</value>
+    <value name="maxSamples" type="U32">10000</value>
+    <struct name="lodParamDesc">
+      <value name="version" type="U32">0</value>
+      <value name="maxDistance" type="F32">1000</value>
+      <value name="distanceWeight" type="F32">0.699999988</value>
+      <value name="speedWeight" type="F32">0</value>
+      <value name="lifeWeight" type="F32">0.300000012</value>
+      <value name="separationWeight" type="F32">0</value>
+      <value name="bias" type="F32">0</value>
+    </struct>
+    <value name="iofxAssetName" type="Ref" included="0" className="IOFX" objectName="testSpriteIofx"></value>
+    <value name="iosAssetName" type="Ref" included="0" className="BasicIosAsset" objectName="spriteBasicIos6"></value>
+    <value name="geometryType" type="Ref" included="1" className="EmitterGeomSphereParams" version="0.1" checksum="0x79a261ec 0x91a7400d 0xfb6ba037 0x3c13e11f">    
+      <struct name="">
+        <value name="emitterType" type="Enum">rate</value>
+        <value name="radius" type="F32">2</value>
+        <value name="hemisphere" type="F32">0</value>
+      </struct>
+    </value>
+    <value name="emitterDuration" type="F32">PX_MAX_F32</value>
+    <value name="emitterVelocityScale" type="F32">0</value>
+    <value name="minSamplingFPS" type="U32">0</value>
+    <array name="rateVsTimeCurvePoints" size="0" type="Struct" structElements="x(F32),y(F32)"></array>
+  </struct>
+</value>
+</NvParameters>

@@ -1,0 +1,6 @@
+<material type="unlit">
+	<shader name="vertex">vertex/staticmesh.cg</shader>
+	<shader name="fragment">fragment/simple_color.cg</shader>
+	<variables>
+	</variables>
+</material>

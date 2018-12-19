@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scene Queries &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="Vehicles" href="Vehicles.html" />
+    <link rel="prev" title="Spatial Queries" href="SpatialQueries.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="Vehicles.html" title="Vehicles"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="SpatialQueries.html" title="Spatial Queries"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="scene-queries">
+<span id="scenequeries"></span><h1>Scene Queries<a class="headerlink" href="#scene-queries" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>PhysX provides methods in PxScene to perform collision queries against actors and attached shapes in the scene. There are three types of queries: raycasts, sweeps and overlaps, and each can return either a single result, or multiple results. Broadly speaking, each query traverses a culling structure containing the scene objects, performs a precise test using the GeometryQuery functions (see <a class="reference internal" href="GeometryQueries.html#geometryqueries"><em>Geometry Queries</em></a>), and accumulates the results. Filtering may occur before or after precise testing.</p>
+<p>The scene uses two different query structures, one for <em>PxRigidStatic</em> actors, and the other for <em>PxRigidBody</em> actors (<em>PxRigidDynamic</em> and <em>PxArticulationLink</em>.) The two structures may be configured to use different culling implementations depending on the desired speed/space characteristics (see <a class="reference internal" href="#pxpruningstructuretype"><em>PxPruningStructureType</em></a>.)</p>
+</div>
+<div class="section" id="basic-queries">
+<h2>Basic queries<a class="headerlink" href="#basic-queries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="raycasts">
+<h3>Raycasts<a class="headerlink" href="#raycasts" title="Permalink to this headline">¶</a></h3>
+<p>A <em>PxScene::raycast()</em> query intersects a user-defined ray with the whole scene.
+The simplest use case for a raycast() query is to find the closest hit along a given ray as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>                 <span class="c1">// [out] Raycast results</span>
+
+<span class="c1">// Raycast against all static &amp; dynamic objects (no filtering)</span>
+<span class="c1">// The main result from this call is the closest hit, stored in the &#39;hit.block&#39; structure</span>
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="n">applyDamage</span><span class="p">(</span><span class="n">hit</span><span class="p">.</span><span class="n">block</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">hit</span><span class="p">.</span><span class="n">block</span><span class="p">.</span><span class="n">normal</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In this code snippet a PxRaycastBuffer object is used to receive results from the raycast query.
+A call to raycast() returns true if there was a hit. hit.hadBlock is also set to true if there was a hit.
+The distance for raycasts has to be in the [0, inf) range.</p>
+<p>Raycasts results include position, normal, hit distance, shape and actor, and a face index with UV coordinates for triangle meshes and heightfields. Before using query results check PxHitFlag::ePOSITION, eNORMAL, eDISTANCE, eUV flags first, as in some cases they are not set.</p>
+</div>
+<div class="section" id="sweeps">
+<h3>Sweeps<a class="headerlink" href="#sweeps" title="Permalink to this headline">¶</a></h3>
+<p>A <em>PxScene::sweep()</em> query is geometrically similar to a raycast(): a PxGeometry shape is swept from a specified initial pose in a direction unitDir with specified maximum length, to find the points of impacts of the geometry with scene objects. The maximum distance for sweeps has to be in the [0, inf) range, and will be clamped by to PX_MAX_SWEEP_DISTANCE, defined in file PxScene.h.</p>
+<p>Allowed shapes are box, sphere, capsule and convex.</p>
+<p>A PxSweepBuffer object is used to receive results from sweep() queries:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxSweepBuffer</span> <span class="n">hit</span><span class="p">;</span>              <span class="c1">// [out] Sweep results</span>
+<span class="n">PxGeometry</span> <span class="n">sweepShape</span> <span class="o">=</span> <span class="p">...;</span>    <span class="c1">// [in] swept shape</span>
+<span class="n">PxTransform</span> <span class="n">initialPose</span> <span class="o">=</span> <span class="p">...;</span>  <span class="c1">// [in] initial shape pose (at distance=0)</span>
+<span class="n">PxVec3</span> <span class="n">sweepDirection</span> <span class="o">=</span> <span class="p">...;</span>    <span class="c1">// [in] normalized sweep direction</span>
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">sweep</span><span class="p">(</span><span class="n">sweepShape</span><span class="p">,</span> <span class="n">initialPose</span><span class="p">,</span> <span class="n">sweepDirection</span><span class="p">,</span> <span class="n">sweepDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Sweeps results include position, normal, hit distance, shape and actor, and a face index for triangle meshes and heightfields.</p>
+</div>
+<div class="section" id="overlaps">
+<h3>Overlaps<a class="headerlink" href="#overlaps" title="Permalink to this headline">¶</a></h3>
+<p><em>PxScene::overlap()</em> query searches a region enclosed by a specified shape for any overlapping objects in the scene.
+The region is specified as a transformed box, sphere, capsule or convex geometry.</p>
+<p>A PxOverlapBuffer object is used to receive results from overlap() queries:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxOverlapBuffer</span> <span class="n">hit</span><span class="p">;</span>            <span class="c1">// [out] Overlap results</span>
+<span class="n">PxGeometry</span> <span class="n">overlapShape</span> <span class="o">=</span> <span class="p">...;</span>  <span class="c1">// [in] shape to test for overlaps</span>
+<span class="n">PxTransform</span> <span class="n">shapePose</span> <span class="o">=</span> <span class="p">...;</span>    <span class="c1">// [in] initial shape pose (at distance=0)</span>
+
+<span class="n">PxOverlapBuffer</span> <span class="n">hit</span><span class="p">;</span>
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">overlap</span><span class="p">(</span><span class="n">overlapShape</span><span class="p">,</span> <span class="n">shapePose</span><span class="p">,</span> <span class="n">hit</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Overlaps results only include actor/shape and faceIndex since there is no single point of intersection.</p>
+</div>
+</div>
+<div class="section" id="touching-and-blocking-hits">
+<h2>Touching and blocking hits<a class="headerlink" href="#touching-and-blocking-hits" title="Permalink to this headline">¶</a></h2>
+<p>For queries with multiple results we distinguish between <em>touching</em> and <em>blocking</em> hits. The choice of whether a hit is touching or blocking is made by the user-implemented filtering logic. Intuitively a blocking hit prevents further progress of a raycast or a sweep along its path, and a touching hit is recorded but allows the ray or sweep to continue. So a multiple-hit query will return the closest blocking hit if one exists, together with any touching hits that are closer. If there are no blocking hits, all touching hits will be returned.</p>
+<p>See the <a class="reference internal" href="#queryfiltering"><em>Filtering</em></a> section for details.</p>
+</div>
+<div class="section" id="query-modes">
+<h2>Query modes<a class="headerlink" href="#query-modes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="closest-hit">
+<h3>Closest hit<a class="headerlink" href="#closest-hit" title="Permalink to this headline">¶</a></h3>
+<p>The default mode of operation for all three query types is &quot;closest hit&quot;. The query looks for all blocking hits, picks the one with the minimum distance and reports it in the PxHitBuffer::block member.</p>
+<ul class="simple">
+<li>For overlap() queries an arbitrary blocking hit is chosen as the reported blocking hit (distance is treated as zero for all overlap() hits).</li>
+</ul>
+</div>
+<div class="section" id="any-hit">
+<h3>Any hit<a class="headerlink" href="#any-hit" title="Permalink to this headline">¶</a></h3>
+<p>All three query types can operate in &quot;any hit&quot; mode. This is a performance hint to the query system indicating that there is no need to look
+for the closest hit - any hit encountered will do. This mode is most often used for boolean blocking/non-blocking queries.
+Performance improvement may be a factor of 3 or more, depending on scenario.
+To activate this mode use PxQueryFlag::eANY_HIT filter data flag and set it in PxQueryFilterData object, for instance:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxQueryFilterData</span> <span class="n">fd</span><span class="p">;</span>
+<span class="n">fd</span><span class="p">.</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">PxQueryFlag</span><span class="o">::</span><span class="n">eANY_HIT</span><span class="p">;</span> <span class="c1">// note the OR with the default value</span>
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">,</span>
+                             <span class="n">PxHitFlags</span><span class="p">(</span><span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eDEFAULT</span><span class="p">),</span> <span class="n">fdAny</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-hits">
+<h3>Multiple hits<a class="headerlink" href="#multiple-hits" title="Permalink to this headline">¶</a></h3>
+<p>All three query types (raycast, overlap, sweep) can also report multiple hits with objects in the scene.</p>
+<ul class="simple">
+<li>To activate this mode for raycasts use the PxRaycastBuffer constructor with user provided buffer for touching hits.</li>
+<li>In this mode all hits default to 'touching' type and are recorded in the PxRaycastBuffer::touches array.</li>
+</ul>
+<p>For instance:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+
+<span class="k">const</span> <span class="n">PxU32</span> <span class="n">bufferSize</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>        <span class="c1">// [in] size of &#39;hitBuffer&#39;</span>
+<span class="n">PxRaycastHit</span> <span class="n">hitBuffer</span><span class="p">[</span><span class="n">bufferSize</span><span class="p">];</span>  <span class="c1">// [out] User provided buffer for results</span>
+<span class="n">PxRaycastBuffer</span> <span class="nf">buf</span><span class="p">(</span><span class="n">hitBuffer</span><span class="p">,</span> <span class="n">bufferSize</span><span class="p">);</span> <span class="c1">// [out] Blocking and touching hits stored here</span>
+
+<span class="c1">// Raycast against all static &amp; dynamic objects (no filtering)</span>
+<span class="c1">// The main result from this call are all hits along the ray, stored in &#39;hitBuffer&#39;</span>
+<span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">PxU32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">buf</span><span class="p">.</span><span class="n">nbTouches</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">animateLeaves</span><span class="p">(</span><span class="n">buf</span><span class="p">.</span><span class="n">touches</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</pre></div>
+</div>
+<p>The same mechanism is used for overlaps (use PxOverlapBuffer with PxOverlapHit[]) and sweeps (PxSweepBuffer with PxSweepHit[]).</p>
+</div>
+<div class="section" id="multiple-hits-with-blocking-hit">
+<h3>Multiple hits with blocking hit<a class="headerlink" href="#multiple-hits-with-blocking-hit" title="Permalink to this headline">¶</a></h3>
+<p>In the snippet for multiple hits above we only expected touching hits. If a blocking hit was encountered along with touching hits, it will be reported in PxHitBuffer::block member, and the touch buffer will contain only touching hits which are closer. This combination is useful in scenarios such as bullets going through windows (breaking them on their way) or leaves of a tree (making them rustle) until they hit a blocking object (a concrete wall):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// same initialization code as in the snippet for multiple hits</span>
+<span class="kt">bool</span> <span class="n">hadBlockingHit</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">buf</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">hadBlockingHit</span><span class="p">)</span>
+    <span class="n">drawWallDecal</span><span class="p">(</span><span class="n">buf</span><span class="p">.</span><span class="n">block</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">PxU32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">buf</span><span class="p">.</span><span class="n">nbTouches</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">buf</span><span class="p">.</span><span class="n">touches</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">distance</span> <span class="o">&lt;=</span> <span class="n">buf</span><span class="p">.</span><span class="n">block</span><span class="p">.</span><span class="n">distance</span><span class="p">);</span>
+    <span class="n">animateLeaves</span><span class="p">(</span><span class="n">buf</span><span class="p">.</span><span class="n">touches</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>By default, hits are assumed to be touching when a touch buffer is provided, and the filter callback should return PxQueryHitType::eBLOCK
+to denote that a hit is blocking. See <a class="reference internal" href="#queryfiltering"><em>Filtering</em></a> for details.</li>
+<li>For overlap() queries all touching hits will be recorded even if a blocking hit was encountered and PxQueryFlag::eNO_BLOCK flag is set.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="filtering">
+<span id="queryfiltering"></span><h2>Filtering<a class="headerlink" href="#filtering" title="Permalink to this headline">¶</a></h2>
+<p>Filtering controls how shapes are excluded from scene query results and how results are reported.
+All three query types support the following filtering parameters:</p>
+<ul class="simple">
+<li>a <em>PxQueryFilterData</em> structure, containing both <em>PxQueryFlags</em> and <em>PxFilterData</em></li>
+<li>an optional <em>PxQueryFilterCallback</em></li>
+</ul>
+<div class="section" id="pxqueryflag-estatic-pxqueryflag-edynamic">
+<h3>PxQueryFlag::eSTATIC, PxQueryFlag::eDYNAMIC<a class="headerlink" href="#pxqueryflag-estatic-pxqueryflag-edynamic" title="Permalink to this headline">¶</a></h3>
+<p><em>PxQueryFlag::eSTATIC</em> and <em>PxQueryFlag::eDYNAMIC</em> flags control whether the query should include shapes from the static and/or dynamic query structures.
+This is the most efficient way to filter out all static/dynamic shapes.
+For example an explosion effect that applies forces to all dynamics in a region could use a spherical <em>overlap</em> query,
+and only the <em>PxQueryFlag::eDYNAMIC</em> flag to exclude all statics since forces cannot be applied to static objects.
+By default both statics and dynamics are included in query results.</p>
+<p>For instance:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>                 <span class="c1">// [out] Raycast results</span>
+
+<span class="c1">// [in] Define filter for static objects only</span>
+<span class="n">PxQueryFilterData</span> <span class="nf">filterData</span><span class="p">(</span><span class="n">PxQueryFlag</span><span class="o">::</span><span class="n">eSTATIC</span><span class="p">);</span>
+
+<span class="c1">// Raycast against static objects only</span>
+<span class="c1">// The main result from this call is the boolean &#39;status&#39;</span>
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">,</span> <span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eDEFAULT</span><span class="p">,</span> <span class="n">filterData</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pxqueryflag-eprefilter-pxqueryflag-epostfilter">
+<h3>PxQueryFlag::ePREFILTER, PxQueryFlag::ePOSTFILTER<a class="headerlink" href="#pxqueryflag-eprefilter-pxqueryflag-epostfilter" title="Permalink to this headline">¶</a></h3>
+<p>Scene queries are performed in three phases: broad phase, midphase and narrow phase.</p>
+<ul class="simple">
+<li>Broad phase traverses the global scene spatial partitioning structure to find the candidates for mid and narrow phases.</li>
+<li>midphase traverses the triangle mesh and heightfield internal culling structures, to find a smaller subset of the triangles
+in a mesh reported by the broad phase.</li>
+<li>Narrow phase performs exact intersection tests (ray test for raycast() queries, and exact sweep shape tests
+or overlap tests for sweep() and overlap() queries).</li>
+</ul>
+<p>To implement custom filtering in queries, set the <em>PxQueryFlag::ePREFILTER</em> and/or <em>PxQueryFlag::ePOSTFILTER</em> flags and subclass <em>PxQueryFilterCallback</em> with the required filtering logic.</p>
+<ul class="simple">
+<li>Pre-filtering happens before midphase and narrow phase and allows shapes to be efficiently discarded before the potentially
+expensive exact collision test. These tests are more expensive for triangle meshes, heightfields, convexes and most sweeps than raycast
+and overlap tests involving only simple shapes (such as spheres, capsules and boxes.)</li>
+<li>Post-filtering happens after the narrow phase test and can therefore use the results of the test (such as PxRaycastHit.position)
+to determine whether a hit should be discarded or not. These results can be accessed via the <em>hit</em> input argument to the post-filtering callback (PxQueryFilterCallback::postFilter). Use e.g. static_cast&lt;PxRaycastHit&amp;&gt;(hit), access data specific to a raycast query, and similarly for overlaps (PxOverlapHit) and sweeps (PxSweepHit.)</li>
+</ul>
+<p>The implementation of a filtering callback returns a <em>PxQueryHitType</em> result.</p>
+<ul class="simple">
+<li><em>eNONE</em> indicates that the hit should be discarded.</li>
+<li><em>eBLOCK</em> indicates that the hit is blocking.</li>
+<li><em>eTOUCH</em> indicates that the hit is touching.</li>
+</ul>
+<p>Whenever a raycast(), sweep() or overlap() query was called with non-zero PxHitCallback::nbTouches and PxHitCallback::touches parameters, eTOUCH type hits that are no further (touchDistance &lt;= blockDistance) than the closest eBLOCK type hit, will be reported. For example, to record all hits from a raycast query, always return eTOUCH.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Returning eTOUCH from a filter callback requires the hit buffer query parameter to have a non-zero ::touches array, otherwise PhysX will generate an error in checked builds and discard any touching hits.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">eBLOCK should not be returned from user filters for overlap(). Doing so will result in undefined behavior, and a warning will be issued. If the PxQueryFlag::eNO_BLOCK flag is set, the eBLOCK will instead be automatically converted to an eTOUCH and the warning suppressed.</p>
+</div>
+</div>
+<div class="section" id="pxqueryflag-eany-hit">
+<h3>PxQueryFlag::eANY_HIT<a class="headerlink" href="#pxqueryflag-eany-hit" title="Permalink to this headline">¶</a></h3>
+<p>Use this flag to force the query to report the first encountered hit (which may not be the closest) as a blocking hit.
+Performance may be more than three times faster, depending on the scenario. Best gains can be expected for long raycasts/sweeps
+with a nearby intersecting object, or overlaps with multiple intersecting objects.</p>
+<ul class="simple">
+<li>Also see PxHitFlag::eMESH_ANY</li>
+</ul>
+</div>
+<div class="section" id="pxqueryflag-eno-block">
+<h3>PxQueryFlag::eNO_BLOCK<a class="headerlink" href="#pxqueryflag-eno-block" title="Permalink to this headline">¶</a></h3>
+<p>Use this flag when you want to override the eBLOCK value returned from filters to eTOUCH or in cases when no blocking hits are
+expected (in this case this flag serves as a performance hint.) All hits will then be reported as touching regardless of the filter callback return value.
+The hit callback/buffer object provided to the query is required to have a non-zero
+<em>PxHitBuffer::touches</em> buffer when this flag is used. Significant performance gains should only be expected for scenarios where the touching hit buffer overflows.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this flag overrides the return value from pre and post-filter functions, so hits that were previously returned as blocking will instead be returned as touching.</p>
+</div>
+</div>
+<div class="section" id="pxfilterdata-fixed-function-filtering">
+<h3>PxFilterData fixed function filtering<a class="headerlink" href="#pxfilterdata-fixed-function-filtering" title="Permalink to this headline">¶</a></h3>
+<p>A fast, fixed-function filter is provided by <em>PxFilterData</em>, a 4*32-bit bitmask used by the built-in filtering equation.
+Each shape has a bitmask (set via PxShape::setQueryFilterData()), and the query also has a bitmask.</p>
+<p>The query data is used differently by batched and unbatched queries (see below for batched queries). For unbatched queries, the following rules are applied:</p>
+<ul class="simple">
+<li>If the query's bitmask is all zeroes, custom filtering and intersection testing proceed as normal.</li>
+<li>Otherwise, if the bitwise-AND value of the query's bitmask and the shape's bitmask is zero, the shape is skipped</li>
+</ul>
+<p>Or in other words:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxU32</span> <span class="n">keep</span> <span class="o">=</span> <span class="p">(</span><span class="n">query</span><span class="p">.</span><span class="n">word0</span> <span class="o">&amp;</span> <span class="n">object</span><span class="p">.</span><span class="n">word0</span><span class="p">)</span>
+           <span class="o">|</span> <span class="p">(</span><span class="n">query</span><span class="p">.</span><span class="n">word1</span> <span class="o">&amp;</span> <span class="n">object</span><span class="p">.</span><span class="n">word1</span><span class="p">)</span>
+           <span class="o">|</span> <span class="p">(</span><span class="n">query</span><span class="p">.</span><span class="n">word2</span> <span class="o">&amp;</span> <span class="n">object</span><span class="p">.</span><span class="n">word2</span><span class="p">)</span>
+           <span class="o">|</span> <span class="p">(</span><span class="n">query</span><span class="p">.</span><span class="n">word3</span> <span class="o">&amp;</span> <span class="n">object</span><span class="p">.</span><span class="n">word3</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This hardcoded equation can provide simple filtering while avoiding the function call overhead of the filtering callback. For example, to emulate the behavior of PhysX 2 active groups, define the groups as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">enum</span> <span class="n">ActiveGroup</span>
+<span class="p">{</span>
+    <span class="n">GROUP1</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">0</span><span class="p">),</span>
+    <span class="n">GROUP2</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">GROUP3</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">GROUP4</span>    <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">),</span>
+    <span class="p">...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>When shapes are created, they can be assigned to the a group, for example GROUP1:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxShape</span><span class="o">*</span> <span class="n">shape</span><span class="p">;</span>                      <span class="c1">// Previously created shape</span>
+
+<span class="n">PxFilterData</span> <span class="n">filterData</span><span class="p">;</span>
+<span class="n">filterData</span><span class="p">.</span><span class="n">word0</span> <span class="o">=</span> <span class="n">GROUP1</span><span class="p">;</span>
+<span class="n">shape</span><span class="o">-&gt;</span><span class="n">setQueryFilterData</span><span class="p">(</span><span class="n">filterData</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Or to multiple groups, for example GROUP1 and GROUP3:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxShape</span><span class="o">*</span> <span class="n">shape</span><span class="p">;</span>                      <span class="c1">// Previously created shape</span>
+
+<span class="n">PxFilterData</span> <span class="n">filterData</span><span class="p">;</span>
+<span class="n">filterData</span><span class="p">.</span><span class="n">word0</span> <span class="o">=</span> <span class="n">GROUP1</span><span class="o">|</span><span class="n">GROUP3</span><span class="p">;</span>
+<span class="n">shape</span><span class="o">-&gt;</span><span class="n">setQueryFilterData</span><span class="p">(</span><span class="n">filterData</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When performing a scene query, select which groups are active for the query - for example GROUP2 and GROUP3 - as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>                 <span class="c1">// [out] Raycast results</span>
+
+<span class="c1">// [in] Define what parts of PxRaycastHit we&#39;re interested in</span>
+<span class="k">const</span> <span class="n">PxHitFlags</span> <span class="n">outputFlags</span> <span class="o">=</span> <span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eDISTANCE</span> <span class="o">|</span> <span class="n">PxHitFlag</span><span class="o">::</span><span class="n">ePOSITION</span> <span class="o">|</span> <span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eNORMAL</span><span class="p">;</span>
+
+<span class="c1">// [in] Raycast against GROUP2 and GROUP3</span>
+<span class="n">PxQueryFilterData</span> <span class="n">filterData</span> <span class="o">=</span> <span class="n">PxQueryFilterData</span><span class="p">();</span>
+<span class="n">filterData</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">word0</span> <span class="o">=</span> <span class="n">GROUP2</span><span class="o">|</span><span class="n">GROUP3</span><span class="p">;</span>
+
+<span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">,</span> <span class="n">outputFlags</span><span class="p">,</span> <span class="n">filterData</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="user-defined-hit-callbacks-for-unbounded-results">
+<h2>User defined hit callbacks for unbounded results<a class="headerlink" href="#user-defined-hit-callbacks-for-unbounded-results" title="Permalink to this headline">¶</a></h2>
+<p>Queries can sometimes return a very large number of results (for example, queries with very large objects or in areas with high object density), and
+it can be prohibitively expensive to reserve a sufficiently large memory buffer. The classes PxRaycastCallback, PxSweepCallback and PxOverlapCallback
+provide efficient callback based solutions for such scenarios. For instance a <em>raycast</em> query with a PxRaycastCallback callback will return all touch hits
+via multiple virtual PxHitCallback::processTouches() callbacks:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">struct</span> <span class="n">UserCallback</span> <span class="o">:</span> <span class="n">PxRaycastCallback</span>
+<span class="p">{</span>
+    <span class="n">UserData</span> <span class="n">data</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="n">PxAgain</span> <span class="nf">processTouches</span><span class="p">(</span><span class="k">const</span> <span class="n">PxRaycastHit</span><span class="o">*</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">PxU32</span> <span class="n">nbHits</span><span class="p">)</span>
+        <span class="c1">// This callback can be issued multiple times and can be used</span>
+        <span class="c1">// to process an unbounded number of touching hits.</span>
+        <span class="c1">// Each reported touching hit in buffer is guaranteed to be closer than</span>
+        <span class="c1">// the final block hit after the query has fully executed.</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">PxU32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nbHits</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">animateLeaves</span><span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">finalizeQuery</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">drawWallDecal</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">block</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+
+<span class="n">UserCallback</span> <span class="n">cb</span><span class="p">;</span> <span class="n">cb</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">cb</span><span class="p">);</span> <span class="c1">// see UserCallback::processTouches</span>
+</pre></div>
+</div>
+<p>In this code snippet the raycast() query will potentially invoke processTouches multiple times, with all touching hits already
+clipped to the globally nearest blocking hit.</p>
+<ul class="simple">
+<li>Note that the query can be up to twice as expensive in case all eTOUCH results do not fit in the provided touches buffer
+and a blocking hit was also found.</li>
+<li>Also see PxQueryFlag::eNO_BLOCK</li>
+</ul>
+</div>
+<div class="section" id="batched-queries">
+<span id="id1"></span><h2>Batched queries<a class="headerlink" href="#batched-queries" title="Permalink to this headline">¶</a></h2>
+<p>PhysX supports batching of scene queries via the <em>PxBatchQuery</em> interface.
+Using this API may simplify multi-threaded implementations.</p>
+<p>The batched query feature has been deprecated in PhysX version 3.4.</p>
+<ul class="simple">
+<li><em>PxBatchQuery</em> interface facilitates batching and execution of multiple queries together. PxBatchQuery buffers raycast, overlap and sweep queries until PxBatchQuery::execute() is called.</li>
+<li>Use PxScene::createBatchQuery(const PxBatchQueryDesc&amp; desc) to create a PxBatchQuery object.</li>
+<li>The hardcoded filtering equation is not used for batched queries. Instead it is replaced with two filter shaders, respectively running before (<em>PxBatchQueryPreFilterShader</em>) and after (<em>PxBatchQueryPostFilterShader</em>) the exact per-shape collision test. See <em>PxBatchQueryDesc::preFilterShader</em> and <em>PxBatchQueryDesc::postFilterShader</em>.</li>
+<li>BatchQueryFilterData::filterShaderData will be copied and passed to the filter shader via the constantBlock parameter.</li>
+<li>Results are written to user-defined buffers <em>PxBatchQueryMemory</em> in <em>PxBatchQueryDesc</em>,
+in the same order queries were queued in a <em>PxBatchQuery</em> object.</li>
+<li>The results and hits buffers for the each query type used (raycast, overlap, sweep) are specified separately.</li>
+<li>These buffers can be changed before each batch query execute call.
+The SDK will produce a warning for batched queries with NULL results or hits buffers for the corresponding query type
+(raycast, overlap or sweep).</li>
+</ul>
+</div>
+<div class="section" id="volume-caching">
+<h2>Volume Caching<a class="headerlink" href="#volume-caching" title="Permalink to this headline">¶</a></h2>
+<p><em>PxVolumeCache</em> provides a mechanism for accelerating scene queries. This class implements caching for objects within a specified volume and provides an API similar to PxScene for executing raycasts, overlaps, and sweeps.  PxVolumeCache can provide a performance boost when objects within the same localized region of space are queried multiple times, either within the same simulation frame or on a later frame.</p>
+<p>The volume cache feature has been deprecated in PhysX version 3.4.</p>
+<p>Some expected use cases for PxVolumeCache are:</p>
+<ul class="simple">
+<li>A particle system with many raycasts performed for each particle from a spatially localized cloud.</li>
+<li>Multiple short range character controller raycasts within the same area around the character.</li>
+<li>Caching query  results across multiple frames, the cache can be filled using a larger volume on previous frame
+(possibly extruded in the anticipated direction of movement) and then queried with a smaller volume.</li>
+</ul>
+<p>The cache has a maximum capacity, specified separately for dynamic and static objects, in <em>PxScene::createVolumeCache()</em>.</p>
+<p>For purposes of multithreaded access, any operation on the cache counts as a read call on the scene.</p>
+<div class="section" id="filling-the-cache">
+<h3>Filling the Cache<a class="headerlink" href="#filling-the-cache" title="Permalink to this headline">¶</a></h3>
+<p>To fill the cache, call <em>PxVolumeCache::fill()</em>. This will query the scene for objects overlapping with the volume defined by the geometry and transform and store the results in an internal buffer up to the maximum sizes for static and dynamic objects. Only PxBoxGeometry, PxSphereGeometry and PxCapsuleGeometry are supported for cacheVolume. The call will always refill both the static and dynamic internal caches, even if the new volume lies entirely within the previous cached volume. It returns a result of type <em>PxVolumeCache::FillStatus</em>.</p>
+<p>Subsequent queries against the cache (raycasts, overlaps, sweeps, forEach) will refill the cache automatically using the same volume if the scene query subsystem has been updated since the last fill. The update status is tracked independently for statics and dynamics, so a query might only refill the cache for dynamics while reusing valid cached results for statics. If any attempt to fill or refill fails, the cache is invalid, and any subsequent query will attempt to fill it.</p>
+</div>
+<div class="section" id="querying-the-cache">
+<h3>Querying the Cache<a class="headerlink" href="#querying-the-cache" title="Permalink to this headline">¶</a></h3>
+<p>PxVolumeCache provides an API for raycasts, sweeps and overlaps that is similar to the scene query API. The main difference in signatures is that <a class="reference internal" href="#single-object-caching"><em>Single Object Caching</em></a> is not supported for PxVolumeCache queries. Query results are reported via the <em>PxVolumeCache::Iterator::shapes()</em> callback, and the query may invoke the callback multiple times to deliver multiple batches of results.</p>
+<ul class="simple">
+<li>Raycasts, overlaps and sweeps against a valid cache will return only results which overlap the cache volume, but is guaranteed to return all such volumes.</li>
+<li>Raycasts, overlaps and sweeps against an invalid cache will fall back to scene queries. In this case results may be returned which do not overlap the cache volume.</li>
+</ul>
+<p>Since the cache refills automatically on any query where the scene has changed, these two conditions guarantee that a query against the cache that lies entirely within the cache volume will always return exactly the same shapes as querying the scene. If the query does not lie entirely within the cache volume (and the cache is valid) only those shapes which overlap the cache volume will be returned. If a query is issued against a cache on which fill() has never been called, an error is reported.</p>
+<p>The cache also provides a low-level <em>forEach()</em> mechanism that iterates over the cached objects. If <em>forEach()</em> is executed on a cache for which <em>fill()</em> has never been called, it will return without reporting an error. If the cache is invalid, forEach() will retrieve the shapes that overlap the cached volume directly from the scene. This process involves the allocation of a temporary buffer, and if the allocation fails, <em>forEach()</em> will emit an error message and return.</p>
+<p>This code snippet shows how to use PxVolumeCache:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">poi</span> <span class="o">=</span> <span class="p">...;</span>                    <span class="c1">// point of interest</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>                 <span class="c1">// [out] Raycast results</span>
+<span class="k">const</span> <span class="n">PxU32</span> <span class="n">maxStatics</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">maxDynamics</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+
+<span class="c1">// persistent cache, valid until invalidated by object movement,</span>
+<span class="c1">// insertion or deletion</span>
+<span class="n">PxVolumeCache</span><span class="o">*</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">createVolumeCache</span><span class="p">(</span><span class="n">maxStatics</span><span class="p">,</span> <span class="n">maxDynamics</span><span class="p">);</span>
+<span class="n">cache</span><span class="o">-&gt;</span><span class="n">setMaxNbStaticShapes</span><span class="p">(</span><span class="mi">64</span><span class="p">);</span> <span class="n">cache</span><span class="o">-&gt;</span><span class="n">setMaxNbDynamicShapes</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+
+<span class="c1">// fill the cache using a box geometry centered around the point of interest</span>
+<span class="n">cache</span><span class="o">-&gt;</span><span class="n">fill</span><span class="p">(</span><span class="n">PxBoxGeometry</span><span class="p">(</span><span class="n">PxVec3</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">)),</span> <span class="n">PxTransform</span><span class="p">(</span><span class="n">position</span><span class="p">));</span>
+
+<span class="p">...</span>
+
+<span class="c1">// Perform multiple raycast queries using the cache</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">cache</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">);</span>
+
+<span class="c1">// low level iterator for stored actor/shape pairs</span>
+<span class="k">struct</span> <span class="n">UserIterator</span> <span class="o">:</span> <span class="n">PxVolumeCache</span><span class="o">::</span><span class="n">Iterator</span>
+<span class="p">{</span>
+    <span class="n">UserData</span> <span class="n">userData</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">shapes</span><span class="p">(</span><span class="n">PxU32</span> <span class="n">count</span><span class="p">,</span> <span class="k">const</span> <span class="n">PxActorShape</span><span class="o">*</span> <span class="n">actorShapePairs</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">PxU32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+           <span class="n">doSomething</span><span class="p">(</span><span class="n">actorShapePairs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">actor</span><span class="p">,</span> <span class="n">actorShapePairs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">shape</span><span class="p">,</span> <span class="n">userData</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>   <span class="n">iter</span><span class="p">;</span>
+
+<span class="c1">// invoke UserIterator::shapes() callback for all actor/shape pairs in the cache</span>
+<span class="n">cache</span><span class="o">-&gt;</span><span class="n">forEach</span><span class="p">(</span><span class="n">iter</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="single-object-caching">
+<span id="id2"></span><h2>Single Object Caching<a class="headerlink" href="#single-object-caching" title="Permalink to this headline">¶</a></h2>
+<p>Another special case mechanism for accelerating scene queries is single-object caching, using <em>PxQueryCache</em>.</p>
+<ul class="simple">
+<li>This cache can provide additional speedups and memory savings for <em>raycast</em> and <em>sweep</em> queries in any operation mode.</li>
+<li>The cache object defines which shape should be tested first. For queries with high temporal
+coherence, this can provide significant performance gains. A good strategy to capture that coherence is simply to fill the cache
+object of a given query with the eBLOCK result (last blocking shape) from the previous frame.</li>
+<li>Note that it is likely incorrect to use a past touching hit (recorded with eTOUCH flag) for caching since it will be interpreted
+as blocking and override any filtering.</li>
+</ul>
+<p>For example there is a good chance that an AI visibility query will return the same line-of-sight blocking shape for several frames.
+Using a <em>raycast</em> query with a properly filled <em>PxQueryCache</em> object will allow PhysX to test a single shape - before traversing
+the internal spatial partitioning structures, and in case of a &quot;cache hit&quot; the traversal can be bypassed entirely. For instance:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span><span class="p">;</span>
+<span class="n">PxVec3</span> <span class="n">origin</span> <span class="o">=</span> <span class="p">...;</span>                 <span class="c1">// [in] Ray origin</span>
+<span class="n">PxVec3</span> <span class="n">unitDir</span> <span class="o">=</span> <span class="p">...;</span>                <span class="c1">// [in] Normalized ray direction</span>
+<span class="n">PxReal</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="p">...;</span>            <span class="c1">// [in] Raycast max distance</span>
+<span class="n">PxRaycastBuffer</span> <span class="n">hit</span><span class="p">;</span>                 <span class="c1">// [out] Raycast results</span>
+
+<span class="c1">// Per-raycast persistent cache, valid from one frame to the next</span>
+<span class="k">static</span> <span class="n">PxQueryCache</span> <span class="n">persistentCache</span><span class="p">;</span>
+
+<span class="c1">// Define cache for current frame:</span>
+<span class="c1">// - if there was a hit in the previous frame, use the cache.</span>
+<span class="c1">// - otherwise do not (PhysX requires given cache has a valid shape pointer)</span>
+<span class="k">const</span> <span class="n">PxQueryCache</span><span class="o">*</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">persistentCache</span><span class="p">.</span><span class="n">shape</span> <span class="o">?</span> <span class="o">&amp;</span><span class="n">persistentCache</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">;</span>
+
+<span class="c1">// Perform a raycast query using the cache</span>
+<span class="k">const</span> <span class="kt">bool</span> <span class="n">status</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">raycast</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">unitDir</span><span class="p">,</span> <span class="n">maxDistance</span><span class="p">,</span> <span class="n">hit</span><span class="p">,</span>
+                                   <span class="n">PxHitFlags</span><span class="p">(</span><span class="n">PxHitFlag</span><span class="o">::</span><span class="n">eDEFAULT</span><span class="p">),</span>
+                                   <span class="n">PxQueryFilterData</span><span class="p">(),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">cache</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// We hit a shape. Cache it for next frame.</span>
+    <span class="n">persistentCache</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">block</span><span class="p">.</span><span class="n">shape</span><span class="p">;</span>
+    <span class="n">persistentCache</span><span class="p">.</span><span class="n">faceIndex</span> <span class="o">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">block</span><span class="p">.</span><span class="n">faceIndex</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="c1">// We did not hit anything. Reset the cache for next frame.</span>
+    <span class="n">persistentCache</span> <span class="o">=</span> <span class="n">PxQueryCache</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Caching can also be useful in queries looking for the closest blocking hit or when using the eANY_HIT flag.
+In this case, testing the previously closest object first can allow PhysX to shorten the query distance very early,
+leading to fewer total narrow phase collision tests and early out from the traversal.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">PhysX does not detect stale pointers, so the application is responsible for cached object validity when shapes are deleted.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Overlaps do not support single hit blocking caches.</p>
+</div>
+</div>
+<div class="section" id="pxpruningstructuretype">
+<span id="id3"></span><h2>PxPruningStructureType<a class="headerlink" href="#pxpruningstructuretype" title="Permalink to this headline">¶</a></h2>
+<p>PhysX SDK offers different pruning structures which are used to accelerate the scene queries. This paragraph describes the differences between them.</p>
+<div class="section" id="generalities">
+<h3>Generalities<a class="headerlink" href="#generalities" title="Permalink to this headline">¶</a></h3>
+<p>The Scene Query system uses two different acceleration structures, a hierarchical grid and an AABB tree.</p>
+<p>The grid builds quickly, in O(n) time, with queries executing in between O(1) and O(N) time depending on how uniformly the objects are
+distributed in space, with pathological worst case performance of O(N) when all objects are clustered in the same grid cell.</p>
+<p>The tree builds in O(n log(n)) time, but queries with a single result typically run in O(log(n)) time. Queries returning multiple results
+will traverse more of the tree, the worst case being a query returning all of the objects in the scene in O(n) time.
+The tree is vulnerable to degeneration when the same topology is maintained too long as object positions change,
+and in pathological cases query performance may degrade to O(n) time.</p>
+<p>Acceleration structures must be continually modified in accordance with objects being added or removed, or object AABB updates
+due to changes in position or geometry. To minimize the cost, modifications are deferred for as long as possible.
+Thus adding or removing objects or updating AABBs occurs in amortized constant time, with the cost of modifications deferred
+until the changes 'commit'. This happens on the next subsequent query or the next fetchResults() or the next fetchQueries().
+To force an immediate commit, call the PxScene::flushQueryUpdates() function.</p>
+<p>The exact details of the commit process depend on the values of staticStructure and dynamicStructure specified in PxSceneDesc.</p>
+<p>To avoid automatic resizing triggered by insertions into internal scene query data structures, reserve the space in advance.
+See <em>PxSceneDesc::maxNbStaticShapes</em> and <em>PxSceneDesc::maxNbDynamicShapes</em>.</p>
+</div>
+<div class="section" id="pxpruningstructuretype-enone">
+<h3>PxPruningStructureType::eNONE<a class="headerlink" href="#pxpruningstructuretype-enone" title="Permalink to this headline">¶</a></h3>
+<p>The acceleration structure is similar to a hierarchical grid. Committing changes requires a full rebuild. This is a good choice if you expect
+to rarely or never update the objects in this structure.</p>
+</div>
+<div class="section" id="pxpruningstructuretype-estatic-aabb-tree">
+<h3>PxPruningStructureType::eSTATIC_AABB_TREE<a class="headerlink" href="#pxpruningstructuretype-estatic-aabb-tree" title="Permalink to this headline">¶</a></h3>
+<p>The acceleration structure is a tree. Committing changes requires a full rebuild. It is not generally recommended, but can be a good choice
+for staticStructure if the static actors in your scene are created on initialization, and not modified thereafter.
+If you frequently add or remove static geometry, the default eDYNAMIC_AABB_TREE setting is usually a better choice, although it has a higher
+memory footprint than that of eSTATIC_AABB_TREE.</p>
+</div>
+<div class="section" id="pxpruningstructuretype-edynamic-aabb-tree">
+<h3>PxPruningStructureType::eDYNAMIC_AABB_TREE<a class="headerlink" href="#pxpruningstructuretype-edynamic-aabb-tree" title="Permalink to this headline">¶</a></h3>
+<p>In this case, both the tree and the grid are used, and each query searches both the tree and the grid.</p>
+<p>The tree is initially built by the first commit. Once a tree is built, committing changes proceeds as follows::
+* the tree is refitted in accordance with updates and removals of object it contains.
+* added objects are inserted into the grid. Such additions, or removals of objects currently in the grid, or changes to AABBs
+of objects in the grid, cause it to be rebuilt.</p>
+<p>In addition, a new tree is incrementally built during fetchResults(), over a number of frames controlled by PxScene's
+dynamicTreeRebuildRateHint attribute. When the build starts, it includes all of the objects in the current tree and grid.
+When it finishes, some frames later, the new tree is refitted in accordance with any AABB changes or removals since the build started,
+and then replaces the current tree. Any objects that were added since the start of the build remain in the grid.</p>
+<p>To force a full immediate rebuild, call PxScene::forceDynamicTreeRebuild(). This can be useful in cases such as the following:</p>
+<ul class="simple">
+<li>a slow rebuilt rate is typically desirable, but occasionally a large number of object additions creates high occupancy in the grid,
+especially if the additions are localized so as to put pressure on just a few of the grid cells.</li>
+<li>you are moving many objects across large distances, since refitting may significantly degrade the quality of the current tree</li>
+</ul>
+</div>
+</div>
+<div class="section" id="pxscenequeryupdatemode">
+<h2>PxSceneQueryUpdateMode<a class="headerlink" href="#pxscenequeryupdatemode" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to define what scene query related work is done druing PxScene::fetchResults.</p>
+<p>By default fetchResults will sync changed bounds during simulation and update the scene query bounds in pruners, this work is mandatory.
+Other work can be optional, based on the PxSceneQueryUpdateMode:</p>
+<ul class="simple">
+<li>eCOMMIT_ENABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults, additionally the pruner commit is called where any changes are applied. During commit PhysX refits the dynamic scene query tree and if a new tree was built and the build finished the tree is swapped with current AABB tree.</li>
+<li>eCOMMIT_DISABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults. Pruner commit is not called, this means that refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates().</li>
+<li>eCOMMIT_DISABLED_BUILD_DISABLED no further scene query work is executed. The scene queries update needs to be called manually, see PxScene::sceneQueriesUpdate. It is recommended to call PxScene::sceneQueriesUpdate right after fetchResults as the pruning structures are not updated.</li>
+</ul>
+</div>
+<div class="section" id="pxpruningstructure">
+<h2>PxPruningStructure<a class="headerlink" href="#pxpruningstructure" title="Permalink to this headline">¶</a></h2>
+<p>Provides access to precomputed pruning structure used to accelerate scene queries against newly added actors.</p>
+<p>A pruning structure can be provided to PxScene::addActors. The actors scene query shapes will then be directly merged into the scenes AABB tree, without the need of an AABB tree recompute:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// Create pruning structure from given actors.</span>
+<span class="n">PxPruningStructure</span><span class="o">*</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">PxPhysics</span><span class="o">::</span><span class="n">createPruningStructure</span><span class="p">(</span><span class="o">&amp;</span><span class="n">actors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">PxU32</span><span class="p">)</span><span class="n">actors</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="c1">// Add actors into a scene together with the precomputed pruning structure.</span>
+<span class="n">PxScene</span><span class="o">::</span><span class="n">addActors</span><span class="p">(</span><span class="o">*</span><span class="n">ps</span><span class="p">);</span>
+<span class="n">ps</span><span class="o">-&gt;</span><span class="n">release</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>A PxPruningStructure object can be serialized into a collection together with its actors.</p>
+<p>For usage of PxPruningStructure please refer to the snippet SnippetPrunerSerialization.</p>
+<p>A typical use case for PxPruningStructure is a large world scenario where blocks of closely positioned actors get streamed in.</p>
+<div class="section" id="merge-process">
+<h3>Merge process<a class="headerlink" href="#merge-process" title="Permalink to this headline">¶</a></h3>
+<p>The merge process into the scene query acceleration structure differs based on <em>PxPruningStructureType</em>:
+* eSTATIC_AABB_TREE - the pruning structure is merged directly into scene's AABBtree. This might unbalance the tree and it is recommended to recompute the static tree at some point.
+* eDYNAMIC_AABB_TREE - the pruning structure is merged into a temporary pruning structures until the scene's new optimized AABB tree is computed.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Scene Queries</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#basic-queries">Basic queries</a><ul>
+<li><a class="reference internal" href="#raycasts">Raycasts</a></li>
+<li><a class="reference internal" href="#sweeps">Sweeps</a></li>
+<li><a class="reference internal" href="#overlaps">Overlaps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#touching-and-blocking-hits">Touching and blocking hits</a></li>
+<li><a class="reference internal" href="#query-modes">Query modes</a><ul>
+<li><a class="reference internal" href="#closest-hit">Closest hit</a></li>
+<li><a class="reference internal" href="#any-hit">Any hit</a></li>
+<li><a class="reference internal" href="#multiple-hits">Multiple hits</a></li>
+<li><a class="reference internal" href="#multiple-hits-with-blocking-hit">Multiple hits with blocking hit</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#filtering">Filtering</a><ul>
+<li><a class="reference internal" href="#pxqueryflag-estatic-pxqueryflag-edynamic">PxQueryFlag::eSTATIC, PxQueryFlag::eDYNAMIC</a></li>
+<li><a class="reference internal" href="#pxqueryflag-eprefilter-pxqueryflag-epostfilter">PxQueryFlag::ePREFILTER, PxQueryFlag::ePOSTFILTER</a></li>
+<li><a class="reference internal" href="#pxqueryflag-eany-hit">PxQueryFlag::eANY_HIT</a></li>
+<li><a class="reference internal" href="#pxqueryflag-eno-block">PxQueryFlag::eNO_BLOCK</a></li>
+<li><a class="reference internal" href="#pxfilterdata-fixed-function-filtering">PxFilterData fixed function filtering</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-defined-hit-callbacks-for-unbounded-results">User defined hit callbacks for unbounded results</a></li>
+<li><a class="reference internal" href="#batched-queries">Batched queries</a></li>
+<li><a class="reference internal" href="#volume-caching">Volume Caching</a><ul>
+<li><a class="reference internal" href="#filling-the-cache">Filling the Cache</a></li>
+<li><a class="reference internal" href="#querying-the-cache">Querying the Cache</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#single-object-caching">Single Object Caching</a></li>
+<li><a class="reference internal" href="#pxpruningstructuretype">PxPruningStructureType</a><ul>
+<li><a class="reference internal" href="#generalities">Generalities</a></li>
+<li><a class="reference internal" href="#pxpruningstructuretype-enone">PxPruningStructureType::eNONE</a></li>
+<li><a class="reference internal" href="#pxpruningstructuretype-estatic-aabb-tree">PxPruningStructureType::eSTATIC_AABB_TREE</a></li>
+<li><a class="reference internal" href="#pxpruningstructuretype-edynamic-aabb-tree">PxPruningStructureType::eDYNAMIC_AABB_TREE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pxscenequeryupdatemode">PxSceneQueryUpdateMode</a></li>
+<li><a class="reference internal" href="#pxpruningstructure">PxPruningStructure</a><ul>
+<li><a class="reference internal" href="#merge-process">Merge process</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="SpatialQueries.html"
+                        title="previous chapter">Spatial Queries</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Vehicles.html"
+                        title="next chapter">Vehicles</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="Vehicles.html" title="Vehicles"
+             >next</a></li>
+        <li class="right" >
+          <a href="SpatialQueries.html" title="Spatial Queries"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

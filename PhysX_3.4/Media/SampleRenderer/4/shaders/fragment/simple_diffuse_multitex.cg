@@ -1,0 +1,24 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture0)
+DECLARE_TEXTURE(diffuseTexture1)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor0 = (half4)tex2D(diffuseTexture0, params.texcoord0.xy);
+	half4 diffuseTextureColor1 = (half4)tex2D(diffuseTexture1, params.texcoord1.xy);
+	
+	// selects texture depending on world normal steepness of height map
+	half4 diffuseTextureColor = half4(diffuseTextureColor0*0.75 + diffuseTextureColor1*0.25);
+	
+	SurfaceMaterial mout;
+	mout.diffuseColor       = diffuseTextureColor.rgb;
+	mout.alpha              = diffuseTextureColor.a;
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(0.2,0.2,0.2); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}

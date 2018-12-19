@@ -1,0 +1,199 @@
+#ifndef NOISE_CG
+#define NOISE_CG
+
+#include <config.cg>
+
+////////////////////////////////////////////////////////////////////////
+
+static uint permutation[] = { 151,160,137,91,90,15,
+                             131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+                             190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+                             88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+                             77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+                             102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+                             135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+                             5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+                             223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+                             129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+                             251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+                             49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+                             138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
+};
+
+// gradients for 3d noise
+static float3 g[] = {
+    1,1,0,
+    -1,1,0,
+    1,-1,0,
+    -1,-1,0,
+    1,0,1,
+    -1,0,1,
+    1,0,-1,
+    -1,0,-1,
+    0,1,1,
+    0,-1,1,
+    0,1,-1,
+    0,-1,-1,
+    1,1,0,
+    0,-1,1,
+    -1,1,0,
+    0,-1,-1,
+};
+
+// Functions
+int permSample(uint i) {
+	return permutation[i % 256];
+}
+
+float4 permSample2D(float2 p) {
+	p *= 256;
+	int A = permSample(p.x) + p.y;
+	int AA = permSample(A);
+	int AB = permSample(A + 1);
+	int B =  permSample(p.x + 1) + p.y;
+	int BA = permSample(B);
+	int BB = permSample(B + 1);
+	return float4(AA, AB, BA, BB) / 255.0;
+}
+
+float3 gradSample(float p) {
+	return g[ p*16 ];
+}
+
+float3 permGradSample(float p) {
+	return g[ permutation[p*256] % 16 ];
+}
+
+float3 fade(float3 t) {
+	return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+float perm(float x) {
+	return permSample(x);
+}
+
+float4 perm2d(float2 p) {
+	return permSample2D(p);
+}
+
+float grad(float x, float3 p) {
+	return dot(gradSample(x), p);
+}
+
+float gradperm(float x, float3 p) {
+	return dot(permGradSample(x), p);
+}
+
+// 3D noise
+#if 0
+
+// original version
+float inoise(float3 p)
+{
+	float3 P = fmod(floor(p), 256.0);	// FIND UNIT CUBE THAT CONTAINS POINT
+  	p -= floor(p);                      // FIND RELATIVE X,Y,Z OF POINT IN CUBE.
+	float3 f = fade(p);                 // COMPUTE FADE CURVES FOR EACH OF X,Y,Z.
+
+	P = P / 256.0;
+	const float one = 1.0 / 256.0;
+
+    // HASH COORDINATES OF THE 8 CUBE CORNERS
+  	float A = perm(P.x) + P.y;
+  	float4 AA;
+  	AA.x = perm(A) + P.z;
+	AA.y = perm(A + one) + P.z;
+  	float B =  perm(P.x + one) + P.y;
+  	AA.z = perm(B) + P.z;
+  	AA.w = perm(B + one) + P.z;
+
+	// AND ADD BLENDED RESULTS FROM 8 CORNERS OF CUBE
+  	return lerp( lerp( lerp( grad(perm(AA.x    ), p ),
+                             grad(perm(AA.z    ), p + float3(-1, 0, 0) ), f.x),
+                       lerp( grad(perm(AA.y    ), p + float3(0, -1, 0) ),
+                             grad(perm(AA.w    ), p + float3(-1, -1, 0) ), f.x), f.y),
+
+                 lerp( lerp( grad(perm(AA.x+one), p + float3(0, 0, -1) ),
+                             grad(perm(AA.z+one), p + float3(-1, 0, -1) ), f.x),
+                       lerp( grad(perm(AA.y+one), p + float3(0, -1, -1) ),
+                             grad(perm(AA.w+one), p + float3(-1, -1, -1) ), f.x), f.y), f.z);
+}
+
+#else
+
+// optimized version
+float inoise(float3 p)
+{
+	float3 P = fmod(floor(p), 256.0);	// FIND UNIT CUBE THAT CONTAINS POINT
+	p -= floor(p);                      // FIND RELATIVE X,Y,Z OF POINT IN CUBE.
+	float3 f = fade(p);                 // COMPUTE FADE CURVES FOR EACH OF X,Y,Z.
+
+	P = P / 256.0;
+	const float one = 1.0 / 256.0;
+
+    // HASH COORDINATES OF THE 8 CUBE CORNERS
+	float4 AA = perm2d(P.xy) + P.z;
+
+	// AND ADD BLENDED RESULTS FROM 8 CORNERS OF CUBE
+  	return lerp( lerp( lerp( gradperm(AA.x, p ),
+                             gradperm(AA.z, p + float3(-1, 0, 0) ), f.x),
+                       lerp( gradperm(AA.y, p + float3(0, -1, 0) ),
+                             gradperm(AA.w, p + float3(-1, -1, 0) ), f.x), f.y),
+
+                 lerp( lerp( gradperm(AA.x+one, p + float3(0, 0, -1) ),
+                             gradperm(AA.z+one, p + float3(-1, 0, -1) ), f.x),
+                       lerp( gradperm(AA.y+one, p + float3(0, -1, -1) ),
+                             gradperm(AA.w+one, p + float3(-1, -1, -1) ), f.x), f.y), f.z);
+}
+
+#endif
+
+static const float PI = 3.14159265f;
+
+float3 inoiseOffset(float3 p)
+{
+	float offsetX = inoise(p.xzy * g_tessUVScale.x);
+	float offsetY = inoise(p     * g_tessUVScale.x);
+	float offsetZ = (offsetX + offsetY) * .5;
+	return float3(offsetX, offsetY, offsetZ);
+}
+
+// utility functions
+// calculate gradient of noise (expensive!)
+float3 inoiseGradient(float3 p, float d)
+{
+	float f0 = inoise(p);
+	float fx = inoise(p + float3(d, 0, 0));
+	float fy = inoise(p + float3(0, d, 0));
+	float fz = inoise(p + float3(0, 0, d));
+	return float3(fx - f0, fy - f0, fz - f0) / d;
+}
+
+// utility functions
+// calculate gradient of noise (expensive!)
+float3 inoiseNormal(float3 p, float3 n)
+{
+	float3 nN = normalize(n);
+	float theta = abs(acos(dot(nN, float3(1,0,0))));
+	float3 xAxis, zAxis;
+	if (theta > .001 && theta < (PI * 1.999)) {
+		zAxis = cross(nN,    float3(1, 0, 0));
+		xAxis = cross(zAxis, nN);
+	}
+	else {
+		xAxis = cross(float3(0, 0, 1), nN);
+		zAxis = cross(xAxis,           nN);
+	}
+
+	float3 pX = p + xAxis;
+	float3 pZ = p + zAxis;
+
+	float3 f0 = inoiseOffset(p)  + p;
+	float3 fx = inoiseOffset(pX) + pX;
+	float3 fz = inoiseOffset(pZ) + pZ;
+	float3 dx = fx - f0;
+	float3 dz = fz - f0;
+
+	return normalize(cross(dx, dz));
+}
+
+#endif

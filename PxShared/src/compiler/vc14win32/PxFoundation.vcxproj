@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{DF4537B3-3CE9-1581-10B6-A291FE3299C6}</ProjectGuid>
+		<RootNamespace>PxFoundation</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PxFoundation/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxFoundationDEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;$(WindowsSDK_IncludePath);./../../foundation/include;./../../foundation/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_FOUNDATION_DLL=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxFoundationDEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PxFoundation/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxFoundation_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;$(WindowsSDK_IncludePath);./../../foundation/include;./../../foundation/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_FOUNDATION_DLL=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxFoundation_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PxFoundation/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxFoundationCHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;$(WindowsSDK_IncludePath);./../../foundation/include;./../../foundation/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_FOUNDATION_DLL=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxFoundationCHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PxFoundation/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxFoundationPROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;$(WindowsSDK_IncludePath);./../../foundation/include;./../../foundation/include/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_FOUNDATION_DLL=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxFoundationPROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource_x86\PxFoundation.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\include\foundation\windows\PxWindowsFoundationDelayLoadHook.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\windows\PxWindowsIntrinsics.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\include\foundation\Px.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxAllocatorCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxAssert.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxBitAndData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxBounds3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxErrorCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxErrors.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxFlags.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxFoundation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxFoundationVersion.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxIntrinsics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxIO.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxMat33.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxMat44.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxMath.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxMathUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxMemory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxPlane.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxPreprocessor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxProfiler.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxQuat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxSimpleTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxStrideIterator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxTransform.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxUnionCast.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxVec2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxVec3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\foundation\PxVec4.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsAoS.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsFPU.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsInclude.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsInlineAoS.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsIntrinsics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsLoadLibrary.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\windows\PsWindowsTrigConstants.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\foundation\include\Ps.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsAlignedMalloc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsAlloca.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsAoS.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsArray.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsAtomic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsBasicTemplates.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsBitUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsBroadcast.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsCpu.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsFoundation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsFPU.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsHash.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsHashInternals.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsHashMap.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsHashSet.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsInlineAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsInlineAoS.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsInlineArray.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsIntrinsics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsMathUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsMutex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsSList.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsSocket.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsSort.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsSortInternals.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsString.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsSync.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsTempAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsThread.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsTime.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsUserAllocated.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsUtilities.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecMath.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecMathAoSScalar.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecMathAoSScalarInline.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecMathSSE.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecMathUtilities.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecQuat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\foundation\include\PsVecTransform.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsAtomic.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsCpu.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsFPU.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsMutex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsPrintString.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsSList.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsSocket.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsSync.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsThread.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\windows\PsWindowsTime.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\foundation\src\PsAllocator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsAssert.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsFoundation.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsMathUtils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsString.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsTempAllocator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\foundation\src\PsUtilities.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

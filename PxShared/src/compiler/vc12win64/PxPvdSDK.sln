@@ -1,0 +1,43 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PxPvdSDK", "./PxPvdSDK.vcxproj", "{D4255C0E-3C6E-8A94-959C-54BAC884B25C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6} = {DF4537B3-3CE9-1581-10B6-A291FE3299C6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PxFoundation", "./PxFoundation.vcxproj", "{DF4537B3-3CE9-1581-10B6-A291FE3299C6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|x64 = checked|x64
+		debug|x64 = debug|x64
+		profile|x64 = profile|x64
+		release|x64 = release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.checked|x64.ActiveCfg = checked|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.checked|x64.Build.0 = checked|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.debug|x64.ActiveCfg = debug|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.debug|x64.Build.0 = debug|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.profile|x64.ActiveCfg = profile|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.profile|x64.Build.0 = profile|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.release|x64.ActiveCfg = release|x64
+		{D4255C0E-3C6E-8A94-959C-54BAC884B25C}.release|x64.Build.0 = release|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.checked|x64.ActiveCfg = checked|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.checked|x64.Build.0 = checked|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.debug|x64.ActiveCfg = debug|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.debug|x64.Build.0 = debug|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.profile|x64.ActiveCfg = profile|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.profile|x64.Build.0 = profile|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.release|x64.ActiveCfg = release|x64
+		{DF4537B3-3CE9-1581-10B6-A291FE3299C6}.release|x64.Build.0 = release|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

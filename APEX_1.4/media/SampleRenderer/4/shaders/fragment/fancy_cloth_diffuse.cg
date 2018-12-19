@@ -1,0 +1,21 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+DECLARE_TEXTURE(normalTexture)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor = tex2D(diffuseTexture, params.texcoord0.xy);
+	half4 normalTextureColor  = tex2D(normalTexture,  params.texcoord0.xy);
+	
+	SurfaceMaterial mout;
+	mout.diffuseColor       = diffuseTextureColor.rgb;
+	mout.alpha              = lerp(normalTextureColor.a, 1, params.texcoord1.r);
+	mout.emissiveColor      = 0;
+	mout.specularColor      = diffuseTextureColor.a;
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = normalTextureColor.xyz*2-1;
+	return mout;
+}

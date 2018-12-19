@@ -1,0 +1,1 @@
+GLOBAL(boolean) set_simple_lossless (j_compress_ptr cinfo, char *arg);

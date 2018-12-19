@@ -1,0 +1,19 @@
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	float4 screenSpacePosition : POSITION;
+	half4 color              	: COLOR;
+};
+
+VertexOut  vmain(__in(float4,     localSpacePosition, POSITION)
+                 __in_opt(half4,  		vertexColor,        COLOR))
+{
+	VertexOut vout;
+	float4x4 vpm = mul(g_projMatrix, g_viewMatrix);
+	vout.screenSpacePosition = mul(vpm, localSpacePosition);
+	vout.color = vertexColor;
+
+	return vout;
+}

@@ -1,0 +1,24 @@
+#include <tessellation_entry.cg>
+
+//--------------------------------------------------------------------------------------
+// Textures
+//--------------------------------------------------------------------------------------
+DECLARE_TEXTURE_3D(displacementTexture)
+
+//--------------------------------------------------------------------------------------
+// Functions
+//--------------------------------------------------------------------------------------
+
+void computeOffsetAndNormal(in float3 localPos, in float3 faceNormal, in float3 baryCoords,
+                            inout float3 vOffset, inout float3 vNormal)
+{
+	// There is a slight discrepancy between procedural and textured
+	// noise, easily fixed by a constant multiplier
+	static const float multiplier = .35;
+	float4 texOffset = displacementTexture.SampleLevel(displacementTextureSamplerState, localPos * g_tessUVScale.x, 0);
+	vOffset = texOffset.xyz * multiplier;
+
+	// TODO: use iNoiseNormal
+	vNormal = faceNormal;
+}
+

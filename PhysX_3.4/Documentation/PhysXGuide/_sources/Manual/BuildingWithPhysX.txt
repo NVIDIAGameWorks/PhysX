@@ -1,0 +1,81 @@
+.. _Building with PhysX:
+
+--------------------
+Building with PhysX
+--------------------
+On Windows, PhysX requires Visual Studio 2013 or later versions.
+
+===============================
+Build Settings
+===============================
+The PhysX headers should compile cleanly at the highest typical warning levels (/W4 for Visual Studio, -Wall -Wextra -pedantic for gcc- and clang-based compilers.) Stricter warning settings may result in a small number of benign informational warnins.
+
+The PhysX source projects and snippets will compile cleanly using the project files or makefiles supplied.
+
+===============================
+Build Configurations
+===============================
+The SDK has four build configurations available, designed for different stages of development and deployment.
+
+* the *debug* build can be useful for error analysis, but contains asserts used for SDK development which some customers may find too intrusive for daily use. Optimizations are turned off for this configuration.
+* the *checked* build contains code to detect invalid parameters, API race conditions, and other incorrect uses of the API which might otherwise cause mysterious crashes or failures in simulation.
+* the *profile* build omits the checks, but still has PVD and memory instrumentation.
+* the *release* build is built for minimal footprint and maximum speed. It omits most checks and instrumentation.
+
+Simulation works the same way in all of them, and all are compiled with high optimization levels (except debug configuration).
+
+.. note:: We strongly recommend that you use the checked build as the primary configuration for day-to-day development and QA.
+
+.. note:: PhysX libraries of different build configurations (e.g. the DEBUG version of PhysXVehicle and the CHECKED version of PhysXVisualDebuggerSDK) should never be mixed in an application because this will result a CRT conflict.
+
+
+.. _Header files:
+
+=================
+Header Files
+=================
+To build your own PhysX app, you will need to add some include paths and libraries to your project makefile or IDE.
+
+Users should specify the root "Include" and "Lib" folders in the additional include, and library directories respectively. There is a combined include header available as::
+
+#include "PxPhysicsAPI.h"
+
+This will include the entire PhysX API including core, extensions, vehicles, etc. It is also possible to include subsets of the SDK if preferred, for example::
+
+#include "vehicle/PxVehicleSDK.h"
+
+
+.. _Libraries:
+
+=================
+Libraries
+=================
+At a minimum, applications need to link against the following libraries with the appropriate platform extension (e.g. ".lib" or ".a") and with * being a x86 or x64 for Windows platforms:
+
+* PhysX3_*.lib
+* PhysX3Common_*.lib
+* PxFoundation_*.lib
+
+.. note:: The static libraries we provide with the Windows binary distribution are linked against the Multi-Threaded static C Run-Time (CRT) libraries.  This means that your application must also use the same CRT flavor.  If you need to use a different CRT version, you must upgrade to our source license.  The source distribution can simply be recompiled using different CRT settings.
+
+
+.. _Redistribution:
+
+=================
+Redistribution
+=================
+
+On the Windows platform, you need to redistribute some of our DLLs to end users as part of your application:
+
+* PhysX3Common_*.dll               - will always be needed.
+* PhysX3_*.dll                     - will always be needed.
+* PxFoundation_*.dll		   - will always be needed.
+* PhysX3Cooking_*.dll              - you only need to bundle if your application cooks geometry data on the fly.
+* PhysX3GPU_*.dll                  - is only needed if your application runs some simulation on the GPU.
+* PhysX3CharacterKinematic_*.dll   - is only needed if your application uses the character controller.
+* PxPvdSDK_*.dll		   - is only needed if your application uses PVD.
+
+Where * is a platform specific suffix, e.g. x86 or x64.  You will need one or the other depending on whether your application is built in 64 bit mode.
+
+
+

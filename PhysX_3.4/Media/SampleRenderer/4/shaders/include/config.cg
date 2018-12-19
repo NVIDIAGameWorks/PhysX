@@ -1,0 +1,111 @@
+
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// The VFACE register sign indicates if the face is backfacing or not.
+// The Renderer will define this if its supported...
+#if !defined(ENABLE_VFACE)
+	#define ENABLE_VFACE 0
+#endif
+
+// When true, ENABLE_COLOR_SWIZZLE_SUPPORT provides dynamic
+//   color swizzling support from rgb/bgr -> bgr/rgb
+//   if g_bSwizzleColor is true
+// This prevents the need for CPU color swizzling on platforms
+//   expecting a color format different from that provided
+#if !defined(ENABLE_COLOR_SWIZZLE_SUPPORT)
+	#define ENABLE_COLOR_SWIZZLE_SUPPORT 0
+#endif
+
+// The D3D compiler will #define this as TANGENT!!
+#ifndef SEMANTIC_TANGENT
+#define SEMANTIC_TANGENT      TEXCOORD5
+#endif
+
+#define SEMANTIC_INSTANCE_T     TEXCOORD8
+#define SEMANTIC_INSTANCE_X     TEXCOORD9
+#define SEMANTIC_INSTANCE_Y     TEXCOORD10
+#define SEMANTIC_INSTANCE_Z     TEXCOORD11
+
+#define SEMANTIC_INSTANCE_UV    TEXCOORD12
+#define SEMANTIC_INSTANCE_LOCAL TEXCOORD13
+
+#define SEMANTIC_DISPLACEMENT       TEXCOORD14
+#define SEMANTIC_DISPLACEMENT_FLAGS TEXCOORD15
+
+#define SEMANTIC_SPRITE_ROT_SCALEX_SCALEY TEXCOORD14
+
+#define SEMANTIC_BONEINDEX    TEXCOORD6
+
+#if !defined(RENDERER_DISPLACED)
+#define RENDERER_DISPLACED 0
+#endif
+#if !defined(ENABLE_TESSELLATION)
+#define ENABLE_TESSELLATION 0
+#endif
+
+// Parameters passed from the vertex shader to the fragment shader.
+struct FragmentParameters
+{
+	float3 worldSpacePosition : TEXCOORD4;
+	float3 worldSpaceNormal   : TEXCOORD5;
+	float3 worldSpaceTangent  : TEXCOORD6;
+	float3 worldSpaceBinormal : TEXCOORD7;
+#if defined(PX_X360) && defined(RENDERER_FRAGMENT)
+	float2 spriteTexCoord     : SPRITETEXCOORD;
+#endif
+#if defined (RENDERER_GXM)
+	float2 spriteTexCoord	  : SPRITECOORD;
+#endif
+	float4 texcoord0          : TEXCOORD0;
+	float4 texcoord1          : TEXCOORD1;
+	float4 texcoord2          : TEXCOORD2;
+#if !defined (RENDERER_WIN8ARM)
+	float4 texcoord3          : TEXCOORD3;
+#endif	
+	half4  color              : COLOR;
+};
+
+// Material information for a given fragment.
+struct SurfaceMaterial
+{
+	half3 diffuseColor;
+	half  alpha;
+	half3 emissiveColor;
+	half3 specularColor;
+	half  specularPower;
+	half3 tangentSpaceNormal;
+};
+
+// Lighting information for a given fragment.
+struct Lighting
+{
+	half3 diffuseColor;
+	half3 specularColor;
+};
+
+// Final output for a Forward Rendered Fragment.
+struct Fragment
+{
+	half4 color : COLOR0;
+};
+
+// Final output for a Deferred Rendered Fragment.
+struct DeferredFragment
+{
+	// TODO: COLOR0 alpha should be the alpha value... not emissiveIntensity.
+	half4 diffuseColor                      : COLOR0; // rgb=diffuseColor
+	half4 emissiveColor                     : COLOR1; // rgb=emissiveColor
+	half4 worldSpaceNormalAndSpecularPower  : COLOR2; // rgb=worldSpaceNormal, a=specularPower
+};
+
+
+
+// user implemented functions...
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params);
+
+// lighting functions...
+Lighting computeLighting(const FragmentParameters params, const SurfaceMaterial material);
+
+
+#endif

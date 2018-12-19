@@ -1,0 +1,563 @@
+.. _particles:
+
+----------------------------------------------------
+Particles (deprecated)
+----------------------------------------------------
+
+.. |pi| unicode:: U+003C0
+
+
+====================================================
+Introduction
+====================================================
+
+**The PhysX particle feature has been deprecated in PhysX version 3.4. The standalone library PhysX FleX is an alternative with a richer feature set.**
+
+PhysX 3 offers two particle system types - a generic particle system and an SPH fluid particle system. The generic particle system provides basic particle motion and collision with rigid actors. It can be used for objects that require collisions against the environment, but for which inter-particle interactions are not needed. Examples include small debris, sparks or leaves. The SPH fluid particle system can be used for fluid effects that require approximate incompressibility and flowing behavior, such as liquids or fog and smoke filling up a volume.
+
+PhysX 3 takes care of collision detection and particle dynamics, while auxiliary facilities such as emitters,
+lifetime maintenance etc. need to be provided by the application.
+
+
+
+
+.. _creatingParticleSystem:
+
+====================================================
+Creating Particle Systems
+====================================================
+
+Both particle system classes *PxParticleSystem* and *PxParticleFluid* inherit from *PxParticleBase*, which is the
+common interface providing particle manipulation and collision functionality. Particle systems inherit from *PxActor*
+and can be added to a scene.
+
+.. figure:: ../images/ParticleClassDiagram_1.png
+   :scale: 100
+   :align: center
+
+   Figure 1: PxParticleSystem inherits all properties from PxParticleBase, PxParticleFluid adds fluid specific properties
+
+The following section shows how a particle system is created and added::
+
+    // set immutable properties.
+    PxU32 maxParticles = 100;
+    bool perParticleRestOffset = false;
+
+    // create particle system in PhysX SDK
+    PxParticleSystem* ps = mPhysics->createParticleSystem(maxParticles, perParticleRestOffset);
+
+    // add particle system to scene, in case creation was successful
+    if (ps)
+        mScene->addActor(*ps);
+
+.. note:: The particle module has to be registered with *PxRegisterParticles* on platforms with static linking (non windows) before creating particle systems. *PxCreatePhysics* registers all modules by default as opposed to *PxCreateBasePhysics*.
+
+
+
+
+
+
+====================================================
+Particle Management
+====================================================
+
+Particle systems reserve memory for a fixed number of particles - *PxParticleBase::getMaxParticles*.  Each of these particles can be addressed with a fixed index throughout its lifetime.  The given range of indices is [0, *PxParticleBase::getMaxParticles*].  In order to support a dynamic amount of particles, particles are marked as being valid or invalid.  This is achieved by two means:  The valid particle range indicates the range within which particles may be valid.  Outside that range all particles are defined as being invalid.  Within that range valid particles are marked with the flag *PxParticleFlag::eVALID*.  Alternatively PhysX provides a bitmap with each bit set corresponding to a valid particle within the valid particle range. The bitmap consists of an array of 32-bit unsigned integers with enough elements to cover the valid particle range.
+
+.. figure:: ../images/ParticleValidScheme.png
+   :scale: 100
+   :align: center
+
+   Figure 2: Scheme showing how valid particles are tracked
+
+
+
+Creating Particles
+====================================================
+
+The application specifies an index for each new particle at particle creation time. If the application maintains its own representation of particles, and already tracks active indices, then these indices may be re-used by PhysX. If the application does not have appropriate indices at its disposal, it can use an index pool provided by the PhysX extensions library *PxParticleExt::IndexPool* as explained here: :ref:`indexPool`.
+
+PhysX 3 itself has no built-in emitters. Instead, it simply provides an interface to create particles with initial properties. When creating particles, specifying indices and positions is mandatory, while velocities and rest offsets may be specified optionally.
+
+The PhysX particle API uses the PxStrideIterator template class to pass per particle data between the SDK and the application. This allows the particle data layout to be chosen more flexible by supporting interleaved arrays or padded data without forcing extra copies for reformatting. The stride iterator is configured by setting the type of the iterated data and specifying the pointer to the first element.
+
+Example for creating a few particles::
+
+    // declare particle descriptor for creating new particles
+    // based on numNewAppParticles count and newAppParticleIndices,
+    // newAppParticlePositions arrays and newAppParticleVelocity
+    PxParticleCreationData particleCreationData;
+    particleCreationData.numParticles = numNewAppParticles;
+    particleCreationData.indexBuffer = PxStrideIterator<const PxU32>(newAppParticleIndices);
+    particleCreationData.positionBuffer = PxStrideIterator<const PxVec3>(newAppParticlePositions);
+    particleCreationData.velocityBuffer = PxStrideIterator<const PxVec3>(&newAppParticleVelocity, 0);
+
+    // create particles in *PxParticleSystem* ps
+    bool success = ps->createParticles(particleCreationData);
+
+The indices specified for particle creation need to be unique and within the limit of *PxParticleBase::getMaxParticles()*.
+
+In this example the stride iterator is used to set the same velocity for all new particles. This is achieved by setting the stride to zero.
+
+.. note:: For fluid particles it is necessary to spawn particles at distances close to *PxParticleFluid::getRestParticleDistance()* in order to achieve a regular emission, otherwise particles will spread immediately in all directions.
+
+.. note:: In PhysX 3 all particle access such as creating, releasing, updating and reading particles can only be carried out while the simulation of the scene is not being executed.
+
+Releasing Particles
+====================================================
+
+Particles can be released by providing indices to the particle system. As opposed to older versions of the PhysX SDK, particles get immediately released.
+
+Example for releasing a few particles::
+
+    // declare strided iterator for providing array of indices corresponding to
+    // particles that should be removed
+    PxStrideIterator<const PxU32> indexBuffer(appParticleIndices);
+
+    // release particles in *PxParticleSystem* ps
+    ps->releaseParticles(numAppParticleIndices, indexBuffer);
+
+It is a requirement that the indices passed to the release method are unique and correspond to existing particles.
+
+All particles can be released at once by calling::
+
+    ps->releaseParticles();
+
+Since only a limited number of particle slots *(PxParticleBase::getMaxParticles())* are available it might be appropriate to replace old particles with new ones. This can be achieved for instance by maintaining an application-side particle lifetime. There are other reasons to release particles:
+
+* Drains can be useful to remove particles that go to locations where they are not needed anymore. See :ref:`particleDrains`.
+* The spatial data structure used for particles may overflow. Particles that cannot be covered are marked and should be released. See :ref:`Particle Grid <particleGrid>`.
+
+.. _indexPool:
+
+Index Pool Extension
+====================================================
+
+Example for allocating particle indices using the PhysX extensions library::
+
+    // create an index pool for a particle system with maximum particle count of maxParticles
+    PxParticleExt::IndexPool* indexPool = PxParticleExt::createIndexPool(maxParticles);
+
+    // use the indexPool for allocating numNewAppParticles indices that can be used
+    // for particle creation throughout the particle system lifetime. If numAllocated
+    // is smaller than numNewAppParticles, the maxParticles limit was exceeded
+    PxU32 numAllocated = indexPool->allocateIndices(numNewAppParticles,
+                                                    PxStrideIterator<PxU32>(newAppParticleIndices));
+
+    // in order to reuse particle slots, the indices should be handed back to the
+    // indexPool after the particles have been released
+    indexPool->freeIndices(numAppParticleIndices, PxStrideIterator<PxU32>(appParticleIndices));
+
+    // if no further index management is needed, the pool should be released
+    indexPool->release();
+
+
+
+
+
+
+
+Updating Particles
+====================================================
+
+The following per-particle updates are carried out immediately:
+
+* Position updates: Teleporting particles from one location to another.
+* Velocity updates: Directly altering the velocities of particles.
+* Rest offset updates: Changes particle rest offsets (only available with *PxParticleBaseFlag::ePER_PARTICLE_REST_OFFSET*).
+
+Particle updates that are carried out during the next scene simulation step:
+
+* Force updates: Results in a velocity change update according to a vector unit specified by *PxForceMode*.
+
+Example for force update::
+
+    // specify strided iterator to provide update forces
+    PxStrideIterator<const PxVec3> forceBuffer(appParticleForces);
+
+    // specify strided iterator to provide indices of particles that need to be updated
+    PxStrideIterator<const PxU32> indexBuffer(appParticleForceIndices);
+
+    // specify force update on PxParticleSystem ps choosing the "force" unit
+    ps->addForces(numAppParticleForces, indexBuffer, forceBuffer, PxForceMode::eFORCE);
+
+
+.. _readingParticles:
+
+
+
+
+
+
+Reading Particles
+====================================================
+
+The PhysX SDK does not provide to the user all simulated per-particle properties of a particle system by default. The application can specify the data it needs by configuring
+PxParticleBase::particleReadDataFlags:
+
+* *PxParticleReadDataFlag::ePOSITION_BUFFER:* On by default.
+* *PxParticleReadDataFlag::eFLAGS_BUFFER:* On by default.
+* *PxParticleReadDataFlag::eVELOCITY_BUFFER:* Off by default.
+* *PxParticleReadDataFlag::eREST_OFFSET_BUFFER:* Off by default. May only be enabled if the particle system was created with per particle rest offset support. See :ref:`creatingParticleSystem`.
+* *PxParticleReadDataFlag::eCOLLISION_NORMAL_BUFFER:* Off by default.
+* *PxParticleReadDataFlag::eDENSITY_BUFFER:* Only available for particle fluids and off by default.
+
+Particle flags provide more information on individual particles:
+
+* *PxParticleFlag::eVALID:* If set, the particle was created beforehand and not yet released. If not set, the particle slot does not contain a valid particle. All other properties are invalid in this case and should be ignored.
+* *PxParticleFlag::eCOLLISION_WITH_STATIC:* Shows whether a particle collided with a rigid static during the last simulation step.
+* *PxParticleFlag::eCOLLISION_WITH_DYNAMIC:* Shows whether a particle collided with a dynamic rigid body during the last simulation step.
+* *PxParticleFlag::eCOLLISION_WITH_DRAIN:* Shows whether a particle collided with a rigid actor shape that was marked as a drain (:ref:`particleDrains`).
+* *PxParticleFlag::eSPATIAL_DATA_STRUCTURE_OVERFLOW:* Shows whether a particle had to be omitted when building the SDK internal spatial data structure (:ref:`Particle Grid <particleGrid>`).
+
+Particle collision normals represent contact normals between particles and rigid actor surfaces. A non-colliding particle has
+a zero collision normal. Collision normals are useful e.g. for orienting the particle visualization according to their contact with rigid actors.
+
+Particle densities provided by particle fluids can be used for rendering. A particle density has a value of zero for a particle that is
+completely isolated. It has a value of one for a particle that has a particle neighborhood with a mean spacing corresponding to *PxParticleFluid::getRestParticleDistance()*.
+
+Particle data can only be read while the scene simulation is not executing. In order to get access to the SDK buffers a *PxParticleReadData* instance needs to be acquired
+from the SDK. It has the following properties:
+
+* *numValidParticles:* Total number of valid particles for the corresponding particle system.
+* *validParticleRange:* The index range of valid particles in the particle buffers.
+* *validParticleBitmap:* Bitmap of valid particle locations.
+* *positionBuffer, positionBuffer, velocityBuffer, restOffsetBuffer, flagsBuffer, collisionNormalBuffer:*  Strided iterators for particle properties.
+
+Additionally particle fluids provide *PxParticleFluidReadData* with
+
+* *densityBuffer:* Strided iterator for particle densities.
+
+
+.. figure:: ../images/ParticleClassDiagram_2.png
+   :scale: 100
+   :align: center
+
+   Figure 3: PxParticleReadData and PxParticleFluidReadData
+
+Example of how to access particle data::
+
+    // lock SDK buffers of *PxParticleSystem* ps for reading
+    PxParticleReadData* rd = ps->lockParticleReadData();
+
+    // access particle data from PxParticleReadData
+    if (rd)
+    {
+        PxStrideIterator<const PxParticleFlags> flagsIt(rd->flagsBuffer);
+        PxStrideIterator<const PxVec3> positionIt(rd->positionBuffer);
+
+        for (unsigned i = 0; i < rd->validParticleRange; ++i, ++flagsIt, ++positionIt)
+        {
+            if (*flagsIt & PxParticleFlag::eVALID)
+            {
+                // access particle position
+                const PxVec3& position = *positionIt;
+            }
+        }
+
+        // return ownership of the buffers back to the SDK
+        rd->unlock();
+    }
+
+Example of how to use the valid particle bitmap to access particle data (without showing the locking and unlocking)::
+
+    if (rd->validParticleRange > 0)
+    {
+        // iterate over valid particle bitmap
+        for (PxU32 w = 0; w <= (rd->validParticleRange-1) >> 5; w++)
+        {
+            for (PxU32 b = rd->validParticleBitmap[w]; b; b &= b-1)
+            {
+                PxU32 index = (w << 5 | Ps::lowestSetBit(b));
+
+                // access particle position
+                const PxVec3& position = rd->positionBuffer[index];
+            }
+        }
+    }
+
+
+
+
+====================================================
+Parameter Guide
+====================================================
+
+There are three types of particle system parameter.  Some need to be specified when the particle system is created and cannot be changed afterwards.  Some are mutable while the particle system is not part of a scene and others can be changed at any time.  The following description covers parameter that either cannot be set at any time, or may induce a performance overhead when changed.
+
+*maxParticles:*
+
+    The maximum number of particles that can be added to a particle system. The smaller the value, the smaller the memory footprint of the particle system is going to be. Can only be set on particle system creation.
+
+*PxParticleReadDataFlags:*
+
+    Specifies a subset of simulation properties which are returned to the application after simulation.  See :ref:`readingParticles`. As few read data flags should be set as possible in order to save memory and improve performance by avoiding unnecessary particle data copying.  Parameter can only be changed while particle system is not part of a scene.
+
+*gridSize:*
+
+    A hint for the PhysX SDK to choose the particle grouping granularity for proximity tests and parallelization. See :ref:`Particle Grid <particleGrid>`. Parameter can only be changed while particle system is not part of a scene.
+
+*PxParticleBaseFlag::eENABLED:*
+
+    Enables/disables particle simulation.
+
+*PxParticleBaseFlag::eGPU:*
+
+    Enable/disable GPU acceleration. Changing this parameter while the particle system is part of a scene induces a large performance overhead.
+
+*PxParticleBaseFlag::eCOLLISION_WITH_DYNAMIC_ACTORS:*
+
+	Enable/disable collision with dynamic rigids. Changing this parameter while the particle system is part of a scene induces a performance overhead.
+	
+*PxParticleBaseFlag::eCOLLISION_TWOWAY:*
+
+	Enable/disable twoway interaction between particles and rigid bodies. Changing this parameter while the particle system is part of a scene induces a performance overhead.
+	
+*PxParticleBaseFlag::ePER_PARTICLE_COLLISION_CACHE_HINT:*
+
+	Enable/disable internal collision caches. Changing this parameter while the particle system is part of a scene induces a performance overhead.
+
+Particle Dynamics
+====================================================
+
+*externalAcceleration:*
+
+    Acceleration applied to each particle at each time step. The scene gravity which is added to the external acceleration by default can be disabled using *PxActorFlag::eDISABLE_GRAVITY*.
+
+*maxMotionDistance:*
+
+    The maximum distance a particle can travel during one simulation step. High values may hurt performance, while low values may restrict the particle velocity too much. In order to improve performance it's advisable to set this to a low value and then increase it until particles can move fast enough to achieve the target effect. Parameter can only be changed while particle system is not part of a scene.
+
+*damping:*
+
+    Velocity damping constant, which is globally applied to each particle. This is particularly useful when using particles for smoke to prevent ballistic behavior of individual particles which can look odd.
+
+*particleMass:*
+
+    Mass used for two way interaction with rigid bodies (*PxParticleBaseFlag::eCOLLISION_TWOWAY*) and different force modes in the context of *PxParticleBase::addForces*. This mass property doesn't have any impact on the fluid dynamics simulation.
+
+*PxParticleBaseFlag::ePROJECT_TO_PLANE, projectionPlaneNormal, projectionPlaneDistance:*
+
+    Parameter to configure the projection mode which confines particles to a plane. If projection is enabled particles can only move in a plane. This can be a useful option in the context of a 2D-Game.
+
+
+Collision with Rigid Actors
+====================================================
+
+*restOffset:*
+
+    Defines the minimum distance between particles and the surface of rigid actors that is maintained by the collision system. Parameter can only be changed while particle system is not part of a scene.
+
+*PxParticleBaseFlag::ePER_PARTICLE_REST_OFFSET:*
+
+    Enables/disables per-particle rest offsets. Memory can be saved by turning per particle rest offsets off. Per-particle rest offsets should only be enabled if the particles represent objects of significantly varying size, for example in the context of debris effects. See :ref:`perParticleRestOffsets`. Can only be set on particle system creation.
+
+*contactOffset:*
+
+    Defines the distance at which contacts between particles and rigid actors are created. The contacts are internally used to avoid jitter and sticking.  It needs to be larger than *restOffset*.  A good value to start with is about twice the size of the rest offset. Parameter can only be changed while particle system is not part of a scene.
+
+*restitution:*
+
+    Restitution used for particle collision. This parameter defines how strongly particles bounce of rigid actors.
+
+*dynamicFriction:*
+
+    Dynamic friction used for particle collision.  This parameter defines how easily particles slide over rigid actor surfaces.  The lower the value is to 0, the easier particles slide.  One is the maximal value supported.
+
+*staticFriction:*
+
+    Static friction used for particle collision.  This parameter is similar to dynamic friction but defines how easily particles start to slide over a surface.  Values larger than one are supported.
+
+*simulationFilterData:*
+
+    Filter data used to filter collisions between particles and rigid bodies. See :ref:`particleCollisionFiltering`.
+
+*PxParticleBaseFlag::eCOLLISION_TWOWAY:*
+
+    The collision two-way flag allows enabling/disabling two-way interaction between rigid bodies and particles. The particle mass parameter defines the strength of the interaction. The flag can only be changed while the particle system is not part of a scene.
+
+
+Fluid (PxParticleFluid)
+====================================================
+
+The SPH simulation can be tricky to tweak for good results. As this simulation technique (see :ref:`particleReferences`) uses an explicit integration scheme it only provides stable results within a certain parameter sub-space. A good set of parameter values depend on the time step size of the simulation and the external forces applied (such as gravity). The suggested starting points for parameter values below assume a time step size of about 1/60 [s] and a gravity around 10 [m/s^2]. Using a *damping* value larger than zero allows for a larger parameter sub-space, for example useful when implementing a smoke effect.
+
+*restParticleDistance:*
+
+    Defines the resolution of the particle fluid. It defines the approximate distance that neighboring particles will adopt within a fluid volume at rest. For the parameter tweaking assumption mentioned above, the particle rest distance should not be smaller than 0.05 [m]. Parameter can only be changed while particle system is not part of a scene.
+
+*stiffness:*
+
+    The stiffness (or gas constant) influences the calculation of the pressure force field. Low values of stiffness make the fluid more compressible (i.e., springy), while high values make it less compressible. The stiffness value has a significant impact on the numerical stability of the simulation; setting very high values will result in instability. Reasonable values are usually between 1 and 200.
+
+*viscosity:*
+
+    Viscosity controls a fluid's thickness. For example, a fluid with a high viscosity will behave like treacle, while a fluid with low viscosity will be more like water. The viscosity value scales the force to reduce the relative velocity of particles within the fluid. Both, too high and too low values will typically result in instabilities. Reasonable values are usually between 5 and 300.
+
+
+====================================================
+Collision Handling
+====================================================
+
+By default, particles will collide with any shapes inside the PxScene that they belong to. They will attempt to maintain a fixed distance from these shapes as specified by *PxParticleBase::setRestOffset()*.
+
+.. _particleCollisionFiltering:
+
+Collision Filtering
+====================================================
+
+Filtering particle versus rigid body collisions can be useful to avoid unnecessary performance overhead or simply to avoid undesired collisions.
+
+For the following examples filtering is useful:
+
+* Avoid particles colliding with trigger shapes (this is already the behavior of *PxDefaultSimulationFilterShader*)
+* Configure a drain shape to exclusively collide with particles
+* Have particles collide with a proxy shape as opposed to the shape used for rigid body collisions
+
+Filter information for particles can be specified by calling *PxParticleBase::setSimulationFilterData()*.  Instructions for how to setup filter shaders can be found here: :ref:`collisionFiltering`.
+
+.. _perParticleRestOffsets:
+
+Per-particle Rest Offsets
+====================================================
+
+It is also possible to set a rest offset per-particle, using *PxParticleBase::setRestOffsets()*.  In order to provide per-particle rest offsets *PxParticleBaseFlag::ePER_PARTICLE_REST_OFFSET* needs to be set and the rest offsets must be smaller than the per-system value given by *PxParticleBase.getRestOffset()*.
+
+.. _particleDrains:
+
+
+Particle Drains
+====================================================
+
+Using drains is a good method for keeping the particle count and spread under control.  Placing drains around the area of interest in which a particle system is used helps to maintain good performance of the particle simulation. The area of interest could, for example, also be moved with the player.
+
+Example of how to flag a *PxShape* rbShape as a drain::
+
+    rbShape->setFlag(PxShapeFlag::ePARTICLE_DRAIN, true);
+
+Particles that collide with a drain are marked with *PxParticleFlag::eCOLLISION_WITH_DRAIN* and may be released.
+
+
+
+
+
+
+====================================================
+Best Practices / Troubleshooting
+====================================================
+
+
+.. _particleGrid:
+
+Particle Grid and Spatial Data Structure Overflow
+====================================================
+
+The PhysX SDK uses a grid to subdivide the particles of a particle system into spatial groups. This is done to accelerate proximity queries and for parallelization purposes. The grid size parameter needs to be experimentally adjusted with *PxParticleBase::setGridSize()* for best performance. When doing this it is helpful to visualize the grid using *PxVisualizationParameter::ePARTICLE_SYSTEM_GRID*. Small grid size values might result in spatial data structure overflow, since the number of grid cells is limited to about 1000. Large grid size values on the other hand might result in poor performance due to ineffective spatial queries or lack of parallelization opportunities.
+
+In case of overflow, some particles will stop colliding with rigid actors in the scene. These particles are marked with
+*PxParticleFlag::eSPATIAL_DATA_STRUCTURE_OVERFLOW* and should be released.
+
+
+
+
+
+====================================================
+GPU/CUDA Acceleration
+====================================================
+
+PhysX 3 supports GPU acceleration. This allows for larger and more detailed particle effects while retaining good performance levels. To achieve this gain we must use a *physx::PxGpuDispatcher* for the scene we want to add the particle system to::
+
+    #if PX_WINDOWS
+        // create cuda context manager
+        PxFoundation& foundation = ...
+        physx::PxCudaContextManagerDesc cudaContextManagerDesc;
+        physx::PxCudaContextManager* cudaContextManager = 
+            PxCreateCudaContextManager(foundation, cudaContextManagerDesc)
+    #endif
+
+        PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+        //...
+    #if PX_WINDOWS
+        if (cudaContextManager)
+            sceneDesc.gpuDispatcher = cudaContextManager->getGpuDispatcher();
+    #endif
+        //...
+        physicsSdk->createScene(sceneDesc);
+
+A particle system can be configured for GPU simulation by setting *PxParticleBaseFlag::eGPU*. Toggling GPU acceleration while the particle system is part of a scene might have a bad impact on performance since its state needs to be copied to or from the GPU device memory. It is therefore better to set the flag with *PxParticleBase::setParticleBaseFlag()* before adding the particle system to the scene.
+
+Particle data can be read directly from the GPU device using *PxParticleBase::lockParticleReadData(PxDataAccessFlag::eDEVICE)* and *PxParticleFluid::lockParticleFluidReadData(PxDataAccessFlag::eDEVICE)*. This can be used to render particles directly with CUDA Graphics Interop.
+
+Convex, Triangle and Height field meshes are automatically mirrored in the GPU memory when the corresponding shapes are within the proximity of a GPU accelerated particle system. This may cause some undesired performance hiccups which can be prevented by mirroring the meshes explicitly, as shown in this example::
+
+    #if PX_WINDOWS
+        // mirror PxTriangleMesh triangleMesh providing the corresponding cudaContextManager of
+        // the desired scene.
+        PxParticleGpu::createTriangleMeshMirror(triangleMesh, *cudaContextManager);
+
+        // later release the obsolete mirror
+        PxParticleGpu::releaseTriangleMeshMirror(triangleMesh, *cudaContextManager);
+    #endif
+
+On Kepler and above GPUs, the triangle meshes can be cached to achieve better performance. The amount of memory to be allocated for caching can be set using::
+
+    PxParticleGpu::setTriangleMeshCacheSizeHint(const class PxScene& scene, PxU32 size);
+
+The triangle mesh cache will be shared among all the particle systems created in the scene. The optimal size depends on the scene (i.e. triangle mesh density and particle distribution).
+The cache usage statistics can be queried and analyzed to fine tune the cache size hint.
+
+
+
+
+
+
+
+====================================================
+Sample Discussion
+====================================================
+
+The SampleParticles shows both particle system types being used: *PxParticleSystem* is used for small debris and smoke, while *PxParticleFluid* is used for a waterfall. The sample provides example implementations of various aspects described in this guide:
+
+* *SampleParticles::createParticleSystem*, *SampleParticles::createFluid* show how to create particle systems.
+* *ParticleSystem::createParticles* creates particles within a particle system.
+* *ParticleSystem::update* shows how to read, update, release particles and how to deal with spatial data structure overflows.
+* *SampleParticlesFilterShader* is an example for setting up collision filtering.
+* *SampleParticles::createDrain* shows how to setup a rigid body shape as a particle drain.
+* *SampleBase::onInit* illustrates how to setup GPU/CUDA acceleration.
+
+The sample makes use of various helper classes:
+
+* *ParticleSystem:* Encapsulates a *PxParticleSystem* or *PxParticleFluid* instance and manages application side data such as particle lifetimes and orientations for debris. It facilitates creating and releasing particles and double buffers particle data for asynchronous rendering.
+* *RenderParticleSystemActor:* Owns a *ParticleSystem* and provides rendering functionality.
+* *ParticleEmitterRate:* Emits particles at a specified rate (#particles per second).
+* *ParticleEmitterPressure:* Emits particles maintaining a certain distance between them.
+* *SampleParticles::Emitter:* Connects an emitter as described above with a *RenderParticleSystemActor*.
+* *SampleParticles::Raygun:* Provides functionality for the ray force field, rigid body debris, particle debris and smoke emission.
+
+In the sample, the smoke effect is achieved by using a *PxParticleSystem* without gravity. Each particle is rendered as a point sprite with a smoke texture. The sprites fade away when the particles get close to the end of their lifespan.  The smoke particles collide with the scene, which can be seen when roaming the smoke with the ray-gun.  Smoke is generated for the craters, as well as for the ray-gun impacts.  The realism of the smoke effect could be increased by using a particle fluid in order to get the smoke volume to expand. This is typically useful for indoor scenes or ground fog like effects where the particles get into pooling situations.
+
+Two kinds of debris are shown in the sample. Larger chunks of debris are represented using convex-shaped rigid bodies. Smaller but more abundant chunks are represented by particles, which helps performance. The particle based debris is rendered using instanced meshes. It is spawned in the craters and at the ray-gun impact location.
+
+In order to give the chunks the appearance of a tumbling motion a simple trick is used.
+
+1) Assign an initial random rotation matrix to each particle.
+2) Change this rotation matrix proportional to the linear velocity of particle.
+
+The implementation of this approach can be found in *ParticleSystem::initializeParticlesOrientations* and *ParticleSystem::modifyRotationMatrix*.
+
+
+
+.. _particleReferences:
+
+====================================================
+References
+====================================================
+
+| *Particle-Based Fluid Simulation for Interactive Applications*
+| Matthias Muller, David Charypar and Markus Gross, Eurogrpahics/Siggraph 2003, D. Breeen, M. Lin Editors
+| http://www.matthiasmueller.info/publications/sca03.pdf
+
+| *Fast GPU Fluid Simulation in PhysX*
+| Simon Schirm and Mark Harris, NVIDIA Corporation
+| Chapter 7.3 of Game Programming Gems 8, Adam Lake
+
+

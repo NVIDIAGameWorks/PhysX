@@ -1,0 +1,34 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="ImpactEmitterAssetParameters" version="0.0" checksum="0x5b78e967 0xd4e18888 0xaac77873 0xef2e1cba">
+  <struct name="">
+    <array name="eventSetList" size="1" type="Ref">
+      <value type="Ref" included="1" className="ImpactObjectEvent" version="0.1" checksum="0x18bc25ae 0xb43f2a22 0x8b698b9d 0xdce8fd3">      
+        <struct name="">
+          <value name="eventSetName" type="String">meshParticleEvent</value>
+          <value name="iofxAssetName" type="Ref" included="0" className="IOFX" objectName="testMeshIofx"></value>
+          <value name="iosAssetName" type="Ref" included="0" className="ParticleIosAsset" objectName="meshParticleIosPhysX3"></value>
+          <value name="angleLow" type="F32">0</value>
+          <value name="angleHigh" type="F32">45</value>
+          <value name="speedLow" type="F32">10</value>
+          <value name="speedHigh" type="F32">40</value>
+          <value name="lifeLow" type="F32">5</value>
+          <value name="lifeHigh" type="F32">10</value>
+          <value name="delay" type="F32">0</value>
+          <value name="particleSpawnCount" type="U32">25</value>
+          <value name="impactAxis" type="Enum">reflection</value>
+          <struct name="lodParamDesc">
+            <value name="version" type="U32">0</value>
+            <value name="maxDistance" type="F32">10000</value>
+            <value name="distanceWeight" type="F32">1</value>
+            <value name="speedWeight" type="F32">0</value>
+            <value name="lifeWeight" type="F32">0</value>
+            <value name="separationWeight" type="F32">0</value>
+            <value name="bias" type="F32">0</value>
+          </struct>
+        </struct>
+      </value>
+    </array>
+  </struct>
+</value>
+</NvParameters>

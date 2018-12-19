@@ -1,0 +1,11 @@
+struct VertexOut
+{
+	float4             screenSpacePosition : POSITION;
+};
+
+VertexOut  vmain(float4      localSpacePosition : POSITION)
+{
+	VertexOut vout;
+	vout.screenSpacePosition		= localSpacePosition;
+	return vout;
+}

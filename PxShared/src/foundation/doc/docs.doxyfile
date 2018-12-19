@@ -1,0 +1,13 @@
+# Doxyfile 1.5.8
+
+PROJECT_NAME           = "NVIDIA(R) PsFoundation Reference"
+#ENABLED_SECTIONS       = PHYSICS_SDK_PAGES
+WARN_LOGFILE           = PsFoundation.err
+INPUT                  = ../include ../include/windows ../src ../src/windows
+EXTRACT_ALL			   = YES
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+GENERATE_HTMLHELP      = YES
+HTML_OUTPUT            = html/
+CHM_FILE               = ../PsFoundation.chm
+TOC_EXPAND             = YES

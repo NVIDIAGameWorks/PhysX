@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Articulations &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="Scene Origin" href="OriginShift.html" />
+    <link rel="prev" title="Joints" href="Joints.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="OriginShift.html" title="Scene Origin"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="Joints.html" title="Joints"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="articulations">
+<span id="id1"></span><h1>Articulations<a class="headerlink" href="#articulations" title="Permalink to this headline">¶</a></h1>
+<p>An articulation is a single actor comprising a set of links (each of which behaves like a rigid body) connected together with special joints. Every articulation has a tree-like structure - so there can be no loops or breaks. Their primary use is modelling physically actuated characters. They support higher mass ratios, more accurate drive models, have better dynamic stability and a more robust recovery from joint separation than standard PhysX joints. However, they are considerably more expensive to simulate.</p>
+<p>Although articulations do not directly build on joints, they use very similar configuration mechanisms. In this section we assume familiarity with PhysX joints.</p>
+<div class="section" id="creating-an-articulation">
+<h2>Creating an Articulation<a class="headerlink" href="#creating-an-articulation" title="Permalink to this headline">¶</a></h2>
+<p>To create an articulation, first create the articulation actor without links:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxArticulation</span><span class="o">*</span> <span class="n">articulation</span> <span class="o">=</span> <span class="n">physics</span><span class="p">.</span><span class="n">createArticulation</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Then add links one by one, each time specifying a parent link (NULL for the parent of the initial link), and the pose of the new link:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxArticulationLink</span><span class="o">*</span> <span class="n">link</span> <span class="o">=</span> <span class="n">articulation</span><span class="o">-&gt;</span><span class="n">createLink</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">linkPose</span><span class="p">);</span>
+<span class="n">PxRigidActorExt</span><span class="o">::</span><span class="n">createExclusiveShape</span><span class="p">(</span><span class="o">*</span><span class="n">link</span><span class="p">,</span> <span class="n">linkGeometry</span><span class="p">,</span> <span class="n">material</span><span class="p">);</span>
+<span class="n">PxRigidBodyExt</span><span class="o">::</span><span class="n">updateMassAndInertia</span><span class="p">(</span><span class="o">*</span><span class="n">link</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Articulation links have a restricted subset of the functionality of rigid bodies. They may not be kinematic, and they do not support damping, velocity clamping, or contact force thresholds. Sleep state and solver iteration counts are properties of the entire articulation rather than the individual links.</p>
+<p>Each time a link is created beyond the first, a <em>PxArticulationJoint</em> is created between it and its parent. Specify the joint frames for each joint, in exactly the same way as for a PxJoint:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxArticulationJoint</span><span class="o">*</span> <span class="n">joint</span> <span class="o">=</span> <span class="n">link</span><span class="o">-&gt;</span><span class="n">getInboundJoint</span><span class="p">();</span>
+<span class="n">joint</span><span class="o">-&gt;</span><span class="n">setParentPose</span><span class="p">(</span><span class="n">parentAttachment</span><span class="p">);</span>
+<span class="n">joint</span><span class="o">-&gt;</span><span class="n">setChildPose</span><span class="p">(</span><span class="n">childAttachment</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, add the articulation to the scene:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">scene</span><span class="p">.</span><span class="n">addArticulation</span><span class="p">(</span><span class="n">articulation</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="articulation-joints">
+<h2>Articulation Joints<a class="headerlink" href="#articulation-joints" title="Permalink to this headline">¶</a></h2>
+<p>The only form of articulation joint currently supported is an anatomical joint, whose properties are similar to D6 joint configured for a typical rag doll (see <a class="reference internal" href="Joints.html#pxd6joint"><em>D6 Joint</em></a>). Specifically, the joint is a spherical joint, with angular drive, a twist limit around the child joint frame's x-axis, and an elliptical swing cone limit around the parent joint frame's x-axis. The configuration of these properties is very similar to a D6 or spherical joint, but the options provided are slightly different.</p>
+<p>The swing limit is a hard elliptical cone limit which does not support spring or restitution from movement perpendicular to the limit surface. You can set the limit ellipse angle as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">joint</span><span class="o">-&gt;</span><span class="n">setSwingLimit</span><span class="p">(</span><span class="n">yAngle</span><span class="p">,</span> <span class="n">zAngle</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>for the limit angles around y and z. Unlike the PxJoint cone limit the limit provides a tangential spring to limit movement of the axis along the limit surface. Once configured, enable the swing limit:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">joint</span><span class="o">-&gt;</span><span class="n">setSwingLimitEnabled</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The twist limit allows configuration of upper and lower angles:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">joint</span><span class="o">-&gt;</span><span class="n">setTwistLimit</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and again you must explicitly enable it:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">joint</span><span class="o">-&gt;</span><span class="n">setTwistLimitEnabled</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>As usual with joint limits, it is good practice to use a sufficient limit contactDistance value that the solver will start to enforce the limit before the limit threshold is exceeded.</p>
+<p>Articulation joints are not breakable, and it is not possible to retrieve the constraint force applied at the joint.</p>
+</div>
+<div class="section" id="driving-an-articulation">
+<h2>Driving an Articulation<a class="headerlink" href="#driving-an-articulation" title="Permalink to this headline">¶</a></h2>
+<p>Articulations are driven through joint acceleration springs. You can set an orientation target, an angular velocity target, and spring and damping parameters that control how strongly the joint drives towards the target. You can also set compliance values, indicating how strongly a joint resists acceleration. A compliance near zero indicates very strong resistance, and a compliance of 1 indicates no resistance.</p>
+<p>Articulations are driven in two phases. First the joint spring forces are applied (we use the term <em>internal</em> forces for these) and then any <em>external</em> forces such as gravity and contact forces. You may supply different compliance values at each joint for each phase.</p>
+<p>Note that with joint acceleration springs, the required strength of the spring is estimated using just the mass of the two bodies connected by the joint. By contrast, articulation drive springs account for the masses of all the bodies in the articulation, and any stiffness from actuation at other joints. This estimation is an iterative process, controlled using the <em>externalDriveIterations</em> and <em>internalDriveIterations</em> properties of the PxArticulation class.</p>
+<p>Instead of setting the target quaternion for the joint drive, it is possible to set the orientation error term directly as a rotation vector. The value is set as the imaginary part of the target quaternion, with the real part set to 0.</p>
+<blockquote>
+<div><blockquote>
+<div>joint-&gt;setDriveType(PxArticulationJointDriveType::eERROR);
+joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blockquote>
+<p>This allows the spring to be driven with a larger positional error than can be generated by the difference between 2 quaternions. Obtain the same behavior as with target quaternions by computing the error from the target quaternion, link frames, and joint frames as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxTransform</span> <span class="n">cA2w</span> <span class="o">=</span> <span class="n">parentPose</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">joint</span><span class="p">.</span><span class="n">parentPose</span><span class="p">);</span>          <span class="c1">// parent attachment frame</span>
+<span class="n">PxTransform</span> <span class="n">cB2w</span> <span class="o">=</span> <span class="n">childPose</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">joint</span><span class="p">.</span><span class="n">childPose</span><span class="p">);</span>            <span class="c1">// child attachment frame</span>
+<span class="n">transforms</span><span class="p">.</span><span class="n">cB2cA</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">cA2w</span><span class="p">.</span><span class="n">transformInv</span><span class="p">(</span><span class="n">transforms</span><span class="p">.</span><span class="n">cB2w</span><span class="p">);</span>   <span class="c1">// relative transform</span>
+<span class="k">if</span><span class="p">(</span><span class="n">transforms</span><span class="p">.</span><span class="n">cB2cA</span><span class="p">.</span><span class="n">q</span><span class="p">.</span><span class="n">w</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>                                          <span class="c1">// shortest path path</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">cB2cA</span><span class="p">.</span><span class="n">q</span> <span class="o">=</span> <span class="o">-</span><span class="n">transforms</span><span class="p">.</span><span class="n">cB2cA</span><span class="p">.</span><span class="n">q</span><span class="p">;</span>
+
+<span class="c1">// rotation vector from relative transform to drive pose</span>
+<span class="n">PxVec3</span> <span class="n">error</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">j</span><span class="p">.</span><span class="n">targetPosition</span> <span class="o">*</span> <span class="n">cB2cA</span><span class="p">.</span><span class="n">q</span><span class="p">.</span><span class="n">getConjugate</span><span class="p">());</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="articulation-projection">
+<h2>Articulation Projection<a class="headerlink" href="#articulation-projection" title="Permalink to this headline">¶</a></h2>
+<p>When any of the joints in an articulation separate beyond a specified threshold, the articulation is projected back together automatically. Projection is an iterative process, and the PxArticulation functions <em>PxArticulation::setSeparationTolerance()</em> and <em>PxArticulation::setMaxProjectionIterations()</em> control when projection occurs and trade cost for robustness.</p>
+</div>
+<div class="section" id="articulations-and-sleeping">
+<h2>Articulations and Sleeping<a class="headerlink" href="#articulations-and-sleeping" title="Permalink to this headline">¶</a></h2>
+<p>Like rigid dynamic objects, articulations are also put into a sleep state if their energy falls below a certain threshold for a period of time. In general, all the points in the section <a class="reference internal" href="RigidBodyDynamics.html#sleeping"><em>Sleeping</em></a> apply to articulations as well. The main difference is that articulations can only go to sleep if each individual articulation link fulfills the sleep criteria.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Articulations</a><ul>
+<li><a class="reference internal" href="#creating-an-articulation">Creating an Articulation</a></li>
+<li><a class="reference internal" href="#articulation-joints">Articulation Joints</a></li>
+<li><a class="reference internal" href="#driving-an-articulation">Driving an Articulation</a></li>
+<li><a class="reference internal" href="#articulation-projection">Articulation Projection</a></li>
+<li><a class="reference internal" href="#articulations-and-sleeping">Articulations and Sleeping</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Joints.html"
+                        title="previous chapter">Joints</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="OriginShift.html"
+                        title="next chapter">Scene Origin</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="OriginShift.html" title="Scene Origin"
+             >next</a></li>
+        <li class="right" >
+          <a href="Joints.html" title="Joints"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

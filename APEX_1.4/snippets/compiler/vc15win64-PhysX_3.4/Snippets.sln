@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnippetHelloWorld", "./SnippetHelloWorld.vcxproj", "{DF91286C-A048-0858-C381-C4106C184C0B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnippetCreateActor", "./SnippetCreateActor.vcxproj", "{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnippetResourcesLoading", "./SnippetResourcesLoading.vcxproj", "{5C0CC9F4-4FF4-EF91-BA2C-535447265908}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|x64 = checked|x64
+		debug|x64 = debug|x64
+		profile|x64 = profile|x64
+		release|x64 = release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF91286C-A048-0858-C381-C4106C184C0B}.checked|x64.ActiveCfg = checked|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.checked|x64.Build.0 = checked|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.debug|x64.ActiveCfg = debug|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.debug|x64.Build.0 = debug|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.profile|x64.ActiveCfg = profile|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.profile|x64.Build.0 = profile|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.release|x64.ActiveCfg = release|x64
+		{DF91286C-A048-0858-C381-C4106C184C0B}.release|x64.Build.0 = release|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.checked|x64.ActiveCfg = checked|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.checked|x64.Build.0 = checked|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.debug|x64.ActiveCfg = debug|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.debug|x64.Build.0 = debug|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.profile|x64.ActiveCfg = profile|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.profile|x64.Build.0 = profile|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.release|x64.ActiveCfg = release|x64
+		{30A70CC2-8C6A-C7BC-8CD0-8CAA7A0C0920}.release|x64.Build.0 = release|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.checked|x64.ActiveCfg = checked|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.checked|x64.Build.0 = checked|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.debug|x64.ActiveCfg = debug|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.debug|x64.Build.0 = debug|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.profile|x64.ActiveCfg = profile|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.profile|x64.Build.0 = profile|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.release|x64.ActiveCfg = release|x64
+		{5C0CC9F4-4FF4-EF91-BA2C-535447265908}.release|x64.Build.0 = release|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{3C502F21-3100-E267-FBA8-2AA0C3E5FA4C}</ProjectGuid>
+		<RootNamespace>ApexFramework</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/ApexFramework/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)DEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;./../../framework/include;./../../framework/include/autogen;./../../common/include;./../../common/include/autogen;./../../shared/internal/include;./../../NvParameterized/include;./../../shared/general/RenderDebug/public;./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/PairFilter/include;./../../shared/general/PairFilter/public;../../../PxShared/src/pvd/src;../../../PxShared/src/cudamanager/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/ApexFramework/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;./../../framework/include;./../../framework/include/autogen;./../../common/include;./../../common/include/autogen;./../../shared/internal/include;./../../NvParameterized/include;./../../shared/general/RenderDebug/public;./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/PairFilter/include;./../../shared/general/PairFilter/public;../../../PxShared/src/pvd/src;../../../PxShared/src/cudamanager/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3Common_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/ApexFramework/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)PROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;./../../framework/include;./../../framework/include/autogen;./../../common/include;./../../common/include/autogen;./../../shared/internal/include;./../../NvParameterized/include;./../../shared/general/RenderDebug/public;./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/PairFilter/include;./../../shared/general/PairFilter/public;../../../PxShared/src/pvd/src;../../../PxShared/src/cudamanager/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/ApexFramework/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)CHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;./../../framework/include;./../../framework/include/autogen;./../../common/include;./../../common/include/autogen;./../../shared/internal/include;./../../NvParameterized/include;./../../shared/general/RenderDebug/public;./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/PairFilter/include;./../../shared/general/PairFilter/public;../../../PxShared/src/pvd/src;../../../PxShared/src/cudamanager/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win32;../../../PhysX_3.4/Lib/vc12win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\framework\src\autogen\BufferF32x1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferF32x2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferF32x3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferF32x4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU16x1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU16x2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU16x3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU16x4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU32x1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU32x2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU32x3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU32x4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU8x1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU8x2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU8x3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\BufferU8x4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\RenderMeshAssetParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\SubmeshParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\SurfaceBufferParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\VertexBufferParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\autogen\VertexFormatParameters.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\framework\src\windows\AgMMFile.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\windows\PhysXIndicator.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\framework\src\ApexAssetPreviewScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexCreateSDK.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexCustomBufferIterator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexRenderDebug.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexRenderMeshActor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexRenderMeshAsset.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexRenderMeshAssetAuthoring.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexRenderSubmesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexResourceProvider.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexSceneTasks.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexSceneUserNotify.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexSDKImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexSDKVersionString.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexVertexBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ApexVertexFormat.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\FrameworkProfile.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\MirrorSceneImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\framework\src\ThreadPool.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\framework\include\autogen\BufferF32x1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferF32x2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferF32x3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferF32x4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU16x1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU16x2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU16x3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU16x4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU32x1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU32x2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU32x3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU32x4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU8x1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU8x2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU8x3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\BufferU8x4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\ModuleFrameworkRegistration.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\RenderMeshAssetParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\SubmeshParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\SurfaceBufferParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\VertexBufferParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\autogen\VertexFormatParameters.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\framework\include\ApexAssetPreviewScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexCustomBufferIterator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexDefaultStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexInteropableBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexPhysXObjectDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexRenderDebug.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexRenderMeshActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexRenderMeshAsset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexRenderMeshAssetAuthoring.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexRenderSubmesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexResourceProvider.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexSceneTasks.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexSceneUserNotify.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexSDKImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexStubPxProfileZone.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexVertexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ApexVertexFormat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\CudaProfileManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\FrameworkEventDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\FrameworkPerfScope.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\MirrorSceneImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\PVDBindingErrorStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\RenderResourceManagerWrapper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\framework\include\ThreadPool.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\PhysX3\PhysXSDKVersion.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\Actor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Apex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexCudaContextManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexInterface.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexNameSpace.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexSDK.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexSDKCachedData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexSDKVersionString.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApexUsingNamespace.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Asset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\AssetPreview.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\AssetPreviewScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Context.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ConvexHullMethod.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\CudaTestManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Curve.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\CustomBufferIterator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\IosAsset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\IProgressListener.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Lock.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\MirrorScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Module.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\PhysXObjectDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\PxStreamFromFileBuf.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Renderable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderBufferData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderContext.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderDataFormat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderDataProvider.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderDebugInterface.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderMeshActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderMeshActorDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderMeshAsset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ResourceCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ResourceProvider.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\RWLockable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Scene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\ScopedPhysXLock.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\Shape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\TestBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserOpaqueMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderBoneBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderBoneBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderIndexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderIndexBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderInstanceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderInstanceBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderResource.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderResourceDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderResourceManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderSpriteBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderSpriteBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderSurfaceBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderSurfaceBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderVertexBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\UserRenderVertexBufferDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\VertexFormat.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\framework\parameters\ApexRenderMeshAssetParamSchema.pl">
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../NvParameterized/compiler/vc12win32-PhysX_3.4/NvParameterized.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PsFastXml.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../shared/general/RenderDebug/compiler/vc12win32-PhysX_3.4/RenderDebug.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxTask.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win32/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexShared.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

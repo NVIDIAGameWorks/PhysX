@@ -1,0 +1,95 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Samples", "./Samples.vcxproj", "{D5174F6A-3F80-2864-B100-0DA6F0E53A70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7} = {DD323D8B-0B68-74C5-043C-91BBE6A810A7}
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48} = {AE26EE6F-9143-D9EE-6480-FA134AAAFC48}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleBase", "./SampleBase.vcxproj", "{DD323D8B-0B68-74C5-043C-91BBE6A810A7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DEB7F8C6-4512-D660-4816-212EF0806A58} = {DEB7F8C6-4512-D660-4816-212EF0806A58}
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C} = {67A61354-2C14-B851-8530-DDD43BDC1D9C}
+		{75A6206D-F123-AEE0-FF3D-386A62604731} = {75A6206D-F123-AEE0-FF3D-386A62604731}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleFramework-MT", "./../../SampleFramework/framework/compiler/vc15win32/SampleFramework-MT.vcxproj", "{DEB7F8C6-4512-D660-4816-212EF0806A58}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SampleRenderer-MT", "./../../SampleFramework/renderer/compiler/vc15win32/SampleRenderer-MT.vcxproj", "{67A61354-2C14-B851-8530-DDD43BDC1D9C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePlatform-MT", "./../../SampleFramework/platform/compiler/vc15win32/SamplePlatform-MT.vcxproj", "{75A6206D-F123-AEE0-FF3D-386A62604731}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PxToolkit", "./../../PxToolkit/compiler/vc15win32/PxToolkit.vcxproj", "{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|Win32 = checked|Win32
+		debug|Win32 = debug|Win32
+		profile|Win32 = profile|Win32
+		release|Win32 = release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.checked|Win32.ActiveCfg = checked|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.checked|Win32.Build.0 = checked|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.debug|Win32.ActiveCfg = debug|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.debug|Win32.Build.0 = debug|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.profile|Win32.ActiveCfg = profile|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.profile|Win32.Build.0 = profile|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.release|Win32.ActiveCfg = release|Win32
+		{D5174F6A-3F80-2864-B100-0DA6F0E53A70}.release|Win32.Build.0 = release|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.checked|Win32.ActiveCfg = checked|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.checked|Win32.Build.0 = checked|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.debug|Win32.ActiveCfg = debug|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.debug|Win32.Build.0 = debug|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.profile|Win32.ActiveCfg = profile|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.profile|Win32.Build.0 = profile|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.release|Win32.ActiveCfg = release|Win32
+		{DD323D8B-0B68-74C5-043C-91BBE6A810A7}.release|Win32.Build.0 = release|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.checked|Win32.ActiveCfg = checked|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.checked|Win32.Build.0 = checked|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.debug|Win32.ActiveCfg = debug|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.debug|Win32.Build.0 = debug|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.profile|Win32.ActiveCfg = profile|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.profile|Win32.Build.0 = profile|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.release|Win32.ActiveCfg = release|Win32
+		{DEB7F8C6-4512-D660-4816-212EF0806A58}.release|Win32.Build.0 = release|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.checked|Win32.ActiveCfg = checked|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.checked|Win32.Build.0 = checked|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.debug|Win32.ActiveCfg = debug|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.debug|Win32.Build.0 = debug|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.profile|Win32.ActiveCfg = profile|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.profile|Win32.Build.0 = profile|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.release|Win32.ActiveCfg = release|Win32
+		{67A61354-2C14-B851-8530-DDD43BDC1D9C}.release|Win32.Build.0 = release|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.checked|Win32.ActiveCfg = checked|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.checked|Win32.Build.0 = checked|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.debug|Win32.ActiveCfg = debug|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.debug|Win32.Build.0 = debug|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.profile|Win32.ActiveCfg = profile|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.profile|Win32.Build.0 = profile|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.release|Win32.ActiveCfg = release|Win32
+		{75A6206D-F123-AEE0-FF3D-386A62604731}.release|Win32.Build.0 = release|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.checked|Win32.ActiveCfg = checked|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.checked|Win32.Build.0 = checked|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.debug|Win32.ActiveCfg = debug|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.debug|Win32.Build.0 = debug|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.profile|Win32.ActiveCfg = profile|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.profile|Win32.Build.0 = profile|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.release|Win32.ActiveCfg = release|Win32
+		{AE26EE6F-9143-D9EE-6480-FA134AAAFC48}.release|Win32.Build.0 = release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

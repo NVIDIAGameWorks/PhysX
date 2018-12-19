@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{777EFDFD-2EF5-4F0E-2222-6F9A226C5709}</ProjectGuid>
+		<RootNamespace>APEX_Destructible</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../bin/vc12win64-PhysX_3.4\</OutDir>
+		<IntDir>./build/x64/APEX_Destructible/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)DEBUG_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonDEBUG_x64.lib;PhysX3DEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x64.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../bin/vc12win64-PhysX_3.4\</OutDir>
+		<IntDir>./build/x64/APEX_Destructible/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3Common_x64.lib;PhysX3_x64.lib;PhysX3Extensions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x64.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../bin/vc12win64-PhysX_3.4\</OutDir>
+		<IntDir>./build/x64/APEX_Destructible/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)PROFILE_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonPROFILE_x64.lib;PhysX3PROFILE_x64.lib;PhysX3ExtensionsPROFILE.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x64.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../bin/vc12win64-PhysX_3.4\</OutDir>
+		<IntDir>./build/x64/APEX_Destructible/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)CHECKED_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../framework/include;./../../framework/include/autogen;./../../include/destructible;./../../module/destructible/include;./../../module/destructible/include/autogen;./../../module/destructible/fracture;./../../module/destructible/fracture/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x64 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CHECKED_x64.lib;PhysX3ExtensionsCHECKED.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc12win64;../../../PhysX_3.4/Lib/vc12win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x64.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc12win64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\src\autogen\CachedOverlaps.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorChunks.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorParam.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorState.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleAssetCollisionDataSet.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleAssetParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleDebugRenderParams.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleModuleParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructiblePreviewParam.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\MeshCookedCollisionStream.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\MeshCookedCollisionStreamsAtScale.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\SurfaceTraceParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\SurfaceTraceSetParameters.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleActorImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleActorJointImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleAssetImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructiblePreviewImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleRenderableImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleSceneSyncParams.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleStructure.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleStructureStressSolver.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\ModuleDestructibleImpl.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\ActorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundCreatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundGeometryBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\ConvexBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\Delaunay2dBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\Delaunay3dBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\FracturePatternBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IceBoxPruningBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IceRevisitedRadixBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IslandDetectorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\MeshBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\MeshClipperBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\PolygonTriangulatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\SimSceneBase.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\ActorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundCreatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundGeometryBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\ConvexBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\Delaunay2dBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\Delaunay3dBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\FracturePatternBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IceBoxPruningBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IceRevisitedRadixBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IslandDetectorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\MeshBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\MeshClipperBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\PolygonTriangulatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\SimSceneBase.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\fracture\Actor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Compound.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\CompoundCreator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\CompoundGeometry.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Convex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Delaunay2d.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Delaunay3d.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\FracturePattern.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IceBoxPruning.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IceRevisitedRadix.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IslandDetector.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Mesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\MeshClipper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\PolygonTriangulator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Renderable.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\SimScene.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\module\destructible\fracture\Actor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Compound.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\CompoundCreator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\CompoundGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Convex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Delaunay2d.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Delaunay3d.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\FracturePattern.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IceBoxPruning.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IceRevisitedRadix.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IslandDetector.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Mesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\MeshClipper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\PolygonTriangulator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Renderable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\RTdef.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\SimScene.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible\include\autogen\CachedOverlaps.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorChunks.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorParam.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorState.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleAssetCollisionDataSet.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleAssetParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleDebugRenderParams.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleModuleParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructiblePreviewParam.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\MeshCookedCollisionStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\MeshCookedCollisionStreamsAtScale.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\ModuleDestructibleRegistration.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\SurfaceTraceParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\SurfaceTraceSetParameters.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorJointImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorJointProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleAssetImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleAssetProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructiblePreviewImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructiblePreviewProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleRenderableImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleStructure.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleStructureStressSolver.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModuleDestructibleImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModuleEventDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModulePerfScope.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\destructible\DestructibleActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleActorJoint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleAsset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructiblePreview.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleRenderable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\ExplicitHierarchicalMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\FractureToolsAPI.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\FractureToolsStructs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\ModuleDestructible.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexShared.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PsFastXml.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../NvParameterized/compiler/vc12win64-PhysX_3.4/NvParameterized.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc12win64/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

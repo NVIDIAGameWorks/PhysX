@@ -1,0 +1,72 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+};
+
+VertexOut  vmain(__in(float4,     localSpacePosition, POSITION)
+                 __in_opt(half4,  vertexColor,        COLOR)
+                 __in_opt(float3, localSpaceNormal,   NORMAL)
+                 __in_opt(float4, localSpaceTangent,  SEMANTIC_TANGENT)
+                 __in_opt(float4, vertexTexcoord0,    TEXCOORD0)
+                 __in_opt(float4, vertexTexcoord1,    TEXCOORD1)
+                 __in_opt(float4, vertexTexcoord2,    TEXCOORD2)
+                 __in_opt(float4, vertexTexcoord3,    TEXCOORD3)
+                 , __in(float3,   instancePosition,   TEXCOORD8)
+                 , __in(float4,   instanceVelocity,   TEXCOORD9)
+                 )
+{
+	VertexOut vout;
+	
+	float4x4 modelMatrix = g_modelMatrix;
+/*
+#if RENDERER_INSTANCED
+	modelMatrix = transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1)));
+#else
+	modelMatrix = g_modelMatrix;
+#endif*/
+
+	float4 worldSpacePos 		 = float4(0.05,0.05,0.05,1)*localSpacePosition.xyzw;//mul( modelMatrix, localSpacePosition);
+	
+	worldSpacePos.xyz += instancePosition.xyz;
+	
+	
+	float4x4 vpm                  = mul(g_projMatrix, g_viewMatrix);
+	vout.screenSpacePosition       = mul(vpm, worldSpacePos);
+	
+	vout.params.worldSpacePosition = mul(modelMatrix, localSpacePosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(modelMatrix, float4(localSpaceTangent.xyz, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent) * localSpaceTangent.w;
+	
+	vout.params.texcoord0   = vertexTexcoord0;
+	vout.params.texcoord1   = vertexTexcoord1;
+	vout.params.texcoord2   = vertexTexcoord2;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3   = vertexTexcoord3;
+#endif	
+	
+/*
+	vout.params.color.xyz = saturate((instanceVelocity.xyz / float3(6,6,6)) + float3(1,1,1));
+	vout.params.color.w = 1;
+	
+	if(instanceVelocity.w > 0.75)
+		vout.params.color       *= float4(1,0,0,1);
+	else if(instanceVelocity.w > 0.5)
+		vout.params.color       *= float4(1,0,1,1);
+	else if(instanceVelocity.w > 0.25)		
+		vout.params.color       *= float4(0,1,1,1);
+	else
+		vout.params.color       *= float4(0,0,1,1);
+		
+*/
+	//simpler colors for debugging
+	vout.params.color.xyz = float3(1*instanceVelocity.w,0,0);
+	vout.params.color.w = 1;
+
+	return vout;
+}

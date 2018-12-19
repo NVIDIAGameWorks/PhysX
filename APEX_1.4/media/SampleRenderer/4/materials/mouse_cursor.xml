@@ -1,0 +1,8 @@
+<material type="unlit">
+	<shader name="vertex">vertex/mouse.cg</shader>
+	<shader name="fragment">fragment/simple_diffuse.cg</shader>
+	<blending>true</blending>
+	<variables>
+        <sampler2D name="diffuseTexture">textures/mouse.dds</sampler2D>
+	</variables>
+</material>

@@ -1,0 +1,9 @@
+<material type="unlit">
+	<shader name="vertex">vertex/turbulencesprites.cg</shader>
+	<shader name="fragment">fragment/simple_turbulence.cg</shader>
+	<alphaTestFunc>GREATER_EQUAL</alphaTestFunc>
+	<alphaTestRef>0.5</alphaTestRef>
+	<variables>
+		<sampler2D name="diffuseTexture">APEX/0.9/turbulence/textures/smoke.dds</sampler2D>
+	</variables>
+</material>

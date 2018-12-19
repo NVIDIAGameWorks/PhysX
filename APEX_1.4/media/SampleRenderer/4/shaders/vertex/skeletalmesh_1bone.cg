@@ -1,0 +1,75 @@
+
+#include <config.cg>
+#include <globals.cg>
+#include <tessellation.cg>
+
+VertexOut  vmain(__in(float4,       localSpacePosition, POSITION)
+                 __in_opt(float3,   localSpaceNormal,   NORMAL)
+                 __in_opt(float4,   localSpaceTangent,  SEMANTIC_TANGENT)
+                 __in_opt(float4,   vertexTexcoord0,    TEXCOORD0)
+                 __in_opt(float4,   vertexTexcoord1,    TEXCOORD1)
+                 __in_opt(float4,   vertexTexcoord2,    TEXCOORD2)
+                 __in_opt(float4,   vertexTexcoord3,    TEXCOORD3)
+                 __in_opt(half4,    vertexColor,        COLOR)
+                 , __in(int,        boneIndex,          SEMANTIC_BONEINDEX)
+               #if RENDERER_DISPLACED
+                 __in_opt(uint,      vertexFlagsDisp,     SEMANTIC_DISPLACEMENT_FLAGS)
+               #endif
+                 )
+{
+	VertexOut vout;
+
+#if defined USE_VTF
+	float4x4 boneMatrix;
+	const float boneTextureIdx = ((float)boneIndex + 0.5f) / g_boneTextureHeight;
+	boneMatrix[0] = tex2Dlod(g_boneTexture, float4(0.5f / 4.f, boneTextureIdx, 0, 0));
+	boneMatrix[1] = tex2Dlod(g_boneTexture, float4(1.5f / 4.f, boneTextureIdx, 0, 0));
+	boneMatrix[2] = tex2Dlod(g_boneTexture, float4(2.5f / 4.f, boneTextureIdx, 0, 0));
+	boneMatrix[3] = tex2Dlod(g_boneTexture, float4(3.5f / 4.f, boneTextureIdx, 0, 0));
+#else
+	float4x4 boneMatrix = g_boneMatrices[boneIndex];
+#endif
+
+	float4   skinnedPosition = mul(boneMatrix, localSpacePosition);
+	float3   skinnedNormal   = mul(boneMatrix, float4(localSpaceNormal,  0)).xyz;
+#if !defined(GLSL_COMPILER)
+	float3   skinnedTangent  = mul(boneMatrix, float4(localSpaceTangent.xyz, 0)).xyz;
+#endif
+	
+#if !defined(GLSL_COMPILER)
+	float4x4 mvpm                  = mul(g_projMatrix, g_modelViewMatrix); // TODO: should use g_modelViewProjMatrix....
+	vout.screenSpacePosition       = mul(mvpm, skinnedPosition);
+#else
+	vout.screenSpacePosition       = mul(g_MVP, skinnedPosition);
+#endif
+	
+#if !defined(GLSL_COMPILER)
+	vout.params.worldSpacePosition = mul(g_modelMatrix, skinnedPosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(g_modelMatrix, float4(skinnedNormal,  0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(g_modelMatrix, float4(skinnedTangent, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceTangent, vout.params.worldSpaceNormal) * localSpaceTangent.w;
+#else
+	vout.params.worldSpacePosition = mul(g_modelMatrix, skinnedPosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(g_modelMatrix, float4(skinnedNormal,  0)).xyz);
+#endif	
+
+	vout.params.texcoord0   = vertexTexcoord0;
+	vout.params.texcoord1   = vertexTexcoord1;
+	vout.params.texcoord2   = vertexTexcoord2;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3   = vertexTexcoord3;
+#endif	
+	vout.params.color       = swizzle(vertexColor);
+
+#if RENDERER_DISPLACED
+	vout.localPosition       = localSpacePosition;
+	vout.flagsDisp           = vertexFlagsDisp;
+	float4x4 modelBoneMatrix = mul(g_modelMatrix, boneMatrix);
+	vout.modelMatrix[0]      = modelBoneMatrix[0];
+	vout.modelMatrix[1]      = modelBoneMatrix[1];
+	vout.modelMatrix[2]      = modelBoneMatrix[2];
+	vout.modelMatrix[3]      = modelBoneMatrix[3];
+#endif
+
+	return vout;
+}

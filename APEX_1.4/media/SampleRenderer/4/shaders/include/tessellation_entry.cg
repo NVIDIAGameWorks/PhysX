@@ -1,0 +1,309 @@
+#ifndef TESSELLATION_ENTRY_CG
+#define TESSELLATION_ENTRY_CG
+
+#define ENABLE_EXTRA_SEMANTICS 1
+#include <tessellation.cg>
+#include <config.cg>
+
+//--------------------------------------------------------------------------------------
+// Functions
+//--------------------------------------------------------------------------------------
+
+// To be defined by the user
+void computeOffsetAndNormal(in float3 vLocalPos, in float3 vFaceNormal, in float3 vBaryCoords,
+                            inout float3 vOffset, inout float3 vNormal);
+
+//--------------------------------------------------------------------------------------
+// Structures
+//--------------------------------------------------------------------------------------
+
+struct HullConstOut
+{
+	float     Edges[3]         : SV_TessFactor;
+	float     Inside           : SV_InsideTessFactor;
+	float3    EdgeFactors      : POSITION3;
+	bool3     EdgeInterior     : SEMANTIC_INTERIOR;
+	float4x4  ModelMatrix      : SEMANTIC_MODEL_MATRIX;
+};
+
+struct HullControlOut
+{
+	FragmentParameters params;
+	float3 vWorldPos            : SV_POSITION;
+	float3 vLocalPos            : SEMANTIC_DISPLACEMENT_POSITION;
+	float  fWeightDisp          : SEMANTIC_DISPLACEMENT_WEIGHT;
+	uint   uAxis                : SEMANTIC_DISPLACEMENT_AXIS;
+};
+
+struct DomainOut
+{
+	FragmentParameters params;
+	float4 screenSpacePosition : SV_POSITION;
+};
+
+//--------------------------------------------------------------------------------------
+// Hull shader
+//--------------------------------------------------------------------------------------
+HullConstOut ConstantsHS( InputPatch<VertexOut, 3> inputPatch, uint uPID : SV_PrimitiveID )
+{
+	HullConstOut output  = (HullConstOut)0;
+	float4 vEdgeTessellationFactors = g_tessFactor.xxxy;
+	float3 vEdgeFactor;
+	bool3 vInterior;
+
+#if 0
+	vEdgeFactor.x = distance(inputPatch[1].params.worldSpacePosition.xyz, inputPatch[2].params.worldSpacePosition.xyz);
+	vEdgeFactor.y = distance(inputPatch[2].params.worldSpacePosition.xyz, inputPatch[0].params.worldSpacePosition.xyz);
+	vEdgeFactor.z = distance(inputPatch[1].params.worldSpacePosition.xyz, inputPatch[0].params.worldSpacePosition.xyz);
+	if( (vEdgeFactor.x > vEdgeFactor.y) && (vEdgeFactor.x > vEdgeFactor.z) )      { vEdgeFactor = float3(0.,1.,1.); vInterior.x = true; }
+	else if( (vEdgeFactor.y > vEdgeFactor.x) && (vEdgeFactor.y > vEdgeFactor.z) ) { vEdgeFactor = float3(1.,0.,1.); vInterior.y = true; }
+	else                                                                          { vEdgeFactor = float3(1.,1.,0.); vInterior.z = true; }
+#elif 1
+	// Assume all edges are exterior
+	vInterior = bool3(false, false, false);
+	vEdgeFactor = float3(1., 1., 1.);
+	// For some stupid reason, odd primitives have a different vertex order
+	if (uPID % 2 == 0)
+	{
+		vInterior[0] = isEdgeInterior(inputPatch[1].flagsDisp);
+		vInterior[1] = isEdgeInterior(inputPatch[2].flagsDisp);
+		vInterior[2] = isEdgeInterior(inputPatch[0].flagsDisp);
+	} 
+	else
+	{
+		vInterior[0] = isEdgeInterior(inputPatch[2].flagsDisp);
+		vInterior[1] = isEdgeInterior(inputPatch[0].flagsDisp);
+		vInterior[2] = isEdgeInterior(inputPatch[1].flagsDisp);
+	}
+	// If the edge is interior, it will not be used to calculate "inner" distance
+	if(vInterior[0]) vEdgeFactor[0] = 0.;
+	if(vInterior[1]) vEdgeFactor[1] = 0.;
+	if(vInterior[2]) vEdgeFactor[2] = 0.;
+#elif 0
+// 	bool3 vbInterior;
+// 	vbInterior.x = isInterior(inputPatch[0].flagsDisp);
+// 	vbInterior.y = isInterior(inputPatch[1].flagsDisp);
+// 	vbInterior.z = isInterior(inputPatch[2].flagsDisp);
+// 	if( vbInterior.x && vbInterior.y && vbInterior.z ) vEdgeFactor = float3(0.,0.,0.);
+// 	else if( vbInterior.y && vbInterior.z ) { vEdgeFactor = float3(0.,1.,1.); vInterior.x = true; }
+// 	else if( vbInterior.z && vbInterior.x ) { vEdgeFactor = float3(1.,0.,1.); vInterior.y = true; }
+// 	else if( vbInterior.x && vbInterior.y ) { vEdgeFactor = float3(1.,1.,0.); vInterior.z = true; }
+// 	else                                      vEdgeFactor = float3(1.,1.,1.);
+#elif 0
+// 	if( vbInterior.y && vbInterior.z ) { vEdgeFactor = float3(0.,1.,1.); vInterior.x = true; }
+// 	else if( vbInterior.z && vbInterior.x ) { vEdgeFactor = float3(1.,0.,1.); vInterior.y = true; }
+// 	else if( vbInterior.x && vbInterior.y ) { vEdgeFactor = float3(1.,1.,0.); vInterior.z = true; }
+// 	else                                      vEdgeFactor = float3(1.,1.,1.);
+#endif
+
+#if ADAPTIVE_TESSELLATION
+
+	float3 distanceFactor;
+	distanceFactor.x = computeDistance(inputPatch[0].params.worldSpacePosition.xyz, g_eyePosition);
+	distanceFactor.y = computeDistance(inputPatch[1].params.worldSpacePosition.xyz, g_eyePosition);
+	distanceFactor.z = computeDistance(inputPatch[2].params.worldSpacePosition.xyz, g_eyePosition);
+
+	/*
+	// Only apply LOD if the screen space triangle size is below a given threshold
+	float3 ab = inputPatch[0].screenSpacePosition.xyz - inputPatch[1].screenSpacePosition.xyz;
+	float3 ac = inputPatch[0].screenSpacePosition.xyz - inputPatch[2].screenSpacePosition.xyz;
+	float3 abCrossAc = cross(ab,ac);
+	float area2 = dot(abCrossAc, abCrossAc);
+	if (area2 < g_tessFactor.w)
+	*/
+	{
+		// Calculate edge scale factor from vertex scale factor: simply compute
+		// average tess factor between the two vertices making up an edge
+		vEdgeTessellationFactors.x = 0.5 * ( distanceFactor.y + distanceFactor.z);
+		vEdgeTessellationFactors.y = 0.5 * ( distanceFactor.z + distanceFactor.x);
+		vEdgeTessellationFactors.z = 0.5 * ( distanceFactor.x + distanceFactor.y);
+		vEdgeTessellationFactors.w = vEdgeTessellationFactors.x;
+
+		// Multiply them by global tessellation factor
+		vEdgeTessellationFactors *= g_tessFactor.xxxy;
+	}
+
+#endif
+
+	// Assign tessellation levels
+	output.Edges[0]     = vEdgeTessellationFactors.x;
+	output.Edges[1]     = vEdgeTessellationFactors.y;
+	output.Edges[2]     = vEdgeTessellationFactors.z;
+	output.Inside       = vEdgeTessellationFactors.w;
+	output.EdgeFactors  = vEdgeFactor;
+	output.EdgeInterior = vInterior;
+	output.ModelMatrix  = float4x4(inputPatch[0].modelMatrix[0],
+	                               inputPatch[0].modelMatrix[1],
+	                               inputPatch[0].modelMatrix[2],
+	                               inputPatch[0].modelMatrix[3]);
+
+	return output;
+}
+
+[domain("tri")]
+[partitioning("fractional_odd")]
+[outputtopology("triangle_cw")]
+[outputcontrolpoints(3)]
+[patchconstantfunc("ConstantsHS")]
+[maxtessfactor(15.0)]
+HullControlOut hmain( InputPatch<VertexOut, 3> inputPatch, uint uCPID : SV_OutputControlPointID )
+{
+	HullControlOut output;
+
+	output.params         = inputPatch[uCPID].params;
+	output.vWorldPos      = inputPatch[uCPID].params.worldSpacePosition;
+	output.vLocalPos      = inputPatch[uCPID].localPosition.xyz;
+	output.fWeightDisp    = getDisplacementWeight(inputPatch[uCPID].flagsDisp);
+	output.uAxis          = getDisplacementAxis(inputPatch[uCPID].flagsDisp);
+
+	return output;
+}
+
+//--------------------------------------------------------------------------------------
+// Domain Shader
+//--------------------------------------------------------------------------------------
+[domain("tri")]
+DomainOut dmain( HullConstOut input,
+                 float3 BarycentricCoordinates : SV_DomainLocation,
+                 const OutputPatch<HullControlOut, 3> inputPatch )
+{
+	DomainOut output;
+
+	float fU = BarycentricCoordinates.x;
+	float fV = BarycentricCoordinates.y;
+	float fW = BarycentricCoordinates.z;
+
+	// Interpolate world space position with barycentric coordinates
+	float3 vWorldPos = fU * inputPatch[0].vWorldPos +
+	                   fV * inputPatch[1].vWorldPos +
+	                   fW * inputPatch[2].vWorldPos;
+
+	// Interpolate world space normal and renormalize it
+	float3 vNormal = fU * inputPatch[0].params.worldSpaceNormal +
+	                 fV * inputPatch[1].params.worldSpaceNormal +
+	                 fW * inputPatch[2].params.worldSpaceNormal;
+	vNormal = normalize( vNormal );
+
+	// Interpolate world space normal and renormalize it
+	float3 vBiNormal = fU * inputPatch[0].params.worldSpaceBinormal +
+	                   fV * inputPatch[1].params.worldSpaceBinormal+
+	                   fW * inputPatch[2].params.worldSpaceBinormal;
+	output.params.worldSpaceBinormal = normalize( vBiNormal );
+
+	// Interpolate world space tangent and renormalize it
+	float3 vTangent = fU * inputPatch[0].params.worldSpaceTangent +
+	                  fV * inputPatch[1].params.worldSpaceTangent +
+	                  fW * inputPatch[2].params.worldSpaceTangent;
+	output.params.worldSpaceTangent = normalize( vTangent );
+
+	// Interpolate color
+	output.params.color  = (half)fU * inputPatch[0].params.color +
+	                       (half)fV * inputPatch[1].params.color +
+	                       (half)fW * inputPatch[2].params.color;
+
+	// Interpolate local space position with barycentric coordinates
+	float3 vLocalPos     = fU * inputPatch[0].vLocalPos +
+	                       fV * inputPatch[1].vLocalPos +
+	                       fW * inputPatch[2].vLocalPos;
+
+	// Transform world space normal into local coordinates
+	float3 vLocalNormal  = normalize(mul(transpose((float3x3)input.ModelMatrix), vNormal));
+
+	// Interpolate the displacement weight with barycentric coordinates
+#if 1
+	float fWeightDisp     = fU * inputPatch[0].fWeightDisp +
+	                        fV * inputPatch[1].fWeightDisp +
+	                        fW * inputPatch[2].fWeightDisp;
+#else
+	float3 vWeightDisp = float3(fU * (1 - inputPatch[0].fWeightDisp),
+	                            fV * (1 - inputPatch[1].fWeightDisp),
+	                            fW * (1 - inputPatch[2].fWeightDisp));
+	float fWeightDisp = 1. - max(vWeightDisp.x, max(vWeightDisp.y, vWeightDisp.z));
+#endif
+
+#if ENABLE_INTERIOR_DISTANCE
+	// Compute the interior weight as a function of distance from the shorterst 2 edges
+	float fWeightInterior = getInteriorDistance(input.EdgeFactors, BarycentricCoordinates);
+
+	// Compose the weight as a combination of the two with range [0,1], and scale by a global factor
+	float fWeight = sqrt(fWeightDisp) * .5 + fWeightInterior *.5;
+#else
+	float fWeight = sqrt(fWeightDisp);
+#endif
+	fWeight = clamp(fWeight, 0, 1);
+
+	// Call user defined displacement function
+	float3 vOffset;
+	float3 vOffsetNormal;
+	computeOffsetAndNormal(vLocalPos, vLocalNormal, BarycentricCoordinates,
+	                       vOffset, vOffsetNormal);
+
+#if ENABLE_INTERIOR_DISTANCE
+	//   Restricts interior offsets to those projected along the face normal, and scale
+	vOffset  = (vOffset.xyz                                   * (1.f - fWeightInterior)) +
+	           (dot(vOffset.xyz, vLocalNormal) * vLocalNormal * (      fWeightInterior));
+#endif
+
+	// Transform the computed offset into world space
+	vOffset       = mul((float3x3)input.ModelMatrix, vOffset);
+	vOffsetNormal = mul((float3x3)input.ModelMatrix, vOffsetNormal);
+
+	// Compute the final world space position
+	vWorldPos += vOffset * fWeight * g_tessHeightScaleAndBias.x;;
+
+	output.params.worldSpacePosition = vWorldPos;
+
+	// Compute the final world space normal
+	output.params.worldSpaceNormal = normalize(vNormal*(1-fWeight) + vOffsetNormal*fWeight);
+
+	// Recompute the barycentric coordinates at the displaced location
+	float3 newBarys = computeBarycentricCoordinates(vWorldPos, vNormal, inputPatch[0].vWorldPos, inputPatch[1].vWorldPos, inputPatch[2].vWorldPos);
+	fU = newBarys.x;
+	fV = newBarys.y;
+	fW = newBarys.z;
+
+	// Interpolate texcoords with the new barycentric coordinates
+	output.params.texcoord0 = fU * inputPatch[0].params.texcoord0 +
+	                          fV * inputPatch[1].params.texcoord0 +
+	                          fW * inputPatch[2].params.texcoord0;
+	output.params.texcoord1 = fU * inputPatch[0].params.texcoord1 +
+	                          fV * inputPatch[1].params.texcoord1 +
+	                          fW * inputPatch[2].params.texcoord1;
+	output.params.texcoord2 = fU * inputPatch[0].params.texcoord2 +
+	                          fV * inputPatch[1].params.texcoord2 +
+	                          fW * inputPatch[2].params.texcoord2;
+	output.params.texcoord3 = fU * inputPatch[0].params.texcoord3 +
+	                          fV * inputPatch[1].params.texcoord3 +
+	                          fW * inputPatch[2].params.texcoord3;
+
+	// Shader Debuggging
+	//output.params.color = half4((half)abs(vTexcoordYDisp.y), (half)0, 0, 0);
+	//output.params.color = half4((half)fWeight, 0, 0, 0);
+	//output.params.color = half4((half)input.EdgeFactors.x, (half)input.EdgeFactors.y, (half)input.EdgeFactors.z, 0);
+	//half4 color[3]; color[0] = color[1] = color[2] = half4(0,0,0,1);
+	//if( input.EdgeInterior.x ) { color[0].x = 1.; color[1].x = 1.; }
+	//if( input.EdgeInterior.y ) { color[1].y = 1.; color[2].y = 1.; }
+	//if( input.EdgeInterior.z ) { color[2].z = 1.; color[0].z = 1.; }
+	/*if( input.EdgeInterior.x ) { color[1].x = 1.; color[2].x = 1.; }
+	if( input.EdgeInterior.y ) { color[2].x = 1.; color[0].x = 1.; }
+	if( input.EdgeInterior.z ) { color[0].x = 1.; color[1].x = 1.; }
+	output.params.color = (half)fU * color[0] + (half)fV * color[1] + (half)fW * color[2];*/
+	//output.params.color = half4((half)isInterior(input[0].EdgeFactors.x, (half)input.EdgeFactors.y, (half)input.EdgeFactors.z, 0);
+	//output.params.color = half4((half)vModelNormal.x, (half)vModelNormal.y, (half)vModelNormal.z, 0);
+	//output.params.color = half4((half)vModelPos.x, (half)vModelPos.y, (half)vModelPos.z, 0);
+	//output.params.color = half4((half)s, (half)t, 0, 0);
+	//output.params.color = half4((half)fU, (half)fV, (half)fW, 0);
+	//output.params.color = half4((half)vOffset.x, (half)vOffset.y, (half)vOffset.z, 0);
+	//output.params.color = half4((half)fWeightInterior, (half)fWeightInterior, (half)fWeightInterior, 0);
+	//output.params.color = half4((half)fWeightDisp, (half)fWeightDisp, (half)fWeightDisp, 0);
+	/*output.params.color = half4((half)fU * inputPatch[0].fWeightDisp +
+	                            (half)fV * inputPatch[1].fWeightDisp +
+	                            (half)fW * inputPatch[2].fWeightDisp, 0, 0, 1);*/
+
+	// Transform world position with viewprojection matrix
+	output.screenSpacePosition = mul(g_projMatrix, mul(g_viewMatrix, float4(vWorldPos.xyz, 1.0)));
+
+	return output;
+}
+
+#endif

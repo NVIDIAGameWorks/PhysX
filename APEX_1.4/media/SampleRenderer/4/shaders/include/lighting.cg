@@ -1,0 +1,108 @@
+
+#ifndef LIGHTING_CG
+#define LIGHTING_CG
+
+#include <config.cg>
+#include <globals.cg>
+
+// Internal Lighting functions...
+Lighting computeAmbientLight(    const FragmentParameters params, const SurfaceMaterial material);
+Lighting computeDirectionalLight(const FragmentParameters params, const SurfaceMaterial material);
+Lighting computePointLight(      const FragmentParameters params, const SurfaceMaterial material);
+Lighting computeSpotLight(       const FragmentParameters params, const SurfaceMaterial material);
+
+#if defined(PASS_SUPPORTS_SHADOWS)
+#define NUM_SHADOW_OFFSETS 32
+static float2 shadowMapOffsets[NUM_SHADOW_OFFSETS] =
+{
+	float2( 0.024439,-0.191747), float2( 0.127369, 0.462646), float2( 0.769628,-0.291028), float2(-0.684950, 0.518250),
+	float2( 0.019485, 0.303360), float2(-0.234805,-0.278718), float2(-0.679808,-0.717623), float2(-0.004622,-0.000659),
+	float2(-0.128309,-0.515931), float2( 0.497521, 0.347996), float2( 0.197836,-0.405042), float2(-0.576391,-0.192435),
+	float2( 0.379497, 0.355307), float2( 0.642894,-0.338695), float2( 0.368096, 0.394195), float2(-0.024818,-0.234009),
+	float2(-0.487682, 0.608270), float2( 0.822138, 0.568698), float2(-0.184849, 0.191561), float2( 0.020395,-0.012156),
+	float2(-0.647774,-0.197404), float2(-0.681738,-0.615919), float2(-0.418447,-0.412937), float2( 0.632155, 0.357966),
+	float2(-0.742742,-0.038003), float2(-0.759170,-0.569653), float2(-0.508216, 0.317101), float2( 0.547166,-0.267258),
+	float2(-0.134347, 0.070130), float2(-0.210947,-0.774648), float2( 0.751069, 0.026197), float2(-0.595643,-0.277915),
+};
+#endif
+
+float computeShadowTerm(const FragmentParameters params)
+{
+	float shadowMask = 1;
+#if defined(PASS_SUPPORTS_SHADOWS) && ENABLE_SHADOWS
+	const float shadowDepthBias = 0.02;
+	const float depthBias = 0.00006;
+
+#if 0
+
+	float4 lsp = mul(float4(params.worldSpacePosition, 1), g_lightShadowMatrix);
+	lsp = float4(float2(0.5,-0.5)*lsp.xy/lsp.w + 0.5, lsp.z/lsp.w - depthBias, 1);
+	shadowMask = tex2Dproj(g_lightShadowMap, lsp).x;
+#elif 1
+
+	const float shadowOffsetScale = 0.005;
+	float4 lsp = mul(float4(params.worldSpacePosition, 1), g_lightShadowMatrix);
+	lsp = float4(float2(0.5,-0.5)*lsp.xy/lsp.w + 0.5, lsp.z/lsp.w - depthBias, 1);
+	shadowMask = 0;
+	for(int i=0; i<NUM_SHADOW_OFFSETS; i++)
+	{
+		float4 texcoord = lsp+float4(shadowMapOffsets[i]*shadowOffsetScale, 0,0);
+		shadowMask += tex2Dproj(g_lightShadowMap, texcoord).x;
+	}
+	shadowMask /= NUM_SHADOW_OFFSETS;
+
+#else
+
+	const float fragmentDepth = length(g_lightPosition-params.worldSpacePosition)-shadowDepthBias;
+	float4 lsp = mul(float4(params.worldSpacePosition, 1), g_lightShadowMatrix);
+	lsp = float4(float2(0.5,-0.5)*lsp.xy/lsp.w + 0.5, lsp.z/lsp.w - depthBias, 1);
+	const float shadowOffsetScale = 0.002;
+
+	float4 shadowSpacePosition = mul(float4(params.worldSpacePosition, 1), g_lightShadowMatrix);
+	float2 shadowUV = float2(0.5,-0.5) * shadowSpacePosition.xy / shadowSpacePosition.w + float2(0.5, 0.5);
+	for(int i=0; i<NUM_SHADOW_OFFSETS/4; i++)
+	{
+		float4 shadowMapColor;
+		shadowMapColor.r = tex2D(g_lightShadowMap, (shadowUV+shadowMapOffsets[i*4+0]*shadowOffsetScale)).r;
+		shadowMapColor.g = tex2D(g_lightShadowMap, (shadowUV+shadowMapOffsets[i*4+1]*shadowOffsetScale)).r;
+		shadowMapColor.b = tex2D(g_lightShadowMap, (shadowUV+shadowMapOffsets[i*4+2]*shadowOffsetScale)).r;
+		shadowMapColor.a = tex2D(g_lightShadowMap, (shadowUV+shadowMapOffsets[i*4+3]*shadowOffsetScale)).r;
+		for(int j=0; j<4; j++)
+		{
+			if(shadowMapColor[j] < lsp.z)
+			{
+				shadowMask -= (1.0f/NUM_SHADOW_OFFSETS);
+			}
+		}
+	}
+
+#endif
+
+#endif
+	return shadowMask;
+}
+
+Lighting computeLighting(const FragmentParameters params, const SurfaceMaterial material)
+{
+	Lighting lout;
+
+#if defined(PASS_AMBIENT_LIGHT)
+	lout = computeAmbientLight(params, material);
+#elif defined(PASS_DIRECTIONAL_LIGHT)
+	lout = computeDirectionalLight(params, material);
+#elif defined(PASS_POINT_LIGHT)
+	lout = computePointLight(params, material);
+#elif defined(PASS_SPOT_LIGHT) || defined(PASS_SPOT_LIGHT_NO_SHADOW)
+	lout = computeSpotLight(params, material);
+#endif
+
+	const float shadowTerm = computeShadowTerm(params);
+	lout.diffuseColor  *= (half)shadowTerm;
+	lout.specularColor *= (half)shadowTerm;
+
+	lout.diffuseColor += (half3)g_ambientColor * material.diffuseColor;
+
+	return lout;
+}
+
+#endif

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{BC4778D3-142F-31D0-46EC-77203F28C874}</ProjectGuid>
+		<RootNamespace>PhysXVehicle</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/PhysXVehicle/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>PhysX3VehicleDEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/vehicle;./../../../Include/common;./../../../Include/geometry;./../../../Include/extensions;./../../../Include/cloth;./../../../Include;./../../../Include/pvd;./../../../Include/physxprofilesdk;./../../Common/src;./../../PhysXVehicle/src;./../../PhysXMetaData/extensions/include;./../../PhysXExtensions/src/serialization/Xml;./../../PhysXMetaData/core/include;./../../PhysXVehicle/src/PhysXMetaData/include;./../../PvdSDK/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3VehicleDEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/PhysXVehicle/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>PhysX3VehicleCHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/vehicle;./../../../Include/common;./../../../Include/geometry;./../../../Include/extensions;./../../../Include/cloth;./../../../Include;./../../../Include/pvd;./../../../Include/physxprofilesdk;./../../Common/src;./../../PhysXVehicle/src;./../../PhysXMetaData/extensions/include;./../../PhysXExtensions/src/serialization/Xml;./../../PhysXMetaData/core/include;./../../PhysXVehicle/src/PhysXMetaData/include;./../../PvdSDK/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3VehicleCHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/PhysXVehicle/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>PhysX3VehiclePROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/vehicle;./../../../Include/common;./../../../Include/geometry;./../../../Include/extensions;./../../../Include/cloth;./../../../Include;./../../../Include/pvd;./../../../Include/physxprofilesdk;./../../Common/src;./../../PhysXVehicle/src;./../../PhysXMetaData/extensions/include;./../../PhysXExtensions/src/serialization/Xml;./../../PhysXMetaData/core/include;./../../PhysXVehicle/src/PhysXMetaData/include;./../../PvdSDK/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3VehiclePROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/PhysXVehicle/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>PhysX3Vehicle</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/vehicle;./../../../Include/common;./../../../Include/geometry;./../../../Include/extensions;./../../../Include/cloth;./../../../Include;./../../../Include/pvd;./../../../Include/physxprofilesdk;./../../Common/src;./../../PhysXVehicle/src;./../../PhysXMetaData/extensions/include;./../../PhysXExtensions/src/serialization/Xml;./../../PhysXMetaData/core/include;./../../PhysXVehicle/src/PhysXMetaData/include;./../../PvdSDK/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3Vehicle.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleComponents.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleDrive.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleDrive4W.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleDriveNW.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleDriveTank.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleNoDrive.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleSDK.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleShaders.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleTireFriction.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleUpdate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleUtil.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleUtilControl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleUtilSetup.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleUtilTelemetry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\vehicle\PxVehicleWheels.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysXVehicle\src\PxVehicleDefaults.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PxVehicleLinearMath.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PxVehicleSerialization.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PxVehicleSuspLimitConstraintShader.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PxVehicleSuspWheelTire4.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleComponents.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleDrive.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleDrive4W.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleDriveNW.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleDriveTank.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleNoDrive.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleSDK.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleSerialization.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleSuspWheelTire4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleTireFriction.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleUpdate.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PxVehicleWheels.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\VehicleUtilControl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\VehicleUtilSetup.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\VehicleUtilTelemetry.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysXVehicle\src\PhysXMetaData\include\PxVehicleAutoGeneratedMetaDataObjectNames.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PhysXMetaData\include\PxVehicleAutoGeneratedMetaDataObjects.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXVehicle\src\PhysXMetaData\include\PxVehicleMetaDataObjects.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\PhysXVehicle\src\PhysXMetaData\src\PxVehicleAutoGeneratedMetaDataObjects.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXVehicle\src\PhysXMetaData\src\PxVehicleMetaDataObjects.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

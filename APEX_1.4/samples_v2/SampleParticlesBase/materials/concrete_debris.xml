@@ -1,0 +1,4 @@
+<material>
+	<shader>mesh_particle</shader>
+	<texture>GrayRock_Tileable_D.dds</texture>
+</material>

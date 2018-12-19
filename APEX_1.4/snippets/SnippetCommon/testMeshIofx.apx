@@ -1,0 +1,61 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="IofxAssetParameters" version="0.2" checksum="0xbb5add57 0xf771d298 0xcd7c3bc3 0x921baa57">
+  <struct name="">
+    <value name="iofxType" type="Ref" included="1" className="MeshIofxParameters" version="0.4" checksum="0x823a573c 0xd18e2215 0x6fc4db63 0x3df0022a">    
+      <struct name="">
+        <array name="renderMeshList" size="2" type="Struct">
+          <struct>
+            <value name="meshAssetName" type="Ref" included="0" className="ApexRenderMesh" objectName="woodChunkmesh"></value>
+            <value name="weight" type="U32">1</value>
+          </struct>
+          <struct>
+            <value name="meshAssetName" type="Ref" included="0" className="ApexRenderMesh" objectName="concreteChunkMesh"></value>
+            <value name="weight" type="U32">1</value>
+          </struct>
+        </array>
+        <array name="spawnModifierList" size="2" type="Ref">
+          <value type="Ref" included="1" className="SimpleScaleModifierParams" version="0.0" checksum="0x7a1ac6ca 0x76ef1cd2 0x991bfe05 0x30c11a09">          
+            <struct name="">
+              <value name="scaleFactor" type="Vec3">0.0250000004 0.0250000004 0.0250000004</value>
+            </struct>
+          </value>
+          <value type="Ref" included="1" className="RotationModifierParams" version="0.2" checksum="0xd2cf5d27 0xa1732803 0xcaa84b84 0x18ed9e7c">          
+            <struct name="">
+              <value name="rollType" type="Enum">SPHERICAL</value>
+              <value name="maxRotationRatePerSec" type="F32">0</value>
+              <value name="maxSettleRatePerSec" type="F32">1</value>
+              <value name="inAirRotationMultiplier" type="F32">1</value>
+              <value name="collisionRotationMultiplier" type="F32">1</value>
+              <value name="includeVerticalDirection" type="Bool">false</value>
+            </struct>
+          </value>
+        </array>
+        <array name="continuousModifierList" size="2" type="Ref">
+          <value type="Ref" included="1" className="RotationModifierParams" version="0.2" checksum="0xd2cf5d27 0xa1732803 0xcaa84b84 0x18ed9e7c">          
+            <struct name="">
+              <value name="rollType" type="Enum">SPHERICAL</value>
+              <value name="maxRotationRatePerSec" type="F32">300</value>
+              <value name="maxSettleRatePerSec" type="F32">100</value>
+              <value name="inAirRotationMultiplier" type="F32">1</value>
+              <value name="collisionRotationMultiplier" type="F32">80</value>
+              <value name="includeVerticalDirection" type="Bool">false</value>
+            </struct>
+          </value>
+          <value type="Ref" included="1" className="ScaleVsLife3DModifierParams" version="0.0" checksum="0xbaddcfda 0x2f4deda9 0x2c23286e 0xf19659fd">          
+            <struct name="">
+              <array name="controlPoints" size="3" type="Struct" structElements="lifeRemaining(F32),scale(Vec3)">
+                1 1.52666676 1.52666676 1.52666676,0.337500036 1.00666666 1.00666666 1.00666666,0 0.0133333337 0.0133333337 0.0133333337
+              </array>
+            </struct>
+          </value>
+        </array>
+      </struct>
+    </value>
+    <struct name="renderOutput">
+      <value name="useUserSemantic" type="Bool">false</value>
+      <value name="useFloat4Color" type="Bool">false</value>
+    </struct>
+  </struct>
+</value>
+</NvParameters>

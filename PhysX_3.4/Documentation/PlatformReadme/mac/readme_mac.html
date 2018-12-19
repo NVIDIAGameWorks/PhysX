@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for macOS ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for macOS ReadMe</h1>
+
+<blockquote>
+	<h4>Location of osx32 and osx64 Binaries:</h4>
+	<ul>
+		<li>SDK static libraries: Lib/</li>
+	</ul>	
+
+	<h4>Building SDK Source with the Shipped Makefiles:</h4>
+	<ul>
+		<li>Makefiles are in Source/compiler/</li>
+		<li>Clean solution: make clean</li>
+		<li>Build all configurations: make</li>
+		<li>Build specific configuration: make (debug|checked|profile|release)</li>
+	</ul>
+
+	<h4>Building SDK Source with XCode:</h4>
+	<ul>
+		<li>XCode projects are in Source/compiler/</li>
+		<li>Open PhysX.xcodeproj to build the entire SDK source within XCode</li>
+		<li>Build from command line using e.g.: xcodebuild -project PhysX.xcodeproj -alltargets -configuration (debug|checked|profile|release)</li>
+    </ul>
+
+	<h4>Building and Running Snippets with XCode:</h4>
+	<ul>
+		<li>Open XCode project in Snippets/compiler/[compiler and architecture specific subdirectory]/Snippets.xcodeproj</li>
+		<li>Select one of the snippet schemes from the drop down list</li>
+		<li>Press "Run" to build and run the selected snippet</li>
+		<li>In order to build and run release mode you need to select "Edit Scheme..." and change the "Build Configuration" to "release".</li>
+	</ul>
+
+	<h4>Notes:</h4>
+	<ul>
+		<li>No support for building Snippets with makefiles</li>
+		<li>XCode projects target:</li>
+		<ul>	
+		 	<li>XCode version: 10.1</li>
+		 	<li>Compiler: Apple LLVM version 10.0.0</li>
+		 	<li>OS: macOS 10.13</li>
+		</ul>
+	</ul>
+
+</blockquote>
+
+<p><br>
+Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>       
+</html>

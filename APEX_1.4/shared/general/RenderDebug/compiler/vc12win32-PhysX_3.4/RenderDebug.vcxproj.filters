@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="RenderDebug">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="RenderDebug\public">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\public\RenderDebug.h">
+			<Filter>RenderDebug\public</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\public\RenderDebugTyped.h">
+			<Filter>RenderDebug\public</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="RenderDebug\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\ClientServer.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\FileRenderDebug.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\GetArgs.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\Hull2MeshEdges.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\InternalRenderDebug.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\ProcessRenderDebug.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PsCommLayer.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PsCommStream.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderDebugData.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\RenderDebugImpl.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\StreamIO.h">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\StreamIO.inl">
+			<Filter>RenderDebug\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="RenderDebug\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\ClientServer.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\FileRenderDebug.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\Hull2MeshEdges.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\InternalRenderDebug.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\ProcessRenderDebug.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\PsCommLayer.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\PsCommStream.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\RenderDebug.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\RenderDebugDLLMain.cpp">
+			<Filter>RenderDebug\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

@@ -1,0 +1,391 @@
+.. _Threading:
+
+---------
+Threading
+---------
+
+============
+Introduction
+============
+This chapter explains how to use PhysX in multithreaded applications. There are three main aspects to using PhysX with multiple threads:
+
+* how to make read and write calls into the PhysX API from multiple threads without causing race conditions.
+* how to use multiple threads to accelerate simulation processing.
+* how to perform asynchronous simulation, and read and write to the API while simulation is being processed.
+
+.. _DataAccessRules:
+
+=================================
+Data Access from Multiple Threads
+=================================
+
+For efficiency reasons, PhysX does not internally lock access to its data structures by the application, so be careful when calling the API from multiple application threads. The rules are as follows:
+
+* API interface methods marked 'const' are read calls, other API interface methods are write calls.
+* API read calls may be made simultaneously from multiple threads.
+* Objects in different scenes may be safely accessed by different threads.
+* Different objects outside a scene may be safely accessed from different threads. Be aware that accessing an object may indirectly cause access to another object via a persistent reference (such as joints and actors referencing one another, an actor referencing a shape, or a shape referencing a mesh.)
+
+Access patterns which do not conform to the above rules may result in data corruption, deadlocks, or crashes. Note in particular that it is not legal to perform a write operation on an object in a scene concurrently with a read operation to an object in the same scene. The checked build contains code which tracks access by application threads to objects within a scene, to try and detect problems at the point when the illegal API call is made.
+
++++++++++++++++++++++++++
+Scene Locking
++++++++++++++++++++++++++
+
+Each PxScene object provides a multiple reader, single writer lock that can be used to control access to the scene by multiple threads. This is useful for situations where the PhysX scene is
+shared between more than one system, for example APEX and a game engine's physics code. The scene lock provides a way for these systems to coordinate with each other.
+
+It is not mandatory to use the lock. If all access to the scene is from a single thread, using the lock adds unnecessary overhead. Even if you are accessing the scene from multiple threads, you may be able to synchronize the threads using a simpler or more efficient application-specific mechanism that guarantees your application meets the above conditions. However, using the scene lock has two potential benefits:
+
+* If the *PxSceneFlag::eREQUIRE_RW_LOCK* is set, the checked build will issue a warning for any API call made without first acquiring the lock, or if a write call is made when the lock has only been acquired for read,
+* The APEX SDK uses the scene lock to ensure that it shares the scene safely with your application.
+
+There are four methods for for acquiring / releasing the lock::
+
+    void PxScene::lockRead(const char* file=NULL, PxU32 line=0);
+    void PxScene::unlockRead();
+
+    void PxScene::lockWrite(const char* file=NULL, PxU32 line=0);
+    void PxScene::unlockWrite();
+
+Additionally there is an RAII helper class to manage these locks, see PxSceneLock.h.
+
++++++++++++++++++
+Locking Semantics
++++++++++++++++++
+
+There are precise rules regarding the usage of the scene lock:
+
+* Multiple threads may read at the same time.
+* Only one thread may write at a time, no thread may write if any threads are reading.
+* If a thread holds a write lock then it may call both read and write API methods.
+* Re-entrant read locks are supported, meaning a *lockRead()* on a thread that has already acquired a read lock is permitted. Each *lockRead()* must have a paired *unlockRead()*.
+* Re-entrant write locks are supported, meaning a *lockWrite()* on a thread that has already acquired a write lock is permitted. Each *lockWrite()* must have a paired *unlockWrite()*.
+* Calling *lockRead()* by a thread that has already acquired the write lock is permitted and the thread will continue to have read and write access. Each lock*() must have an associated unlock*() that occurs in reverse order.
+* Lock upgrading is *not* supported - a *lockWrite()* by a thread that has already acquired a read lock is *not* permitted. Attempting this in checked builds will result in an error, in release builds it will lead to deadlock.
+* Writers are favored - if a thread attempts a *lockWrite()* while the read lock is acquired it will be blocked until all readers leave. If new readers arrive while the writer thread is blocked they will be put to sleep and the writer will have first chance to access the scene. This prevents writers being starved in the presence of multiple readers.
+* If multiple writers are queued then the first writer will receive priority, subsequent writers will be granted access according to OS scheduling.
+
+Note: *PxScene::release()* automatically attempts to acquire the write lock, it is not necessary to acquire it manually before calling release().
+
+
+++++++++++++++++++++++
+Locking Best Practices
+++++++++++++++++++++++
+It is often useful to arrange your application to acquire the lock a single time to perform multiple operations. This minimizes the overhead of the lock, and in addition can prevent cases such as a sweep test in one thread seeing a rag doll that has been only partially inserted by another thread.
+
+Clustering writes can also help reduce contention for the lock, as acquiring the lock for write will stall any other thread trying to perform a read access.
+
+
+===============================
+Asynchronous Simulation
+===============================
+
+PhysX simulation is asynchronous by default. Start simulation by calling::
+
+  scene->simulate(dt);
+
+When this call returns, the simulation step has begun in a separate thread. While simulation is running, you can still make calls into the API. Where those calls affect simulation state, the results will be buffered and reconciled with the simulation results when the simulation step completes.
+
+To wait until simulation completes, call::
+
+  scene->fetchResults(true);
+
+The boolean parameter to fetchResults denotes whether the call should wait for simulation to complete, or return immediately with the current completion status. See the API documentation for more detail.
+
+It is important to distinguish two time slots for data access:
+
+1) After the call to *PxScene::fetchResults()* has returned and before the next *PxScene::simulate()* call (see figure below, blue area "1").
+2) After the call to *PxScene::simulate()* has returned and before the corresponding *PxScene::fetchResults()* call (see figure below, green area "2").
+
+.. image:: ../images/timeSlots.png
+    :width: 800 px
+
+In the first time slot, the simulation is not running and there are no restrictions for reading or writing object properties. Changes to the position of an object, for example, are applied instantaneously and the next scene query or simulation step will take the new state into account.
+
+In the second time slot the simulation is running and in the process, reading and changing the state of objects. Concurrent access from the user might corrupt the state of the objects or lead to data races or inconsistent views in the simulation code. Hence the simulation code's view of the objects is protected from API writes, and any attributes the simulation updates are buffered to allow API reads. The consequences will be discussed in detail in the next section.
+
+Note that *simulate()* and *fetchResults()* are write calls on the scene, and as such it is illegal to access any object in the scene while these functions are running.
+
+.. _DoubleBuffering:
+
+++++++++++++++++
+Double Buffering
+++++++++++++++++
+
+While a simulation is running, PhysX supports read and write access to objects in the scene (with some exceptions, see further below). This includes adding/removing them to/from a scene.
+
+From the user perspective, API changes are reflected immediately. For example, if the velocity of a rigid body is set and then queried, the new velocity will be returned. Similarly, if an object is created while the simulation is running, it can be accessed/modified as any other object. However, these changes are buffered so that the simulation code sees the object state as it was when *PxScene::simulate()* was called.  For instance, changes to the filter data of an object while the simulation is running are ignored for collision pair generation of the running step, and will only affect for the next simulation step.
+
+When  *PxScene::fetchResults()* is called, any buffered changes are flushed: changes made by the simulation are reflected in API view of the objects, and API changes are made visible to the simulation code for the next step. User changes take precedence: for example, a user change to the position of an object while the simulation is running will overwrite the position which resulted from the simulation.
+
+The delayed application of updates does not affect scene queries, which always take into account the latest changes.
+
+++++++++++++++++++++++++++++++++
+Events involving removed objects
+++++++++++++++++++++++++++++++++
+
+Deleting objects or removing them from the scene while the simulation is in process will affect the simulation events sent out at *PxScene::fetchResults()*. The behavior is as follows:
+
+* *PxSimulationEventCallback::onWake(), ::onSleep()* events will not get fired if an object is involved which got deleted/removed during the running simulation.
+* *PxSimulationEventCallback::onContact(), ::onTrigger()* events will get fired if an object is involved which got deleted/removed during the running simulation. The deleted/removed object will be marked as such (see *PxContactPairHeaderFlag::eREMOVED_ACTOR_0*, *PxContactPairFlag::eREMOVED_SHAPE_0, PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER*). Furthermore, if *PxPairFlag::eNOTIFY_TOUCH_LOST, ::eNOTIFY_THRESHOLD_FORCE_LOST* events were requested for the pair containing the deleted/removed object, then these events will be created.
+
++++++++
+Support
++++++++
+
+Not all PhysX objects have full buffering support. Operations which can not run while the simulation is in process are mentioned in the API documentation and the SDK aborts such operations and reports an error. The most important exceptions are as follows:
+
+* Particles: The particle bulk data can not be read or modified while the simulation is running, this includes operations like reading/writing particle positions/velocities, creating/deleting particles, adding forces, etc.
+* Cloth: The only allowed double buffered operation is to create/delete a cloth and add/remove it to/from the scene.
+
++++++++++++++++++++++
+Memory Considerations
++++++++++++++++++++++
+
+The buffers to store the object changes while the simulation is running are created on demand. If memory usage concerns outweigh the advantage of reading/writing objects in parallel with simulation, do not write to objects while the simulation is running.
+
+
+
+.. _taskman:
+
+========================
+Multithreaded Simulation
+========================
+
+PhysX includes a task system for managing CPU and GPU compute resources. Tasks are created with dependencies so
+that they are resolved in a given order, when ready they are then submitted to a
+user-implemented dispatcher for execution.
+
+Middleware products typically do not want to create CPU threads for their
+own use.  This is especially true on consoles where execution threads
+can have significant overhead. In the task model, the computational
+work is broken into jobs that are submitted to the game's thread pool as
+they become ready to run.
+
+The following classes comprise the CPU task management.
+
++++++++++++++++++++
+TaskManager
++++++++++++++++++++
+
+A TaskManager manages inter-task dependencies and dispatches ready tasks
+to their respective dispatcher. There is a dispatcher for CPU tasks and
+GPU tasks assigned to the TaskManager.
+
+TaskManagers are owned and created by the SDK. Each PxScene will allocate
+its own TaskManager instance which users can configure with dispatchers
+through either the PxSceneDesc or directly through the TaskManager interface.
+
++++++++++++++++++++
+CpuDispatcher
++++++++++++++++++++
+
+The CpuDispatcher is an abstract class the SDK uses for interfacing with the
+application's thread pool. Typically, there will be one single
+CpuDispatcher for the entire application, since there is rarely a need
+for more than one thread pool. A CpuDispatcher instance may be shared by
+more than one TaskManager, for example if multiple scenes are being used.
+
+PhysX includes a default CpuDispatcher implementation, but we prefer
+applications to implement this class themselves so PhysX and APEX can
+efficiently share CPU resources with the application.
+
+.. note::
+    The TaskManager will call CpuDispatcher::submitTask() from either the
+    context of API calls (aka: scene::simulate()) or from other running
+    tasks, so the function must be thread-safe.
+
+An implementation of the CpuDispatcher interface must call the following two methods on each submitted task for it to be run correctly::
+
+        baseTask->run();    // optionally call runProfiled() to wrap with PVD profiling events
+        baseTask->release();
+
+The PxExtensions library has default implementations for all dispatcher types, the following code snippets are taken from SampleParticles and SampleBase and show how the default dispatchers are created.
+*mNbThreads* which is passed to *PxDefaultCpuDispatcherCreate* defines how many worker threads the CPU dispatcher will have.::
+
+        PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+        [...]
+        // create CPU dispatcher which mNbThreads worker threads
+        mCpuDispatcher = PxDefaultCpuDispatcherCreate(mNbThreads);
+        if(!mCpuDispatcher)
+            fatalError("PxDefaultCpuDispatcherCreate failed!");
+        sceneDesc.cpuDispatcher = mCpuDispatcher;
+    #if PX_WINDOWS
+        // create GPU dispatcher
+        PxCudaContextManagerDesc cudaContextManagerDesc;
+        mCudaContextManager = PxCreateCudaContextManager(cudaContextManagerDesc);
+        sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
+    #endif
+        [...]
+        mScene = mPhysics->createScene(sceneDesc);
+
+.. note::
+
+    Best performance is usually achieved if the number of threads is less than or equal to the available hardware threads of the platform you are running on,
+    creating more worker threads than hardware threads will often lead to worse performance. For platforms with a single execution core, the CPU dispatcher
+    can be created with zero worker threads (PxDefaultCpuDispatcherCreate(0)). In this case all work will be executed on the thread that calls PxScene::simulate(),
+    which can be more efficient than using multiple threads.
+
+.. note::
+    CudaContextManagerDesc support appGUID now. It only works on release build. If your application employs PhysX modules that use CUDA you need to use a GUID so that patches for
+    new architectures can be released for your game. You can obtain a GUID for your application from NVIDIA. The application should log the failure into a file which can be
+    sent to NVIDIA for support.
+
++++++++++++++++++++++++++++++++++++++++
+CpuDispatcher Implementation Guidelines
++++++++++++++++++++++++++++++++++++++++
+
+After the scene's TaskManager has found a ready-to-run task and submitted it to the
+appropriate dispatcher it is up to the dispatcher implementation to decide how and
+when the task will be run.
+
+Often in game scenarios the rigid body simulation is time critical and the goal is to
+reduce the latency from simulate() to the completion of fetchResults(). The lowest
+possible latency will be achieved when the PhysX tasks have exclusive access to CPU resources
+during the update. In reality, PhysX will have to share compute resources with other game tasks.
+Below are some guidelines to help ensure a balance between throughput and latency when mixing
+the PhysX update with other work.
+
+- Avoid interleaving long running tasks with PhysX tasks, this will help reduce latency.
+
+- Avoid assigning worker threads to the same execution core as higher priority threads. If a PhysX task is context switched during execution the rest of the rigid body pipeline may be stalled, increasing latency.
+
+- PhysX occasionally submits tasks and then immediately waits for them to complete, because of this, executing tasks in LIFO (stack) order may perform better than FIFO (queue) order.
+
+- PhysX is not a perfectly parallel SDK, so interleaving small to medium granularity tasks will generally result in higher overall throughput.
+
+- If your thread pool has per-thread job-queues then queuing tasks on the thread they were submitted may result in more optimal CPU cache coherence, however this is not required.
+
+
+For more details see the default CpuDispatcher implementation that comes as part of the
+PxExtensions package. It uses worker threads that each have their own task queue and steal
+tasks from the back of other worker's queues (LIFO order) to improve workload distribution.
+
++++++++++++++++++++
+BaseTask
++++++++++++++++++++
+
+BaseTask is the abstract base class for all task types.  All task
+run() functions will be executed on application threads, so they
+need to be careful with their stack usage, use a little stack as
+possible, and they should never block for any reason.
+
++++++++++++++++++++
+Task
++++++++++++++++++++
+
+The Task class is the standard task type. Tasks must be submitted to the
+TaskManager each simulation step for them to be executed.  Tasks may be
+named at submission time, this allows them to be discoverable.  Tasks
+will be given a reference count of 1 when they are submitted, and the
+TaskManager::startSimulation() function decrements the reference count
+of all tasks and dispatches all Tasks whose reference count reaches zero.
+Before TaskManager::startSimulation() is called, Tasks can set
+dependencies on each other to control the order in which they are dispatched.
+Once simulation has started, it is still possible to submit new tasks and
+add dependencies, but it is up to the programmer to avoid race hazards.
+You cannot add dependencies to tasks that have already been dispatched,
+and newly submitted Tasks must have their reference count decremented
+before that Task will be allowed to execute.
+
+Synchronization points can also be defined using Task names. The
+TaskManager will assign the name a TaskID with no Task implementation.
+When all of the named TaskID's dependencies are met, it will decrement
+the reference count of all Tasks with that name.
+
+APEX uses the Task class almost exclusively to manage CPU
+resources. The ApexScene defines a number of named Tasks that the
+modules use to schedule their own Tasks (ex: start after LOD
+calculations are complete, finish before the PhysX scene is stepped).
+
++++++++++++++++++++
+LightCpuTask
++++++++++++++++++++
+
+LightCpuTask is another subclass of BaseTask that is explicitly
+scheduled by the programmer. LightCpuTasks have a reference count of 1
+when they are initialized, so their reference count must be decremented
+before they are dispatched. LightCpuTasks increment their continuation
+task reference count when they are initialized, and decrement the
+reference count when they are released (after completing their run() function)
+
+PhysX 3.x uses LightCpuTasks almost exclusively to manage CPU
+resources. For example, each stage of the simulation update may consist
+of multiple parallel tasks, when each of these tasks has finished execution
+it will decrement the reference count on the next task in the update chain.
+This will then be automatically dispatched for execution when its reference
+count reaches zero.
+
+.. note::
+    Even when using LightCpuTasks exclusively to manage CPU resources, the
+    TaskManager startSimulation() and stopSimulation() calls must be made
+    each simulation step to keep the GpuDispatcher synchronized.
+
+The following code snippets show how the crabs' A.I. in SampleSubmarine is run as a CPU Task. By doing so the Crab A.I. is run as a background Task in parallel with the PhysX simulation update.
+
+For a CPU task that does not need handling of multiple continuations *LightCpuTask* can be subclassed. A *LightCpuTask* subclass requires that the getName and a run method be defined::
+
+    class Crab: public ClassType, public physx::PxLightCpuTask, public SampleAllocateable
+    {
+    public:
+        Crab(SampleSubmarine& sample, const PxVec3& crabPos, RenderMaterial* material);
+        ~Crab();
+        [...]
+
+        // Implements LightCpuTask
+        virtual  const char*    getName() const { return "Crab AI Task"; }
+        virtual  void           run();
+
+        [...]
+    }
+
+After PxScene::simulate() has been called, and the simulation started, the application calls removeReference() on each Crab task, this in turn causes it to be submitted to the CpuDispatcher for update. Note that it is also possible to submit tasks to the dispatcher directly (without manipulating reference counts) as follows::
+
+    PxLightCpuTask& task = &mCrab;
+    mCpuDispatcher->submitTask(task);
+
+Once queued for execution by the CpuDispatcher, one of the thread pool's worker threads will eventually call the task's run method. In this example the Crab task will perform raycasts against the scene and update its internal state machine::
+
+    void Crab::run()
+    {
+        // run as a separate task/thread
+        scanForObstacles();
+        updateState();
+    }
+
+It is safe to perform API read calls, such as scene queries, from multiple threads while simulate() is running. However, care must be taken not to overlap API read and write calls from multiple threads. In this case the SDK will issue an error, see :ref:`Threading` for more information.
+
+An example for explicit reference count modification and task dependency setup::
+
+    // assume all tasks have a refcount of 1 and are submitted to the task manager
+    // 3 task chains a0-a2, b0-b2, c0-c2
+    // b0 shall start after a1
+    // the a and c chain have no dependencies and shall run in parallel
+    //
+    // a0-a1-a2
+    //      \
+    //       b0-b1-b2
+    // c0-c1-c2
+
+    // setup the 3 chains
+    for(PxU32 i = 0; i < 2; i++)
+    {
+        a[i].setContinuation(&a[i+1]);
+        b[i].setContinuation(&b[i+1]);
+        c[i].setContinuation(&c[i+1]);
+    }
+
+    // b0 shall start after a1
+    b[0].startAfter(a[1].getTaskID());
+
+    // setup is done, now start all task by decrementing their refcount by 1
+    // tasks with refcount == 0 will be submitted to the dispatcher (a0 & c0 will start).
+    for(PxU32 i = 0; i < 3; i++)
+    {
+        a[i].removeReference();
+        b[i].removeReference();
+        c[i].removeReference();
+    }
+
+

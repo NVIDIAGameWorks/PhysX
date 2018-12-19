@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Rigid Body Overview &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="Rigid Body Collision" href="RigidBodyCollision.html" />
+    <link rel="prev" title="Geometry" href="Geometry.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="RigidBodyCollision.html" title="Rigid Body Collision"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="Geometry.html" title="Geometry"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="rigid-body-overview">
+<span id="rigidbodyoverview"></span><h1>Rigid Body Overview<a class="headerlink" href="#rigid-body-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This chapter will introduce the fundamentals of simulating rigid body dynamics using the NVIDIA PhysX engine.</p>
+</div>
+<div class="section" id="rigid-body-object-model">
+<h2>Rigid Body Object Model<a class="headerlink" href="#rigid-body-object-model" title="Permalink to this headline">¶</a></h2>
+<p>PhysX uses a hierarchical rigid body object/actor model, which looks like this:</p>
+<img alt="../_images/ObjectModel.png" src="../_images/ObjectModel.png" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="16%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Class</th>
+<th class="head">Extends</th>
+<th class="head">Functionality</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>PxBase</em></td>
+<td>N/A</td>
+<td>Reflection/querying object types.</td>
+</tr>
+<tr class="row-odd"><td><em>PxActor</em></td>
+<td>PxBase</td>
+<td>Actor name, actor flags, dominance, clients, aggregates, query world bounds.</td>
+</tr>
+<tr class="row-even"><td><em>PxRigidActor</em></td>
+<td>PxActor</td>
+<td>Shapes and transforms.</td>
+</tr>
+<tr class="row-odd"><td><em>PxRigidBody</em></td>
+<td>PxRigidActor</td>
+<td>Mass, inertia, velocities, body flags.</td>
+</tr>
+<tr class="row-even"><td><em>PxRigidStatic</em></td>
+<td>PxRigidActor</td>
+<td>Interface for static body in the scene. This kind of body has implicit infinite mass/inertia.</td>
+</tr>
+<tr class="row-odd"><td><em>PxRigidDynamic</em></td>
+<td>PxRigidBody</td>
+<td>Interface for dynamic rigid body in the scene. Introduces support for kinematic targets and object sleeping.</td>
+</tr>
+<tr class="row-even"><td><em>PxArticulationLink</em></td>
+<td>PxRigidBody</td>
+<td>Interface for a dynamic rigid body link in a PxArticulation. Introduces support for querying the articulation and adjacent links.</td>
+</tr>
+<tr class="row-odd"><td><em>PxArticulation</em></td>
+<td>PxBase</td>
+<td>Defines interface for a PxArticulation. Effectively a contained referencing multiple PxArticualtionLink rigid bodies.</td>
+</tr>
+</tbody>
+</table>
+<p>The following diagram shows the relationship between the main types involved in the rigid body pipeline:</p>
+<img alt="../_images/RigidBodyOverview.PNG" src="../_images/RigidBodyOverview.PNG" />
+</div>
+<div class="section" id="the-simulation-loop">
+<h2>The Simulation Loop<a class="headerlink" href="#the-simulation-loop" title="Permalink to this headline">¶</a></h2>
+<p>Now use the method PxScene::simulate() to advance the world forward in time. Here is simplified code from the samples' fixed stepper class:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">mAccumulator</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="n">mStepSize</span> <span class="o">=</span> <span class="mf">1.0f</span> <span class="o">/</span> <span class="mf">60.0f</span><span class="p">;</span>
+
+<span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">advance</span><span class="p">(</span><span class="n">PxReal</span> <span class="n">dt</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">mAccumulator</span>  <span class="o">+=</span> <span class="n">dt</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">mAccumulator</span> <span class="o">&lt;</span> <span class="n">mStepSize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+    <span class="n">mAccumulator</span> <span class="o">-=</span> <span class="n">mStepSize</span><span class="p">;</span>
+
+    <span class="n">mScene</span><span class="o">-&gt;</span><span class="n">simulate</span><span class="p">(</span><span class="n">mStepSize</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is called from the sample framework whenever the app is done with processing events and is starting to idle.  It accumulates elapsed real time until it is greater than a sixtieth of a second, and then calls simulate(), which  moves all objects in the scene forward by that interval. This is probably the simplest of very many different ways to deal with time when stepping the simulation forward.</p>
+<p>To allow the simulation to finish and return the results, simply call:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">mScene</span><span class="o">-&gt;</span><span class="n">fetchResults</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>True indicates that the simulation should block until it is finished, so that on return the results are guaranteed to be available. When fetchResults completes, any simulation event callback functions that you defined will also be called.  See the chapter <a class="reference internal" href="Simulation.html#callbacks"><em>Callback Sequence</em></a>.</p>
+<p>It is possible to read and write from the scene during simulation. The samples take advantage of this to perform rendering work in parallel with physics. Until fetchResults() returns, the results of the current simulation step are not available. So running rendering in parallel with simulation renders the actors as they were when simulate() was called. After fetchResults() returns, all these functions will return the new, post-simulate state. See the chapter <a class="reference internal" href="Threading.html#threading"><em>Threading</em></a> for more details about reading and writing while the simulation is running.</p>
+<p>For the human eye to perceive animated motion as smooth, use at least twenty discrete frames per second, with each frame corresponding to a physics time step.  To have smooth, realistic simulation of more complex physical scenes, use at least fifty frames per second.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are making a real-time interactive simulation, you may be tempted to take different sized time steps which correspond to the amount of real time that has elapsed since the last simulation frame.  Be very careful if you do this, rather than taking constant-sized time steps:  The simulation code is sensitive to both very small and large time steps, and also to too much variation between time steps.  In these cases it will likely produce jittery simulation.</p>
+</div>
+<p>See <a class="reference internal" href="Simulation.html#simulation-memory"><em>Simulation memory</em></a> for details of how memory is used in simulation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Rigid Body Overview</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#rigid-body-object-model">Rigid Body Object Model</a></li>
+<li><a class="reference internal" href="#the-simulation-loop">The Simulation Loop</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Geometry.html"
+                        title="previous chapter">Geometry</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="RigidBodyCollision.html"
+                        title="next chapter">Rigid Body Collision</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="RigidBodyCollision.html" title="Rigid Body Collision"
+             >next</a></li>
+        <li class="right" >
+          <a href="Geometry.html" title="Geometry"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

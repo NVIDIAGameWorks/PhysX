@@ -1,0 +1,4 @@
+<material>
+	<shader>destruction_asset</shader>
+	<texture>Plaster_Tileable.dds</texture>
+</material>

@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew-MT", "./glew-MT.vcxproj", "{7D20139C-09F4-B0C5-B9C9-8E603785931F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|Win32 = checked|Win32
+		debug|Win32 = debug|Win32
+		profile|Win32 = profile|Win32
+		release|Win32 = release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.checked|Win32.ActiveCfg = checked|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.checked|Win32.Build.0 = checked|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.debug|Win32.ActiveCfg = debug|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.debug|Win32.Build.0 = debug|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.profile|Win32.ActiveCfg = profile|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.profile|Win32.Build.0 = profile|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.release|Win32.ActiveCfg = release|Win32
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.release|Win32.Build.0 = release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

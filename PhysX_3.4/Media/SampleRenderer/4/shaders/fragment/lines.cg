@@ -1,0 +1,14 @@
+struct FragmentParameters
+{
+#if !defined(GLSL_COMPILER)
+	half4 screenSpacePosition : SV_POSITION;
+#else
+	half4 screenSpacePosition : POSITION;
+#endif
+	half4  color              : COLOR;
+};
+
+half4 fmain(FragmentParameters params) : COLOR0
+{
+	return params.color;
+}

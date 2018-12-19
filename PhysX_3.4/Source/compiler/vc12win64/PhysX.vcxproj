@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{FC0C1E74-2BE0-A8BC-4F0C-82D0F2EAB9A4}</ProjectGuid>
+		<RootNamespace>PhysX</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/PhysX/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3DEBUG_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x64 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationDEBUG_x64.dll /DELAYLOAD:PxPvdSDKDEBUG_x64.dll /DELAYLOAD:PhysX3CommonDEBUG_x64.dll /DEBUG</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3DEBUG_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc12win64/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/PhysX/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3CHECKED_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x64 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationCHECKED_x64.dll /DELAYLOAD:PxPvdSDKCHECKED_x64.dll /DELAYLOAD:PhysX3CommonCHECKED_x64.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3CHECKED_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc12win64/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/PhysX/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3PROFILE_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x64 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundationPROFILE_x64.dll /DELAYLOAD:PxPvdSDKPROFILE_x64.dll /DELAYLOAD:PhysX3CommonPROFILE_x64.dll /INCREMENTAL:NO /DEBUG</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3PROFILE_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc12win64/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/PhysX/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3_x64</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../Include/gpu;./../../PhysXGpu/include;./../../PhysX/src/device;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../../Externals/nvToolsExt/1/include;./../../../Include/common;./../../../Include/geometry;./../../../Include/GeomUtils;./../../../Include/pvd;./../../../Include/particles;./../../../Include/cloth;./../../../Include;./../../Common/src;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../LowLevel/API/include;./../../LowLevel/software/include;./../../LowLevel/common/include/pipeline;./../../LowLevelAABB/include;./../../LowLevelDynamics/include;./../../LowLevelDynamics/src;./../../LowLevelParticles/include;./../../PhysX/src;./../../PhysX/src/buffering;./../../PhysX/src/particles;./../../PhysX/src/cloth;./../../SimulationController/include;./../../SimulationController/src;./../../SimulationController/src/particles;./../../PhysXCooking/src;./../../PhysXCooking/src/mesh;./../../PhysXCooking/src/convex;./../../SceneQuery/include;./../../PhysXMetaData/core/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>PX_PHYSX_CORE_EXPORTS;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x64 /DELAYLOAD:nvcuda.dll /DELAYLOAD:PxFoundation_x64.dll /DELAYLOAD:PxPvdSDK_x64.dll /DELAYLOAD:PhysX3Common_x64.dll /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/x64/nvToolsExt64_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3_x64.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc12win64/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource_x64\PhysX3.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\PhysX\src\windows\NpWindowsDelayLoadHook.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\gpu\NpPhysicsGpu.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysX\src\gpu\NpPhysicsGpu.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\gpu\PxGpu.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\gpu\PxParticleDeviceExclusive.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\gpu\PxParticleGpu.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\gpu\PxPhysXGpuModuleLoader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\gpu\PxPhysXIndicatorDeviceExclusive.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\PhysX\src\device\windows\PhysXIndicatorWindows.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\device\nvPhysXtoDrv.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\device\PhysXIndicator.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\particles\NpParticleBaseTemplate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\particles\NpParticleFluid.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\particles\NpParticleFluidReadData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\particles\NpParticleSystem.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysX\src\particles\NpParticleFluid.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\particles\NpParticleSystem.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbAggregate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbArticulation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbArticulationJoint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbBody.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbConstraint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbNpDeps.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbParticleSystem.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbRigidObject.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbRigidStatic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbSceneBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbScenePvdClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\buffering\ScbType.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbActor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbAggregate.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbCloth.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbParticleSystem.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbScenePvdClient.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\buffering\ScbShape.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\cloth\NpCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\cloth\NpClothFabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\cloth\NpClothParticleData.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysX\src\cloth\NpCloth.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\cloth\NpClothFabric.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\cloth\NpClothParticleData.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\ImmediateMode\src\NpImmediateMode.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysX\src\NpActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpActorTemplate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpAggregate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpArticulation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpArticulationJoint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpArticulationLink.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpBatchQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpCast.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpConnector.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpConstraint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpFactory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpMaterialManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpPhysics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpPhysicsInsertionCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpPtrTableStorageManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpPvdSceneQueryCollector.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpQueryShared.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpReadCheck.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpRigidActorTemplate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpRigidActorTemplateInternal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpRigidBodyTemplate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpRigidDynamic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpRigidStatic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpSceneQueries.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpShapeManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpSpatialIndex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpVolumeCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\NpWriteCheck.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\PvdMetaDataBindingData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\PvdMetaDataPvdBinding.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\PvdPhysicsClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysX\src\PvdTypeNames.h">
+		</ClInclude>
+		<ClCompile Include="..\..\PhysX\src\NpActor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpAggregate.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpArticulation.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpArticulationJoint.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpArticulationLink.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpBatchQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpConstraint.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpPhysics.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpPvdSceneQueryCollector.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpReadCheck.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpRigidDynamic.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpRigidStatic.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpSceneQueries.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpSerializerAdapter.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpShape.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpShapeManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpSpatialIndex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpVolumeCache.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\NpWriteCheck.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\PvdMetaDataPvdBinding.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysX\src\PvdPhysicsClient.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\gpu\PxGpu.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\gpu\PxParticleGpu.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleBaseFlag.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleCreationData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleFlag.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleFluid.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleFluidReadData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleReadData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\particles\PxParticleSystem.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\pvd\PxPvdSceneClient.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\cloth\PxCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\cloth\PxClothCollisionData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\cloth\PxClothFabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\cloth\PxClothParticleData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\cloth\PxClothTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\common\windows\PxWindowsDelayLoadHook.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\PxActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxAggregate.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxArticulation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxArticulationJoint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxArticulationLink.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxBatchQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxBatchQueryDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxBroadPhase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxConstraint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxConstraintDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxContact.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxContactModifyCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxDeletionListener.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxFiltering.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxForceMode.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxImmediateMode.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxLockedData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPhysics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPhysicsAPI.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPhysicsSerialization.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPhysicsVersion.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPhysXConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxPruningStructure.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxQueryFiltering.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxQueryReport.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxRigidActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxRigidBody.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxRigidDynamic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxRigidStatic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxSceneDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxSceneLock.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxShape.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxSimulationEventCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxSimulationStatistics.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxSpatialIndex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxVisualizationParameter.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\PxVolumeCache.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PvdMetaDataDefineProperties.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PvdMetaDataExtensions.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PvdMetaDataPropertyVisitor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PxAutoGeneratedMetaDataObjectNames.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PxAutoGeneratedMetaDataObjects.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PxMetaDataCompare.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PxMetaDataCppPrefix.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\PxMetaDataObjects.h">
+		</ClInclude>
+		<ClInclude Include="..\..\PhysXMetaData\core\include\RepXMetaDataPropertyVisitor.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\PhysXMetaData\core\src\PxAutoGeneratedMetaDataObjects.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\PhysXMetaData\core\src\PxMetaDataObjects.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win64/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win64/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./PhysXCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./LowLevel.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./LowLevelAABB.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./LowLevelDynamics.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./LowLevelCloth.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./LowLevelParticles.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./SceneQuery.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./SimulationController.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc12win64/PxTask.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

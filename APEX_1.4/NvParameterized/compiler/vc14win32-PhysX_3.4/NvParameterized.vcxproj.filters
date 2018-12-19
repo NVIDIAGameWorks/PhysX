@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="NV_PARAMETERIZED_SRC">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="NV_PARAMETERIZED_SRC\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\BinaryHelper.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\BinSerializer.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\NvParameterized.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\NvParameterizedTraits.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\NvSerializer.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\NvTraits.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\PlatformABI.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\PlatformInputStream.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\PlatformOutputStream.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\SerializerCommon.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\XmlDeserializer.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\XmlSerializer.cpp">
+			<Filter>NV_PARAMETERIZED_SRC\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="NV_PARAMETERIZED_HEADER">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="NV_PARAMETERIZED_HEADER\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\AbstractSerializer.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\ApbDefinitions.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\BinaryHelper.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\BinSerializer.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvDefaultTraits.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvParamConversionTemplate.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvParameters.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvParametersTypes.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvRegistrationsForTraitsBase.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvSerializerInternal.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\NvTraitsInternal.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformABI.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformInputStream.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformOutputStream.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformStream.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\SerializerCommon.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\XmlDeserializer.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\XmlSerializer.h">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformABI.inl">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformInputStream.inl">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\PlatformOutputStream.inl">
+			<Filter>NV_PARAMETERIZED_HEADER\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

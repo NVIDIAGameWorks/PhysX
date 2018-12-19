@@ -1,0 +1,154 @@
+
+@import url("default.css");
+
+
+div.body {
+    /* margin: 0 350px 0 10px; */
+    margin: 0 0 0 0;
+	font-size:100%;
+	width: 800px;
+}
+
+body {
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:13px;
+	line-height:18px;
+	/* font-size:100%;*/
+}
+
+div.document {
+    background-color: #6eb103;
+}
+
+div.related {
+    background-image:url(nvidia-logo.gif);
+    background-repeat: no-repeat;
+    background-position: 3px center; 
+    padding-left: 50px;
+    font-size:100%;
+    width: 90%;
+}
+
+div.sidebar {
+    margin: 0.5em 0 0.5em 1em;
+    border: 1px solid #ddb;
+    padding: 7px 7px 7px 7px;
+    background-color: #ffe;
+    width: 30%;
+    float: right;
+}
+
+.custom1 {
+}
+
+.custom2 {
+}
+
+div.body h1,
+div.body h2,
+div.body h3,
+div.body h4,
+div.body h5,
+div.body h6 {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #000000;
+    margin: 25px -20px 8px -20px;
+    padding: 3px 0 3px 10px;
+    clear:both;
+   	border-bottom:1px solid #dddddd;
+	font-size:130%;
+
+}
+
+div.body h1 {
+   	margin:0 0 20px 0;
+    border:0 0 0 0;
+    padding:0 0 0 0;
+	padding-left:10px;
+	padding-right:50px;
+	font-family: 'Arial', sans-serif;
+	font-size:18px;
+	background:#6eb103 url(bg_green_bar_revised.gif) repeat-x;
+	height:28px;
+    line-height:28px;
+    color:white;
+	border-bottom:1px solid #999
+}
+
+div.body h3 {
+    font-size:110%;
+    padding-left:16px;
+}
+
+div.body h4 {
+    font-size:105%;
+    font-weight: normal;
+    padding-left:18px;
+}
+
+div.body h5 {
+    font-size:110%;
+    font-weight: normal;
+    padding-left:20px;
+}
+
+div.body h6 {
+    font-size:105%;
+    font-weight: normal;
+    padding-left:22px;
+}
+
+div.body li{
+    line-height: 1.5em;
+}
+
+/* Notes */
+div.note {
+    background-color: #ffe;
+    border: 1px solid #cca;
+}
+
+/* Pre-formatted code blocks */
+pre {
+    background-color: #efe;
+    border: 1px solid #aca;
+}
+
+/* Fix border for tables */
+
+table.docutils td, table.docutils th {
+    border: 1px solid #888888;
+}
+
+th {
+    background-color: #9ee133;
+}
+
+/* Stuff for the Sphinx TOC sidebar */
+
+div.bodywrapper {
+    margin: 0 0 0 180px;
+}
+
+div.sphinxsidebar {
+    font-size:75%;
+    width: 180px;
+}
+
+div.sphinxsidebar a {
+    color: white;
+}
+
+div.sphinxsidebar input {
+    border: 1px solid #408000;
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+/*borderless tables*/
+table.borderless, table.borderless tr, table.borderless td, table.borderless th {
+   border-collapse: collapse;
+   border: 0;
+   margin: 0;
+}

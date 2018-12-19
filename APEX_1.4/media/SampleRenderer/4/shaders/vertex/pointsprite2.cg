@@ -1,0 +1,76 @@
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	FragmentParameters params;
+#if defined(RENDERER_D3D11) && !defined(RENDERER_WIN8ARM)
+	// D3D11 Required input for geometry shader
+	float4             screenSpacePosition : SV_POSITION;
+#else
+	float4             screenSpacePosition : POSITION;
+#endif
+	float              pointSize           : PSIZE;
+};
+
+BEGIN_CBUFFER(cbPointSprite)
+CONST_TYPE float windowWidth;
+CONST_TYPE float particleSize;
+END_CBUFFER(cbPointSprite)
+
+float clampedGraph(float value, float vmin, float vmax)
+{
+	return saturate((value - vmin) / (vmax-vmin));
+}
+
+VertexOut  vmain(__in(float4,     localSpacePosition, POSITION)
+                 __in_opt(half4,  vertexColor,        COLOR)
+                 __in_opt(float3, localSpaceNormal,   NORMAL)
+                 __in_opt(float4, localSpaceTangent,  SEMANTIC_TANGENT)
+                 __in_opt(float4, vertexTexcoord0,    TEXCOORD0)
+                 __in_opt(float4, vertexTexcoord1,    TEXCOORD1)
+                 __in_opt(float4, vertexTexcoord2,    TEXCOORD2)
+                 __in_opt(float4, vertexTexcoord3,    TEXCOORD3)
+               #if RENDERER_INSTANCED
+                 , __in(float3,   instanceOffset,     SEMANTIC_INSTANCE_T)
+                 , __in(float3,   instanceNormalX,    SEMANTIC_INSTANCE_X)
+                 , __in(float3,   instanceNormalY,    SEMANTIC_INSTANCE_Y)
+                 , __in(float3,   instanceNormalZ,    SEMANTIC_INSTANCE_Z)
+               #endif
+                )
+{
+	VertexOut vout;
+	
+	float4x4 modelMatrix;
+#if RENDERER_INSTANCED
+	modelMatrix = transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1)));
+#else
+	modelMatrix = g_modelMatrix;
+#endif
+	
+	float4x4 mvm                   = mul(g_viewMatrix, modelMatrix);
+	float4x4 mvpm                  = mul(g_projMatrix, mvm);
+	vout.screenSpacePosition       = mul(mvpm, localSpacePosition);
+	
+	vout.params.worldSpacePosition = mul(modelMatrix, localSpacePosition).xyz;
+	
+	float3 tbz = normalize(vout.params.worldSpacePosition - g_eyePosition);
+	float3 tbx = cross(float3(0,1,0), tbz);
+	
+	vout.params.worldSpaceNormal   = tbz;//normalize(mul(modelMatrix, float4(localSpaceNormal,    0)).xyz);
+	vout.params.worldSpaceTangent  = tbx;//normalize(mul(g_modelMatrix, float4(localSpaceTangent.xyz, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent) * localSpaceTangent.w;
+	
+	vout.params.texcoord0   = vertexTexcoord0;
+	vout.params.texcoord1   = vertexTexcoord1;
+	vout.params.texcoord2   = vertexTexcoord2;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3   = vertexTexcoord3;
+#endif	
+	vout.params.color       = vertexColor;
+	
+	vout.pointSize          = (particleSize * particleSize) / (vout.screenSpacePosition.w * vout.screenSpacePosition.w);
+	
+	return vout;
+}

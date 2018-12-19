@@ -1,0 +1,24 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+#if defined(PX_X360) && defined(RENDERER_FRAGMENT)
+	half4 diffuseTextureColor = tex2D(diffuseTexture, params.spriteTexCoord.xy);
+#else
+	half4 diffuseTextureColor = tex2D(diffuseTexture, params.texcoord0.xy);
+#endif
+	float density = params.color.r;
+	
+	SurfaceMaterial mout;
+	mout.diffuseColor       = lerp(1, 0.4, density);
+	mout.alpha              = diffuseTextureColor.a*(density*0.1);
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(1,1,1); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}

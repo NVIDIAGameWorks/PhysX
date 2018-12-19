@@ -1,0 +1,45 @@
+#! /bin/sh -x
+set -e
+
+SDK_ROOT=../../..
+ANDROID_SDK=$SDK_ROOT/Externals/android-sdk/
+pushd $ANDROID_SDK/platform-tools > /dev/null
+ADB=`pwd`/adb
+popd > /dev/null
+
+# init add_quote
+add_quote="'"
+if [[ `$ADB shell "su -c 'ls -l'"` == "su"* ]]; then 
+	add_quote=""
+fi
+
+case $1 in
+  debug) suffix=DEBUG;;
+  checked) suffix=CHECKED;;
+  profile) suffix=PROFILE;;
+  release) suffix=;;
+  *) echo Must have a config!; exit 1;;
+esac
+
+snippetName=$2
+
+if [ -z $snippetName ]; then
+	echo Must have a snippet name!;	
+	exit 1;
+fi
+
+executable=Snippet$snippetName$suffix
+
+# wait until device is ready
+$ADB wait-for-device
+
+# delete all in tmp folder (exe)
+$ADB shell "if [ -d data/tmp ]; then su -c  ${add_quote}rm -r data/tmp ${add_quote}; fi"
+
+# create folder hierarchy
+$ADB shell "su -c ${add_quote}mkdir -p data/tmp${add_quote}"
+$ADB shell "su -c ${add_quote}chmod 555 data/tmp${add_quote}"
+
+$ADB push ../../Bin/$ANDROID_CONFIG/$executable data/tmp
+
+$ADB shell "su -c ${add_quote}chmod 777 data/tmp/$executable${add_quote}"

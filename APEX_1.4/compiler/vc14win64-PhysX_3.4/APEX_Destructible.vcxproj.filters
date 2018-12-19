@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="resource">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+			<Filter>resource</Filter>
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\src\autogen\CachedOverlaps.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorChunks.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorParam.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleActorState.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleAssetCollisionDataSet.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleAssetParameters.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleDebugRenderParams.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructibleModuleParameters.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\DestructiblePreviewParam.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\MeshCookedCollisionStream.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\MeshCookedCollisionStreamsAtScale.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\SurfaceTraceParameters.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\autogen\SurfaceTraceSetParameters.cpp">
+			<Filter>Destructible\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleActorImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleActorJointImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleAssetImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructiblePreviewImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleRenderableImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleScene.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleSceneSyncParams.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleStructure.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\DestructibleStructureStressSolver.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\src\ModuleDestructibleImpl.cpp">
+			<Filter>Destructible\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\fracture">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\fracture\Core">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\ActorBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundCreatorBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\CompoundGeometryBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\ConvexBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\Delaunay2dBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\Delaunay3dBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\FracturePatternBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IceBoxPruningBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IceRevisitedRadixBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\IslandDetectorBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\MeshBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\MeshClipperBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\PolygonTriangulatorBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Core\SimSceneBase.cpp">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\ActorBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundCreatorBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\CompoundGeometryBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\ConvexBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\Delaunay2dBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\Delaunay3dBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\FracturePatternBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IceBoxPruningBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IceRevisitedRadixBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\IslandDetectorBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\MeshBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\MeshClipperBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\PolygonTriangulatorBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Core\SimSceneBase.h">
+			<Filter>Destructible\fracture\Core</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible\fracture\Actor.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Compound.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\CompoundCreator.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\CompoundGeometry.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Convex.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Delaunay2d.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Delaunay3d.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\FracturePattern.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IceBoxPruning.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IceRevisitedRadix.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\IslandDetector.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Mesh.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\MeshClipper.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\PolygonTriangulator.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\Renderable.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible\fracture\SimScene.cpp">
+			<Filter>Destructible\fracture</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\module\destructible\fracture\Actor.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Compound.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\CompoundCreator.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\CompoundGeometry.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Convex.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Delaunay2d.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Delaunay3d.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\FracturePattern.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IceBoxPruning.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IceRevisitedRadix.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\IslandDetector.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Mesh.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\MeshClipper.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\PolygonTriangulator.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\Renderable.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\RTdef.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\fracture\SimScene.h">
+			<Filter>Destructible\fracture</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Destructible\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible\include\autogen\CachedOverlaps.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorChunks.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorParam.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleActorState.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleAssetCollisionDataSet.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleAssetParameters.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleDebugRenderParams.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructibleModuleParameters.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\DestructiblePreviewParam.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\MeshCookedCollisionStream.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\MeshCookedCollisionStreamsAtScale.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\ModuleDestructibleRegistration.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\SurfaceTraceParameters.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\autogen\SurfaceTraceSetParameters.h">
+			<Filter>Destructible\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorJointImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorJointProxy.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorProxy.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleActorUtils.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleAssetImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleAssetProxy.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleHelpers.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructiblePreviewImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructiblePreviewProxy.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleRenderableImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleScene.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleStructure.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\DestructibleStructureStressSolver.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModuleDestructibleImpl.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModuleEventDefs.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible\include\ModulePerfScope.h">
+			<Filter>Destructible\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\destructible\DestructibleActor.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleActorJoint.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleAsset.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructiblePreview.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\DestructibleRenderable.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\ExplicitHierarchicalMesh.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\FractureToolsAPI.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\FractureToolsStructs.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\destructible\ModuleDestructible.h">
+			<Filter>Destructible</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src\Core">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\DXUT\Core\DDSTextureLoader.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\dxerr.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUT.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUTDevice11.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUTmisc.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\ScreenGrab.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\WICTextureLoader.cpp">
+			<Filter>src\Core</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src\Optional">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTcamera.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTgui.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTguiIME.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTres.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTsettingsdlg.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\ImeUi.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\SDKmesh.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\SDKmisc.cpp">
+			<Filter>src\Optional</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="include\Core">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\DXUT\Core\DDSTextureLoader.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\dxerr.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUT.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUTDevice11.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUTmisc.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\ScreenGrab.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\WICTextureLoader.h">
+			<Filter>include\Core</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="include\Optional">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTcamera.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTgui.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTguiIME.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTLockFreePipe.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTres.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTsettingsdlg.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\ImeUi.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\SDKmesh.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\SDKmisc.h">
+			<Filter>include\Optional</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

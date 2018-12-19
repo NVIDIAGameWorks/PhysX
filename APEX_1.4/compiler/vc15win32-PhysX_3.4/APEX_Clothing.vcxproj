@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{C549455E-94CC-81A4-1B87-FFA4D4785858}</ProjectGuid>
+		<RootNamespace>APEX_Clothing</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Clothing/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)DEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /EHsc /Od /RTCsu /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;./../../module/clothing/src/simd;../../../PxShared/src/pvd/src;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Clothing/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /EHsc /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;./../../module/clothing/src/simd;../../../PxShared/src/pvd/src;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3Common_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Clothing/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)PROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /EHsc /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;./../../module/clothing/src/simd;../../../PxShared/src/pvd/src;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Clothing/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)CHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /EHsc /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;./../../../Externals/nvToolsExt/1/include;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../include/clothing;./../../module/clothing/include;./../../module/clothing/include/autogen;./../../module/clothing/include/windows;./../../module/clothing/embedded/LowLevelCloth/include;./../../module/clothing/embedded/LowLevelCloth/src;./../../module/clothing/embedded;./../../module/clothing/src/simd;../../../PxShared/src/pvd/src;./../../module/clothing/embedded/LowLevelCloth/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;ENABLE_TEST=0;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>./../../../Externals/nvToolsExt/1/lib/win32/nvToolsExt32_1.lib;PhysX3CommonCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimdTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimdTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2SimdTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimdTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingActorParam.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingAssetParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingCookedParam.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingCookedPhysX3Param.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingDebugRenderParams.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingGraphicalLodParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingMaterialLibraryParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingModuleParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingPhysicalMeshParameters.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingPreviewParam.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorTasks.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetAuthoringImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingCollisionImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingCooking.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingPhysicalMeshImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingRenderProxyImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\CookingAbstract.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ModuleClothingHelpers.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ModuleClothingImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\SimdMath.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\SimulationAbstract.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\module\clothing\src\SimdMath.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingActorParam.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingAssetParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingCookedParam.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingCookedPhysX3Param.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingDebugRenderParams.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingGraphicalLodParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingMaterialLibraryParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingModuleParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingPhysicalMeshParameters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingPreviewParam.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ModuleClothingRegistration.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\include\AbstractMeshDescription.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorTasks.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetAuthoringImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingCollisionImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingCooking.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingGlobals.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingPhysicalMeshImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingPreviewProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingRenderProxyImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothStructs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\Cooking.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\CookingAbstract.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\CookingPhysX.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleClothingHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleClothingImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleEventDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModulePerfScope.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\Simulation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\SimulationAbstract.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\clothing\ClothingActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingAsset.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingAssetAuthoring.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingPhysicalMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingPreview.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingRenderProxy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingVelocityCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ModuleClothing.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Cloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Fabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Factory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\PhaseConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Range.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Solver.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Types.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Allocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Array.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\BoundingBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\ClothBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\ClothImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\IndexPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\IterationState.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\MovingAverage.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\PointInterpolator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Simd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Simd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SimdTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\StackAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwClothData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollisionHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFactory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwInterCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSelfCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolver.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolverKernel.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\TripletScheduler.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Vec4T.h">
+		</ClInclude>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\Allocator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\Factory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\PhaseConfig.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCloth.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwClothData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFabric.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwInterCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSelfCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolver.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolverKernel.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\TripletScheduler.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\CmPhysXCommon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\CmTask.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothCoreUtilityTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothFabricCooker.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothMeshQuadifier.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothTetherCooker.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothFabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothMeshDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothTypes.h">
+		</ClInclude>
+		<ClCompile Include="..\..\module\clothing\embedded\Cooking.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothFabricCooker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothGeodesicTetherCooker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothMeshQuadifier.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothSimpleTetherCooker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\Simulation.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp">
+			<Command Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo$(IntermediateOutputPath)/avx/%(Filename).obj ..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">$(IntermediateOutputPath)/avx/%(Filename).obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='release|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo$(IntermediateOutputPath)/avx/%(Filename).obj ..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|Win32'">$(IntermediateOutputPath)/avx/%(Filename).obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo$(IntermediateOutputPath)/avx/%(Filename).obj ..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">$(IntermediateOutputPath)/avx/%(Filename).obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo$(IntermediateOutputPath)/avx/%(Filename).obj ..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">$(IntermediateOutputPath)/avx/%(Filename).obj;</Outputs>
+		</CustomBuild>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc15win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexShared.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc15win32/PsFastXml.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../NvParameterized/compiler/vc15win32-PhysX_3.4/NvParameterized.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc15win32/PxPvdSDK.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

@@ -1,0 +1,13 @@
+#! /bin/sh +x
+set -e
+
+pushd ../../Source/compiler/$ANDROID_CONFIG
+if [ $# -gt 0 ]; then
+for config in $*; do
+	make $config -j$MAKE_THREADS
+done
+else
+echo Need a Config!
+fi 
+
+popd

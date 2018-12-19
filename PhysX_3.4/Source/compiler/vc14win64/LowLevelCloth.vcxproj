@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{24546E40-3140-20F4-C5AC-E4001B9880B8}</ProjectGuid>
+		<RootNamespace>LowLevelCloth</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/LowLevelCloth/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/LowLevelCloth/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/LowLevelCloth/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../Lib/vc14win64\</OutDir>
+		<IntDir>./x64/LowLevelCloth/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include;./../../../Include/common;./../../Common/src;./../../LowLevelCloth/include;./../../LowLevelCloth/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PHYSX_STATIC_LIB;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp">
+			<Command Condition="'$(Configuration)|$(Platform)'=='debug|x64'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./x64/LowLevelCloth/debug/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='debug|x64'">./x64/LowLevelCloth/debug/avx/SwSolveConstraints.obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='checked|x64'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./x64/LowLevelCloth/checked/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='checked|x64'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='checked|x64'">./x64/LowLevelCloth/checked/avx/SwSolveConstraints.obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='profile|x64'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./x64/LowLevelCloth/profile/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='profile|x64'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='profile|x64'">./x64/LowLevelCloth/profile/avx/SwSolveConstraints.obj;</Outputs>
+			<Command Condition="'$(Configuration)|$(Platform)'=='release|x64'">cl.exe /c /Zi /Ox /MT /arch:AVX /Fd"$(TargetDir)\$(TargetName).pdb" /Fo./x64/LowLevelCloth/release/avx/SwSolveConstraints.obj ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp</Command>
+			<Message Condition="'$(Configuration)|$(Platform)'=='release|x64'">Building %(Identity)</Message>
+			<Outputs Condition="'$(Configuration)|$(Platform)'=='release|x64'">./x64/LowLevelCloth/release/avx/SwSolveConstraints.obj;</Outputs>
+		</CustomBuild>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevelCloth\include\Cloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\Fabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\Factory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\PhaseConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\Range.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\Solver.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\include\Types.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\LowLevelCloth\src\Allocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Array.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\BoundingBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\ClothBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\ClothImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\IndexPair.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\IterationState.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\MovingAverage.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\PointInterpolator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Simd.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Simd4f.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Simd4i.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SimdTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\StackAllocator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwClothData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwCollisionHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwFabric.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwFactory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwInterCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwSelfCollision.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwSolver.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\SwSolverKernel.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\TripletScheduler.h">
+		</ClInclude>
+		<ClInclude Include="..\..\LowLevelCloth\src\Vec4T.h">
+		</ClInclude>
+		<ClCompile Include="..\..\LowLevelCloth\src\Allocator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\Factory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\PhaseConfig.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwCloth.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwClothData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwFabric.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwInterCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwSelfCollision.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwSolver.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\SwSolverKernel.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\LowLevelCloth\src\TripletScheduler.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

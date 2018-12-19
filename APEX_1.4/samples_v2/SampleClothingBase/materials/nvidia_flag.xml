@@ -1,0 +1,5 @@
+<material>
+	<shader>clothing_asset_skinned</shader>
+	<shader>clothing_asset_static</shader>
+	<texture>nvidia_flag_d.dds</texture>
+</material>

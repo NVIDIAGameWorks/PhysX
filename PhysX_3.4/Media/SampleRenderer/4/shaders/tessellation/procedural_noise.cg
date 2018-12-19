@@ -1,0 +1,15 @@
+#include <tessellation_entry.cg>
+#include <noise.cg>
+
+//--------------------------------------------------------------------------------------
+// Functions
+//--------------------------------------------------------------------------------------
+
+void computeOffsetAndNormal(in float3 vLocalPos, in float3 vFaceNormal, in float3 vBaryCoords,
+                            inout float3 vOffset, inout float3 vNormal)
+{
+	vOffset = inoiseOffset(vLocalPos);
+	vNormal = vFaceNormal;
+	//vNormal = inoiseNormal(vLocalPos, vFaceNormal);
+}
+

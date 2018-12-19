@@ -1,0 +1,48 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="BasicIOSAssetParam" version="1.4" checksum="0xd1ae20ca 0xe79f585e 0x9ab86d65 0x9964607a">
+  <struct name="">
+    <value name="restDensity" type="F32">1</value>
+    <value name="particleRadius" type="F32">0.100000001</value>
+    <value name="maxParticleCount" type="U32">16384</value>
+    <value name="maxInjectedParticleCount" type="F32">0.100000001</value>
+    <value name="maxCollidingObjects" type="U32">32</value>
+    <value name="sceneGravityScale" type="F32">1</value>
+    <value name="externalAcceleration" type="Vec3">0 0 0</value>
+    <struct name="particleMass">
+      <value name="center" type="F32">1</value>
+      <value name="spread" type="F32">0</value>
+      <value name="type" type="Enum">uniform</value>
+    </struct>
+    <value name="collisionFilterDataName" type="String">SPRITE_COL_GRP_MASK</value>
+    <value name="fieldSamplerFilterDataName" type="String">SPRITE_COL_GRP_MASK</value>
+    <value name="staticCollision" type="Bool">true</value>
+    <value name="restitutionForStaticShapes" type="F32">0.5</value>
+    <value name="dynamicCollision" type="Bool">true</value>
+    <value name="restitutionForDynamicShapes" type="F32">0.5</value>
+    <value name="collisionDistanceMultiplier" type="F32">1</value>
+    <value name="collisionThreshold" type="F32">0.00100000005</value>
+    <value name="collisionWithConvex" type="Bool">true</value>
+    <value name="collisionWithTriangleMesh" type="Bool">true</value>
+    <struct name="GridDensity">
+      <value name="Enabled" type="Bool">false</value>
+      <value name="Resolution" type="Enum">GDG_16</value>
+      <value name="GridSize" type="F32">10</value>
+      <value name="MaxCellCount" type="U32">16</value>
+    </struct>
+    <value name="enableTemperatureBuffer" type="Bool">false</value>
+    <value name="enableDensityBuffer" type="Bool">false</value>
+    <value name="enableCouplingOverride" type="Bool">false</value>
+    <struct name="particleToGridCoupling">
+      <value name="accelTimeConstant" type="F32">0.00999999978</value>
+      <value name="decelTimeConstant" type="F32">10</value>
+      <value name="thresholdMultiplier" type="F32">2</value>
+    </struct>
+    <struct name="gridToParticleCoupling">
+      <value name="accelTimeConstant" type="F32">0.00999999978</value>
+      <value name="decelTimeConstant" type="F32">0.00999999978</value>
+      <value name="thresholdMultiplier" type="F32">1</value>
+    </struct>
+  </struct>
+</value>
+</NvParameters>

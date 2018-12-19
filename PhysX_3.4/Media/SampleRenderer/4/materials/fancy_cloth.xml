@@ -1,0 +1,10 @@
+<material type="lit">
+	<shader name="vertex">vertex/staticmesh.cg</shader>
+	<shader name="fragment">fragment/fancy_cloth_diffuse.cg</shader>
+	<alphaTestFunc>GREATER</alphaTestFunc>
+	<alphaTestRef>0.9</alphaTestRef>
+	<variables>
+        <sampler2D name="diffuseTexture">textures/knit_1d.dds</sampler2D>
+        <sampler2D name="normalTexture">textures/knit_1n.dds</sampler2D>
+	</variables>
+</material>

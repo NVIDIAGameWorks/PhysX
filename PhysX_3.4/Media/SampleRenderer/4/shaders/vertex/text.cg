@@ -1,0 +1,35 @@
+// Parameters passed from the vertex shader to the fragment shader.
+struct TextFragmentParameters
+{
+	float4 worldSpacePosition : TEXCOORD4;
+	float2 texcoord0          : TEXCOORD0;
+	half4  color              : COLOR;
+};
+
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	TextFragmentParameters params;
+	float4				   screenSpacePosition : POSITION;
+};
+
+VertexOut vmain(__in(float4,     localSpacePosition, POSITION)
+                __in_opt(half4,  vertexColor,        COLOR)
+                __in_opt(float3, localSpaceNormal,   NORMAL)
+                __in_opt(float4, localSpaceTangent,  SEMANTIC_TANGENT)
+                __in_opt(float4, vertexTexcoord0,    TEXCOORD0)
+                __in_opt(float4, vertexTexcoord1,    TEXCOORD1)
+                __in_opt(float4, vertexTexcoord2,    TEXCOORD2)
+                __in_opt(float4, vertexTexcoord3,    TEXCOORD3))
+{
+	VertexOut vout;
+	vout.screenSpacePosition		= float4(mul(g_viewMatrix2D, float4(localSpacePosition.xyz,1)).xyz, localSpacePosition.w);
+	vout.params.worldSpacePosition	= vout.screenSpacePosition;
+	vout.params.texcoord0			= vertexTexcoord0.xy;
+	vout.params.color				= vertexColor;
+	
+	return vout;
+}
+

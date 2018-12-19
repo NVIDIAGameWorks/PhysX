@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Effects11", "./Effects11.vcxproj", "{223559A7-4AD8-97C2-820A-599906DBF2CC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug|x64 = debug|x64
+		release|x64 = release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{223559A7-4AD8-97C2-820A-599906DBF2CC}.debug|x64.ActiveCfg = debug|x64
+		{223559A7-4AD8-97C2-820A-599906DBF2CC}.debug|x64.Build.0 = debug|x64
+		{223559A7-4AD8-97C2-820A-599906DBF2CC}.release|x64.ActiveCfg = release|x64
+		{223559A7-4AD8-97C2-820A-599906DBF2CC}.release|x64.Build.0 = release|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

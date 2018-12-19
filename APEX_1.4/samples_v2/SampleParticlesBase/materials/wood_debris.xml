@@ -1,0 +1,4 @@
+<material>
+	<shader>mesh_particle</shader>
+	<texture>Wood_Tileable.dds</texture>
+</material>

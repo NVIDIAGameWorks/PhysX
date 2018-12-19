@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Common\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\common\src\autogen\ConvexHullParameters.cpp">
+			<Filter>Common\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\autogen\DebugColorParams.cpp">
+			<Filter>Common\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\autogen\DebugRenderParams.cpp">
+			<Filter>Common\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\common\src\ApexActor.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexAssetAuthoring.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexAssetTracker.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexCollision.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexContext.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexCudaProfile.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexCudaTest.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexGeneralizedCubeTemplates.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexGeneralizedMarchingCubes.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexIsoMesh.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexMeshContractor.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexMeshHash.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexPreview.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexPvdClient.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexQuadricSimplifier.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexResource.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexRWLockable.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexSDKCachedDataImpl.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexSDKHelpers.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexShape.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexSharedUtils.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexSubdivider.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ApexTetrahedralizer.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\CurveImpl.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ModuleBase.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ModuleUpdateLoader.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\PVDParameterizedHandler.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\ReadCheck.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\Spline.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\variable_oscillator.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\common\src\WriteCheck.cpp">
+			<Filter>Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Common\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\common\include\autogen\ConvexHullParameters.h">
+			<Filter>Common\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\autogen\DebugColorParams.h">
+			<Filter>Common\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\autogen\DebugRenderParams.h">
+			<Filter>Common\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\autogen\ModuleCommonRegistration.h">
+			<Filter>Common\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\common\include\ApexActor.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexAssetAuthoring.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexAssetTracker.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexAuthorableObject.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexBinaryHeap.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCollision.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexConstrainedDistributor.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexContext.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCuda.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCudaDefs.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCudaProfile.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCudaSource.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCudaTest.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCudaWrapper.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexCutil.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexFIFO.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexFind.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexGeneralizedCubeTemplates.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexGeneralizedMarchingCubes.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexGroupsFiltering.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexIsoMesh.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexLegacyModule.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMarchingCubes.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMath.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMerge.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMeshContractor.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMeshHash.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMirrored.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexMirroredArray.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexPermute.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexPreview.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexPvdClient.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexQuadricSimplifier.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexQuickSelectSmallestK.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexRand.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexRenderable.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexResource.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexResourceHelper.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexRWLockable.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexSDKCachedDataImpl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexSDKHelpers.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexSDKIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexShape.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexSharedUtils.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexSubdivider.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexTest.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ApexTetrahedralizer.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\AuthorableObjectIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\Cof44.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\CurveImpl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\DebugColorParamsEx.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\DeclareArray.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\FieldBoundaryIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\FieldSamplerIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\FieldSamplerManagerIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\FieldSamplerQueryIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\FieldSamplerSceneIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\InplaceStorage.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\InplaceTypes.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\InplaceTypesBuilder.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\InstancedObjectSimulationIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\IofxManagerIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ModuleBase.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ModuleFieldSamplerIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ModuleIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ModuleIofxIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ModuleUpdateLoader.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\P4Info.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\PhysXObjectDescIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ProfilerCallback.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\PVDParameterizedHandler.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\RandState.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\RandStateHelpers.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ReadCheck.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\RenderAPIIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\RenderMeshAssetIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\ResourceProviderIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\SceneIntl.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\SimplexNoise.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\Spline.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\TableLookup.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\variable_oscillator.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\common\include\WriteCheck.h">
+			<Filter>Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="param">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\common\parameters\ConvexHullParamSchema.pl">
+			<Filter>param</Filter>
+		</None>
+		<None Include="..\..\common\parameters\DebugColorParamSchema.pl">
+			<Filter>param</Filter>
+		</None>
+		<None Include="..\..\common\parameters\DebugRenderParamSchema.pl">
+			<Filter>param</Filter>
+		</None>
+	</ItemGroup>
+</Project>

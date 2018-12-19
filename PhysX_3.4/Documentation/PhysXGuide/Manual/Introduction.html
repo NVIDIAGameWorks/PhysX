@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to PhysX &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="Snippets" href="HelloWorld.html" />
+    <link rel="prev" title="User&#39;s Guide" href="Index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="HelloWorld.html" title="Snippets"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="Index.html" title="User&#39;s Guide"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="introduction"></span><div class="section" id="welcome-to-physx">
+<h1>Welcome to PhysX<a class="headerlink" href="#welcome-to-physx" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to the NVIDIA® PhysX® SDK version 3!  With this second major rewrite of the SDK, we are excited to bring you a great number of enhancements, including numerous API improvements.  Because so much has changed in the API, we recommend even experienced PhysX users to read through this guide to familiarize themselves with the new programming interface.</p>
+<div class="section" id="about-this-user-guide">
+<h2>About this User Guide<a class="headerlink" href="#about-this-user-guide" title="Permalink to this headline">¶</a></h2>
+<p>This Guide will help the reader to understand the PhysX-3 SDK and its applications. The Guide presents an overview of the
+features and implementation of the PhysX SDK, and its performance in general use as well as in specific cases.</p>
+<dl class="docutils">
+<dt>That is, this Guide covers:</dt>
+<dd><ul class="first last simple">
+<li>what PhysX does;</li>
+<li>how PhysX works;</li>
+<li>how well PhysX is expected to perform;</li>
+<li>how to use PhysX by example, and performance in those use cases.</li>
+</ul>
+</dd>
+</dl>
+<p>The Guide does not attempt to explain the details of the API, and the interested reader should refer to the PhysX API
+Reference Documentation. ( See PhysXAPI.chm, in the Documentation directory under the main directory where the PhysX
+SDK distro was unpacked.) Users migrating from PhysX-2 will find the <a class="reference internal" href="MigrationFrom28.html#migration"><em>Migrating From PhysX SDK 2.x to 3.x</em></a> chapter of particular interest.</p>
+</div>
+<div class="section" id="physics-vs-physx">
+<h2>Physics vs. PhysX<a class="headerlink" href="#physics-vs-physx" title="Permalink to this headline">¶</a></h2>
+<p>Physics is a rich and broad scientific pursuit, an attempt to explain with mathematics the behavior of all matter, everything in the entire universe,
+using concepts such as space, time, energy, inertia, momentum and force.  In physics, space is assumed to extend infinitely in three dimensions, and
+can be divided into infinitely small units with arbitrarily fine precision.  In other words, positions in physics space are described by vectors of
+real numbers in a 3-dimensional Cartesian coordinate system.  In contrast, positions in PhysX simulation space are vectors of
+single-precision floating point numbers.</p>
+<p>Like the dimensions of space, time in physics is described by a real number,  an infinite duration divisible into arbitrarily small intervals.  Physics promises that if
+the forces imposed on a system are known throughout some period of time, and if the state of the system is known precisely at some instant of time in that period,
+then the state of the system can be determined precisely for any other instant throughout the time period.  For example, if one observes a ball falling towards the
+ground, and measures its position and velocity, one can calculate what the position and velocity of the ball must have been at an earlier time, as well as what they
+must become at a later time.  In contrast,  time in a PhysX simulation is discrete, not continuous, and it runs only 'forwards'. That is, the state of the simulated
+system is known only at specific instants in time, usually referred to as 'steps', and the simulation may only step forwards in time, never backwards. The state of
+a PhysX system in between time steps is not precisely determined.</p>
+<p>Because of such approximations a PhysX simulation is subject to limitations that are not seen in ordinary physics, and later sections in this
+Guide will highlight these limitations wherever they are likely to concern the user.  PhysX is best suited for quasi-real time interactive 3D applications where
+performance and scalability are more important than precision.  Here &quot;quasi-real time&quot; means that advancing a PhysX simulation by a given time step,
+say 1/60 second, will take less than that amount of time on an observer's clock if the performance of the hardware platform is sufficient for the complexity of
+the simulation. That the PhysX SDK is more widely used in computer and video games than in scientific or engineering applications is both a cause and an effect of
+these design choices.  Consequently this Guide usually refers to PhysX in the context of games, e.g. 'the game world', 'rigid body game objects', 'the character', etc.</p>
+</div>
+<div class="section" id="world-and-objects">
+<h2>World and Objects<a class="headerlink" href="#world-and-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The basic concepts of the world within a PhysX simulation are easy to visualize:</dt>
+<dd><ul class="first last simple">
+<li>The PhysX world comprises a collection of Scenes, each containing objects called Actors;</li>
+<li>Each Scene defines its own reference frame encompassing all of space and time;</li>
+<li>Actors in different Scenes do not interact with each other;</li>
+<li>The three major types of Actors are rigid bodies, particles and cloth;</li>
+<li>Characters and vehicles are complex specialized objects made from Actors;</li>
+<li>Actors have physical state : position and orientation; velocity or momentum; energy;  etc,</li>
+<li>Actor physical state may evolve over time due to applied forces, constraints such as joints or contacts, and interactions between Actors.</li>
+</ul>
+</dd>
+</dl>
+<p>Games are a very visual medium and audible and games usually place very particular requirements on their graphics and sound.  Production quality graphics and audio are
+outside the scope of PhysX, but it is enormously valuable to be able to visualize this otherwise hidden world.  Some of our example programs come with rudimentary built-in
+visualization, and we also provide a stand-alone debugging tool called PhysX Visual Debugger (PVD).  PVD provides a graphical view of the PhysX scene together with various
+tools to inspect and visualize variables of every PhysX object. Additionally it can also record and visualize memory and timing data. See <a class="reference internal" href="VisualDebugger.html#physxvisualdebugger"><em>PhysX Visual Debugger (PVD)</em></a> for details.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to PhysX</a><ul>
+<li><a class="reference internal" href="#about-this-user-guide">About this User Guide</a></li>
+<li><a class="reference internal" href="#physics-vs-physx">Physics vs. PhysX</a></li>
+<li><a class="reference internal" href="#world-and-objects">World and Objects</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Index.html"
+                        title="previous chapter">User's Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="HelloWorld.html"
+                        title="next chapter">Snippets</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="HelloWorld.html" title="Snippets"
+             >next</a></li>
+        <li class="right" >
+          <a href="Index.html" title="User&#39;s Guide"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

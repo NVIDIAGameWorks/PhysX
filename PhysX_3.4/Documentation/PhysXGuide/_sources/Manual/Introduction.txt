@@ -1,0 +1,81 @@
+.. _INTRODUCTION:
+
+.. |reg| unicode:: U+000AE .. REGISTERED SIGN
+   :ltrim:
+
+----------------
+Welcome to PhysX
+----------------
+
+Welcome to the NVIDIA |reg| PhysX |reg| SDK version 3!  With this second major rewrite of the SDK, we are excited to bring you a great number of enhancements, including numerous API improvements.  Because so much has changed in the API, we recommend even experienced PhysX users to read through this guide to familiarize themselves with the new programming interface.
+
+
+=====================
+About this User Guide
+=====================
+
+This Guide will help the reader to understand the PhysX-3 SDK and its applications. The Guide presents an overview of the
+features and implementation of the PhysX SDK, and its performance in general use as well as in specific cases.
+
+That is, this Guide covers:
+ * what PhysX does;
+ * how PhysX works;
+ * how well PhysX is expected to perform;
+ * how to use PhysX by example, and performance in those use cases.
+
+The Guide does not attempt to explain the details of the API, and the interested reader should refer to the PhysX API
+Reference Documentation. ( See PhysXAPI.chm, in the Documentation directory under the main directory where the PhysX
+SDK distro was unpacked.) Users migrating from PhysX-2 will find the :ref:`migration` chapter of particular interest.
+
+
+
+===================
+Physics vs. PhysX
+===================
+
+Physics is a rich and broad scientific pursuit, an attempt to explain with mathematics the behavior of all matter, everything in the entire universe,
+using concepts such as space, time, energy, inertia, momentum and force.  In physics, space is assumed to extend infinitely in three dimensions, and
+can be divided into infinitely small units with arbitrarily fine precision.  In other words, positions in physics space are described by vectors of
+real numbers in a 3-dimensional Cartesian coordinate system.  In contrast, positions in PhysX simulation space are vectors of
+single-precision floating point numbers.
+
+Like the dimensions of space, time in physics is described by a real number,  an infinite duration divisible into arbitrarily small intervals.  Physics promises that if
+the forces imposed on a system are known throughout some period of time, and if the state of the system is known precisely at some instant of time in that period,
+then the state of the system can be determined precisely for any other instant throughout the time period.  For example, if one observes a ball falling towards the
+ground, and measures its position and velocity, one can calculate what the position and velocity of the ball must have been at an earlier time, as well as what they
+must become at a later time.  In contrast,  time in a PhysX simulation is discrete, not continuous, and it runs only 'forwards'. That is, the state of the simulated
+system is known only at specific instants in time, usually referred to as 'steps', and the simulation may only step forwards in time, never backwards. The state of
+a PhysX system in between time steps is not precisely determined.
+
+Because of such approximations a PhysX simulation is subject to limitations that are not seen in ordinary physics, and later sections in this
+Guide will highlight these limitations wherever they are likely to concern the user.  PhysX is best suited for quasi-real time interactive 3D applications where
+performance and scalability are more important than precision.  Here "quasi-real time" means that advancing a PhysX simulation by a given time step,
+say 1/60 second, will take less than that amount of time on an observer's clock if the performance of the hardware platform is sufficient for the complexity of
+the simulation. That the PhysX SDK is more widely used in computer and video games than in scientific or engineering applications is both a cause and an effect of
+these design choices.  Consequently this Guide usually refers to PhysX in the context of games, e.g. 'the game world', 'rigid body game objects', 'the character', etc.
+
+=================
+World and Objects
+=================
+
+The basic concepts of the world within a PhysX simulation are easy to visualize:
+ * The PhysX world comprises a collection of Scenes, each containing objects called Actors;
+ * Each Scene defines its own reference frame encompassing all of space and time;
+ * Actors in different Scenes do not interact with each other;
+ * The three major types of Actors are rigid bodies, particles and cloth;
+ * Characters and vehicles are complex specialized objects made from Actors;
+ * Actors have physical state : position and orientation; velocity or momentum; energy;  etc,
+ * Actor physical state may evolve over time due to applied forces, constraints such as joints or contacts, and interactions between Actors.
+
+Games are a very visual medium and audible and games usually place very particular requirements on their graphics and sound.  Production quality graphics and audio are
+outside the scope of PhysX, but it is enormously valuable to be able to visualize this otherwise hidden world.  Some of our example programs come with rudimentary built-in
+visualization, and we also provide a stand-alone debugging tool called PhysX Visual Debugger (PVD).  PVD provides a graphical view of the PhysX scene together with various
+tools to inspect and visualize variables of every PhysX object. Additionally it can also record and visualize memory and timing data. See :ref:`physxvisualdebugger` for details.
+
+
+
+
+
+
+
+

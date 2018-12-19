@@ -1,0 +1,9 @@
+<material type="unlit">
+	<shader name="vertex">vertex/pointsprite.cg</shader>
+	<shader name="fragment">fragment/pointsprite_diffuse.cg</shader>
+	<blending>true</blending>
+	<variables>
+		<float name="particleSize">1.5</float>
+        <sampler2D name="diffuseTexture">textures/SoftParticle.dds</sampler2D>
+	</variables>
+</material>

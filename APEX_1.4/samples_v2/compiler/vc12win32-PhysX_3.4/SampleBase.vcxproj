@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{DD323D8B-0B68-74C5-043C-91BBE6A810A7}</ProjectGuid>
+		<RootNamespace>SampleBase</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../compiler/paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../compiler/paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../compiler/paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../compiler/paths.vsprops" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/SampleBase/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>Sync</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO PhysX3CommonDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PxPvdSDKDEBUG_x86.lib PxTaskDEBUG_x86.lib PxFoundationDEBUG_x86.lib PsFastXmlDEBUG_x86.lib ApexFrameworkDEBUG_x86.lib Apex_LegacyDEBUG_x86.lib Apex_DestructibleDEBUG_x86.lib Apex_ParticlesDEBUG_x86.lib /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /NOLOGO /OPT:REF /OPT:ICF /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>xinput.lib;d3dcompiler.lib;d3d11.lib;dxguid.lib;dxgi.lib;winmm.lib;comctl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;shlwapi.lib;directxtexDEBUG.lib;DXUTDEBUG.lib;Effects11DEBUG.lib;nvidiautilsDEBUG.lib;nvsimplemeshDEBUG.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>../../../../PxShared/lib/vc12WIN32;$(WindowsSDK_LibraryPath_x86);./../../../externals/extensions/externals/lib/WIN32;./../../../externals/extensions/lib/WIN32;../../../../PxShared/lib/vc12win32;./../../../lib/vc12WIN32-PhysX_3.4;../../../../PhysX_3.4/Lib/vc12WIN32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/SampleBase/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>Sync</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO PhysX3Common_x86.lib PhysX3_x86.lib PhysX3Cooking_x86.lib PhysX3Extensions.lib PxPvdSDK_x86.lib PxTask_x86.lib PxFoundation_x86.lib PsFastXml_x86.lib ApexFramework_x86.lib Apex_Legacy_x86.lib Apex_Destructible_x86.lib Apex_Particles_x86.lib /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /NOLOGO /OPT:REF /OPT:ICF /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>xinput.lib;d3dcompiler.lib;d3d11.lib;dxguid.lib;dxgi.lib;winmm.lib;comctl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;shlwapi.lib;directxtex.lib;DXUT.lib;Effects11.lib;nvidiautils.lib;nvsimplemesh.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+			<AdditionalLibraryDirectories>../../../../PxShared/lib/vc12WIN32;$(WindowsSDK_LibraryPath_x86);./../../../externals/extensions/externals/lib/WIN32;./../../../externals/extensions/lib/WIN32;../../../../PxShared/lib/vc12win32;./../../../lib/vc12WIN32-PhysX_3.4;../../../../PhysX_3.4/Lib/vc12WIN32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/SampleBase/profile\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>Sync</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO PhysX3CommonPROFILE_x86.lib PhysX3PROFILE_x86.lib PhysX3CookingPROFILE_x86.lib PhysX3ExtensionsPROFILE.lib PxPvdSDKPROFILE_x86.lib PxTaskPROFILE_x86.lib PxFoundationPROFILE_x86.lib PsFastXmlPROFILE_x86.lib ApexFrameworkPROFILE_x86.lib Apex_LegacyPROFILE_x86.lib Apex_DestructiblePROFILE_x86.lib Apex_ParticlesPROFILE_x86.lib /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /NOLOGO /OPT:REF /OPT:ICF /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>xinput.lib;d3dcompiler.lib;d3d11.lib;dxguid.lib;dxgi.lib;winmm.lib;comctl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;shlwapi.lib;directxtex.lib;DXUT.lib;Effects11.lib;nvidiautils.lib;nvsimplemesh.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
+			<AdditionalLibraryDirectories>../../../../PxShared/lib/vc12WIN32;$(WindowsSDK_LibraryPath_x86);./../../../externals/extensions/externals/lib/WIN32;./../../../externals/extensions/lib/WIN32;../../../../PxShared/lib/vc12win32;./../../../lib/vc12WIN32-PhysX_3.4;../../../../PhysX_3.4/Lib/vc12WIN32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../bin/vc12win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/SampleBase/checked\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<CallingConvention>Cdecl</CallingConvention>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /MP /WX- /Oy- /Gm- /EHsc /wd4005 /wd4244 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>../../../../PxShared/include;../../../../PxShared/include/filebuf;../../../../PxShared/include/foundation;../../../../PxShared/include/task;../../../../PxShared/include/cudamanager;../../../../PxShared/include/pvd;../../../../PxShared/src/foundation/include;../../../../PxShared/src/filebuf/include;../../../../PxShared/src/fastxml/include;../../../../PxShared/src/pvd/include;./../../../include;./../../../include/PhysX3;./../../../include/basicios;./../../../include/clothing;./../../../include/destructible;./../../../include/emitter;./../../../include/particles;./../../../include/iofx;./../../../include/pxparticleios;../../../../PhysX_3.4/Include;./../../../shared/external/include;./../../../shared/general/shared;./../../../shared/general/RenderDebug/public;./../../../include;./../../../include/PhysX3;$(WindowsSDK_IncludePath);./../../../externals/extensions/externals/include/directxtex;./../../../externals/extensions/externals/include/dxut/Core;./../../../externals/extensions/externals/include/dxut/Optional;./../../../externals/extensions/externals/include/effects11;./../../../externals/extensions/externals/include/simpleopt;./../../../externals/extensions/include/nvidiautils;./../../../externals/extensions/include/nvsimplemesh;./../../../externals/extensions/externals/include;./../../../externals/extensions/externals/include/anttweakbar;./../../../externals/extensions/externals/include/assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH;_ALLOW_RUNTIME_LIBRARY_MISMATCH;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>Sync</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/INCREMENTAL:NO PhysX3CommonCHECKED_x86.lib PhysX3CHECKED_x86.lib PhysX3CookingCHECKED_x86.lib PhysX3ExtensionsCHECKED.lib PxPvdSDKCHECKED_x86.lib PxTaskCHECKED_x86.lib PxFoundationCHECKED_x86.lib PsFastXmlCHECKED_x86.lib ApexFrameworkCHECKED_x86.lib Apex_LegacyCHECKED_x86.lib Apex_DestructibleCHECKED_x86.lib Apex_ParticlesCHECKED_x86.lib /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /NOLOGO /OPT:REF /OPT:ICF /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>xinput.lib;d3dcompiler.lib;d3d11.lib;dxguid.lib;dxgi.lib;winmm.lib;comctl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;shlwapi.lib;directxtex.lib;DXUT.lib;Effects11.lib;nvidiautils.lib;nvsimplemesh.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
+			<AdditionalLibraryDirectories>../../../../PxShared/lib/vc12WIN32;$(WindowsSDK_LibraryPath_x86);./../../../externals/extensions/externals/lib/WIN32;./../../../externals/extensions/lib/WIN32;../../../../PxShared/lib/vc12win32;./../../../lib/vc12WIN32-PhysX_3.4;../../../../PhysX_3.4/Lib/vc12WIN32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleBase\ApexController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderMaterial.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderResourceManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderResources.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexResourceCallback.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\CommonUIController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\PhysXPrimitive.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\SampleManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\Utils.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleBase\ApexController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderMaterial.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderResourceManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderResources.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexResourceCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\CommonUIController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\PhysXPrimitive.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\SampleManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\Utils.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/DirectXTex.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/DXUT.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/externals/build/vs2013WIN32/Effects11.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvsimplemesh.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/extensions/build/vs2013WIN32/nvidiautils.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Source Files">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleBase\ApexController.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderer.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderMaterial.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderResourceManager.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexRenderResources.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\ApexResourceCallback.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\CommonUIController.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\PhysXPrimitive.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\SampleManager.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBase\Utils.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\SampleBase\ApexController.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderer.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderMaterial.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderResourceManager.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexRenderResources.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\ApexResourceCallback.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\CommonUIController.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\PhysXPrimitive.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\SampleManager.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBase\Utils.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+	</ItemGroup>
+</Project>

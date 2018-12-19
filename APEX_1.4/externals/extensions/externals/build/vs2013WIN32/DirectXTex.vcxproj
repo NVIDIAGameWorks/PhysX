@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{E4300CA4-818C-5C30-C94C-91C4220872A0}</ProjectGuid>
+		<RootNamespace>DirectXTex</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../lib/WIN32\</OutDir>
+		<IntDir>./Win32/DirectXTex/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>DirectXTexDEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<CallingConvention>Cdecl</CallingConvention>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4005 /Oy- /EHsc /wd4748</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);./../../include/directxtex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_UNICODE;UNICODE;_WINDOWS;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_DEPRECATE;_LIB;_DEBUG;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)DirectXTexDEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/DirectXTexDEBUG.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../lib/WIN32\</OutDir>
+		<IntDir>./Win32/DirectXTex/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>DirectXTex</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/wd4005 /Oy- /EHsc /wd4748</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);./../../include/directxtex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_UNICODE;UNICODE;_WINDOWS;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_DEPRECATE;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/MACHINE:x86 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)DirectXTex.lib</OutputFile>
+			<AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/DirectXTex.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\directxtex\BC.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\BC4BC5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\BC6HBC7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\BCDirectCompute.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexCompress.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexCompressGPU.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexConvert.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexD3D11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexDDS.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexFlipRotate.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexImage.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexMipmaps.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexMisc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexNormalMaps.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexPMAlpha.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexResize.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexTGA.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexUtil.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\directxtex\DirectXTexWIC.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\directxtex\BC.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\BCDirectCompute.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\DDS.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\DirectXTex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\DirectXTexP.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\Filters.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\scoped.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\directxtex\DirectXTex.inl">
+		</ClInclude>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

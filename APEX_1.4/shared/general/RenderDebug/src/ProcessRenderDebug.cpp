@@ -1,0 +1,3342 @@
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//  * Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//  * Neither the name of NVIDIA CORPORATION nor the names of its
+//    contributors may be used to endorse or promote products derived
+//    from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+
+#include "ProcessRenderDebug.h"
+#include "PsMemoryBuffer.h"
+#include "PxBounds3.h"
+#include "StreamIO.h"
+#include "Hull2MeshEdges.h"
+
+namespace RENDER_DEBUG
+{
+
+static float degToRad(const float a)	
+{	
+	return static_cast<float>(0.01745329251994329547) * a;	
+}
+
+static physx::PxQuat slerp(const float t, const physx::PxQuat& left, const physx::PxQuat& right) 
+{
+	const float quatEpsilon = (float(1.0e-8f));
+
+	float cosine = left.dot(right);
+	float sign = float(1);
+	if (cosine < 0)
+	{
+		cosine = -cosine;
+		sign = float(-1);
+	}
+
+	float sine = float(1) - cosine*cosine;
+
+	if(sine>=quatEpsilon*quatEpsilon)	
+	{
+		sine = physx::PxSqrt(sine);
+		const float angle = physx::PxAtan2(sine, cosine);
+		const float i_sin_angle = float(1) / sine;
+
+		const float leftw = physx::PxSin(angle*(float(1)-t)) * i_sin_angle;
+		const float rightw = physx::PxSin(angle * t) * i_sin_angle * sign;
+
+		return left * leftw + right * rightw;
+	}
+
+	return left;
+}
+
+
+	physx::PxQuat NvShortestRotation(const physx::PxVec3& v0, const physx::PxVec3& v1)
+	{
+		const float d = v0.dot(v1);
+		const physx::PxVec3 cross = v0.cross(v1);
+
+		physx::PxQuat q = d>-1 ? physx::PxQuat(cross.x, cross.y, cross.z, 1+d) 
+			: physx::PxAbs(v0.x)<0.1f ? physx::PxQuat(0.0f, v0.z, -v0.y, 0.0f) : physx::PxQuat(v0.y, -v0.x, 0.0f, 0.0f);
+
+		return q.getNormalized();
+	}
+
+
+
+	physx::PxMat44 invert(const physx::PxMat44 &m)
+	{
+		physx::PxMat44 inv;
+
+#define det3x3(a0, a1, a2, a3, a4, a5, a6, a7, a8) \
+	(a0 * (a4*a8 - a7*a5) - a1 * (a3*a8 - a6*a5) + a2 * (a3*a7 - a6*a4))
+
+		inv.column0.x =  det3x3(m.column1.y, m.column1.z, m.column1.w,   m.column2.y, m.column2.z, m.column2.w,   m.column3.y, m.column3.z, m.column3.w);
+		inv.column0.y = -det3x3(m.column0.y, m.column0.z, m.column0.w,   m.column2.y, m.column2.z, m.column2.w,   m.column3.y, m.column3.z, m.column3.w);
+		inv.column0.z =  det3x3(m.column0.y, m.column0.z, m.column0.w,   m.column1.y, m.column1.z, m.column1.w,   m.column3.y, m.column3.z, m.column3.w);
+		inv.column0.w = -det3x3(m.column0.y, m.column0.z, m.column0.w,   m.column1.y, m.column1.z, m.column1.w,   m.column2.y, m.column2.z, m.column2.w);
+
+		inv.column1.x = -det3x3(m.column1.x, m.column1.z, m.column1.w,   m.column2.x, m.column2.z, m.column2.w,   m.column3.x, m.column3.z, m.column3.w);
+		inv.column1.y =  det3x3(m.column0.x, m.column0.z, m.column0.w,   m.column2.x, m.column2.z, m.column2.w,   m.column3.x, m.column3.z, m.column3.w);
+		inv.column1.z = -det3x3(m.column0.x, m.column0.z, m.column0.w,   m.column1.x, m.column1.z, m.column1.w,   m.column3.x, m.column3.z, m.column3.w);
+		inv.column1.w =  det3x3(m.column0.x, m.column0.z, m.column0.w,   m.column1.x, m.column1.z, m.column1.w,   m.column2.x, m.column2.z, m.column2.w);
+
+		inv.column2.x =  det3x3(m.column1.x, m.column1.y, m.column1.w,   m.column2.x, m.column2.y, m.column2.w,   m.column3.x, m.column3.y, m.column3.w);
+		inv.column2.y = -det3x3(m.column0.x, m.column0.y, m.column0.w,   m.column2.x, m.column2.y, m.column2.w,   m.column3.x, m.column3.y, m.column3.w);
+		inv.column2.z =  det3x3(m.column0.x, m.column0.y, m.column0.w,   m.column1.x, m.column1.y, m.column1.w,   m.column3.x, m.column3.y, m.column3.w);
+		inv.column2.w = -det3x3(m.column0.x, m.column0.y, m.column0.w,   m.column1.x, m.column1.y, m.column1.w,   m.column2.x, m.column2.y, m.column2.w);
+
+		inv.column3.x = -det3x3(m.column1.x, m.column1.y, m.column1.z,   m.column2.x, m.column2.y, m.column2.z,   m.column3.x, m.column3.y, m.column3.z);
+		inv.column3.y =  det3x3(m.column0.x, m.column0.y, m.column0.z,   m.column2.x, m.column2.y, m.column2.z,   m.column3.x, m.column3.y, m.column3.z);
+		inv.column3.z = -det3x3(m.column0.x, m.column0.y, m.column0.z,   m.column1.x, m.column1.y, m.column1.z,   m.column3.x, m.column3.y, m.column3.z);
+		inv.column3.w =  det3x3(m.column0.x, m.column0.y, m.column0.z,   m.column1.x, m.column1.y, m.column1.z,   m.column2.x, m.column2.y, m.column2.z);
+
+#undef det3x3
+
+		float det = m.column0.x*inv.column0.x + m.column1.x*inv.column0.y + m.column2.x*inv.column0.z + m.column3.x*inv.column0.w;
+		PX_ASSERT(det!=0);
+		if(!det) det = 1.0f;
+		float invDet = 1.0f / det;
+
+		inv.column0 *= invDet;
+		inv.column1 *= invDet;
+		inv.column2 *= invDet;
+		inv.column3 *= invDet;
+
+		return inv;
+	}
+
+
+class ProcessRenderDebugHelper
+{
+public:
+	virtual void indirectDebugLine(const physx::PxVec3 &p1,const physx::PxVec3 &p2) = 0;
+protected:
+	virtual ~ProcessRenderDebugHelper(void) {}
+};
+
+const physx::PxVec3 debug_point[6] =
+{
+	physx::PxVec3(-1.0f, 0.0f, 0.0f),  physx::PxVec3(1.0f, 0.0f, 0.0f),
+	physx::PxVec3(0.0f,-1.0f, 0.0f),  physx::PxVec3(0.0f, 1.0f, 0.0f),
+	physx::PxVec3(0.0f, 0.0f,-1.0f),  physx::PxVec3(0.0f, 0.0f, 1.0f)
+};
+
+// simple sphere, uses subdivision to enhance...
+static physx::PxVec3 simpleSpherePosition[6] =
+{
+	physx::PxVec3( 1.0f, 0.0f, 0.0f),
+	physx::PxVec3(-1.0f, 0.0f, 0.0f),
+	physx::PxVec3( 0.0f, 1.0f, 0.0f),
+	physx::PxVec3( 0.0f,-1.0f, 0.0f),
+	physx::PxVec3( 0.0f, 0.0f, 1.0f),
+	physx::PxVec3( 0.0f, 0.0f,-1.0f),
+};
+
+static uint32_t simpleSphereIndices[8*3] =
+{
+	0, 2, 4,
+	1, 4, 2,
+	0, 5, 2,
+	1, 2, 5,
+
+	0, 4, 3,
+	1, 3, 4,
+	0, 3, 5,
+	1, 5, 3,
+};
+
+
+const float FM_PI = 3.1415926535897932384626433832795028841971693993751f;
+const float FM_DEG_TO_RAD = ((2.0f * FM_PI) / 360.0f);
+//const float FM_RAD_TO_DEG = (360.0f / (2.0f * FM_PI));
+
+PX_INLINE void pxVec3FromArray(physx::PxVec3 &p,const float *pos)
+{
+	p.x = pos[0];
+	p.y = pos[1];
+	p.z = pos[2];
+}
+
+// quat to rotate v0 t0 v1
+static PX_INLINE physx::PxQuat rotationArc(const physx::PxVec3& v0, const physx::PxVec3& v1)
+{
+	const physx::PxVec3 cross = v0.cross(v1);
+	const float d = v0.dot(v1);
+	if(d<=-0.99999f)
+		return (physx::PxAbs(v0.x)<0.1f ? physx::PxQuat(0.0f, v0.z, -v0.y, 0.0f) : physx::PxQuat(v0.y, -v0.x, 0.0, 0.0)).getNormalized();
+
+	const float s = physx::PxSqrt((1+d)*2), r = 1/s;
+
+	return physx::PxQuat(cross.x*r, cross.y*r, cross.z*r, s*0.5f).getNormalized();
+}
+
+static PX_INLINE void rotationArc(const physx::PxVec3 &v0,const physx::PxVec3 &v1,physx::PxQuat &quat)
+{
+	quat = rotationArc(v0,v1);
+}
+
+/*const float debug_sphere[32*9] =
+{
+	0.0000f, 0.0000f, 1.0000f,    0.7071f, 0.0000f, 0.7071f,  0.0000f, 0.7071f, 0.7071f,
+	0.7071f, 0.0000f, 0.7071f,    1.0000f, 0.0000f, 0.0000f,  0.7071f, 0.7071f, 0.0000f,
+	0.7071f, 0.0000f, 0.7071f,    0.7071f, 0.7071f, 0.0000f,  0.0000f, 0.7071f, 0.7071f,
+	0.0000f, 0.7071f, 0.7071f,    0.7071f, 0.7071f, 0.0000f,  0.0000f, 1.0000f, 0.0000f,
+	0.0000f, 0.0000f, 1.0000f,    0.0000f, 0.7071f, 0.7071f,  -0.7071f, 0.0000f, 0.7071f,
+	0.0000f, 0.7071f, 0.7071f,    0.0000f, 1.0000f, 0.0000f,  -0.7071f, 0.7071f, 0.0000f,
+	0.0000f, 0.7071f, 0.7071f,    -0.7071f, 0.7071f, 0.0000f,  -0.7071f, 0.0000f, 0.7071f,
+	-0.7071f, 0.0000f, 0.7071f,    -0.7071f, 0.7071f, 0.0000f,  -1.0000f, 0.0000f, 0.0000f,
+	0.0000f, 0.0000f, 1.0000f,    -0.7071f, 0.0000f, 0.7071f,  0.0000f, -0.7071f, 0.7071f,
+	-0.7071f, 0.0000f, 0.7071f,    -1.0000f, 0.0000f, 0.0000f,  -0.7071f, -0.7071f, 0.0000f,
+	-0.7071f, 0.0000f, 0.7071f,    -0.7071f, -0.7071f, 0.0000f,  0.0000f, -0.7071f, 0.7071f,
+	0.0000f, -0.7071f, 0.7071f,    -0.7071f, -0.7071f, 0.0000f,  0.0000f, -1.0000f, 0.0000f,
+	0.0000f, 0.0000f, 1.0000f,    0.0000f, -0.7071f, 0.7071f,  0.7071f, 0.0000f, 0.7071f,
+	0.0000f, -0.7071f, 0.7071f,    0.0000f, -1.0000f, 0.0000f,  0.7071f, -0.7071f, 0.0000f,
+	0.0000f, -0.7071f, 0.7071f,    0.7071f, -0.7071f, 0.0000f,  0.7071f, 0.0000f, 0.7071f,
+	0.7071f, 0.0000f, 0.7071f,    0.7071f, -0.7071f, 0.0000f,  1.0000f, 0.0000f, 0.0000f,
+	0.0000f, 0.0000f, -1.0000f,    0.0000f, 0.7071f, -0.7071f,  0.7071f, 0.0000f, -0.7071f,
+	0.0000f, 0.7071f, -0.7071f,    0.0000f, 1.0000f, 0.0000f,  0.7071f, 0.7071f, 0.0000f,
+	0.0000f, 0.7071f, -0.7071f,    0.7071f, 0.7071f, 0.0000f,  0.7071f, 0.0000f, -0.7071f,
+	0.7071f, 0.0000f, -0.7071f,    0.7071f, 0.7071f, 0.0000f,  1.0000f, 0.0000f, 0.0000f,
+	0.0000f, 0.0000f, -1.0000f,    -0.7071f, 0.0000f, -0.7071f,  0.0000f, 0.7071f, -0.7071f,
+	-0.7071f, 0.0000f, -0.7071f,    -1.0000f, 0.0000f, 0.0000f,  -0.7071f, 0.7071f, 0.0000f,
+	-0.7071f, 0.0000f, -0.7071f,    -0.7071f, 0.7071f, 0.0000f,  0.0000f, 0.7071f, -0.7071f,
+	0.0000f, 0.7071f, -0.7071f,    -0.7071f, 0.7071f, 0.0000f,  0.0000f, 1.0000f, 0.0000f,
+	0.0000f, 0.0000f, -1.0000f,    0.0000f, -0.7071f, -0.7071f,  -0.7071f, 0.0000f, -0.7071f,
+	0.0000f, -0.7071f, -0.7071f,    0.0000f, -1.0000f, 0.0000f,  -0.7071f, -0.7071f, 0.0000f,
+	0.0000f, -0.7071f, -0.7071f,    -0.7071f, -0.7071f, 0.0000f,  -0.7071f, 0.0000f, -0.7071f,
+	-0.7071f, 0.0000f, -0.7071f,    -0.7071f, -0.7071f, 0.0000f,  -1.0000f, 0.0000f, 0.0000f,
+	0.0000f, 0.0000f, -1.0000f,    0.7071f, 0.0000f, -0.7071f,  0.0000f, -0.7071f, -0.7071f,
+	0.7071f, 0.0000f, -0.7071f,    1.0000f, 0.0000f, 0.0000f,  0.7071f, -0.7071f, 0.0000f,
+	0.7071f, 0.0000f, -0.7071f,    0.7071f, -0.7071f, 0.0000f,  0.0000f, -0.7071f, -0.7071f,
+	0.0000f, -0.7071f, -0.7071f,    0.7071f, -0.7071f, 0.0000f,  0.0000f, -1.0000f, 0.0000f,
+};*/
+
+
+
+//   font info:
+//
+//Peter Holzmann, Octopus Enterprises
+//USPS: 19611 La Mar Court, Cupertino, CA 95014
+//UUCP: {hplabs!hpdsd,pyramid}!octopus!pete
+//Phone: 408/996-7746
+//
+//This distribution is made possible through the collective encouragement
+//of the Usenet Font Consortium, a mailing list that sprang to life to get
+//this accomplished and that will now most likely disappear into the mists
+//of time... Thanks are especially due to Jim Hurt, who provided the packed
+//font data for the distribution, along with a lot of other help.
+//
+//This file describes the Hershey Fonts in general, along with a description of
+//the other files in this distribution and a simple re-distribution restriction.
+//
+//USE RESTRICTION:
+//        This distribution of the Hershey Fonts may be used by anyone for
+//        any purpose, commercial or otherwise, providing that:
+//                1. The following acknowledgements must be distributed with
+//                        the font data:
+//                        - The Hershey Fonts were originally created by Dr.
+//                                A. V. Hershey while working at the U. S.
+//                                National Bureau of Standards.
+//                        - The format of the Font data in this distribution
+//                                was originally created by
+//                                        James Hurt
+//                                        Cognition, Inc.
+//                                        900 Technology Park Drive
+//                                        Billerica, MA 01821
+//                                        (mit-eddie!ci-dandelion!hurt)
+//                2. The font data in this distribution may be converted into
+//                        any other format *EXCEPT* the format distributed by
+//                        the U.S. NTIS (which organization holds the rights
+//                        to the distribution and use of the font data in that
+//                        particular format). Not that anybody would really
+//                        *want* to use their format... each point is described
+//                        in eight bytes as "xxx yyy:", where xxx and yyy are
+//                        the coordinate values as ASCII numbers.
+
+
+uint8_t g_font[6350] = {
+  0x46,0x4F,0x4E,0x54,0x01,0x00,0x00,0x00,0x43,0x01,0x00,0x00,0x5E,0x00,0x00,0x00,0xC4,0x06,0x00,0x00,0x0A,0xD7,0x23,0x3C,0x3D,0x0A,0x57,0x3E,0x0A,0xD7,0x23,0x3C,
+  0x28,0x5C,0x8F,0x3D,0x0A,0xD7,0x23,0x3C,0x08,0xD7,0xA3,0x3C,0x00,0x00,0x00,0x00,0x08,0xD7,0x23,0x3C,0x0A,0xD7,0x23,0x3C,0x00,0x00,0x00,0x00,0x0A,0xD7,0xA3,0x3C,
+  0x08,0xD7,0x23,0x3C,0x00,0x00,0x00,0x00,0x3D,0x0A,0x57,0x3E,0x00,0x00,0x00,0x00,0x28,0x5C,0x0F,0x3E,0x0A,0xD7,0xA3,0x3D,0x3D,0x0A,0x57,0x3E,0x0A,0xD7,0xA3,0x3D,
+  0x28,0x5C,0x0F,0x3E,0x0A,0xD7,0xA3,0x3D,0x00,0x00,0x80,0x3E,0x0C,0xD7,0x23,0x3C,0x29,0x5C,0x8F,0xBD,0x29,0x5C,0x0F,0x3E,0x00,0x00,0x80,0x3E,0x29,0x5C,0x8F,0x3D,
+  0x29,0x5C,0x8F,0xBD,0x0C,0xD7,0x23,0x3C,0x8F,0xC2,0xF5,0x3D,0x9A,0x99,0x19,0x3E,0x8F,0xC2,0xF5,0x3D,0x00,0x00,0x00,0x00,0x8E,0xC2,0x75,0x3D,0x29,0x5C,0x0F,0x3E,
+  0x8E,0xC2,0x75,0x3D,0xCD,0xCC,0x4C,0x3D,0x00,0x00,0x80,0x3E,0xCD,0xCC,0x4C,0x3D,0x0A,0xD7,0x23,0xBD,0xEC,0x51,0xB8,0x3D,0x00,0x00,0x80,0x3E,0xEC,0x51,0xB8,0x3D,
+  0x0A,0xD7,0x23,0xBD,0x29,0x5C,0x0F,0x3E,0xEB,0x51,0x38,0x3E,0x8F,0xC2,0xF5,0x3D,0xCC,0xCC,0x4C,0x3E,0xEC,0x51,0xB8,0x3D,0x3D,0x0A,0x57,0x3E,0xCD,0xCC,0x4C,0x3D,
+  0x3D,0x0A,0x57,0x3E,0x0C,0xD7,0xA3,0x3C,0xCC,0xCC,0x4C,0x3E,0x00,0x00,0x00,0x00,0xEB,0x51,0x38,0x3E,0x00,0x00,0x00,0x00,0x0A,0xD7,0x23,0x3E,0x0C,0xD7,0x23,0x3C,
+  0x28,0x5C,0x0F,0x3E,0x0C,0xD7,0xA3,0x3C,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0x23,0x3D,0x8F,0xC2,0xF5,0x3D,0xCD,0xCC,0xCC,0x3D,0xCC,0xCC,0xCC,0x3D,0x8F,0xC2,0xF5,0x3D,
+  0xEB,0x51,0xB8,0x3D,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0xA3,0x3D,0x29,0x5C,0x0F,0x3E,0x8E,0xC2,0xF5,0x3C,0x8F,0xC2,0xF5,0x3D,0x08,0xD7,0x23,0x3C,0xEC,0x51,0xB8,0x3D,
+  0x00,0x00,0x00,0x00,0xCD,0xCC,0x4C,0x3D,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x8E,0xC2,0xF5,0x3C,0xEB,0x51,0x38,0x3E,0x3D,0x0A,0x57,0x3E,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x00,0x00,0x28,0x5C,0x8F,0x3D,0x5C,0x8F,0x42,0x3E,0x28,0x5C,0x8F,0x3D,0x7A,0x14,0x2E,0x3E,0x8E,0xC2,0x75,0x3D,0x99,0x99,0x19,0x3E,0x0A,0xD7,0x23,0x3D,
+  0x28,0x5C,0x0F,0x3E,0x08,0xD7,0xA3,0x3C,0x28,0x5C,0x0F,0x3E,0x08,0xD7,0x23,0x3C,0xCC,0xCC,0x4C,0x3E,0x8E,0xC2,0xF5,0x3C,0x3D,0x0A,0x57,0x3E,0x28,0x5C,0x8F,0x3D,
+  0xCC,0xCC,0x4C,0x3E,0xCC,0xCC,0xCC,0x3D,0x5C,0x8F,0x42,0x3E,0xB8,0x1E,0x05,0x3E,0x5C,0x8F,0x42,0x3E,0x0A,0xD7,0x23,0x3E,0xCC,0xCC,0x4C,0x3E,0x28,0x5C,0x0F,0x3E,
+  0x28,0x5C,0x8F,0x3D,0x8F,0xC2,0xF5,0x3D,0x8E,0xC2,0x75,0x3D,0xAE,0x47,0xE1,0x3D,0x0A,0xD7,0x23,0x3D,0xAE,0x47,0xE1,0x3D,0x08,0xD7,0xA3,0x3C,0xB8,0x1E,0x05,0x3E,
+  0x00,0x00,0x00,0x00,0x99,0x99,0x19,0x3E,0x00,0x00,0x00,0x00,0x7A,0x14,0x2E,0x3E,0x08,0xD7,0x23,0x3C,0xEB,0x51,0x38,0x3E,0x8E,0xC2,0xF5,0x3C,0xEB,0x51,0x38,0x3E,
+  0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0x23,0x3E,0x28,0x5C,0x8F,0x3D,0xCC,0xCC,0x4C,0x3E,0x8F,0xC2,0xF5,0x3D,0xCC,0xCC,0x4C,0x3E,0xB8,0x1E,0x05,0x3E,0x5C,0x8F,0x42,0x3E,
+  0x28,0x5C,0x0F,0x3E,0xEB,0x51,0x38,0x3E,0x28,0x5C,0x0F,0x3E,0x7A,0x14,0x2E,0x3E,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0x23,0x3E,0xAE,0x47,0xE1,0x3D,0x8E,0xC2,0xF5,0x3D,
+  0x8E,0xC2,0xF5,0x3C,0xCC,0xCC,0xCC,0x3D,0x08,0xD7,0x23,0x3C,0x0A,0xD7,0xA3,0x3D,0x00,0x00,0x00,0x00,0x09,0xD7,0x23,0x3D,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  0x0A,0xD7,0x23,0x3D,0x08,0xD7,0x23,0x3C,0x0A,0xD7,0xA3,0x3D,0x08,0xD7,0xA3,0x3C,0xEB,0x51,0xB8,0x3D,0xEB,0x51,0xB8,0x3D,0xB8,0x1E,0x05,0x3E,0xCC,0xCC,0xCC,0x3D,
+  0x28,0x5C,0x0F,0x3E,0xAD,0x47,0xE1,0x3D,0x0A,0xD7,0x23,0x3E,0xAD,0x47,0xE1,0x3D,0xEB,0x51,0x38,0x3E,0xCC,0xCC,0xCC,0x3D,0xCC,0xCC,0x4C,0x3E,0x8E,0xC2,0x75,0x3D,
+  0xCC,0xCC,0x4C,0x3E,0xCC,0xCC,0x4C,0x3D,0xEB,0x51,0x38,0x3E,0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0x23,0x3E,0x8E,0xC2,0x75,0x3D,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0xA3,0x3D,
+  0xCC,0xCC,0xCC,0x3D,0xB8,0x1E,0x05,0x3E,0x8E,0xC2,0xF5,0x3C,0x99,0x99,0x19,0x3E,0x08,0xD7,0x23,0x3C,0x7A,0x14,0x2E,0x3E,0x00,0x00,0x00,0x00,0x0A,0xD7,0x23,0x3C,
+  0x5C,0x8F,0x42,0x3E,0x00,0x00,0x00,0x00,0xCC,0xCC,0x4C,0x3E,0x0A,0xD7,0xA3,0x3C,0xEB,0x51,0x38,0x3E,0x0A,0xD7,0x23,0x3C,0x0A,0xD7,0x23,0x3E,0x00,0x00,0x00,0x00,
+  0x99,0x99,0x19,0x3E,0x29,0x5C,0x8F,0x3D,0x00,0x00,0x80,0x3E,0xCC,0xCC,0x4C,0x3D,0x1E,0x85,0x6B,0x3E,0x8F,0xC2,0xF5,0x3C,0xCC,0xCC,0x4C,0x3E,0x00,0x00,0x00,0x00,
+  0xAE,0x47,0xE1,0x3D,0x00,0x00,0x00,0x00,0x28,0x5C,0x8F,0x3D,0x8F,0xC2,0xF5,0x3C,0x0C,0xD7,0xA3,0xBC,0xCC,0xCC,0x4C,0x3D,0xCE,0xCC,0x4C,0xBD,0x00,0x00,0x00,0x00,
+  0x00,0x00,0x80,0x3E,0x0A,0xD7,0xA3,0x3C,0x1E,0x85,0x6B,0x3E,0x0A,0xD7,0x23,0x3D,0xCC,0xCC,0x4C,0x3E,0x8F,0xC2,0x75,0x3D,0x0A,0xD7,0x23,0x3E,0x29,0x5C,0x8F,0x3D,
+  0xAE,0x47,0xE1,0x3D,0x29,0x5C,0x8F,0x3D,0x28,0x5C,0x8F,0x3D,0x8F,0xC2,0x75,0x3D,0x08,0xD7,0xA3,0x3C,0x0A,0xD7,0x23,0x3D,0x0C,0xD7,0xA3,0xBC,0x0A,0xD7,0xA3,0x3C,
+  0xCE,0xCC,0x4C,0xBD,0x00,0x00,0x00,0x00,0x29,0x5C,0x8F,0xBD,0xCC,0xCC,0x4C,0x3D,0x99,0x99,0x19,0x3E,0xCC,0xCC,0x4C,0x3D,0x8E,0xC2,0xF5,0x3C,0x00,0x00,0x00,0x00,
+  0x8F,0xC2,0xF5,0x3D,0xCC,0xCC,0xCC,0x3D,0x8E,0xC2,0x75,0x3D,0xCC,0xCC,0xCC,0x3D,0x8F,0xC2,0xF5,0x3D,0xEB,0x51,0xB8,0x3D,0xEB,0x51,0x38,0x3E,0x00,0x00,0x00,0x00,
+  0xEB,0x51,0xB8,0x3D,0xEB,0x51,0x38,0x3E,0xEB,0x51,0xB8,0x3D,0x0A,0xD7,0xA3,0x3C,0x0A,0xD7,0x23,0x3D,0x0A,0xD7,0x23,0x3C,0x8E,0xC2,0xF5,0x3C,0x0A,0xD7,0x23,0x3C,
+  0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0xA3,0x3C,0x08,0xD7,0xA3,0x3C,0xEB,0x51,0x38,0x3E,0x00,0x00,0x80,0x3E,0x90,0xC2,0x75,0x3D,0x3D,0x0A,0x57,0x3E,0x0C,0xD7,0x23,0x3C,
+  0x7A,0x14,0x2E,0x3E,0x0C,0xD7,0x23,0x3C,0x0A,0xD7,0x23,0x3D,0x90,0xC2,0xF5,0x3C,0x08,0xD7,0x23,0x3C,0x90,0xC2,0x75,0x3D,0x00,0x00,0x00,0x00,0xAE,0x47,0xE1,0x3D,
+  0x08,0xD7,0x23,0x3C,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0x23,0x3D,0x29,0x5C,0x0F,0x3E,0xEB,0x51,0xB8,0x3D,0x29,0x5C,0x0F,0x3E,0x8F,0xC2,0xF5,0x3D,0xB8,0x1E,0x05,0x3E,
+  0x7A,0x14,0x2E,0x3E,0xAE,0x47,0xE1,0x3D,0xCC,0xCC,0x4C,0x3E,0x00,0x00,0x00,0x00,0x7A,0x14,0x2E,0x3E,0x0C,0xD7,0xA3,0x3C,0x5C,0x8F,0x42,0x3E,0x8F,0xC2,0xF5,0x3D,
+  0x5C,0x8F,0x42,0x3E,0xB8,0x1E,0x05,0x3E,0x99,0x99,0x19,0x3E,0x8F,0xC2,0xF5,0x3D,0xB8,0x1E,0x05,0x3E,0x29,0x5C,0x0F,0x3E,0x00,0x00,0x00,0x00,0x0C,0xD7,0xA3,0x3C,
+  0x3D,0x0A,0x57,0x3E,0xB8,0x1E,0x05,0x3E,0x3D,0x0A,0x57,0x3E,0x29,0x5C,0x8F,0x3D,0xB8,0x1E,0x05,0x3E,0xCD,0xCC,0xCC,0x3D,0xB8,0x1E,0x05,0x3E,0x8F,0xC2,0xF5,0x3D,
+  0x8F,0xC2,0xF5,0x3D,0xB8,0x1E,0x05,0x3E,0xAE,0x47,0xE1,0x3D,0x29,0x5C,0x0F,0x3E,0x0A,0xD7,0xA3,0x3D,0xCD,0xCC,0xCC,0x3D,0x3D,0x0A,0x57,0x3E,0x9A,0x99,0x19,0x3E,
+  0x28,0x5C,0x8F,0x3D,0xCD,0xCC,0xCC,0x3D,0x00,0x00,0x00,0x00,0x8F,0xC2,0xF5,0x3D,0x3D,0x0A,0x57,0x3E,0xCD,0xCC,0x4C,0x3D,0x28,0x5C,0x0F,0x3E,0xAE,0x47,0xE1,0x3D,
+  0xB8,0x1E,0x05,0x3E,0x8F,0xC2,0xF5,0x3D,0xEB,0x51,0x38,0x3E,0x29,0x5C,0x8F,0x3D,0x00,0x00,0x00,0x00,0xB8,0x1E,0x05,0x3E,0x8E,0xC2,0x75,0x3D,0xB8,0x1E,0x05,0x3E,
+  0x28,0x5C,0x8F,0x3D,0x8F,0xC2,0xF5,0x3D,0xCC,0xCC,0xCC,0x3D,0x8F,0xC2,0xF5,0x3C,0x8F,0xC2,0xF5,0x3D,0x0C,0xD7,0x23,0x3C,0xCC,0xCC,0xCC,0x3D,0x29,0x5C,0x0F,0x3E,
+  0x3D,0x0A,0x57,0x3E,0x0C,0xD7,0x23,0x3C,0xEB,0x51,0x38,0x3E,0x0A,0xD7,0x23,0x3D,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0xA3,0x3D,0x8F,0xC2,0xF5,0x3D,0xAE,0x47,0xE1,0x3D,
+  0xAE,0x47,0xE1,0x3D,0xB8,0x1E,0x05,0x3E,0xEB,0x51,0xB8,0x3D,0x29,0x5C,0x0F,0x3E,0x0A,0xD7,0x23,0x3D,0xB8,0x1E,0x05,0x3E,0x08,0xD7,0xA3,0x3C,0x0C,0xD7,0x23,0x3C,
+  0xEB,0x51,0xB8,0x3D,0x90,0xC2,0xF5,0x3C,0xAE,0x47,0xE1,0x3D,0x90,0xC2,0x75,0x3D,0x8F,0xC2,0xF5,0x3D,0x8F,0xC2,0xF5,0x3D,0x28,0x5C,0x0F,0x3E,0xB8,0x1E,0x05,0x3E,
+  0x0A,0xD7,0x23,0x3E,0xB8,0x1E,0x05,0x3E,0xEB,0x51,0x38,0x3E,0xB8,0x1E,0x05,0x3E,0x28,0x5C,0x0F,0x3E,0x8F,0xC2,0xF5,0x3D,0xAE,0x47,0xE1,0x3D,0xCD,0xCC,0xCC,0x3D,
+  0xEB,0x51,0xB8,0x3D,0x29,0x5C,0x8F,0x3D,0x0A,0xD7,0xA3,0x3D,0x90,0xC2,0x75,0x3D,0x0A,0xD7,0xA3,0x3D,0x90,0xC2,0xF5,0x3C,0xEB,0x51,0xB8,0x3D,0x0C,0xD7,0x23,0x3C,
+  0xAE,0x47,0xE1,0x3D,0x29,0x5C,0x8F,0x3D,0x3D,0x0A,0x57,0x3E,0x8F,0xC2,0xF5,0x3D,0x0A,0xD7,0x23,0x3D,0x0A,0xD7,0xA3,0x3C,0xAE,0x47,0xE1,0x3D,0x0A,0xD7,0x23,0x3E,
+  0xEB,0x51,0x38,0x3E,0x0A,0xD7,0x23,0x3E,0x00,0x00,0x00,0x00,0xEB,0x51,0x38,0x3E,0x8F,0xC2,0xF5,0x3D,0xEB,0x51,0x38,0x3E,0x8E,0xC2,0x75,0x3D,0x0A,0xD7,0x23,0x3E,
+  0xEB,0x51,0xB8,0x3D,0x0A,0xD7,0x23,0x3D,0x3D,0x0A,0x57,0x3E,0xAE,0x47,0xE1,0x3D,0x5C,0x8F,0x42,0x3E,0x8F,0xC2,0xF5,0x3D,0x7A,0x14,0x2E,0x3E,0x8F,0xC2,0xF5,0x3D,
+  0x99,0x99,0x19,0x3E,0x8F,0xC2,0x75,0x3D,0xCC,0xCC,0xCC,0x3D,0x8F,0xC2,0x75,0x3D,0x28,0x5C,0x8F,0x3D,0xCC,0xCC,0x4C,0x3D,0x08,0xD7,0x23,0x3C,0x29,0x5C,0x8F,0x3D,
+  0x08,0xD7,0x23,0x3C,0xEB,0x51,0xB8,0x3D,0x99,0x99,0x19,0x3E,0x28,0x5C,0x8F,0x3D,0x0A,0xD7,0x23,0x3E,0x0A,0xD7,0x23,0x3D,0x0A,0xD7,0x23,0x3E,0x09,0xD7,0xA3,0x3C,
+  0x99,0x99,0x19,0x3E,0x00,0x00,0x00,0x00,0x0A,0xD7,0xA3,0x3D,0x08,0xD7,0x23,0x3C,0x8E,0xC2,0x75,0x3D,0x8E,0xC2,0xF5,0x3C,0xCC,0xCC,0x4C,0x3D,0x8E,0xC2,0x75,0x3D,
+  0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0xA3,0x3D,0x8E,0xC2,0x75,0x3D,0xEB,0x51,0xB8,0x3D,0x0A,0xD7,0xA3,0x3D,0x09,0xD7,0xA3,0x3C,0x8E,0xC2,0x75,0x3D,0xCC,0xCC,0xCC,0x3D,
+  0x0A,0xD7,0x23,0x3E,0xEB,0x51,0xB8,0x3D,0x8E,0xC2,0x75,0x3D,0xAE,0x47,0xE1,0x3D,0xCC,0xCC,0x4C,0x3D,0xB8,0x1E,0x05,0x3E,0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0x23,0x3E,
+  0xCC,0xCC,0xCC,0x3D,0x0A,0xD7,0x23,0x3E,0x8F,0xC2,0xF5,0x3D,0x99,0x99,0x19,0x3E,0x99,0x99,0x19,0x3E,0x28,0x5C,0x0F,0x3E,0x7A,0x14,0x2E,0x3E,0x90,0xC2,0xF5,0x3C,
+  0x28,0x5C,0x8F,0x3D,0x29,0x5C,0x0F,0x3E,0x99,0x99,0x19,0x3E,0xB8,0x1E,0x05,0x3E,0xB8,0x1E,0x05,0x3E,0xEC,0x51,0xB8,0x3D,0xAE,0x47,0xE1,0x3D,0x9A,0x99,0x19,0x3E,
+  0x0A,0xD7,0x23,0x3E,0x00,0x00,0x00,0x00,0xB8,0x1E,0x05,0x3E,0x0C,0xD7,0xA3,0x3C,0x8E,0xC2,0xF5,0x3C,0x0A,0xD7,0x23,0x3D,0x08,0xD7,0x23,0x3C,0x9A,0x99,0x19,0x3E,
+  0xCC,0xCC,0x4C,0x3D,0x29,0x5C,0x0F,0x3E,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0xA3,0x3D,0xAE,0x47,0xE1,0x3D,0x9A,0x99,0x19,0x3E,0x0A,0xD7,0xA3,0x3D,0xCD,0xCC,0xCC,0x3D,
+  0x0A,0xD7,0xA3,0x3D,0x29,0x5C,0x0F,0x3E,0xAE,0x47,0xE1,0x3D,0xCC,0xCC,0xCC,0x3D,0xCC,0xCC,0x4C,0x3D,0xEB,0x51,0xB8,0x3D,0x08,0xD7,0xA3,0x3C,0x0A,0xD7,0xA3,0x3D,
+  0x08,0xD7,0x23,0x3C,0x00,0x00,0x00,0x00,0xCC,0xCC,0x4C,0x3D,0xCD,0xCC,0x4C,0x3D,0x8F,0xC2,0xF5,0x3D,0x8F,0xC2,0xF5,0x3D,0x00,0x00,0x00,0x00,0x0A,0xD7,0x23,0x3E,
+  0x3D,0x0A,0x57,0x3E,0x0A,0xD7,0x23,0x3E,0x0A,0xD7,0xA3,0x3D,0x0A,0xD7,0x23,0x3E,0xB8,0x1E,0x05,0x3E,0x29,0x5C,0x0F,0x3E,0x28,0x5C,0x0F,0x3E,0xB8,0x1E,0x05,0x3E,
+  0x8F,0xC2,0xF5,0x3D,0xEC,0x51,0xB8,0x3D,0xCC,0xCC,0xCC,0x3D,0x00,0x00,0x00,0x00,0xCC,0xCC,0xCC,0x3D,0xEB,0x51,0xB8,0x3D,0x0A,0xD7,0x23,0x3D,0x9A,0x99,0x19,0x3E,
+  0x0C,0xD7,0xA3,0xBC,0xCC,0xCC,0x4C,0x3E,0x3D,0x0A,0x57,0x3E,0x0A,0xD7,0x23,0x3C,0x00,0x00,0x80,0x3E,0x29,0x5C,0x0F,0x3E,0x90,0xC2,0xF5,0xBC,0x8F,0xC2,0x75,0x3D,
+  0x00,0x00,0x80,0x3E,0x8F,0xC2,0x75,0x3D,0x29,0x5C,0x8F,0xBD,0x0A,0xD7,0xA3,0x3D,0x1E,0x85,0x6B,0x3E,0xEB,0x51,0x38,0x3E,0x29,0x5C,0x8F,0xBD,0x0A,0xD7,0xA3,0x3C,
+  0x0A,0xD7,0x23,0x3E,0x0A,0xD7,0xA3,0x3C,0x8F,0xC2,0xF5,0x3D,0x0A,0xD7,0x23,0x3C,0xB8,0x1E,0x05,0x3E,0x8F,0xC2,0xF5,0x3C,0xB8,0x1E,0x05,0x3E,0x29,0x5C,0x8F,0x3D,
+  0x28,0x5C,0x0F,0x3E,0x8F,0xC2,0xF5,0x3D,0x0A,0xD7,0xA3,0x3D,0xAE,0x47,0xE1,0x3D,0x8E,0xC2,0xF5,0x3C,0xEB,0x51,0xB8,0x3D,0x08,0xD7,0x23,0x3C,0xAE,0x47,0xE1,0x3D,
+  0x8F,0xC2,0xF5,0x3D,0x8F,0xC2,0xF5,0x3C,0x7A,0x14,0x2E,0x3E,0x8F,0xC2,0xF5,0x3C,0x00,0x00,0x00,0x00,0x8F,0xC2,0xF5,0x3D,0x0C,0xD7,0xA3,0xBC,0xAE,0x47,0xE1,0x3D,
+  0xCE,0xCC,0x4C,0xBD,0xCC,0xCC,0xCC,0x3D,0x8E,0xC2,0x75,0xBD,0x0A,0xD7,0xA3,0x3D,0x29,0x5C,0x8F,0xBD,0xCC,0xCC,0x4C,0x3D,0x29,0x5C,0x8F,0xBD,0x8F,0xC2,0xF5,0x3C,
+  0x8E,0xC2,0x75,0xBD,0xAE,0x47,0xE1,0x3D,0xCC,0xCC,0xCC,0x3D,0xAE,0x47,0xE1,0x3D,0x00,0x00,0x00,0x00,0x0A,0xD7,0x23,0x3C,0xAE,0x47,0x61,0x3E,0xCC,0xCC,0x4C,0x3D,
+  0xCC,0xCC,0x4C,0x3E,0xCC,0xCC,0x4C,0x3D,0xAE,0x47,0x61,0x3E,0xCC,0xCC,0x4C,0x3D,0x90,0xC2,0xF5,0xBC,0x0A,0xD7,0x23,0x3D,0x8E,0xC2,0x75,0xBD,0x0A,0xD7,0xA3,0x3C,
+  0x29,0x5C,0x8F,0xBD,0x0A,0xD7,0x23,0x3D,0x0A,0xD7,0xA3,0x3D,0x0A,0xD7,0x23,0x3E,0x28,0x5C,0x0F,0x3E,0x3D,0x0A,0x57,0x3E,0xB8,0x1E,0x05,0x3E,0xAE,0x47,0x61,0x3E,
+  0xCC,0xCC,0xCC,0x3D,0xAE,0x47,0x61,0x3E,0x00,0x00,0x00,0x00,0x8F,0xC2,0xF5,0x3D,0x29,0x5C,0x8F,0xBD,0x8E,0xC2,0xF5,0x3C,0x0A,0xD7,0xA3,0x3D,0x0A,0xD7,0xA3,0x3D,
+  0x28,0x5C,0x8F,0x3D,0x08,0xD7,0x23,0x3C,0x08,0xD7,0x23,0x3C,0x8F,0xC2,0xF5,0x3C,0x0A,0xD7,0x23,0x3D,0xAE,0x47,0xE1,0x3D,0x28,0x5C,0x0F,0x3E,0x8F,0xC2,0xF5,0x3C,
+  0x8E,0xC2,0x75,0x3E,0x0A,0xD7,0xA3,0x3C,0x7A,0x14,0x2E,0x3E,0x8F,0xC2,0xF5,0x3C,0x0A,0xD7,0x23,0x3E,0x0A,0xD7,0xA3,0x3C,0xCC,0xCC,0xCC,0x3D,0x0A,0xD7,0xA3,0x3C,
+  0xAE,0x47,0x61,0x3E,0x8F,0xC2,0xF5,0x3C,0xEB,0x51,0x38,0x3E,0x0A,0xD7,0x23,0x3D,0x7A,0x14,0x2E,0x3E,0xCC,0xCC,0x4C,0x3D,0xB8,0x1E,0x05,0x3E,0x0A,0xD7,0x23,0x3D,
+  0xAE,0x47,0xE1,0x3D,0x0A,0xD7,0x23,0x3D,0x28,0x5C,0x8F,0x3D,0xCC,0xCC,0x4C,0x3D,0xCC,0xCC,0x4C,0x3D,0x0A,0xD7,0xA3,0x3C,0x0C,0xD7,0xA3,0xBC,0x0A,0xD7,0xA3,0x3C,
+  0x0A,0xD7,0x23,0xBD,0x0A,0xD7,0xA3,0x3C,0x0A,0xD7,0xA3,0x3D,0x0A,0xD7,0x23,0x3D,0x8E,0xC2,0x75,0x3D,0x0A,0xD7,0xA3,0x3C,0x8E,0xC2,0x75,0x3E,0x8F,0xC2,0xF5,0x3C,
+  0x1E,0x85,0x6B,0x3E,0x0A,0xD7,0x23,0x3D,0x5C,0x8F,0x42,0x3E,0x8F,0xC2,0xF5,0x3C,0xCC,0xCC,0xCC,0x3D,0x8F,0xC2,0xF5,0x3C,0xAE,0x47,0x61,0x3E,0xCC,0xCC,0x4C,0x3D,
+  0xEB,0x51,0xB8,0x3D,0x0A,0xD7,0xA3,0x3C,0x00,0x00,0x00,0x00,0x8F,0xC2,0xF5,0x3C,0x0A,0xD7,0x23,0xBD,0x0A,0xD7,0xA3,0x3C,0x8E,0xC2,0x75,0xBD,0xAE,0x47,0xE1,0x3D,
+  0x0A,0xD7,0xA3,0x3D,0x7A,0x14,0x2E,0x3E,0x0A,0xD7,0xA3,0x3D,0xEB,0x51,0x38,0x3E,0xCC,0xCC,0xCC,0x3D,0xCC,0xCC,0x4C,0x3D,0xAE,0x47,0xE1,0x3D,0x28,0x5C,0x8F,0x3D,
+  0xCC,0xCC,0xCC,0x3D,0xAE,0x47,0xE1,0x3D,0x28,0x5C,0x8F,0x3D,0x99,0x99,0x19,0x3E,0x8E,0xC2,0x75,0x3D,0x7A,0x14,0x2E,0x3E,0x28,0x5C,0x8F,0x3D,0xAE,0x47,0xE1,0x3D,
+  0x3D,0x0A,0x57,0x3E,0x9A,0x99,0x19,0x3E,0x3D,0x0A,0x57,0x3E,0x21,0x0A,0x00,0x00,0x00,0x01,0x00,0x02,0x00,0x03,0x00,0x03,0x00,0x04,0x00,0x04,0x00,0x05,0x00,0x05,
+  0x00,0x02,0x00,0x22,0x04,0x00,0x06,0x00,0x07,0x00,0x08,0x00,0x09,0x00,0x23,0x08,0x00,0x0A,0x00,0x0B,0x00,0x0C,0x00,0x0D,0x00,0x0E,0x00,0x0F,0x00,0x10,0x00,0x11,
+  0x00,0x24,0x2A,0x00,0x12,0x00,0x13,0x00,0x14,0x00,0x15,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x18,0x00,0x18,0x00,0x19,0x00,0x19,0x00,0x1A,0x00,0x1A,0x00,0x1B,0x00,
+  0x1B,0x00,0x1C,0x00,0x1C,0x00,0x1D,0x00,0x1D,0x00,0x1E,0x00,0x1E,0x00,0x1F,0x00,0x1F,0x00,0x20,0x00,0x20,0x00,0x21,0x00,0x21,0x00,0x22,0x00,0x22,0x00,0x11,0x00,
+  0x11,0x00,0x23,0x00,0x23,0x00,0x24,0x00,0x24,0x00,0x25,0x00,0x25,0x00,0x26,0x00,0x26,0x00,0x05,0x00,0x05,0x00,0x27,0x00,0x25,0x34,0x00,0x28,0x00,0x29,0x00,0x19,
+  0x00,0x2A,0x00,0x2A,0x00,0x2B,0x00,0x2B,0x00,0x2C,0x00,0x2C,0x00,0x2D,0x00,0x2D,0x00,0x2E,0x00,0x2E,0x00,0x1C,0x00,0x1C,0x00,0x1B,0x00,0x1B,0x00,0x2F,0x00,0x2F,
+  0x00,0x30,0x00,0x30,0x00,0x19,0x00,0x19,0x00,0x31,0x00,0x31,0x00,0x32,0x00,0x32,0x00,0x33,0x00,0x33,0x00,0x34,0x00,0x34,0x00,0x28,0x00,0x35,0x00,0x36,0x00,0x36,
+  0x00,0x37,0x00,0x37,0x00,0x38,0x00,0x38,0x00,0x39,0x00,0x39,0x00,0x3A,0x00,0x3A,0x00,0x3B,0x00,0x3B,0x00,0x3C,0x00,0x3C,0x00,0x3D,0x00,0x3D,0x00,0x3E,0x00,0x3E,
+  0x00,0x35,0x00,0x26,0x3C,0x00,0x3F,0x00,0x40,0x00,0x40,0x00,0x41,0x00,0x41,0x00,0x42,0x00,0x42,0x00,0x43,0x00,0x43,0x00,0x44,0x00,0x44,0x00,0x11,0x00,0x11,0x00,
+  0x45,0x00,0x45,0x00,0x46,0x00,0x46,0x00,0x47,0x00,0x47,0x00,0x48,0x00,0x48,0x00,0x05,0x00,0x05,0x00,0x02,0x00,0x02,0x00,0x49,0x00,0x49,0x00,0x10,0x00,0x10,0x00,
+  0x4A,0x00,0x4A,0x00,0x4B,0x00,0x4B,0x00,0x4C,0x00,0x4C,0x00,0x4D,0x00,0x4D,0x00,0x4E,0x00,0x4E,0x00,0x4F,0x00,0x4F,0x00,0x50,0x00,0x50,0x00,0x08,0x00,0x08,0x00,
+  0x51,0x00,0x51,0x00,0x52,0x00,0x52,0x00,0x53,0x00,0x53,0x00,0x54,0x00,0x54,0x00,0x55,0x00,0x55,0x00,0x56,0x00,0x56,0x00,0x57,0x00,0x57,0x00,0x58,0x00,0x27,0x0C,
+  0x00,0x59,0x00,0x5A,0x00,0x5A,0x00,0x00,0x00,0x00,0x00,0x1A,0x00,0x1A,0x00,0x5B,0x00,0x5B,0x00,0x5C,0x00,0x5C,0x00,0x5D,0x00,0x28,0x12,0x00,0x5E,0x00,0x5F,0x00,
+  0x5F,0x00,0x60,0x00,0x60,0x00,0x5C,0x00,0x5C,0x00,0x61,0x00,0x61,0x00,0x62,0x00,0x62,0x00,0x02,0x00,0x02,0x00,0x63,0x00,0x63,0x00,0x64,0x00,0x64,0x00,0x0D,0x00,
+  0x29,0x12,0x00,0x65,0x00,0x66,0x00,0x66,0x00,0x67,0x00,0x67,0x00,0x68,0x00,0x68,0x00,0x69,0x00,0x69,0x00,0x6A,0x00,0x6A,0x00,0x6B,0x00,0x6B,0x00,0x6C,0x00,0x6C,
+  0x00,0x6D,0x00,0x6D,0x00,0x6E,0x00,0x2A,0x06,0x00,0x6F,0x00,0x70,0x00,0x71,0x00,0x72,0x00,0x73,0x00,0x10,0x00,0x2B,0x04,0x00,0x74,0x00,0x25,0x00,0x75,0x00,0x76,
+  0x00,0x2C,0x0C,0x00,0x77,0x00,0x78,0x00,0x78,0x00,0x49,0x00,0x49,0x00,0x79,0x00,0x79,0x00,0x77,0x00,0x77,0x00,0x7A,0x00,0x7A,0x00,0x29,0x00,0x2D,0x02,0x00,0x75,
+  0x00,0x76,0x00,0x2E,0x08,0x00,0x79,0x00,0x49,0x00,0x49,0x00,0x78,0x00,0x78,0x00,0x77,0x00,0x77,0x00,0x79,0x00,0x2F,0x02,0x00,0x7B,0x00,0x6E,0x00,0x30,0x20,0x00,
+  0x7C,0x00,0x60,0x00,0x60,0x00,0x7D,0x00,0x7D,0x00,0x71,0x00,0x71,0x00,0x75,0x00,0x75,0x00,0x7E,0x00,0x7E,0x00,0x7F,0x00,0x7F,0x00,0x80,0x00,0x80,0x00,0x47,0x00,
+  0x47,0x00,0x81,0x00,0x81,0x00,0x82,0x00,0x82,0x00,0x83,0x00,0x83,0x00,0x84,0x00,0x84,0x00,0x85,0x00,0x85,0x00,0x86,0x00,0x86,0x00,0x08,0x00,0x08,0x00,0x7C,0x00,
+  0x31,0x06,0x00,0x87,0x00,0x5B,0x00,0x5B,0x00,0x19,0x00,0x19,0x00,0x26,0x00,0x32,0x1A,0x00,0x5C,0x00,0x7D,0x00,0x7D,0x00,0x88,0x00,0x88,0x00,0x60,0x00,0x60,0x00,
+  0x19,0x00,0x19,0x00,0x18,0x00,0x18,0x00,0x86,0x00,0x86,0x00,0x89,0x00,0x89,0x00,0x85,0x00,0x85,0x00,0x8A,0x00,0x8A,0x00,0x8B,0x00,0x8B,0x00,0x20,0x00,0x20,0x00,
+  0x29,0x00,0x29,0x00,0x8C,0x00,0x33,0x1C,0x00,0x8D,0x00,0x8E,0x00,0x8E,0x00,0x8F,0x00,0x8F,0x00,0x90,0x00,0x90,0x00,0x91,0x00,0x91,0x00,0x92,0x00,0x92,0x00,0x93,
+  0x00,0x93,0x00,0x11,0x00,0x11,0x00,0x56,0x00,0x56,0x00,0x81,0x00,0x81,0x00,0x47,0x00,0x47,0x00,0x26,0x00,0x26,0x00,0x05,0x00,0x05,0x00,0x02,0x00,0x02,0x00,0x49,
+  0x00,0x34,0x06,0x00,0x94,0x00,0x62,0x00,0x62,0x00,0x95,0x00,0x94,0x00,0x96,0x00,0x35,0x20,0x00,0x97,0x00,0x8D,0x00,0x8D,0x00,0x0E,0x00,0x0E,0x00,0x1E,0x00,0x1E,
+  0x00,0x98,0x00,0x98,0x00,0x09,0x00,0x09,0x00,0x99,0x00,0x99,0x00,0x92,0x00,0x92,0x00,0x93,0x00,0x93,0x00,0x11,0x00,0x11,0x00,0x56,0x00,0x56,0x00,0x81,0x00,0x81,
+  0x00,0x47,0x00,0x47,0x00,0x26,0x00,0x26,0x00,0x05,0x00,0x05,0x00,0x02,0x00,0x02,0x00,0x49,0x00,0x36,0x2C,0x00,0x9A,0x00,0x86,0x00,0x86,0x00,0x08,0x00,0x08,0x00,
+  0x7C,0x00,0x7C,0x00,0x60,0x00,0x60,0x00,0x7D,0x00,0x7D,0x00,0x71,0x00,0x71,0x00,0x62,0x00,0x62,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x80,0x00,0x80,0x00,
+  0x9B,0x00,0x9B,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x45,0x00,0x9C,0x00,0x9C,0x00,0x9D,0x00,0x9D,0x00,0x9E,0x00,0x9E,0x00,0x73,0x00,0x73,0x00,0x8F,0x00,0x8F,0x00,
+  0x54,0x00,0x54,0x00,0x9F,0x00,0x9F,0x00,0xA0,0x00,0xA0,0x00,0x62,0x00,0x37,0x04,0x00,0xA1,0x00,0x48,0x00,0x06,0x00,0xA1,0x00,0x38,0x38,0x00,0x19,0x00,0x1A,0x00,
+  0x1A,0x00,0xA2,0x00,0xA2,0x00,0x5C,0x00,0x5C,0x00,0x2E,0x00,0x2E,0x00,0xA3,0x00,0xA3,0x00,0xA4,0x00,0xA4,0x00,0xA5,0x00,0xA5,0x00,0xA6,0x00,0xA6,0x00,0x35,0x00,
+  0x35,0x00,0xA7,0x00,0xA7,0x00,0xA8,0x00,0xA8,0x00,0x24,0x00,0x24,0x00,0x25,0x00,0x25,0x00,0x26,0x00,0x26,0x00,0x05,0x00,0x05,0x00,0x02,0x00,0x02,0x00,0x49,0x00,
+  0x49,0x00,0x62,0x00,0x62,0x00,0xA9,0x00,0xA9,0x00,0xAA,0x00,0xAA,0x00,0xAB,0x00,0xAB,0x00,0x90,0x00,0x90,0x00,0xAC,0x00,0xAC,0x00,0xAD,0x00,0xAD,0x00,0xAE,0x00,
+  0xAE,0x00,0x17,0x00,0x17,0x00,0x18,0x00,0x18,0x00,0x19,0x00,0x39,0x2C,0x00,0xAF,0x00,0xB0,0x00,0xB0,0x00,0xB1,0x00,0xB1,0x00,0xB2,0x00,0xB2,0x00,0xB3,0x00,0xB3,
+  0x00,0xB4,0x00,0xB4,0x00,0xB5,0x00,0xB5,0x00,0x07,0x00,0x07,0x00,0x5D,0x00,0x5D,0x00,0xA2,0x00,0xA2,0x00,0x60,0x00,0x60,0x00,0x7C,0x00,0x7C,0x00,0xB6,0x00,0xB6,
+  0x00,0x50,0x00,0x50,0x00,0x9A,0x00,0x9A,0x00,0xAF,0x00,0xAF,0x00,0xA6,0x00,0xA6,0x00,0xB7,0x00,0xB7,0x00,0x46,0x00,0x46,0x00,0x9B,0x00,0x9B,0x00,0x26,0x00,0x26,
+  0x00,0x05,0x00,0x05,0x00,0x78,0x00,0x3A,0x10,0x00,0x0E,0x00,0x61,0x00,0x61,0x00,0xA0,0x00,0xA0,0x00,0xB8,0x00,0xB8,0x00,0x0E,0x00,0x79,0x00,0x49,0x00,0x49,0x00,
+  0x78,0x00,0x78,0x00,0x77,0x00,0x77,0x00,0x79,0x00,0x3B,0x14,0x00,0x0E,0x00,0x61,0x00,0x61,0x00,0xA0,0x00,0xA0,0x00,0xB8,0x00,0xB8,0x00,0x0E,0x00,0x77,0x00,0x78,
+  0x00,0x78,0x00,0x49,0x00,0x49,0x00,0x79,0x00,0x79,0x00,0x77,0x00,0x77,0x00,0x7A,0x00,0x7A,0x00,0x29,0x00,0x3C,0x04,0x00,0xB9,0x00,0x75,0x00,0x75,0x00,0xBA,0x00,
+  0x3D,0x04,0x00,0x71,0x00,0xBB,0x00,0x10,0x00,0xBC,0x00,0x3E,0x04,0x00,0x1B,0x00,0xBD,0x00,0xBD,0x00,0x29,0x00,0x3F,0x22,0x00,0x1C,0x00,0x87,0x00,0x87,0x00,0x59,
+  0x00,0x59,0x00,0x1A,0x00,0x1A,0x00,0xBE,0x00,0xBE,0x00,0x08,0x00,0x08,0x00,0x50,0x00,0x50,0x00,0xBF,0x00,0xBF,0x00,0xC0,0x00,0xC0,0x00,0xC1,0x00,0xC1,0x00,0x99,
+  0x00,0x99,0x00,0x73,0x00,0x73,0x00,0xC2,0x00,0xC2,0x00,0xC3,0x00,0x6B,0x00,0xC4,0x00,0xC4,0x00,0x80,0x00,0x80,0x00,0xC5,0x00,0xC5,0x00,0x6B,0x00,0x40,0x34,0x00,
+  0x90,0x00,0xC6,0x00,0xC6,0x00,0xC7,0x00,0xC7,0x00,0xC8,0x00,0xC8,0x00,0xC9,0x00,0xC9,0x00,0x1D,0x00,0x1D,0x00,0x61,0x00,0x61,0x00,0xCA,0x00,0xCA,0x00,0xCB,0x00,
+  0xCB,0x00,0xCC,0x00,0xCC,0x00,0xCD,0x00,0xCD,0x00,0xCE,0x00,0xCE,0x00,0xCF,0x00,0xC8,0x00,0x2E,0x00,0x2E,0x00,0xB5,0x00,0xB5,0x00,0x4A,0x00,0x4A,0x00,0xD0,0x00,
+  0xD0,0x00,0xCC,0x00,0xD1,0x00,0xCF,0x00,0xCF,0x00,0xD2,0x00,0xD2,0x00,0xD3,0x00,0xD3,0x00,0xD4,0x00,0xD4,0x00,0x95,0x00,0x95,0x00,0xD5,0x00,0xD5,0x00,0xD6,0x00,
+  0xD6,0x00,0xD7,0x00,0xD7,0x00,0xD8,0x00,0x41,0x06,0x00,0x08,0x00,0x29,0x00,0x08,0x00,0xBA,0x00,0xD9,0x00,0x9D,0x00,0x42,0x24,0x00,0x06,0x00,0x29,0x00,0x06,0x00,
+  0x18,0x00,0x18,0x00,0x17,0x00,0x17,0x00,0x33,0x00,0x33,0x00,0xD8,0x00,0xD8,0x00,0xDA,0x00,0xDA,0x00,0xDB,0x00,0xDB,0x00,0x91,0x00,0x91,0x00,0xDC,0x00,0x61,0x00,
+  0xDC,0x00,0xDC,0x00,0x9E,0x00,0x9E,0x00,0xA6,0x00,0xA6,0x00,0x35,0x00,0x35,0x00,0xA7,0x00,0xA7,0x00,0xA8,0x00,0xA8,0x00,0x24,0x00,0x24,0x00,0x25,0x00,0x25,0x00,
+  0x29,0x00,0x43,0x22,0x00,0xDD,0x00,0x16,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x94,0x00,0x94,0x00,0x7C,0x00,0x7C,0x00,0x67,0x00,0x67,0x00,0x5B,0x00,0x5B,0x00,0x5C,
+  0x00,0x5C,0x00,0xDE,0x00,0xDE,0x00,0xCA,0x00,0xCA,0x00,0x79,0x00,0x79,0x00,0xDF,0x00,0xDF,0x00,0xE0,0x00,0xE0,0x00,0x80,0x00,0x80,0x00,0x96,0x00,0x96,0x00,0x24,
+  0x00,0x24,0x00,0x23,0x00,0x23,0x00,0xE1,0x00,0x44,0x18,0x00,0x06,0x00,0x29,0x00,0x06,0x00,0xB6,0x00,0xB6,0x00,0x50,0x00,0x50,0x00,0x9A,0x00,0x9A,0x00,0xAD,0x00,
+  0xAD,0x00,0xE2,0x00,0xE2,0x00,0x93,0x00,0x93,0x00,0xD4,0x00,0xD4,0x00,0x45,0x00,0x45,0x00,0x46,0x00,0x46,0x00,0x9B,0x00,0x9B,0x00,0x29,0x00,0x45,0x08,0x00,0x06,
+  0x00,0x29,0x00,0x06,0x00,0x8E,0x00,0x61,0x00,0xE3,0x00,0x29,0x00,0x39,0x00,0x46,0x06,0x00,0x06,0x00,0x29,0x00,0x06,0x00,0x8E,0x00,0x61,0x00,0xE3,0x00,0x47,0x26,
+  0x00,0xDD,0x00,0x16,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x94,0x00,0x94,0x00,0x7C,0x00,0x7C,0x00,0x67,0x00,0x67,0x00,0x5B,0x00,0x5B,0x00,0x5C,0x00,0x5C,0x00,0xDE,
+  0x00,0xDE,0x00,0xCA,0x00,0xCA,0x00,0x79,0x00,0x79,0x00,0xDF,0x00,0xDF,0x00,0xE0,0x00,0xE0,0x00,0x80,0x00,0x80,0x00,0x96,0x00,0x96,0x00,0x24,0x00,0x24,0x00,0x23,
+  0x00,0x23,0x00,0xE1,0x00,0xE1,0x00,0xE4,0x00,0xE5,0x00,0xE4,0x00,0x48,0x06,0x00,0x06,0x00,0x29,0x00,0xA1,0x00,0x8C,0x00,0x61,0x00,0xE6,0x00,0x49,0x02,0x00,0x06,
+  0x00,0x29,0x00,0x4A,0x12,0x00,0x94,0x00,0xE7,0x00,0xE7,0x00,0xE8,0x00,0xE8,0x00,0xE9,0x00,0xE9,0x00,0x80,0x00,0x80,0x00,0x48,0x00,0x48,0x00,0x05,0x00,0x05,0x00,
+  0x02,0x00,0x02,0x00,0xEA,0x00,0xEA,0x00,0x62,0x00,0x4B,0x06,0x00,0x06,0x00,0x29,0x00,0xA1,0x00,0x62,0x00,0xEB,0x00,0x8C,0x00,0x4C,0x04,0x00,0x06,0x00,0x29,0x00,
+  0x29,0x00,0xEC,0x00,0x4D,0x08,0x00,0x06,0x00,0x29,0x00,0x06,0x00,0x47,0x00,0xED,0x00,0x47,0x00,0xED,0x00,0xBA,0x00,0x4E,0x06,0x00,0x06,0x00,0x29,0x00,0x06,0x00,
+  0x8C,0x00,0xA1,0x00,0x8C,0x00,0x4F,0x28,0x00,0x7C,0x00,0x67,0x00,0x67,0x00,0x5B,0x00,0x5B,0x00,0x5C,0x00,0x5C,0x00,0xDE,0x00,0xDE,0x00,0xCA,0x00,0xCA,0x00,0x79,
+  0x00,0x79,0x00,0xDF,0x00,0xDF,0x00,0xE0,0x00,0xE0,0x00,0x80,0x00,0x80,0x00,0x96,0x00,0x96,0x00,0x24,0x00,0x24,0x00,0x23,0x00,0x23,0x00,0xE1,0x00,0xE1,0x00,0xEE,
+  0x00,0xEE,0x00,0xEF,0x00,0xEF,0x00,0xDD,0x00,0xDD,0x00,0x16,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x94,0x00,0x94,0x00,0x7C,0x00,0x50,0x14,0x00,0x06,0x00,0x29,0x00,
+  0x06,0x00,0x18,0x00,0x18,0x00,0x17,0x00,0x17,0x00,0x33,0x00,0x33,0x00,0xD8,0x00,0xD8,0x00,0xF0,0x00,0xF0,0x00,0xF1,0x00,0xF1,0x00,0xB0,0x00,0xB0,0x00,0xF2,0x00,
+  0xF2,0x00,0xF3,0x00,0x51,0x2A,0x00,0x7C,0x00,0x67,0x00,0x67,0x00,0x5B,0x00,0x5B,0x00,0x5C,0x00,0x5C,0x00,0xDE,0x00,0xDE,0x00,0xCA,0x00,0xCA,0x00,0x79,0x00,0x79,
+  0x00,0xDF,0x00,0xDF,0x00,0xE0,0x00,0xE0,0x00,0x80,0x00,0x80,0x00,0x96,0x00,0x96,0x00,0x24,0x00,0x24,0x00,0x23,0x00,0x23,0x00,0xE1,0x00,0xE1,0x00,0xEE,0x00,0xEE,
+  0x00,0xEF,0x00,0xEF,0x00,0xDD,0x00,0xDD,0x00,0x16,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x94,0x00,0x94,0x00,0x7C,0x00,0xF4,0x00,0xF5,0x00,0x52,0x16,0x00,0x06,0x00,
+  0x29,0x00,0x06,0x00,0x18,0x00,0x18,0x00,0x17,0x00,0x17,0x00,0x33,0x00,0x33,0x00,0xD8,0x00,0xD8,0x00,0xDA,0x00,0xDA,0x00,0xDB,0x00,0xDB,0x00,0x91,0x00,0x91,0x00,
+  0xDC,0x00,0xDC,0x00,0x61,0x00,0x69,0x00,0x8C,0x00,0x53,0x26,0x00,0x16,0x00,0x17,0x00,0x17,0x00,0x18,0x00,0x18,0x00,0x19,0x00,0x19,0x00,0x1A,0x00,0x1A,0x00,0x1B,
+  0x00,0x1B,0x00,0x1C,0x00,0x1C,0x00,0x1D,0x00,0x1D,0x00,0x1E,0x00,0x1E,0x00,0x1F,0x00,0x1F,0x00,0x20,0x00,0x20,0x00,0x21,0x00,0x21,0x00,0x22,0x00,0x22,0x00,0x11,
+  0x00,0x11,0x00,0x23,0x00,0x23,0x00,0x24,0x00,0x24,0x00,0x25,0x00,0x25,0x00,0x26,0x00,0x26,0x00,0x05,0x00,0x05,0x00,0x27,0x00,0x54,0x04,0x00,0xB6,0x00,0x9B,0x00,
+  0x06,0x00,0xA1,0x00,0x55,0x12,0x00,0x06,0x00,0x10,0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x80,0x00,0x80,0x00,0x47,0x00,0x47,0x00,0x81,0x00,0x81,
+  0x00,0x56,0x00,0x56,0x00,0x11,0x00,0x11,0x00,0xA1,0x00,0x56,0x04,0x00,0x06,0x00,0x47,0x00,0xED,0x00,0x47,0x00,0x57,0x08,0x00,0x06,0x00,0x26,0x00,0x94,0x00,0x26,
+  0x00,0x94,0x00,0x3A,0x00,0xF6,0x00,0x3A,0x00,0x58,0x04,0x00,0x06,0x00,0x8C,0x00,0xA1,0x00,0x29,0x00,0x59,0x06,0x00,0x06,0x00,0xE3,0x00,0xE3,0x00,0x47,0x00,0xED,
+  0x00,0xE3,0x00,0x5A,0x06,0x00,0xA1,0x00,0x29,0x00,0x06,0x00,0xA1,0x00,0x29,0x00,0x8C,0x00,0x5B,0x08,0x00,0x65,0x00,0x6E,0x00,0xF7,0x00,0x0B,0x00,0x65,0x00,0x5E,
+  0x00,0x6E,0x00,0x0D,0x00,0x5C,0x02,0x00,0x06,0x00,0xF8,0x00,0x5D,0x08,0x00,0xF9,0x00,0xFA,0x00,0x5E,0x00,0x0D,0x00,0x65,0x00,0x5E,0x00,0x6E,0x00,0x0D,0x00,0x5E,
+  0x04,0x00,0xFB,0x00,0x75,0x00,0xFB,0x00,0xBD,0x00,0x5F,0x02,0x00,0x6E,0x00,0xFC,0x00,0x60,0x0C,0x00,0xFD,0x00,0x07,0x00,0x07,0x00,0x71,0x00,0x71,0x00,0xB5,0x00,
+  0xB5,0x00,0xFE,0x00,0xFE,0x00,0xFF,0x00,0xFF,0x00,0x71,0x00,0x61,0x1C,0x00,0xAC,0x00,0xEC,0x00,0xB0,0x00,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,
+  0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,0x00,0x10,0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,
+  0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x62,0x1C,0x00,0x06,0x00,0x29,0x00,0x61,0x00,0x1E,0x00,0x1E,0x00,0x2D,0x00,0x2D,0x00,0x01,0x01,0x01,0x01,0x4C,0x00,0x4C,0x00,
+  0xA5,0x00,0xA5,0x00,0x02,0x01,0x02,0x01,0x36,0x00,0x36,0x00,0x03,0x01,0x03,0x01,0x04,0x01,0x04,0x01,0x9B,0x00,0x9B,0x00,0x48,0x00,0x48,0x00,0x05,0x00,0x05,0x00,
+  0x27,0x00,0x63,0x1A,0x00,0xB0,0x00,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,0x00,0x10,
+  0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x64,0x1C,0x00,0x97,0x00,0xEC,0x00,
+  0xB0,0x00,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,0x00,0x10,0x00,0x10,0x00,0x78,0x00,
+  0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x65,0x20,0x00,0xCA,0x00,0x02,0x01,0x02,0x01,0x9E,0x00,0x9E,
+  0x00,0x05,0x01,0x05,0x01,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,0x00,0x10,0x00,0x10,
+  0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x66,0x0A,0x00,0x08,0x00,0x7C,0x00,0x7C,0x00,
+  0x67,0x00,0x67,0x00,0x06,0x01,0x06,0x01,0x07,0x01,0x07,0x00,0x01,0x01,0x67,0x26,0x00,0xAC,0x00,0x08,0x01,0x08,0x01,0x09,0x01,0x09,0x01,0x0A,0x01,0x0A,0x01,0x0B,
+  0x01,0x0B,0x01,0x0C,0x01,0x0C,0x01,0x0D,0x01,0xB0,0x00,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,
+  0x00,0xCA,0x00,0x10,0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x68,0x0E,0x00,
+  0x06,0x00,0x29,0x00,0xF3,0x00,0x00,0x01,0x00,0x01,0x98,0x00,0x98,0x00,0x09,0x00,0x09,0x00,0x90,0x00,0x90,0x00,0x0E,0x01,0x0E,0x01,0x0F,0x01,0x69,0x0A,0x00,0x06,
+  0x00,0x2F,0x00,0x2F,0x00,0x8D,0x00,0x8D,0x00,0x10,0x01,0x10,0x01,0x06,0x00,0x1D,0x00,0x04,0x00,0x6A,0x10,0x00,0xBE,0x00,0x11,0x01,0x11,0x01,0x7C,0x00,0x7C,0x00,
+  0x12,0x01,0x12,0x01,0xBE,0x00,0x98,0x00,0x13,0x01,0x13,0x01,0x14,0x01,0x14,0x01,0x15,0x01,0x15,0x01,0x6E,0x00,0x6B,0x06,0x00,0x06,0x00,0x29,0x00,0x4D,0x00,0x49,
+  0x00,0x16,0x01,0x0F,0x01,0x6C,0x02,0x00,0x06,0x00,0x29,0x00,0x6D,0x1A,0x00,0x07,0x00,0x29,0x00,0xF3,0x00,0x00,0x01,0x00,0x01,0x98,0x00,0x98,0x00,0x09,0x00,0x09,
+  0x00,0x90,0x00,0x90,0x00,0x0E,0x01,0x0E,0x01,0x0F,0x01,0x0E,0x01,0xE2,0x00,0xE2,0x00,0x17,0x01,0x17,0x01,0x41,0x00,0x41,0x00,0x18,0x01,0x18,0x01,0x19,0x01,0x19,
+  0x01,0x1A,0x01,0x6E,0x0E,0x00,0x07,0x00,0x29,0x00,0xF3,0x00,0x00,0x01,0x00,0x01,0x98,0x00,0x98,0x00,0x09,0x00,0x09,0x00,0x90,0x00,0x90,0x00,0x0E,0x01,0x0E,0x01,
+  0x0F,0x01,0x6F,0x20,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,0x00,0x10,0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,
+  0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x45,0x00,0x9C,0x00,0x9C,0x00,0x22,0x00,0x22,0x00,0xB0,0x00,0xB0,0x00,0x90,0x00,0x90,0x00,0x09,
+  0x00,0x09,0x00,0x98,0x00,0x70,0x1C,0x00,0x07,0x00,0x6E,0x00,0x61,0x00,0x1E,0x00,0x1E,0x00,0x2D,0x00,0x2D,0x00,0x01,0x01,0x01,0x01,0x4C,0x00,0x4C,0x00,0xA5,0x00,
+  0xA5,0x00,0x02,0x01,0x02,0x01,0x36,0x00,0x36,0x00,0x03,0x01,0x03,0x01,0x04,0x01,0x04,0x01,0x9B,0x00,0x9B,0x00,0x48,0x00,0x48,0x00,0x05,0x00,0x05,0x00,0x27,0x00,
+  0x71,0x1C,0x00,0xAC,0x00,0x1B,0x01,0xB0,0x00,0x90,0x00,0x90,0x00,0x09,0x00,0x09,0x00,0x98,0x00,0x98,0x00,0x00,0x01,0x00,0x01,0xB5,0x00,0xB5,0x00,0xCA,0x00,0xCA,
+  0x00,0x10,0x00,0x10,0x00,0x78,0x00,0x78,0x00,0x7F,0x00,0x7F,0x00,0x26,0x00,0x26,0x00,0x47,0x00,0x47,0x00,0x46,0x00,0x46,0x00,0x45,0x00,0x72,0x0A,0x00,0x07,0x00,
+  0x29,0x00,0xCA,0x00,0xB5,0x00,0xB5,0x00,0x00,0x01,0x00,0x01,0x98,0x00,0x98,0x00,0x09,0x00,0x73,0x20,0x00,0xA5,0x00,0x90,0x00,0x90,0x00,0x01,0x01,0x01,0x01,0x2D,
+  0x00,0x2D,0x00,0xFF,0x00,0xFF,0x00,0x61,0x00,0x61,0x00,0xA9,0x00,0xA9,0x00,0x1C,0x01,0x1C,0x01,0x1D,0x01,0x1D,0x01,0x72,0x00,0x72,0x00,0x37,0x00,0x37,0x00,0x03,
+  0x01,0x03,0x01,0x46,0x00,0x46,0x00,0x9B,0x00,0x9B,0x00,0x48,0x00,0x48,0x00,0x1E,0x01,0x1E,0x01,0x27,0x00,0x74,0x0A,0x00,0x30,0x00,0x1F,0x01,0x1F,0x01,0xE0,0x00,
+  0xE0,0x00,0x80,0x00,0x80,0x00,0x47,0x00,0x07,0x00,0x01,0x01,0x75,0x0E,0x00,0x07,0x00,0x49,0x00,0x49,0x00,0x1E,0x01,0x1E,0x01,0x07,0x01,0x07,0x01,0x80,0x00,0x80,
+  0x00,0xE9,0x00,0xE9,0x00,0x37,0x00,0x20,0x01,0x0F,0x01,0x76,0x04,0x00,0x07,0x00,0x80,0x00,0xAC,0x00,0x80,0x00,0x77,0x08,0x00,0x07,0x00,0x48,0x00,0x09,0x00,0x48,
+  0x00,0x09,0x00,0xEC,0x00,0x17,0x01,0xEC,0x00,0x78,0x04,0x00,0x07,0x00,0x0F,0x01,0x20,0x01,0x29,0x00,0x79,0x0C,0x00,0x1D,0x00,0x9B,0x00,0xAF,0x00,0x9B,0x00,0x9B,
+  0x00,0x13,0x00,0x13,0x00,0x0D,0x01,0x0D,0x01,0x0B,0x00,0x0B,0x00,0x6E,0x00,0x7A,0x06,0x00,0x20,0x01,0x29,0x00,0x07,0x00,0x20,0x01,0x29,0x00,0x0F,0x01,0x7B,0x34,
+  0x00,0x12,0x00,0x21,0x01,0x21,0x01,0x66,0x00,0x66,0x00,0x00,0x00,0x00,0x00,0x59,0x00,0x59,0x00,0x22,0x01,0x22,0x01,0x23,0x01,0x23,0x01,0x2D,0x00,0x2D,0x00,0x1F,
+  0x00,0x1F,0x00,0x24,0x01,0x21,0x01,0x25,0x01,0x25,0x01,0x1A,0x00,0x1A,0x00,0x26,0x01,0x26,0x01,0x27,0x01,0x27,0x01,0x6F,0x00,0x6F,0x00,0x28,0x01,0x28,0x01,0x29,
+  0x01,0x29,0x01,0x75,0x00,0x75,0x00,0x2A,0x01,0x2A,0x01,0x2B,0x01,0x2B,0x01,0x70,0x00,0x70,0x00,0xE0,0x00,0xE0,0x00,0x07,0x01,0x07,0x01,0x2C,0x01,0x2C,0x01,0x2D,
+  0x01,0x2D,0x01,0x0D,0x01,0x2E,0x01,0x2F,0x01,0x7C,0x02,0x00,0x65,0x00,0x6E,0x00,0x7D,0x34,0x00,0x65,0x00,0x30,0x01,0x30,0x01,0x31,0x01,0x31,0x01,0xBE,0x00,0xBE,
+  0x00,0x32,0x01,0x32,0x01,0x06,0x01,0x06,0x01,0xFD,0x00,0xFD,0x00,0x1D,0x00,0x1D,0x00,0x0E,0x00,0x0E,0x00,0x33,0x01,0x30,0x01,0x34,0x01,0x34,0x01,0x60,0x00,0x60,
+  0x00,0x5B,0x00,0x5B,0x00,0x7D,0x00,0x7D,0x00,0x5D,0x00,0x5D,0x00,0xDE,0x00,0xDE,0x00,0xB5,0x00,0xB5,0x00,0x35,0x01,0x35,0x01,0x01,0x00,0x01,0x00,0xEA,0x00,0xEA,
+  0x00,0x27,0x00,0x27,0x00,0x1E,0x01,0x1E,0x01,0x36,0x01,0x36,0x01,0x63,0x00,0x63,0x00,0x37,0x01,0x37,0x01,0x38,0x01,0x1C,0x01,0xCB,0x00,0x7E,0x28,0x00,0x10,0x00,
+  0xCA,0x00,0xCA,0x00,0xB5,0x00,0xB5,0x00,0x9F,0x00,0x9F,0x00,0xEB,0x00,0xEB,0x00,0x69,0x00,0x69,0x00,0x39,0x01,0x39,0x01,0x9D,0x00,0x9D,0x00,0x95,0x00,0x95,0x00,
+  0x3A,0x01,0x3A,0x01,0x3B,0x01,0xCA,0x00,0xA0,0x00,0xA0,0x00,0xAA,0x00,0xAA,0x00,0x3C,0x01,0x3C,0x01,0x3D,0x01,0x3D,0x01,0x3E,0x01,0x3E,0x01,0x9C,0x00,0x9C,0x00,
+  0x3F,0x01,0x3F,0x01,0x40,0x01,0x40,0x01,0x3B,0x01,0x3B,0x01,0xBB,0x00
+};
+
+static bool isFirst=true;
+static bool isBigEndian() { int i = 1; return *(reinterpret_cast<char*>(&i))==0; }
+
+inline void Swap2Bytes(char* data)
+{
+	char one_byte;
+	one_byte = data[0]; data[0] = data[1]; data[1] = one_byte;
+}
+
+inline void Swap4Bytes(char* data)
+{
+	char one_byte;
+	one_byte = data[0]; data[0] = data[3]; data[3] = one_byte;
+	one_byte = data[1]; data[1] = data[2]; data[2] = one_byte;
+}
+
+inline void Swap8Bytes(char* data)
+{ 
+	char one_byte;
+	one_byte = data[0]; data[0] = data[7]; data[7] = one_byte;
+	one_byte = data[1]; data[1] = data[6]; data[6] = one_byte;
+	one_byte = data[2]; data[2] = data[5]; data[5] = one_byte;
+	one_byte = data[3]; data[3] = data[4]; data[4] = one_byte;
+}
+
+static inline uint8_t * getUShort(uint8_t *data,unsigned short &v)
+{
+	unsigned short *src = reinterpret_cast<unsigned short *>(data);
+	if ( isBigEndian() && isFirst ) 
+	{
+		Swap2Bytes(reinterpret_cast<char *>(data));
+	}
+	v = src[0];
+	data+=sizeof(unsigned short);
+	return data;
+}
+
+static inline uint8_t * getUint(uint8_t *data,uint32_t &v)
+{
+	uint32_t *src = reinterpret_cast<uint32_t *>(data);
+	if ( isBigEndian() && isFirst )
+	{
+		Swap4Bytes(reinterpret_cast<char *>(data));
+	}
+	v = src[0];
+	data+=sizeof(uint32_t);
+	return data;
+}
+
+class FontChar
+{
+public:
+	FontChar(void)
+	{
+		mIndexCount = 0;
+		mIndices   = 0;
+		mX1 = mY1 = mX2 = mY2 = 0;
+	}
+
+	uint8_t * init(uint8_t *data,const float *vertices)
+	{
+		data = getUShort(data,mIndexCount);
+		mIndices = reinterpret_cast<unsigned short *>(data);
+
+		if ( isBigEndian() && isFirst )
+		{
+			for (uint16_t i=0; i<mIndexCount; i++)
+			{
+				Swap2Bytes(reinterpret_cast<char *>(&mIndices[i]));
+			}
+		}
+
+		data+=(mIndexCount*sizeof(unsigned short));
+		for (uint32_t i=0; i<mIndexCount; i++)
+		{
+			uint32_t index = mIndices[i];
+			const  float *vertex = &vertices[index*2];
+
+			if ( i == 0 )
+			{
+				mX1 = mX2 = vertex[0];
+				mY1 = mY2 = vertex[1];
+			}
+			else
+			{
+				if ( vertex[0] < mX1 ) mX1 = vertex[0];
+				if ( vertex[1] < mY1 ) mY1 = vertex[1];
+
+				if ( vertex[0] > mX2 ) mX2 = vertex[0];
+				if ( vertex[1] > mY2 ) mY2 = vertex[1];
+
+			}
+		}
+
+		return data;
+	}
+
+	void vputc(const float *vertices,ProcessRenderDebugHelper *debug,float textScale,float &x,float &y)
+	{
+		if ( mIndices )
+		{
+			uint32_t lineCount = uint32_t(mIndexCount/2);
+			float spacing = (mX2-mX1)+0.05f;
+			for (uint32_t i=0; i<lineCount; i++)
+			{
+				unsigned short i1 = mIndices[i*2+0];
+				unsigned short i2 = mIndices[i*2+1];
+
+				const float *v1 = &vertices[i1*2];
+				const float *v2 = &vertices[i2*2];
+
+				physx::PxVec3 p1(v1[0]+x,v1[1]+y,0);
+				physx::PxVec3 p2(v2[0]+x,v2[1]+y,0);
+				p1*=textScale;
+				p2*=textScale;
+
+				debug->indirectDebugLine(p1,p2);
+
+			}
+			x+=spacing;
+		}
+		else
+		{
+			x+=0.1f;
+		}
+	}
+
+	float getWidth(void) const
+	{
+		float ret = 0.1f;
+		if ( mIndexCount > 0 )
+		{
+			ret = (mX2-mX1)+0.05f;
+		}
+		return ret;
+	}
+
+
+	float          mX1;
+	float          mX2;
+	float          mY1;
+	float          mY2;
+	unsigned short mIndexCount;
+	unsigned short *mIndices;
+};
+
+
+#define FONT_VERSION 1
+
+class MyVectorFont : public physx::shdfnd::UserAllocated
+{
+public:
+	MyVectorFont(void)
+	{
+		mVersion = 0;
+		mVcount = 0;
+		mCount = 0;
+		mVertices = 0;
+		initFont(g_font);
+	}
+
+	virtual ~MyVectorFont(void)
+	{
+		release();
+	}
+
+	void release(void)
+	{
+		mVersion = 0;
+		mVcount = 0;
+		mCount = 0;
+		mVertices = 0;
+	}
+
+	void initFont(uint8_t *font)
+	{
+		release();
+		if ( font[0] == 'F' && font[1] == 'O' && font[2] == 'N' && font[3] == 'T' )
+		{
+			font+=4;
+			font = getUint(font,mVersion);
+			if ( mVersion == FONT_VERSION )
+			{
+				font = getUint(font,mVcount);
+				font = getUint(font,mCount);
+				font = getUint(font,mIcount);
+				uint32_t vsize = sizeof(float)*mVcount*2;
+				mVertices = reinterpret_cast<float *>(font);
+				if ( isBigEndian() && isFirst )
+				{
+					for (uint32_t i=0; i<(mVcount*2); i++)
+					{
+						Swap4Bytes(reinterpret_cast<char *>(&mVertices[i]));
+					}
+				}
+				font+=vsize;
+				for (uint32_t i=0; i<mCount; i++)
+				{
+					uint8_t c = *font++;
+					font = mCharacters[c].init(font,mVertices);
+				}
+			}
+			isFirst = false;
+		}
+	}
+
+	void vprint(const char *buffer,ProcessRenderDebugHelper *debug,float textScale,bool centered)
+	{
+		const char *scan = buffer;
+		float x = 0;
+		float y = 0;
+		if ( centered )
+		{
+			float wid=0;
+			while ( *scan )
+			{
+				unsigned c = unsigned(*scan++);
+				wid+=mCharacters[c].getWidth();
+			}
+			x = -wid*0.5f;
+			scan = buffer;
+		}
+		while ( *scan )
+		{
+			unsigned c = unsigned(*scan++);
+			mCharacters[c].vputc(mVertices,debug,textScale,x,y);
+		}
+	}
+
+private:
+	uint32_t    mVersion;
+	uint32_t    mVcount;
+	uint32_t    mCount;
+	float   *mVertices;
+	uint32_t    mIcount;
+	FontChar mCharacters[256];
+};
+
+
+
+
+class ProcessRenderDebugImpl : public ProcessRenderDebug, public physx::shdfnd::UserAllocated, public ProcessRenderDebugHelper
+{
+public:
+
+	ProcessRenderDebugImpl(void)
+	{
+		mViewMatrix = physx::PxMat44(physx::PxIdentity);
+		mLines = NULL;
+		mLineVertexCount = 0;
+		mMaxLineVertexCount = 0;
+		mTriangles = NULL;
+		mSolidVertexCount = 0;
+		mMaxSolidVertexCount = 0;
+	}
+
+	virtual ~ProcessRenderDebugImpl(void)
+	{
+		PX_FREE(mLines);
+		PX_FREE(mTriangles);
+	}
+
+	void flushLines(void)
+	{
+		if (mLines != NULL && mInterface != NULL && mLineVertexCount > 0)
+		{
+			mInterface->debugRenderLines(mLineVertexCount/2,mLines,mDisplayType!=WORLD_SPACE_NOZ,mDisplayType==SCREEN_SPACE);
+		}
+		if (mLines == NULL)
+		{
+			mLines = static_cast<RENDER_DEBUG::RenderDebugVertex *>(PX_ALLOC(sizeof(RENDER_DEBUG::RenderDebugVertex)*MAX_LINE_VERTEX, PX_DEBUG_EXP("RenderDebugVertex")));
+			mMaxLineVertexCount = MAX_LINE_VERTEX;
+		}
+		mLineVertexCount = 0;
+	}
+
+	void flushTriangles(void)
+	{
+		if (mTriangles != NULL && mInterface != NULL && mSolidVertexCount > 0)
+		{
+			mInterface->debugRenderTriangles(mSolidVertexCount/3,mTriangles,mDisplayType!=WORLD_SPACE_NOZ,mDisplayType==SCREEN_SPACE);
+		}
+		if (mTriangles == NULL)
+		{
+			mTriangles = static_cast<RENDER_DEBUG::RenderDebugSolidVertex *>(PX_ALLOC(sizeof(RENDER_DEBUG::RenderDebugSolidVertex)*MAX_SOLID_VERTEX, PX_DEBUG_EXP("RENDER_DEBUG::RenderDebugSolidVertex")));
+			mMaxSolidVertexCount = MAX_SOLID_VERTEX;
+		}
+		mSolidVertexCount = 0;
+	}
+
+	virtual void flush(RENDER_DEBUG::RenderDebugInterface *iface,DisplayType type)
+	{
+		mInterface = iface;
+		mDisplayType = type;
+		flushLines();
+		flushTriangles();
+		new ( &mCurrentState ) RenderState; // reset renderstate to inifial conditions.
+	}
+
+	bool isIdentity(const physx::PxMat44 &t) const
+	{
+		physx::PxMat44 id = physx::PxMat44(physx::PxIdentity);
+		const float *f1 = t.front();
+		const float *f2 = id.front();
+		for (uint32_t i=0; i<16; i++)
+		{
+			float diff = physx::PxAbs( f1[i] - f2[i] );
+			if ( diff > 0.000001f )
+				return false;
+		}
+		return true;
+	}
+
+	virtual void processRenderDebug(const DebugPrimitive **plist,uint32_t pcount,RENDER_DEBUG::RenderDebugInterface *iface,DisplayType type)
+	{
+		mInterface = iface;
+		mDisplayType = type;
+
+		for (uint32_t i=0; i<pcount; i++)
+		{
+			const DebugPrimitive &p = *plist[i];
+			switch ( p.mCommand )
+			{
+				case DebugCommand::DEBUG_RELEASE_TRIANGLE_MESH:
+					if ( iface )
+					{
+						const DebugReleaseTriangleMesh &d =  static_cast< const DebugReleaseTriangleMesh &>(p);
+						iface->releaseTriangleMesh(d.mMeshId);
+					}
+					break;
+				case DebugCommand::DEBUG_RENDER_TRIANGLE_MESH_INSTANCES:
+					{
+						const DebugRenderTriangleMeshInstances &dgs = static_cast< const DebugRenderTriangleMeshInstances &>(p);
+						debugRenderTriangleMeshInstances(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_CONVEX_HULL:
+					{
+						const DebugConvexHull &dgs = static_cast< const DebugConvexHull &>(p);
+						debugConvexHull(dgs);
+					}
+					break;
+				case DebugCommand::DEBUG_RENDER_POINTS:
+					{
+						const DebugRenderPoints &dgs = static_cast< const DebugRenderPoints &>(p);
+						debugRenderPoints(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_RENDER_LINES:
+					{
+						const DebugRenderLines &dgs = static_cast< const DebugRenderLines &>(p);
+						debugRenderLines(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_RENDER_TRIANGLES:
+					{
+						const DebugRenderTriangles &dgs = static_cast< const DebugRenderTriangles &>(p);
+						debugRenderTriangles(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_UNREGISTER_INPUT_EVENT:
+					if ( iface )
+					{
+						const DebugUnregisterInputEvent &d = static_cast< const DebugUnregisterInputEvent &>(p);
+						iface->unregisterInputEvent(static_cast<InputEventIds::Enum>(d.mEventId));
+					}
+					break;
+				case DebugCommand::DEBUG_REGISTER_INPUT_EVENT:
+					if ( iface )
+					{
+						const DebugRegisterInputEvent &d = static_cast< const DebugRegisterInputEvent &>(p);
+						if ( d.mDigital )
+						{
+							iface->registerDigitalInputEvent(static_cast<InputEventIds::Enum>(d.mEventId), static_cast<InputIds::Enum>(d.mInputId));
+						}
+						else
+						{
+							iface->registerAnalogInputEvent(static_cast<InputEventIds::Enum>(d.mEventId), d.mSensitivity, static_cast<InputIds::Enum>(d.mInputId));
+						}
+					}
+					break;
+				case DebugCommand::DEBUG_SKIP_FRAME:
+					break;
+				case DebugCommand::DEBUG_RESET_INPUT_EVENTS:
+					if ( iface )
+					{
+						iface->resetInputEvents();
+					}
+					break;
+				case DebugCommand::DEBUG_CREATE_TRIANGLE_MESH:
+					{
+						const DebugCreateTriangleMesh &dgs = static_cast< const DebugCreateTriangleMesh &>(p);
+						debugCreateTriangleMesh(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_REFRESH_TRIANGLE_MESH_VERTICES:
+					{
+						const DebugRefreshTriangleMeshVertices &dgs = static_cast< const DebugRefreshTriangleMeshVertices &>(p);
+						debugRefreshTriangleMeshVertices(dgs,iface);
+					}
+					break;
+				case DebugCommand::DEBUG_GRAPH:
+					{
+						const DebugGraphStream &dgs = static_cast< const DebugGraphStream &>(p);
+						debugGraph(dgs);
+					}
+					break;
+				case DebugCommand::DEBUG_GRADIENT_TRI:
+					{
+						const DebugGradientTri &dg = static_cast< const DebugGradientTri &>(p);
+						debugGradientTri(dg);
+						if ( iface )
+						{
+							RenderDebugSolidVertex verts[3];
+							verts[0].mPos[0] = dg.mP1.x; verts[0].mPos[1] = dg.mP1.y; verts[0].mPos[2] = dg.mP1.z;
+							verts[1].mPos[0] = dg.mP2.x; verts[1].mPos[1] = dg.mP2.y; verts[1].mPos[2] = dg.mP2.z;
+							verts[2].mPos[0] = dg.mP3.x; verts[2].mPos[1] = dg.mP3.y; verts[2].mPos[2] = dg.mP3.z;
+							const physx::PxVec3 v1(dg.mP1.x, dg.mP1.y, dg.mP1.z),
+												v2(dg.mP2.x, dg.mP2.y, dg.mP2.z),
+												v3(dg.mP3.x, dg.mP3.y, dg.mP3.z);
+
+							const physx::PxVec3 n = physx::PxVec3(v2-v1).cross(physx::PxVec3(v3-v1)).getNormalized();
+							verts[0].mNormal[0] = n.x;
+							verts[0].mNormal[1] = n.y;
+							verts[0].mNormal[2] = n.z;
+							verts[1].mNormal[0] = n.x;
+							verts[1].mNormal[1] = n.y;
+							verts[1].mNormal[2] = n.z;
+							verts[2].mNormal[0] = n.x;
+							verts[2].mNormal[1] = n.y;
+							verts[2].mNormal[2] = n.z;
+							iface->debugRenderTriangles(1, verts, false, false);
+						}
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TRANSFORM:
+					{
+						const DebugSetCurrentTransform &dg = static_cast< const DebugSetCurrentTransform &>(p);
+						if ( isIdentity(dg.mTransform ))
+						{
+							mCurrentState.mPose = NULL;
+						}
+						else
+						{
+							mCurrentState.mCurrentPose = dg.mTransform;
+							mCurrentState.mPose = &mCurrentState.mCurrentPose;
+						}
+					}
+					break;
+				case DebugCommand::DEBUG_LINE:
+					{
+						const DebugLine &dg = static_cast< const DebugLine &>(p);
+						debugLine(dg.mP1,dg.mP2,mCurrentState.mColor,mCurrentState.mColor);
+					}
+					break;
+				case DebugCommand::DRAW_GRID:
+					{
+						const DrawGrid &dg = static_cast< const DrawGrid &>(p);
+						drawGrid(dg);
+					}
+					break;
+				case DebugCommand::SET_CURRENT_COLOR:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mColor = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_ARROW_COLOR:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mArrowColor = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TILE1:
+					{
+						const DebugPrimitiveF32 &dg = static_cast< const DebugPrimitiveF32 &>(p);
+						mCurrentState.mTileRate1 = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TILE2:
+					{
+						const DebugPrimitiveF32 &dg = static_cast< const DebugPrimitiveF32 &>(p);
+						mCurrentState.mTileRate2 = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TEXTURE1:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mTexture1 = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TEXTURE2:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mTexture2 = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_USER_ID:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mUserId = int32_t(dg.mValue);
+					}
+					break;
+				case DebugCommand::SET_CURRENT_RENDER_SCALE:
+					{
+						const DebugPrimitiveF32 &dg = static_cast< const DebugPrimitiveF32 &>(p);
+						mCurrentState.mRenderScale = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_ARROW_SIZE:
+					{
+						const DebugPrimitiveF32 &dg = static_cast< const DebugPrimitiveF32 &>(p);
+						mCurrentState.mArrowSize = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_RENDER_STATE:
+					{
+						const DebugPrimitiveU32 &dg = static_cast< const DebugPrimitiveU32 &>(p);
+						mCurrentState.mStates = dg.mValue;
+					}
+					break;
+				case DebugCommand::SET_CURRENT_TEXT_SCALE:
+					{
+						const DebugPrimitiveF32 &dg = static_cast< const DebugPrimitiveF32 &>(p);
+						mCurrentState.mTextScale = dg.mValue;
+					}
+					break;
+				case DebugCommand::DEBUG_TEXT:
+					{
+						const DebugText &dg = static_cast< const DebugText &>(p);
+						debugText(dg);
+					}
+					break;
+				case DebugCommand::DEBUG_TEXT2D:
+					if ( iface )
+					{
+						const DebugText2D &dg = static_cast< const DebugText2D &>(p);
+						iface->debugText2D(dg.mPosition.x,dg.mPosition.y,dg.mScale,dg.mShadowOffset,dg.mForceFixWidthNumbers ? true : false,dg.mTextColor, dg.mText );
+					}
+					break;
+				case DebugCommand::DEBUG_BOUND:
+					{
+						const DebugBound &db = static_cast< const DebugBound &>(p);
+						debugBound(db);
+					}
+					break;
+				case DebugCommand::DEBUG_QUAD:
+					{
+						const DebugQuad &b = static_cast< const DebugQuad &>(p);
+						debugQuad(b);
+					}
+					break;
+				case DebugCommand::DEBUG_POINT:
+					{
+						const DebugPoint &b = static_cast< const DebugPoint &>(p);
+						debugPoint(b);
+					}
+					break;
+				case DebugCommand::DEBUG_POINT_SCALE:
+					{
+						const DebugPointScale &b = static_cast< const DebugPointScale &>(p);
+						debugPoint(b);
+					}
+					break;
+				case DebugCommand::DEBUG_RECT2D:
+					{
+						const DebugRect2d &d = static_cast<const DebugRect2d &>(p);
+						debugRect2d(d);
+					}
+					break;
+				case DebugCommand::DEBUG_GRADIENT_LINE:
+					{
+						const DebugGradientLine &d = static_cast< const DebugGradientLine &>(p);
+						debugGradientLine(d);
+					}
+					break;
+				case DebugCommand::DEBUG_RAY:
+					{
+						const DebugRay &d = static_cast< const DebugRay &>(p);
+						debugRay(d);
+					}
+					break;
+				case DebugCommand::DEBUG_CYLINDER:
+					{
+						const DebugCylinder &d = static_cast< const DebugCylinder &>(p);
+						debugCylinder(d);
+					}
+					break;
+				case DebugCommand::DEBUG_CIRCLE:
+					{
+						const DebugCircle &d = static_cast< const DebugCircle &>(p);
+						debugCircle(d);
+					}
+					break;
+				case DebugCommand::DEBUG_POINT_CYLINDER:
+					{
+						const DebugPointCylinder &d = static_cast< const DebugPointCylinder &>(p);
+						debugPointCylinder(d);
+					}
+					break;
+				case DebugCommand::DEBUG_THICK_RAY:
+					{
+						const DebugThickRay &d = static_cast< const DebugThickRay &>(p);
+						debugThickRay(d);
+					}
+					break;
+				case DebugCommand::DEBUG_PLANE:
+					{
+						const DebugPlane &d = static_cast< const DebugPlane &>(p);
+						debugPlane(d);
+					}
+					break;
+				case DebugCommand::DEBUG_TRI:
+					{
+						const DebugTri &d = static_cast< const DebugTri &>(p);
+						debugTri(&d.mP1,&d.mP2,&d.mP3,NULL,NULL,NULL,0xFFFFFFFF,0xFFFFFFFF,0xFFFFFFFF,false);
+					}
+					break;
+				case DebugCommand::DEBUG_TRI_NORMALS:
+					{
+						const DebugTriNormals &d = static_cast< const DebugTriNormals &>(p);
+						debugTriNormals(d);
+					}
+					break;
+				case DebugCommand::DEBUG_GRADIENT_TRI_NORMALS:
+					{
+						const DebugGradientTriNormals &d = static_cast< const DebugGradientTriNormals &>(p);
+						debugGradientTriNormals(d);
+					}
+					break;
+				case DebugCommand::DEBUG_SPHERE:
+					{
+						const DebugSphere &d = static_cast< const DebugSphere &>(p);
+						debugSphere(d);
+					}
+					break;
+				case DebugCommand::DEBUG_SQUASHED_SPHERE:
+					{
+						const DebugSquashedSphere &d = static_cast< const DebugSquashedSphere &>(p);
+						debugSphere(d);
+					}
+					break;
+				case DebugCommand::DEBUG_CAPSULE:
+					{
+						const DebugCapsule &d = static_cast<const DebugCapsule &>(p);
+						debugCapsule(d);
+					}
+					break;
+				case DebugCommand::DEBUG_CAPSULE_TAPERED:
+					{
+						const DebugTaperedCapsule&d = static_cast<const DebugTaperedCapsule&>(p);
+						debugTaperedCapsule(d);
+					}
+					break;
+				case DebugCommand::DEBUG_AXES:
+					{
+						const DebugAxes &d = static_cast< const DebugAxes &>(p);
+						debugAxes(d);
+					}
+					break;
+				case DebugCommand::DEBUG_ARC:
+					{
+						const DebugArc &d = static_cast< const DebugArc &>(p);
+						debugArc(d);
+					}
+					break;
+				case DebugCommand::DEBUG_THICK_ARC:
+					{
+						const DebugThickArc &d = static_cast< const DebugThickArc &>(p);
+						debugThickArc(d);
+					}
+					break;
+				case DebugCommand::DEBUG_DETAILED_SPHERE:
+					{
+						const DebugDetailedSphere &d = static_cast< const DebugDetailedSphere &>(p);
+						debugDetailedSphere(d);
+					}
+					break;
+				case DebugCommand::DEBUG_MESSAGE:
+					{
+						const DebugMessage &d = static_cast< const DebugMessage &>(p);
+						mInterface->debugMessage(d.mText);
+					}
+					break;
+				case DebugCommand::DEBUG_CREATE_CUSTOM_TEXTURE:
+					{
+						const DebugCreateCustomTexture &d = static_cast< const DebugCreateCustomTexture &>(p);
+						mInterface->createCustomTexture(d.mId,d.mTextureName);
+					}
+					break;
+				case DebugCommand::DEBUG_FRUSTUM:
+					{
+						const DebugFrustum &f = static_cast< const DebugFrustum &>(p);
+						debugFrustum(f.mView,f.mProj);
+					}
+					break;
+				case DebugCommand::DEBUG_CONE:
+					{
+						const DebugCone &c = static_cast< const DebugCone &>(p);
+						debugCone(c);
+					}
+					break;
+				case DebugCommand::DEBUG_BLOCK_INFO:
+					{
+					}
+					break;
+				case DebugCommand::DEBUG_LAST:
+					break;
+				default:
+					PX_ALWAYS_ASSERT();
+					break;
+			}
+		}
+	}
+
+	virtual void release(void)
+	{
+		delete this;
+	}
+
+	PX_INLINE int32_t clampColor(int32_t c)
+	{
+		if ( c < 0 )
+		{
+			c = 0;
+		}
+		else if ( c > 255 )
+		{
+			c = 255;
+		}
+		return c;
+	}
+
+	void debugText(const DebugText &dg)
+	{
+		physx::PxMat44 *savePose = mCurrentState.mPose;
+		mCurrentState.mPose = NULL;
+		physx::PxMat44 pose = dg.mPose;
+		pose.setPosition( pose.getPosition()+dg.mPosition );
+		if ( savePose )
+		{
+			pose = *savePose * pose;
+		}
+		
+		if ( mCurrentState.isCameraFacing() )
+		{
+			float *cameraWorldPose = const_cast<float*>(pose.front());
+			const float *viewMatrix = mViewMatrix.front();
+			cameraWorldPose[0] = viewMatrix[0];
+			cameraWorldPose[1] = viewMatrix[4];
+			cameraWorldPose[2] = viewMatrix[8];
+			cameraWorldPose[3] = 0;
+
+			cameraWorldPose[4] = viewMatrix[1];
+			cameraWorldPose[5] = viewMatrix[5];
+			cameraWorldPose[6] = viewMatrix[9];
+			cameraWorldPose[7] = 0;
+
+			cameraWorldPose[8] = viewMatrix[2];
+			cameraWorldPose[9] = viewMatrix[6];
+			cameraWorldPose[10] = viewMatrix[10];
+			cameraWorldPose[11] = 0;
+		}
+		mCurrentState.mPose = &pose;
+		mVectorFont.vprint(dg.mText, this, mCurrentState.mTextScale, mCurrentState.isCentered() );
+		mCurrentState.mPose = savePose;
+	}
+
+	uint32_t getColor(uint32_t r,uint32_t g,uint32_t b,float percent = 0.0f)
+	{
+		uint32_t dr = uint32_t(static_cast<float>(r)*percent);
+		uint32_t dg = uint32_t(static_cast<float>(g)*percent);
+		uint32_t db = uint32_t(static_cast<float>(b)*percent);
+		r-=dr;
+		g-=dg;
+		b-=db;
+
+		const uint32_t c = 0xff000000 | (r<<16) | (g<<8) | b;
+		return c;
+	}
+
+
+    PX_INLINE void swapYZ(physx::PxVec3 &p)
+    {
+    	float y = p.y;
+    	p.y = p.z;
+    	p.z = y;
+    }
+
+    void drawGrid(const DrawGrid &dg)
+    {
+    	bool zup = dg.mZup ? true : false;
+    	uint32_t gridSize = dg.mGridSize;
+    	int32_t  GRIDSIZE = int32_t(gridSize);
+
+    	uint32_t c1 = getColor(133,153,181,0.1f);
+    	uint32_t c2 = getColor(133,153,181,0.3f);
+    	uint32_t c3 = getColor(133,153,181,0.5f);
+
+    	const float TSCALE   = 1.0f;
+
+    	float BASELOC = 0-0.05f;
+
+    	for (int32_t x=-GRIDSIZE; x<=GRIDSIZE; x++)
+    	{
+    		uint32_t c = c1;
+    		if ( (x%10) == 0 ) c = c2;
+    		if ( (x%GRIDSIZE) == 0 ) c = c3;
+
+    		physx::PxVec3 p1( static_cast<float>(x), static_cast<float>(-GRIDSIZE), BASELOC );
+    		physx::PxVec3 p2( static_cast<float>(x), static_cast<float>(+GRIDSIZE), BASELOC );
+
+    		p1*=TSCALE;
+    		p2*=TSCALE;
+
+			if ( !zup )
+			{
+    			swapYZ(p1);
+    			swapYZ(p2);
+			}
+    		debugLine(p1,p2,c,c);
+
+
+    	}
+
+    	for (int32_t y=-GRIDSIZE; y<=GRIDSIZE; y++)
+    	{
+    		uint32_t c = c1;
+
+    		if ( (y%10) == 0 ) c = c2;
+    		if ( (y%GRIDSIZE) == 0 ) c = c3;
+
+    		physx::PxVec3 p1(static_cast<float>(-GRIDSIZE), static_cast<float>(y), BASELOC);
+    		physx::PxVec3 p2(static_cast<float>(+GRIDSIZE), static_cast<float>(y), BASELOC);
+
+    		p1*=TSCALE;
+    		p2*=TSCALE;
+
+			if ( !zup )
+			{
+    			swapYZ(p1);
+    			swapYZ(p2);
+			}
+
+    		debugLine(p1,p2,c,c);
+    	}
+    }
+
+	PX_INLINE void debugLine(const physx::PxVec3 &p1,const physx::PxVec3 &p2,uint32_t color1,uint32_t color2)
+	{
+		RENDER_DEBUG::RenderDebugVertex *v = getDebugVertex(2);
+
+		if ( mCurrentState.mPose )
+		{
+			physx::PxVec3 _p1 = mCurrentState.mPose->transform(p1);
+			physx::PxVec3 _p2 = mCurrentState.mPose->transform(p2);
+			v[0].mPos[0] = _p1.x*mCurrentState.mRenderScale;
+			v[0].mPos[1] = _p1.y*mCurrentState.mRenderScale;
+			v[0].mPos[2] = _p1.z*mCurrentState.mRenderScale;
+			v[0].mColor  = color1;
+
+			v[1].mPos[0] = _p2.x*mCurrentState.mRenderScale;
+			v[1].mPos[1] = _p2.y*mCurrentState.mRenderScale;
+			v[1].mPos[2] = _p2.z*mCurrentState.mRenderScale;
+			v[1].mColor  = color2;
+		}
+		else
+		{
+			v[0].mPos[0] = p1.x*mCurrentState.mRenderScale;
+			v[0].mPos[1] = p1.y*mCurrentState.mRenderScale;
+			v[0].mPos[2] = p1.z*mCurrentState.mRenderScale;
+			v[0].mColor  = color1;
+
+			v[1].mPos[0] = p2.x*mCurrentState.mRenderScale;
+			v[1].mPos[1] = p2.y*mCurrentState.mRenderScale;
+			v[1].mPos[2] = p2.z*mCurrentState.mRenderScale;
+			v[1].mColor  = color2;
+		}
+	}
+
+	PX_INLINE physx::PxVec3 rotate2d(const physx::PxVec3 &p,float r)
+	{
+		physx::PxVec3 ret;
+		ret.x = p.x*cosf(r) - p.y*sinf(r);
+		ret.y = p.x*sinf(r) + p.y*cosf(r);
+		ret.z = 0;
+		return ret;
+	}
+
+	PX_INLINE physx::PxVec3 facing(const physx::PxVec3 &p,const physx::PxMat44 &inverseViewMatrix)
+	{
+		return inverseViewMatrix.rotate(p);
+	}
+
+	PX_INLINE void debugQuad(const DebugQuad &p)
+	{
+		physx::PxVec3 points[4];
+
+		physx::PxMat44 inverseViewMatrix;
+
+		// get the inverse view matrix
+		float *cameraWorldPose = const_cast<float *>(inverseViewMatrix.front());
+		const float *viewMatrix = mViewMatrix.front();
+		cameraWorldPose[0] = viewMatrix[0];
+		cameraWorldPose[1] = viewMatrix[4];
+		cameraWorldPose[2] = viewMatrix[8];
+		cameraWorldPose[3] = 0;
+
+		cameraWorldPose[4] = viewMatrix[1];
+		cameraWorldPose[5] = viewMatrix[5];
+		cameraWorldPose[6] = viewMatrix[9];
+		cameraWorldPose[7] = 0;
+
+		cameraWorldPose[8] = viewMatrix[2];
+		cameraWorldPose[9] = viewMatrix[6];
+		cameraWorldPose[10] = viewMatrix[10];
+		cameraWorldPose[11] = 0;
+
+		// apply scale, rotation, and make the quad face the camera.
+		points[0] = facing(rotate2d(physx::PxVec3(-p.mScale.x*0.5f,-p.mScale.y*0.5f,0),p.mRotation),inverseViewMatrix)+p.mPos;
+		points[1] = facing(rotate2d(physx::PxVec3(p.mScale.x*0.5f,-p.mScale.y*0.5f,0),p.mRotation),inverseViewMatrix)+p.mPos;
+		points[2] = facing(rotate2d(physx::PxVec3(p.mScale.x*0.5f,p.mScale.y*0.5f,0),p.mRotation),inverseViewMatrix)+p.mPos;
+		points[3] = facing(rotate2d(physx::PxVec3(-p.mScale.x*0.5f,p.mScale.y*0.5f,0),p.mRotation),inverseViewMatrix)+p.mPos;
+
+
+		if ( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) || mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded) )
+		{
+			physx::PxVec3 normal(1.0f,1.0f,0);
+			uint32_t renderState = mCurrentState.mStates;
+			mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+			mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+			debugTri(&points[0],&points[1],&points[2],&normal,&normal,&normal);
+			debugTri(&points[0],&points[2],&points[3],&normal,&normal,&normal);
+			mCurrentState.mStates = renderState;
+		}
+		if ( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) || !mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded) )
+		{
+			uint32_t currentColor = mCurrentState.mColor;
+			if ( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded))
+			{
+				mCurrentState.mColor = mCurrentState.mArrowColor;
+			}
+			debugLine(points[0], points[1] );
+			debugLine(points[1], points[2] );
+			debugLine(points[2], points[3] );
+			debugLine(points[3], points[0] );
+			mCurrentState.mColor = currentColor;
+		}
+	}
+
+
+	PX_INLINE void debugPoint(const DebugPoint &p)
+	{
+    	const physx::PxVec3 *source = debug_point;
+
+    	for (int32_t i=0; i<3; i++)
+    	{
+    		physx::PxVec3 p1 = source[0]*p.mSize+p.mPos;
+    		physx::PxVec3 p2 = source[1]*p.mSize+p.mPos;
+    		source+=2;
+
+    		debugLine(p1,p2);
+    	}
+	}
+
+	PX_INLINE void debugPoint(const DebugPointScale &p)
+	{
+		const physx::PxVec3 *source = debug_point;
+
+		for (uint32_t i=0; i<3; i++)
+		{
+			physx::PxVec3 p1 = source[0]*p.mSize[i]+p.mPos;
+			physx::PxVec3 p2 = source[1]*p.mSize[i]+p.mPos;
+			source+=2;
+			debugLine(p1,p2);
+		}
+	}
+
+
+	PX_INLINE void debugGradientTri(const DebugGradientTri &tri)
+	{
+		debugTri(&tri.mP1,&tri.mP2,&tri.mP3,NULL,NULL,NULL,tri.mC1,tri.mC2,tri.mC3,true);
+	}
+
+	PX_INLINE void debugLine(const physx::PxVec3 &p1,const physx::PxVec3 &p2)
+	{
+		debugLine(p1,p2,mCurrentState.mColor,mCurrentState.mColor);
+	}
+
+	virtual void indirectDebugLine(const physx::PxVec3 &p1,const physx::PxVec3 &p2)
+	{
+		debugLine(p1,p2,mCurrentState.mColor,mCurrentState.mColor);
+	}
+
+	RENDER_DEBUG::RenderDebugVertex * getDebugVertex(uint32_t count)
+	{
+		if (( mLineVertexCount+count) > mMaxLineVertexCount )
+		{
+			flushLines();
+		}
+		PX_ASSERT( count < mMaxLineVertexCount );
+		RENDER_DEBUG::RenderDebugVertex *ret = &mLines[mLineVertexCount];
+		mLineVertexCount+=count;
+		return ret;
+	}
+
+	RENDER_DEBUG::RenderDebugSolidVertex * getDebugSolidVertex(uint32_t count)
+	{
+		if (( mSolidVertexCount+count) > mMaxSolidVertexCount )
+		{
+			flushTriangles();
+		}
+		PX_ASSERT( count < mMaxSolidVertexCount );
+		RENDER_DEBUG::RenderDebugSolidVertex *ret = &mTriangles[mSolidVertexCount];
+		mSolidVertexCount+=count;
+		return ret;
+	}
+
+	virtual void flushFrame(RENDER_DEBUG::RenderDebugInterface * /*iface*/)
+	{
+	}
+
+	PX_INLINE void debugBound(const DebugBound &b)
+	{
+    	physx::PxVec3 box[8];
+    	box[0] = physx::PxVec3( b.mBmin.x, b.mBmin.y, b.mBmin.z );
+    	box[1] = physx::PxVec3( b.mBmax.x, b.mBmin.y, b.mBmin.z );
+    	box[2] = physx::PxVec3( b.mBmax.x, b.mBmax.y, b.mBmin.z );
+    	box[3] = physx::PxVec3( b.mBmin.x, b.mBmax.y, b.mBmin.z );
+    	box[4] = physx::PxVec3( b.mBmin.x, b.mBmin.y, b.mBmax.z );
+    	box[5] = physx::PxVec3( b.mBmax.x, b.mBmin.y, b.mBmax.z );
+    	box[6] = physx::PxVec3( b.mBmax.x, b.mBmax.y, b.mBmax.z );
+    	box[7] = physx::PxVec3( b.mBmin.x, b.mBmax.y, b.mBmax.z );
+        debugBound(box);
+	}
+
+	float computePlaneEquation(const physx::PxVec3 &A,const physx::PxVec3 &B,const physx::PxVec3 &C,physx::PxVec3 &normal)
+	{
+		physx::PxVec3 v = B - C;
+		physx::PxVec3 w = A - B;
+
+		physx::PxVec3 vw;
+
+    	vw.x = v.y * w.z - v.z * w.y;
+    	vw.y = v.z * w.x - v.x * w.z;
+    	vw.z = v.x * w.y - v.y * w.x;
+
+		float mag = vw.magnitude();
+
+    	if ( mag < 0.000001f )
+    	{
+    		mag = 0;
+    	}
+    	else
+    	{
+    		mag = 1.0f/mag;
+    	}
+
+		normal = vw*mag;
+
+    	float D = 0.0f - ((normal.x*A.x)+(normal.y*A.y)+(normal.z*A.z));
+
+    	return D;
+	}
+
+	void debugTri(const physx::PxVec3 *_v1,const physx::PxVec3 *_v2,const physx::PxVec3 *_v3,const physx::PxVec3 *_n1=NULL,const physx::PxVec3 *_n2=NULL,const physx::PxVec3 *_n3=NULL,uint32_t c1=0xFFFFFFFF,uint32_t c2=0xFFFFFFFF,uint32_t c3=0xFFFFFFFF,bool useGradientColors=false)
+	{
+		if( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::DoubleSided) )
+		{
+			debugTriOneSide(_v1, _v2, _v3, _n1, _n2, _n3, c1, c2, c3, useGradientColors, false);
+			debugTriOneSide(_v1, _v2, _v3, _n1, _n2, _n3, c1, c2, c3, useGradientColors, true);
+		}
+		else
+		{
+			debugTriOneSide(_v1, _v2, _v3, _n1, _n2, _n3, c1, c2, c3, useGradientColors, mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::CounterClockwise));
+		}
+	}
+
+	void debugTriOneSide(const physx::PxVec3 *_v1,
+						const physx::PxVec3 *_v2,
+						const physx::PxVec3 *_v3,
+						const physx::PxVec3 *_n1=NULL,
+						const physx::PxVec3 *_n2=NULL,
+						const physx::PxVec3 *_n3=NULL,
+						uint32_t c1=0xFFFFFFFF,
+						uint32_t c2=0xFFFFFFFF,
+						uint32_t c3=0xFFFFFFFF,
+						bool useGradientColors=false,
+						bool counterClockwise=false)
+	{
+		if (counterClockwise)
+		{
+			const physx::PxVec3 *temp = _v1;
+			_v1 = _v3;
+			_v3 = temp;
+			if ( _n1 )
+			{
+				temp = _n1;
+				_n1 = _n3;
+				_n3 = temp;
+			}
+			// switch colors too
+			{
+				uint32_t t = c1;
+				c1 = c3;
+				c3 = t;
+			}
+		}
+
+		if ( !useGradientColors )
+		{
+			c1 = mCurrentState.mColor;
+			c2 = mCurrentState.mColor;
+			c3 = mCurrentState.mColor;
+		}
+
+		physx::PxVec3 v1 = *_v1;
+		physx::PxVec3 v2 = *_v2;
+		physx::PxVec3 v3 = *_v3;
+
+		if (mCurrentState.mPose)
+		{
+			v1 = mCurrentState.mPose->transform(*_v1);
+			v2 = mCurrentState.mPose->transform(*_v2);
+			v3 = mCurrentState.mPose->transform(*_v3);
+		}
+
+		v1 *= mCurrentState.mRenderScale;
+		v2 *= mCurrentState.mRenderScale;
+		v3 *= mCurrentState.mRenderScale;
+
+		if (mCurrentState.isSolid())
+		{
+			RENDER_DEBUG::RenderDebugSolidVertex* verts = getDebugSolidVertex(3);
+
+			physx::PxVec3 n1, n2, n3;
+			if (_n1 == NULL)
+			{
+				computePlaneEquation(v3, v2, v1, n1);
+				if (counterClockwise)
+				{
+					n1 = -n1;
+				}
+				n2 = n1;
+				n3 = n1;
+			}
+			else
+			{
+				if (mCurrentState.mPose)
+				{
+					n1 = mCurrentState.mPose->rotate(*_n1);
+					n2 = mCurrentState.mPose->rotate(*_n2);
+					n3 = mCurrentState.mPose->rotate(*_n3);
+				}
+				else
+				{
+					n1 = *_n1;
+					n2 = *_n2;
+					n3 = *_n3;
+				}
+			}
+
+			verts[0].mPos[0] = v1.x;
+			verts[0].mPos[1] = v1.y;
+			verts[0].mPos[2] = v1.z;
+			verts[0].mColor  = c1;
+			verts[0].mNormal[0] = n1.x;
+			verts[0].mNormal[1] = n1.y;
+			verts[0].mNormal[2] = n1.z;
+
+			verts[1].mPos[0] = v2.x;
+			verts[1].mPos[1] = v2.y;
+			verts[1].mPos[2] = v2.z;
+			verts[1].mColor  = c2;
+			verts[1].mNormal[0] = n2.x;
+			verts[1].mNormal[1] = n2.y;
+			verts[1].mNormal[2] = n2.z;
+
+			verts[2].mPos[0] = v3.x;
+			verts[2].mPos[1] = v3.y;
+			verts[2].mPos[2] = v3.z;
+			verts[2].mColor  = c3;
+			verts[2].mNormal[0] = n3.x;
+			verts[2].mNormal[1] = n3.y;
+			verts[2].mNormal[2] = n3.z;
+		}
+
+		if ( !mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded) || mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) )
+		{
+			if ( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) )
+			{
+				c1 = c2 = c3 = mCurrentState.mArrowColor;
+			}
+			RENDER_DEBUG::RenderDebugVertex *lines = getDebugVertex(6);
+			// first vertex (start of first segment, end of third)
+			lines[0].mPos[0] = lines[5].mPos[0] = v1.x;
+			lines[0].mPos[1] = lines[5].mPos[1] = v1.y;
+			lines[0].mPos[2] = lines[5].mPos[2] = v1.z;
+			lines[0].mColor = lines[5].mColor = c1;
+
+			// second vertex (end of first segment, start of second)
+			lines[1].mPos[0] = lines[2].mPos[0] = v2.x;
+			lines[1].mPos[1] = lines[2].mPos[1] = v2.y;
+			lines[1].mPos[2] = lines[2].mPos[2] = v2.z;
+			lines[1].mColor = lines[2].mColor = c2;
+
+			// third vertex (end of second segment, start of third)
+			lines[3].mPos[0] = lines[4].mPos[0] = v3.x;
+			lines[3].mPos[1] = lines[4].mPos[1] = v3.y;
+			lines[3].mPos[2] = lines[4].mPos[2] = v3.z;
+			lines[3].mColor = lines[4].mColor = c3;
+		}
+	}
+
+
+    PX_INLINE void debugBound(const physx::PxVec3 *box)
+    {
+		if ( mCurrentState.isSolid() )
+        {
+    		debugTri(&box[2],&box[1],&box[0]);
+    		debugTri(&box[3],&box[2],&box[0]);
+
+    		debugTri(&box[7],&box[2],&box[3]);
+    		debugTri(&box[7],&box[6],&box[2]);
+
+    		debugTri(&box[5],&box[1],&box[2]);
+    		debugTri(&box[5],&box[2],&box[6]);
+
+    		debugTri(&box[5],&box[4],&box[1]);
+    		debugTri(&box[4],&box[0],&box[1]);
+
+    		debugTri(&box[4],&box[6],&box[7]);
+    		debugTri(&box[4],&box[5],&box[6]);
+
+    		debugTri(&box[4],&box[7],&box[0]);
+    		debugTri(&box[7],&box[3],&box[0]);
+        }
+        else
+        {
+    		debugLine(box[0], box[1]);
+    		debugLine(box[1], box[2]);
+    		debugLine(box[2], box[3]);
+    		debugLine(box[3], box[0]);
+
+    		debugLine(box[4], box[5]);
+    		debugLine(box[5], box[6]);
+    		debugLine(box[6], box[7]);
+    		debugLine(box[7], box[4]);
+
+    		debugLine(box[0], box[4]);
+    		debugLine(box[1], box[5]);
+    		debugLine(box[2], box[6]);
+    		debugLine(box[3], box[7]);
+    	}
+    }
+
+
+	PX_INLINE void debugRect2d(const DebugRect2d &d)
+	{
+		physx::PxVec3 points[4];
+		points[0] = physx::PxVec3(d.mX1,d.mY1,0.0f);
+		points[1] = physx::PxVec3(d.mX2,d.mY1,0.0f);
+		points[2] = physx::PxVec3(d.mX2,d.mY2,0.0f);
+		points[3] = physx::PxVec3(d.mX1,d.mY2,0.0f);
+		debugPolygon(4,points);
+	}
+
+	PX_INLINE void debugGradientLine(const DebugGradientLine &d)
+	{
+		debugLine(d.mP1,d.mP2,d.mC1,d.mC2);
+	}
+
+	PX_INLINE void debugRay(const DebugRay &d)
+	{
+		debugLine(d.mP1,d.mP2);
+		physx::PxVec3 dir  = d.mP2 - d.mP1;
+		float mag = dir.normalize();
+		float arrowSize = mCurrentState.mArrowSize;
+		if ( arrowSize > (mag*0.2f ))
+		{
+			arrowSize = mag*0.2f;
+		}
+		physx::PxVec3 ref(0,1.0f,0);
+		physx::PxQuat quat;
+		rotationArc(ref,dir,quat);
+		physx::PxMat44 matrix(quat);
+		matrix.setPosition(d.mP2);
+
+		uint32_t pcount = 0;
+		physx::PxVec3 points[24];
+		physx::PxVec3 *dest = points;
+
+		for (float a=30; a<=360; a+=30)
+		{
+			float r = a*FM_DEG_TO_RAD;
+			float x = physx::PxCos(r)*arrowSize;
+			float y = physx::PxSin(r)*arrowSize;
+
+			dest->x = x;
+			dest->y = -3*arrowSize;
+			dest->z = y;
+			dest++;
+			pcount++;
+		}
+
+		physx::PxVec3 *prev = &points[(pcount-1)];
+		physx::PxVec3 *p = points;
+		physx::PxVec3 center(0, -2.5f*arrowSize, 0);
+		physx::PxVec3 top(0, 0, 0 );
+
+		physx::PxVec3 _center = matrix.transform(center);
+		physx::PxVec3 _top = matrix.transform(top);
+
+
+		uint32_t saveState = mCurrentState.mStates;
+
+		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+		mCurrentState.mArrowColor = 0xFFFFFFFF;
+
+		for (uint32_t i=0; i<pcount; i++)
+		{
+			physx::PxVec3 _p = matrix.transform( *p );
+			physx::PxVec3 _prev = matrix.transform( *prev );
+
+			debugTri(&_p,&_center,&_prev);
+			debugTri(&_prev,&_top,&_p);
+
+			prev = p;
+			p++;
+		}
+		mCurrentState.mStates = saveState;
+
+	}
+
+	PX_INLINE void debugCylinder(const DebugCylinder &d)
+	{
+		const uint32_t numOfSegments = uint32_t(4 << physx::PxMin(d.mSubdivision, 6u)); // this maxes out at 4^6 = 256 segments
+		const float segmentAngle = physx::PxTwoPi / numOfSegments;
+		const float c = physx::PxCos(segmentAngle);
+		const float s = physx::PxSin(segmentAngle);
+		const physx::PxMat33 rotY(physx::PxVec3(c, 0,-s), physx::PxVec3(0, 1.0f, 0), physx::PxVec3(s, 0, c));
+
+		const float radiusDiff = d.mRadius1 - d.mRadius2;
+		physx::PxVec3 heightVec(radiusDiff / 2.0f, d.mHeight / 2.0f, 0.0f);
+
+		const float avgRadius = (d.mRadius1 + d.mRadius2) / 2.0f;
+		physx::PxVec3 currentVec(avgRadius, 0.0f, 0.0f);
+		physx::PxVec3 currentTangent(0.0f, 0.0f, 1.0f);
+		physx::PxVec3 currentNormal = heightVec.cross(currentTangent).getNormalized();
+
+		const physx::PxVec3 upperCenter(0.0f, d.mHeight / 2.0f, 0.0f);
+		const physx::PxVec3 lowerCenter(-upperCenter);
+
+
+		if (mCurrentState.isSolid())
+		{
+			for( uint32_t i=0; i<numOfSegments; ++i )
+			{
+				const physx::PxVec3 e0 = currentVec + heightVec;
+				const physx::PxVec3 e2 = currentVec - heightVec;
+				const physx::PxVec3 nC = currentNormal;
+
+				currentVec = rotY.transform(currentVec);
+				heightVec = rotY.transform(heightVec);
+				currentTangent = rotY.transform(currentTangent);
+				const physx::PxVec3 e1 = currentVec + heightVec;
+				const physx::PxVec3 e3 = currentVec - heightVec;
+				const physx::PxVec3 nN = currentNormal = heightVec.cross(currentTangent).getNormalized();
+
+				debugTri(&e0, &e2, &e3, &nC, &nC, &nN);
+				debugTri(&e3, &e1, &e0, &nN, &nN, &nC);
+
+				if (d.mCloseSides)
+				{
+					debugTri(&e0, &e1, &upperCenter);
+					debugTri(&e2, &lowerCenter, &e3);
+				}
+				else
+				{
+					debugTri(&e3, &e2, &e0, &nN, &nC, &nC);
+					debugTri(&e0, &e1, &e3, &nC, &nN, &nN);
+				}
+			}
+		}
+		else
+		{
+			for( uint32_t i=0; i<numOfSegments; ++i )
+			{
+				const physx::PxVec3 e0 = currentVec + heightVec;
+				const physx::PxVec3 e2 = currentVec - heightVec;
+
+				const physx::PxVec3 nextVec = rotY.transform(currentVec);
+				heightVec = rotY.transform(heightVec);
+				const physx::PxVec3 e1 = nextVec + heightVec;
+				const physx::PxVec3 e3 = nextVec - heightVec;
+
+				//const physx::PxVec3 nC = (-currentVec).getNormalized();
+
+				debugLine(e0, e2);
+				debugLine(e0, e1);
+				debugLine(e2, e3);
+
+				if (d.mCloseSides)
+				{
+					debugLine(upperCenter, e0);
+					debugLine(lowerCenter, e2);
+				}
+				currentVec = nextVec;
+			}
+		}
+	}
+
+	PX_INLINE void debugCircle(const DebugCircle &d)
+	{
+		const uint32_t numOfSegments = uint32_t(4 << physx::PxMin(d.mSubdivision, 6u)); // this maxes out at 4^6 = 256 segments
+		const float segmentAngle = physx::PxTwoPi / numOfSegments;
+		const float c = physx::PxCos(segmentAngle);
+		const float s = physx::PxSin(segmentAngle);
+		
+		// rotation in ZX plane
+		const physx::PxMat33 rotY(physx::PxVec3(c, 0,-s), physx::PxVec3(0, 1.0f, 0), physx::PxVec3(s, 0, c));
+		physx::PxVec3 currentVec(d.mRadius, 0.0f, 0.0f);
+		if (d.mDrawSolidCircle)
+		{
+			physx::PxVec3* points = new physx::PxVec3[numOfSegments];
+			for( uint32_t i=0; i<numOfSegments; ++i, currentVec = rotY.transform(currentVec))
+			{
+				points[i] = d.mTransform.transform(currentVec);
+			}
+			debugPolygon(numOfSegments, points);
+			delete[] points;
+		}
+		else
+		{
+			for( uint32_t i=0; i<numOfSegments; ++i )
+			{
+				physx::PxVec3 p0 = currentVec;
+				physx::PxVec3 p1 = rotY.transform(currentVec);
+				currentVec = p1;
+
+				p0 = d.mTransform.transform(p0);
+				p1 = d.mTransform.transform(p1);
+				debugLine(p0, p1);
+			}
+		}
+	}
+
+	PX_INLINE void debugPolygon(uint32_t pcount,const physx::PxVec3 *points)
+	{
+		if ( mCurrentState.isSolid() )
+		{
+			PX_ASSERT( pcount >= 3 );
+			PX_ASSERT( pcount <= 256 );
+			bool wasOverlay = mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+			if( wasOverlay )
+			{
+				mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+				mCurrentState.incrementChangeCount();
+			}
+			const physx::PxVec3 *v1 = &points[0];
+			const physx::PxVec3 *v2 = &points[1];
+			const physx::PxVec3 *v3 = &points[2];
+			debugTri(v1, v2, v3, NULL, NULL, NULL, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, false);
+			for (uint32_t i=3; i<pcount; i++)
+			{
+				v2 = v3;
+				v3 = &points[i];
+				debugTri(v1, v2, v3, NULL, NULL, NULL, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, false);
+			}
+			if ( wasOverlay )
+			{
+				for (uint32_t i=0; i<(pcount-1); i++)
+				{
+					debugLine( points[i], points[i+1], mCurrentState.mArrowColor, mCurrentState.mArrowColor );
+				}
+				debugLine(points[pcount-1],points[0]);
+				mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+				mCurrentState.incrementChangeCount();
+			}
+		}
+		else
+		{
+			for (uint32_t i=0; i<(pcount-1); i++)
+			{
+				debugLine( points[i], points[i+1] );
+			}
+			debugLine(points[pcount-1],points[0]);
+		}
+	}
+	 
+	PX_INLINE void debugPointCylinder(const DebugPointCylinder &d)
+	{
+		physx::PxVec3 dir = d.mP2 - d.mP1;
+		dir.normalize();
+
+    	physx::PxVec3 ref(0, 1.0f, 0);
+
+		physx::PxQuat quat;
+
+    	rotationArc(ref,dir,quat);
+
+		physx::PxMat44 matrix1(quat);
+		physx::PxMat44 matrix2(quat);
+
+		matrix1.setPosition(d.mP2);
+		matrix2.setPosition(d.mP1);
+
+
+    	uint32_t pcount = 0;
+    	physx::PxVec3 points1[24];
+    	physx::PxVec3 points2[24];
+
+    	physx::PxVec3 *dest1 = points1;
+    	physx::PxVec3 *dest2 = points2;
+
+
+    	for (float a=30; a<=360; a+=30)
+    	{
+    		float r = a*FM_DEG_TO_RAD;
+    		float x = physx::PxCos(r)*d.mRadius;
+    		float y = physx::PxSin(r)*d.mRadius;
+
+    		physx::PxVec3 p(x, 0, y);
+
+			(*dest1) = matrix1.transform(p);
+			(*dest2) = matrix2.transform(p);
+
+			dest1++;
+			dest2++;
+    		pcount++;
+
+    	}
+
+		PX_ASSERT( pcount < 24 );
+
+    	if ( mCurrentState.isSolid() )
+    	{
+
+			uint32_t saveState = mCurrentState.mStates;
+			mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+			mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+			mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::CounterClockwise);
+
+    		physx::PxVec3 *prev1 = &points1[(pcount-1)];
+    		physx::PxVec3 *prev2 = &points2[(pcount-1)];
+
+    		physx::PxVec3 *scan1 = points1;
+    		physx::PxVec3 *scan2 = points2;
+
+    		for (uint32_t i=0; i<pcount; i++)
+    		{
+
+    			debugTri(scan1,prev2,prev1);
+    			debugTri(scan2,prev2,scan1);
+
+    			prev1 = scan1;
+    			prev2 = scan2;
+    			scan1++;
+    			scan2++;
+    		}
+
+			debugPolygon(pcount,points2);
+			mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::CounterClockwise);
+			debugPolygon(pcount,points1);
+
+			mCurrentState.mStates = saveState;
+
+    	}
+
+		if ( !mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded) || mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) )
+    	{
+
+			uint32_t color = mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) ? mCurrentState.mArrowColor : mCurrentState.mColor;
+    		physx::PxVec3 *prev1 = &points1[(pcount-1)];
+    		physx::PxVec3 *prev2 = &points2[(pcount-1)];
+
+    		physx::PxVec3 *scan1 = points1;
+    		physx::PxVec3 *scan2 = points2;
+    		for (uint32_t i=0; i<pcount; i++)
+    		{
+    			debugLine(*scan1,*scan2,color,color);
+
+    			debugLine(d.mP2,*scan1,color,color);
+    			debugLine(d.mP1,*scan2,color,color);
+
+    			debugLine(*prev1,*scan1,color,color);
+    			debugLine(*prev2,*scan2,color,color);
+
+    			prev1 = scan1;
+    			prev2 = scan2;
+
+    			scan1++;
+    			scan2++;
+    		}
+    	}
+	}
+
+	PX_INLINE void debugThickRay(const DebugThickRay &d)
+	{
+		RenderState save = mCurrentState;
+
+		mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+
+		physx::PxVec3 dir = d.mP2 - d.mP1;
+		float mag = dir.normalize();
+		float arrowSize = physx::PxMin(physx::PxMax(mCurrentState.mArrowSize, d.mRaySize * 1.3f), mag * 0.2f);
+
+		physx::PxVec3 ref(0,1.0f,0);
+		physx::PxQuat quat;
+
+		rotationArc(ref,dir,quat);
+
+		physx::PxMat44 matrix(quat);
+		matrix.setPosition(d.mP2);
+
+
+		uint32_t pcount = 0;
+		physx::PxVec3 points[24];
+		physx::PxVec3 *dest = points;
+
+		for (float a=30; a<=360; a+=30)
+		{
+			float r = a*FM_DEG_TO_RAD;
+			float x = physx::PxCos(r)*arrowSize;
+			float y = physx::PxSin(r)*arrowSize;
+
+			dest->x = x;
+			dest->y = -3*arrowSize;
+			dest->z = y;
+
+			dest++;
+			pcount++;
+		}
+
+		physx::PxVec3 *prev = &points[(pcount-1)];
+		physx::PxVec3 *p = points;
+		physx::PxVec3 center(0, -2.5f*arrowSize, 0);
+		physx::PxVec3 top(0,0,0);
+
+		physx::PxVec3 _center;
+		physx::PxVec3 _top;
+
+		_center = matrix.transform(center);
+		_top	= matrix.transform(top);
+
+		DebugPointCylinder dc(d.mP1,_center,d.mRaySize);
+		debugPointCylinder(dc);
+		
+		//mCurrentState = save; - don't want triangles to be seen !	
+		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+		mCurrentState.mColor = mCurrentState.mArrowColor;
+		mCurrentState.mArrowColor = mCurrentState.mOutlineColor;
+
+		if(d.mArrowTip)
+		{
+			for (uint32_t i=0; i<pcount; i++)
+			{
+
+				physx::PxVec3 _p;
+				physx::PxVec3 _prev;
+
+				_p = matrix.transform(*p);
+				_prev = matrix.transform(*prev);
+
+				debugTri(&_p,&_center,&_prev);
+				debugTri(&_prev,&_top,&_p);
+
+				prev = p;
+				p++;
+			}
+		}
+		else
+		{
+			DebugDetailedSphere sphere(_center, 0.1f * mag, 2);
+			debugDetailedSphere(sphere);
+		}
+		
+		mCurrentState = save;
+	}
+
+	void debugPlane(const physx::PxVec3 &normal,float dCoff,float radius1,float radius2)
+	{
+		physx::PxVec3 ref(0,1.0f,0);
+		physx::PxQuat quat;
+		rotationArc(ref,normal,quat);
+		physx::PxMat44 matrix(quat);
+
+		float stepsize = 360/20;
+
+		physx::PxVec3 prev(0,0,0);
+
+		physx::PxVec3 origin(0,-dCoff,0);
+		physx::PxVec3 pos(origin), first(origin), center(origin);
+
+		center = matrix.transform(origin);
+		matrix.setPosition(center);
+
+		for (float d=0; d<360; d+=stepsize)
+		{
+			float a = degToRad(d);
+			physx::PxVec3 _pos(physx::PxCos(a)*radius1,0,physx::PxSin(a)*radius2);
+			pos = matrix.transform(_pos);
+
+			debugLine(center,pos);
+
+			if ( d == 0  )
+			{
+				first = pos;
+			}
+			else
+			{
+				debugLine(prev,pos);
+			}
+			prev = pos;
+		}
+
+		debugLine(first,pos);
+	}
+
+
+
+	PX_INLINE void debugPlane(const DebugPlane &d)
+	{
+		debugPlane(d.mNormal,d.mD,d.mRadius1*0.25f, d.mRadius2*0.25f);
+		debugPlane(d.mNormal,d.mD,d.mRadius1*0.5f,  d.mRadius2*0.5f);
+		debugPlane(d.mNormal,d.mD,d.mRadius1*0.75f, d.mRadius2*0.75f);
+		debugPlane(d.mNormal,d.mD,d.mRadius1*1.0f,  d.mRadius2*1.0f);
+	}
+
+	PX_INLINE void debugTriNormals(const DebugTriNormals &d)
+	{
+		debugTri(&d.mP1,&d.mP2,&d.mP3,&d.mN1,&d.mN2,&d.mN3);
+	}
+
+	PX_INLINE void debugGradientTriNormals(const DebugGradientTriNormals &d)
+	{
+		debugTri(&d.mP1,&d.mP2,&d.mP3,&d.mN1,&d.mN2,&d.mN3,d.mC1,d.mC2,d.mC3,true);
+	}
+
+	PX_INLINE void debugSphere(const DebugSquashedSphere &d)
+	{
+		for (uint32_t i = 0; i < 8; i++)
+		{
+			const physx::PxVec3 p0 = simpleSpherePosition[simpleSphereIndices[i*3+0]];
+			const physx::PxVec3 p1 = simpleSpherePosition[simpleSphereIndices[i*3+1]];
+			const physx::PxVec3 p2 = simpleSpherePosition[simpleSphereIndices[i*3+2]];
+			subdivideOnSphere(int(d.mSubdivision), p0, p1, p2, d.mRadius, 0.0f, 0.0f);
+		}
+	}
+
+
+	PX_INLINE void debugSphere(const DebugSphere &d)
+	{
+		for (uint32_t i = 0; i < 8; i++)
+		{
+			const physx::PxVec3 p0 = simpleSpherePosition[simpleSphereIndices[i*3+0]];
+			const physx::PxVec3 p1 = simpleSpherePosition[simpleSphereIndices[i*3+1]];
+			const physx::PxVec3 p2 = simpleSpherePosition[simpleSphereIndices[i*3+2]];
+			subdivideOnSphere(int(d.mSubdivision), p0, p1, p2, d.mRadius, 0.0f, 0.0f);
+		}
+	}
+
+	void subdivideOnSphere(int subdivision, const physx::PxVec3& p0, const physx::PxVec3& p1, const physx::PxVec3& p2, float radius, float height, float skew)
+	{
+		//physx::PxMat44 transform = physx::PxMat44(physx::PxIdentity);
+		if (subdivision <= 0)
+		{
+			physx::PxVec3 t[3];
+			physx::PxVec3 n[3] = { p0, p1, p2 };
+
+			if (height > 0.0f || skew != 0.0f)
+			{
+				const float upper = physx::PxSign(p0.y + p1.y + p2.y);
+
+				const physx::PxVec3 offset(0.0f, upper * height, 0.0f);
+				if (skew != 0.0f)
+				{
+					const float scale = upper - skew;
+					for (uint32_t i = 0; i < 3; i++)
+					{
+						const float ny = n[i].y;
+						//const float sny =((ny - 1.0f) * scale) + upper;
+						const float sny = upper > 0.0f ? (1.0f - (1.0f - ny) * scale) : (-1.0f + (1.0f + ny) * -scale);
+						PX_ASSERT(physx::PxAbs(sny) <= 1.0f);
+						n[i].y = 0.0f;
+						n[i].normalize();
+						n[i] *= physx::PxSqrt(1.0f - (sny * sny));
+						n[i].y = sny;
+						t[i] = n[i] * radius + offset;
+					}
+				}
+				else
+				{
+					t[0] = p0 * radius + offset;
+					t[1] = p1 * radius + offset;
+					t[2] = p2 * radius + offset;
+				}
+			}
+			else
+			{
+				t[0] = p0 * radius;
+				t[1] = p1 * radius;
+				t[2] = p2 * radius;
+			}
+
+			debugTri(t+0, t+1, t+2, n+0, n+1, n+2);
+		}
+		else
+		{
+			physx::PxVec3 p01 = p0 + p1; p01.normalize();
+			physx::PxVec3 p12 = p1 + p2; p12.normalize();
+			physx::PxVec3 p20 = p2 + p0; p20.normalize();
+
+			subdivideOnSphere(subdivision-1, p0, p01, p20, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p1, p12, p01, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p2, p20, p12, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p01, p12, p20, radius, height, skew);
+		}
+	}
+
+
+	void subdivideOnSphere(int subdivision, const physx::PxVec3& p0, const physx::PxVec3& p1, const physx::PxVec3& p2, const physx::PxVec3 &radius, float height, float skew)
+	{
+		//physx::PxMat44 transform = physx::PxMat44(physx::PxIdentity);
+		if (subdivision <= 0)
+		{
+			physx::PxVec3 t[3];
+			physx::PxVec3 n[3] = { p0, p1, p2 };
+
+			if (height > 0.0f || skew != 0.0f)
+			{
+				const float upper = physx::PxSign(p0.y + p1.y + p2.y);
+
+				const physx::PxVec3 offset(0.0f, upper * height, 0.0f);
+				if (skew != 0.0f)
+				{
+					const float scale = upper - skew;
+					for (uint32_t i = 0; i < 3; i++)
+					{
+						const float ny = n[i].y;
+						//const float sny =((ny - 1.0f) * scale) + upper;
+						const float sny = upper > 0.0f ? (1.0f - (1.0f - ny) * scale) : (-1.0f + (1.0f + ny) * -scale);
+						PX_ASSERT(physx::PxAbs(sny) <= 1.0f);
+						n[i].y = 0.0f;
+						n[i].normalize();
+						n[i] *= physx::PxSqrt(1.0f - (sny * sny));
+						n[i].y = sny;
+						t[i] = n[i].multiply(radius) + offset;
+					}
+				}
+				else
+				{
+					t[0] = p0.multiply(radius) + offset;
+					t[1] = p1.multiply(radius) + offset;
+					t[2] = p2.multiply(radius) + offset;
+				}
+			}
+			else
+			{
+				t[0] = p0.multiply(radius);
+				t[1] = p1.multiply(radius);
+				t[2] = p2.multiply(radius);
+			}
+
+			debugTri(t+0, t+1, t+2, n+0, n+1, n+2);
+		}
+		else
+		{
+			physx::PxVec3 p01 = p0 + p1; p01.normalize();
+			physx::PxVec3 p12 = p1 + p2; p12.normalize();
+			physx::PxVec3 p20 = p2 + p0; p20.normalize();
+
+			subdivideOnSphere(subdivision-1, p0, p01, p20, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p1, p12, p01, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p2, p20, p12, radius, height, skew);
+			subdivideOnSphere(subdivision-1, p01, p12, p20, radius, height, skew);
+		}
+	}
+
+
+
+	PX_INLINE void debugCapsule(const DebugCapsule &d)
+	{
+		DebugCylinder c(d.mRadius,d.mHeight,d.mSubdivision,false);
+		debugCylinder(c);
+
+		const float height = d.mHeight * 0.5f;
+		for (uint32_t i = 0; i < 8; i++)
+		{
+			const physx::PxVec3 p0 = simpleSpherePosition[simpleSphereIndices[i*3+0]];
+			const physx::PxVec3 p1 = simpleSpherePosition[simpleSphereIndices[i*3+1]];
+			const physx::PxVec3 p2 = simpleSpherePosition[simpleSphereIndices[i*3+2]];
+			subdivideOnSphere(int(d.mSubdivision), p0, p1, p2, d.mRadius, height, 0.0f);
+		}
+	}
+
+	void debugCone(const DebugCone &d)
+	{
+		physx::PxVec3	prev;
+		physx::PxVec3 orig(0,0,0); // = xform.getPosition();
+
+		physx::PxVec3 center(0,d.mLength,0);
+
+		float s1 = tanf(d.mInnerAngle)*d.mLength;
+		float s2 = tanf(d.mOuterAngle)*d.mLength;
+
+		float stepSize = 360.0f / static_cast<float>(d.mSubdivision);
+
+		for (uint32_t i=0; i<=d.mSubdivision; i++)
+		{
+			float fv = static_cast<float>(i)*stepSize;
+			if ( i == d.mSubdivision )
+			{
+				fv = 0;
+			}
+			float r = fv*FM_DEG_TO_RAD;
+
+			float dx = s2*cosf(r);
+			float dy = s1*sinf(r);
+
+			physx::PxVec3 v(dx,d.mLength,dy);
+			if ( i != 0 )
+			{
+				debugTri(&orig,&prev,&v);
+				if ( d.mCloseEnd )
+				{
+					debugTri(&center,&v,&prev);
+				}
+				else
+				{
+					debugTri(&orig,&v,&prev);
+				}
+			}
+			prev = v;
+		}
+
+	}
+
+	void debugTaperedCapsule(const DebugTaperedCapsule& d)
+	{
+		physx::PxMat44* oldPose = mCurrentState.mPose;
+		physx::PxMat44 newPose = physx::PxMat44(physx::PxIdentity);
+
+		uint32_t subdivision = d.mSubdivision;
+
+		float radDiff = d.mRadius2 - d.mRadius1;
+		const float sinAlpha = radDiff / physx::PxSqrt(radDiff * radDiff + d.mHeight * d.mHeight); 
+
+		float sphereSeparation = 0;
+		float skew = 0;
+		float radius[] = { d.mRadius1, d.mRadius2 };
+
+		const uint32_t oldColor = mCurrentState.mColor;
+
+		if (physx::PxAbs(sinAlpha) < 1.0f)
+		{
+			const float cosAlpha = physx::PxSqrt(1.0f - sinAlpha * sinAlpha);
+
+			const uint32_t minSubdivision = uint32_t(sinAlpha * sinAlpha * 4.0f) + 1;
+			const uint32_t maxSubdivision = 6;
+			subdivision = physx::PxMin(physx::PxMax(minSubdivision, d.mSubdivision), maxSubdivision);
+
+			const float heightOffset = sinAlpha * (d.mRadius1 + d.mRadius2) / 2.0f;
+			newPose.setPosition(newPose.getPosition() + physx::PxVec3(0.0f, heightOffset, 0.0f));
+			if (oldPose != NULL)
+			{
+				newPose = *oldPose * newPose;
+			}
+
+			// move the cylinder
+			mCurrentState.mPose = &newPose;
+
+			// shrink the cylinder
+			const float height = d.mHeight - physx::PxAbs(sinAlpha * (d.mRadius1 - d.mRadius2));
+
+			DebugCylinder c(d.mRadius1 * cosAlpha, d.mRadius2 * cosAlpha, height, subdivision, false);
+			debugCylinder(c);
+
+			// reset current pose
+			mCurrentState.mPose = oldPose;
+
+			sphereSeparation = d.mHeight * 0.5f;
+			skew = sinAlpha;
+		}
+		else
+		{
+			mCurrentState.mColor = 0x7f7fff; // light blue
+			radius[0] = radius[1] = physx::PxMax(d.mRadius1, d.mRadius2);
+		}
+
+
+		for (uint32_t i = 0; i < 8; i++)
+		{
+			physx::PxVec3 p[] = 
+			{
+				simpleSpherePosition[simpleSphereIndices[i*3+0]],
+				simpleSpherePosition[simpleSphereIndices[i*3+1]],
+				simpleSpherePosition[simpleSphereIndices[i*3+2]]
+			};
+
+			subdivideOnSphere(int(subdivision), p[0], p[1], p[2], radius[i >> 2], sphereSeparation, skew);
+		}
+
+		mCurrentState.mColor = oldColor;
+	}
+
+	void quickSphere(const physx::PxVec3 &p,float radius,uint32_t color)
+	{
+		mCurrentState.mColor = color;
+		mCurrentState.mArrowColor = color;
+		mCurrentState.mStates = (mCurrentState.mStates & ~RENDER_DEBUG::DebugRenderState::SolidWireShaded) | RENDER_DEBUG::DebugRenderState::SolidShaded;
+		DebugDetailedSphere ds(p,radius,2);
+		debugDetailedSphere(ds);
+		mCurrentState.mStates = (mCurrentState.mStates & ~RENDER_DEBUG::DebugRenderState::SolidShaded) | RENDER_DEBUG::DebugRenderState::SolidWireShaded;
+	}
+
+	PX_INLINE void debugAxes(const DebugAxes &d)
+	{		
+		physx::PxMat44 pose = d.mTransform;
+		float brightness = 1.0f - d.mBrightness;
+
+		uint32_t red    = getColor(255,  0,  0, brightness);
+		uint32_t green  = getColor(  0,255,  0, brightness);
+		uint32_t blue   = getColor(  0,  0,255, brightness);
+		uint32_t yellow = getColor(255,255,  0, brightness);
+		uint32_t white   = getColor(255,  255,  255, brightness);
+
+		uint32_t colorX = red, colorY = green, colorZ = blue;
+		if (d.mAxisSwitch & 4) //x
+		{
+			colorX = yellow;
+		}
+		if (d.mAxisSwitch & 2) //y
+		{
+			colorY = yellow;
+		}
+		if (d.mAxisSwitch & 1) //z
+		{
+			colorZ = yellow;
+		}
+
+		physx::PxVec3 px(d.mDistance,0,0);
+		physx::PxVec3 py(0,d.mDistance,0);
+		physx::PxVec3 pz(0,0,d.mDistance);
+
+		px = d.mTransform.transform(px);
+		py = d.mTransform.transform(py);
+		pz = d.mTransform.transform(pz);
+
+		physx::PxVec3 t = d.mTransform.getPosition();
+
+		RenderState save = mCurrentState;
+
+		mCurrentState.mArrowSize = d.mDistance*0.1f;
+		switch (d.mRenderMode)
+		{
+		case DebugAxesRenderMode::DEBUG_AXES_RENDER_SOLID:
+			{
+				quickSphere(t,d.mDistance*0.1f,yellow);
+			}
+			break;
+		case DebugAxesRenderMode::DEBUG_AXES_RENDER_LINES:
+			{
+				;
+			}
+			break;
+		}
+		mCurrentState.mStates|=RENDER_DEBUG::DebugRenderState::CameraFacing;
+		mCurrentState.mStates|=RENDER_DEBUG::DebugRenderState::CenterText;
+		mCurrentState.mOutlineColor = white;
+
+		float axisSwitchScaleStart = 1.0f;
+		float axisSwitchScaleEnd = 1.0f;
+		switch (d.mRenderMode)
+		{
+		case DebugAxesRenderMode::DEBUG_AXES_RENDER_SOLID:
+			{
+				axisSwitchScaleStart = 1.0f;
+				axisSwitchScaleEnd = 4.0f;
+			}
+			break;
+		case DebugAxesRenderMode::DEBUG_AXES_RENDER_LINES:
+			{
+				axisSwitchScaleStart = 0.0f;
+				axisSwitchScaleEnd = 1.0f;
+			}
+			break;
+		}
+
+		if (d.mRenderMode == DebugAxesRenderMode::DEBUG_AXES_RENDER_LINES)
+		{
+			float triSizeFactor = 0.2f;
+			float circleSizeFactor = 0.1f;
+
+			physx::PxMat44 inverseViewMatrix = mViewMatrix.inverseRT();
+			mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::DoubleSided);
+			mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+			
+			DebugCircle circleCfg(0.0f, 10, true);
+			circleCfg.mTransform.column0 = inverseViewMatrix.column1;
+			circleCfg.mTransform.column1 = inverseViewMatrix.column2;
+			circleCfg.mTransform.column2 = inverseViewMatrix.column0;
+
+			physx::PxVec3 triNormal = physx::PxVec3(0,0,1);
+			{
+				mCurrentState.mColor = colorX;
+				mCurrentState.mArrowColor = colorX;
+				if (!d.mShowRotation)
+				{
+					physx::PxVec3 usedOrthoAxe = inverseViewMatrix.column2.getXYZ().cross(t - px);
+					usedOrthoAxe.normalize();
+					usedOrthoAxe *= d.mDistance;
+					physx::PxVec3 arrowVertices[] = {
+						px + (t - px) * triSizeFactor + usedOrthoAxe * triSizeFactor,
+						px,
+						px + (t - px) * triSizeFactor - usedOrthoAxe * triSizeFactor,
+					};
+					debugTri(arrowVertices+0, arrowVertices+1, arrowVertices+2, &triNormal, &triNormal, &triNormal, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, false);
+					debugLine(t, px + (t - px) * triSizeFactor);
+				}
+				else if (d.mShowRotation)
+				{
+					circleCfg.mRadius = ((t - px) * circleSizeFactor).magnitude();
+					circleCfg.mTransform.setPosition(px + (t - px) * circleSizeFactor);
+					debugCircle(circleCfg);
+					debugLine(t, px + (t - px) * circleSizeFactor);
+				}
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(px,physx::PxMat44(physx::PxIdentity),"X");
+					debugText(dt);
+				}				
+			}
+
+			{
+				mCurrentState.mColor = colorY;
+				mCurrentState.mArrowColor = colorY;
+				if (!d.mShowRotation)
+				{
+					physx::PxVec3 usedOrthoAxe = inverseViewMatrix.column2.getXYZ().cross(t - py);
+					usedOrthoAxe.normalize();
+					usedOrthoAxe *= d.mDistance;
+					physx::PxVec3 arrowVertices[] = {
+						py + (t - py) * triSizeFactor + usedOrthoAxe * triSizeFactor,
+						py,
+						py + (t - py) * triSizeFactor - usedOrthoAxe * triSizeFactor,
+					};
+					debugTri(arrowVertices+0, arrowVertices+1, arrowVertices+2, &triNormal, &triNormal, &triNormal, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, false);
+					debugLine(t, py + (t - py) * triSizeFactor);
+				}
+				else if (d.mShowRotation)
+				{
+					circleCfg.mRadius = ((t - py) * circleSizeFactor).magnitude();
+					circleCfg.mTransform.setPosition(py + (t - py) * circleSizeFactor);
+					debugCircle(circleCfg);
+					debugLine(t, py + (t - py) * circleSizeFactor);
+				}
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(py,physx::PxMat44(physx::PxIdentity),"Y");
+					debugText(dt);
+				}
+			}
+
+			{
+				mCurrentState.mColor = colorZ;
+				mCurrentState.mArrowColor = colorZ;
+				if (!d.mShowRotation)
+				{
+					physx::PxVec3 usedOrthoAxe = inverseViewMatrix.column2.getXYZ().cross(t - pz);
+					usedOrthoAxe.normalize();
+					usedOrthoAxe *= d.mDistance;
+
+					physx::PxVec3 arrowVertices[] = {
+						pz + (t - pz) * triSizeFactor + usedOrthoAxe * triSizeFactor,
+						pz,
+						pz + (t - pz) * triSizeFactor - usedOrthoAxe * triSizeFactor,
+					};
+					debugTri(arrowVertices+0, arrowVertices+1, arrowVertices+2, &triNormal, &triNormal, &triNormal, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, false);
+					debugLine(t, pz + (t - pz) * triSizeFactor);
+				}
+				else if (d.mShowRotation)
+				{
+					circleCfg.mRadius = ((t - pz) * circleSizeFactor).magnitude();
+					circleCfg.mTransform.setPosition(pz + (t - pz) * circleSizeFactor);
+					debugCircle(circleCfg);
+					debugLine(t, pz + (t - pz) * circleSizeFactor);
+				}
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(pz,physx::PxMat44(physx::PxIdentity),"Z");
+					debugText(dt);
+				}
+			}
+		}
+		else if (d.mRenderMode == DebugAxesRenderMode::DEBUG_AXES_RENDER_SOLID)
+		{
+			{
+				mCurrentState.mColor = colorX;
+				mCurrentState.mArrowColor = colorX;
+
+				DebugThickRay dr(t, px, d.mDistance * 0.02f, !d.mShowRotation);
+				debugThickRay(dr);
+
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(px,physx::PxMat44(physx::PxIdentity),"X");
+					debugText(dt);
+				}
+			}
+
+			{
+				mCurrentState.mColor = colorY;
+				mCurrentState.mArrowColor = colorY;
+				DebugThickRay dr(t, py, d.mDistance*0.02f, !d.mShowRotation);
+				debugThickRay(dr);
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(py,physx::PxMat44(physx::PxIdentity),"Y");
+					debugText(dt);
+				}
+			}
+			{
+				mCurrentState.mColor = colorZ;
+				mCurrentState.mArrowColor = colorZ;
+				DebugThickRay dr(t, pz, d.mDistance * 0.02f, !d.mShowRotation);
+				debugThickRay(dr);
+				if ( d.mShowXYZ )
+				{
+					mCurrentState.mTextScale = d.mDistance;
+					mCurrentState.mColor = white;
+					DebugText dt(pz,physx::PxMat44(physx::PxIdentity),"Z");
+					debugText(dt);
+				}
+			}
+		}
+
+		if ( d.mAxisSwitch )
+		{
+			physx::PxVec3 p1, p2;
+			uint32_t brightYellow = getColor(255, 255,  0, 0.0f);
+			mCurrentState.mColor = brightYellow;
+
+			if (d.mAxisSwitch & 4) //x
+			{
+				p1 = physx::PxVec3(-1.0f * axisSwitchScaleStart, 0.0f, 0.0f);
+				p2 = physx::PxVec3(1.0f * axisSwitchScaleEnd, 0.0f, 0.0f);
+				p1 = pose.transform(p1);
+				p2 = pose.transform(p2);
+
+				debugLine(p1, p2);
+			}
+			if(d.mAxisSwitch & 2) //y
+			{
+				p1 = physx::PxVec3(0.0f, -1.0f * axisSwitchScaleStart, 0.0f);
+				p2 = physx::PxVec3(0.0f, 1.0f * axisSwitchScaleEnd, 0.0f);
+				p1 = pose.transform(p1);
+				p2 = pose.transform(p2);
+
+				debugLine(p1, p2);
+			}
+			if(d.mAxisSwitch & 1) //z
+			{
+				p1 = physx::PxVec3(0.0f, 0.0f, -1.0f * axisSwitchScaleStart);
+				p2 = physx::PxVec3(0.0f, 0.0f, 1.0f * axisSwitchScaleEnd);
+				p1 = pose.transform(p1);
+				p2 = pose.transform(p2);
+
+				debugLine(p1, p2);
+			}
+		}
+
+		mCurrentState = save;
+	}
+
+	PX_INLINE void debugArc(const DebugArc &d)
+	{
+		if ( d.mShowRoot )
+		{
+			debugLine(d.mCenter,d.mP1,0xFFFFFFFF,0xFFFFFFFF);
+			debugLine(d.mCenter,d.mP2,0xFFFFFFFF,0xFFFFFFFF);
+		}
+
+		physx::PxVec3 v1 = d.mP1-d.mCenter;
+		float d1 = v1.normalize();
+		physx::PxVec3 v2 = d.mP2-d.mCenter;
+		float d2 = v2.normalize();
+
+		physx::PxQuat quat;
+		rotationArc(v1,v2,quat);
+
+		physx::PxQuat q1 = physx::PxQuat(physx::PxIdentity);
+		physx::PxQuat q2 = quat;
+
+		physx::PxVec3 prev(0.0f);
+
+		int32_t count = 0;
+		for (float st=0; st<=(1.01f); st+=0.05f)
+		{
+			float dst = ((d2-d1)*st)+d1;
+			physx::PxQuat q;
+			q = slerp(st,q1,q2);
+			physx::PxMat44 m(q);
+			m.setPosition(d.mCenter);
+			physx::PxVec3 t = v1*dst;
+			t = m.transform(t);
+			if ( st != 0 )
+			{
+				if ( count == 20 )
+				{
+					DebugRay dr(prev,t);
+					debugRay(dr);
+				}
+				else
+					debugLine(prev,t);
+			}
+			prev = t;
+			count++;
+		}
+
+	}
+
+	PX_INLINE void debugThickArc(const DebugThickArc &d)
+	{
+		if ( d.mShowRoot )
+		{
+			debugLine(d.mCenter,d.mP1,0xFFFFFFFF,0xFFFFFFFF);
+			debugLine(d.mCenter,d.mP2,0xFFFFFFFF,0xFFFFFFFF);
+		}
+
+		physx::PxVec3 v1 = d.mP1-d.mCenter;
+		float d1 = v1.normalize();
+		physx::PxVec3 v2 = d.mP2-d.mCenter;
+		float d2 = v2.normalize();
+
+		physx::PxQuat quat;
+		rotationArc(v1,v2,quat);
+
+		physx::PxQuat q1 = physx::PxQuat(physx::PxIdentity);
+		physx::PxQuat q2 = quat;
+
+		physx::PxVec3 prev(0.0f);
+
+		int32_t count = 0;
+
+		for (float st=0; st<=(1.01f); st+=0.05f)
+		{
+			float dst = ((d2-d1)*st)+d1;
+			physx::PxQuat q;
+			q = slerp(st,q1,q2);
+			physx::PxMat44 m(q);
+			m.setPosition(d.mCenter);
+			physx::PxVec3 t = v1*dst;
+			t = m.transform(t);
+			if ( st != 0 )
+			{
+#if 0
+				if ( count == 20 )
+				{
+					float asave = mCurrentState.mArrowSize;
+					mCurrentState.mArrowSize = d.mThickness*4;
+					DebugThickRay dr(prev,t,d.mThickness);
+					debugThickRay(dr);
+					mCurrentState.mArrowSize = asave;
+				}
+				else
+#endif
+				{
+					uint32_t save = mCurrentState.mStates;
+
+					mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+					mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+
+					DebugPointCylinder dc(prev,t,d.mThickness);
+					debugPointCylinder(dc);
+
+					mCurrentState.mStates = save;
+				}
+			}
+			prev = t;
+			count++;
+		}
+	}
+
+	void debugFrustumPlane(const physx::PxVec4 &_p1,const physx::PxVec4 &_p2,const physx::PxVec4 &_p3,const physx::PxVec4 &_p4,uint32_t color)
+	{
+		physx::PxVec3 p1(_p1.x,_p1.y,_p1.z);
+		physx::PxVec3 p2(_p2.x,_p2.y,_p2.z);
+		physx::PxVec3 p3(_p3.x,_p3.y,_p3.z);
+		physx::PxVec3 p4(_p4.x,_p4.y,_p4.z);
+
+		uint32_t save = mCurrentState.mStates;
+		uint32_t saveColor = mCurrentState.mColor;
+		mCurrentState.mColor = color;
+
+//		mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded);
+//		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+
+		DebugTri t1(p1,p2,p3);
+		DebugTri t2(p1,p3,p4);
+
+		debugTri(&p1,&p2,&p3);
+		debugTri(&p1,&p3,&p4);
+
+		debugTri(&p3,&p2,&p1);
+		debugTri(&p4,&p3,&p1);
+
+		debugLine(p1,p2,0xFFFFFF,0xFFFFFF);
+		debugLine(p2,p3,0xFFFFFF,0xFFFFFF);
+		debugLine(p3,p4,0xFFFFFF,0xFFFFFF);
+		debugLine(p4,p1,0xFFFFFF,0xFFFFFF);
+
+		mCurrentState.mStates = save;
+		mCurrentState.mColor = saveColor;
+
+	}
+
+	PX_INLINE void debugFrustum(const physx::PxMat44 &iview,const physx::PxMat44 &proj)
+	{
+		// actually debug it here!
+		physx::PxMat44 viewProj = proj*iview;
+		physx::PxMat44 iviewProj = invert(viewProj);
+
+		physx::PxMat44 view = invert(iview);
+		DebugAxes d(view,0.3f,1.0f,false,false,4, DebugAxesRenderMode::DEBUG_AXES_RENDER_SOLID);
+		debugAxes(d); // debug visualize the view matrix
+
+		physx::PxVec4 v[8];
+
+
+		v[0] = physx::PxVec4(-1.0f,-1.0f,0,1.0f);
+		v[1] = physx::PxVec4(1.0f,-1.0f,0,1.0f);
+		v[2] = physx::PxVec4(1.0f,1.0f,0,1.0f);
+		v[3] = physx::PxVec4(-1.0f,1.0f,0,1.0f);
+
+		v[4] = physx::PxVec4(-1.0f,-1.0f,0.99999f,1.0f);
+		v[5] = physx::PxVec4(1.0f,-1.0f,0.99999f,1.0f);
+		v[6] = physx::PxVec4(1.0f,1.0f,0.99999f,1.0f);
+		v[7] = physx::PxVec4(-1.0f,1.0f,0.99999f,1.0f);
+
+
+
+		for (uint32_t i=0; i<8; i++)
+		{
+			v[i] = iviewProj.transform(v[i]);
+			v[i]*=1.0f/v[i].w; // unproject the point.
+		}
+
+		debugFrustumPlane(v[0],v[1],v[2],v[3],0xFF0000);
+		debugFrustumPlane(v[4],v[5],v[6],v[7],0xFF0000);
+
+		debugFrustumPlane(v[0],v[3],v[7],v[4],0x00FF00);
+		debugFrustumPlane(v[1],v[2],v[6],v[5],0x00FF00);
+
+		debugFrustumPlane(v[1],v[0],v[4],v[5],0x0000FF);
+		debugFrustumPlane(v[2],v[3],v[7],v[6],0x0000FF);
+
+
+	}
+
+	PX_INLINE void debugDetailedSphere(const DebugDetailedSphere &d)
+	{
+		physx::PxMat44* save = mCurrentState.mPose;
+		//physx::PxVec3 origTranslation = save != NULL ? save->getPosition() : physx::PxVec3(0.0f);
+		physx::PxMat44 myPose = physx::PxMat44(physx::PxIdentity);
+		myPose.setPosition(d.mPos);
+		if (save != NULL)
+		{
+			myPose = *save * myPose;
+		}
+		mCurrentState.mPose = &myPose;
+
+		DebugSphere d2(d.mRadius, d.mStepCount);
+		debugSphere(d2);
+
+		mCurrentState.mPose = save;
+	}
+
+	void skipString(physx::PsMemoryBuffer &mb)
+	{
+		char c;
+		uint32_t r = mb.read(&c,1);
+		while ( r && c )
+		{
+			r = mb.read(&c,1);
+		}
+	}
+
+	void debugCreateTriangleMesh(const DebugCreateTriangleMesh &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_CREATE_TRIANGLE_MESH);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t vcount=0;
+		uint32_t tcount=0;
+		uint32_t meshId=0;
+		stream >> meshId;
+		stream >> vcount;
+		stream >> tcount;
+		const uint8_t *scan = mb.getReadLoc();
+		const RENDER_DEBUG::RenderDebugMeshVertex *vertices = reinterpret_cast<const RENDER_DEBUG::RenderDebugMeshVertex *>(scan);
+		const uint32_t *indices = NULL;
+		if ( tcount )
+		{
+			scan+=(vcount*sizeof(RENDER_DEBUG::RenderDebugMeshVertex));
+			indices = reinterpret_cast<const uint32_t *>(scan);
+		}
+		if ( iface )
+		{
+			iface->createTriangleMesh(meshId,vcount,vertices,tcount,indices);
+		}
+	}
+
+	void debugRefreshTriangleMeshVertices(const DebugRefreshTriangleMeshVertices &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_REFRESH_TRIANGLE_MESH_VERTICES);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t vcount=0;
+		uint32_t meshId=0;
+		stream >> meshId;
+		stream >> vcount;
+		const uint8_t *scan = mb.getReadLoc();
+		const RENDER_DEBUG::RenderDebugMeshVertex *vertices = reinterpret_cast<const RENDER_DEBUG::RenderDebugMeshVertex *>(scan);
+		const uint32_t *indices = NULL;
+		scan+=(vcount*sizeof(RENDER_DEBUG::RenderDebugMeshVertex));
+		indices = reinterpret_cast<const uint32_t *>(scan);
+		if ( iface )
+		{
+			iface->refreshTriangleMeshVertices(meshId,vcount,vertices,indices);
+		}
+	}
+
+
+	void debugRenderTriangleMeshInstances(const DebugRenderTriangleMeshInstances &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_RENDER_TRIANGLE_MESH_INSTANCES);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t instanceCount=0;
+		uint32_t meshId=0;
+		stream >> meshId;
+		stream >> instanceCount;
+		if ( instanceCount && iface )
+		{
+			const uint8_t *scan = mb.getReadLoc();
+			const RENDER_DEBUG::RenderDebugInstance *instances = reinterpret_cast<const RENDER_DEBUG::RenderDebugInstance *>(scan);
+			iface->renderTriangleMeshInstances(meshId,mCurrentState.mTexture1,mCurrentState.mTileRate1,mCurrentState.mTexture2,mCurrentState.mTileRate2,instanceCount,instances);
+		}
+	}
+
+	void debugConvexHull(const DebugConvexHull &dgs)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_CONVEX_HULL);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t planeCount=0;
+		stream >> planeCount;
+		if ( planeCount )
+		{
+			const uint8_t *scan = mb.getReadLoc();
+			const float *planes = reinterpret_cast<const float *>(scan);
+
+			Hull2MeshEdges *h = createHull2MeshEdges();
+			if ( !mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded))
+			{
+				uint32_t edgeCount;
+				const HullEdge *edges = h->getHullEdges(planeCount, reinterpret_cast<const physx::PxPlane *>(planes), edgeCount);
+				if ( edges )
+				{
+					uint32_t saveColor = mCurrentState.mColor;
+					mCurrentState.mColor = mCurrentState.mArrowColor;
+					for (uint32_t i=0; i<edgeCount; i++)
+					{
+						const HullEdge &e = edges[i];
+						debugLine(e.e0,e.e1);
+					}
+					mCurrentState.mColor = saveColor;
+				}
+			}
+			if ( mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded) || mCurrentState.hasRenderState(RENDER_DEBUG::DebugRenderState::SolidWireShaded) )
+			{
+				HullMesh m;
+				if ( h->getHullMesh(planeCount, reinterpret_cast<const physx::PxPlane *>(planes), m) )
+				{
+					uint32_t saveState = mCurrentState.mStates;
+					mCurrentState.mStates&=~RENDER_DEBUG::DebugRenderState::SolidWireShaded;
+					mCurrentState.mStates|=RENDER_DEBUG::DebugRenderState::SolidShaded;
+					for (uint32_t i=0; i<m.mTriCount; i++)
+					{
+						uint16_t i1 = m.mIndices[i*3+0];
+						uint16_t i2 = m.mIndices[i*3+1];
+						uint16_t i3 = m.mIndices[i*3+2];
+						const physx::PxVec3 &p1 = m.mVertices[i1];
+						const physx::PxVec3 &p2 = m.mVertices[i2];
+						const physx::PxVec3 &p3 = m.mVertices[i3];
+						debugTri(&p1,&p2,&p3);
+					}
+					mCurrentState.mStates = saveState;
+				}
+			}
+			h->release();
+		}
+
+	}
+
+	void debugRenderPoints(const DebugRenderPoints &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_RENDER_POINTS);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t pointCount=0;
+		uint32_t meshId=0;
+		uint32_t mode=0;
+		uint32_t textureId1;
+		float	 textureTile1;
+		uint32_t textureId2;
+		float	 textureTile2;
+		stream >> meshId;
+		stream >> mode;
+		stream >> textureId1;
+		stream >> textureTile1;
+		stream >> textureId2;
+		stream >> textureTile2;
+		stream >> pointCount;
+		if ( pointCount && iface )
+		{
+			const uint8_t *scan = mb.getReadLoc();
+			const float *points = reinterpret_cast<const float *>(scan);
+			iface->debugPoints(static_cast<RENDER_DEBUG::PointRenderMode>(mode),meshId,mCurrentState.mArrowColor,mCurrentState.mArrowSize,textureId1,textureTile1,textureId2,textureTile2,pointCount,points);
+		}
+	}
+
+	void debugRenderTriangles(const DebugRenderTriangles &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_RENDER_TRIANGLES);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t tcount;
+		uint32_t useZ;
+		uint32_t isScreenSpace;
+		stream >> tcount;
+		stream >> useZ;
+		stream >> isScreenSpace;
+		if ( tcount && iface )
+		{
+			const uint8_t *scan = mb.getReadLoc();
+			const RenderDebugSolidVertex *points = reinterpret_cast<const RenderDebugSolidVertex *>(scan);
+			iface->debugRenderTriangles(tcount,points,useZ ? true : false,isScreenSpace ? true : false);
+		}
+	}
+
+	void debugRenderLines(const DebugRenderLines &dgs,RENDER_DEBUG::RenderDebugInterface *iface)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_RENDER_LINES);
+		PX_ASSERT(size==dgs.mSize);
+		uint32_t lcount;
+		uint32_t useZ;
+		uint32_t isScreenSpace;
+		stream >> lcount;
+		stream >> useZ;
+		stream >> isScreenSpace;
+		if ( lcount && iface )
+		{
+			const uint8_t *scan = mb.getReadLoc();
+			const RenderDebugVertex  *lines = reinterpret_cast<const RenderDebugVertex *>(scan);
+			iface->debugRenderLines(lcount,lines,useZ ? true : false, isScreenSpace ? true : false );
+		}
+	}
+
+
+
+	void debugGraph(const DebugGraphStream &dgs)
+	{
+		const void *data = static_cast<const void *>(&dgs);
+		physx::PsMemoryBuffer mb(data,dgs.mSize);
+		mb.setEndianMode(physx::PxFileBuf::ENDIAN_NONE);
+		nvidia::StreamIO stream(mb,dgs.mSize);
+		uint32_t cmd,size;
+		stream >> cmd;
+		stream >> size;
+		PX_ASSERT(cmd==DebugCommand::DEBUG_GRAPH);
+		PX_ASSERT(size==dgs.mSize);
+
+		DebugGraphDesc d;
+
+		stream >> d.mNumPoints;
+		d.mGraphXLabel = reinterpret_cast<const char *>(mb.getReadLoc());
+		skipString(mb);
+		d.mGraphYLabel = reinterpret_cast<const char *>(mb.getReadLoc());
+		skipString(mb);
+
+		mb.alignRead(4);
+
+		d.mPoints = reinterpret_cast<const float *>(mb.getReadLoc());
+		mb.advanceReadLoc(sizeof(uint32_t)*d.mNumPoints);
+		stream >> d.mCutOffLevel;
+		stream >> d.mGraphMax;
+		stream >> d.mGraphXPos;
+		stream >> d.mGraphYPos;
+		stream >> d.mGraphWidth;
+		stream >> d.mGraphHeight;
+		stream >> d.mGraphColor;
+		stream >> d.mArrowColor;
+		stream >> d.mColorSwitchIndex;
+		debugGraph(d);
+	}
+
+	void debugGraph(const DebugGraphDesc& graphDesc)
+	{
+		// todo where should colors go???
+		const uint32_t black = getColor(0,   0,   0);
+		const uint32_t blue  = getColor(0,   0, 255);
+		const uint32_t green = getColor(0, 255,   0);
+
+		RenderState saveState = mCurrentState;
+
+		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::ScreenSpace);
+		mCurrentState.setRenderState(RENDER_DEBUG::DebugRenderState::NoZbuffer);
+		mCurrentState.clearRenderState(RENDER_DEBUG::DebugRenderState::SolidShaded);
+
+		mCurrentState.mTextScale = 0.1f;
+		float textHeight = 0.04f;	//in screen space -- would be nice to know this!
+
+		if(graphDesc.mCutOffLevel != 0.0f)
+		{
+			mCurrentState.setCurrentColor(blue, black);
+			debugLine(
+				physx::PxVec3(graphDesc.mGraphXPos,							graphDesc.mGraphYPos + graphDesc.mCutOffLevel, 0.0f),
+				physx::PxVec3(graphDesc.mGraphXPos + graphDesc.mGraphWidth,	graphDesc.mGraphYPos + graphDesc.mCutOffLevel, 0.0f));
+		}
+
+		mCurrentState.setCurrentColor(graphDesc.mGraphColor, graphDesc.mArrowColor);	//set the draw colors
+		if( strlen(graphDesc.mGraphXLabel) > 0 )
+		{
+			DebugText txt( physx::PxVec3(graphDesc.mGraphXPos, graphDesc.mGraphYPos - textHeight,0),physx::PxMat44(physx::PxIdentity),graphDesc.mGraphXLabel);
+			debugText(txt);
+		}
+		if( graphDesc.mGraphYLabel[0] )
+		{
+			DebugText txt(physx::PxVec3(graphDesc.mGraphXPos, graphDesc.mGraphYPos + graphDesc.mGraphHeight,	0), physx::PxMat44(physx::PxIdentity), graphDesc.mGraphYLabel);
+			debugText(txt);
+		}
+
+		float lastX = graphDesc.mGraphXPos;
+		float lastY = graphDesc.mGraphYPos;
+		for (uint32_t i = 0; i < graphDesc.mNumPoints; i++)
+		{
+			float pointY = graphDesc.mPoints[i];
+			pointY = graphDesc.mGraphYPos + pointY * graphDesc.mGraphHeight / graphDesc.mGraphMax;	//scale to screen
+			float x = graphDesc.mGraphXPos + graphDesc.mGraphWidth * i / graphDesc.mNumPoints;
+
+			if (graphDesc.mColorSwitchIndex == i)
+				mCurrentState.setCurrentColor(	graphDesc.mArrowColor,
+				graphDesc.mGraphColor);	//swap the colors
+
+			debugLine(physx::PxVec3(lastX,lastY,0), physx::PxVec3(x,pointY,0));
+			lastY = pointY;
+			lastX = x;
+		}
+
+		//graph axes
+		mCurrentState.setCurrentColor(green, green);
+		//screen space test line
+		debugLine(	physx::PxVec3(graphDesc.mGraphXPos,  graphDesc.mGraphYPos,0),
+			physx::PxVec3(graphDesc.mGraphXPos,  graphDesc.mGraphYPos + graphDesc.mGraphHeight,0));
+		debugLine(	physx::PxVec3(graphDesc.mGraphXPos,  graphDesc.mGraphYPos,0),
+			physx::PxVec3(graphDesc.mGraphXPos + graphDesc.mGraphWidth, graphDesc.mGraphYPos,0));
+
+		mCurrentState = saveState;
+	}
+
+
+	virtual void setViewMatrix(const physx::PxMat44 &view)
+	{
+		mViewMatrix = view;
+	}
+
+	virtual void finalizeFrame(void)
+	{
+
+	}
+
+private:
+
+uint32_t					 mLineVertexCount;
+uint32_t					 mMaxLineVertexCount;
+RENDER_DEBUG::RenderDebugVertex		*mLines;
+
+uint32_t					mSolidVertexCount;
+uint32_t					mMaxSolidVertexCount;
+RENDER_DEBUG::RenderDebugSolidVertex	*mTriangles;
+
+RENDER_DEBUG::RenderDebugInterface	*mInterface;
+DisplayType				 mDisplayType;
+RenderState				mCurrentState;
+MyVectorFont			mVectorFont;
+physx::PxMat44					mViewMatrix;
+
+};
+
+//
+
+ProcessRenderDebug * createProcessRenderDebug(void)
+{
+	ProcessRenderDebugImpl *m = PX_NEW(ProcessRenderDebugImpl);
+	return static_cast< ProcessRenderDebug *>(m);
+}
+
+
+} // end of namespace

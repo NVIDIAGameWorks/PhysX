@@ -1,0 +1,58 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for iOS ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for iOS ReadMe</h1>
+
+<blockquote>
+
+	<h4>Building SDK Source with XCode:</h4>
+	<ul>
+		<li>XCode projects are in Source/compiler/(xcode_ios|xcode_ios64)</li>
+		<li>Open PhysX.xcodeproj to build the entire SDK source within XCode</li>
+		<li>Build from command line using e.g.: xcodebuild -project PhysX.xcodeproj -sdk iphoneos -alltargets -configuration (debug|checked|profile|release)</li>
+	</ul>
+
+	<h4>Building and Running Snippets with XCode:</h4>
+	<ul>
+		<li>Open XCode project Snippets/compiler/(xcode_ios|xcode_ios64)/Snippets.xcodeproj</li>
+		<li>Select one of the snippet schemes from the drop down list (e.g. HelloWorld)</li>
+		<li>Make sure the iPad is selected as opposed to the simulator</li>
+		<li>Press "Run" to build and run the snippet</li>
+		<li>In order to build and run release mode you need to select "Edit Scheme..." and change the "Build Configuration" to "release".</li>
+	</ul>
+
+	<h4>Notes:</h4>
+	<ul>
+		<li>No support for building the SDK and Snippets with makefiles</li>
+		<li>No rendering support for Snippets</li>
+		<li>XCode projects target:</li>
+		<ul>	
+		 	<li>XCode version: 10.1</li>
+		 	<li>Compiler: Apple LLVM version 10.0.0</li>
+		 	<li>platforms: armv7, arm64</li>
+		 	<li>device: iPad</li>
+		</ul>
+		<li>Building for the simulator is not supported</li>
+	</ul>
+	
+	<h4>Limitations:</h4>
+	<ul>
+		<li>The maximum number of shapes in each scene must be less than 32767.</li>
+		<li>The maximum number of dynamic actors added to each scene must be less than 65535.</li>
+		<li>The maximum number of broadphase overlap pairs must be less than 65535. Overlap pairs above this limit will be neglected.</li>		
+	</ul>
+
+</blockquote>
+
+<p><br>
+Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>       
+</html>

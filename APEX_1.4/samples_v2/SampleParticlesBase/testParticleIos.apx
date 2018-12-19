@@ -1,0 +1,53 @@
+<!DOCTYPE NvParameters>
+<NvParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="ParticleIosAssetParam" version="0.4" checksum="0x2fe48a73 0x7f6aafee 0x621cd7cd 0x20a3c0e5">
+  <struct name="">
+    <value name="particleType" type="Ref" included="1" className="SimpleParticleSystemParams" version="0.3" checksum="0xf872dc0a 0xe40cb32 0x1627d31b 0xfa23979d">    
+      <struct name="">
+        <struct name="GridDensity">
+          <value name="Enabled" type="Bool">false</value>
+          <value name="Resolution" type="Enum">GDG_16</value>
+          <value name="GridSize" type="F32">10</value>
+          <value name="MaxCellCount" type="U32">16</value>
+        </struct>
+      </struct>
+    </value>
+    <value name="maxParticleCount" type="U32">16384</value>
+    <value name="particleRadius" type="F32">1</value>
+    <value name="maxInjectedParticleCount" type="F32">0.100000001</value>
+    <value name="maxMotionDistance" type="F32">0.300000012</value>
+    <value name="contactOffset" type="F32">0.479999989</value>
+    <value name="restOffset" type="F32">0.239999995</value>
+    <value name="gridSize" type="F32">5</value>
+    <value name="damping" type="F32">0</value>
+    <value name="externalAcceleration" type="Vec3">0 0 0</value>
+    <value name="projectionPlaneNormal" type="Vec3">0 0 1</value>
+    <value name="projectionPlaneDistance" type="F32">0</value>
+    <value name="particleMass" type="F32">0.00100000005</value>
+    <value name="restitution" type="F32">0.5</value>
+    <value name="dynamicFriction" type="F32">0.00100000005</value>
+    <value name="staticFriction" type="F32">0</value>
+    <value name="simulationFilterData" null="1" type="String"></value>
+    <value name="fieldSamplerFilterData" type="String">MESH_PARTICLE_FS_GRP_MASK</value>
+    <value name="CollisionTwoway" type="Bool">false</value>
+    <value name="CollisionWithDynamicActors" type="Bool">true</value>
+    <value name="Enable" type="Bool">true</value>
+    <value name="ProjectToPlane" type="Bool">false</value>
+    <value name="PerParticleRestOffset" type="Bool">false</value>
+    <value name="PerParticleCollisionCacheHint" type="Bool">true</value>
+    <value name="DensityBuffer" type="Bool">false</value>
+    <value name="enableTemperatureBuffer" type="Bool">false</value>
+    <value name="enableCouplingOverride" type="Bool">false</value>
+    <struct name="particleToGridCoupling">
+      <value name="accelTimeConstant" type="F32">0.00999999978</value>
+      <value name="decelTimeConstant" type="F32">10</value>
+      <value name="thresholdMultiplier" type="F32">2</value>
+    </struct>
+    <struct name="gridToParticleCoupling">
+      <value name="accelTimeConstant" type="F32">0.00999999978</value>
+      <value name="decelTimeConstant" type="F32">0.00999999978</value>
+      <value name="thresholdMultiplier" type="F32">1</value>
+    </struct>
+  </struct>
+</value>
+</NvParameters>

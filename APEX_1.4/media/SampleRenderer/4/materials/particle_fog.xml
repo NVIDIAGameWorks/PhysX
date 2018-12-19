@@ -1,0 +1,8 @@
+<material type="unlit">
+	<shader name="vertex">vertex/particle_fog.cg</shader>
+	<shader name="fragment">fragment/particle_fog.cg</shader>
+	<blending>true</blending>
+	<variables>
+        <sampler2D name="diffuseTexture">textures/SoftParticle.dds</sampler2D>
+	</variables>
+</material>

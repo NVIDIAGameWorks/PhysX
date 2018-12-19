@@ -1,0 +1,63 @@
+
+#ifndef PHONG_LIGHTING_CG
+#define PHONG_LIGHTING_CG
+
+#include <config.cg>
+#include <globals.cg>
+#include <lighting.cg>
+
+Lighting computeAmbientLight(const FragmentParameters params, const SurfaceMaterial material)
+{
+	Lighting lout;
+	lout.diffuseColor  = 0;
+	lout.specularColor = 0;
+	return lout;
+}
+
+Lighting computeDirectionalLight(const FragmentParameters params, const SurfaceMaterial material)
+{
+	Lighting lout;
+	half3 lightColor   = (half3)g_lightColor * (half)g_lightIntensity;
+	lout.diffuseColor  = (half)saturate(dot(params.worldSpaceNormal, -g_lightDirection)) * lightColor;
+	float3 surfToEye   = normalize(params.worldSpacePosition - g_eyePosition);
+	lout.specularColor = (half)pow(saturate(dot(reflect(-g_lightDirection, params.worldSpaceNormal), surfToEye)), material.specularPower) * lightColor;	
+	return lout;
+}
+
+Lighting computePointLight(const FragmentParameters params, const SurfaceMaterial material)
+{
+	Lighting lout;
+	lout.diffuseColor  = 0;
+	lout.specularColor = 0;
+	return lout;
+}
+
+Lighting computeSpotLight(const FragmentParameters params, const SurfaceMaterial material)
+{
+	Lighting lout;
+	
+	half3  lightColor =(half3)g_lightColor * (half)g_lightIntensity;
+	
+	float3 surfToEye   = normalize(params.worldSpacePosition - g_eyePosition);
+	float3 surfToLight = g_lightPosition - params.worldSpacePosition;
+	float  distance    = length(surfToLight);
+	surfToLight       *= 1 / distance; // is just doing a normalize faster?
+	
+	float  attenuation = 0;
+	if(distance < g_lightInnerRadius)      attenuation = 1;
+	else if(distance < g_lightOuterRadius) attenuation = 1 - ((distance - g_lightInnerRadius) / (g_lightOuterRadius - g_lightInnerRadius));
+	
+	float  conedot     = dot(-g_lightDirection, surfToLight);
+	if(conedot < g_lightOuterCone)      attenuation  = 0;
+	else if(conedot < g_lightInnerCone) attenuation *= (conedot - g_lightOuterCone) / (g_lightInnerCone - g_lightOuterCone);
+	
+	float  diffuse     = saturate(dot(params.worldSpaceNormal, surfToLight));
+	float  specular    = pow(saturate(dot(reflect(surfToLight, params.worldSpaceNormal), surfToEye)), material.specularPower);
+	
+	lout.diffuseColor  = ((half)attenuation * (half)diffuse  * lightColor);
+	lout.specularColor = ((half)attenuation * (half)specular * lightColor);
+	
+	return lout;
+}
+
+#endif

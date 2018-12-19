@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{653CC2CD-99F5-48D8-0E9C-46FA10B26447}</ProjectGuid>
+		<RootNamespace>PhysXCommon</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PhysXCommon/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3CommonDEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/include;./../../PhysXProfile/src;./../../PhysXGpu/include;./../../../Include/geometry;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../../Include/GeomUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_FOUNDATION_DLL=1;PX_PHYSX_COMMON_EXPORTS;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x86 /DEBUG /DELAYLOAD:PxFoundationDEBUG_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3CommonDEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PhysXCommon/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3CommonCHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/include;./../../PhysXProfile/src;./../../PhysXGpu/include;./../../../Include/geometry;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../../Include/GeomUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_FOUNDATION_DLL=1;PX_PHYSX_COMMON_EXPORTS;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=CHECKED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x86 /DELAYLOAD:PxFoundationCHECKED_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3CommonCHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PhysXCommon/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3CommonPROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/include;./../../PhysXProfile/src;./../../PhysXGpu/include;./../../../Include/geometry;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../../Include/GeomUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_FOUNDATION_DLL=1;PX_PHYSX_COMMON_EXPORTS;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;PX_PHYSX_DLL_NAME_POSTFIX=PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x86 /INCREMENTAL:NO /DEBUG /DELAYLOAD:PxFoundationPROFILE_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3CommonPROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../bin/vc14win32\</OutDir>
+		<IntDir>./Win32/PhysXCommon/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PhysX3Common_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4435 /wd4577 /wd4464 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../Externals/nvToolsExt/1/include;./../../Common/include;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../../PxShared/src/pvd/include;./../../../Include/common;./../../../Include;./../../Common/src;./../../Common/src/windows;./../../PhysXProfile/include;./../../PhysXProfile/src;./../../PhysXGpu/include;./../../../Include/geometry;./../../GeomUtils/headers;./../../GeomUtils/src;./../../GeomUtils/src/contact;./../../GeomUtils/src/common;./../../GeomUtils/src/convex;./../../GeomUtils/src/distance;./../../GeomUtils/src/sweep;./../../GeomUtils/src/gjk;./../../GeomUtils/src/intersection;./../../GeomUtils/src/mesh;./../../GeomUtils/src/hf;./../../GeomUtils/src/pcm;./../../GeomUtils/src/ccd;./../../../Include/GeomUtils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_FOUNDATION_DLL=1;PX_PHYSX_COMMON_EXPORTS;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MAP /MACHINE:x86 /INCREMENTAL:NO /DELAYLOAD:PxFoundation_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PhysX3Common_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../Lib/vc14win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource_x86\PhysX3Common.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\common\PxBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxCollection.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxCoreUtilityTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxMetaData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxMetaDataFlags.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxPhysicsInsertionCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxPhysXCommonConfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxRenderBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxSerialFramework.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxSerializer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxStringTable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxTolerancesScale.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\common\PxTypeInfo.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\Include\geometry\PxBoxGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxCapsuleGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxConvexMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxConvexMeshGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxGeometryHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxGeometryQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxHeightField.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxHeightFieldDesc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxHeightFieldFlag.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxHeightFieldGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxHeightFieldSample.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxMeshQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxMeshScale.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxPlaneGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxSimpleTriangleMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxSphereGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxTriangleMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\Include\geometry\PxTriangleMeshGeometry.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Common\src\windows\CmWindowsDelayLoadHook.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\windows\CmWindowsModuleUpdateLoader.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\Common\src\CmBoxPruning.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmCollection.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmMathUtils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmPtrTable.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmRadixSort.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmRadixSortBuffered.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmRenderOutput.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\Common\src\CmVisualization.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\Common\src\CmBitMap.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmBoxPruning.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmCollection.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmConeLimitHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmFlushPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmIDPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmIO.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmMatrix34.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmPhysXCommon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmPreallocatingPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmPriorityQueue.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmPtrTable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmQueue.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmRadixSort.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmRadixSortBuffered.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmRefCountable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmRenderBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmRenderOutput.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmScaling.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmSpatialVector.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmTask.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmTaskPool.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmTmpMem.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmTransformUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\src\CmVisualization.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\Common\include\windows\CmWindowsLoadLibrary.h">
+		</ClInclude>
+		<ClInclude Include="..\..\Common\include\windows\CmWindowsModuleUpdateLoader.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\headers\GuAxes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuDistanceSegmentBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuDistanceSegmentSegment.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuIntersectionBoxBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuIntersectionTriangleBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuRaycastTests.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuSegment.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\headers\GuSIMDHelpers.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\..\Include\GeomUtils">
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\contact\GuContactMethodImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\contact\GuContactPolygonPolygon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\contact\GuFeatureCode.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\contact\GuLegacyTraceLineCallback.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactBoxBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactCapsuleBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactCapsuleCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactCapsuleConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactCapsuleMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactConvexConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactConvexMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactPlaneBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactPlaneCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactPlaneConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactPolygonPolygon.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactSphereBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactSphereCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactSphereMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactSpherePlane.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuContactSphereSphere.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuFeatureCode.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuLegacyContactBoxHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuLegacyContactCapsuleHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuLegacyContactConvexHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\contact\GuLegacyContactSphereHeightField.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\common\GuBarycentricCoordinates.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\common\GuBoxConversion.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\common\GuEdgeCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\common\GuEdgeListData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\common\GuSeparatingAxes.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\common\GuBarycentricCoordinates.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\common\GuSeparatingAxes.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuBigConvexData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuBigConvexData2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexEdgeFlags.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexMeshData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexSupportTable.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuConvexUtilsInternal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuCubeIndex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuHillClimbing.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\convex\GuShapeConvex.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuBigConvexData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuConvexHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuConvexMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuConvexSupportTable.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuConvexUtilsInternal.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuHillClimbing.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\convex\GuShapeConvex.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistancePointBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistancePointSegment.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistancePointTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistancePointTriangleSIMD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistanceSegmentSegmentSIMD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistanceSegmentTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\distance\GuDistanceSegmentTriangleSIMD.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\distance\GuDistancePointBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\distance\GuDistancePointTriangle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\distance\GuDistanceSegmentBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\distance\GuDistanceSegmentSegment.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\distance\GuDistanceSegmentTriangle.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepBoxBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepBoxSphere.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepBoxTriangle_FeatureBased.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepBoxTriangle_SAT.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleCapsule.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepSphereCapsule.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepSphereSphere.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepSphereTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\sweep\GuSweepTriangleUtils.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepBoxBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepBoxSphere.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepBoxTriangle_FeatureBased.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepBoxTriangle_SAT.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepCapsuleTriangle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepSphereCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepSphereSphere.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepSphereTriangle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\sweep\GuSweepTriangleUtils.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuEPA.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuEPAFacet.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJK.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKPenetration.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKRaycast.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKSimplex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKTest.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKType.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuGJKUtil.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecCapsule.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecConvex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecConvexHull.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecConvexHullNoScale.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecPlane.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecShrunkBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecShrunkConvexHull.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecShrunkConvexHullNoScale.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecSphere.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\gjk\GuVecTriangle.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\gjk\GuEPA.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\gjk\GuGJKSimplex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\gjk\GuGJKTest.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionCapsuleTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionEdgeEdge.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRay.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRayBox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRayBoxSIMD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRayCapsule.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRayPlane.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRaySphere.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionRayTriangle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\intersection\GuIntersectionSphereBox.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionBoxBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionCapsuleTriangle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionEdgeEdge.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionRayBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionRayCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionRaySphere.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionSphereBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\intersection\GuIntersectionTriangleBox.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV32.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV32Build.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4Build.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4Settings.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_AABBAABBSweepTest.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_BoxBoxOverlapTest.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_BoxOverlap_Internal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_BoxSweep_Internal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_BoxSweep_Params.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_CapsuleSweep_Internal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Common.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Internal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamNoOrder_OBBOBB.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamNoOrder_SegmentAABB_Inflated.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamNoOrder_SphereAABB.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamOrdered_OBBOBB.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_ProcessStreamOrdered_SegmentAABB_Inflated.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs_KajiyaNoOrder.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs_KajiyaOrdered.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs_SwizzledNoOrder.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBV4_Slabs_SwizzledOrdered.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuBVConstants.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuMeshData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuMidphaseInterface.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuRTree.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuSweepConvexTri.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuSweepMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangle32.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangleCache.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangleMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangleMeshBV4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangleMeshRTree.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\mesh\GuTriangleVertexPointers.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV32.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV32Build.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4Build.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_AABBSweep.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_BoxOverlap.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_CapsuleSweep.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_CapsuleSweepAA.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_OBBSweep.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_Raycast.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_SphereOverlap.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuBV4_SphereSweep.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuMeshQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuMidphaseBV4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuMidphaseRTree.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuOverlapTestsMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuRTree.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuRTreeQueries.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuSweepsMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuTriangleMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuTriangleMeshBV4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\mesh\GuTriangleMeshRTree.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\hf\GuEntityReport.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\hf\GuHeightField.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\hf\GuHeightFieldData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\hf\GuHeightFieldUtil.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\hf\GuHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\hf\GuHeightFieldUtil.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\hf\GuOverlapTestsHF.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\hf\GuSweepsHF.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMContactConvexCommon.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMContactGen.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMContactGenUtil.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMContactMeshCallback.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMShapeConvex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPCMTriangleContactGen.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\pcm\GuPersistentContactManifold.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactBoxBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactBoxConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactCapsuleBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactCapsuleCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactCapsuleConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactCapsuleHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactCapsuleMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactConvexCommon.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactConvexConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactConvexHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactConvexMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactGenBoxConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactGenSphereCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactPlaneBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactPlaneCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactPlaneConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereHeightField.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSpherePlane.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMContactSphereSphere.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMShapeConvex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPCMTriangleContactGen.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\pcm\GuPersistentContactManifold.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\ccd\GuCCDSweepConvexMesh.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\ccd\GuCCDSweepConvexMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\ccd\GuCCDSweepPrimitives.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\GeomUtils\src\GuBounds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuCapsule.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuCenterExtents.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuGeometryUnion.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuInternal.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuMeshFactory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuMTD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuOverlapTests.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuSerialize.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuSphere.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuSweepMTD.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuSweepSharedTests.h">
+		</ClInclude>
+		<ClInclude Include="..\..\GeomUtils\src\GuSweepTests.h">
+		</ClInclude>
+		<ClCompile Include="..\..\GeomUtils\src\GuBounds.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuBox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuCapsule.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuCCTSweepTests.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuGeometryQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuGeometryUnion.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuInternal.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuMeshFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuMTD.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuOverlapTests.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuRaycastTests.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuSerialize.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuSweepMTD.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuSweepSharedTests.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\GeomUtils\src\GuSweepTests.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../../PxShared/src/compiler/vc14win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

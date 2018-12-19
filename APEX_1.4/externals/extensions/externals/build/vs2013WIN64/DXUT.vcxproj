@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{4507D448-C038-EA54-7F1E-7EA0C6B84F9D}</ProjectGuid>
+		<RootNamespace>DXUT</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../lib/WIN64\</OutDir>
+		<IntDir>./x64/DXUT/debug\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>DXUTDEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<CallingConvention>Cdecl</CallingConvention>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/Oy- /EHsc /wd4748</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);./../../include/DXUT;./../../include/DXUT/Core;./../../include/DXUT/Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN64;_UNICODE;UNICODE;_WINDOWS;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_DEPRECATE;_LIB;DXUT_AUTOLIB;_DEBUG;PROFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/MACHINE:x64 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)DXUTDEBUG.lib</OutputFile>
+			<AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/DXUTDEBUG.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../lib/WIN64\</OutDir>
+		<IntDir>./x64/DXUT/release\</IntDir>
+		<TargetExt>.lib</TargetExt>
+		<TargetName>DXUT</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<IntrinsicFunctions>true</IntrinsicFunctions>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<SuppressStartupBanner>true</SuppressStartupBanner>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/Oy- /EHsc /wd4748</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>$(WindowsSDK_IncludePath);./../../include/DXUT;./../../include/DXUT/Core;./../../include/DXUT/Optional;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN64;_UNICODE;UNICODE;_WINDOWS;_WIN32_WINNT=0x0600;_CRT_SECURE_NO_DEPRECATE;_LIB;DXUT_AUTOLIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Lib>
+			<AdditionalOptions>/MACHINE:x64 /SUBSYSTEM:WINDOWS /NOLOGO</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)DXUT.lib</OutputFile>
+			<AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/DXUT.lib.pdb</ProgramDatabaseFile>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Lib>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\DXUT\Core\DDSTextureLoader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\dxerr.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUT.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUTDevice11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\DXUTmisc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\ScreenGrab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Core\WICTextureLoader.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTcamera.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTgui.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTguiIME.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTres.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\DXUTsettingsdlg.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\ImeUi.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\SDKmesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\DXUT\Optional\SDKmisc.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\DXUT\Core\DDSTextureLoader.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\dxerr.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUT.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUTDevice11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\DXUTmisc.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\ScreenGrab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Core\WICTextureLoader.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTcamera.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTgui.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTguiIME.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTLockFreePipe.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTres.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\DXUTsettingsdlg.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\ImeUi.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\SDKmesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\DXUT\Optional\SDKmisc.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

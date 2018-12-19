@@ -1,0 +1,23 @@
+#include <defines.cg>
+
+struct FragmentParameters
+{
+	float4 worldSpacePosition : TEXCOORD4;
+	float2 texcoord0          : TEXCOORD0;
+	half4  color              : COLOR;
+};
+
+struct Fragment
+{
+	half4 color : COLOR0;
+};
+
+DECLARE_TEXTURE(diffuseTexture)
+
+Fragment fmain(FragmentParameters params)
+{
+	Fragment fout;
+	half4 diffuseTextureColor = half4(tex2D(diffuseTexture, params.texcoord0.xy));
+	fout.color = diffuseTextureColor * params.color;
+	return fout;
+}

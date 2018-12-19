@@ -1,0 +1,1 @@
+GLOBAL(void) jinit_c_diff_controller (j_compress_ptr cinfo, boolean need_full_buffer);

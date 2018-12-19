@@ -1,0 +1,1358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{E234DAF8-81E8-8FFC-FCE6-2CA09C768D36}</ProjectGuid>
+		<RootNamespace>APEX_Legacy</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../paths.vsprops" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Legacy/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)DEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Od /RTCsu /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../module/Test_legacy/include;./../../module/Test_legacy/include/autogen;./../../module/destructible_legacy/include;./../../module/destructible_legacy/include/autogen;./../../module/framework_legacy/include;./../../module/framework_legacy/include/autogen;./../../module/clothing_legacy/include;./../../module/clothing_legacy/include/autogen;./../../module/common_legacy/include;./../../module/common_legacy/include/autogen;./../../framework/include;./../../framework/include/autogen;./../../module/clothing/include;./../../module/clothing/include/autogen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NV_PARAMETERIZED_HIDE_DESCRIPTIONS=1;_DEBUG;PX_DEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>PhysX3CommonDEBUG_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Legacy/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../module/Test_legacy/include;./../../module/Test_legacy/include/autogen;./../../module/destructible_legacy/include;./../../module/destructible_legacy/include/autogen;./../../module/framework_legacy/include;./../../module/framework_legacy/include/autogen;./../../module/clothing_legacy/include;./../../module/clothing_legacy/include/autogen;./../../module/common_legacy/include;./../../module/common_legacy/include/autogen;./../../framework/include;./../../framework/include/autogen;./../../module/clothing/include;./../../module/clothing/include/autogen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NV_PARAMETERIZED_HIDE_DESCRIPTIONS=1;NDEBUG;APEX_SHIPPING;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>PhysX3Common_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Legacy/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)PROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../module/Test_legacy/include;./../../module/Test_legacy/include/autogen;./../../module/destructible_legacy/include;./../../module/destructible_legacy/include/autogen;./../../module/framework_legacy/include;./../../module/framework_legacy/include/autogen;./../../module/clothing_legacy/include;./../../module/clothing_legacy/include/autogen;./../../module/common_legacy/include;./../../module/common_legacy/include/autogen;./../../framework/include;./../../framework/include/autogen;./../../module/clothing/include;./../../module/clothing/include/autogen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NV_PARAMETERIZED_HIDE_DESCRIPTIONS=1;NDEBUG;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_PROFILE;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>PhysX3CommonPROFILE_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../bin/vc15win32-PhysX_3.4\</OutDir>
+		<IntDir>./build/Win32/APEX_Legacy/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>$(ProjectName)CHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/wd4201 /wd4324 /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4061 /wd4668 /wd4626 /wd4266 /wd4263 /wd4264 /wd4640 /wd4625 /wd4574 /wd4191 /wd4987 /wd4986 /wd4946 /wd4836 /wd4571 /wd4826 /wd4577 /wd4458 /wd4456 /wd4457 /wd4548 /wd5026 /wd5027 /wd4464 /wd5038 /wd5039 /wd4596 /wd4365 /wd4774 /wd4996 /wd5045 /GR- /GF /WX /fp:fast /arch:SSE2 /MP /Ox /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../include;./../../include/PhysX3;../../../PxShared/include;../../../PxShared/include/filebuf;../../../PxShared/include/foundation;../../../PxShared/include/task;../../../PxShared/include/cudamanager;../../../PxShared/include/pvd;../../../PxShared/src/foundation/include;../../../PxShared/src/filebuf/include;../../../PxShared/src/fastxml/include;../../../PxShared/src/pvd/include;./../../shared/general/shared;./../../public;../../../PhysX_3.4/Include;../../../PhysX_3.4/Include/common;../../../PhysX_3.4/Include/cooking;../../../PhysX_3.4/Include/extensions;../../../PhysX_3.4/Include/geometry;../../../PhysX_3.4/Include/gpu;../../../PhysX_3.4/Include/deformable;../../../PhysX_3.4/Include/particles;../../../PhysX_3.4/Include/characterkinematic;../../../PhysX_3.4/Include/characterdynamic;../../../PhysX_3.4/Include/vehicle;../../../PhysX_3.4/Source/GeomUtils/headers;../../../PhysX_3.4/Source/PhysXGpu/include;./../../shared/general/RenderDebug/public;./../../shared/general/shared/inparser/include;./../../common/include;./../../common/include/autogen;./../../common/include/windows;./../../shared/internal/include;./../../module/common/include;./../../NvParameterized/include;./../../include;./../../include/PhysX3;./../../module/Test_legacy/include;./../../module/Test_legacy/include/autogen;./../../module/destructible_legacy/include;./../../module/destructible_legacy/include/autogen;./../../module/framework_legacy/include;./../../module/framework_legacy/include/autogen;./../../module/clothing_legacy/include;./../../module/clothing_legacy/include/autogen;./../../module/common_legacy/include;./../../module/common_legacy/include/autogen;./../../framework/include;./../../framework/include/autogen;./../../module/clothing/include;./../../module/clothing/include/autogen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DISABLE_CUDA_PHYSX;INSTALLER=1;EXCLUDE_PARTICLES=1;_USRDLL;NV_PARAMETERIZED_HIDE_DESCRIPTIONS=1;NDEBUG;PX_CHECKED;PHYSX_PROFILE_SDK;PX_SUPPORT_VISUAL_DEBUGGER;PX_ENABLE_CHECKED_ASSERTS;PX_NVTX=1;_SECURE_SCL=0;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/MACHINE:x86 /INCREMENTAL:NO</AdditionalOptions>
+			<AdditionalDependencies>PhysX3CommonCHECKED_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>../../../PxShared/lib/vc15win32;../../../PhysX_3.4/Lib/vc15win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED_x86.dll.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../lib/vc15win32-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\CachedOverlaps_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\CachedOverlaps_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorChunks_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p19.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p20.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p21.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p22.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p23.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p24.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p25.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p26.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p27.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p28.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p29.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p30.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p31.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p32.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetCollisionDataSet_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p19.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p20.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p21.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p22.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p23.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p24.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p25.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p26.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleDebugRenderParams_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructiblePreviewParam_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\MeshCookedCollisionStreamsAtScale_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\MeshCookedCollisionStream_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\ModuleDestructibleLegacyRegistration.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p2.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionCachedOverlaps_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p11_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p12_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p13_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p14_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p15_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p16_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p17_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p18_0p19.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p19_0p20.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p20_0p21.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p21_0p22.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p22_0p23.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p23_0p24.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p24_0p25.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p25_0p26.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p26_0p27.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p27_0p28.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p28_0p29.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p29_0p30.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p30_0p31.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p31_0p32.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p9_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p11_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p12_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p13_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p14_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p15_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p16_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p17_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p18_0p19.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p19_0p20.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p20_0p21.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p21_0p22.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p22_0p23.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p23_0p24.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p24_0p25.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p25_0p26.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p9_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionSurfaceTraceSetParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionSurfaceTraceSetParameters_0p1_0p2.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\CachedOverlaps_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\CachedOverlaps_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorChunks_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p12.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p13.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p14.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p15.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p16.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p17.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p18.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p19.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p20.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p21.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p22.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p23.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p24.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p25.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p26.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p27.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p28.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p29.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p30.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p31.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p32.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetCollisionDataSet_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p12.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p13.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p14.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p15.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p16.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p17.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p18.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p19.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p20.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p21.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p22.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p23.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p24.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p25.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p26.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleDebugRenderParams_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructiblePreviewParam_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\MeshCookedCollisionStreamsAtScale_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\MeshCookedCollisionStream_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\ModuleDestructibleLegacy.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p2.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x1_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x2_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x3_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x4_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x4_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x1_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x2_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x3_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x4_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x1_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x2_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x3_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x4_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x1_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x2_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x3_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x4_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\ModuleFrameworkLegacyRegistration.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\RenderMeshAssetParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SubmeshParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SubmeshParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SurfaceBufferParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexBufferParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexBufferParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexFormatParameters_0p0.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionBufferF32x4_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionSubmeshParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionVertexBufferParameters_0p0_0p1.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x1_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x2_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x3_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x4_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x4_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x1_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x2_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x3_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x4_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x1_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x2_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x3_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x4_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x1_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x2_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x3_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x4_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\ModuleFrameworkLegacy.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\RenderMeshAssetParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SubmeshParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SubmeshParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SurfaceBufferParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexBufferParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexBufferParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexFormatParameters_0p0.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingDebugRenderParams_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingModuleParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPreviewParam_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ModuleClothingLegacyRegistration.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p11_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p12_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p13_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p14_0p15.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p15_0p16.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p16_0p17.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p17_0p18.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p9_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p11_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p12_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p13_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p9_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p11_0p12.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p12_0p13.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p13_0p14.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p9_0p10.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p0_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p10_0p11.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p1_0p2.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p2_0p3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p3_0p4.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p4_0p5.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p5_0p6.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p6_0p7.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p7_0p8.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p8_0p9.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p9_0p10.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p12.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p13.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p14.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p15.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p16.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p17.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p18.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p12.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p13.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p14.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingDebugRenderParams_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p12.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p13.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p14.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingModuleParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p10.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p11.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p3.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p4.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p5.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p6.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p7.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p8.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p9.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPreviewParam_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ModuleClothingLegacy.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ConvexHullParameters_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ConvexHullParameters_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\DebugColorParams_0p0.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\DebugRenderParams_0p1.h">
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ModuleCommonLegacyRegistration.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common_legacy\include\ConversionConvexHullParameters_0p0_0p1.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ConvexHullParameters_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ConvexHullParameters_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\DebugColorParams_0p0.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\DebugRenderParams_0p1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ModuleCommonLegacy.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\legacy\src\ModuleLegacy.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\legacy\ModuleIofxLegacy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\include\legacy\ModuleLegacy.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc15win32/PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../NvParameterized/compiler/vc15win32-PhysX_3.4/NvParameterized.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../PxShared/src/compiler/vc15win32/PxTask.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexShared.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./ApexCommon.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

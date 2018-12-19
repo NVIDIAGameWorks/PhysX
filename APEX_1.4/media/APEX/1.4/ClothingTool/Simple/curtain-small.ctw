@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ClothingToolWorkspace>
+	<GraphicalMesh relative="curtain-small.mesh.xml" absolute="e:\p4sw\sw\physx\media\APEX\1.2\ClothingTool\Simple\curtain-small.mesh.xml"/>
+
+	<ClothingMaterialLibraries>
+		<MaterialLibrary name="Default" />
+		<MaterialSelection library="Default" material="Default" />
+	</ClothingMaterialLibraries>
+
+
+	<Submesh index="0" selected="true" usedForPhysics="false" />
+
+
+	<Parameter name="mApexUntexturedColour" type="int" value="2566992"/>
+	<Parameter name="mApexVisible" type="int" value="3"/>
+	<Parameter name="mClothVisible" type="int" value="0"/>
+	<Parameter name="mCollisionVolumesVisible" type="int" value="0"/>
+	<Parameter name="mEditBackgroundColour" type="int" value="8690101"/>
+	<Parameter name="mOriginalVisible" type="int" value="1"/>
+	<Parameter name="mSimBackgroundColour" type="int" value="11579568"/>
+	<Parameter name="mSurfaceVisible" type="int" value="0"/>
+	<Parameter name="mVolumeVisible" type="int" value="0"/>
+	<Parameter name="mBonesVisible" type="bool" value="false"/>
+	<Parameter name="mEnableVsync" type="bool" value="true"/>
+	<Parameter name="mPaintingVisibleFaces" type="bool" value="false"/>
+	<Parameter name="mPaintingVisibleOtherSubmeshes" type="bool" value="false"/>
+	<Parameter name="mPaintingVisibleVertices" type="bool" value="false"/>
+	<Parameter name="mShowPhysicalLodValues" type="bool" value="false"/>
+	<Parameter name="mShowStats" type="bool" value="true"/>
+	<Parameter name="mShowStatsAllocator" type="bool" value="false"/>
+	<Parameter name="mConfig.deformable.selfcollisionThickness" type="float" value="0.00999999978"/>
+	<Parameter name="mConfig.deformable.thickness" type="float" value="0.310000002"/>
+	<Parameter name="mConfig.painting.falloffExponent" type="float" value="0"/>
+	<Parameter name="mConfig.painting.scalingCollisionFactor" type="float" value="1"/>
+	<Parameter name="mConfig.painting.scalingMaxdistance" type="float" value="1"/>
+	<Parameter name="mConfig.painting.value" type="float" value="0.5"/>
+	<Parameter name="mConfig.simulation.blendTime" type="float" value="1"/>
+	<Parameter name="mConfig.simulation.frequency" type="float" value="50"/>
+	<Parameter name="mConfig.simulation.pressure" type="float" value="-1"/>
+	<Parameter name="mConfig.animation.selectedAnimation" type="int" value="-1"/>
+	<Parameter name="mConfig.animation.speed" type="int" value="100"/>
+	<Parameter name="mConfig.apex.simulationType" type="int" value="0"/>
+	<Parameter name="mConfig.cloth.numGraphicalLods" type="int" value="1"/>
+	<Parameter name="mConfig.cloth.simplify" type="int" value="40"/>
+	<Parameter name="mConfig.cloth.subdivision" type="int" value="40"/>
+	<Parameter name="mConfig.deformable.hierarchicalLevels" type="int" value="0"/>
+	<Parameter name="mConfig.mesh.cullMode" type="int" value="2"/>
+	<Parameter name="mConfig.mesh.originalMeshSubdivision" type="int" value="51"/>
+	<Parameter name="mConfig.mesh.physicalMeshType" type="int" value="0"/>
+	<Parameter name="mConfig.mesh.textureUvOrigin" type="int" value="0"/>
+	<Parameter name="mConfig.painting.brushMode" type="int" value="1"/>
+	<Parameter name="mConfig.painting.brushRadius" type="int" value="26"/>
+	<Parameter name="mConfig.painting.channel" type="int" value="0"/>
+	<Parameter name="mConfig.painting.valueFlag" type="int" value="1"/>
+	<Parameter name="mConfig.simulation.budgetPercent" type="int" value="100"/>
+	<Parameter name="mConfig.simulation.graphicalLod" type="int" value="0"/>
+	<Parameter name="mConfig.simulation.gravity" type="int" value="8"/>
+	<Parameter name="mConfig.simulation.groundplane" type="int" value="0"/>
+	<Parameter name="mConfig.simulation.windDirection" type="int" value="128"/>
+	<Parameter name="mConfig.simulation.windElevation" type="int" value="0"/>
+	<Parameter name="mConfig.simulation.windVelocity" type="int" value="-1"/>
+	<Parameter name="mConfig.softbody.isoSimplifySubdivision" type="int" value="30"/>
+	<Parameter name="mConfig.softbody.isoSurfaceSubdivision" type="int" value="41"/>
+	<Parameter name="mConfig.softbody.keepBiggestMeshes" type="int" value="1"/>
+	<Parameter name="mConfig.animation.continuous" type="bool" value="true"/>
+	<Parameter name="mConfig.animation.lockRootbone" type="bool" value="false"/>
+	<Parameter name="mConfig.animation.loop" type="bool" value="true"/>
+	<Parameter name="mConfig.animation.useGlobalPoseMatrices" type="bool" value="true"/>
+	<Parameter name="mConfig.apex.parallelCpuSkinning" type="bool" value="true"/>
+	<Parameter name="mConfig.apex.recomputeNormals" type="bool" value="false"/>
+	<Parameter name="mConfig.cloth.close" type="bool" value="false"/>
+	<Parameter name="mConfig.cloth.subdivide" type="bool" value="false"/>
+	<Parameter name="mConfig.collisionVolumes.usePaintingChannel" type="bool" value="false"/>
+	<Parameter name="mConfig.deformable.disableCCD" type="bool" value="false"/>
+	<Parameter name="mConfig.deformable.selfcollision" type="bool" value="false"/>
+	<Parameter name="mConfig.deformable.twowayInteraction" type="bool" value="false"/>
+	<Parameter name="mConfig.deformable.untangling" type="bool" value="false"/>
+	<Parameter name="mConfig.mesh.evenOutVertexDegrees" type="bool" value="true"/>
+	<Parameter name="mConfig.mesh.useNewApi" type="bool" value="true"/>
+	<Parameter name="mConfig.setMeshes.deriveNormalsFromBones" type="bool" value="true"/>
+	<Parameter name="mConfig.simulation.fallbackSkinning" type="bool" value="false"/>
+	<Parameter name="mConfig.simulation.gpuSimulation" type="bool" value="true"/>
+	<Parameter name="mConfig.simulation.groundplaneEnabled" type="bool" value="true"/>
+	<Parameter name="mConfig.simulation.pvdDebug" type="bool" value="true"/>
+	<Parameter name="mConfig.simulation.pvdMemory" type="bool" value="false"/>
+	<Parameter name="mConfig.simulation.pvdProfile" type="bool" value="true"/>
+	<Parameter name="mConfig.softbody.discardInnerMeshes" type="bool" value="false"/>
+	<Parameter name="mConfig.ui.spotLight" type="bool" value="true"/>
+	<Parameter name="mConfig.ui.spotLightShadow" type="bool" value="true"/>
+	<Parameter name="mConfig.ui.zAxisUp" type="bool" value="false"/>
+
+	<Parameter name="ViewWindowTop" type="int" value="386"/>
+	<Parameter name="ViewWindowLeft" type="int" value="-367"/>
+
+	<Parameter name="EditWindowTop" type="int" value="0"/>
+	<Parameter name="EditWindowLeft" type="int" value="-1913"/>
+	<Parameter name="EditWindowWidth" type="int" value="1458"/>
+	<Parameter name="EditWindowHeight" type="int" value="1198"/>
+	<Parameter name="EditWindowMaximized" type="bool" value="false"/>
+	<Parameter name="CollisionWindowTop" type="int" value="229"/>
+	<Parameter name="CollisionWindowLeft" type="int" value="85"/>
+	<Parameter name="CollisionWindowWidth" type="int" value="520"/>
+	<Parameter name="CollisionWindowHeight" type="int" value="792"/>
+	<Command name="Rename Submesh" submesh="0" newName="materials/curtain.xml" />
+
+	<PaintingInformation numVertices="15" forceAssignByDistance="false">
+		<vtx index="0" p="-1.000000 0.455028 0.000000 # bf800000 3ee8f96e 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="1" p="-1.000000 1.455030 0.000000 # bf800000 3fba3e6c 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="2" p="-1.000000 2.455030 0.000000 # bf800000 401d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="3" p="-1.000000 3.455030 0.000000 # bf800000 405d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="5" p="0.000000 0.455028 0.000000 # 0 3ee8f96e 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="6" p="0.000000 1.455030 0.000000 # 0 3fba3e6c 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="7" p="0.000000 2.455030 0.000000 # 0 401d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="8" p="0.000000 3.455030 0.000000 # 0 405d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="10" p="1.000000 0.455028 0.000000 # 3f800000 3ee8f96e 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="11" p="1.000000 1.455030 0.000000 # 3f800000 3fba3e6c 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="12" p="1.000000 2.455030 0.000000 # 3f800000 401d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+		<vtx index="13" p="1.000000 3.455030 0.000000 # 3f800000 405d1f36 0" n="0.000000 0.000000 -1.000000 # 0 0 bf800000" maxd="2.236069 # 400f1bc0" />
+	</PaintingInformation>
+</ClothingToolWorkspace>
+<!DOCTYPE NxParameters>
+<NxParameters numObjects="1" version="1.0" >
+<value name="" type="Ref" className="ClothingMaterialLibraryParameters" version="0.1" checksum="0x6e6c2e8f 0x92869606 0xa8605f07 0x6c4fcaa5">
+  <struct name="">
+    <array name="materials" size="3" type="Struct">
+      <struct>
+        <value name="materialName" type="String">Default</value>
+        <value name="stretchingStiffness" type="F32">1</value>
+        <value name="bendingStiffness" type="F32">0.5</value>
+        <value name="orthoBending" type="Bool">false</value>
+        <struct name="compression">
+          <value name="limit" type="F32">1</value>
+          <value name="stiffness" type="F32">0.5</value>
+        </struct>
+        <value name="damping" type="F32">0.100000001</value>
+        <value name="comDamping" type="Bool">false</value>
+        <value name="friction" type="F32">0.25</value>
+        <value name="solverIterations" type="U32">5</value>
+        <value name="gravityScale" type="F32">1</value>
+        <value name="hardStretchLimitation" type="F32">0</value>
+        <value name="maxDistanceBias" type="F32">0</value>
+        <value name="hierarchicalSolverIterations" type="U32">0</value>
+      </struct>
+      <struct>
+        <value name="materialName" type="String">HS Limited</value>
+        <value name="stretchingStiffness" type="F32">1</value>
+        <value name="bendingStiffness" type="F32">0.5</value>
+        <value name="orthoBending" type="Bool">false</value>
+        <struct name="compression">
+          <value name="limit" type="F32">1</value>
+          <value name="stiffness" type="F32">0.5</value>
+        </struct>
+        <value name="damping" type="F32">0.100000001</value>
+        <value name="comDamping" type="Bool">false</value>
+        <value name="friction" type="F32">0.25</value>
+        <value name="solverIterations" type="U32">5</value>
+        <value name="gravityScale" type="F32">1</value>
+        <value name="hardStretchLimitation" type="F32">1.02999997</value>
+        <value name="maxDistanceBias" type="F32">0</value>
+        <value name="hierarchicalSolverIterations" type="U32">0</value>
+      </struct>
+      <struct>
+        <value name="materialName" type="String">Low Gravity</value>
+        <value name="stretchingStiffness" type="F32">1</value>
+        <value name="bendingStiffness" type="F32">0.5</value>
+        <value name="orthoBending" type="Bool">false</value>
+        <struct name="compression">
+          <value name="limit" type="F32">1</value>
+          <value name="stiffness" type="F32">0.5</value>
+        </struct>
+        <value name="damping" type="F32">0.100000001</value>
+        <value name="comDamping" type="Bool">false</value>
+        <value name="friction" type="F32">0.25</value>
+        <value name="solverIterations" type="U32">5</value>
+        <value name="gravityScale" type="F32">0.200000003</value>
+        <value name="hardStretchLimitation" type="F32">0</value>
+        <value name="maxDistanceBias" type="F32">0</value>
+        <value name="hierarchicalSolverIterations" type="U32">0</value>
+      </struct>
+    </array>
+  </struct>
+</value>
+</NxParameters>

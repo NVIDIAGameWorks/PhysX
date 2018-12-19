@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{D5174F6A-3F80-2864-B100-0DA6F0E53A70}</ProjectGuid>
+		<RootNamespace>Samples</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v120</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/Samples/debug\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc12win64 /LIBPATH:../../../../PxShared/lib/vc12win64 /LIBPATH:../../../Lib/vc12win64 PhysX3CommonDEBUG_x64.lib PhysX3DEBUG_x64.lib PhysX3CookingDEBUG_x64.lib PhysX3CharacterKinematicDEBUG_x64.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PxPvdSDKDEBUG_x64.lib PxTaskDEBUG_x64.lib PxFoundationDEBUG_x64.lib PsFastXmlDEBUG_x64.lib /DEBUG</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>XCOPY "../../../../PxShared/bin\vc12win64\PxFoundationDEBUG_x64.dll" "$(OutDir)" /D /Y&#x0D;&#x0A; XCOPY "../../../../PxShared/bin\vc12win64\PxPvdSDKDEBUG_x64.dll" "$(OutDir)" /D /Y</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/Samples/checked\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_CHECKED=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc12win64 /LIBPATH:../../../../PxShared/lib/vc12win64 /LIBPATH:../../../Lib/vc12win64 PhysX3CommonCHECKED_x64.lib PhysX3CHECKED_x64.lib PhysX3CookingCHECKED_x64.lib PhysX3CharacterKinematicCHECKED_x64.lib PhysX3ExtensionsCHECKED.lib PhysX3VehicleCHECKED.lib PxPvdSDKCHECKED_x64.lib PxTaskCHECKED_x64.lib PxFoundationCHECKED_x64.lib PsFastXmlCHECKED_x64.lib</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>XCOPY "../../../../PxShared/bin\vc12win64\PxFoundationCHECKED_x64.dll" "$(OutDir)" /D /Y&#x0D;&#x0A; XCOPY "../../../../PxShared/bin\vc12win64\PxPvdSDKCHECKED_x64.dll" "$(OutDir)" /D /Y</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/Samples/profile\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_PROFILE=1;PX_NVTX=1;PX_SUPPORT_PVD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc12win64 /LIBPATH:../../../../PxShared/lib/vc12win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3CommonPROFILE_x64.lib PhysX3PROFILE_x64.lib PhysX3CookingPROFILE_x64.lib PhysX3CharacterKinematicPROFILE_x64.lib PhysX3ExtensionsPROFILE.lib PhysX3VehiclePROFILE.lib PxPvdSDKPROFILE_x64.lib PxTaskPROFILE_x64.lib PxFoundationPROFILE_x64.lib PsFastXmlPROFILE_x64.lib /DEBUG</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>XCOPY "../../../../PxShared/bin\vc12win64\PxFoundationPROFILE_x64.dll" "$(OutDir)" /D /Y&#x0D;&#x0A; XCOPY "../../../../PxShared/bin\vc12win64\PxPvdSDKPROFILE_x64.dll" "$(OutDir)" /D /Y</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../bin/vc12win64\</OutDir>
+		<IntDir>./x64/Samples/release\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<StringPooling>true</StringPooling>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/MP /Wall /wd4514 /wd4820 /wd4062 /wd4100 /wd4130 /wd4201 /wd4242 /wd4244 /wd4245 /wd4265 /wd4266 /wd4324 /wd4389 /wd4365 /wd4371 /wd4447 /wd4189 /wd4191 /wd4350 /wd4505 /wd4512 /wd4548 /wd4571 /wd4625 /wd4626 /wd4668 /wd4619 /wd4701 /wd4702 /wd4706 /wd4710 /wd4711 /wd4640 /wd4061 /wd4826 /wd4946 /wd4917 /wd4986 /wd4987 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../SampleBase;./../../PxToolkit/include;./../../SampleFramework/framework/include;./../../SampleFramework/renderer/include;./../../SampleFramework/platform/include;./../../../Include;./../../../Source/Common/include;./../../../Source/Common/src;./../../../Source/GeomUtils/headers;./../../../Source/GeomUtils/include;./../../../Source/GeomUtils/src/contact;./../../../Source/GeomUtils/src/common;./../../../Source/GeomUtils/src/convex;./../../../Source/GeomUtils/src/distance;./../../../Source/GeomUtils/src/gjk;./../../../Source/GeomUtils/src/intersection;./../../../Source/GeomUtils/src/mesh;./../../../Source/GeomUtils/src/Ice;./../../../Source/GeomUtils/src/hf;./../../../Source/GeomUtils/src/pcm;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../../PxShared/src/fastxml/include;./../../../Include/common;./../../SampleCCTSharedCode;./../../../Source/PhysXVehicle/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>_HAS_EXCEPTIONS=0;WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PHYSX_PROFILE_SDK;NDEBUG;PX_SUPPORT_PVD=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>Winmm.lib /LIBPATH:../../lib/vc12win64 /LIBPATH:../../../../PxShared/lib/vc12win64 /INCREMENTAL:NO /LIBPATH:../../../Lib/vc12win64 PhysX3Common_x64.lib PhysX3_x64.lib PhysX3Cooking_x64.lib PhysX3CharacterKinematic_x64.lib PhysX3Extensions.lib PhysX3Vehicle.lib PxPvdSDK_x64.lib PxTask_x64.lib PxFoundation_x64.lib PsFastXml_x64.lib</AdditionalOptions>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>XCOPY "../../../../PxShared/bin\vc12win64\PxFoundation_x64.dll" "$(OutDir)" /D /Y&#x0D;&#x0A; XCOPY "../../../../PxShared/bin\vc12win64\PxPvdSDK_x64.dll" "$(OutDir)" /D /Y</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleHelloWorld\SampleHelloWorld.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleHelloWorld\SampleHelloWorld.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleBridges\SampleBridges.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleBridges\SampleBridgesCCT.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleBridges\SampleBridges.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBridges\SampleBridgesInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleBridges\SampleBridgesSettings.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterClothCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterClothFlag.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterClothJump.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_CCT.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_ClothController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_FilterShader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_Main.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_Platform.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_PlatformBuilder.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCharacterCloth\SampleCharacterCloth_TerrainBuilder.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterCloth.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothFlag.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothJump.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothPlatform.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCharacterCloth\SampleCharacterClothSettings.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicleDebugRender.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicleTerrain.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_CameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_ControlInputs.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_GameLogic.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_SceneQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_VehicleController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_VehicleCooking.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_VehicleManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleVehicle\SampleVehicle_WheelQueryResults.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicleInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_CameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_ControlInputs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_GameLogic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_SceneQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_VehicleController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_VehicleCooking.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_VehicleManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleVehicle\SampleVehicle_WheelQueryResults.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleParticles\SampleParticles.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleParticles\SampleParticles.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleParticles\SampleParticlesInputEventIds.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleSubmarine\Crab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleSubmarine\SampleSubmarine.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleSubmarine\Crab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleSubmarine\SampleSubmarine.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleSubmarine\SampleSubmarineInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleSubmarine\SubmarineCameraController.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPole.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPoleBuilder.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPoleCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPoleCCT.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPoleDynamics.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleNorthPole\SampleNorthPoleFilterShader.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleNorthPole\SampleNorthPole.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleNorthPole\SampleNorthPoleCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleNorthPole\SampleNorthPoleInputEventIds.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleCustomGravity\Planet.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCustomGravity\SampleCustomGravity.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCustomGravity\SampleCustomGravityBuilder.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCustomGravity\SampleCustomGravityCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCustomGravity\SampleCustomGravityFilterShader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCustomGravity\SampleCustomGravity_CCT.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleCustomGravity\Planet.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCustomGravity\SampleCustomGravity.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCustomGravity\SampleCustomGravityCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCustomGravity\SampleCustomGravityInputEventIds.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleLargeWorld\ChunkLoader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleLargeWorld\MeshBuilder.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleLargeWorld\SampleLargeWorld.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleLargeWorld\SampleLargeWorldCCT.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleLargeWorld\ChunkLoader.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleLargeWorld\MeshBuilder.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleLargeWorld\SampleLargeWorld.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleLargeWorld\SampleLargeWorldInputEventIds.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleCCTSharedCode\KinematicPlatform.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCCTSharedCode\SampleCCTActor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCCTSharedCode\SampleCCTCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\SampleCCTSharedCode\SampleCCTJump.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\SampleCCTSharedCode\KinematicPlatform.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCCTSharedCode\SampleCCTActor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCCTSharedCode\SampleCCTCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\SampleCCTSharedCode\SampleCCTJump.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./SampleBase.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../PxToolkit/compiler/vc12win64/PxToolkit.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

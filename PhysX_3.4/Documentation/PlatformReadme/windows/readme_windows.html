@@ -1,0 +1,62 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>ReadMe Windows</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for Windows ReadMe</h1>
+
+<blockquote>
+	<h4>Location of win32 and win64 Binaries:</h4>
+	<ul>
+		<li>SDK DLLs: Bin/</li>
+		<li>SDK LIBs: Lib/</li>
+		<li>NVTX Profiler DLLs: Bin/</li>
+		<li>PhysX Device DLLs: Bin/</li>
+	</ul>
+
+	<h4>Building SDK Source with Visual Studio:</h4>
+	<ul>
+		<li>Visual Studio Solutions are in Source/compiler/</li>
+	</ul>
+
+	<h4>Building Samples with Visual Studio:</h4>
+	<ul>
+		<li>Visual Studio Solutions are in Samples/compiler/</li>
+	</ul>
+
+	<h4>Required packages for building and running the Samples:</h4>
+	<ul>
+		<li>PhysX SDK: build as described above.</li>
+		<li>Microsoft DirectX SDK June 2010 or later</li>
+	</ul>
+
+	<h4>Building Snippets with Visual Studio:</h4>
+	<ul>
+		<li>Visual Studio Solutions are in Snippets/compiler/</li>
+		<li>It's required to build the PhysX SDK prior to building Snippets, as described above.</li>
+	</ul>
+
+	<h4>Nsight Profiling Events</h4>
+	<ul>
+		<li>All builds excpet the Release build of the SDK emits also NVTX (Nsight) events of the SDK profile zones. Therefore you need the profiler DLLs from Bin/(win32|win64) in your application's working directory.</li>
+		<li>SDK Source owners can disable this for all builds by removing PX_NVTX from the Visual Studio projects.</li>
+	</ul>
+
+	<h4>Notes:</h4>
+	<ul>
+		<li>The PhysXDevice/64.dll must be redistributed with GPU-enabled applications, and must live in the application directory.</li>
+		<li>The PhysXCommon/64.dll, nvcuda.dll and PhysXUpdateLoader/64.dll are loaded and checked for the NVIDIA Corporation digital signature. The signature is expected on all NVIDIA Corporation provided dlls. The application will exit if the signature check failed.</li>
+	</ul>
+
+</blockquote>
+
+<p><br>
+Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>
+</html>

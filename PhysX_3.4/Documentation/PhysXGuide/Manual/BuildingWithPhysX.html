@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Building with PhysX &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="The PhysX API" href="API.html" />
+    <link rel="prev" title="Snippets" href="HelloWorld.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="API.html" title="The PhysX API"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="HelloWorld.html" title="Snippets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="building-with-physx">
+<span id="id1"></span><h1>Building with PhysX<a class="headerlink" href="#building-with-physx" title="Permalink to this headline">¶</a></h1>
+<p>On Windows, PhysX requires Visual Studio 2013 or later versions.</p>
+<div class="section" id="build-settings">
+<h2>Build Settings<a class="headerlink" href="#build-settings" title="Permalink to this headline">¶</a></h2>
+<p>The PhysX headers should compile cleanly at the highest typical warning levels (/W4 for Visual Studio, -Wall -Wextra -pedantic for gcc- and clang-based compilers.) Stricter warning settings may result in a small number of benign informational warnins.</p>
+<p>The PhysX source projects and snippets will compile cleanly using the project files or makefiles supplied.</p>
+</div>
+<div class="section" id="build-configurations">
+<h2>Build Configurations<a class="headerlink" href="#build-configurations" title="Permalink to this headline">¶</a></h2>
+<p>The SDK has four build configurations available, designed for different stages of development and deployment.</p>
+<ul class="simple">
+<li>the <em>debug</em> build can be useful for error analysis, but contains asserts used for SDK development which some customers may find too intrusive for daily use. Optimizations are turned off for this configuration.</li>
+<li>the <em>checked</em> build contains code to detect invalid parameters, API race conditions, and other incorrect uses of the API which might otherwise cause mysterious crashes or failures in simulation.</li>
+<li>the <em>profile</em> build omits the checks, but still has PVD and memory instrumentation.</li>
+<li>the <em>release</em> build is built for minimal footprint and maximum speed. It omits most checks and instrumentation.</li>
+</ul>
+<p>Simulation works the same way in all of them, and all are compiled with high optimization levels (except debug configuration).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We strongly recommend that you use the checked build as the primary configuration for day-to-day development and QA.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">PhysX libraries of different build configurations (e.g. the DEBUG version of PhysXVehicle and the CHECKED version of PhysXVisualDebuggerSDK) should never be mixed in an application because this will result a CRT conflict.</p>
+</div>
+</div>
+<div class="section" id="header-files">
+<span id="id2"></span><h2>Header Files<a class="headerlink" href="#header-files" title="Permalink to this headline">¶</a></h2>
+<p>To build your own PhysX app, you will need to add some include paths and libraries to your project makefile or IDE.</p>
+<p>Users should specify the root &quot;Include&quot; and &quot;Lib&quot; folders in the additional include, and library directories respectively. There is a combined include header available as:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &quot;PxPhysicsAPI.h&quot;</span>
+</pre></div>
+</div>
+<p>This will include the entire PhysX API including core, extensions, vehicles, etc. It is also possible to include subsets of the SDK if preferred, for example:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &quot;vehicle/PxVehicleSDK.h&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="libraries">
+<span id="id3"></span><h2>Libraries<a class="headerlink" href="#libraries" title="Permalink to this headline">¶</a></h2>
+<p>At a minimum, applications need to link against the following libraries with the appropriate platform extension (e.g. &quot;.lib&quot; or &quot;.a&quot;) and with * being a x86 or x64 for Windows platforms:</p>
+<ul class="simple">
+<li>PhysX3_*.lib</li>
+<li>PhysX3Common_*.lib</li>
+<li>PxFoundation_*.lib</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The static libraries we provide with the Windows binary distribution are linked against the Multi-Threaded static C Run-Time (CRT) libraries.  This means that your application must also use the same CRT flavor.  If you need to use a different CRT version, you must upgrade to our source license.  The source distribution can simply be recompiled using different CRT settings.</p>
+</div>
+</div>
+<div class="section" id="redistribution">
+<span id="id4"></span><h2>Redistribution<a class="headerlink" href="#redistribution" title="Permalink to this headline">¶</a></h2>
+<p>On the Windows platform, you need to redistribute some of our DLLs to end users as part of your application:</p>
+<ul class="simple">
+<li>PhysX3Common_*.dll               - will always be needed.</li>
+<li>PhysX3_*.dll                     - will always be needed.</li>
+<li>PxFoundation_*.dll               - will always be needed.</li>
+<li>PhysX3Cooking_*.dll              - you only need to bundle if your application cooks geometry data on the fly.</li>
+<li>PhysX3GPU_*.dll                  - is only needed if your application runs some simulation on the GPU.</li>
+<li>PhysX3CharacterKinematic_*.dll   - is only needed if your application uses the character controller.</li>
+<li>PxPvdSDK_*.dll                   - is only needed if your application uses PVD.</li>
+</ul>
+<p>Where * is a platform specific suffix, e.g. x86 or x64.  You will need one or the other depending on whether your application is built in 64 bit mode.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Building with PhysX</a><ul>
+<li><a class="reference internal" href="#build-settings">Build Settings</a></li>
+<li><a class="reference internal" href="#build-configurations">Build Configurations</a></li>
+<li><a class="reference internal" href="#header-files">Header Files</a></li>
+<li><a class="reference internal" href="#libraries">Libraries</a></li>
+<li><a class="reference internal" href="#redistribution">Redistribution</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="HelloWorld.html"
+                        title="previous chapter">Snippets</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="API.html"
+                        title="next chapter">The PhysX API</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="API.html" title="The PhysX API"
+             >next</a></li>
+        <li class="right" >
+          <a href="HelloWorld.html" title="Snippets"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

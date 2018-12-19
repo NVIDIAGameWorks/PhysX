@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="resource">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+			<Filter>resource</Filter>
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\neon">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4f.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimd4i.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\neon\NvNeonSimdTypes.h">
+			<Filter>Clothing\src\simd\neon</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\scalar">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4f.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimd4i.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\scalar\NvScalarSimdTypes.h">
+			<Filter>Clothing\src\simd\scalar</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\simd\sse2">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4f.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2Simd4i.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\sse2\NvSse2SimdTypes.h">
+			<Filter>Clothing\src\simd\sse2</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4f.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimd4i.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\src\simd\NvSimdTypes.h">
+			<Filter>Clothing\src\simd</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingActorParam.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingAssetParameters.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingCookedParam.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingCookedPhysX3Param.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingDebugRenderParams.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingGraphicalLodParameters.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingMaterialLibraryParameters.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingModuleParameters.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingPhysicalMeshParameters.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\autogen\ClothingPreviewParam.cpp">
+			<Filter>Clothing\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorData.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingActorTasks.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetAuthoringImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetData.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingAssetImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingCollisionImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingCooking.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingPhysicalMeshImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingRenderProxyImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ClothingScene.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\CookingAbstract.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ModuleClothingHelpers.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\ModuleClothingImpl.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\SimdMath.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\src\SimulationAbstract.cpp">
+			<Filter>Clothing\src</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\module\clothing\src\SimdMath.h">
+			<Filter>Clothing\src</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Clothing\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingActorParam.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingAssetParameters.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingCookedParam.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingCookedPhysX3Param.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingDebugRenderParams.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingGraphicalLodParameters.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingMaterialLibraryParameters.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingModuleParameters.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingPhysicalMeshParameters.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ClothingPreviewParam.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\autogen\ModuleClothingRegistration.h">
+			<Filter>Clothing\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\include\AbstractMeshDescription.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorData.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorProxy.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingActorTasks.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetAuthoringImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetData.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingAssetImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingCollisionImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingCooking.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingGlobals.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingPhysicalMeshImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingPreviewProxy.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingRenderProxyImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothingScene.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ClothStructs.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\Cooking.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\CookingAbstract.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\CookingPhysX.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleClothingHelpers.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleClothingImpl.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModuleEventDefs.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\ModulePerfScope.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\Simulation.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\include\SimulationAbstract.h">
+			<Filter>Clothing\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\clothing\ClothingActor.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingAsset.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingAssetAuthoring.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingCollision.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingPhysicalMesh.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingPreview.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingRenderProxy.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ClothingVelocityCallback.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\clothing\ModuleClothing.h">
+			<Filter>Clothing</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common\src\ModuleProfileCommon.cpp">
+			<Filter>Module Common\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Module Common\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common\include\ModuleProfileCommon.h">
+			<Filter>Module Common\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="embedded">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="embedded\LowLevelCloth">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="embedded\LowLevelCloth\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Cloth.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Fabric.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Factory.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\PhaseConfig.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Range.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Solver.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\include\Types.h">
+			<Filter>embedded\LowLevelCloth\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="embedded\LowLevelCloth\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Allocator.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Array.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\BoundingBox.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\ClothBase.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\ClothImpl.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\IndexPair.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\IterationState.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\MovingAverage.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\PointInterpolator.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Simd4f.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Simd4i.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SimdTypes.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\StackAllocator.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCloth.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwClothData.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollision.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollisionHelpers.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFabric.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFactory.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwInterCollision.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSelfCollision.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolver.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolverKernel.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\TripletScheduler.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\LowLevelCloth\src\Vec4T.h">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClInclude>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\Allocator.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\Factory.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\PhaseConfig.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCloth.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwClothData.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwCollision.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFabric.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwFactory.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwInterCollision.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSelfCollision.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolver.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\SwSolverKernel.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\LowLevelCloth\src\TripletScheduler.cpp">
+			<Filter>embedded\LowLevelCloth\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing\embedded\CmPhysXCommon.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\CmTask.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothConfig.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothCoreUtilityTypes.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothFabricCooker.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothMeshQuadifier.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\ExtClothTetherCooker.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothFabric.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothMeshDesc.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing\embedded\PxClothTypes.h">
+			<Filter>embedded</Filter>
+		</ClInclude>
+		<ClCompile Include="..\..\module\clothing\embedded\Cooking.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothFabricCooker.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothGeodesicTetherCooker.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothMeshQuadifier.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\ExtClothSimpleTetherCooker.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing\embedded\Simulation.cpp">
+			<Filter>embedded</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="embedded avx">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<CustomBuild Include="..\..\module\clothing\embedded\LowLevelCloth\src\avx\SwSolveConstraints.cpp">
+			<Filter>embedded avx</Filter>
+		</CustomBuild>
+	</ItemGroup>
+</Project>

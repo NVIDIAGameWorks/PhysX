@@ -1,0 +1,68 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for Linux ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for Linux ReadMe</h1>
+
+<blockquote>
+	<h4>Location of 32 and 64 bit Binaries:</h4>
+	<ul>
+		<li>SDK static libraries: Lib/</li>
+		<li>SDK dynamic libraries: Bin/</li>
+	</ul>	
+	
+	<h4>Building Source with the Shipped Makefiles:</h4>
+	<ul>
+		<li>Makefiles are in SDKs/compiler/</li>
+		<li>Clean solution: make clean</li>
+		<li>Build all configurations: make</li>
+		<li>Build specific configuration: make (debug|checked|profile|release)</li>
+   </ul>
+	    
+	<h4>Building Snippets with the Shipped Makefiles:</h4>
+	<ul>
+		<li>Makefiles are in Snippets/compiler/</li>
+		<li>Clean solution: make clean</li>
+		<li>Build all configurations and snippets: make</li>
+		<li>Parallel builds with -j[x] may fail.</li>
+		<li>Build specific configuration of all snippets: make (debug|checked|profile|release)</li>
+		<li>The resulting executables can be found in Bin/</li>
+	</ul>
+	
+	<h4>Required Packages for Building and Running the Snippets:</h4>
+	<ul>
+		<li>PhysX SDK: build as described above.</li>
+		<li>libxxf86vm-dev</li>
+		<li>libgl1-mesa-dev</li>
+		<li>libglu1-mesa-dev</li>
+		<li>libglut</li>
+		<li>gcc-multilib</li>
+		<li>g++-multilib</li>
+		<li>ia32-libs</li>
+		<li>freeglut3-dev</li>
+		<li>CUDA 8.0 compatible display drivers to run with GPU PhysX acceleration.</li>
+	</ul>
+	<h4>Changes and Resolved Issues</h3>
+	<ul>
+		<li>Added GPU PhysX support. Requires CUDA 8.0 Toolkit and CUDA capabale hardware.</li>
+	</ul>
+	
+	<h4>How to select the PhysX GPU Device:</h4>
+	<ul>
+		<li>Set the environment variable PHYSX_GPU_DEVICE to the device ordinal on which GPU PhysX should run. Default is 0.
+		<br><i>Example: </i>export PHYSX_GPU_DEVICE="1"</li>
+	</ul>
+	
+</blockquote>
+
+<p><br>
+Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>       
+</html>

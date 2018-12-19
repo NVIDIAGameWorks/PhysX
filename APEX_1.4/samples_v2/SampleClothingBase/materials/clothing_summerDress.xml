@@ -1,0 +1,4 @@
+<material>
+	<shader>clothing_asset_skinned</shader>
+	<shader>clothing_asset_static</shader>
+</material>

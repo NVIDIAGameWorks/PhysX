@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Debug Visualization &mdash; NVIDIA PhysX SDK 3.4.2 Documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nvidia.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/breathe.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NVIDIA PhysX SDK 3.4.2 Documentation" href="../index.html" />
+    <link rel="up" title="User&#39;s Guide" href="Index.html" />
+    <link rel="next" title="PhysX Visual Debugger (PVD)" href="VisualDebugger.html" />
+    <link rel="prev" title="Cloth (deprecated)" href="Cloth.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="VisualDebugger.html" title="PhysX Visual Debugger (PVD)"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="Cloth.html" title="Cloth (deprecated)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" accesskey="U">User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="debug-visualization">
+<span id="debugvisualization"></span><h1>Debug Visualization<a class="headerlink" href="#debug-visualization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>With the PhysX Visual Debugger (see <a class="reference internal" href="VisualDebugger.html#physxvisualdebugger"><em>PhysX Visual Debugger (PVD)</em></a>), NVIDIA offers a tool to record information about simulated PhysX scenes and visualize that information in a remote viewer application. However, sometimes it is preferable to integrate visual debug information directly into the application's view. For that purpose, PhysX provides an interface to extract visual debug information as a set of basic rendering primitives, that is, points, lines, triangles and text. These primitives can then be rendered and overlayed with the application render objects.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>To enable debug visualization, the global visualization scale has to be set to a positive value first:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxScene</span><span class="o">*</span> <span class="n">scene</span> <span class="o">=</span> <span class="p">...</span>
+<span class="n">scene</span><span class="o">-&gt;</span><span class="n">setVisualizationParameter</span><span class="p">(</span><span class="n">PxVisualizationParameter</span><span class="o">::</span><span class="n">eSCALE</span><span class="p">,</span> <span class="mf">1.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then the individual properties that should be visualized can be enabled using, again, a positive value:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">scene</span><span class="o">-&gt;</span><span class="n">setVisualizationParameter</span><span class="p">(</span><span class="n">PxVisualizationParameter</span><span class="o">::</span><span class="n">eACTOR_AXES</span><span class="p">,</span> <span class="mf">2.0f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In the example, the actor world axes will be visualized. The scale used for visualization will be the product of the global scale (1.0 in this example) and the property scale (2.0 in this example). Please note that for some properties the scale factor does not apply: shape geometry, for example, will not be scaled since the size is defined by the user application. Furthermore, for some objects, visualization has to be enabled explicitly on the corresponding object instances too (see <em>PxActorFlag::eVISUALIZATION</em>, <em>PxShapeFlag::eVISUALIZATION</em>, ...).</p>
+<p>After a simulation step, the visualization primitives can then be extracted as follows:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">const</span> <span class="n">PxRenderBuffer</span><span class="o">&amp;</span> <span class="n">rb</span> <span class="o">=</span> <span class="n">scene</span><span class="o">-&gt;</span><span class="n">getRenderBuffer</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="n">PxU32</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rb</span><span class="p">.</span><span class="n">getNbLines</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="n">PxDebugLine</span><span class="o">&amp;</span> <span class="n">line</span> <span class="o">=</span> <span class="n">rb</span><span class="p">.</span><span class="n">getLines</span><span class="p">()[</span><span class="n">i</span><span class="p">];</span>
+    <span class="c1">// render the line</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not extract render primitives while the simulation is running.</p>
+</div>
+<p>The amount of debug visualization data might be too vast to create efficiently for large scenes. In cases where only a localized area is of interest, there is the option to use a culling box for debug visualization via <em>PxScene::setVisualizationCullingBox()</em>.</p>
+<p>Note that simply enabling debug visualization (PxVisualizationParameter::eSCALE) can have a significant performance impact, even when all the other individual visualization flags are disabled. Thus, make sure debug visualization is disabled in your final/release builds.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Debug Visualization</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Cloth.html"
+                        title="previous chapter">Cloth (deprecated)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="VisualDebugger.html"
+                        title="next chapter">PhysX Visual Debugger (PVD)</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="VisualDebugger.html" title="PhysX Visual Debugger (PVD)"
+             >next</a></li>
+        <li class="right" >
+          <a href="Cloth.html" title="Cloth (deprecated)"
+             >previous</a> |</li>
+        <li><a href="../Index.html">NVIDIA PhysX SDK 3.4.2 Documentation</a> &raquo;</li>
+          <li><a href="Index.html" >User's Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved.
+    </div>
+  </body>
+</html>

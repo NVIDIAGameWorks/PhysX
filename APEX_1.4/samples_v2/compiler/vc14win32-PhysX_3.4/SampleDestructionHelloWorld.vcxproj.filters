@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Source Files">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\SampleDestructionHelloWorld\Main.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleDestructionHelloWorld\SampleSceneController.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\SampleDestructionHelloWorld\SampleUIController.cpp">
+			<Filter>Source Files</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\SampleDestructionHelloWorld\SampleSceneController.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\SampleDestructionHelloWorld\SampleUIController.h">
+			<Filter>Source Files</Filter>
+		</ClInclude>
+	</ItemGroup>
+</Project>

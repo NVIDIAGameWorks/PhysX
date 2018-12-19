@@ -1,0 +1,25 @@
+#include <config.cg>
+#include <globals.cg>
+
+struct VertexOut
+{
+	float4 screenSpacePosition : POSITION;
+	float3 worldSpacePosition : TEXCOORD1;
+	float3 worldSpaceNormal : TEXCOORD2;
+	half4 color              	: COLOR;
+};
+
+VertexOut  vmain(__in(float4,     localSpacePosition, POSITION)
+				 __in_opt(float3,  localSpaceNormal,   NORMAL)
+                 __in_opt(half4,  		vertexColor,        COLOR))
+{
+	VertexOut vout;
+	float4x4 vpm = mul(g_projMatrix, g_viewMatrix);
+	vout.screenSpacePosition = mul(vpm, localSpacePosition);
+	vout.screenSpacePosition.z -= 0.005; // hack to avoid z-fighting
+	vout.worldSpaceNormal   = localSpaceNormal;
+	vout.worldSpacePosition = localSpacePosition.xyz;
+	vout.color = vertexColor;
+
+	return vout;
+}

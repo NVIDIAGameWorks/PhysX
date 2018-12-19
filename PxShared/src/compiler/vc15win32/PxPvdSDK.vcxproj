@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|Win32">
+			<Configuration>debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|Win32">
+			<Configuration>release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|Win32">
+			<Configuration>checked</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|Win32">
+			<Configuration>profile</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{D4255C0E-3C6E-8A94-959C-54BAC884B25C}</ProjectGuid>
+		<RootNamespace>PxPvdSDK</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'" Label="Configuration">
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<OutDir>./../../../bin/vc15win32\</OutDir>
+		<IntDir>./Win32/PxPvdSDK/debug\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxPvdSDKDEBUG_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /wd4548 /Zi /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;_DEBUG;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/DELAYLOAD:PxFoundationDEBUG_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxPvdSDKDEBUG_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc15win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<OutDir>./../../../bin/vc15win32\</OutDir>
+		<IntDir>./Win32/PxPvdSDK/release\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxPvdSDK_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /wd4548 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/INCREMENTAL:NO /DELAYLOAD:PxFoundation_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxPvdSDK_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc15win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<OutDir>./../../../bin/vc15win32\</OutDir>
+		<IntDir>./Win32/PxPvdSDK/checked\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxPvdSDKCHECKED_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /wd4548 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;PX_CHECKED=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/DELAYLOAD:PxFoundationCHECKED_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxPvdSDKCHECKED_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc15win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<OutDir>./../../../bin/vc15win32\</OutDir>
+		<IntDir>./Win32/PxPvdSDK/profile\</IntDir>
+		<TargetExt>.dll</TargetExt>
+		<TargetName>PxPvdSDKPROFILE_x86</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+		<SkipCopyingSymbolsToOutputDirectory>true</SkipCopyingSymbolsToOutputDirectory>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|Win32'">
+		<ClCompile>
+			<TreatWarningAsError>true</TreatWarningAsError>
+			<BufferSecurityCheck>false</BufferSecurityCheck>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/GR- /GF /arch:SSE2 /MP /Wall /wd4514 /wd4820 /wd4127 /wd4710 /wd4711 /wd4577 /wd4464 /wd4623 /wd4626 /wd5027 /wd4987 /wd4435 /wd5045 /wd4548 /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../include;./../../pvd/include;./../../foundation/include;./../../filebuf/include;./../../../../Externals/nvToolsExt/1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;PX_PVDSDK_DLL=1;PX_FOUNDATION_DLL=1;NDEBUG;PX_PROFILE=1;PX_NVTX=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level4</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<ProgramDataBaseFileName>$(TargetDir)\$(TargetName).pdb</ProgramDataBaseFileName>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalOptions>/INCREMENTAL:NO /DELAYLOAD:PxFoundationPROFILE_x86.dll</AdditionalOptions>
+			<AdditionalDependencies>./../../../../Externals/nvToolsExt/1/lib/Win32/nvToolsExt32_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)PxPvdSDKPROFILE_x86.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/vc15win32/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource_x86\PxPvdSDK.rc">
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\include\pvd\windows\PxWindowsPvdDelayLoadHook.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\include\pvd\PxPvd.h">
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\pvd\PxPvdTransport.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\pvd\include\PsPvd.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxProfileAllocatorWrapper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdDataStream.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdDataStreamHelpers.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdErrorCodes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdObjectModelBaseTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdRenderBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\include\PxPvdUserRenderer.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\pvd\src\windows\PxWindowsPvdDelayLoadHook.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\pvd\src\PxProfileEventImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvd.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdDataStream.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdDefaultFileTransport.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdDefaultSocketTransport.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdImpl.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdMemClient.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdObjectModelMetaData.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdObjectRegistrar.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdProfileZoneClient.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\pvd\src\PxPvdUserRenderer.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\pvd\src\PxProfileBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileCompileTimeEventFilter.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileContextProvider.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileContextProviderImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileDataBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileDataParsing.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventBufferAtomic.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventBufferClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventBufferClientManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventFilter.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventHandler.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventId.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventMutex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventNames.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventParser.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEvents.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventSender.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventSerialization.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileEventSystem.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemory.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventBuffer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventParser.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventRecorder.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventReflexiveWriter.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEvents.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventSummarizer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileMemoryEventTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileScopedEvent.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileScopedMutexLock.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileZone.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileZoneImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileZoneManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxProfileZoneManagerImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdBits.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdByteStreams.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdCommStreamEvents.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdCommStreamEventSink.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdCommStreamSDKEventTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdCommStreamTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdDefaultFileTransport.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdDefaultSocketTransport.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdFoundation.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdInternalByteStreams.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdMarshalling.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdMemClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdObjectModel.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdObjectModelInternalTypeDefs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdObjectModelInternalTypes.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdObjectModelMetaData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdObjectRegistrar.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdProfileZoneClient.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdUserRenderImpl.h">
+		</ClInclude>
+		<ClInclude Include="..\..\pvd\src\PxPvdUserRenderTypes.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./PxFoundation.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

@@ -1,0 +1,20 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry_fog.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 diffuseTextureColor = (half4)tex2D(diffuseTexture, params.texcoord0.xy);
+
+	SurfaceMaterial mout;
+	mout.diffuseColor       = diffuseTextureColor.rgb;
+	mout.alpha              = diffuseTextureColor.a;
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(0.2,0.2,0.2); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+
+	return mout;
+}

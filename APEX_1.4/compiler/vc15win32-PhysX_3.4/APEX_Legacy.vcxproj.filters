@@ -1,0 +1,1737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="resource">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="..\resource\apex.rc">
+			<Filter>resource</Filter>
+		</ResourceCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleDestructibleLegacy">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleDestructibleLegacy\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleDestructibleLegacy\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\CachedOverlaps_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\CachedOverlaps_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorChunks_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p10.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p11.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p12.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p13.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p14.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p15.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p16.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p17.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p18.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p19.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p20.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p21.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p22.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p23.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p24.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p25.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p26.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p27.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p28.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p29.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p30.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p31.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p32.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p5.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p6.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p7.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p8.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorParam_0p9.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleActorState_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetCollisionDataSet_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p10.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p11.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p12.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p13.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p14.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p15.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p16.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p17.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p18.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p19.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p20.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p21.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p22.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p23.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p24.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p25.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p26.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p5.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p6.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p7.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p8.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleAssetParameters_0p9.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleDebugRenderParams_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructibleModuleParameters_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\DestructiblePreviewParam_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\MeshCookedCollisionStreamsAtScale_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\MeshCookedCollisionStream_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\ModuleDestructibleLegacyRegistration.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceParameters_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p0.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\autogen\SurfaceTraceSetParameters_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionCachedOverlaps_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p10_0p11.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p11_0p12.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p12_0p13.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p13_0p14.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p14_0p15.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p15_0p16.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p16_0p17.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p17_0p18.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p18_0p19.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p19_0p20.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p1_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p20_0p21.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p21_0p22.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p22_0p23.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p23_0p24.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p24_0p25.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p25_0p26.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p26_0p27.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p27_0p28.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p28_0p29.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p29_0p30.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p2_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p30_0p31.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p31_0p32.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p3_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p4_0p5.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p5_0p6.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p6_0p7.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p7_0p8.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p8_0p9.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorParam_0p9_0p10.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p1_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p2_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleActorState_0p3_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p10_0p11.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p11_0p12.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p12_0p13.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p13_0p14.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p14_0p15.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p15_0p16.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p16_0p17.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p17_0p18.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p18_0p19.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p19_0p20.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p1_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p20_0p21.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p21_0p22.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p22_0p23.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p23_0p24.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p24_0p25.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p25_0p26.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p2_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p3_0p4.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p4_0p5.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p5_0p6.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p6_0p7.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p7_0p8.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p8_0p9.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleAssetParameters_0p9_0p10.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p1_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionDestructibleModuleParameters_0p2_0p3.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionSurfaceTraceSetParameters_0p0_0p1.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\destructible_legacy\include\ConversionSurfaceTraceSetParameters_0p1_0p2.h">
+			<Filter>ModuleDestructibleLegacy\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleDestructibleLegacy\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleDestructibleLegacy\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\CachedOverlaps_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\CachedOverlaps_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorChunks_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p10.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p11.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p12.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p13.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p14.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p15.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p16.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p17.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p18.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p19.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p2.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p20.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p21.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p22.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p23.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p24.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p25.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p26.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p27.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p28.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p29.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p3.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p30.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p31.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p32.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p4.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p5.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p6.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p7.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p8.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorParam_0p9.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p2.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p3.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleActorState_0p4.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetCollisionDataSet_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p10.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p11.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p12.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p13.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p14.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p15.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p16.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p17.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p18.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p19.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p2.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p20.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p21.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p22.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p23.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p24.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p25.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p26.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p3.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p4.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p5.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p6.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p7.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p8.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleAssetParameters_0p9.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleDebugRenderParams_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p2.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructibleModuleParameters_0p3.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\DestructiblePreviewParam_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\MeshCookedCollisionStreamsAtScale_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\MeshCookedCollisionStream_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\ModuleDestructibleLegacy.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceParameters_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p0.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p1.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\destructible_legacy\src\autogen\SurfaceTraceSetParameters_0p2.cpp">
+			<Filter>ModuleDestructibleLegacy\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleFrameworkLegacy">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleFrameworkLegacy\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleFrameworkLegacy\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x1_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x2_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x3_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x4_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferF32x4_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x1_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x2_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x3_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU16x4_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x1_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x2_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x3_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU32x4_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x1_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x2_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x3_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\BufferU8x4_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\ModuleFrameworkLegacyRegistration.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\RenderMeshAssetParameters_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SubmeshParameters_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SubmeshParameters_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\SurfaceBufferParameters_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexBufferParameters_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexBufferParameters_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\autogen\VertexFormatParameters_0p0.h">
+			<Filter>ModuleFrameworkLegacy\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionBufferF32x4_0p0_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionSubmeshParameters_0p0_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\framework_legacy\include\ConversionVertexBufferParameters_0p0_0p1.h">
+			<Filter>ModuleFrameworkLegacy\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleFrameworkLegacy\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleFrameworkLegacy\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x1_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x2_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x3_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x4_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferF32x4_0p1.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x1_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x2_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x3_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU16x4_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x1_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x2_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x3_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU32x4_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x1_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x2_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x3_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\BufferU8x4_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\ModuleFrameworkLegacy.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\RenderMeshAssetParameters_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SubmeshParameters_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SubmeshParameters_0p1.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\SurfaceBufferParameters_0p1.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexBufferParameters_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexBufferParameters_0p1.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\framework_legacy\src\autogen\VertexFormatParameters_0p0.cpp">
+			<Filter>ModuleFrameworkLegacy\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleClothingLegacy">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleClothingLegacy\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleClothingLegacy\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p10.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p11.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p12.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p13.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p14.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p15.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p16.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p17.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p18.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p6.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p7.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p8.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingActorParam_0p9.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p10.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p11.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p12.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p13.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p14.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p6.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p7.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p8.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingAssetParameters_0p9.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedParam_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingCookedPhysX3Param_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingDebugRenderParams_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingGraphicalLodParameters_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p10.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p11.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p12.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p13.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p14.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p6.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p7.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p8.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingMaterialLibraryParameters_0p9.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingModuleParameters_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p1.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p10.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p11.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p2.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p3.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p4.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p5.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p6.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p7.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p8.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPhysicalMeshParameters_0p9.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ClothingPreviewParam_0p0.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\autogen\ModuleClothingLegacyRegistration.h">
+			<Filter>ModuleClothingLegacy\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p10_0p11.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p11_0p12.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p12_0p13.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p13_0p14.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p14_0p15.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p15_0p16.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p16_0p17.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p17_0p18.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p5_0p6.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p6_0p7.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p7_0p8.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p8_0p9.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingActorParam_0p9_0p10.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p10_0p11.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p11_0p12.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p12_0p13.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p13_0p14.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p5_0p6.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p6_0p7.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p7_0p8.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p8_0p9.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingAssetParameters_0p9_0p10.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedParam_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingCookedPhysX3Param_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingGraphicalLodParameters_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p10_0p11.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p11_0p12.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p12_0p13.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p13_0p14.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p5_0p6.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p6_0p7.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p7_0p8.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p8_0p9.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingMaterialLibraryParameters_0p9_0p10.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p0_0p1.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p10_0p11.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p1_0p2.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p2_0p3.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p3_0p4.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p4_0p5.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p5_0p6.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p6_0p7.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p7_0p8.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p8_0p9.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\clothing_legacy\include\ConversionClothingPhysicalMeshParameters_0p9_0p10.h">
+			<Filter>ModuleClothingLegacy\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleClothingLegacy\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleClothingLegacy\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p10.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p11.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p12.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p13.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p14.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p15.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p16.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p17.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p18.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p6.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p7.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p8.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingActorParam_0p9.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p10.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p11.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p12.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p13.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p14.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p6.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p7.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p8.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingAssetParameters_0p9.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedParam_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingCookedPhysX3Param_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingDebugRenderParams_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingGraphicalLodParameters_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p10.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p11.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p12.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p13.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p14.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p6.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p7.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p8.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingMaterialLibraryParameters_0p9.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingModuleParameters_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p1.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p10.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p11.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p2.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p3.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p4.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p5.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p6.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p7.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p8.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPhysicalMeshParameters_0p9.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ClothingPreviewParam_0p0.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\clothing_legacy\src\autogen\ModuleClothingLegacy.cpp">
+			<Filter>ModuleClothingLegacy\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleCommonLegacy">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleCommonLegacy\include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleCommonLegacy\include\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ConvexHullParameters_0p0.h">
+			<Filter>ModuleCommonLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ConvexHullParameters_0p1.h">
+			<Filter>ModuleCommonLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\DebugColorParams_0p0.h">
+			<Filter>ModuleCommonLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\DebugRenderParams_0p1.h">
+			<Filter>ModuleCommonLegacy\include\autogen</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\module\common_legacy\include\autogen\ModuleCommonLegacyRegistration.h">
+			<Filter>ModuleCommonLegacy\include\autogen</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\module\common_legacy\include\ConversionConvexHullParameters_0p0_0p1.h">
+			<Filter>ModuleCommonLegacy\include</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleCommonLegacy\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="ModuleCommonLegacy\src\autogen">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ConvexHullParameters_0p0.cpp">
+			<Filter>ModuleCommonLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ConvexHullParameters_0p1.cpp">
+			<Filter>ModuleCommonLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\DebugColorParams_0p0.cpp">
+			<Filter>ModuleCommonLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\DebugRenderParams_0p1.cpp">
+			<Filter>ModuleCommonLegacy\src\autogen</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\module\common_legacy\src\autogen\ModuleCommonLegacy.cpp">
+			<Filter>ModuleCommonLegacy\src\autogen</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Legacy">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Legacy\src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\module\legacy\src\ModuleLegacy.cpp">
+			<Filter>Legacy\src</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\legacy\ModuleIofxLegacy.h">
+			<Filter>Legacy</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\legacy\ModuleLegacy.h">
+			<Filter>Legacy</Filter>
+		</ClInclude>
+	</ItemGroup>
+</Project>

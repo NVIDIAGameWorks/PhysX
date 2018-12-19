@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{FC74E64C-DEA4-2352-C400-6D085370D268}</ProjectGuid>
+		<RootNamespace>Px3-SampleViewer</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v140</PlatformToolset>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../bin/VC14WIN64-PhysX_3.4\</OutDir>
+		<IntDir>./x64/Px3-SampleViewer/debug\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;_DEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3DEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3VehicleDEBUG.lib;PhysX3ExtensionsDEBUG.lib;PxTaskDEBUG_x64.lib;PxPvdSDKDEBUG_x64.lib;PxFoundationDEBUG_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC14WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC14WIN64;./../../../lib/VC14WIN64;./../../../../PxShared/lib/VC14WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC14WIN64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC14WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC14WIN64 ..\..\..\bin\VC14WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC14WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../bin/VC14WIN64-PhysX_3.4\</OutDir>
+		<IntDir>./x64/Px3-SampleViewer/release\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3_x64.lib;PhysX3Cooking_x64.lib;PhysX3Common_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Vehicle.lib;PhysX3Extensions.lib;PxTask_x64.lib;PxPvdSDK_x64.lib;PxFoundation_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC14WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC14WIN64;./../../../lib/VC14WIN64;./../../../../PxShared/lib/VC14WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC14WIN64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC14WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC14WIN64 ..\..\..\bin\VC14WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC14WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../bin/VC14WIN64-PhysX_3.4\</OutDir>
+		<IntDir>./x64/Px3-SampleViewer/checked\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3CHECKED_x64.lib;PhysX3CookingCHECKED_x64.lib;PhysX3CommonCHECKED_x64.lib;PhysX3CharacterKinematicCHECKED_x64.lib;PhysX3VehicleCHECKED.lib;PhysX3ExtensionsCHECKED.lib;PxTaskCHECKED_x64.lib;PxPvdSDKCHECKED_x64.lib;PxFoundationCHECKED_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC14WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC14WIN64;./../../../lib/VC14WIN64;./../../../../PxShared/lib/VC14WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC14WIN64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC14WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC14WIN64 ..\..\..\bin\VC14WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC14WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../bin/VC14WIN64-PhysX_3.4\</OutDir>
+		<IntDir>./x64/Px3-SampleViewer/profile\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<StringPooling>true</StringPooling>
+			<FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+			<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+			<RuntimeTypeInfo>false</RuntimeTypeInfo>
+			<FloatingPointModel>Fast</FloatingPointModel>
+			<AdditionalOptions>/EHsc /MP /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>./../../../../PhysX_3.4/Source/GeomUtils/src;./../../../../PhysX_3.4/Source/PhysX/src;./../../../../PhysX_3.4/Source/PhysX/src/buffering;./../../../../PhysX_3.4/Source/PvdRuntime/src;./../../../../PhysX_3.4/Source/GeomUtils/headers;./../../../../PhysX_3.4/Source/GeomUtils/include;./../../../../PhysX_3.4/Source/GeomUtils/opcode;./../../../../PhysX_3.4/Source/RepX/include;./../../../../PhysX_3.4/Source/RepXUpgrader/include;./../../../../PhysX_3.4/Source/foundation/source;./../../../../PhysX_3.4/Source/foundation/include;./../../../../PhysX_3.4/Source/Common/src;./../../../../PhysX_3.4/Source/LowLevel/software/include;./../../../../PhysX_3.4/Source/LowLevel/api/include;./../../../../PhysX_3.4/Source/SimulationController/include;./../../../../PhysX_3.4/Source/SceneQuery;./../../../../PhysX_3.4/Include;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../PhysX_3.4/Include/characterkinematic;./../../../../PhysX_3.4/Include/common;./../../../../PhysX_3.4/Include/cooking;./../../../../PhysX_3.4/Include/extensions;./../../../../PhysX_3.4/Include/foundation;./../../../../PhysX_3.4/Include/geometry;./../../../../PhysX_3.4/Include/gpu;./../../../../PhysX_3.4/Include/physxprofilesdk;./../../../../PhysX_3.4/Include/physxvisualdebuggersdk;./../../../../PhysX_3.4/Include/pvd;./../../../../PhysX_3.4/Include/pxtask;./../../../../PhysX_3.4/Include/RepX;./../../../../PhysX_3.4/Include/RepXUpgrader;./../../SampleCommonCode/src;./../../sampleViewer3;./../../sampleViewer3/Fracture;./../../sampleViewer3/Fracture/Core;./../../sampleViewer3/Render;./../../sampleViewer3/Vec;./../../../include_3;./../../../../PhysX_3.4/Samples/PxToolkit/include;./../../../../Externals/cg/2.2/include;./../../../../PhysX_3.4/Snippets/Graphics/include/WIN64;./../../../../PxShared/include;./../../../../PxShared/src/foundation/include;./../../../externalIP/hbao+3.0/include;./../../../externalIP/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_PROFILE;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX3PROFILE_x64.lib;PhysX3CookingPROFILE_x64.lib;PhysX3CommonPROFILE_x64.lib;PhysX3CharacterKinematicPROFILE_x64.lib;PhysX3VehiclePROFILE.lib;PhysX3ExtensionsPROFILE.lib;PxTaskPROFILE_x64.lib;PxPvdSDKPROFILE_x64.lib;PxFoundationPROFILE_x64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../PhysX_3.4/lib/VC14WIN64;./../../../../PhysX_3.4/Samples/PxToolkit/lib/VC14WIN64;./../../../lib/VC14WIN64;./../../../../PxShared/lib/VC14WIN64;./../../../externalIP/glew-1.13.0/lib/WIN64;./../../../externalIP/glut-3.7.6/lib/WIN64;./../../../externalIP/hbao+3.0/lib/WIN64;./../../../../Externals/cg/2.2/lib.x64;./../../../lib/VC14WIN64-PhysX_3.4;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC14WIN64-PhysX_3.4/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../PhysX_3.4/bin/VC14WIN64 ..\..\..\bin\VC14WIN64-PhysX_3.4 ./../../../../Externals ../../../externalIP/glut-3.7.6/bin/WIN64 ./../../../../Externals/cg/2.2/bin.x64 ./../../../../PxShared/bin/VC14WIN64 ../../../externalIP/hbao+3.0/lib/WIN64</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\ActorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\CompoundBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\CompoundCreatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\CompoundGeometryBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\ConvexBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\MeshBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\PolygonTriangulatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Core\SimSceneBase.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\ActorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\CompoundBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\CompoundCreatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\CompoundGeometryBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\ConvexBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\MeshBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\PolygonTriangulatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Core\SimSceneBase.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Actor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Compound.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\CompoundCreator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\CompoundGeometry.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Convex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\ConvexRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\Mesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\PolygonTriangulator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Fracture\SimScene.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Actor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Compound.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\CompoundCreator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\CompoundGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Convex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\ConvexRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\Mesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\PolygonTriangulator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\RTdef.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Fracture\SimScene.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\sampleViewer3\Render\FrameBufferObjectMRT.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Render\glmesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Render\MyShaders.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Render\newParameters.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\sampleViewer3\Render\FrameBufferObjectMRT.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Render\glmesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Render\MyShaders.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Render\newParameters.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\cdjpeg.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\cjpeg.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\ckconfig.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\CPPJPEGWrapper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\djpeg.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcapimin.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcapistd.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jccoefct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jccolor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcdctmgr.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcdiffct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jchuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcinit.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jclhuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jclossls.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jclossy.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcmainct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcmarker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcmaster.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcodec.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcomapi.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcparam.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcphuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcpred.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcprepct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcsample.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcscale.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jcshuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jctrans.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdapimin.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdapistd.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdatadst.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdatasrc.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdcoefct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdcolor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jddctmgr.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jddiffct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdhuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdinput.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdlhuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdlossls.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdlossy.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdmainct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdmarker.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdmaster.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdmerge.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdphuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdpostct.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdpred.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdsample.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdscale.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdshuff.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jdtrans.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jerror.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jfdctflt.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jfdctfst.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jfdctint.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jidctflt.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jidctfst.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jidctint.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jidctred.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jmemmgr.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jmemnobs.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jquant1.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jquant2.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\jutils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdbmp.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdcolmap.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdgif.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdppm.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdrle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdswitch.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\rdtarga.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\stdafx.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\transupp.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\wrbmp.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\wrgif.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\wrppm.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\wrrle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\IJGWin32\wrtarga.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\cderror.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\cdjpeg.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\CPPJPEGWrapper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jcdiffct.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jchuff.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jcodec.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jconfig.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jdct.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jddiffct.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jdhuff.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jerror.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jinclude.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jlossls.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jlossy.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jmemsys.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jmorecfg.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jpegint.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jpeglib.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\jversion.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\rdswitch.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\stdafx.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\IJGWin32\transupp.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\sampleViewer3\Vec\Bounds3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Vec\Plane.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Vec\Quat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Vec\Transform.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Vec\Vec3.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\sampleViewer3\AABox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\BmpFile.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Crab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\CrabManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\FileScanner.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\FrameBufferObject.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\FXAAHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\GLFontRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\HBAOHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\HDRHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\MathUtils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\MediaPath.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\RawLoader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\RenderTarget.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SampleViewer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SampleViewerGamepad.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SampleViewerScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneCrab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneKapla.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneKaplaArena.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneKaplaTower.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneRagdollWashingMachine.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneVehicle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneVehicleCooking.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SceneVehicleSceneQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Shader.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\ShaderShadow.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\ShadowMap.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\SSAOHelper.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\TerrainMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\TerrainRandomSamplePrecompute.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Texture.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\TgaFile.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\Timing.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\VehicleCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\VehicleControlInputs.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\VehicleController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\VehicleManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\VehicleWheelQueryResults.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\sampleViewer3\XMLParser.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\sampleViewer3\AABox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\BmpFile.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Crab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\CrabManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\FileScanner.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\FrameBufferObject.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\FXAAHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\GLFontData.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\GLFontRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\HBAOHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\HDRHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\MathUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\MediaPath.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\PhysXMacros.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\RawLoader.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\RenderTarget.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SampleViewer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SampleViewerGamepad.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SampleViewerScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneCrab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneCrabInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneKapla.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneKaplaArena.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneKaplaTower.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneRagdollWashingMachine.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneVehicle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneVehicleCooking.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SceneVehicleSceneQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Shader.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\ShaderShadow.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\ShadowMap.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\SSAOHelper.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\TerrainMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\TerrainRandomSamplePrecompute.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Texture.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\TgaFile.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\Timing.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\VehicleCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\VehicleControlInputs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\VehicleController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\VehicleManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\VehicleWheelQueryResults.h">
+		</ClInclude>
+		<ClInclude Include="..\..\sampleViewer3\XMLParser.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externalIP/glew-1.13.0/compiler/VC14WIN64/glew-MT.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>
