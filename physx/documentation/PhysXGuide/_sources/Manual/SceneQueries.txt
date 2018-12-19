@@ -1,0 +1,589 @@
+.. _SceneQueries:
+
+------------------------
+Scene Queries
+------------------------
+
+=================
+Introduction
+=================
+
+PhysX provides methods in PxScene to perform collision queries against actors and attached shapes in the scene. There are three types of queries: raycasts, sweeps and overlaps, and each can return either a single result, or multiple results. Broadly speaking, each query traverses a culling structure containing the scene objects, performs a precise test using the GeometryQuery functions (see :ref:`GeometryQueries`), and accumulates the results. Filtering may occur before or after precise testing.
+
+The scene uses two different query structures, one for *PxRigidStatic* actors, and the other for *PxRigidBody* actors (*PxRigidDynamic* and *PxArticulationLink*.) The two structures may be configured to use different culling implementations depending on the desired speed/space characteristics (see :ref:`PxPruningStructureType`.)
+
+=================
+Basic queries
+=================
+++++++++++
+Raycasts
+++++++++++
+A *PxScene::raycast()* query intersects a user-defined ray with the whole scene.
+The simplest use case for a raycast() query is to find the closest hit along a given ray as follows::
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+
+    // Raycast against all static & dynamic objects (no filtering)
+    // The main result from this call is the closest hit, stored in the 'hit.block' structure
+    bool status = scene->raycast(origin, unitDir, maxDistance, hit);
+    if (status)
+        applyDamage(hit.block.position, hit.block.normal);
+
+In this code snippet a PxRaycastBuffer object is used to receive results from the raycast query.
+A call to raycast() returns true if there was a hit. hit.hadBlock is also set to true if there was a hit.
+The distance for raycasts has to be in the [0, inf) range.
+
+Raycasts results include position, normal, hit distance, shape and actor, and a face index with UV coordinates for triangle meshes and heightfields. Before using query results check PxHitFlag::ePOSITION, eNORMAL, eDISTANCE, eUV flags first, as in some cases they are not set.
+
+++++++++++++
+Sweeps
+++++++++++++
+
+A *PxScene::sweep()* query is geometrically similar to a raycast(): a PxGeometry shape is swept from a specified initial pose in a direction unitDir with specified maximum length, to find the points of impacts of the geometry with scene objects. The maximum distance for sweeps has to be in the [0, inf) range, and will be clamped by to PX_MAX_SWEEP_DISTANCE, defined in file PxScene.h.
+
+Allowed shapes are box, sphere, capsule and convex.
+
+A PxSweepBuffer object is used to receive results from sweep() queries::
+
+    PxSweepBuffer hit;              // [out] Sweep results
+    PxGeometry sweepShape = ...;    // [in] swept shape
+    PxTransform initialPose = ...;  // [in] initial shape pose (at distance=0)
+    PxVec3 sweepDirection = ...;    // [in] normalized sweep direction
+    bool status = scene->sweep(sweepShape, initialPose, sweepDirection, sweepDistance, hit);
+
+Sweeps results include position, normal, hit distance, shape and actor, and a face index for triangle meshes and heightfields.
+
++++++++++++
+Overlaps
++++++++++++
+
+*PxScene::overlap()* query searches a region enclosed by a specified shape for any overlapping objects in the scene.
+The region is specified as a transformed box, sphere, capsule or convex geometry.
+
+A PxOverlapBuffer object is used to receive results from overlap() queries::
+
+    PxOverlapBuffer hit;            // [out] Overlap results
+    PxGeometry overlapShape = ...;  // [in] shape to test for overlaps
+    PxTransform shapePose = ...;    // [in] initial shape pose (at distance=0)
+
+    PxOverlapBuffer hit;
+    bool status = scene->overlap(overlapShape, shapePose, hit);
+
+Overlaps results only include actor/shape and faceIndex since there is no single point of intersection.
+
+===========================
+Touching and blocking hits
+===========================
+
+For queries with multiple results we distinguish between *touching* and *blocking* hits. The choice of whether a hit is touching or blocking is made by the user-implemented filtering logic. Intuitively a blocking hit prevents further progress of a raycast or a sweep along its path, and a touching hit is recorded but allows the ray or sweep to continue. So a multiple-hit query will return the closest blocking hit if one exists, together with any touching hits that are closer. If there are no blocking hits, all touching hits will be returned.
+
+See the :ref:`QueryFiltering` section for details.
+
+
+================
+Query modes
+================
+
+++++++++++++
+Closest hit
+++++++++++++
+The default mode of operation for all three query types is "closest hit". The query looks for all blocking hits, picks the one with the minimum distance and reports it in the PxHitBuffer::block member.
+
+* For overlap() queries an arbitrary blocking hit is chosen as the reported blocking hit (distance is treated as zero for all overlap() hits).
+
++++++++++
+Any hit
++++++++++
+All three query types can operate in "any hit" mode. This is a performance hint to the query system indicating that there is no need to look
+for the closest hit - any hit encountered will do. This mode is most often used for boolean blocking/non-blocking queries.
+Performance improvement may be a factor of 3 or more, depending on scenario.
+To activate this mode use PxQueryFlag::eANY_HIT filter data flag and set it in PxQueryFilterData object, for instance::
+
+    PxQueryFilterData fd;
+    fd.flags |= PxQueryFlag::eANY_HIT; // note the OR with the default value
+    bool status = scene->raycast(origin, unitDir, maxDistance, hit,
+                                 PxHitFlags(PxHitFlag::eDEFAULT), fdAny);
+
++++++++++++++++
+Multiple hits
++++++++++++++++
+All three query types (raycast, overlap, sweep) can also report multiple hits with objects in the scene.
+
+* To activate this mode for raycasts use the PxRaycastBuffer constructor with user provided buffer for touching hits.
+* In this mode all hits default to 'touching' type and are recorded in the PxRaycastBuffer::touches array.
+
+For instance::
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+
+    const PxU32 bufferSize = 256;        // [in] size of 'hitBuffer'
+    PxRaycastHit hitBuffer[bufferSize];  // [out] User provided buffer for results
+    PxRaycastBuffer buf(hitBuffer, bufferSize); // [out] Blocking and touching hits stored here
+
+    // Raycast against all static & dynamic objects (no filtering)
+    // The main result from this call are all hits along the ray, stored in 'hitBuffer'
+    scene->raycast(origin, unitDir, maxDistance, buf);
+    for (PxU32 i = 0; i < buf.nbTouches; i++)
+        animateLeaves(buf.touches[i]);
+
+The same mechanism is used for overlaps (use PxOverlapBuffer with PxOverlapHit[]) and sweeps (PxSweepBuffer with PxSweepHit[]).
+
+++++++++++++++++++++++++++++++++
+Multiple hits with blocking hit
+++++++++++++++++++++++++++++++++
+
+In the snippet for multiple hits above we only expected touching hits. If a blocking hit was encountered along with touching hits, it will be reported in PxHitBuffer::block member, and the touch buffer will contain only touching hits which are closer. This combination is useful in scenarios such as bullets going through windows (breaking them on their way) or leaves of a tree (making them rustle) until they hit a blocking object (a concrete wall)::
+
+    // same initialization code as in the snippet for multiple hits
+    bool hadBlockingHit = scene->raycast(origin, unitDir, maxDistance, buf);
+    if (hadBlockingHit)
+        drawWallDecal(buf.block);
+    for (PxU32 i = 0; i < buf.nbTouches; i++)
+    {
+        assert(buf.touches[i].distance <= buf.block.distance);
+        animateLeaves(buf.touches[i]);
+    }
+
+* By default, hits are assumed to be touching when a touch buffer is provided, and the filter callback should return PxQueryHitType::eBLOCK
+  to denote that a hit is blocking. See :ref:`QueryFiltering` for details.
+
+* For overlap() queries all touching hits will be recorded even if a blocking hit was encountered and PxQueryFlag::eNO_BLOCK flag is set.
+
+.. _QueryFiltering:
+
+=================
+Filtering
+=================
+
+Filtering controls how shapes are excluded from scene query results and how results are reported.
+All three query types support the following filtering parameters:
+
+- a *PxQueryFilterData* structure, containing both *PxQueryFlags* and *PxFilterData*
+- an optional *PxQueryFilterCallback*
+
++++++++++++++++++++++++++++++++++++++++++++
+PxQueryFlag::eSTATIC, PxQueryFlag::eDYNAMIC
++++++++++++++++++++++++++++++++++++++++++++
+
+*PxQueryFlag::eSTATIC* and *PxQueryFlag::eDYNAMIC* flags control whether the query should include shapes from the static and/or dynamic query structures.
+This is the most efficient way to filter out all static/dynamic shapes.
+For example an explosion effect that applies forces to all dynamics in a region could use a spherical *overlap* query,
+and only the *PxQueryFlag::eDYNAMIC* flag to exclude all statics since forces cannot be applied to static objects.
+By default both statics and dynamics are included in query results.
+
+For instance::
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+
+    // [in] Define filter for static objects only
+    PxQueryFilterData filterData(PxQueryFlag::eSTATIC);
+
+    // Raycast against static objects only
+    // The main result from this call is the boolean 'status'
+    bool status = scene->raycast(origin, unitDir, maxDistance, hit, PxHitFlag::eDEFAULT, filterData);
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+PxQueryFlag::ePREFILTER, PxQueryFlag::ePOSTFILTER
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Scene queries are performed in three phases: broad phase, midphase and narrow phase.
+
+* Broad phase traverses the global scene spatial partitioning structure to find the candidates for mid and narrow phases.
+* midphase traverses the triangle mesh and heightfield internal culling structures, to find a smaller subset of the triangles
+  in a mesh reported by the broad phase.
+* Narrow phase performs exact intersection tests (ray test for raycast() queries, and exact sweep shape tests
+  or overlap tests for sweep() and overlap() queries).
+
+To implement custom filtering in queries, set the *PxQueryFlag::ePREFILTER* and/or *PxQueryFlag::ePOSTFILTER* flags and subclass *PxQueryFilterCallback* with the required filtering logic.
+
+* Pre-filtering happens before midphase and narrow phase and allows shapes to be efficiently discarded before the potentially
+  expensive exact collision test. These tests are more expensive for triangle meshes, heightfields, convexes and most sweeps than raycast
+  and overlap tests involving only simple shapes (such as spheres, capsules and boxes.)
+
+* Post-filtering happens after the narrow phase test and can therefore use the results of the test (such as PxRaycastHit.position)
+  to determine whether a hit should be discarded or not. These results can be accessed via the *hit* input argument to the post-filtering callback (PxQueryFilterCallback::postFilter). Use e.g. static_cast<PxRaycastHit&>(hit), access data specific to a raycast query, and similarly for overlaps (PxOverlapHit) and sweeps (PxSweepHit.)
+
+The implementation of a filtering callback returns a *PxQueryHitType* result.
+
+* *eNONE* indicates that the hit should be discarded.
+* *eBLOCK* indicates that the hit is blocking.
+* *eTOUCH* indicates that the hit is touching.
+
+Whenever a raycast(), sweep() or overlap() query was called with non-zero PxHitCallback::nbTouches and PxHitCallback::touches parameters, eTOUCH type hits that are no further (touchDistance <= blockDistance) than the closest eBLOCK type hit, will be reported. For example, to record all hits from a raycast query, always return eTOUCH.
+
+.. note:: Returning eTOUCH from a filter callback requires the hit buffer query parameter to have a non-zero ::touches array, otherwise PhysX will generate an error in checked builds and discard any touching hits.
+
+.. note:: eBLOCK should not be returned from user filters for overlap(). Doing so will result in undefined behavior, and a warning will be issued. If the PxQueryFlag::eNO_BLOCK flag is set, the eBLOCK will instead be automatically converted to an eTOUCH and the warning suppressed.
+
+
++++++++++++++++++++++
+PxQueryFlag::eANY_HIT
++++++++++++++++++++++
+Use this flag to force the query to report the first encountered hit (which may not be the closest) as a blocking hit.
+Performance may be more than three times faster, depending on the scenario. Best gains can be expected for long raycasts/sweeps
+with a nearby intersecting object, or overlaps with multiple intersecting objects.
+
+* Also see PxHitFlag::eMESH_ANY
+
+++++++++++++++++++++++
+PxQueryFlag::eNO_BLOCK
+++++++++++++++++++++++
+Use this flag when you want to override the eBLOCK value returned from filters to eTOUCH or in cases when no blocking hits are
+expected (in this case this flag serves as a performance hint.) All hits will then be reported as touching regardless of the filter callback return value.
+The hit callback/buffer object provided to the query is required to have a non-zero
+*PxHitBuffer::touches* buffer when this flag is used. Significant performance gains should only be expected for scenarios where the touching hit buffer overflows.
+
+.. note:: this flag overrides the return value from pre and post-filter functions, so hits that were previously returned as blocking will instead be returned as touching.
+
++++++++++++++++++++++++++++++++++++++
+PxFilterData fixed function filtering
++++++++++++++++++++++++++++++++++++++
+
+A fast, fixed-function filter is provided by *PxFilterData*, a 4*32-bit bitmask used by the built-in filtering equation.
+Each shape has a bitmask (set via PxShape::setQueryFilterData()), and the query also has a bitmask.
+
+The query data is used differently by batched and unbatched queries (see below for batched queries). For unbatched queries, the following rules are applied:
+
+* If the query's bitmask is all zeroes, custom filtering and intersection testing proceed as normal.
+* Otherwise, if the bitwise-AND value of the query's bitmask and the shape's bitmask is zero, the shape is skipped
+
+Or in other words::
+
+    PxU32 keep = (query.word0 & object.word0)
+               | (query.word1 & object.word1)
+               | (query.word2 & object.word2)
+               | (query.word3 & object.word3);
+
+This hardcoded equation can provide simple filtering while avoiding the function call overhead of the filtering callback. For example, to emulate the behavior of PhysX 2 active groups, define the groups as follows::
+
+    enum ActiveGroup
+    {
+        GROUP1    = (1<<0),
+        GROUP2    = (1<<1),
+        GROUP3    = (1<<2),
+        GROUP4    = (1<<3),
+        ...
+    };
+
+When shapes are created, they can be assigned to the a group, for example GROUP1::
+
+    PxShape* shape;                      // Previously created shape
+
+    PxFilterData filterData;
+    filterData.word0 = GROUP1;
+    shape->setQueryFilterData(filterData);
+
+Or to multiple groups, for example GROUP1 and GROUP3::
+
+    PxShape* shape;                      // Previously created shape
+
+    PxFilterData filterData;
+    filterData.word0 = GROUP1|GROUP3;
+    shape->setQueryFilterData(filterData);
+
+When performing a scene query, select which groups are active for the query - for example GROUP2 and GROUP3 - as follows::
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+
+    // [in] Define what parts of PxRaycastHit we're interested in
+    const PxHitFlags outputFlags = PxHitFlag::ePOSITION | PxHitFlag::eNORMAL;
+
+    // [in] Raycast against GROUP2 and GROUP3
+    PxQueryFilterData filterData = PxQueryFilterData();
+    filterData.data.word0 = GROUP2|GROUP3;
+
+    bool status = scene->raycast(origin, unitDir, maxDistance, hit, outputFlags, filterData);
+
+
+================================================
+User defined hit callbacks for unbounded results
+================================================
+
+Queries can sometimes return a very large number of results (for example, queries with very large objects or in areas with high object density), and
+it can be prohibitively expensive to reserve a sufficiently large memory buffer. The classes PxRaycastCallback, PxSweepCallback and PxOverlapCallback
+provide efficient callback based solutions for such scenarios. For instance a *raycast* query with a PxRaycastCallback callback will return all touch hits
+via multiple virtual PxHitCallback::processTouches() callbacks::
+
+    struct UserCallback : PxRaycastCallback
+    {
+        UserData data;
+        virtual PxAgain processTouches(const PxRaycastHit* buffer, PxU32 nbHits)
+            // This callback can be issued multiple times and can be used
+            // to process an unbounded number of touching hits.
+            // Each reported touching hit in buffer is guaranteed to be closer than
+            // the final block hit after the query has fully executed.
+        {
+            for (PxU32 i = 0; i < nbHits; i++)
+                animateLeaves(buffer[i], data);
+        }
+        virtual void finalizeQuery()
+        {
+            drawWallDecal(this->block, data);
+        }
+    };
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+
+    UserCallback cb; cb.data = ...;
+    scene->raycast(origin, unitDir, maxDistance, cb); // see UserCallback::processTouches
+
+In this code snippet the raycast() query will potentially invoke processTouches multiple times, with all touching hits already
+clipped to the globally nearest blocking hit.
+
+* Note that the query can be up to twice as expensive in case all eTOUCH results do not fit in the provided touches buffer
+  and a blocking hit was also found.
+* Also see PxQueryFlag::eNO_BLOCK
+
+
+.. _Batched Queries:
+
+=================
+Batched queries
+=================
+
+PhysX supports batching of scene queries via the *PxBatchQuery* interface.
+Using this API may simplify multi-threaded implementations.
+
+The batched query feature has been deprecated in PhysX version 3.4.
+
+* *PxBatchQuery* interface facilitates batching and execution of multiple queries together. PxBatchQuery buffers raycast, overlap and sweep queries until PxBatchQuery::execute() is called.
+* Use PxScene::createBatchQuery(const PxBatchQueryDesc& desc) to create a PxBatchQuery object.
+* The hardcoded filtering equation is not used for batched queries. Instead it is replaced with two filter shaders, respectively running before (*PxBatchQueryPreFilterShader*) and after (*PxBatchQueryPostFilterShader*) the exact per-shape collision test. See *PxBatchQueryDesc::preFilterShader* and *PxBatchQueryDesc::postFilterShader*.
+* BatchQueryFilterData::filterShaderData will be copied and passed to the filter shader via the constantBlock parameter.
+* Results are written to user-defined buffers *PxBatchQueryMemory* in *PxBatchQueryDesc*,
+  in the same order queries were queued in a *PxBatchQuery* object.
+* The results and hits buffers for the each query type used (raycast, overlap, sweep) are specified separately.
+* These buffers can be changed before each batch query execute call.
+  The SDK will produce a warning for batched queries with NULL results or hits buffers for the corresponding query type
+  (raycast, overlap or sweep).
+
+
+
+.. _single_object_caching:
+
+=======================
+Single Object Caching
+=======================
+
+A special case mechanism for accelerating scene queries is single-object caching, using *PxQueryCache*.
+
+* This cache can provide additional speedups and memory savings for *raycast* and *sweep* queries in any operation mode.
+* The cache object defines which shape should be tested first. For queries with high temporal
+  coherence, this can provide significant performance gains. A good strategy to capture that coherence is simply to fill the cache
+  object of a given query with the eBLOCK result (last blocking shape) from the previous frame.
+* Note that it is likely incorrect to use a past touching hit (recorded with eTOUCH flag) for caching since it will be interpreted
+  as blocking and override any filtering.
+
+For example there is a good chance that an AI visibility query will return the same line-of-sight blocking shape for several frames.
+Using a *raycast* query with a properly filled *PxQueryCache* object will allow PhysX to test a single shape - before traversing
+the internal spatial partitioning structures, and in case of a "cache hit" the traversal can be bypassed entirely. For instance::
+
+    PxScene* scene;
+    PxVec3 origin = ...;                 // [in] Ray origin
+    PxVec3 unitDir = ...;                // [in] Normalized ray direction
+    PxReal maxDistance = ...;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+
+    // Per-raycast persistent cache, valid from one frame to the next
+    static PxQueryCache persistentCache;
+
+    // Define cache for current frame:
+    // - if there was a hit in the previous frame, use the cache.
+    // - otherwise do not (PhysX requires given cache has a valid shape pointer)
+    const PxQueryCache* cache = persistentCache.shape ? &persistentCache : NULL;
+
+    // Perform a raycast query using the cache
+    const bool status = scene->raycast(origin, unitDir, maxDistance, hit,
+                                       PxHitFlags(PxHitFlag::eDEFAULT),
+                                       PxQueryFilterData(), NULL, cache);
+    if(status)
+    {
+        // We hit a shape. Cache it for next frame.
+        persistentCache.shape = hit.block.shape;
+        persistentCache.faceIndex = hit.block.faceIndex;
+    }
+    else
+    {
+        // We did not hit anything. Reset the cache for next frame.
+        persistentCache = PxQueryCache();
+    }
+
+Caching can also be useful in queries looking for the closest blocking hit or when using the eANY_HIT flag.
+In this case, testing the previously closest object first can allow PhysX to shorten the query distance very early,
+leading to fewer total narrow phase collision tests and early out from the traversal.
+
+.. note:: PhysX does not detect stale pointers, so the application is responsible for cached object validity when shapes are deleted.
+
+.. note:: Overlaps do not support single hit blocking caches.
+
+
+.. _PxPruningStructureType:
+
+====================================
+PxPruningStructureType
+====================================
+
+PhysX SDK offers different pruning structures which are used to accelerate the scene queries. This paragraph describes the differences between them.
+
+++++++++++++
+Generalities
+++++++++++++
+
+The Scene Query system uses two different acceleration structures, a hierarchical grid and an AABB tree.
+
+The grid builds quickly, in O(n) time, with queries executing in between O(1) and O(N) time depending on how uniformly the objects are
+distributed in space, with pathological worst case performance of O(N) when all objects are clustered in the same grid cell.
+
+The tree builds in O(n log(n)) time, but queries with a single result typically run in O(log(n)) time. Queries returning multiple results
+will traverse more of the tree, the worst case being a query returning all of the objects in the scene in O(n) time.
+The tree is vulnerable to degeneration when the same topology is maintained too long as object positions change,
+and in pathological cases query performance may degrade to O(n) time.
+
+Acceleration structures must be continually modified in accordance with objects being added or removed, or object AABB updates
+due to changes in position or geometry. To minimize the cost, modifications are deferred for as long as possible.
+Thus adding or removing objects or updating AABBs occurs in amortized constant time, with the cost of modifications deferred
+until the changes 'commit'. This happens on the next subsequent query or the next fetchResults() or the next fetchQueries().
+To force an immediate commit, call the PxScene::flushQueryUpdates() function.
+
+The exact details of the commit process depend on the values of staticStructure and dynamicStructure specified in PxSceneDesc.
+
+To avoid automatic resizing triggered by insertions into internal scene query data structures, reserve the space in advance.
+See *PxSceneDesc::maxNbStaticShapes* and *PxSceneDesc::maxNbDynamicShapes*.
+
+
++++++++++++++++++++++++++++++++++++++
+PxPruningStructureType::eNONE
++++++++++++++++++++++++++++++++++++++
+
+The acceleration structure is similar to a hierarchical grid. Committing changes requires a full rebuild. This is a good choice if you expect
+to rarely or never update the objects in this structure.
+
++++++++++++++++++++++++++++++++++++++++++++++++++
+PxPruningStructureType::eSTATIC_AABB_TREE
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The acceleration structure is a tree. Committing changes requires a full rebuild. It is not generally recommended, but can be a good choice
+for staticStructure if the static actors in your scene are created on initialization, and not modified thereafter.
+If you frequently add or remove static geometry, the default eDYNAMIC_AABB_TREE setting is usually a better choice, although it has a higher
+memory footprint than that of eSTATIC_AABB_TREE.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++
+PxPruningStructureType::eDYNAMIC_AABB_TREE
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+In this case, both the tree and the grid are used, and each query searches both the tree and the grid.
+
+The tree is initially built by the first commit. Once a tree is built, committing changes proceeds as follows::
+* the tree is refitted in accordance with updates and removals of object it contains.
+* added objects are inserted into the grid. Such additions, or removals of objects currently in the grid, or changes to AABBs
+of objects in the grid, cause it to be rebuilt.
+
+In addition, a new tree is incrementally built during fetchResults(), over a number of frames controlled by PxScene's
+dynamicTreeRebuildRateHint attribute. When the build starts, it includes all of the objects in the current tree and grid.
+When it finishes, some frames later, the new tree is refitted in accordance with any AABB changes or removals since the build started,
+and then replaces the current tree. Any objects that were added since the start of the build remain in the grid.
+
+To force a full immediate rebuild, call PxScene::forceDynamicTreeRebuild(). This can be useful in cases such as the following:
+
+* a slow rebuilt rate is typically desirable, but occasionally a large number of object additions creates high occupancy in the grid,
+  especially if the additions are localized so as to put pressure on just a few of the grid cells.
+* you are moving many objects across large distances, since refitting may significantly degrade the quality of the current tree
+
+====================================
+PxSceneQueryUpdateMode
+====================================
+
+It is possible to define what scene query related work is done druing PxScene::fetchResults.
+
+By default fetchResults will sync changed bounds during simulation and update the scene query bounds in pruners, this work is mandatory.
+Other work can be optional, based on the PxSceneQueryUpdateMode:
+
+* eCOMMIT_ENABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults, additionally the pruner commit is called where any changes are applied. During commit PhysX refits the dynamic scene query tree and if a new tree was built and the build finished the tree is swapped with current AABB tree. 
+* eCOMMIT_DISABLED_BUILD_ENABLED does allow to execute the new AABB tree build step during fetchResults. Pruner commit is not called, this means that refit will then occur during the first scene query following fetchResults, or may be forced by the method PxScene::flushSceneQueryUpdates(). 
+* eCOMMIT_DISABLED_BUILD_DISABLED no further scene query work is executed. The scene queries update needs to be called manually, see PxScene::sceneQueriesUpdate. It is recommended to call PxScene::sceneQueriesUpdate right after fetchResults as the pruning structures are not updated. 
+
+==================
+PxPruningStructure
+==================
+
+Provides access to precomputed pruning structure used to accelerate scene queries against newly added actors.
+
+A pruning structure can be provided to PxScene::addActors. The actors scene query shapes will then be directly merged into the scenes AABB tree, without the need of an AABB tree recompute::
+
+	// Create pruning structure from given actors.
+	PxPruningStructure* ps = PxPhysics::createPruningStructure(&actors[0], (PxU32)actors.size());
+	// Add actors into a scene together with the precomputed pruning structure.	
+	PxScene::addActors(*ps);
+	ps->release();
+
+A PxPruningStructure object can be serialized into a collection together with its actors.
+
+For usage of PxPruningStructure please refer to the snippet SnippetPrunerSerialization.
+
+A typical use case for PxPruningStructure is a large world scenario where blocks of closely positioned actors get streamed in. 
+
+++++++++++++++++++++++++
+Merge process
+++++++++++++++++++++++++
+
+The merge process into the scene query acceleration structure differs based on *PxPruningStructureType*:
+* eSTATIC_AABB_TREE - the pruning structure is merged directly into scene's AABBtree. This might unbalance the tree and it is recommended to recompute the static tree at some point.
+* eDYNAMIC_AABB_TREE - the pruning structure is merged into a temporary pruning structures until the scene's new optimized AABB tree is computed.
+
+==================
+PxBVHStructure
+==================
+
+Modifies the default behavior of scene queries. By default scene queries are shape centric, which means each shape is represented as an object in a scene query pruner. PxBVHStructure does tell the SDK to set actor centric behavior for that given actor. 
+
+How does that work. If PxBVHStructure is provided during PxScene::addActor, that actors bounds are stored in a pruning structure rather then each shape contained in the actor. When a scene query against such an actor is done it does first query the actors bounds and then makes a local query against the shapes using the provided BVH structure data (note that the PxBVHStructure data are copied to the SDK and are not required during runtime).
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+How to create PxBVHStructure
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+PxBVHStructure can be cooked through our PxCooking library. It takes the provided PxBounds3 and computes a BVH. This is stored within the PxBVHStructure and be used later.
+
+Example::
+
+	// get the bounds from the actor, this can be done through a helper function in PhysX extensions
+	PxU32 numBounds = 0;
+	PxBounds3* bounds = PxRigidActorExt::getRigidActorShapeLocalBoundsList(*body, numBounds);
+
+	// setup the PxBVHStructureDesc, it does contain only the PxBounds3 data
+	PxBVHStructureDesc bvhDesc;
+	bvhDesc.bounds.count = numBounds;
+	bvhDesc.bounds.data = bounds;
+	bvhDesc.bounds.stride = sizeof(PxBounds3);
+
+	// cook the bvh structure 
+	PxBVHStructure* bvh = gCooking->createBVHStructure(bvhDesc, gPhysics->getPhysicsInsertionCallback());
+
+	// release the memory allocated within extensions, the bounds are not required anymore
+	gAllocator.deallocate(bounds);
+
+	// add the actor to the scene and provide the bvh structure
+	gScene->addActor(*body, bvh);	
+
+	// bvh can be released at this point, the precomputed BVH structure was copied to the SDK pruners. 
+	bvh->release();
+
+For usage of PxBVHStructure please refer to the snippet SnippetPxBVHStructure.

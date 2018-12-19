@@ -1,0 +1,138 @@
+//--------------------------------------------------------------------------------------
+//
+// Implementation of different downsampling methods for supersampled AA
+//
+// Copyright (c) NVIDIA Corporation. All rights reserved.
+//--------------------------------------------------------------------------------------
+float2 SSTexelSize;
+float blendFactor = 1.0;
+sampler2D SSsampler = sampler_state
+{
+    minFilter = Linear;
+    magFilter = Linear;
+};
+sampler2D DepthSSsampler = sampler_state
+{
+    minFilter = Linear;
+    magFilter = Linear;
+};
+
+struct v2fConnector {
+  float4 projCoord : POSITION;
+  float2 tex       : TEXCOORD0;
+};
+///////////////////////////////////////////////////////////////////////
+// Vertex programs
+///////////////////////////////////////////////////////////////////////
+void vpPassThrough(float4 P : POSITION, float4 tc : TEXCOORD0, out v2fConnector v2f)
+{
+  v2f.tex = tc.xy;
+  v2f.projCoord = P;
+}
+struct PixelOut 
+{
+float4 color : COLOR;
+float depth : DEPTH;
+};
+///////////////////////////////////////////////////////////////////////
+// Fragment programs
+///////////////////////////////////////////////////////////////////////
+//
+// Simple down samling : just using the fact we are in between 4 texels.
+// so the HW will do a bilinear filtering of these 4 samples
+//
+PixelOut DownSample1( float2 tc : TEXCOORD0 ) 
+{
+    PixelOut pix;
+	pix.color = f4tex2D(SSsampler, tc);
+	pix.depth = f4tex2D(DepthSSsampler, tc).r;
+    return pix;
+}
+//
+// add 4 fetches around the original filtered one
+// each of the 4 additional fetches will also benefit from the HW bilinear filtering
+// the offsets are chosen to benefit from various texels in a specific % amout
+//
+PixelOut DownSample2( float2 tc : TEXCOORD0 ) 
+{
+    float4 tap0 = f4tex2D(SSsampler, tc);
+    float4 tap1 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  0.4,  0.9 ));
+    float4 tap2 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -0.4, -0.9 ));
+    float4 tap3 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -0.9,  0.4 ));
+    float4 tap4 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  0.9, -0.4 ));
+    float4 color = 0.2 * ( tap0 + tap1 + tap2 + tap3 + tap4 );
+
+	float tap0d = f4tex2D(DepthSSsampler, tc).r;
+    float tap1d = f4tex2D(DepthSSsampler, tc + SSTexelSize * float2(  0.4,  0.9 )).r;
+    float tap2d = f4tex2D(DepthSSsampler, tc + SSTexelSize * float2( -0.4, -0.9 )).r;
+    float tap3d = f4tex2D(DepthSSsampler, tc + SSTexelSize * float2( -0.9,  0.4 )).r;
+    float tap4d = f4tex2D(DepthSSsampler, tc + SSTexelSize * float2(  0.9, -0.4 )).r;
+    float depth = 0.2 * ( tap0d + tap1d + tap2d + tap3d + tap4d );
+
+    PixelOut pix;
+	pix.color = color;
+	pix.depth = depth;
+    return pix;
+}
+//
+// same process are the previous one
+// but we are using 2 kernels : one 'normal', one bigger (more blurry, then)
+// we will lerp from one to the other depending on downsampled alpha from the bigger kernel
+// this technique is good to blur 'high frequencies' marked by alpha =0, 
+// i.e thin primitives, like lines or sharp triangles
+//
+float4 DownSample3( float2 tc : TEXCOORD0 ) : COLOR
+{
+    float4 color;
+
+    float4 tap0 = f4tex2D(SSsampler, tc);
+    float4 tap1 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  0.4,  0.9 ));
+    float4 tap2 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -0.4, -0.9 ));
+    float4 tap3 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -0.9,  0.4 ));
+    float4 tap4 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  0.9, -0.4 ));
+    color = 0.2 * ( tap0 + tap1 + tap2 + tap3 + tap4 );
+
+    float4 tap11 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  0.9,  1.9 ));
+    float4 tap21 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -0.9, -1.9 ));
+    float4 tap31 = f4tex2D(SSsampler, tc + SSTexelSize * float2( -1.9,  0.9 ));
+    float4 tap41 = f4tex2D(SSsampler, tc + SSTexelSize * float2(  1.9, -0.9 ));
+    float4 color2 = 0.2 * ( tap0 + tap11 + tap21 + tap31 + tap41 );
+
+    float mask = saturate(color2.w * 1);
+
+    color = lerp(color2, color, mask);
+    color.w = mask;
+
+    return color;
+}
+///////////////////////////////////////////////////////////////////////
+// Technique
+///////////////////////////////////////////////////////////////////////
+technique DownSample_Filter1
+{
+  pass drawFinal
+  {
+	DepthMask = true;
+    VertexProgram = compile arbvp1 vpPassThrough();
+    FragmentProgram = compile arbfp1 DownSample1();
+  }
+}
+technique DownSample_Filter2
+{
+  pass drawFinal
+  {
+	DepthMask = true;
+    VertexProgram = compile arbvp1 vpPassThrough();
+    FragmentProgram = compile arbfp1 DownSample2();
+  }
+}
+technique DownSample_Filter3
+{
+  pass drawFinal
+  {
+	DepthMask = true;
+    VertexProgram = compile arbvp1 vpPassThrough();
+    FragmentProgram = compile arbfp1 DownSample3();
+  }
+}
+

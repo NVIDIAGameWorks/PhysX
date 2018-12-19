@@ -1,0 +1,25 @@
+var classPxMaterial =
+[
+    [ "PxMaterial", "classPxMaterial.html#a9f402b870b0729455ba8199b46a0fccd", null ],
+    [ "PxMaterial", "classPxMaterial.html#af307774d0f072ac743621419a5d7c1a7", null ],
+    [ "~PxMaterial", "classPxMaterial.html#af304d5eda8ffb0d1afeada9a98186c0a", null ],
+    [ "acquireReference", "classPxMaterial.html#a2d19a3388f5c3f023540661baa587de5", null ],
+    [ "getConcreteTypeName", "classPxMaterial.html#adbb15eb75d3d467bd02c311047cee7d2", null ],
+    [ "getDynamicFriction", "classPxMaterial.html#afc25f357ba1de24c8b98b22f94153d3d", null ],
+    [ "getFlags", "classPxMaterial.html#af8fca7a3079e8da26c8275a9fe3ce635", null ],
+    [ "getFrictionCombineMode", "classPxMaterial.html#a0d97b1335e367b8f27f32f6c3766f5a8", null ],
+    [ "getReferenceCount", "classPxMaterial.html#a459b91a5b16327891dc7b9364c854888", null ],
+    [ "getRestitution", "classPxMaterial.html#a06db9f154df542598da209a31fdc123f", null ],
+    [ "getRestitutionCombineMode", "classPxMaterial.html#aa4f567c979252e84dc88cbd626dc8812", null ],
+    [ "getStaticFriction", "classPxMaterial.html#ab80c2e686ea428c58dbd020e067eaa70", null ],
+    [ "isKindOf", "classPxMaterial.html#a3c240b5123bbabc0673c0c8f9441e155", null ],
+    [ "release", "classPxMaterial.html#ac0635989d3c9a12d55d25fe468e91256", null ],
+    [ "setDynamicFriction", "classPxMaterial.html#a971a4c6a385310c28aaeaa1f5ead78e9", null ],
+    [ "setFlag", "classPxMaterial.html#a3dbcd175e805766442291c1285eafe8c", null ],
+    [ "setFlags", "classPxMaterial.html#a452856bae712ad60a281ec45a4bd69a9", null ],
+    [ "setFrictionCombineMode", "classPxMaterial.html#a15c32fcd28a63a02caad0247dd2e9835", null ],
+    [ "setRestitution", "classPxMaterial.html#a9038f690c180b962a7543734f44ec0f1", null ],
+    [ "setRestitutionCombineMode", "classPxMaterial.html#a8f9930b0e18a932e428a061891e4683f", null ],
+    [ "setStaticFriction", "classPxMaterial.html#a0384706084d22fe2ec745bc81d54ef14", null ],
+    [ "userData", "classPxMaterial.html#a462f7d7aa49aec69871bbf066632a5d4", null ]
+];

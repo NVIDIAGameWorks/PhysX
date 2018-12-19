@@ -1,0 +1,23 @@
+#include <globals.cg>
+
+struct FragmentParameters
+{
+#if !defined(GLSL_COMPILER)
+	half4 screenSpacePosition : SV_POSITION;
+#else
+	half4 screenSpacePosition : POSITION;
+#endif
+	half3 worldSpacePosition : TEXCOORD1;
+	half3 worldSpaceNormal : TEXCOORD2;
+	half4  color              : COLOR;
+};
+
+half4 fmain(FragmentParameters params) : COLOR0
+{
+	half3 lightColor   = (half3)g_lightColor * (half)g_lightIntensity;
+	half3 diffuseColor  = (half)saturate(dot(params.worldSpaceNormal, -g_lightDirection)) * lightColor;
+	float3 surfToEye   = normalize(params.worldSpacePosition - g_eyePosition);
+	float specularPower = 5.0;
+	half3 specularColor = (half)pow(saturate(dot(reflect(-g_lightDirection, params.worldSpaceNormal), surfToEye)), specularPower) * lightColor;
+	return params.color * half4(diffuseColor + specularColor, 1);
+}

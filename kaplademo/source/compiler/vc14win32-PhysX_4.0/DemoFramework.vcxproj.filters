@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Source Files">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\demoFramework">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\demoFramework\Render">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\demoFramework\Render\glmesh.cpp">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\Render\MyShaders.cpp">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\Render\newParameters.cpp">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\demoFramework\Render\glmesh.h">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\Render\MyShaders.h">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\Render\newParameters.h">
+			<Filter>Source Files\demoFramework\Render</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\demoFramework\BmpFile.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\FrameBufferObject.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\FXAAHelper.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\GLFontData.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\GLFontRenderer.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\HBAOHelper.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\HDRHelper.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\RawLoader.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\RenderTarget.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\Shader.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\ShaderShadow.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\ShadowMap.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\SSAOHelper.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\demoFramework\Texture.h">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClInclude>
+		<ClCompile Include="..\..\demoFramework\BmpFile.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\FrameBufferObject.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\FXAAHelper.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\GLFontRenderer.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\HBAOHelper.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\HDRHelper.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\RawLoader.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\RenderTarget.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\Shader.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\ShaderShadow.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\ShadowMap.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\SSAOHelper.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\demoFramework\Texture.cpp">
+			<Filter>Source Files\demoFramework</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

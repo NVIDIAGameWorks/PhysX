@@ -1,0 +1,22 @@
+digraph "PxVehicleDriveSimData4W"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node2 [label="PxVehicleDriveSimData4W",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxVehicleDriveSimData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDriveSimData.html",tooltip="Data structure describing non-wheel configuration data of a vehicle that has engine, gears, clutch, and auto-box. "];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mGears" ,fontname="Helvetica"];
+  Node4 [label="PxVehicleGearsData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleGearsData.html"];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mClutch" ,fontname="Helvetica"];
+  Node5 [label="PxVehicleClutchData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleClutchData.html"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mEngine" ,fontname="Helvetica"];
+  Node6 [label="PxVehicleEngineData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleEngineData.html"];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mTorqueCurve" ,fontname="Helvetica"];
+  Node7 [label="PxFixedSizeLookupTable\l\< eMAX_NB_ENGINE_TORQUE\l_CURVE_ENTRIES \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFixedSizeLookupTable.html"];
+  Node8 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mAutoBox" ,fontname="Helvetica"];
+  Node8 [label="PxVehicleAutoBoxData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleAutoBoxData.html"];
+  Node9 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mDiff" ,fontname="Helvetica"];
+  Node9 [label="PxVehicleDifferential4WData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDifferential4WData.html"];
+  Node10 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mAckermannGeometry" ,fontname="Helvetica"];
+  Node10 [label="PxVehicleAckermannGeometryData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleAckermannGeometryData.html"];
+}

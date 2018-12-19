@@ -1,0 +1,99 @@
+
+#include <config.cg>
+#include <globals.cg>
+#include <tessellation.cg>
+
+VertexOut  vmain(__in(float4,      localSpacePosition, POSITION)
+                 __in_opt(float3,  localSpaceNormal,   NORMAL)
+                 __in_opt(float4,  localSpaceTangent,  SEMANTIC_TANGENT)
+                 __in_opt(float4,  vertexTexcoord0,    TEXCOORD0)
+                 __in_opt(float4,  vertexTexcoord1,    TEXCOORD1)
+                 __in_opt(float4,  vertexTexcoord2,    TEXCOORD2)
+                 __in_opt(float4,  vertexTexcoord3,    TEXCOORD3)
+                 __in_opt(half4,   vertexColor,        COLOR)
+               #if RENDERER_INSTANCED
+                 , __in(float3,   instanceOffset,      SEMANTIC_INSTANCE_T)
+                 , __in(float3,   instanceNormalX,     SEMANTIC_INSTANCE_X)
+                 , __in(float3,   instanceNormalY,     SEMANTIC_INSTANCE_Y)
+                 , __in(float3,   instanceNormalZ,     SEMANTIC_INSTANCE_Z)
+                 __in_opt(float2, instanceUVOffset,    SEMANTIC_INSTANCE_UV)
+                 __in_opt(float3, instanceLocalOffset, SEMANTIC_INSTANCE_LOCAL)
+               #endif
+               #if RENDERER_DISPLACED
+                 __in_opt(uint,   vertexFlagsDisp,     SEMANTIC_DISPLACEMENT_FLAGS)
+               #endif
+                )
+{
+	VertexOut vout;
+
+	vout.screenSpacePosition = 0;
+	vout.params.worldSpacePosition = 0;
+	vout.params.worldSpaceNormal = 0;
+	vout.params.worldSpaceTangent = 0;
+	vout.params.worldSpaceBinormal = 0;
+	vout.params.texcoord0 = 0;
+	vout.params.texcoord1 = 0;
+	vout.params.texcoord2 = 0;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3 = 0;
+#endif	
+	vout.params.color = 0;
+
+//#if !defined(GLSL_COMPILER)
+	float4x4 modelMatrix;
+#if RENDERER_INSTANCED
+	modelMatrix = mul(g_modelMatrix, transpose(float4x4(float4(instanceNormalX, 0), float4(instanceNormalY, 0), float4(instanceNormalZ, 0), float4(instanceOffset, 1))));
+#else
+	modelMatrix = g_modelMatrix;
+#endif
+//#endif
+
+	float4x4 mvm                   = mul(g_viewMatrix, modelMatrix);
+#if !defined(GLSL_COMPILER)
+	float4x4 mvpm                  = mul(g_projMatrix, mvm);
+	vout.screenSpacePosition       = mul(mvpm, localSpacePosition);
+#else
+	vout.screenSpacePosition       = mul(g_MVP, localSpacePosition);
+#endif
+
+#if !defined(GLSL_COMPILER)
+	vout.params.worldSpacePosition = mul(modelMatrix, localSpacePosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(modelMatrix, float4(localSpaceNormal,  0)).xyz);
+	vout.params.worldSpaceTangent  = normalize(mul(modelMatrix, float4(localSpaceTangent.xyz, 0)).xyz);
+	vout.params.worldSpaceBinormal = cross(vout.params.worldSpaceNormal, vout.params.worldSpaceTangent) * localSpaceTangent.w;
+#else
+	vout.params.worldSpacePosition = mul(g_modelMatrix, localSpacePosition).xyz;
+	vout.params.worldSpaceNormal   = normalize(mul(g_modelMatrix, float4(localSpaceNormal,  0)).xyz);
+#endif
+#if RENDERER_INSTANCED
+	vout.params.texcoord0   = vertexTexcoord0 + float4(instanceUVOffset, 0, 0);
+#else
+	vout.params.texcoord0   = vertexTexcoord0;
+	float4 v = normalize(mul(mvm, localSpacePosition));
+	float4 n = normalize(mul(mvm, float4(localSpaceNormal, 0)));
+	float3 r = reflect(v.xyz, n.xyz);
+	float m = sqrt(2 * (r.z + 1));
+	vout.params.texcoord1   = float4(r.x/m + 0.5, r.y/m + 0.5, 0.0, 0.0) * 0.5;
+#endif
+#if !defined(GLSL_COMPILER)
+	vout.params.texcoord2   = vertexTexcoord2;
+#if !defined (RENDERER_WIN8ARM)		
+	vout.params.texcoord3   = vertexTexcoord3;
+#endif	
+#endif
+	vout.params.color       = swizzle(vertexColor);
+
+#if RENDERER_DISPLACED
+	vout.localPosition       = localSpacePosition;
+#if RENDERER_INSTANCED
+	vout.localPosition      += instanceLocalOffset;
+#endif
+	vout.flagsDisp           = vertexFlagsDisp;
+	vout.modelMatrix[0]      = modelMatrix[0];
+	vout.modelMatrix[1]      = modelMatrix[1];
+	vout.modelMatrix[2]      = modelMatrix[2];
+	vout.modelMatrix[3]      = modelMatrix[3];
+#endif
+
+	return vout;
+}

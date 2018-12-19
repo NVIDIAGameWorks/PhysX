@@ -1,0 +1,10 @@
+<material type="lit">
+	<shader name="vertex">vertex/pointsprite.cg</shader>
+	<shader name="fragment">fragment/pointsprite_normal.cg</shader>
+	<alphaTestFunc>GREATER</alphaTestFunc>
+	<alphaTestRef>0.5</alphaTestRef>
+	<variables>
+		<float name="particleSize">0.1</float>
+        <sampler2D name="normalTexture">textures/billboard_sphere_normals.dds</sampler2D>
+	</variables>
+</material>

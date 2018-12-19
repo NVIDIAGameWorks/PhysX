@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="PxMetaDataFlag",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxMetaDataFlag.html",tooltip="Flags used to configure binary meta data entries, typically set through PX_DEF_BIN_METADATA defines..."];
+}

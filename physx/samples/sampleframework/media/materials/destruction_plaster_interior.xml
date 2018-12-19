@@ -1,0 +1,7 @@
+<material type="lit">
+	<shader name="vertex">vertex/skeletalmesh_1bone.cg</shader>
+	<shader name="fragment">fragment/simple_diffuse.cg</shader>
+	<variables>
+        <sampler2D name="diffuseTexture">textures/Plaster_Tileable.dds</sampler2D>
+	</variables>
+</material>

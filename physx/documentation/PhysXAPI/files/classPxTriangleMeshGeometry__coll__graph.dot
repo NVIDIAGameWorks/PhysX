@@ -1,0 +1,25 @@
+digraph "PxTriangleMeshGeometry"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node2 [label="PxTriangleMeshGeometry",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxGeometry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxGeometry.html",tooltip="A geometry object. "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scale" ,fontname="Helvetica"];
+  Node4 [label="PxMeshScale",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxMeshScale.html",tooltip="A class expressing a nonuniform scaling transformation. "];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scale" ,fontname="Helvetica"];
+  Node5 [label="PxVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVec3.html",tooltip="3 Element vector class. "];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rotation" ,fontname="Helvetica"];
+  Node6 [label="PxQuat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxQuat.html",tooltip="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..."];
+  Node7 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" paddingFromFlags" ,fontname="Helvetica"];
+  Node7 [label="PxPadding\< 3 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxPadding.html"];
+  Node8 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" triangleMesh" ,fontname="Helvetica"];
+  Node8 [label="PxTriangleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxTriangleMesh.html",tooltip="A triangle mesh, also called a &#39;polygon soup&#39;. "];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="PxBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBase.html",tooltip="Base class for objects that can be members of a PxCollection. "];
+  Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mBaseFlags" ,fontname="Helvetica"];
+  Node10 [label="PxFlags\< PxBaseFlag\l::Enum, PxU16 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFlags.html"];
+  Node11 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" meshFlags" ,fontname="Helvetica"];
+  Node11 [label="PxFlags\< PxMeshGeometryFlag\l::Enum, PxU8 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFlags.html"];
+}

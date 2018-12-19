@@ -1,0 +1,25 @@
+digraph "PxConvexMeshGeometry"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node2 [label="PxConvexMeshGeometry",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxGeometry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxGeometry.html",tooltip="A geometry object. "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" meshFlags" ,fontname="Helvetica"];
+  Node4 [label="PxFlags\< PxConvexMeshGeometry\lFlag::Enum, PxU8 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFlags.html"];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scale" ,fontname="Helvetica"];
+  Node5 [label="PxMeshScale",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxMeshScale.html",tooltip="A class expressing a nonuniform scaling transformation. "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" scale" ,fontname="Helvetica"];
+  Node6 [label="PxVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVec3.html",tooltip="3 Element vector class. "];
+  Node7 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rotation" ,fontname="Helvetica"];
+  Node7 [label="PxQuat",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxQuat.html",tooltip="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..."];
+  Node8 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" paddingFromFlags" ,fontname="Helvetica"];
+  Node8 [label="PxPadding\< 3 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxPadding.html"];
+  Node9 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" convexMesh" ,fontname="Helvetica"];
+  Node9 [label="PxConvexMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxConvexMesh.html",tooltip="A convex mesh. "];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="PxBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBase.html",tooltip="Base class for objects that can be members of a PxCollection. "];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mBaseFlags" ,fontname="Helvetica"];
+  Node11 [label="PxFlags\< PxBaseFlag\l::Enum, PxU16 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFlags.html"];
+}

@@ -1,0 +1,19 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+BEGIN_CBUFFER(cbDiffuse)
+CONST_TYPE float4	diffuseColor;
+END_CBUFFER(cbDiffuse)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	SurfaceMaterial mout;
+	mout.diffuseColor       = half3(diffuseColor.xyz);
+	mout.alpha              = half(diffuseColor.a);
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(0.2,0.2,0.2); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 16;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}

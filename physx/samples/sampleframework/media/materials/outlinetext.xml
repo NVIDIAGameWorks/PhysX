@@ -1,0 +1,8 @@
+<material type="unlit">
+	<shader name="vertex">vertex/staticmesh.cg</shader>
+	<shader name="fragment">fragment/outlinetext.cg</shader>
+	<blending>true</blending>
+	<variables>
+        <sampler2D name="diffuseTexture">textures/test.dds</sampler2D>
+	</variables>
+</material>

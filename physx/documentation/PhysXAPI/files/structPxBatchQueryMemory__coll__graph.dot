@@ -1,0 +1,33 @@
+digraph "PxBatchQueryMemory"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="PxBatchQueryMemory",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" userRaycastTouchBuffer" ,fontname="Helvetica"];
+  Node2 [label="PxRaycastHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxRaycastHit.html",tooltip="Stores results of raycast queries. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxLocationHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxLocationHit.html",tooltip="Scene query hit information for raycasts and sweeps returning hit position and normal information..."];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PxQueryHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxQueryHit.html",tooltip="Scene query hit information. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PxActorShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxActorShape.html",tooltip="collection of set bits defined in PxHitFlag. "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" actor" ,fontname="Helvetica"];
+  Node6 [label="PxRigidActor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxRigidActor.html",tooltip="PxRigidActor represents a base class shared between dynamic and static rigid bodies in the physics SD..."];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="PxActor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxActor.html",tooltip="PxActor is the base class for the main simulation objects in the physics SDK. "];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="PxBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBase.html",tooltip="Base class for objects that can be members of a PxCollection. "];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" mBaseFlags" ,fontname="Helvetica"];
+  Node9 [label="PxFlags\< PxBaseFlag\l::Enum, PxU16 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxFlags.html"];
+  Node10 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" shape" ,fontname="Helvetica"];
+  Node10 [label="PxShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxShape.html",tooltip="Abstract class for collision shapes. "];
+  Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" normal\nposition" ,fontname="Helvetica"];
+  Node11 [label="PxVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVec3.html",tooltip="3 Element vector class. "];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" userSweepTouchBuffer" ,fontname="Helvetica"];
+  Node12 [label="PxSweepHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxSweepHit.html",tooltip="Stores results of sweep queries. "];
+  Node3 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" userOverlapTouchBuffer" ,fontname="Helvetica"];
+  Node13 [label="PxOverlapHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxOverlapHit.html",tooltip="Stores results of overlap queries. "];
+  Node4 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

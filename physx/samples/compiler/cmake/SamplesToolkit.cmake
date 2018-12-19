@@ -1,0 +1,109 @@
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions
+## are met:
+##  * Redistributions of source code must retain the above copyright
+##    notice, this list of conditions and the following disclaimer.
+##  * Redistributions in binary form must reproduce the above copyright
+##    notice, this list of conditions and the following disclaimer in the
+##    documentation and/or other materials provided with the distribution.
+##  * Neither the name of NVIDIA CORPORATION nor the names of its
+##    contributors may be used to endorse or promote products derived
+##    from this software without specific prior written permission.
+##
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+## EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+## CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+## EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+## PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+## PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+## OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+## Copyright (c) 2018 NVIDIA Corporation. All rights reserved.
+
+#
+# Build PxToolkit common
+#
+
+SET(PXTOOLKIT_ROOT_DIR ${PHYSX_ROOT_DIR}/samples/pxtoolkit)
+SET(PXTOOLKIT_SRC_DIR ${PXTOOLKIT_ROOT_DIR}/src)
+SET(PXTOOLKIT_INCLUDE_DIR ${PXTOOLKIT_ROOT_DIR}/include)
+
+# Include here after the directories are defined so that the platform specific file can use the variables.
+include(${PHYSX_ROOT_DIR}/samples/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/SamplesToolkit.cmake)
+
+SET(SAMPLETOOLKIT_FILES
+	${PXTOOLKIT_SRC_DIR}/PxTkBmpLoader.cpp
+	${PXTOOLKIT_SRC_DIR}/PxTkFPS.cpp
+	${PXTOOLKIT_SRC_DIR}/PxTkMatrixUtils.cpp
+	${PXTOOLKIT_SRC_DIR}/PxTkRandom.cpp
+	${PXTOOLKIT_SRC_DIR}/PxTkStream.cpp
+)
+
+SET(SAMPLETOOLKIT_HEADERS
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkBmpLoader.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkFile.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkFPS.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkMatrixUtils.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkNamespaceMangle.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkRandom.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxTkStream.h
+	${PXTOOLKIT_INCLUDE_DIR}/PxToolkit.h
+)
+
+ADD_LIBRARY(SampleToolkit STATIC 
+	${SAMPLETOOLKIT_PLATFORM_SOURCE_FILES}
+	
+	${SAMPLETOOLKIT_FILES}
+	${SAMPLETOOLKIT_HEADERS}
+)
+
+TARGET_INCLUDE_DIRECTORIES(SampleToolkit 
+	PRIVATE ${SAMPLETOOLKIT_PLATFORM_INCLUDES}
+	
+
+	PRIVATE ${PHYSX_ROOT_DIR}/include/
+	PRIVATE ${PHYSX_ROOT_DIR}/include/extensions
+	PRIVATE ${PHYSX_ROOT_DIR}/include/common
+
+	PUBLIC ${PXTOOLKIT_INCLUDE_DIR}
+	INTERFACE $<INSTALL_INTERFACE:include>$<BUILD_INTERFACE:${PXTOOLKIT_INCLUDE_DIR}>
+)
+
+TARGET_COMPILE_DEFINITIONS(SampleToolkit 
+	PRIVATE ${SAMPLETOOLKIT_COMPILE_DEFS}
+)
+
+TARGET_LINK_LIBRARIES(SampleToolkit PhysXFoundation PhysXExtensions)
+
+
+IF(NV_USE_GAMEWORKS_OUTPUT_DIRS)
+	SET_TARGET_PROPERTIES(SampleToolkit PROPERTIES 
+		COMPILE_PDB_NAME_DEBUG "SamplesToolkit_static_${CMAKE_DEBUG_POSTFIX}"
+		COMPILE_PDB_NAME_CHECKED "SamplesToolkit_static_${CMAKE_CHECKED_POSTFIX}"
+		COMPILE_PDB_NAME_PROFILE "SamplesToolkit_static_${CMAKE_PROFILE_POSTFIX}"
+		COMPILE_PDB_NAME_RELEASE "SamplesToolkit_static_${CMAKE_RELEASE_POSTFIX}"
+
+		ARCHIVE_OUTPUT_NAME_DEBUG "SamplesToolkit_static"
+		ARCHIVE_OUTPUT_NAME_CHECKED "SamplesToolkit_static"
+		ARCHIVE_OUTPUT_NAME_PROFILE "SamplesToolkit_static"
+		ARCHIVE_OUTPUT_NAME_RELEASE "SamplesToolkit_static"
+	)
+ELSE()
+	SET_TARGET_PROPERTIES(SampleToolkit PROPERTIES 
+		COMPILE_PDB_NAME_DEBUG "SamplesToolkit${CMAKE_DEBUG_POSTFIX}"
+		COMPILE_PDB_NAME_CHECKED "SamplesToolkit${CMAKE_CHECKED_POSTFIX}"
+		COMPILE_PDB_NAME_PROFILE "SamplesToolkit${CMAKE_PROFILE_POSTFIX}"
+		COMPILE_PDB_NAME_RELEASE "SamplesToolkit${CMAKE_RELEASE_POSTFIX}"
+	)
+ENDIF()
+
+IF(PX_GENERATE_SOURCE_DISTRO)	
+	LIST(APPEND SOURCE_DISTRO_FILE_LIST ${SAMPLETOOLKIT_PLATFORM_SOURCE_FILES})
+	LIST(APPEND SOURCE_DISTRO_FILE_LIST ${SAMPLETOOLKIT_FILES})
+	LIST(APPEND SOURCE_DISTRO_FILE_LIST ${SAMPLETOOLKIT_HEADERS})
+ENDIF()

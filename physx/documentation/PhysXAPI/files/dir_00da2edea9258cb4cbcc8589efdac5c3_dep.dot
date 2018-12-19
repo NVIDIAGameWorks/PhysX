@@ -1,0 +1,13 @@
+digraph "PxShared-public" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_0bc3c1d51e6c63f2207574e46b83fb8f {
+    graph [ bgcolor="#ddddee", pencolor="black", label="packman-repo" fontname="Helvetica", fontsize="10", URL="dir_0bc3c1d51e6c63f2207574e46b83fb8f.html"]
+  subgraph clusterdir_00da2edea9258cb4cbcc8589efdac5c3 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_00da2edea9258cb4cbcc8589efdac5c3.html"];
+    dir_00da2edea9258cb4cbcc8589efdac5c3 [shape=plaintext label="PxShared-public"];
+    dir_d528271a50ee616443dc73ed460be3a1 [shape=box label="1.1.trunk.25441676" color="red" fillcolor="white" style="filled" URL="dir_d528271a50ee616443dc73ed460be3a1.html"];
+  }
+  }
+}

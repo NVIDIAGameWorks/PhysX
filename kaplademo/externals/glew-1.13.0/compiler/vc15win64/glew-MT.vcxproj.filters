@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="include">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="include\GL">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\include\GL\glew.h">
+			<Filter>include\GL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\GL\glxew.h">
+			<Filter>include\GL</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\GL\wglew.h">
+			<Filter>include\GL</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\src\glew.c">
+			<Filter>src</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

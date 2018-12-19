@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="debug|x64">
+			<Configuration>debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="release|x64">
+			<Configuration>release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="checked|x64">
+			<Configuration>checked</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="profile|x64">
+			<Configuration>profile</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{6E287960-8900-CF0B-BACC-4AC0C281B53A}</ProjectGuid>
+		<RootNamespace>KaplaDemo</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<OutDir>./../../../bin/VC15WIN64/DEBUG\</OutDir>
+		<IntDir>./x64/KaplaDemo/debug\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)DEBUG</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/EHsc /GR- /GF /fp:fast /arch:SSE2 /MP /Od /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../physx/Source/GeomUtils/src;./../../../../physx/Source/PhysX/src;./../../../../physx/Source/PhysX/src/buffering;./../../../../physx/Source/PvdRuntime/src;./../../../../physx/Source/GeomUtils/headers;./../../../../physx/Source/GeomUtils/include;./../../../../physx/Source/GeomUtils/opcode;./../../../../physx/Source/RepX/include;./../../../../physx/Source/RepXUpgrader/include;./../../../../physx/Source/foundation/source;./../../../../physx/Source/foundation/include;./../../../../physx/Source/Common/src;./../../../../physx/Source/LowLevel/software/include;./../../../../physx/Source/LowLevel/api/include;./../../../../physx/Source/SimulationController/include;./../../../../physx/Source/SceneQuery;./../../../../physx/Include;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Include/characterkinematic;./../../../../physx/Include/common;./../../../../physx/Include/cooking;./../../../../physx/Include/extensions;./../../../../physx/Include/foundation;./../../../../physx/Include/geometry;./../../../../physx/Include/gpu;./../../../../physx/Include/physxprofilesdk;./../../../../physx/Include/physxvisualdebuggersdk;./../../../../physx/Include/pvd;./../../../../physx/Include/pxtask;./../../../../physx/Include/RepX;./../../../../physx/Include/RepXUpgrader;./../../kaplaDemo;./../../kaplaDemo/Fracture;./../../kaplaDemo/Fracture/Core;./../../demoFramework/Render;./../../kaplaDemo/Vec;./../../demoFramework;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Snippets/Graphics/include/WIN64;./../../../../pxshared/include;./../../../externals/cg/2.2/include;./../../../externals/hbao+3.0/include;./../../../externals/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;_DEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC15WIN64/DEBUG/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../physx/bin/win.x86_64.vc141.mt ..\..\..\bin\VC15WIN64 ../../../externals ../../../externals/glut-3.7.6/bin/WIN64 ../../../externals/cg/2.2/bin.x64 ../../../externals/hbao+3.0/lib/WIN64 -postbuildevent</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<OutDir>./../../../bin/VC15WIN64/RELEASE\</OutDir>
+		<IntDir>./x64/KaplaDemo/release\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/EHsc /GR- /GF /fp:fast /arch:SSE2 /MP /Ot /Ox /GL /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../physx/Source/GeomUtils/src;./../../../../physx/Source/PhysX/src;./../../../../physx/Source/PhysX/src/buffering;./../../../../physx/Source/PvdRuntime/src;./../../../../physx/Source/GeomUtils/headers;./../../../../physx/Source/GeomUtils/include;./../../../../physx/Source/GeomUtils/opcode;./../../../../physx/Source/RepX/include;./../../../../physx/Source/RepXUpgrader/include;./../../../../physx/Source/foundation/source;./../../../../physx/Source/foundation/include;./../../../../physx/Source/Common/src;./../../../../physx/Source/LowLevel/software/include;./../../../../physx/Source/LowLevel/api/include;./../../../../physx/Source/SimulationController/include;./../../../../physx/Source/SceneQuery;./../../../../physx/Include;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Include/characterkinematic;./../../../../physx/Include/common;./../../../../physx/Include/cooking;./../../../../physx/Include/extensions;./../../../../physx/Include/foundation;./../../../../physx/Include/geometry;./../../../../physx/Include/gpu;./../../../../physx/Include/physxprofilesdk;./../../../../physx/Include/physxvisualdebuggersdk;./../../../../physx/Include/pvd;./../../../../physx/Include/pxtask;./../../../../physx/Include/RepX;./../../../../physx/Include/RepXUpgrader;./../../kaplaDemo;./../../kaplaDemo/Fracture;./../../kaplaDemo/Fracture/Core;./../../demoFramework/Render;./../../kaplaDemo/Vec;./../../demoFramework;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Snippets/Graphics/include/WIN64;./../../../../pxshared/include;./../../../externals/cg/2.2/include;./../../../externals/hbao+3.0/include;./../../../externals/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC15WIN64/RELEASE/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../physx/bin/win.x86_64.vc141.mt ..\..\..\bin\VC15WIN64 ../../../externals ../../../externals/glut-3.7.6/bin/WIN64 ../../../externals/cg/2.2/bin.x64 ../../../externals/hbao+3.0/lib/WIN64 -postbuildevent</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<OutDir>./../../../bin/VC15WIN64/CHECKED\</OutDir>
+		<IntDir>./x64/KaplaDemo/checked\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)CHECKED</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|x64'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/EHsc /GR- /GF /fp:fast /arch:SSE2 /MP /Ot /Ox /GL /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../physx/Source/GeomUtils/src;./../../../../physx/Source/PhysX/src;./../../../../physx/Source/PhysX/src/buffering;./../../../../physx/Source/PvdRuntime/src;./../../../../physx/Source/GeomUtils/headers;./../../../../physx/Source/GeomUtils/include;./../../../../physx/Source/GeomUtils/opcode;./../../../../physx/Source/RepX/include;./../../../../physx/Source/RepXUpgrader/include;./../../../../physx/Source/foundation/source;./../../../../physx/Source/foundation/include;./../../../../physx/Source/Common/src;./../../../../physx/Source/LowLevel/software/include;./../../../../physx/Source/LowLevel/api/include;./../../../../physx/Source/SimulationController/include;./../../../../physx/Source/SceneQuery;./../../../../physx/Include;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Include/characterkinematic;./../../../../physx/Include/common;./../../../../physx/Include/cooking;./../../../../physx/Include/extensions;./../../../../physx/Include/foundation;./../../../../physx/Include/geometry;./../../../../physx/Include/gpu;./../../../../physx/Include/physxprofilesdk;./../../../../physx/Include/physxvisualdebuggersdk;./../../../../physx/Include/pvd;./../../../../physx/Include/pxtask;./../../../../physx/Include/RepX;./../../../../physx/Include/RepXUpgrader;./../../kaplaDemo;./../../kaplaDemo/Fracture;./../../kaplaDemo/Fracture/Core;./../../demoFramework/Render;./../../kaplaDemo/Vec;./../../demoFramework;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Snippets/Graphics/include/WIN64;./../../../../pxshared/include;./../../../externals/cg/2.2/include;./../../../externals/hbao+3.0/include;./../../../externals/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_CHECKED;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)CHECKED.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC15WIN64/CHECKED/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../physx/bin/win.x86_64.vc141.mt ..\..\..\bin\VC15WIN64 ../../../externals ../../../externals/glut-3.7.6/bin/WIN64 ../../../externals/cg/2.2/bin.x64 ../../../externals/hbao+3.0/lib/WIN64 -postbuildevent</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<OutDir>./../../../bin/VC15WIN64/CHECKED\</OutDir>
+		<IntDir>./x64/KaplaDemo/profile\</IntDir>
+		<TargetExt>.exe</TargetExt>
+		<TargetName>$(ProjectName)PROFILE</TargetName>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRules />
+		<CodeAnalysisRuleAssemblies />
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='profile|x64'">
+		<ClCompile>
+			<FloatingPointModel>Precise</FloatingPointModel>
+			<AdditionalOptions>/EHsc /GR- /GF /fp:fast /arch:SSE2 /MP /Ot /Ox /GL /D GLEW_STATIC /d2Zi+</AdditionalOptions>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>./../../../../physx/Source/GeomUtils/src;./../../../../physx/Source/PhysX/src;./../../../../physx/Source/PhysX/src/buffering;./../../../../physx/Source/PvdRuntime/src;./../../../../physx/Source/GeomUtils/headers;./../../../../physx/Source/GeomUtils/include;./../../../../physx/Source/GeomUtils/opcode;./../../../../physx/Source/RepX/include;./../../../../physx/Source/RepXUpgrader/include;./../../../../physx/Source/foundation/source;./../../../../physx/Source/foundation/include;./../../../../physx/Source/Common/src;./../../../../physx/Source/LowLevel/software/include;./../../../../physx/Source/LowLevel/api/include;./../../../../physx/Source/SimulationController/include;./../../../../physx/Source/SceneQuery;./../../../../physx/Include;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Include/characterkinematic;./../../../../physx/Include/common;./../../../../physx/Include/cooking;./../../../../physx/Include/extensions;./../../../../physx/Include/foundation;./../../../../physx/Include/geometry;./../../../../physx/Include/gpu;./../../../../physx/Include/physxprofilesdk;./../../../../physx/Include/physxvisualdebuggersdk;./../../../../physx/Include/pvd;./../../../../physx/Include/pxtask;./../../../../physx/Include/RepX;./../../../../physx/Include/RepXUpgrader;./../../kaplaDemo;./../../kaplaDemo/Fracture;./../../kaplaDemo/Fracture/Core;./../../demoFramework/Render;./../../kaplaDemo/Vec;./../../demoFramework;./../../../../physx/Samples/PxToolkit/include;./../../../../physx/Snippets/Graphics/include/WIN64;./../../../../pxshared/include;./../../../externals/cg/2.2/include;./../../../externals/hbao+3.0/include;./../../../externals/glew-1.13.0/include;./../../../Tools/nsight;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;WIN64;_CRT_SECURE_NO_DEPRECATE;_WIN32;AG_PERFMON;NDEBUG;PX_PROFILE;PX_SUPPORT_VISUAL_DEBUGGER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<ExceptionHandling>false</ExceptionHandling>
+			<WarningLevel>Level3</WarningLevel>
+			<RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+			<PrecompiledHeader>NotUsing</PrecompiledHeader>
+			<PrecompiledHeaderFile></PrecompiledHeaderFile>
+			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+		</ClCompile>
+		<Link>
+			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)PROFILE.exe</OutputFile>
+			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.exe.pdb</ProgramDatabaseFile>
+			<SubSystem>Console</SubSystem>
+			<ImportLibrary>./../../../lib/VC15WIN64/CHECKED/$(TargetName).lib</ImportLibrary>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<TargetMachine>MachineX64</TargetMachine>
+		</Link>
+		<ResourceCompile>
+		</ResourceCompile>
+		<ProjectReference>
+		</ProjectReference>
+		<PostBuildEvent>
+			<Command>..\physx64copy.bat ./../../../../physx/bin/win.x86_64.vc141.mt ..\..\..\bin\VC15WIN64 ../../../externals ../../../externals/glut-3.7.6/bin/WIN64 ../../../externals/cg/2.2/bin.x64 ../../../externals/hbao+3.0/lib/WIN64 -postbuildevent</Command>
+		</PostBuildEvent>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\ActorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundCreatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundGeometryBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\ConvexBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\MeshBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\PolygonTriangulatorBase.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\SimSceneBase.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\ActorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundCreatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundGeometryBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\ConvexBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\MeshBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\PolygonTriangulatorBase.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\SimSceneBase.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Actor.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Compound.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\CompoundCreator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\CompoundGeometry.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Convex.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\ConvexRenderer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Mesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\PolygonTriangulator.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\SimScene.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Actor.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Compound.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\CompoundCreator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\CompoundGeometry.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Convex.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\ConvexRenderer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Mesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\PolygonTriangulator.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\RTdef.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\SimScene.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Bounds3.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Plane.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Quat.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Transform.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Vec3.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\AABox.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Crab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\CrabManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\MathUtils.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\MediaPath.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewer.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewerGamepad.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewerScene.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneCrab.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKapla.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKaplaArena.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKaplaTower.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneRagdollWashingMachine.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicle.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicleCooking.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicleSceneQuery.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\TerrainMesh.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\TerrainRandomSamplePrecompute.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Timing.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleCameraController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleControlInputs.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleController.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleManager.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleWheelQueryResults.cpp">
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\AABox.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Crab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\CrabManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\MathUtils.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\MediaPath.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\PhysXMacros.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewer.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewerGamepad.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewerScene.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneCrab.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneCrabInputEventIds.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKapla.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKaplaArena.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKaplaTower.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneRagdollWashingMachine.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicle.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicleCooking.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicleSceneQuery.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\TerrainMesh.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\TerrainRandomSamplePrecompute.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Timing.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleCameraController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleControlInputs.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleController.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleManager.h">
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleWheelQueryResults.h">
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./../../../externals/glew-1.13.0/compiler/vc15win64/glew-MT.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="./DemoFramework.vcxproj">
+			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets"></ImportGroup>
+</Project>

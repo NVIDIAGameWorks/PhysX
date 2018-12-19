@@ -1,0 +1,12 @@
+digraph "PxTriangleMesh"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="PxTriangleMesh",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="PxBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBase.html",tooltip="Base class for objects that can be members of a PxCollection. "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PxBVH33TriangleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBVH33TriangleMesh.html",tooltip="A triangle mesh containing the PxMeshMidPhase::eBVH33 structure. "];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxBVH34TriangleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBVH34TriangleMesh.html",tooltip="A triangle mesh containing the PxMeshMidPhase::eBVH34 structure. "];
+}

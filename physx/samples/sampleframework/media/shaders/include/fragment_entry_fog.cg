@@ -1,0 +1,96 @@
+
+#ifndef FRAGMENT_ENTRY_CG
+#define FRAGMENT_ENTRY_CG
+
+#include <config.cg>
+
+BEGIN_CBUFFER(cbShade)
+CONST_TYPE float shadeMode;
+END_CBUFFER(cbShade)
+
+#if !defined(ENABLE_VFACE)
+#define ENABLE_VFACE 0
+#endif
+
+// define the platform specific semantic for the facing register
+#define FACE_SEMANTIC VFACE
+
+#if defined(PASS_UNLIT)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.color = half4(material.diffuseColor, material.alpha);
+		return fout;
+	}
+#elif defined(PASS_AMBIENT_LIGHT) || defined(PASS_POINT_LIGHT) || defined(PASS_DIRECTIONAL_LIGHT) || defined(PASS_SPOT_LIGHT) || defined(PASS_SPOT_LIGHT_NO_SHADOW)
+	Fragment fmain(FragmentParameters params
+	#if ENABLE_VFACE
+		,float vface : FACE_SEMANTIC
+	#endif
+	)
+	{
+	#if !ENABLE_VFACE
+		float vface = 1.0;
+	#endif
+	#if ENABLE_VFACE_SCALE
+		vface *= g_vfaceScale;
+	#endif
+		
+		Fragment fout;
+		float3x3 tangentBasis = float3x3(params.worldSpaceTangent, params.worldSpaceBinormal, params.worldSpaceNormal);
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		
+		float3 bumpNormal = mul(material.tangentSpaceNormal, tangentBasis);
+		
+#ifndef NO_SUPPORT_DDX_DDY
+		// emulate flat shading by taking the derivative of position with respective to screen dx and dy and taking the cross product
+		float3 faceNormal  = cross(ddy(params.worldSpacePosition.xyz), ddx(params.worldSpacePosition.xyz));
+
+		// select bump or face normal based on shade mode
+		params.worldSpaceNormal = sign(vface) * normalize(lerp(bumpNormal, faceNormal, shadeMode));
+#endif // NO_SUPPORT_DDX_DDY
+		
+		Lighting        lighting = computeLighting(params, material);
+		float3 diffuseColor  = material.diffuseColor  * lighting.diffuseColor;
+		float3 emissiveColor  = material.emissiveColor + material.specularColor * lighting.specularColor;
+		fout.color = half4(diffuseColor + emissiveColor, material.alpha);
+		//fout.color = half4(params.worldSpaceNormal, 1); // renders normals.
+	
+		// Fog
+		float depth = length(params.worldSpacePosition - g_eyePosition);
+		float fogBlend = min(1.0f, depth/g_fogColorAndDistance.w);
+		fout.color.xyz = half3(fout.color.xyz * (1.0f-fogBlend) + g_fogColorAndDistance.xyz * fogBlend);
+		
+		return fout;
+	}
+#elif defined(PASS_NORMALS)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.color = half4(0,1,0,material.alpha);
+		return fout;
+	}
+#elif defined(PASS_DEPTH)
+	Fragment fmain(FragmentParameters params)
+	{
+		Fragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		float depth = length(params.worldSpacePosition - g_eyePosition);
+		fout.color = half4((half)depth,(half)depth,(half)depth,material.alpha);
+		return fout;
+	}
+#elif defined(PASS_DEFERRED)
+	DeferredFragment fmain(FragmentParameters params)
+	{
+		DeferredFragment fout;
+		SurfaceMaterial material = computeSurfaceMaterial(params);
+		fout.diffuseColor                     = half4(material.diffuseColor,   0);
+		fout.emissiveColor                    = half4(material.emissiveColor,  0);
+		fout.worldSpaceNormalAndSpecularPower = half4(params.worldSpaceNormal, material.specularPower);
+		return fout;
+	}
+#endif
+	
+#endif

@@ -1,0 +1,144 @@
+#ifndef DEFINES_CG
+#define DEFINES_CG
+
+#define __in(argType, argName, argSemantic) argType argName : argSemantic
+
+#ifdef RENDERER_GNM
+#define JOIN2(a, b) a##b
+#define JOIN(a, b) JOIN2(a, b)
+
+#define BEGIN_CBUFFER(name)
+#define END_CBUFFER(name)
+#define CONST_TYPE
+#define DECLARE_TEXTURE(textureName)        Texture2D textureName; SamplerState JOIN(textureName,SamplerState);
+#define DECLARE_TEXTURE_3D(textureName)     Texture3D textureName; SamplerState JOIN(textureName,SamplerState);
+#define tex2D(textureName,textureCoord)     textureName.Sample(JOIN(textureName,SamplerState), textureCoord)
+#define tex2Dproj(textureName,textureCoord) textureName.Sample(JOIN(textureName,SamplerState), textureCoord.xy).x <= 
+
+#define __in_opt(argType, argName, argSemantic) , __in(argType, argName, argSemantic)
+
+#define COLOR0 S_TARGET_OUTPUT
+#define half3 float3
+#define half4 float4
+#define half float
+
+#elif !defined(RENDERER_D3D11)
+
+#define BEGIN_CBUFFER(name)
+#define END_CBUFFER(name)
+#define CONST_TYPE               uniform const
+#define DECLARE_TEXTURE(name)    uniform const sampler2D name;
+#define DECLARE_TEXTURE_3D(name) uniform const sampler3D name;
+
+#define __in_opt(argType, argName, argSemantic) , __in(argType, argName, argSemantic)
+
+#else /* !defined(RENDERER_D3D11) */
+
+#define JOIN2(a, b) a##b
+#define JOIN(a, b) JOIN2(a, b)
+
+#define BEGIN_CBUFFER(name) cbuffer name {
+#define END_CBUFFER(name)   }
+#define CONST_TYPE
+#define DECLARE_TEXTURE(textureName)        Texture2D textureName; SamplerState JOIN(textureName,SamplerState);
+#define DECLARE_TEXTURE_3D(textureName)     Texture3D textureName; SamplerState JOIN(textureName,SamplerState);
+#define tex2D(textureName,textureCoord)     textureName.Sample(JOIN(textureName,SamplerState), textureCoord)
+#define tex2Dproj(textureName,textureCoord) textureName.Sample(JOIN(textureName,SamplerState), textureCoord.xy).x <= textureCoord.z ? 0 : 1
+
+#define __in_opt2(argType, argName, argSemantic) JOIN(__in_,argSemantic) (argType, argName, argSemantic)
+#define __in_opt(argType, argName, argSemantic) __in_opt2(argType, argName, argSemantic)
+
+#if defined(USE_ALL) || defined(RENDERER_FRAGMENT)
+#define USE_POSITION   1
+#define USE_NORMAL     1
+#define USE_TANGENT    1
+#define USE_TEXCOORD0  1
+#define USE_TEXCOORD1  1
+#define USE_TEXCOORD2  1
+#define USE_TEXCOORD3  1
+#define USE_COLOR      1
+#define USE_BONE       1
+#endif
+
+#define __in_POSITION(a,b,c)     __in(a, b, c)
+
+// These semantics are required, not optional, when specified in a shader argument list
+#define __in_TEXCOORD6(a,b,c)  , __in(a, b, c)
+#define __in_TEXCOORD7(a,b,c)  , __in(a, b, c)
+#define __in_TEXCOORD8(a,b,c)  , __in(a, b, c)
+#define __in_TEXCOORD9(a,b,c)  , __in(a, b, c)
+#define __in_TEXCOORD10(a,b,c) , __in(a, b, c)
+#define __in_TEXCOORD11(a,b,c) , __in(a, b, c)
+//#define __in_TEXCOORD12(a,b,c) , __in(a, b, c) // Optional instance semantic for uv offsets
+//#define __in_TEXCOORD13(a,b,c) , __in(a, b, c) // Optional instance semantic for local offsets
+#define __in_TEXCOORD14(a,b,c) , __in(a, b, c)
+//#define __in_TEXCOORD15(a,b,c) , __in(a, b, c) // Optional displacement semantic
+#define __in_TEXCOORD16(a,b,c) , __in(a, b, c)
+#define __in_TEXCOORD17(a,b,c) , __in(a, b, c)
+
+#if USE_NORMAL
+#define __in_NORMAL(a,b,c)     , __in(a, b, c)
+#else
+#define __in_NORMAL(a,b,c)
+#define localSpaceNormal float3(1,0,0)
+#endif
+#if USE_TANGENT
+#define __in_TANGENT(a,b,c)    , __in(a, b, c)
+#define __in_TEXCOORD5(a,b,c)  , __in(a, b, c)
+#else
+#define __in_TANGENT(a,b,c)
+#define __in_TEXCOORD5(a,b,c)
+#define localSpaceTangent float4(1,0,0,1)
+#endif
+#if USE_TEXCOORD0
+#define __in_TEXCOORD0(a,b,c)  , __in(a, b, c)
+#else
+#define __in_TEXCOORD0(a,b,c)
+#define vertexTexcoord0 float4(0,0,0,0)
+#endif
+#if USE_TEXCOORD1
+#define __in_TEXCOORD1(a,b,c)  , __in(a, b, c)
+#else
+#define __in_TEXCOORD1(A,B,C)
+#define vertexTexcoord1 float4(0,0,0,0)
+#endif
+#if USE_TEXCOORD2
+#define __in_TEXCOORD2(a,b,c)  , __in(a, b, c)
+#else
+#define __in_TEXCOORD2(a,b,c)
+#define vertexTexcoord2 float4(0,0,0,0)
+#endif
+#if USE_TEXCOORD3
+#define __in_TEXCOORD3(a,b,c)  , __in(a, b, c)
+#else
+#define __in_TEXCOORD3(a,b,c)
+#define vertexTexcoord3 float4(0,0,0,0)
+#endif
+#if USE_COLOR
+#define __in_COLOR(a,b,c)      , __in(a, b, c)
+#else
+#define __in_COLOR(a,b,c)
+#define vertexColor half4(0,0,0,0)
+#endif
+#if USE_TEXCOORD12
+#define __in_TEXCOORD12(a,b,c)      , __in(a, b, c)
+#else
+#define __in_TEXCOORD12(a,b,c)
+#define instanceUVOffset float2(0,0)
+#endif
+#if USE_TEXCOORD13
+#define __in_TEXCOORD13(a,b,c)      , __in(a, b, c)
+#else
+#define __in_TEXCOORD13(a,b,c)
+#define instanceLocalOffset float3(0,0,0)
+#endif
+#if USE_TEXCOORD15
+#define __in_TEXCOORD15(a,b,c)      , __in(a, b, c)
+#else
+#define __in_TEXCOORD15(a,b,c)
+#define vertexFlagsDisp 0
+#endif
+
+#endif /* !defined(RENDERER_D3D11) */
+
+#endif

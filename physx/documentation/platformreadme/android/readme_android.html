@@ -1,0 +1,97 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for Android ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for Android ReadMe</h1>
+
+<blockquote>
+
+	<h4>Platform Requirements:</h4>
+	<ul>
+		<li>Android API level 19 (KITKAT).</li>
+	</ul>
+
+	<h4>Location of Binaries:</h4>
+	<ul>
+		<li>SDK static libraries: bin/android.arm.fp-soft</li>
+	</ul>
+
+	<h4>Required packages to generate projects:</h4>
+	<ul>
+		<li>CMake, minimum version 3.12</li>
+		<li>Python, minimum version 2.7.6</li>
+	</ul>
+
+	<h4>Generating makefiles:</h4>
+	<ul>
+		<li>Solutions are generated through a script in physx root directory: generate_projects.bat</li>
+		<li>Script generate_projects.bat expects a preset name as a parameter, if a parameter is not provided it does list the available presets.</li>
+		<li>Supported presets for android platform are: android.</li>
+		<li>Generated solutions are in folder compiler/android-debug, compiler/android-checked, compiler/android-profile, compiler/android-release.</li>
+	</ul>
+
+	<h4>Prerequisites:</h4>
+	<ul>
+		<li>Android NDK: Version r13b and up</li>
+		<li>Android SDK: Android-10 Headers needed, (adb for deploying to device)</li>
+		<li>MinGW to compile makefiles.</li>
+		<li>Extract this installer to a path without white spaces in its name.</li>
+	</ul>
+
+	<h4>Building PhysX SDK:</h4>
+	<ul>
+		<li>Run the Makefiles from within MinGW - MSYS.</li>
+		<ul>
+			<li>e.g. for building the release build, "cd ./compiler/android-release/" and run "make".</li>
+		</ul>
+	</ul>
+
+	<h4>Snippets deploy and run.</h4>
+	<ul>
+		<li>Deploy</li>
+		<ul>
+			<li>push the executable to the device e.g.: adb push bin/android.arm.fp-soft/release/SnippetHelloWorld data/tmp</li>
+			<li>change the rights for the executable e.g.: adb shell su -c chmod 777 data/tmp/SnippetHelloWorld</li>
+		</ul>
+		<li>Run</li>
+		<ul>
+			<li>run the executable on the device e.g.: adb shell "cd data/tmp; ./SnippetHelloWorld</li>
+		</ul>
+	</ul>
+
+	<h4>Known Issues:</h4>
+	<ul>
+		<li>Builds fail with: "cc1plus.exe: out of memory allocating N bytes". Try raising the virtual memory size on the build machine or reduce the number of parallel build jobs (in the helper scripts).</li>
+		<li>Builds fail with: "Couldn't reserve space for cygwin's heap, Win32 error 0". Try "rebase -b 0x30000000 msys-1.0.dll"</li>
+		<li>Aggregates can fail if the SDK is built with the official NDK. Fixed with patched gcc in NVNDK and since NDK r8e (gcc 4.7).</li>
+		<li>Profiling builds can be slower than release and checked builds because of different build options (keep frame pointer) and profiling framework overhead.</li>
+		<li>There is no rendering support for Snippets on android devices.</li>
+	</ul>
+
+	<h4>Limitations:</h4>
+	<ul>
+		<li>The maximum number of shapes in each scene must be less than 32767.</li>
+		<li>The maximum number of dynamic actors added to each scene must be less than 65535.</li>
+		<li>The maximum number of broadphase overlap pairs must be less than 65535. Overlap pairs above this limit will be neglected.</li>
+	</ul>
+
+	<h4>Thirdparty software:</h4>
+	<ul>
+		<li>Cmake android toolchain file - https://github.com/taka-no-me/android-cmake under BSD 3 Clause license (https://opensource.org/licenses/BSD-3-Clause)</li>
+	</ul>
+
+</blockquote>
+
+
+
+<p><br>
+Copyright (c) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>
+</html>

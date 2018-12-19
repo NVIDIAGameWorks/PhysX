@@ -1,0 +1,10 @@
+digraph "PxContactPairVelocity"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node2 [label="PxContactPairVelocity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxContactPairExtraDataItem",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxContactPairExtraDataItem.html",tooltip="Base class for items in the extra data stream of contact pairs. "];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" linearVelocity\nangularVelocity" ,fontname="Helvetica"];
+  Node4 [label="PxVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVec3.html",tooltip="3 Element vector class. "];
+}

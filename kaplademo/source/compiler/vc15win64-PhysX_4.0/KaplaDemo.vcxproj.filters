@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="Source Files">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\kaplaDemo">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\kaplaDemo\Fracture">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\kaplaDemo\Fracture\Core">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\ActorBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundCreatorBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\CompoundGeometryBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\ConvexBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\MeshBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\PolygonTriangulatorBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Core\SimSceneBase.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\ActorBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundCreatorBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\CompoundGeometryBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\ConvexBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\MeshBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\PolygonTriangulatorBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Core\SimSceneBase.h">
+			<Filter>Source Files\kaplaDemo\Fracture\Core</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Actor.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Compound.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\CompoundCreator.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\CompoundGeometry.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Convex.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\ConvexRenderer.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\Mesh.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\PolygonTriangulator.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Fracture\SimScene.cpp">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Actor.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Compound.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\CompoundCreator.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\CompoundGeometry.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Convex.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\ConvexRenderer.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\Mesh.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\PolygonTriangulator.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\RTdef.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Fracture\SimScene.h">
+			<Filter>Source Files\kaplaDemo\Fracture</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="Source Files\kaplaDemo\Vec">
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Bounds3.h">
+			<Filter>Source Files\kaplaDemo\Vec</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Plane.h">
+			<Filter>Source Files\kaplaDemo\Vec</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Quat.h">
+			<Filter>Source Files\kaplaDemo\Vec</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Transform.h">
+			<Filter>Source Files\kaplaDemo\Vec</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Vec\Vec3.h">
+			<Filter>Source Files\kaplaDemo\Vec</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\kaplaDemo\AABox.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Crab.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\CrabManager.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\MathUtils.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\MediaPath.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewer.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewerGamepad.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SampleViewerScene.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneCrab.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKapla.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKaplaArena.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneKaplaTower.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneRagdollWashingMachine.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicle.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicleCooking.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\SceneVehicleSceneQuery.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\TerrainMesh.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\TerrainRandomSamplePrecompute.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\Timing.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleCameraController.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleControlInputs.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleController.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleManager.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\kaplaDemo\VehicleWheelQueryResults.cpp">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClCompile>
+		<ClInclude Include="..\..\kaplaDemo\AABox.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Crab.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\CrabManager.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\MathUtils.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\MediaPath.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\PhysXMacros.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewer.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewerGamepad.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SampleViewerScene.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneCrab.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneCrabInputEventIds.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKapla.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKaplaArena.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneKaplaTower.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneRagdollWashingMachine.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicle.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicleCooking.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\SceneVehicleSceneQuery.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\TerrainMesh.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\TerrainRandomSamplePrecompute.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\Timing.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleCameraController.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleControlInputs.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleController.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleManager.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\kaplaDemo\VehicleWheelQueryResults.h">
+			<Filter>Source Files\kaplaDemo</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

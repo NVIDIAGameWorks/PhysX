@@ -1,0 +1,74 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for iOS ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for iOS ReadMe</h1>
+
+<blockquote>
+
+	<h4>Location of ios64 Binaries:</h4>
+	<ul>
+		<li>SDK static libraries: bin/ios.arm_64/</li>
+	</ul>
+
+	<h4>Required packages to generate projects:</h4>
+	<ul>
+		<li>CMake, minimum version 3.12</li>
+		<li>Python, minimum version 2.7.6</li>
+	</ul>
+
+	<h4>Generating XCode projects:</h4>
+	<ul>
+		<li>Projects are generated through a script in physx root directory: generate_projects.sh</li>
+		<li>Script generate_projects.sh expects a preset name as a parameter, if a parameter is not provided it does list the available presets.</li>
+		<li>Supported presets for ios platform are: ios64.</li>
+		<li>Generated solutions are in folder compiler/"preset name".</li>
+	</ul>
+
+	<h4>Building SDK Source and Snippets with XCode:</h4>
+	<ul>
+		<li>XCode projects are in compiler/ios64</li>
+		<li>Open PhysXSDK.xcodeproj to build the entire SDK source within XCode</li>
+		<li>Build from command line using e.g.: xcodebuild -project PhysX.xcodeproj -alltargets -configuration (debug|checked|profile|release)</li>
+		<li>Select one of the snippet schemes from the drop down list</li>
+		<li>Press "Run" to build and run the selected snippet</li>
+		<li>In order to build and run release mode you need to select "Edit Scheme..." and change the "Build Configuration" to "release".</li>
+	</ul>
+
+	<h4>Notes:</h4>
+	<ul>
+		<li>No rendering support for Snippets</li>
+		<li>XCode projects target:</li>
+		<ul>
+		 	<li>XCode version: 10.1</li>
+		 	<li>Compiler: Apple LLVM version 10.0.0</li>
+		 	<li>platforms: armv7, arm64</li>
+		 	<li>device: iPad</li>
+		</ul>
+		<li>Building for the simulator is not supported</li>
+	</ul>
+
+	<h4>Limitations:</h4>
+	<ul>
+		<li>The maximum number of shapes in each scene must be less than 32767.</li>
+		<li>The maximum number of dynamic actors added to each scene must be less than 65535.</li>
+		<li>The maximum number of broadphase overlap pairs must be less than 65535. Overlap pairs above this limit will be neglected.</li>
+	</ul>
+
+	<h4>Thirdparty software:</h4>
+	<ul>
+		<li>Cmake ios toolchain file - https://github.com/cristeab/ios-cmake under BSD 3 Clause license (https://opensource.org/licenses/BSD-3-Clause)</li>
+	</ul>
+</blockquote>
+
+<p><br>
+Copyright (c) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>
+</html>

@@ -1,0 +1,19 @@
+#include <phong_lighting.cg>
+#include <fragment_entry_skydome.cg>
+
+DECLARE_TEXTURE(skydomeTexture)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	half4 skydomeTextureColor  = (half4)tex2D(skydomeTexture, params.texcoord0.xy);
+	SurfaceMaterial mout;
+	mout.diffuseColor       = half3(skydomeTextureColor.xyz * (skydomeTextureColor.a) + g_fogColorAndDistance.xyz * (1.0-skydomeTextureColor.a));
+    //skydomeTextureColor.rgb;
+	mout.alpha              = skydomeTextureColor.a;
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(0,0,0); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = 1;
+	mout.tangentSpaceNormal = half3(0,0,1);
+
+	return mout;
+}

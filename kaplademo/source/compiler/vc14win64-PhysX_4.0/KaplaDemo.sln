@@ -1,0 +1,57 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KaplaDemo", "./KaplaDemo.vcxproj", "{6E287960-8900-CF0B-BACC-4AC0C281B53A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F} = {7D20139C-09F4-B0C5-B9C9-8E603785931F}
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C} = {334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew-MT", "./../../../externals/glew-1.13.0/compiler/vc14win64/glew-MT.vcxproj", "{7D20139C-09F4-B0C5-B9C9-8E603785931F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoFramework", "./DemoFramework.vcxproj", "{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F} = {7D20139C-09F4-B0C5-B9C9-8E603785931F}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|x64 = checked|x64
+		debug|x64 = debug|x64
+		profile|x64 = profile|x64
+		release|x64 = release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.checked|x64.ActiveCfg = checked|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.checked|x64.Build.0 = checked|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.debug|x64.ActiveCfg = debug|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.debug|x64.Build.0 = debug|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.profile|x64.ActiveCfg = profile|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.profile|x64.Build.0 = profile|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.release|x64.ActiveCfg = release|x64
+		{6E287960-8900-CF0B-BACC-4AC0C281B53A}.release|x64.Build.0 = release|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.checked|x64.ActiveCfg = checked|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.checked|x64.Build.0 = checked|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.debug|x64.ActiveCfg = debug|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.debug|x64.Build.0 = debug|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.profile|x64.ActiveCfg = profile|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.profile|x64.Build.0 = profile|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.release|x64.ActiveCfg = release|x64
+		{7D20139C-09F4-B0C5-B9C9-8E603785931F}.release|x64.Build.0 = release|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.checked|x64.ActiveCfg = checked|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.checked|x64.Build.0 = checked|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.debug|x64.ActiveCfg = debug|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.debug|x64.Build.0 = debug|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.profile|x64.ActiveCfg = profile|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.profile|x64.Build.0 = profile|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.release|x64.ActiveCfg = release|x64
+		{334F4422-2744-A7F0-A2CA-E6E2CE04CA5C}.release|x64.Build.0 = release|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddins) = postSolution
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal

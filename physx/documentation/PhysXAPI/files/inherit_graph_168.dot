@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="PxJacobianRow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxJacobianRow.html",tooltip="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ..."];
+}

@@ -1,0 +1,98 @@
+
+#ifndef GLOBALS_CG
+#define GLOBALS_CG
+
+#define MAX_BONES 60
+
+#if !defined(MAX_LIGHTS)
+#define MAX_LIGHTS 1
+#endif
+
+#include <defines.cg>
+
+BEGIN_CBUFFER(cbMesh0)
+CONST_TYPE float4x4      g_MVP;
+END_CBUFFER(cbMesh0)
+
+BEGIN_CBUFFER(cbMesh)
+CONST_TYPE float4x4      g_modelMatrix;
+CONST_TYPE float4x4      g_modelViewMatrix;
+CONST_TYPE float4x4      g_modelViewProjMatrix;
+END_CBUFFER(cbMesh)
+
+BEGIN_CBUFFER(cbFrame)
+CONST_TYPE float4x4      g_viewMatrix;
+CONST_TYPE float4x4      g_projMatrix;
+CONST_TYPE float3        g_eyePosition;
+CONST_TYPE float3        g_eyeDirection;
+END_CBUFFER(cbFrame)
+
+BEGIN_CBUFFER(cbFrameInv)
+CONST_TYPE float4x4      g_invViewProjMatrix;
+END_CBUFFER(cbFrameInv)
+
+#if defined USE_VTF
+CONST_TYPE sampler2D g_boneTexture;	// Vertex texture to hold bone matrices
+#endif
+
+BEGIN_CBUFFER(cbBones)
+CONST_TYPE float4x4      g_boneMatrices[MAX_BONES]; // TODO: change this to a float4x3 (a transposed 3x4) so we can pack more bones in...
+#if defined USE_VTF
+CONST_TYPE int g_boneTextureHeight;	// Bone texture height
+#endif
+END_CBUFFER(cbBones)
+
+BEGIN_CBUFFER(cbFog)
+CONST_TYPE float4        g_fogColorAndDistance;
+END_CBUFFER(cbFog)
+
+BEGIN_CBUFFER(cbAmbient)
+CONST_TYPE float3        g_ambientColor;
+END_CBUFFER(cbAmbient)
+
+BEGIN_CBUFFER(cbLight)
+CONST_TYPE float3        g_lightColor;
+CONST_TYPE float3        g_lightDirection;
+CONST_TYPE float3        g_lightPosition;
+CONST_TYPE float         g_lightIntensity;
+CONST_TYPE float         g_lightInnerRadius;
+CONST_TYPE float         g_lightOuterRadius;
+CONST_TYPE float         g_lightInnerCone;
+CONST_TYPE float         g_lightOuterCone;
+END_CBUFFER(cbLight)
+
+BEGIN_CBUFFER(cbScale)
+#if ENABLE_VFACE_SCALE
+	CONST_TYPE float g_vfaceScale;
+#endif
+END_CBUFFER(cbScale)
+
+// D3D11 expects rgba
+#if ENABLE_COLOR_SWIZZLE_SUPPORT
+BEGIN_CBUFFER(cbSwizzleColor)
+CONST_TYPE int g_bSwizzleColor;
+END_CBUFFER(cbSwizzleColor)
+half4 swizzle(half4 inColor) { return g_bSwizzleColor ? inColor.zyxw : inColor; }
+#else
+half4 swizzle(half4 inColor) { return inColor; }
+#endif
+
+#if defined(RENDERER_D3D11)
+// D3D11 screen coordinates differ from GL/DX9
+BEGIN_CBUFFER(cbView2D)
+CONST_TYPE float4x4 g_viewMatrix2D;
+END_CBUFFER(cbView2D)
+#else
+static const float4x4 g_viewMatrix2D = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
+#endif
+
+#if defined(PASS_SPOT_LIGHT)
+	// TODO: Make this less hacky, have a PASS_SUPPORTS_SHADOWS #define
+	#define PASS_SUPPORTS_SHADOWS
+	DECLARE_TEXTURE(g_lightShadowMap);
+	BEGIN_CBUFFER(cbLightShadow)
+	CONST_TYPE float4x4  g_lightShadowMatrix;
+	END_CBUFFER(cbLightShadow)
+#endif
+
+#endif

@@ -1,0 +1,31 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+DECLARE_TEXTURE(diffuseTexture)
+BEGIN_CBUFFER(cbDiffuse)
+CONST_TYPE float4 diffuseColor;
+END_CBUFFER(cbDiffuse)
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	SurfaceMaterial mout;
+#if defined(PX_X360) && defined(RENDERER_FRAGMENT)
+	half4 diffuseTextureColor  = tex2D(diffuseTexture, float2(params.spriteTexCoord.x, params.spriteTexCoord.y));
+#else	
+	#if defined (RENDERER_GXM)
+		half4 diffuseTextureColor  = (half4)tex2D(diffuseTexture, float2(params.spriteTexCoord.x, params.spriteTexCoord.y));
+	#else
+		half4 diffuseTextureColor  = (half4)tex2D(diffuseTexture, float2(params.texcoord0.x, params.texcoord0.y));
+	#endif
+#endif
+	
+	mout.alpha              = half(diffuseTextureColor.a * diffuseColor.a * params.color.a);
+	mout.diffuseColor       = half3(diffuseTextureColor.rgb * diffuseColor.rgb);
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(1,1,1);
+	mout.specularPower      = 0;
+	mout.tangentSpaceNormal = half3(0,0,1);
+	
+	return mout;
+}

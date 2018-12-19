@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="android" comment="Android-19, armeabi-v7a with NEON PhysX SDK ">
+  <platform targetPlatform="android" compiler="clang" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets" />
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/android-19/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="ANDROID_NATIVE_API_LEVEL" value="android-19" comment="Android platform API level" />
+    <cmakeParam name="ANDROID_ABI" value="armeabi-v7a with NEON" comment="Android arm ABI" />
+  </CMakeParams>
+</preset>

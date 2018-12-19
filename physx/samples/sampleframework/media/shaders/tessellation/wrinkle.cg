@@ -1,0 +1,312 @@
+#ifndef TESSELLATION_ENTRY_CG
+#define TESSELLATION_ENTRY_CG
+
+#include <config.cg>
+#include <globals.cg>
+
+uniform const float wavelength;
+uniform const float amplitude;
+uniform const float tessellation = 5.0f;
+uniform const float compressionMin = 0.05f;
+uniform const float compressionMax = 0.2f;
+uniform const float harmonics = 0.0f;
+
+DECLARE_TEXTURE(profile)
+
+//--------------------------------------------------------------------------------------
+// Structures
+//--------------------------------------------------------------------------------------
+
+struct VertexOut
+{
+	FragmentParameters params;
+	float4             screenSpacePosition : POSITION;
+};
+
+struct HullConstOut
+{
+	float     Edges[3]         : SV_TessFactor;
+	float     Inside           : SV_InsideTessFactor;
+
+};
+
+struct HullControlOut
+{
+	float3 b300 			: SEMANTIC_PN_COEFF0;
+	float3 b030 			: SEMANTIC_PN_COEFF1;	
+	float3 b003 			: SEMANTIC_PN_COEFF2;
+	float3 b210 			: SEMANTIC_PN_COEFF3;
+	float3 b120 			: SEMANTIC_PN_COEFF4;
+	float3 b021 			: SEMANTIC_PN_COEFF5;
+	float3 b012 			: SEMANTIC_PN_COEFF6;
+	float3 b102 			: SEMANTIC_PN_COEFF7;
+	float3 b201 			: SEMANTIC_PN_COEFF8;
+	float3 b111 			: SEMANTIC_PN_COEFF9;
+	float3 normal[3]		: SEMANTIC_PN_COEFF10;
+	float3 tangent[3]		: SEMANTIC_PN_COEFF13;
+	float3 binormal[3]		: SEMANTIC_PN_COEFF16;
+	float4 compression[3]	: SEMANTIC_PN_COEFF19;
+	float4 texcoord[3]		: SEMANTIC_PN_COEFF22;
+};
+
+struct DomainOut
+{
+	FragmentParameters params;
+	float4 screenSpacePosition : SV_POSITION;
+};
+
+
+//--------------------------------------------------------------------------------------
+// Hull shader
+//--------------------------------------------------------------------------------------
+HullConstOut ConstantsHS( InputPatch<VertexOut, 3> inputPatch, uint uPID : SV_PrimitiveID )
+{
+	HullConstOut output  = (HullConstOut)0;
+// 	float4 vEdgeTessellationFactors = g_tessFactor.xxxy;
+// 	float3 vEdgeFactor;
+// 	bool3 vInterior;
+
+	// Assign tessellation levels
+	output.Edges[0]     = tessellation;
+	output.Edges[1]     = tessellation;
+	output.Edges[2]     = tessellation;
+	output.Inside       = tessellation;
+
+	return output;
+}
+
+[domain("tri")]
+[partitioning("fractional_odd")]
+[outputtopology("triangle_cw")]
+[outputcontrolpoints(1)]
+[patchconstantfunc("ConstantsHS")]
+[maxtessfactor(15.0)]
+HullControlOut hmain( InputPatch<VertexOut, 3> inputPatch, uint uCPID : SV_OutputControlPointID )
+{
+	HullControlOut oPatch;
+
+	const float3 v1 = inputPatch[0].params.worldSpacePosition;
+	const float3 v2 = inputPatch[1].params.worldSpacePosition;
+	const float3 v3 = inputPatch[2].params.worldSpacePosition;
+
+	const float3 n1 = inputPatch[0].params.worldSpaceNormal;
+	const float3 n2 = inputPatch[1].params.worldSpaceNormal;
+	const float3 n3 = inputPatch[2].params.worldSpaceNormal;
+
+	// Set the control points of the output patch	
+   	oPatch.b300 = v1;
+	oPatch.b030 = v2;
+	oPatch.b003 = v3;
+
+	float w12 = dot(v2-v1, n1);
+	float w21 = dot(v1-v2, n2);
+	float w23 = dot(v3-v2, n2);
+	float w32 = dot(v2-v3, n3);
+	float w31 = dot(v1-v3, n3);
+	float w13 = dot(v3-v1, n1);		
+
+	oPatch.b210 = (2.0f*v1 + v2 - w12*n1)/3.0f;
+	oPatch.b120 = (2.0f*v2 + v1 - w21*n2)/3.0f;
+	oPatch.b021 = (2.0f*v2 + v3 - w23*n2)/3.0f;		
+	oPatch.b012 = (2.0f*v3 + v2 - w32*n3)/3.0f;
+	oPatch.b102 = (2.0f*v3 + v1 - w31*n3)/3.0f;
+	oPatch.b201 = (2.0f*v1 + v3 - w13*n1)/3.0f;
+
+	float3 e = (oPatch.b210 + oPatch.b120 + oPatch.b021 + oPatch.b012 + oPatch.b102 + oPatch.b201) / 6.0f;
+	float3 v = (v1 + v2 + v3) / 3.0f;
+	
+	oPatch.b111 = e + (e-v)/2.0f;
+
+	oPatch.normal[0] = n1;
+	oPatch.normal[1] = n2;
+	oPatch.normal[2] = n3;
+
+	oPatch.tangent[0] = inputPatch[0].params.worldSpaceTangent;
+	oPatch.tangent[1] = inputPatch[1].params.worldSpaceTangent;
+	oPatch.tangent[2] = inputPatch[2].params.worldSpaceTangent;
+
+	oPatch.binormal[0] = inputPatch[0].params.worldSpaceBinormal;
+	oPatch.binormal[1] = inputPatch[1].params.worldSpaceBinormal;
+	oPatch.binormal[2] = inputPatch[2].params.worldSpaceBinormal;
+
+	oPatch.compression[0] = float4(swizzle(inputPatch[0].params.color));
+	oPatch.compression[1] = float4(swizzle(inputPatch[1].params.color));
+	oPatch.compression[2] = float4(swizzle(inputPatch[2].params.color));
+	
+	oPatch.texcoord[0] = inputPatch[0].params.texcoord0;
+	oPatch.texcoord[1] = inputPatch[1].params.texcoord0;
+	oPatch.texcoord[2] = inputPatch[2].params.texcoord0;
+	
+	return oPatch;
+}
+
+//--------------------------------------------------------------------------------------
+// Domain Shader
+//--------------------------------------------------------------------------------------
+
+float cube(float x) { return x*x*x; }
+float sqr(float x) { return x*x; }
+
+float wrinkleProfile(float theta, float r)
+{
+	// standard sinusoid (biased above surface)
+	//return cos(theta)*0.5f + 0.5f;
+
+	// squared sinusoid 
+	//return sqr(cos(theta))*0.5f + 0.5f;
+
+	// cubed sinusoid 
+	return cube(cos(theta))*0.5f + 0.5f;
+
+	// harmonic frequency
+	//return lerp(cos(theta), 0.5f*cos(2.0f*theta), r*harmonics)*0.5f + 0.5f;
+
+	// texture profile
+	//const float k2Pi = 6.2831853f;
+	//return profile.SampleLevel(profileSamplerState, float2(theta/k2Pi, 0.5f), 0.0f).x;
+}
+
+float wrinkleProfileDeriv(float theta, float r)
+{
+	// standard sinusoid
+	//return -sin(theta)*0.5f;
+	
+	// squared sinusoid
+	//return -2.0f*cos(theta)*sin(theta)*0.5f;
+
+	// cubed sinusoid
+	return -3.0f*sqr(cos(theta))*sin(theta)*0.5f;
+	
+	// harmonic frequency
+	//return 0.5f*lerp(-sin(theta), -sin(2.0f*theta), r*harmonics);	
+	
+	/*
+	// texture based
+	const float k2Pi = 6.2831853f;
+	
+	// approximate texture profile derivative with finite differences
+	float h1 = profile.SampleLevel(profileSamplerState, float2(theta/k2Pi, 0.5f), 0.0f, int2(-1, 0)).x;
+	float h2 = profile.SampleLevel(profileSamplerState, float2(theta/k2Pi, 0.5f), 0.0f, int2( 1, 0)).x;
+	
+	return (h2-h1)*256.0f/(k2Pi*2.0f);	
+	*/
+}
+
+float frequencyFunc(float compression, float baseFrequency)
+{
+	const float k2Pi = 6.2831853f;
+	
+	// decrease wavelength as compression increases
+	//return k2Pi/baseWavelength;
+	//return k2Pi/(max(sqr(1.0f-compression), 0.2f)*baseWavelength);	
+	//return k2Pi*max(baseWavelength*compression, 0.1f*baseWavelength);
+	return k2Pi*lerp(baseFrequency*0.1f, baseFrequency, compression);
+}
+
+float amplitudeFunc(float compression)
+{
+	// proportional to compression
+	return compression;
+
+	// parabola with zeros at 0, 1
+	//return 1.0f - sqr(compression*2.0f-1.0f);	
+}
+
+float wrinkleFunc(float3 vertex, float3 vertexCompression, float3 x, float baseFrequency, float phaseOffset, float scale, out float3 dhdx)
+{
+	// project test point onto axis of compression
+	float r = length(vertexCompression);
+	if (r < 0.001f)
+	{
+		dhdx = 0.0f;
+		return 0.0f;
+	}	
+	float3 axis = vertexCompression/r;
+	
+	const float frequency = frequencyFunc(r, baseFrequency);
+	const float amplitude = amplitudeFunc(r)*scale/frequency;
+
+	float theta = frequency*dot(axis, x-vertex) + phaseOffset;
+	
+	// normal offset
+	dhdx = amplitude*frequency*axis*wrinkleProfileDeriv(theta, r);
+
+	// height offset
+	return amplitude*wrinkleProfile(theta, r);
+}
+
+float interpolate1d(float a, float b, float c, float u, float v, float w)
+{
+	return a*u + b*v + c*w;	
+}
+
+float3 interpolate3d(float3 a, float3 b, float3 c, float u, float v, float w)
+{
+	return a*u + b*v + c*w;
+}
+
+[domain("tri")]
+DomainOut dmain( HullConstOut input,
+                 float3 BarycentricCoordinates : SV_DomainLocation,
+                 const OutputPatch<HullControlOut, 1> oPatch )
+{
+	DomainOut output;
+
+	// ordering from the original paper
+	float u = BarycentricCoordinates.y;
+	float v = BarycentricCoordinates.z;
+	float w = BarycentricCoordinates.x;
+	
+	float3 x = oPatch[0].b300*w*w*w + 
+			oPatch[0].b030*u*u*u + 
+			oPatch[0].b003*v*v*v + 
+			oPatch[0].b210*3.0f*w*w*u + 
+			oPatch[0].b120*3.0f*w*u*u + 
+			oPatch[0].b201*3.0f*w*w*v +
+			oPatch[0].b021*3.0f*u*u*v +
+			oPatch[0].b102*3.0f*w*v*v +
+			oPatch[0].b012*3.0f*u*v*v +
+			oPatch[0].b111*6.0f*w*u*v;
+
+	// normal ordering
+	u = BarycentricCoordinates.x;
+	v = BarycentricCoordinates.y;
+	w = BarycentricCoordinates.z;
+
+	float3 n1;
+	float3 n2;
+	float3 n3;
+
+	float lambda = 1.0f/wavelength;
+			
+	float h1 = wrinkleFunc(oPatch[0].b300, oPatch[0].compression[0].xyz, x, lambda, oPatch[0].compression[0].w, amplitude, n1);
+	float h2 = wrinkleFunc(oPatch[0].b030, oPatch[0].compression[1].xyz, x, lambda, oPatch[0].compression[1].w, amplitude, n2);
+	float h3 = wrinkleFunc(oPatch[0].b003, oPatch[0].compression[2].xyz, x, lambda, oPatch[0].compression[2].w, amplitude, n3);
+	
+	float h = interpolate1d(h1, h2, h3, u, v, w);
+		
+	float3 n = normalize(interpolate3d(oPatch[0].normal[0], oPatch[0].normal[1], oPatch[0].normal[2], u, v, w));	
+	
+	// artificallly strengthen normal displacement to enhance wrinkles
+	const float kNormalScale = 2.0f;
+	
+	output.params.worldSpacePosition = x + h*n;
+	output.params.worldSpaceNormal = normalize(n - kNormalScale*interpolate3d(n1, n2, n3, u, v, w));
+	output.params.worldSpaceTangent = 0.0f;//interpolate3d(oPatch[0].tangent[1], oPatch[0].tangent[2], oPatch[0].tangent[0], u, v, w);
+	output.params.worldSpaceBinormal = 0.0f;//interpolate3d(oPatch[0].binormal[1], oPatch[0].binormal[2], oPatch[0].binormal[0], u, v, w);
+		
+	output.params.texcoord0 = oPatch[0].texcoord[0]*u + oPatch[0].texcoord[1]*v + oPatch[0].texcoord[2]*w;
+	output.params.texcoord1 = 0.0;
+	output.params.texcoord2 = 0.0;
+	output.params.texcoord3 = 0.0;
+	//output.params.color.xyz = half3(h, h, h);
+	//output.params.color.w = 1.0;
+	output.params.color = 1.0;
+	
+	// Transform world position with viewprojection matrix
+	output.screenSpacePosition = mul(g_projMatrix, mul(g_viewMatrix, float4(output.params.worldSpacePosition, 1.0)));
+
+	return output;
+}
+
+#endif

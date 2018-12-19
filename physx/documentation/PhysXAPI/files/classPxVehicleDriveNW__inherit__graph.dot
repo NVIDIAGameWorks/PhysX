@@ -1,0 +1,12 @@
+digraph "PxVehicleDriveNW"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="PxVehicleDriveNW",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="PxVehicleDrive",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDrive.html",tooltip="A complete vehicle with instance dynamics data and configuration data for wheels and engine..."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PxVehicleWheels",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleWheels.html",tooltip="Data structure with instanced dynamics data and configuration data of a vehicle with just wheels..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxBase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxBase.html",tooltip="Base class for objects that can be members of a PxCollection. "];
+}

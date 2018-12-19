@@ -1,0 +1,18 @@
+
+#include <phong_lighting.cg>
+#include <fragment_entry.cg>
+
+uniform const float4	diffuseColor;
+uniform const float4	specularColor;
+
+SurfaceMaterial computeSurfaceMaterial(const FragmentParameters params)
+{
+	SurfaceMaterial mout;
+	mout.diffuseColor       = half3(diffuseColor.xyz);
+	mout.alpha              = half(diffuseColor.a);
+	mout.emissiveColor      = 0;
+	mout.specularColor      = half3(specularColor.rgb); // TODO: make this a constant parameter set by the material.
+	mout.specularPower      = half(specularColor.a);
+	mout.tangentSpaceNormal = half3(0,0,1);
+	return mout;
+}

@@ -1,0 +1,16 @@
+digraph "PxActorShape"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="PxActorShape",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="PxQueryHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxQueryHit.html",tooltip="Scene query hit information. "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PxLocationHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxLocationHit.html",tooltip="Scene query hit information for raycasts and sweeps returning hit position and normal information..."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PxRaycastHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxRaycastHit.html",tooltip="Stores results of raycast queries. "];
+  Node2 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PxSweepHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxSweepHit.html",tooltip="Stores results of sweep queries. "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PxOverlapHit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxOverlapHit.html",tooltip="Stores results of overlap queries. "];
+}

@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="PxVehicleDriveSimData",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDriveSimData.html",tooltip="Data structure describing non-wheel configuration data of a vehicle that has engine, gears, clutch, and auto-box. "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="PxVehicleDriveSimData4W",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDriveSimData4W.html",tooltip="Data structure describing the drive model components of a vehicle with up to 4 driven wheels and up t..."];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PxVehicleDriveSimDataNW",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVehicleDriveSimDataNW.html",tooltip="Data structure describing configuration data of a vehicle with up to PX_MAX_NB_WHEELS driven equally ..."];
+}

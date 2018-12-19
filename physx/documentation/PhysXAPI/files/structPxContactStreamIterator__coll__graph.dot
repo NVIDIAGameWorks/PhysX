@@ -1,0 +1,13 @@
+digraph "PxContactStreamIterator"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="PxContactStreamIterator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" zero" ,fontname="Helvetica"];
+  Node2 [label="PxVec3",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxVec3.html",tooltip="3 Element vector class. "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" contact" ,fontname="Helvetica"];
+  Node3 [label="PxContact",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxContact.html",tooltip="Contact point data including face (feature) indices. "];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" contact" ,fontname="Helvetica"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" patch" ,fontname="Helvetica"];
+  Node4 [label="PxContactPatch",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxContactPatch.html",tooltip="Header for contact patch where all points share same material and normal. "];
+}
