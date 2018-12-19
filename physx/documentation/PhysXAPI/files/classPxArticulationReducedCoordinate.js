@@ -27,6 +27,7 @@ var classPxArticulationReducedCoordinate =
     [ "release", "classPxArticulationReducedCoordinate.html#a15d00fc95ae61c2906977453e7597d9b", null ],
     [ "releaseCache", "classPxArticulationReducedCoordinate.html#ae3b3c188ffd64c4ba7cfd7508efd63bf", null ],
     [ "removeLoopJoint", "classPxArticulationReducedCoordinate.html#a024c2e5000ad1033a868a73b6a025c03", null ],
+    [ "setArticulationFlag", "classPxArticulationReducedCoordinate.html#aea7152a77f9446960d65359e482595c4", null ],
     [ "setArticulationFlags", "classPxArticulationReducedCoordinate.html#ab155a21325dd588b7e354d3a5b1ef564", null ],
     [ "teleportRootLink", "classPxArticulationReducedCoordinate.html#a2d067a41dc5bcbbdbf9a298d9064b310", null ],
     [ "unpackJointData", "classPxArticulationReducedCoordinate.html#a10d36a5ac6bb414b2240774cabdc4695", null ],

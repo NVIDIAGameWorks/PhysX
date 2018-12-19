@@ -578,7 +578,7 @@ bool createFinalizeSolverContacts(
 		return true;
 	}
 
-	if (!disableStrongFriction && !contactDesc.data0->hasSurfaceVelocity && !contactDesc.data1->hasSurfaceVelocity)
+	if (!disableStrongFriction)
 	{
 		getFrictionPatches(c, contactDesc.frictionPtr, contactDesc.frictionCount, contactDesc.bodyFrame0, contactDesc.bodyFrame1, correlationDistance);
 	}

@@ -132,6 +132,7 @@ namespace SampleFramework
 		physx::PxVec2						getMouseCursorPos() const { return m_mouseCursorPos; }
 		void								setMouseCursorPos(const physx::PxVec2& pos) { m_mouseCursorPos = pos; }
 		void								recenterMouseCursor(bool generateEvent);
+		void								setWorkaroundMouseMoved() { m_workaroundMouseMoved = true;  }
 	
 	protected:	
 		IDirect3D9*							m_d3d;
@@ -154,6 +155,7 @@ namespace SampleFramework
 		char								m_platformName[256];
 		WindowsSampleUserInput				m_windowsSampleUserInput;
 		physx::PxVec2						m_mouseCursorPos;
+		bool								m_workaroundMouseMoved;
 		bool								m_recenterMouseCursor;
 		bool								m_vsync;
 	};

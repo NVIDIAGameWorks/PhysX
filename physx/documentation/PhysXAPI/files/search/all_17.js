@@ -2,7 +2,7 @@ var searchData=
 [
   ['w',['w',['../classPxQuat.html#a84fb33d995ed4e6a26ac3f22523f0b54',1,'PxQuat::w()'],['../classPxVec4.html#a013d7a6e489c7361cbd602fcab6c9e29',1,'PxVec4::w()']]],
   ['wakecounterresetvalue',['wakeCounterResetValue',['../classPxSceneDesc.html#a79e2c9c06f711272a48d7f07451117b7',1,'PxSceneDesc']]],
-  ['wakeup',['wakeup',['../structPxVehicleConcurrentUpdateData.html#a279c8653c02f6ff3131082f4500d0bad',1,'PxVehicleConcurrentUpdateData::wakeup()'],['../classPxArticulationBase.html#a236592b36cced8478b3e4385c54007af',1,'PxArticulationBase::wakeUp()'],['../classPxRigidDynamic.html#a4f1b9e9f437d8b8f27a6e9c2d9ea22fd',1,'PxRigidDynamic::wakeUp()']]],
+  ['wakeup',['wakeUp',['../classPxArticulationBase.html#a236592b36cced8478b3e4385c54007af',1,'PxArticulationBase::wakeUp()'],['../classPxRigidDynamic.html#a4f1b9e9f437d8b8f27a6e9c2d9ea22fd',1,'PxRigidDynamic::wakeUp()'],['../structPxVehicleConcurrentUpdateData.html#a279c8653c02f6ff3131082f4500d0bad',1,'PxVehicleConcurrentUpdateData::wakeup()']]],
   ['wheelqueryresults',['wheelQueryResults',['../structPxVehicleWheelQueryResult.html#afa382a6fb104e8539622189b5d137366',1,'PxVehicleWheelQueryResult']]],
   ['word0',['word0',['../structPxFilterData.html#a326ddcb63323ef46e0ce68d0c17ece8f',1,'PxFilterData']]],
   ['word1',['word1',['../structPxFilterData.html#a11b78c3942ccb889a7e196dc5a640cdc',1,'PxFilterData']]],

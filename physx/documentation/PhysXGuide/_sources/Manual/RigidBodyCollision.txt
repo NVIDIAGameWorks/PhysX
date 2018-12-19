@@ -50,9 +50,6 @@ Detach the shape from the actor as follows::
 
     myActor.detachShape(*shape);
 
-.. note:: in previous versions of PhysX, release() was used to detach a shape from its actor and destroy it. This use of release() is deprecated in PhysX 3.3 and will not be supported in futures version of PhysX.
-
-
 ========================================
 Simulation Shapes and Scene Query Shapes
 ========================================

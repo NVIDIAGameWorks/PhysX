@@ -362,6 +362,10 @@ joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blo
 </div>
 <p>Articulation joints are not breakable, and it is not possible to retrieve the constraint force applied at the joint.</p>
 <p>It should be noted that spherical joints are special-case handled by the reduced coordinate articulations. When there is just 1 degree of freedom, behavior is equivalent to a revolute joint type, but performance will be worse so it is recommended to use revolute joints instead of spherical joints wherever possible. When there are 2 or more degrees of freedom unlocked, rotational motion is integrated by rotating by decomposed quaternions rather than by euler angles to avoid gimbal lock. However, this technique can lead to rotational axis drift, which is corrected by additional constraints in the simulation, which could lead to slight movement on the remaining locked rotational axis.</p>
+<p>The root link in a reduced coordinate articulation can be made to operate like a static body. This is advantageous over constraining the root link using a joint because the immoveable property of the root link is solved perfectly. The following code makes the root link of an articulation be fixed:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">setArticulationFlag</span><span class="p">(</span><span class="n">PxArticulationFlag</span><span class="o">::</span><span class="n">eFIX_BASE</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="joint-positions-and-velocities">
 <h2>Joint positions and velocities<a class="headerlink" href="#joint-positions-and-velocities" title="Permalink to this headline">¶</a></h2>
@@ -369,7 +373,7 @@ joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blo
 <p>Joint position values are used to integrate the links' poses. The root link's world space pose provides a reference frame from which the poses for all other links in the articulation are calculated. This ensures that there will never be any joint separation or rotations around locked axes.</p>
 <p>The caveat with this approach is that it is not possible to simply update the pose of links in an articulation because this new transform could violate locked axes and would differ from the joint position. Instead, it is necessary to update the joint positions, which triggers new link poses to be computed. This ensures that the internal data from which poses are computed is internally consistent at all times.</p>
 <p>Link velocities and joint velocities share a similar relationship. A link's world-space velocities are derived from the world-space velocity of their parent link and the current joint velocity. This means that the root link stores a world-space velocity and all other links' velocities are computed by propagating this velocity and the respective joint velocities through the articulation. As such, it is not possible to directly set the velocity of links in an articulation. Instead, it is necessary to modify the joint velocities from which the links' velocities are calculated. It is legal to apply world-space impulses on links. These will be propagated through the articulation as part of forward dynamics.</p>
-<p>In addition to applying impulses and setting joint positions and velocities, it is possible to interact with the articulation links through the application of joint forces/torques, which behave like a actuator.</p>
+<p>In addition to applying impulses and setting joint positions and velocities, it is possible to interact with the articulation links through the application of joint forces/torques, which behave like an actuator.</p>
 </div>
 <div class="section" id="pxarticulationcache">
 <h2>PxArticulationCache<a class="headerlink" href="#pxarticulationcache" title="Permalink to this headline">¶</a></h2>
@@ -431,6 +435,82 @@ joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blo
 <div class="section" id="inverse-dynamics">
 <h2>Inverse Dynamics<a class="headerlink" href="#inverse-dynamics" title="Permalink to this headline">¶</a></h2>
 <p>In addition to forward dynamics, reduced coordinate articulations offer inverse dynamics functionality. This is a suite of utility functions to compute the joint forces required to counteract gravity, coriolis/centrifugal force, external forces and contacts/constraints. In addition, there are utility functions to compute kinematic jacobians, the mass matrix, coefficient matrix and lambda values.</p>
+<p>The following description assumes knowledge of inverse dynamics concepts.</p>
+<p>Prior to performing any inverse dynamics calculations, it is necessary to ensure that constant joint data has been computed. In order to do this, call:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">commonInit</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The inverse dynamics functions operate on an articulation and a PxArticulationCache. The majority of properties in PxArticulationCache are stored in a reduced/generalized coordinate space, where one entry corresponds to a degree of freedom. To simplify working in this space, PhysX provides the following methods to pack and unpack data to convert between reduced/generalized and maximal coordinates:</p>
+<p>To unpack data from reduced/generalized coordinates to maximal coordinates:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxReal</span> <span class="n">maximalJointForces</span><span class="p">[</span><span class="n">NbLinks</span><span class="o">*</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//There are 6 dofs (x,y,z,twist,swing1,swing2) per link</span>
+
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">unpackJointData</span><span class="p">(</span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">jointForces</span><span class="p">,</span> <span class="n">maximalJointForces</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To pack data from maximal coordinates to reduced/generalized coordinates:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">packJointData</span><span class="p">(</span><span class="n">maximalJointForces</span><span class="p">,</span> <span class="n">cache</span><span class="o">-&gt;</span><span class="n">jointForces</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The following method computes the joint force required to counteract gravity and deposits the set of joint forces in the force buffer in a PxArticulationCache:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeGeneralizedGravityForce</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To compute the joint force required to counteract coriolis and centrifugal force, we must first provide the joint velocities of the articulation because coriolis/centrifugal forces are dependent on those values. In this example, we extract the velocities from the articulation before computing coriolis/centrifugal force:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">copyInternalStateToCache</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">,</span> <span class="n">PxArticulationCache</span><span class="o">::</span><span class="n">eVELOCTY</span><span class="p">);</span>
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeCoriolisAndCentrifugalForce</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To compute the joint acceleration for the articulation, call:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeJointAcceleration</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Joint acceleration is dependent on gravity and current link velocity. The resulting acceleration can be used to compute a set of joint forces capable of maintaining the current joint velocities.</p>
+<p>To convert a joint acceleration into a joint velocity. Input is cache.jointAcceleration, output is cache.jointForce:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeJointForce</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The generalized mass matrix can be computed using the following method. Output is placed in cache.massMatrix. This matrix represents the joint space inertia of the articulation and can be used to convert joint accelerations into joint forces/torques:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeGeneralizedMassMatrix</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Articulations are tree structures and do not support closed loops natively. PhysX can simulate closed loop systems by the use of joints. Additionally, contacts between links and other rigid bodies (e.g. the ground) can form loops if more than one link has contacts. These joints and contacts are solved by the rigid body solver during PhysX simulation, but it is often desirable to factor these constraints into inverse dynamics.</p>
+<p>To facilitate this, PhysX provides a mechanism to register loop constraints with the articulation:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxJoint</span><span class="o">*</span> <span class="n">joint</span> <span class="o">=</span> <span class="p">...;</span>
+
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">addLoopJoint</span><span class="p">(</span><span class="n">joint</span><span class="p">);</span>
+
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">removeLoopJoint</span><span class="p">(</span><span class="n">joint</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>In order to represent contacts, use PxContactJoint : this is a new addition specifically for inverse dynamics that represents a contact as an extension to the joint system. Currently, the following features are restricted to the use of PxContactJoint. Support for additional joint types will be added in the near future.</p>
+<p>Inverse dynamics provides functionality to calculate the coefficient matrix. This matrix is an NxM matrix, where N is the number of degrees of freedom in the articulation and M is the number constraint rows. This matrix represents the joint force caused by a unit impulse applied to each constraint:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxU32</span> <span class="n">coefficientMatrixSize</span> <span class="o">=</span> <span class="n">articulation</span><span class="o">-&gt;</span><span class="n">getCoefficentMatrixSize</span><span class="p">();</span>
+<span class="n">PxReal</span><span class="o">*</span> <span class="n">coefficientMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PxReal</span><span class="p">[</span><span class="n">coefficientMatrixSize</span><span class="p">];</span>
+<span class="n">cache</span><span class="o">-&gt;</span><span class="n">coefficientMatrix</span> <span class="o">=</span> <span class="n">coefficientMatrix</span><span class="p">;</span>
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeCoefficientMatrix</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The coefficient matrix can be used to convert a set of lambda values (impulses applied by the respective constraints) into a set of joint forces to counteract these impulses. However, the lambda values are only known after a frame's simulation occurs, so it may be necessary to know these lambda values before they are applied in the solver. However, even if these lambda values are known ahead-of-time, applying a counteracting force may not yield the desired results because the act of applying additional force on the joints may influence the lambda values, resulting in a different set of joint forces.</p>
+<p>In order to overcome this feedback-loop, inverse dynamics provides a function to compute the lambda values for the loop constraints, assuming that the joint forces required to counteract these lambdas are also applied. This technique is an iterative process that converges on a stable set of joint forces.</p>
+<p>First, we must allocate sufficient space for the lambda values</p>
+<blockquote>
+<div>PxReal* lambda = new PxReal[articulation-&gt;getNbLoopJoints()];
+cache-&gt;lambda = lambda;</div></blockquote>
+<p>In order to compute the lambda values, we need to have 2 caches: one to store the initial state, and one to calculate the final state:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxArticulationCache</span><span class="o">*</span> <span class="n">initialState</span> <span class="o">=</span> <span class="n">articulation</span><span class="o">-&gt;</span><span class="n">createCache</span><span class="p">()</span>
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">copyInternalStateToCache</span><span class="p">(</span><span class="o">*</span><span class="n">initialState</span><span class="p">,</span> <span class="n">PxArticulationCache</span><span class="o">::</span><span class="n">eALL</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Now we can compute the joint forces values. In addition, we must compute the internal and external joint forces caused by gravity and coriolis/centrifugal force to ensure that we converge on a result that will match forward dynamics. The joint force values for internal/external accelerations can be calculated using the methods outlined earlier. The method is iterative and terminates either after reaching convergence or when a maximum number of iterations is run (in this case 200). Resulting joint force is output in cache.jointForce:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">const</span> <span class="n">PxU32</span> <span class="n">maxIterations</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeLambda</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">,</span> <span class="o">*</span><span class="n">initialState</span><span class="p">,</span> <span class="n">jointForces</span><span class="p">,</span> <span class="n">maxIterations</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The kinematic jacobian for an end effector can be computed using the following method. This provides the jacobian matrix for each joint from the end effector to the root link in world space:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeKinematicJacobian</span><span class="p">(</span><span class="n">linkID</span><span class="p">,</span> <span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 </div>
 

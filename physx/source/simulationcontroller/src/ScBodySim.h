@@ -107,8 +107,6 @@ namespace Sc
 						void					postBody2WorldChange();
 						void					postSetWakeCounter(PxReal t, bool forceWakeUp);
 						void					postSetKinematicTarget();
-						void					postSetKinematicSurfaceVelocity();
-						void					postClearKinematicSurfaceVelocity();
 						void					postSwitchToKinematic();
 						void					postSwitchToDynamic();
 						void					postPosePreviewChange(const PxU32 posePreviewFlag);  // called when PxRigidBodyFlag::eENABLE_POSE_INTEGRATION_PREVIEW changes

@@ -261,9 +261,6 @@ public:
 	PX_INLINE		void				syncState();
 	PX_INLINE		void				syncCollisionWriteThroughState();
 
-	void								setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity);
-	void								clearKinematicSurfaceVelocity();
-
 	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Body*>(0)->mBodyCore);	}
 	
 	/**
@@ -694,48 +691,6 @@ PX_INLINE void Body::setKinematicTarget(const PxTransform& p)
 #endif
 }
 
-
-PX_INLINE void Body::setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity)
-{
-	Scene* scene = getScbScene();
-	PX_ASSERT(scene);  // only allowed for an object in a scene
-	PxReal wakeCounterResetValue = scene->getWakeCounterResetValue();
-
-	if (!isBuffering())
-	{
-		mBodyCore.setKinematicSurfaceVelocity(linearVelocity, angularVelocity);
-		mBodyCore.wakeUp(wakeCounterResetValue);
-		setBufferedParamsForAwake(wakeCounterResetValue);
-
-		UPDATE_PVD_PROPERTIES_OBJECT()
-	}
-	else
-	{
-		setLinearVelocity(linearVelocity);
-		setAngularVelocity(angularVelocity);
-
-		wakeUpInternal(wakeCounterResetValue);
-	}
-}
-
-PX_INLINE void Body::clearKinematicSurfaceVelocity()
-{
-	if (!isBuffering())
-	{
-		mBodyCore.invalidateSurfaceVelocity();
-		setBufferedParamsForAsleep();
-		UPDATE_PVD_PROPERTIES_OBJECT()
-	}
-	else
-	{
-		setLinearVelocity(PxVec3(0.0f));
-		setAngularVelocity(PxVec3(0.0f));
-
-		putToSleepInternal();
-	}
-}
-
-
 PX_FORCE_INLINE	void Body::onOriginShift(const PxVec3& shift)
 {
 	mBufferedBody2World.p -= shift;
@@ -870,57 +825,39 @@ PX_INLINE void Body::syncCollisionWriteThroughState()
 {
 	PxU32 bufferFlags = mBodyBufferFlags;
 
-	//- If application set kinematic surface velocity
-	if (bufferFlags & (Buf::BF_LinearVelocity | Buf::BF_AngularVelocity) && (getFlags() & PxRigidBodyFlag::eKINEMATIC))
-	{
-		if (mBufferedLinVelocity.isZero() && mBufferedAngVelocity.isZero())
-		{
-			if(mBodyCore.getSimStateData(true))
-				mBodyCore.invalidateKinematicTarget();
-		}
-		else
-		{
-			mBodyCore.setKinematicSurfaceVelocity(mBufferedLinVelocity, mBufferedAngVelocity);
-		}
-		bufferFlags &= ~(Buf::BF_AngularVelocity | Buf::BF_LinearVelocity);
-	}
+	//----
+	if ((bufferFlags & Buf::BF_LinearVelocity) == 0)
+		mBufferedLinVelocity = mBodyCore.getLinearVelocity();
 	else
 	{
+		PX_ASSERT((mBufferedIsSleeping && mBufferedLinVelocity.isZero()) ||
+			(!mBufferedIsSleeping) ||
+			(getControlState() == ControlState::eREMOVE_PENDING));
+		PX_ASSERT(mBufferedLinVelocity.isZero() ||
+			((!mBufferedLinVelocity.isZero()) && (!mBufferedIsSleeping)) ||
+			(getControlState() == ControlState::eREMOVE_PENDING));
 
-		//----
-		if ((bufferFlags & Buf::BF_LinearVelocity) == 0)
-			mBufferedLinVelocity = mBodyCore.getLinearVelocity();
-		else
-		{
-			PX_ASSERT((mBufferedIsSleeping && mBufferedLinVelocity.isZero()) ||
-				(!mBufferedIsSleeping) ||
-				(getControlState() == ControlState::eREMOVE_PENDING));
-			PX_ASSERT(mBufferedLinVelocity.isZero() ||
-				((!mBufferedLinVelocity.isZero()) && (!mBufferedIsSleeping)) ||
-				(getControlState() == ControlState::eREMOVE_PENDING));
+		mBodyCore.setLinearVelocity(mBufferedLinVelocity);
+		//clear the flag
+		bufferFlags &= ~Buf::BF_LinearVelocity;
+	}
 
-			mBodyCore.setLinearVelocity(mBufferedLinVelocity);
-			//clear the flag
-			bufferFlags &= ~Buf::BF_LinearVelocity;
-		}
+	//----
 
-		//----
+	if ((bufferFlags & Buf::BF_AngularVelocity) == 0)
+		mBufferedAngVelocity = mBodyCore.getAngularVelocity();
+	else
+	{
+		PX_ASSERT((mBufferedIsSleeping && mBufferedAngVelocity.isZero()) ||
+			(!mBufferedIsSleeping) ||
+			(getControlState() == ControlState::eREMOVE_PENDING));
+		PX_ASSERT(mBufferedAngVelocity.isZero() ||
+			((!mBufferedAngVelocity.isZero()) && (!mBufferedIsSleeping)) ||
+			(getControlState() == ControlState::eREMOVE_PENDING));
 
-		if ((bufferFlags & Buf::BF_AngularVelocity) == 0)
-			mBufferedAngVelocity = mBodyCore.getAngularVelocity();
-		else
-		{
-			PX_ASSERT((mBufferedIsSleeping && mBufferedAngVelocity.isZero()) ||
-				(!mBufferedIsSleeping) ||
-				(getControlState() == ControlState::eREMOVE_PENDING));
-			PX_ASSERT(mBufferedAngVelocity.isZero() ||
-				((!mBufferedAngVelocity.isZero()) && (!mBufferedIsSleeping)) ||
-				(getControlState() == ControlState::eREMOVE_PENDING));
-
-			mBodyCore.setAngularVelocity(mBufferedAngVelocity);
-			//clear the flag
-			bufferFlags &= ~Buf::BF_AngularVelocity;
-		}
+		mBodyCore.setAngularVelocity(mBufferedAngVelocity);
+		//clear the flag
+		bufferFlags &= ~Buf::BF_AngularVelocity;
 	}
 
 	//----

@@ -36,8 +36,7 @@ using namespace physx;
 
 // PT: TODO: SIMDify all this... So far I only took care of the quat-to-matrix transform
 void Dy::copyToSolverBodyData(const PxVec3& linearVelocity, const PxVec3& angularVelocity, const PxReal invMass, const PxVec3& invInertia, const PxTransform& globalPose,
-	const PxReal maxDepenetrationVelocity, const PxReal maxContactImpulse, const PxU32 nodeIndex, const PxReal reportThreshold, PxSolverBodyData& data, PxU32 lockFlags,
-	bool hasSurfaceVelocity)
+	const PxReal maxDepenetrationVelocity, const PxReal maxContactImpulse, const PxU32 nodeIndex, const PxReal reportThreshold, PxSolverBodyData& data, PxU32 lockFlags)
 {
 	data.nodeIndex = nodeIndex;
 
@@ -87,8 +86,6 @@ void Dy::copyToSolverBodyData(const PxVec3& linearVelocity, const PxVec3& angula
 	data.penBiasClamp = maxDepenetrationVelocity;
 	data.maxContactImpulse = maxContactImpulse;
 	data.body2World = globalPose;
-
-	data.hasSurfaceVelocity = PxU16(hasSurfaceVelocity);
 
 	data.lockFlags = PxU16(lockFlags);
 

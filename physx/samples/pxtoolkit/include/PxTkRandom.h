@@ -50,17 +50,6 @@ namespace PxToolkit
 		PX_FORCE_INLINE	PxU32		rand()						{ return randomize() & 0xffff;							}
 		PX_FORCE_INLINE	PxU32		rand32()					{ return randomize() & 0xffffffff;						}
 
-						PxF32		randLegacy(PxF32 a, PxF32 b)
-									{
-										const PxF32 r = static_cast<PxF32>(rand())/(static_cast<PxF32>(0x7fff)+1.0f);
-										return r*(b-a) + a;
-									}
-
-						PxI32		randLegacy(PxI32 a, PxI32 b)
-									{
-										return a + static_cast<PxI32>(rand()%(b-a));
-									}
-
 						PxF32		rand(PxF32 a, PxF32 b)
 									{
 										const PxF32 r = rand32()/(static_cast<PxF32>(0xffffffff));

@@ -1478,7 +1478,7 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Step(
 		invInertiaScale1[a] = blockDesc.mInvMassScales.angular1;
 
 		blockDesc.startFrictionPatchIndex = c.frictionPatchCount;
-		if (!(blockDesc.disableStrongFriction && !blockDesc.body0->hasSurfaceVelocity && !blockDesc.body1->hasSurfaceVelocity))
+		if (!(blockDesc.disableStrongFriction))
 		{
 			bool valid = getFrictionPatches(c, blockDesc.frictionPtr, blockDesc.frictionCount,
 				blockDesc.bodyFrame0, blockDesc.bodyFrame1, correlationDistance);

@@ -234,14 +234,14 @@ namespace physx
 			const PxRigidBodyData& rigidData = inRigidData[a];
 			PxVec3 lv = rigidData.linearVelocity, av = rigidData.angularVelocity;
 			Dy::bodyCoreComputeUnconstrainedVelocity(gravity, dt, rigidData.linearDamping, rigidData.angularDamping, 1.f, rigidData.maxLinearVelocitySq, rigidData.maxAngularVelocitySq, lv, av, false);
-			Dy::copyToSolverBodyData(lv, av, rigidData.invMass, rigidData.invInertia, rigidData.body2World, -rigidData.maxDepenetrationVelocity, rigidData.maxContactImpulse, IG_INVALID_NODE, PX_MAX_F32, outSolverBodyData[a], 0, false);
+			Dy::copyToSolverBodyData(lv, av, rigidData.invMass, rigidData.invInertia, rigidData.body2World, -rigidData.maxDepenetrationVelocity, rigidData.maxContactImpulse, IG_INVALID_NODE, PX_MAX_F32, outSolverBodyData[a], 0);
 		}
 	}
 
 	void immediate::PxConstructStaticSolverBody(const PxTransform& globalPose, PxSolverBodyData& solverBodyData)
 	{
 		PxVec3 zero(0.f);
-		Dy::copyToSolverBodyData(zero, zero, 0.f, zero, globalPose, -PX_MAX_F32, PX_MAX_F32, IG_INVALID_NODE, PX_MAX_F32, solverBodyData, 0, false);
+		Dy::copyToSolverBodyData(zero, zero, 0.f, zero, globalPose, -PX_MAX_F32, PX_MAX_F32, IG_INVALID_NODE, PX_MAX_F32, solverBodyData, 0);
 	}
 
 

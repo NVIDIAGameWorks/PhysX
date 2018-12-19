@@ -67,7 +67,7 @@ namespace Dy
 		PxVec3			deltaLinDt;				//60
 		PxU16			lockFlags;				//62
 		bool			isKinematic;			//63
-		bool			hasSurfaceVelocity;		//64
+		PxU8			pad;					//64
 
 		PX_FORCE_INLINE PxReal projectVelocity(const PxVec3& lin, const PxVec3& ang)	const
 		{

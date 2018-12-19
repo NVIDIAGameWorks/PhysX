@@ -126,25 +126,6 @@ public:
 	*/
 	virtual		bool				getKinematicTarget(PxTransform& target)	const	= 0;
 
-	/**
-	\brief Sets a surface velocity on a kinematic actor. This velocity is responded to through the solver but the kinematic actor will not move.
-
-	Only has effect on kinematic actors. Will raise a warning if it is called on non-kinematic actors.
-
-	\param[in] linearVelocity The target linear velocity
-	\param[in] angularVelocity The target angular velocity
-
-	These velocities will be retained until either a kinematic target is set of clearKinematicSurfaceVelocity is set.
-	*/
-	virtual		void				setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity) = 0;
-
-	/**
-	\brief Clears kinematic surface velocity.
-
-	Only has effect on kinematic actors. Will raise a warning if it is called on non-kinematic actors.
-	*/
-	virtual		void				clearKinematicSurfaceVelocity() = 0;
-
 
 /************************************************************************************************/
 /** @name Sleeping

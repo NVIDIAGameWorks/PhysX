@@ -151,39 +151,6 @@ bool NpRigidDynamic::getKinematicTarget(PxTransform& target) const
 	return false;
 }
 
-void NpRigidDynamic::setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity)
-{
-	NP_WRITE_CHECK(NpActor::getOwnerScene(*this));
-
-	Scb::Body& b = getScbBodyFast();
-
-#if PX_CHECKED
-	NpScene* scene = NpActor::getAPIScene(*this);
-	PX_CHECK_AND_RETURN((b.getFlags() & PxRigidBodyFlag::eKINEMATIC), "PxRigidDynamic::setKinematicSurfaceVelocity: Body must be kinematic!");
-	PX_CHECK_AND_RETURN(scene, "PxRigidDynamic::setKinematicSurfaceVelocity: Body must be in a scene!");
-	PX_CHECK_AND_RETURN(!(b.getActorFlags() & PxActorFlag::eDISABLE_SIMULATION), "PxRigidDynamic::setKinematicSurfaceVelocity: Not allowed if PxActorFlag::eDISABLE_SIMULATION is set!");
-#endif
-
-	b.setKinematicSurfaceVelocity(linearVelocity, angularVelocity);
-}
-
-void NpRigidDynamic::clearKinematicSurfaceVelocity()
-{
-	NP_WRITE_CHECK(NpActor::getOwnerScene(*this));
-
-	Scb::Body& b = getScbBodyFast();
-
-#if PX_CHECKED
-	NpScene* scene = NpActor::getAPIScene(*this);
-	PX_CHECK_AND_RETURN((b.getFlags() & PxRigidBodyFlag::eKINEMATIC), "PxRigidDynamic::clearKinematicSurfaceVelocity: Body must be kinematic!");
-	PX_CHECK_AND_RETURN(scene, "PxRigidDynamic::clearKinematicSurfaceVelocity: Body must be in a scene!");
-	PX_CHECK_AND_RETURN(!(b.getActorFlags() & PxActorFlag::eDISABLE_SIMULATION), "PxRigidDynamic::clearKinematicSurfaceVelocity: Not allowed if PxActorFlag::eDISABLE_SIMULATION is set!");
-#endif
-
-	b.clearKinematicSurfaceVelocity();
-}
-
-
 void NpRigidDynamic::setCMassLocalPose(const PxTransform& pose)
 {
 	PX_CHECK_AND_RETURN(pose.isSane(), "PxRigidDynamic::setCMassLocalPose pose is not valid.");

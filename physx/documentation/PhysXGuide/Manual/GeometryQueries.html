@@ -251,7 +251,6 @@
 <li><em>hitFlags</em> specifies the values that should be returned by the query, and options for processing the query.</li>
 <li><em>maxHits</em> is the maximum number of hits to return.</li>
 <li><em>hitInfo</em> specifies the <em>PxRaycastHit</em> structure(s) into which the raycast results will be stored.</li>
-<li>The <em>anyHit</em> parameter is <strong>deprecated</strong>. It is equivalent to <em>PxHitFlag::eMESH_ANY</em>, which should be used instead.</li>
 </ul>
 <p>The returned result is the number of intersections found. For each intersection, a <em>PxRaycastHit</em> is populated. The fields of this structure are as follows:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span class="n">PxRigidActor</span><span class="o">*</span>   <span class="n">actor</span><span class="p">;</span>

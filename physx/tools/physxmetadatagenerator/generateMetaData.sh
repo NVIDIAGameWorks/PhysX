@@ -29,11 +29,17 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PHYSX_ROOT_DIR=$SCRIPT_DIR/../..
-source $PHYSX_ROOT_DIR/buildtools/update_packman.sh
 
 export GEN_META_DATA_PARAMETER=$1
 
-$PHYSX_ROOT_DIR/buildtools/packman/packman pull "$PHYSX_ROOT_DIR/dependencies.xml" --platform linux --include-tag=requiredForMetaGen --postscript $SCRIPT_DIR/helper.sh
+if [ -f $PHYSX_ROOT_DIR/buildtools/update_packman.sh ] ; then
+    source $PHYSX_ROOT_DIR/buildtools/update_packman.sh
+    $PHYSX_ROOT_DIR/buildtools/packman/packman pull "$PHYSX_ROOT_DIR/dependencies.xml" --platform linux --include-tag=requiredForMetaGen --postscript $SCRIPT_DIR/helper.sh
+else
+    export PM_PxShared_PATH="$PHYSX_ROOT_DIR/../pxshared"
+    $SCRIPT_DIR/helper.sh
+fi
+
 status=$? 
 if [ "$status" -ne "0" ]; then
  echo "Error $status"

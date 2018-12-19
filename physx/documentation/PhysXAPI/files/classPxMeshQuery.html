@@ -438,7 +438,9 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>This function will flip the triangle normal whenever triGeom.scale.hasNegativeDeterminant() is true.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function will flip the triangle normal whenever triGeom.scale.hasNegativeDeterminant() is true. </dd>
+<dd>
+TriangleIndex is an index used in internal format, which does have an index out of the bounds in last row. To traverse all tri indices in the HF, the following code can be applied: for (PxU32 row = 0; row &lt; (nbRows - 1); row++) { for (PxU32 col = 0; col &lt; (nbCols - 1); col++) { for (PxU32 k = 0; k &lt; 2; k++) { const PxU32 triIndex = 2 * (row*nbCols + col) + k; .... } } } </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxTriangle.html" title="Triangle class. ">PxTriangle</a> PxTriangleFlags <a class="el" href="group__common.html#ga19403877bf7ce42d7240e4e4c758c016">PxTriangleID</a> <a class="el" href="classPxMeshQuery.html#a461e1f01530df9d99e0762ca20493c2d" title="Find the height field triangles which touch the specified geometry object. ">findOverlapHeightField()</a> </dd></dl>
 
 </div>

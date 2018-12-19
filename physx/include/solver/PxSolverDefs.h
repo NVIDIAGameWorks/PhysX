@@ -88,7 +88,7 @@ struct PxSolverBodyData
 	PxReal			maxContactImpulse;		//!< 80 the max contact impulse
 	PxTransform		body2World;				//!< 108 the body's transform
 	PxU16			lockFlags;				//!< 110 lock flags
-	PxU16			hasSurfaceVelocity;		//!< 112 surfaceVelocity
+	PxU16			pad;					//!< 112 pad
 
 	PX_FORCE_INLINE PxReal projectVelocity(const PxVec3& lin, const PxVec3& ang)	const
 	{

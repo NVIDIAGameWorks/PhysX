@@ -318,23 +318,6 @@ void BodySim::postSetKinematicTarget()
 
 	raiseInternalFlag(BF_KINEMATIC_MOVED);	// Important to set this here already because trigger interactions need to have this information when being activated.
 	clearInternalFlag(BF_KINEMATIC_SURFACE_VELOCITY);
-	mLLBody.mInternalFlags &= (~PxsRigidBody::eHAS_SURFACE_VELOCITY);
-}
-
-void BodySim::postSetKinematicSurfaceVelocity()
-{
-	PX_ASSERT(getBodyCore().getSimStateData(true));
-	PX_ASSERT(getBodyCore().getSimStateData(true)->isKine());
-	PX_ASSERT(!getBodyCore().getSimStateData(true)->getKinematicData()->targetValid);
-	clearInternalFlag(BF_KINEMATIC_MOVE_FLAGS);
-	raiseInternalFlag(BF_KINEMATIC_SURFACE_VELOCITY);
-	mLLBody.mInternalFlags |= PxsRigidBody::eHAS_SURFACE_VELOCITY;
-}
-
-void BodySim::postClearKinematicSurfaceVelocity()
-{
-	clearInternalFlag(BF_KINEMATIC_SURFACE_VELOCITY);
-	mLLBody.mInternalFlags &= (~PxsRigidBody::eHAS_SURFACE_VELOCITY);
 }
 
 static void updateBPGroup(ElementSim* current)
@@ -364,9 +347,6 @@ void BodySim::postSwitchToKinematic()
 
 void BodySim::postSwitchToDynamic()
 {
-	clearInternalFlag(BF_KINEMATIC_SURFACE_VELOCITY);
-	mLLBody.mInternalFlags &= (~PxsRigidBody::eHAS_SURFACE_VELOCITY);
-
 	mScene.getSimpleIslandManager()->setDynamic(mNodeIndex);
 
 	setForcesToDefaults(true);

@@ -149,13 +149,21 @@ namespace physx
 
 
 		/**
-		\brief copy the internal data of the articulation to the cache
+		\brief Sets flags on the articulation
 
-		\param[in] flags this indicate whether the root link is fixed
-		
-		@see createCache applyCache
+		\param[in] flags Articulation flags
+
 		*/
 		virtual		void							setArticulationFlags(PxArticulationFlags flags) = 0;
+
+		/**
+		\brief Raises or clears a flag on the articulation
+
+		\param[in] flag The articulation flag
+		\param[in] value true/false indicating whether to raise or clear the flag
+
+		*/
+		virtual		void							setArticulationFlag(PxArticulationFlag::Enum flag, bool value) = 0;
 
 		/**
 		\brief return PxArticulationFlags
@@ -174,6 +182,11 @@ namespace physx
 		*/
 		virtual		PxArticulationCache*			createCache() const = 0;
 
+		/**
+		\brief Get the size of the articulation cache
+
+		\note this call may only be made on articulations that are in a scene, and may not be made during simulation
+		*/
 		virtual		PxU32							getCacheDataSize() const = 0;
 
 		/**

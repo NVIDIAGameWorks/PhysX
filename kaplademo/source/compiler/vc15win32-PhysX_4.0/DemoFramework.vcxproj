@@ -24,7 +24,7 @@
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
-		<ConfigurationType>Application</ConfigurationType>
+		<ConfigurationType>StaticLibrary</ConfigurationType>
 		<PlatformToolset>v141</PlatformToolset>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
@@ -57,7 +57,7 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
 		<OutDir>./../../../bin/VC15WIN32/DEBUG\</OutDir>
 		<IntDir>./Win32/DemoFramework/debug\</IntDir>
-		<TargetExt>.exe</TargetExt>
+		<TargetExt>.lib</TargetExt>
 		<TargetName>$(ProjectName)DEBUG</TargetName>
 		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
 		<CodeAnalysisRules />
@@ -77,19 +77,17 @@
 			<PrecompiledHeaderFile></PrecompiledHeaderFile>
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
-		<Link>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_32.lib;PhysXCooking_32.lib;PhysXCommon_32.lib;PhysXCharacterKinematic_static_32.lib;PhysXVehicle_static_32.lib;PhysXExtensions_static_32.lib;PhysXFoundation_32.lib;PhysXPvdSDK_static_32.lib;PhysXTask_static_32.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-			<OutputFile>$(OutDir)$(ProjectName)DEBUG.exe</OutputFile>
+		<Lib>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_32.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN32;./../../../externals/glut-3.7.6/lib/WIN32;./../../../externals/hbao+3.0/lib/WIN32;./../../../externals/cg/2.2/lib;./../../../lib/VC15WIN32;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.exe.pdb</ProgramDatabaseFile>
-			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/VC15WIN32/DEBUG/$(TargetName).lib</ImportLibrary>
-			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.lib.pdb</ProgramDatabaseFile>
 			<TargetMachine>MachineX86</TargetMachine>
-		</Link>
+		</Lib>
 		<ResourceCompile>
 		</ResourceCompile>
 		<ProjectReference>
+			<LinkLibraryDependencies>true</LinkLibraryDependencies>
 		</ProjectReference>
 	</ItemDefinitionGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
@@ -116,7 +114,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_32.lib;PhysXCooking_32.lib;PhysXCommon_32.lib;PhysXCharacterKinematic_static_32.lib;PhysXVehicle_static_32.lib;PhysXExtensions_static_32.lib;PhysXFoundation_32.lib;PhysXPvdSDK_static_32.lib;PhysXTask_static_32.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_32.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN32;./../../../externals/glut-3.7.6/lib/WIN32;./../../../externals/hbao+3.0/lib/WIN32;./../../../externals/cg/2.2/lib;./../../../lib/VC15WIN32;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).lib.pdb</ProgramDatabaseFile>
@@ -152,7 +150,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_32.lib;PhysXCooking_32.lib;PhysXCommon_32.lib;PhysXCharacterKinematic_static_32.lib;PhysXVehicle_static_32.lib;PhysXExtensions_static_32.lib;PhysXFoundation_32.lib;PhysXPvdSDK_static_32.lib;PhysXTask_static_32.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_32.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN32;./../../../externals/glut-3.7.6/lib/WIN32;./../../../externals/hbao+3.0/lib/WIN32;./../../../externals/cg/2.2/lib;./../../../lib/VC15WIN32;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.lib.pdb</ProgramDatabaseFile>
@@ -188,7 +186,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_32.lib;PhysXCooking_32.lib;PhysXCommon_32.lib;PhysXCharacterKinematic_static_32.lib;PhysXVehicle_static_32.lib;PhysXExtensions_static_32.lib;PhysXFoundation_32.lib;PhysXPvdSDK_static_32.lib;PhysXTask_static_32.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_32.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN32;./../../../externals/glut-3.7.6/lib/WIN32;./../../../externals/hbao+3.0/lib/WIN32;./../../../externals/cg/2.2/lib;./../../../lib/VC15WIN32;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.lib.pdb</ProgramDatabaseFile>

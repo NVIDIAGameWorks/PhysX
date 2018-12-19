@@ -60,10 +60,8 @@ struct PxArticulationJointDriveType
 {
 	enum Enum
 	{
-		eNONE 	= 0,
-		eTARGET = 1,			// use the quaternion as the drive target
-		eERROR 	= 2,				// use the vector part of the quaternion as the drive error.
-		eTARGETVELOCITY = 3
+		eTARGET = 0,			// use the quaternion as the drive target
+		eERROR 	= 1				// use the vector part of the quaternion as the drive error.
 	};
 };
 

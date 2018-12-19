@@ -30,6 +30,7 @@ def filterPreset(presetName):
     return False
 
 def noPresetProvided():
+    global input
     print('Preset parameter required, available presets:')
     presetfiles = []
     for file in glob.glob("buildtools/presets/*.xml"):
@@ -53,7 +54,12 @@ def noPresetProvided():
                     '.user <--- ' + presetXml.get('comment'))
                 presetList.append(presetXml.get('name') + '.user')
             counter = counter + 1            
-    mode = int(raw_input('Enter preset number: '))
+    # Fix Python 2.x.
+    try: 
+    	input = raw_input
+    except NameError: 
+    	pass    
+    mode = int(input('Enter preset number: '))
     print('Running generate_projects.bat ' + presetList[mode])
     return presetList[mode]
 

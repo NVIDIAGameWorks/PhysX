@@ -66,6 +66,19 @@ namespace physx
 		mImpl.getArticulation().setArticulationFlags(flags);
 	}
 
+	void NpArticulationReducedCoordinate::setArticulationFlag(PxArticulationFlag::Enum flag, bool value)
+	{
+		NP_WRITE_CHECK(mImpl.getOwnerScene());
+		PxArticulationFlags flags = mImpl.getArticulation().getArticulationFlags();
+
+		if(value)
+			flags |= flag;
+		else
+			flags &= (~flag);
+
+		mImpl.getArticulation().setArticulationFlags(flags);
+	}
+
 	PxArticulationFlags	NpArticulationReducedCoordinate::getArticulationFlags() const
 	{
 		NP_READ_CHECK(mImpl.getOwnerScene());

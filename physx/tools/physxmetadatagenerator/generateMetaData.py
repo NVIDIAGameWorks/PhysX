@@ -124,9 +124,9 @@ except:
 # find SDK_ROOT, EXTERNALS and PX_SHARED
 sdkRoot = utils.find_root_path(scriptDir, "source")
 
-if os.path.isdir(os.path.join(sdkRoot, "../PhysX_4.0")):
-	externalsRoot = os.path.join(sdkRoot, "../Externals")
-	pxSharedRoot = os.path.join(sdkRoot, "../PxShared")
+if os.path.isdir(os.path.join(sdkRoot, "../physx")):
+	externalsRoot = os.path.join(sdkRoot, "../externals")
+	pxSharedRoot = os.path.join(sdkRoot, "../pxshared")
 else:
 	externalsRoot = os.path.join(utils.find_root_path(scriptDir, os.path.normpath("externals/clang")), "externals")
 	pxSharedRoot = os.path.normpath(os.environ['PM_PxShared_PATH'])

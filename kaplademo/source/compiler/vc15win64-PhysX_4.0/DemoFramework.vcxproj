@@ -78,7 +78,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)DEBUG.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)DEBUG.lib.pdb</ProgramDatabaseFile>
@@ -114,7 +114,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName).lib.pdb</ProgramDatabaseFile>
@@ -150,7 +150,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)CHECKED.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)CHECKED.lib.pdb</ProgramDatabaseFile>
@@ -186,7 +186,7 @@
 			<DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
 		</ClCompile>
 		<Lib>
-			<AdditionalDependencies>OpenGL32.lib;glut32.lib;PhysX_64.lib;PhysXCooking_64.lib;PhysXCommon_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXVehicle_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;cgGL.lib;cg.lib;GFSDK_SSAO_GL.WIN64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)$(ProjectName)PROFILE.lib</OutputFile>
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_64.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN64;./../../../externals/glut-3.7.6/lib/WIN64;./../../../externals/hbao+3.0/lib/WIN64;./../../../externals/cg/2.2/lib.x64;./../../../lib/VC15WIN64;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.lib.pdb</ProgramDatabaseFile>

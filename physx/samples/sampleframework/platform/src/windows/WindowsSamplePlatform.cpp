@@ -119,13 +119,18 @@ static void handleMouseEvent(UINT msg, LPARAM lParam, HWND hwnd, RendererWindow*
 	WindowsPlatform& platform = *((WindowsPlatform*)window->getPlatform());
 	PxVec2 diff = current - platform.getMouseCursorPos();
 	platform.setMouseCursorPos(current);
-
+	
 	switch (msg)
 	{
 	case WM_MOUSEMOVE:
 		if (!SamplePlatform::platform()->getMouseCursorRecentering())
 		{
 			platform.getWindowsSampleUserInput().doOnMouseMove(x, y, diff.x, diff.y, MOUSE_MOVE);
+		}
+		else
+		{
+			//needed in WindowsPlatform::recenterMouseCursor to filter out erroneous cursor difference, even though mouse is not moving.
+			((WindowsPlatform*)window->getPlatform())->setWorkaroundMouseMoved();
 		}
 		break;
 	case WM_LBUTTONDOWN:
@@ -428,6 +433,7 @@ m_vsync(false)
 
 	m_mouseCursorPos = PxVec2(0);
 	m_recenterMouseCursor = false;
+	m_workaroundMouseMoved = false;
 }
 
 WindowsPlatform::~WindowsPlatform()
@@ -542,7 +548,7 @@ void WindowsPlatform::recenterMouseCursor(bool generateEvent)
 
 		POINT winPos;
 		GetCursorPos(&winPos);
-		PxVec2 current(static_cast<PxReal>(winPos.x), winHeight - static_cast<PxReal>(winPos.y));
+		PxVec2 currentCoords(static_cast<PxReal>(winPos.x), winHeight - static_cast<PxReal>(winPos.y));
 
 		PxI32 winCenterX = 0;
 		PxI32 winCenterY = 0;
@@ -551,14 +557,18 @@ void WindowsPlatform::recenterMouseCursor(bool generateEvent)
 			winCenterY = rect.top + PxI32(winHeight>>1);
 		}
 		SetCursorPos(winCenterX, winCenterY);
+		PxVec2 centerCoords(static_cast<PxReal>(winCenterX), winHeight - static_cast<PxReal>(winCenterY));
+		PxVec2 diff = currentCoords - centerCoords;
 
-		if (generateEvent)
+		//sometimes GetCursorPos [frame N+1] and SetCursorPos [frame N] don't agree by a few pixels, even if the mouse is not moving.
+		//the windows event queue however knows that the mouse is not moving -> m_workaroundMouseMoved
+		if (generateEvent && m_workaroundMouseMoved)
 		{
-			PxVec2 diff = current - PxVec2(static_cast<PxReal>(winCenterX), winHeight - static_cast<PxReal>(winCenterY));
 			getWindowsSampleUserInput().doOnMouseMove(winCenterX, winHeight - winCenterY, diff.x, diff.y, MOUSE_MOVE);
 		}
 	
-		m_mouseCursorPos = current;
+		m_mouseCursorPos = currentCoords;
+		m_workaroundMouseMoved = false;
 	}
 }
 

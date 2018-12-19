@@ -50,7 +50,6 @@ The arguments are interpreted as follows:
 * *hitFlags* specifies the values that should be returned by the query, and options for processing the query.
 * *maxHits* is the maximum number of hits to return.
 * *hitInfo* specifies the *PxRaycastHit* structure(s) into which the raycast results will be stored.
-* The *anyHit* parameter is **deprecated**. It is equivalent to *PxHitFlag::eMESH_ANY*, which should be used instead.
 
 The returned result is the number of intersections found. For each intersection, a *PxRaycastHit* is populated. The fields of this structure are as follows::
 

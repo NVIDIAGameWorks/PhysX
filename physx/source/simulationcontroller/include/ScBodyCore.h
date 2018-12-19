@@ -155,8 +155,6 @@ namespace Sc
 						bool				getHasValidKinematicTarget() const;
 						void				setKinematicTarget(Ps::Pool<SimStateData>* simStateDataPool, const PxTransform& p, PxReal wakeCounter);
 						void				invalidateKinematicTarget();
-						void				setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity);
-						void				invalidateSurfaceVelocity();
 						
 
 		PX_FORCE_INLINE	PxReal				getContactReportThreshold()	const	{ return mCore.contactReportThreshold;	}

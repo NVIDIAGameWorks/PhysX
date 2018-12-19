@@ -742,10 +742,8 @@ template<> struct PxEnumTraits< physx::PxRigidDynamicLockFlag::Enum > { PxEnumTr
 	};
 
 	static PxU32ToName g_physx__PxArticulationJointDriveType__EnumConversion[] = {
-		{ "eNONE", static_cast<PxU32>( physx::PxArticulationJointDriveType::eNONE ) },
 		{ "eTARGET", static_cast<PxU32>( physx::PxArticulationJointDriveType::eTARGET ) },
 		{ "eERROR", static_cast<PxU32>( physx::PxArticulationJointDriveType::eERROR ) },
-		{ "eTARGETVELOCITY", static_cast<PxU32>( physx::PxArticulationJointDriveType::eTARGETVELOCITY ) },
 		{ NULL, 0 }
 	};
 

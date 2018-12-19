@@ -129,10 +129,8 @@ var group__physics =
     ] ],
     [ "PxArticulationJointDriveType", "structPxArticulationJointDriveType.html", [
       [ "Enum", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2", [
-        [ "eNONE", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a900c888f769cd66405c89fe53b61b9d6", null ],
         [ "eTARGET", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a6efbffee5445ed12550a3cb4f1e1cd9e", null ],
-        [ "eERROR", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a178e00c7f3fa1771a6d607235ebb3372", null ],
-        [ "eTARGETVELOCITY", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a32036e88ffe4203f24bcd5a06a58514e", null ]
+        [ "eERROR", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a178e00c7f3fa1771a6d607235ebb3372", null ]
       ] ]
     ] ],
     [ "PxArticulationAxis", "structPxArticulationAxis.html", [
@@ -318,6 +316,7 @@ var group__physics =
       [ "release", "classPxArticulationReducedCoordinate.html#a15d00fc95ae61c2906977453e7597d9b", null ],
       [ "releaseCache", "classPxArticulationReducedCoordinate.html#ae3b3c188ffd64c4ba7cfd7508efd63bf", null ],
       [ "removeLoopJoint", "classPxArticulationReducedCoordinate.html#a024c2e5000ad1033a868a73b6a025c03", null ],
+      [ "setArticulationFlag", "classPxArticulationReducedCoordinate.html#aea7152a77f9446960d65359e482595c4", null ],
       [ "setArticulationFlags", "classPxArticulationReducedCoordinate.html#ab155a21325dd588b7e354d3a5b1ef564", null ],
       [ "teleportRootLink", "classPxArticulationReducedCoordinate.html#a2d067a41dc5bcbbdbf9a298d9064b310", null ],
       [ "unpackJointData", "classPxArticulationReducedCoordinate.html#a10d36a5ac6bb414b2240774cabdc4695", null ],
@@ -856,7 +855,6 @@ var group__physics =
       [ "PxRigidDynamic", "classPxRigidDynamic.html#ab21ed0e4e1be20fc975fcd3ceeb4e064", null ],
       [ "PxRigidDynamic", "classPxRigidDynamic.html#a9e63c1ec6872048e16f7d6b744ec3eef", null ],
       [ "~PxRigidDynamic", "classPxRigidDynamic.html#a9380b2f317161026b39c6a296ba9e273", null ],
-      [ "clearKinematicSurfaceVelocity", "classPxRigidDynamic.html#ae6df52fe5966a6b0f421735147b7bf6c", null ],
       [ "getConcreteTypeName", "classPxRigidDynamic.html#a43150714d9e16cd056149bad325f0527", null ],
       [ "getContactReportThreshold", "classPxRigidDynamic.html#acc91baffa652090e523df5e6627686ed", null ],
       [ "getKinematicTarget", "classPxRigidDynamic.html#a3b6ed86370cfd04958ca7e1c637e310b", null ],
@@ -869,7 +867,6 @@ var group__physics =
       [ "isSleeping", "classPxRigidDynamic.html#aaf537a84cd9b119ed5f77888c600f2ae", null ],
       [ "putToSleep", "classPxRigidDynamic.html#aae00aa2067a2fe268b999aad04f27c28", null ],
       [ "setContactReportThreshold", "classPxRigidDynamic.html#abfd510964f2287e81fe76a1a9e1725b5", null ],
-      [ "setKinematicSurfaceVelocity", "classPxRigidDynamic.html#a7cfb0ebc9f4ae6ec44391b381fe9e371", null ],
       [ "setKinematicTarget", "classPxRigidDynamic.html#a4464d188e7a1e94582c9cf35da9bbc93", null ],
       [ "setRigidDynamicLockFlag", "classPxRigidDynamic.html#a7cf3e84117da3ec5b499262a3a9f5521", null ],
       [ "setRigidDynamicLockFlags", "classPxRigidDynamic.html#a16f9f0dfeae6e7877bcebca80df42c92", null ],

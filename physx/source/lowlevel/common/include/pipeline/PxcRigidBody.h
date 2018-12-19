@@ -61,7 +61,6 @@ public:
 		eDEACTIVATE_THIS_FRAME =		1 << 4,
 		eDISABLE_GRAVITY =				1 << 5,
 		eSPECULATIVE_CCD =				1 << 6,
-		eHAS_SURFACE_VELOCITY =			1 << 7,
 		//KS - copied here for GPU simulation to avoid needing to pass another set of flags around.
 		eLOCK_LINEAR_X =				1 << (PX_INTERNAL_LOCK_FLAG_START),
 		eLOCK_LINEAR_Y =				1 << (PX_INTERNAL_LOCK_FLAG_START + 1),

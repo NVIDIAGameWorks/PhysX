@@ -116,8 +116,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a15d00fc95ae61c2906977453e7597d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the <a class="el" href="classPxBase.html" title="Base class for objects that can be members of a PxCollection. ">PxBase</a> instance, please check documentation of release in derived class.  <a href="#a15d00fc95ae61c2906977453e7597d9b">More...</a><br /></td></tr>
 <tr class="separator:a15d00fc95ae61c2906977453e7597d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab155a21325dd588b7e354d3a5b1ef564"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#ab155a21325dd588b7e354d3a5b1ef564">setArticulationFlags</a> (<a class="el" href="group__physics.html#ga40a321fce7bcb9669d32fca769d2958a">PxArticulationFlags</a> <a class="el" href="PxConstraintDesc_8h.html#acfdd81caa30ceb0af5fafb4064b1bc67">flags</a>)=0</td></tr>
-<tr class="memdesc:ab155a21325dd588b7e354d3a5b1ef564"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy the internal data of the articulation to the cache  <a href="#ab155a21325dd588b7e354d3a5b1ef564">More...</a><br /></td></tr>
+<tr class="memdesc:ab155a21325dd588b7e354d3a5b1ef564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets flags on the articulation.  <a href="#ab155a21325dd588b7e354d3a5b1ef564">More...</a><br /></td></tr>
 <tr class="separator:ab155a21325dd588b7e354d3a5b1ef564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea7152a77f9446960d65359e482595c4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#aea7152a77f9446960d65359e482595c4">setArticulationFlag</a> (<a class="el" href="structPxArticulationFlag.html#a89b0e25f041302ae04e5cc0b509a7609">PxArticulationFlag::Enum</a> flag, bool value)=0</td></tr>
+<tr class="memdesc:aea7152a77f9446960d65359e482595c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raises or clears a flag on the articulation.  <a href="#aea7152a77f9446960d65359e482595c4">More...</a><br /></td></tr>
+<tr class="separator:aea7152a77f9446960d65359e482595c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e8a26a6e87d34c31441d766b0d6a153"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__physics.html#ga40a321fce7bcb9669d32fca769d2958a">PxArticulationFlags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a3e8a26a6e87d34c31441d766b0d6a153">getArticulationFlags</a> () const =0</td></tr>
 <tr class="memdesc:a3e8a26a6e87d34c31441d766b0d6a153"><td class="mdescLeft">&#160;</td><td class="mdescRight">return PxArticulationFlags  <a href="#a3e8a26a6e87d34c31441d766b0d6a153">More...</a><br /></td></tr>
 <tr class="separator:a3e8a26a6e87d34c31441d766b0d6a153"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,6 +131,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a99f7f83876a3414eb386c83e173f9364"><td class="mdescLeft">&#160;</td><td class="mdescRight">create an articulation cache  <a href="#a99f7f83876a3414eb386c83e173f9364">More...</a><br /></td></tr>
 <tr class="separator:a99f7f83876a3414eb386c83e173f9364"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86107c6d84d3132b6a46bb9b2b48666e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a86107c6d84d3132b6a46bb9b2b48666e">getCacheDataSize</a> () const =0</td></tr>
+<tr class="memdesc:a86107c6d84d3132b6a46bb9b2b48666e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of the articulation cache.  <a href="#a86107c6d84d3132b6a46bb9b2b48666e">More...</a><br /></td></tr>
 <tr class="separator:a86107c6d84d3132b6a46bb9b2b48666e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a919526ace70d5aaa4fb34ad0fcc98fd0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a919526ace70d5aaa4fb34ad0fcc98fd0">zeroCache</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache)=0</td></tr>
 <tr class="memdesc:a919526ace70d5aaa4fb34ad0fcc98fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">zero all data in the articulation cache beside the cache version  <a href="#a919526ace70d5aaa4fb34ad0fcc98fd0">More...</a><br /></td></tr>
@@ -1021,6 +1025,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the size of the articulation cache. </p>
+<dl class="section note"><dt>Note</dt><dd>this call may only be made on articulations that are in a scene, and may not be made during simulation </dd></dl>
+
 </div>
 </div>
 <a id="a96a853b57a61275d4c67828f34e3321d"></a>
@@ -1304,6 +1311,51 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="aea7152a77f9446960d65359e482595c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea7152a77f9446960d65359e482595c4">&#9670;&nbsp;</a></span>setArticulationFlag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void PxArticulationReducedCoordinate::setArticulationFlag </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxArticulationFlag.html#a89b0e25f041302ae04e5cc0b509a7609">PxArticulationFlag::Enum</a>&#160;</td>
+          <td class="paramname"><em>flag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Raises or clears a flag on the articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">flag</td><td>The articulation flag </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>true/false indicating whether to raise or clear the flag </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ab155a21325dd588b7e354d3a5b1ef564"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab155a21325dd588b7e354d3a5b1ef564">&#9670;&nbsp;</a></span>setArticulationFlags()</h2>
 
@@ -1328,14 +1380,13 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>copy the internal data of the articulation to the cache </p>
+<p>Sets flags on the articulation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>this indicate whether the root link is fixed</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>Articulation flags </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#a99f7f83876a3414eb386c83e173f9364" title="create an articulation cache ">createCache</a> <a class="el" href="classPxArticulationReducedCoordinate.html#ab14e3d8440c6dc754fa3318a7c91991d" title="apply the user defined data in the cache to the articulation system ">applyCache</a> </dd></dl>
 
 </div>
 </div>

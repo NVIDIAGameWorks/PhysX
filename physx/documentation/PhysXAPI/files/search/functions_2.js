@@ -8,7 +8,6 @@ var searchData=
   ['clearbit',['clearBit',['../classPxBitAndDataT.html#a8b8421d063a772322282ec752fc07eee',1,'PxBitAndDataT']]],
   ['cleardataptrs',['clearDataPtrs',['../structPxContactPairExtraDataIterator.html#a1d2a22a64b21c547ad7e586307ca3afb',1,'PxContactPairExtraDataIterator']]],
   ['clearforce',['clearForce',['../classPxRigidBody.html#aefe5174aa160a07d488de2a18ba61f94',1,'PxRigidBody']]],
-  ['clearkinematicsurfacevelocity',['clearKinematicSurfaceVelocity',['../classPxRigidDynamic.html#ae6df52fe5966a6b0f421735147b7bf6c',1,'PxRigidDynamic']]],
   ['cleartessflag',['clearTessFlag',['../structPxHeightFieldSample.html#aa28e24b4763400eb5bd84378a23e086f',1,'PxHeightFieldSample']]],
   ['cleartorque',['clearTorque',['../classPxRigidBody.html#ae251132385cc0b082b612d709aa4375d',1,'PxRigidBody']]],
   ['close',['close',['../classPxFileBuf.html#a19a8aa14b29743084e9d8f8e983151ce',1,'PxFileBuf']]],

@@ -194,7 +194,6 @@ void copyToSolverBodyDataStep(const PxVec3& linearVelocity, const PxVec3& angula
 	solverVel.lockFlags = PxU16(lockFlags);
 	solverVel.isKinematic = isKinematic;
 	solverVel.maxAngVel = PxSqrt(maxAngVelSq);
-	solverVel.hasSurfaceVelocity = false; //TODO - hook up!
 	solverVel.partitionMask = 0;
 
 	
@@ -232,7 +231,6 @@ void copyToSolverBodyDataStepKinematic(const PxVec3& linearVelocity, const PxVec
 	solverVel.lockFlags = 0;
 	solverVel.isKinematic = true;
 	solverVel.maxAngVel = PxSqrt(maxAngVelSq);
-	solverVel.hasSurfaceVelocity = false; //TODO - hook up!
 	solverVel.partitionMask = 0;
 
 	solverBodyData.nodeIndex = nodeIndex;
@@ -282,7 +280,6 @@ DynamicsTGSContext::DynamicsTGSContext(PxcNpMemBlockPool* memBlockPool,
 	
 	mWorldSolverBodyVel.lockFlags = 0;
 	mWorldSolverBodyVel.isKinematic = false;
-	mWorldSolverBodyVel.hasSurfaceVelocity = false;
 	mWorldSolverBodyTxInertia.sqrtInvInertia = PxMat33(PxZero);
 	mWorldSolverBodyTxInertia.deltaBody2World = PxTransform(PxIdentity);
 	

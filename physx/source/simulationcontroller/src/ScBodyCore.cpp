@@ -519,41 +519,6 @@ void Sc::BodyCore::putToSleep()
 		sim->putToSleep();
 }
 
-void Sc::BodyCore::setKinematicSurfaceVelocity(const PxVec3& linearVelocity, const PxVec3& angularVelocity)
-{
-	if (mSimStateData)
-	{
-		invalidateKinematicTarget();
-	}
-
-	mCore.linearVelocity = linearVelocity;
-	mCore.angularVelocity = angularVelocity;
-
-	BodySim* sim = getSim();
-	if (sim)
-	{
-		//update bodysim
-		Sc::Scene& scene = sim->getScene();
-		scene.getSimulationController()->updateDynamic(sim->isArticulationLink(), sim->getNodeIndex());
-		sim->postSetKinematicSurfaceVelocity();
-	}
-}
-
-void Sc::BodyCore::invalidateSurfaceVelocity()
-{
-	mCore.linearVelocity = PxVec3(0.0f);
-	mCore.angularVelocity = PxVec3(0.0f);
-
-	BodySim* sim = getSim();
-
-	if (sim)
-	{
-		Sc::Scene& scene = sim->getScene();
-		scene.getSimulationController()->updateDynamic(sim->isArticulationLink(), sim->getNodeIndex());
-		sim->postClearKinematicSurfaceVelocity();
-	}
-}
-
 void Sc::BodyCore::disableInternalCaching(bool disable)
 {
 	PX_ASSERT(!mSimStateData || mSimStateData->isKine());

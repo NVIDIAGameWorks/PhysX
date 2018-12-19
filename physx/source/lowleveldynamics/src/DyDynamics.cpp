@@ -206,7 +206,6 @@ DynamicsContext::DynamicsContext(	PxcNpMemBlockPool* memBlockPool,
 	mWorldSolverBodyData.linearVelocity = mWorldSolverBodyData.angularVelocity = PxVec3(0.f);
 	mWorldSolverBodyData.body2World = PxTransform(PxIdentity);
 	mWorldSolverBodyData.lockFlags = 0;
-	mWorldSolverBodyData.hasSurfaceVelocity = 0;
 	mSolverCore[PxFrictionType::ePATCH] = SolverCoreGeneral::create(frictionEveryIteration);
 	mSolverCore[PxFrictionType::eONE_DIRECTIONAL] = SolverCoreGeneralPF::create();
 	mSolverCore[PxFrictionType::eTWO_DIRECTIONAL] = SolverCoreGeneralPF::create();
@@ -2215,7 +2214,7 @@ public:
 			PxsRigidBody* rigidBody = mIslandSim.getRigidBody(mKinematicIndices[i]);
 			const PxsBodyCore& core = rigidBody->getCore();
 			copyToSolverBodyData(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias,
-				core.maxContactImpulse, mKinematicIndices[i].index(), core.contactReportThreshold, mBodyData[i + 1], core.lockFlags, !!(rigidBody->mInternalFlags & PxsRigidBody::eHAS_SURFACE_VELOCITY));
+				core.maxContactImpulse, mKinematicIndices[i].index(), core.contactReportThreshold, mBodyData[i + 1], core.lockFlags);
 			rigidBody->saveLastCCDTransform();
 		}
 	}
@@ -2565,7 +2564,7 @@ static void preIntegrationParallel(
 			core.linearVelocity, core.angularVelocity, !!(rBody.mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY));
 
 		copyToSolverBodyData(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias, core.maxContactImpulse, nodeIndexArray[i], 
-			core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags, false);
+			core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags);
 		solverBodyPool[i].solverProgress = 0;
 		solverBodyPool[i].maxSolverNormalProgress = 0;
 		solverBodyPool[i].maxSolverFrictionProgress = 0;
@@ -2582,7 +2581,7 @@ static void preIntegrationParallel(
 		core.linearVelocity, core.angularVelocity, !!(rBody.mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY));
 
 	copyToSolverBodyData(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias, core.maxContactImpulse, nodeIndexArray[i], 
-		core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags, false);
+		core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags);
 	solverBodyPool[i].solverProgress = 0;
 	solverBodyPool[i].maxSolverNormalProgress = 0;
 	solverBodyPool[i].maxSolverFrictionProgress = 0;

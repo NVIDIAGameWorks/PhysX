@@ -87,6 +87,8 @@ namespace physx
 		//---------------------------------------------------------------------------------
 		virtual		void						setArticulationFlags(PxArticulationFlags flags);
 
+		virtual		void						setArticulationFlag(PxArticulationFlag::Enum flag, bool value);
+
 		virtual		PxArticulationFlags			getArticulationFlags() const;
 
 		virtual		PxU32						getDofs() const;

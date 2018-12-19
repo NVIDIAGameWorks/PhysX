@@ -124,12 +124,7 @@ namespace physx
 				swingLimitContactDistance = 0.05f;
 				twistLimitContactDistance = 0.05f;
 
-				//ML: the old articulation system, I am not sure I will break anything if
-				//I set the driveType default to be NONE but driveType to be eNONE is required
-				//by the new articulation system.
-				//driveType = PxArticulationJointDriveType::eTARGET;
-
-				driveType = PxArticulationJointDriveType::eNONE;
+				driveType = PxArticulationJointDriveType::eTARGET;
 
 				jointType = PxArticulationJointType::eFIX;
 
@@ -154,7 +149,7 @@ namespace physx
 				childPose = childFrame;
 
 				//the old articulation is eTARGET
-				driveType = PxArticulationJointDriveType::eNONE;
+				driveType = PxArticulationJointDriveType::eTARGET;
 
 				spring = 0.0f;
 				damping = 0.0f;
