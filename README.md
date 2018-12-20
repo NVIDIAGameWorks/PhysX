@@ -38,7 +38,7 @@ The full set of documentation can also be found in the repository under physx/do
 
 ## Quick Start Instructions
 
-To begin, clone this repository onto your local drive.  You will need to have Python 2.7.6 or later installed.  Then run change directory to physx and run generate_projects.[bat|sh] at the command line and follow on-screen prompts.  This will let you select a platform specific solution to build.  You can then open the generated solution file with your IDE and kick off one or more configuration builds.
+To begin, clone this repository onto your local drive.  You will need to have Python 2.7.6 or later installed.  Then change directory to physx and run generate_projects.[bat|sh] at the command line and follow on-screen prompts.  This will let you select a platform specific solution to build.  You can then open the generated solution file with your IDE and kick off one or more configuration builds.
 
 To build and run the Kapla Demo see kaplademo/README.md.
 
