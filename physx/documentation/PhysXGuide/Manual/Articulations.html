@@ -440,7 +440,7 @@ joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blo
 <div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">commonInit</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>The inverse dynamics functions operate on an articulation and a PxArticulationCache. The majority of properties in PxArticulationCache are stored in a reduced/generalized coordinate space, where one entry corresponds to a degree of freedom. To simplify working in this space, PhysX provides the following methods to pack and unpack data to convert between reduced/generalized and maximal coordinates:</p>
+<p>The inverse dynamics functions operate on an articulation and a PxArticulationCache. The majority of properties in PxArticulationCache are stored in a reduced/generalized coordinate space, where one entry corresponds to a degree of freedom. To simplify working in this space, PhysX provides the following methods to pack and unpack data to convert between reduced/generalized and maximal coordinates.</p>
 <p>To unpack data from reduced/generalized coordinates to maximal coordinates:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span class="n">PxReal</span> <span class="n">maximalJointForces</span><span class="p">[</span><span class="n">NbLinks</span><span class="o">*</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//There are 6 dofs (x,y,z,twist,swing1,swing2) per link</span>
 

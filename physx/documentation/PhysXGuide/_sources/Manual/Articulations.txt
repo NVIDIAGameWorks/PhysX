@@ -286,7 +286,7 @@ Prior to performing any inverse dynamics calculations, it is necessary to ensure
 
 	articulation->commonInit();
 
-The inverse dynamics functions operate on an articulation and a PxArticulationCache. The majority of properties in PxArticulationCache are stored in a reduced/generalized coordinate space, where one entry corresponds to a degree of freedom. To simplify working in this space, PhysX provides the following methods to pack and unpack data to convert between reduced/generalized and maximal coordinates::
+The inverse dynamics functions operate on an articulation and a PxArticulationCache. The majority of properties in PxArticulationCache are stored in a reduced/generalized coordinate space, where one entry corresponds to a degree of freedom. To simplify working in this space, PhysX provides the following methods to pack and unpack data to convert between reduced/generalized and maximal coordinates.
 
 To unpack data from reduced/generalized coordinates to maximal coordinates::
 

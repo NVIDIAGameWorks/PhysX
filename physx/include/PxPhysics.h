@@ -609,6 +609,13 @@ component, you shoud call PxCreateBasePhysics() followed by this call.
 PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterArticulations(physx::PxPhysics& physics);
 
 
+/**
+\brief Enables the usage of the reduced coordinate articulations feature.  This function is called automatically inside PxCreatePhysics().
+On resource constrained platforms, it is possible to call PxCreateBasePhysics() and then NOT call this function
+to save on code memory if your application does not use articulations.  In this case the linker should strip out
+the relevant implementation code from the library.  If you need to use articulations but not some other optional
+component, you shoud call PxCreateBasePhysics() followed by this call.
+*/
 PX_C_EXPORT PX_PHYSX_CORE_API void PX_CALL_CONV PxRegisterArticulationsReducedCoordinate(physx::PxPhysics& physics);
 
 /**

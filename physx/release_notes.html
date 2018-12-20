@@ -92,10 +92,6 @@
 
 	* Console code subject to platform NDA not available on GitHub.  Developers licensed by respective platform owners please contact NVIDIA for access.
 
-	<h2>Known Issues</h2>
-	<blockquote>
-		<ul></ul>
-	</blockquote>
 	<h2>Changes and Resolved Issues</h2>
 	<blockquote>
 
@@ -107,7 +103,10 @@
 	<ul>
         <li>Added:</li>
         <ul>
-			<li>A new broadphase implementation has been added. See PxBroadPhaseType::eABP for details. This is now the default broadphase implementation.</li>
+			<li>New Temporal Gauss Seidel (TGS) solver offering a new level of simulation accuracy.</li>
+			<li>New Reduced Coordinate Articulation feature with no relative positional error and realistic actuation.</li>
+			<li>New automatic multi-broadphase (ABP) providing better out of the box performance for many use cases.</li>
+			<li>New BVH structure supporting better performance for actors with many shapes.</li>
 		</ul>
 		<li>Removed:</li>
 		<ul>
@@ -130,11 +129,12 @@
 	<ul>
 		<li>Added:</li>
 		<ul>
-			<li>A missing PxShape::getReferenceCount() function has been added.</li>
+			<li>A new broadphase implementation has been added. See PxBroadPhaseType::eABP for details. This is now the default broadphase implementation.</li>
 			<li>TGS: A new rigid body solver, which can produce improved convergence compared to the default rigid body solver.</li>
             <li>Optional torsional friction model to simulate rotational friction when there is just a single point of contact.</li>
             <li>A flag to enable friction constraints to be processed every frame has been added</li>
             <li>PxContactJoint added to represent contacts in inverse dynamics. Not intended for use in simulation.</li>
+			<li>A missing PxShape::getReferenceCount() function has been added.</li>
 		</ul>
 		<li>Removed:</li>
 		<ul>
