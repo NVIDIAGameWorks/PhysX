@@ -1,0 +1,5 @@
+<map id="physx::PxBaseTask" name="physx::PxBaseTask">
+<area shape="rect" id="node2" href="$classphysx_1_1PxLightCpuTask.html" title="A PxBaseTask implementation with immediate execution and simple dependencies. " alt="" coords="5,80,165,107"/>
+<area shape="rect" id="node3" href="$classphysx_1_1PxTask.html" title="A PxBaseTask implementation with deferred execution and full dependencies. " alt="" coords="189,80,299,107"/>
+<area shape="rect" id="node4" href="$classphysx_1_1PxGpuTask.html" title="PxTask implementation for launching CUDA work. " alt="" coords="177,155,311,181"/>
+</map>

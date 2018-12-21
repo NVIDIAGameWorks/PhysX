@@ -1,0 +1,11 @@
+<map id="PxVehicleWheelQueryResult" name="PxVehicleWheelQueryResult">
+<area shape="rect" id="node2" href="$structPxWheelQueryResult.html" title="Structure containing data describing the non&#45;persistent state of each suspension/wheel/tire unit..." alt="" coords="226,349,373,376"/>
+<area shape="rect" id="node3" href="$classPxMaterial.html" title="Material class to represent a set of surface properties. " alt="" coords="5,229,89,256"/>
+<area shape="rect" id="node4" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="136,109,204,136"/>
+<area shape="rect" id="node6" href="$classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK. " alt="" coords="135,229,205,256"/>
+<area shape="rect" id="node10" href="$classPxShape.html" title="Abstract class for collision shapes. " alt="" coords="246,229,321,256"/>
+<area shape="rect" id="node5" href="$classPxFlags.html" title="PxFlags\&lt; PxBaseFlag\l::Enum, PxU16 \&gt;" alt="" coords="93,5,247,47"/>
+<area shape="rect" id="node7" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="433,109,501,136"/>
+<area shape="rect" id="node8" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="555,229,649,256"/>
+<area shape="rect" id="node9" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="569,109,635,136"/>
+</map>

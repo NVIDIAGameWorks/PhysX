@@ -1,0 +1,37 @@
+<map id="PxMeshScale.h" name="PxMeshScale.h">
+<area shape="rect" id="node2" href="$PxConvexMeshGeometry_8h.html" title="PxConvexMeshGeometry.h" alt="" coords="67,155,247,181"/>
+<area shape="rect" id="node5" href="$PxPhysicsAPI_8h.html" title="PxPhysicsAPI.h" alt="" coords="1568,901,1685,928"/>
+<area shape="rect" id="node35" href="$PxTriangleMeshGeometry_8h.html" title="PxTriangleMeshGeometry.h" alt="" coords="2014,80,2197,107"/>
+<area shape="rect" id="node3" href="$PxMassProperties_8h.html" title="PxMassProperties.h" alt="" coords="439,677,579,704"/>
+<area shape="rect" id="node7" href="$PxGeometryHelpers_8h.html" title="PxGeometryHelpers.h" alt="" coords="1109,229,1259,256"/>
+<area shape="rect" id="node4" href="$PxExtensionsAPI_8h.html" title="PxExtensionsAPI.h" alt="" coords="774,827,909,853"/>
+<area shape="rect" id="node6" href="$PxRigidBodyExt_8h.html" title="PxRigidBodyExt.h" alt="" coords="531,752,659,779"/>
+<area shape="rect" id="node8" href="$PxShape_8h.html" title="PxShape.h" alt="" coords="681,304,767,331"/>
+<area shape="rect" id="node9" href="$PxShapeExt_8h.html" title="PxShapeExt.h" alt="" coords="761,528,868,555"/>
+<area shape="rect" id="node10" href="$PxRigidActor_8h.html" title="PxRigidActor.h" alt="" coords="669,379,779,405"/>
+<area shape="rect" id="node32" href="$PxBatchQuery_8h.html" title="PxBatchQuery.h" alt="" coords="2431,603,2550,629"/>
+<area shape="rect" id="node33" href="$PxContactModifyCallback_8h.html" title="PxContactModifyCallback.h" alt="" coords="195,379,378,405"/>
+<area shape="rect" id="node34" href="$PxPhysics_8h.html" title="PxPhysics.h" alt="" coords="549,379,645,405"/>
+<area shape="rect" id="node11" href="$PxJoint_8h.html" title="PxJoint.h" alt="" coords="1106,603,1182,629"/>
+<area shape="rect" id="node20" href="$PxRigidActorExt_8h.html" title="PxRigidActorExt.h" alt="" coords="557,453,686,480"/>
+<area shape="rect" id="node21" href="$PxRigidBody_8h.html" title="PxRigidBody.h" alt="" coords="1674,453,1782,480"/>
+<area shape="rect" id="node31" href="$PxRigidStatic_8h.html" title="PxRigidStatic.h" alt="" coords="384,453,496,480"/>
+<area shape="rect" id="node12" href="$PxContactJoint_8h.html" title="PxContactJoint.h" alt="" coords="909,677,1030,704"/>
+<area shape="rect" id="node13" href="$PxD6Joint_8h.html" title="PxD6Joint.h" alt="" coords="835,752,927,779"/>
+<area shape="rect" id="node14" href="$PxDistanceJoint_8h.html" title="PxDistanceJoint.h" alt="" coords="1462,752,1589,779"/>
+<area shape="rect" id="node15" href="$PxFixedJoint_8h.html" title="PxFixedJoint.h" alt="" coords="347,752,455,779"/>
+<area shape="rect" id="node16" href="$PxJointLimit_8h.html" title="PxJointLimit.h" alt="" coords="1207,677,1311,704"/>
+<area shape="rect" id="node17" href="$PxPrismaticJoint_8h.html" title="PxPrismaticJoint.h" alt="" coords="952,752,1083,779"/>
+<area shape="rect" id="node18" href="$PxRevoluteJoint_8h.html" title="PxRevoluteJoint.h" alt="" coords="1107,752,1232,779"/>
+<area shape="rect" id="node19" href="$PxSphericalJoint_8h.html" title="PxSphericalJoint.h" alt="" coords="1307,752,1437,779"/>
+<area shape="rect" id="node22" href="$PxArticulationLink_8h.html" title="PxArticulationLink.h" alt="" coords="1765,528,1904,555"/>
+<area shape="rect" id="node23" href="$PxRigidDynamic_8h.html" title="PxRigidDynamic.h" alt="" coords="2175,528,2305,555"/>
+<area shape="rect" id="node24" href="$PxVehicleWheels_8h.html" title="PxVehicleWheels.h" alt="" coords="2172,603,2308,629"/>
+<area shape="rect" id="node25" href="$PxVehicleDrive_8h.html" title="PxVehicleDrive.h" alt="" coords="2047,677,2167,704"/>
+<area shape="rect" id="node26" href="$PxVehicleDrive4W_8h.html" title="PxVehicleDrive4W.h" alt="" coords="1817,752,1957,779"/>
+<area shape="rect" id="node28" href="$PxVehicleDriveTank_8h.html" title="PxVehicleDriveTank.h" alt="" coords="2033,752,2181,779"/>
+<area shape="rect" id="node29" href="$PxVehicleDriveNW_8h.html" title="PxVehicleDriveNW.h" alt="" coords="2205,752,2347,779"/>
+<area shape="rect" id="node30" href="$PxVehicleNoDrive_8h.html" title="PxVehicleNoDrive.h" alt="" coords="2263,827,2399,853"/>
+<area shape="rect" id="node27" href="$PxVehicleUtilControl_8h.html" title="PxVehicleUtilControl.h" alt="" coords="2036,827,2188,853"/>
+<area shape="rect" id="node36" href="$PxHeightFieldGeometry_8h.html" title="PxHeightFieldGeometry.h" alt="" coords="2020,155,2191,181"/>
+</map>

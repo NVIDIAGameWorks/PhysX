@@ -1,0 +1,17 @@
+<map id="PxTolerancesScale.h" name="PxTolerancesScale.h">
+<area shape="rect" id="node2" href="$PxCooking_8h.html" title="PxCooking.h" alt="" coords="185,155,281,181"/>
+<area shape="rect" id="node5" href="$PxPhysicsAPI_8h.html" title="PxPhysicsAPI.h" alt="" coords="631,379,748,405"/>
+<area shape="rect" id="node6" href="$PxSerialization_8h.html" title="PxSerialization.h" alt="" coords="264,229,384,256"/>
+<area shape="rect" id="node8" href="$PxJointLimit_8h.html" title="PxJointLimit.h" alt="" coords="624,155,728,181"/>
+<area shape="rect" id="node13" href="$PxSceneDesc_8h.html" title="PxSceneDesc.h" alt="" coords="990,80,1106,107"/>
+<area shape="rect" id="node3" href="$PxRepXSimpleType_8h.html" title="PxRepXSimpleType.h" alt="" coords="43,229,189,256"/>
+<area shape="rect" id="node4" href="$PxRepXSerializer_8h.html" title="PxRepXSerializer.h" alt="" coords="53,304,187,331"/>
+<area shape="rect" id="node7" href="$PxExtensionsAPI_8h.html" title="PxExtensionsAPI.h" alt="" coords="570,304,705,331"/>
+<area shape="rect" id="node9" href="$PxD6Joint_8h.html" title="PxD6Joint.h" alt="" coords="563,229,655,256"/>
+<area shape="rect" id="node10" href="$PxPrismaticJoint_8h.html" title="PxPrismaticJoint.h" alt="" coords="408,229,539,256"/>
+<area shape="rect" id="node11" href="$PxRevoluteJoint_8h.html" title="PxRevoluteJoint.h" alt="" coords="680,229,805,256"/>
+<area shape="rect" id="node12" href="$PxSphericalJoint_8h.html" title="PxSphericalJoint.h" alt="" coords="829,229,960,256"/>
+<area shape="rect" id="node14" href="$PxScene_8h.html" title="PxScene.h" alt="" coords="1166,155,1253,181"/>
+<area shape="rect" id="node15" href="$PxSceneQueryExt_8h.html" title="PxSceneQueryExt.h" alt="" coords="1085,229,1227,256"/>
+<area shape="rect" id="node16" href="$PxSceneLock_8h.html" title="PxSceneLock.h" alt="" coords="1301,304,1416,331"/>
+</map>

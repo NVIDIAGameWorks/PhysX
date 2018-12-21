@@ -1,0 +1,6 @@
+<map id="PxContactPairPose" name="PxContactPairPose">
+<area shape="rect" id="node2" href="$structPxContactPairExtraDataItem.html" title="Base class for items in the extra data stream of contact pairs. " alt="" coords="5,95,195,121"/>
+<area shape="rect" id="node3" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="219,95,314,121"/>
+<area shape="rect" id="node4" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="186,5,254,32"/>
+<area shape="rect" id="node5" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="279,5,345,32"/>
+</map>

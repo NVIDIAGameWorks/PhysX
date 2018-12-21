@@ -595,7 +595,7 @@ namespace physx { namespace Sn {
 		virtual void save( PxOutputStream& inStream )
 		{
 			SimpleXmlWriterImpl<PxOutputStream> theWriter( inStream, mAllocator.getAllocator() );
-			theWriter.beginTag( "PhysX30Collection" );
+			theWriter.beginTag( "PhysXCollection" );
 			theWriter.addAttribute( "version", mVersionStr );
 			{
 				XmlWriterImpl theRepXWriter( &theWriter, &mPropertyBuffer );

@@ -1,0 +1,5 @@
+<map id="PxArticulation" name="PxArticulation">
+<area shape="rect" id="node2" href="$classPxArticulationBase.html" title="a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver ..." alt="" coords="15,185,149,212"/>
+<area shape="rect" id="node3" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="48,109,116,136"/>
+<area shape="rect" id="node4" href="$classPxFlags.html" title="PxFlags\&lt; PxBaseFlag\l::Enum, PxU16 \&gt;" alt="" coords="5,5,159,47"/>
+</map>

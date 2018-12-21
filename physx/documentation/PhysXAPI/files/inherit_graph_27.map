@@ -1,0 +1,40 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="5,400,73,427"/>
+<area shape="rect" id="node2" href="$classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK. " alt="" coords="167,59,236,85"/>
+<area shape="rect" id="node8" href="$classPxAggregate.html" title="Class to aggregate actors into a single broad&#45;phase entry. " alt="" coords="153,113,250,140"/>
+<area shape="rect" id="node9" href="$classPxArticulationBase.html" title="a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver ..." alt="" coords="135,164,268,191"/>
+<area shape="rect" id="node12" href="$classPxArticulationJointBase.html" title="PxArticulationJointBase" alt="" coords="121,223,281,249"/>
+<area shape="rect" id="node15" href="$classPxBVHStructure.html" title="Class representing the bounding volume hierarchy structure. " alt="" coords="142,273,261,300"/>
+<area shape="rect" id="node16" href="$classPxConstraint.html" title="A plugin class for implementing constraints. " alt="" coords="153,324,250,351"/>
+<area shape="rect" id="node17" href="$classPxConvexMesh.html" title="A convex mesh. " alt="" coords="145,375,257,401"/>
+<area shape="rect" id="node18" href="$classPxHeightField.html" title="A height field class. " alt="" coords="150,425,253,452"/>
+<area shape="rect" id="node19" href="$classPxJoint.html" title="a base interface providing common functionality for PhysX joints " alt="" coords="169,476,234,503"/>
+<area shape="rect" id="node27" href="$classPxMaterial.html" title="Material class to represent a set of surface properties. " alt="" coords="159,527,243,553"/>
+<area shape="rect" id="node28" href="$classPxPruningStructure.html" title="A precomputed pruning structure to accelerate scene queries against newly added actors. " alt="" coords="134,577,269,604"/>
+<area shape="rect" id="node29" href="$classPxShape.html" title="Abstract class for collision shapes. " alt="" coords="164,628,239,655"/>
+<area shape="rect" id="node30" href="$classPxTriangleMesh.html" title="A triangle mesh, also called a &#39;polygon soup&#39;. " alt="" coords="144,680,259,707"/>
+<area shape="rect" id="node33" href="$classPxVehicleWheels.html" title="Data structure with instanced dynamics data and configuration data of a vehicle with just wheels..." alt="" coords="139,781,264,808"/>
+<area shape="rect" id="node3" href="$classPxRigidActor.html" title="PxRigidActor represents a base class shared between dynamic and static rigid bodies in the physics SD..." alt="" coords="388,56,487,83"/>
+<area shape="rect" id="node4" href="$classPxRigidBody.html" title="PxRigidBody is a base class shared between dynamic rigid body objects. " alt="" coords="613,31,711,57"/>
+<area shape="rect" id="node7" href="$classPxRigidStatic.html" title="PxRigidStatic represents a static rigid body simulation object in the physics SDK. " alt="" coords="611,81,713,108"/>
+<area shape="rect" id="node5" href="$classPxArticulationLink.html" title="a component of an articulation that represents a rigid body " alt="" coords="779,5,905,32"/>
+<area shape="rect" id="node6" href="$classPxRigidDynamic.html" title="PxRigidDynamic represents a dynamic rigid simulation object in the physics SDK. " alt="" coords="783,56,901,83"/>
+<area shape="rect" id="node10" href="$classPxArticulation.html" title="a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver ..." alt="" coords="386,107,489,133"/>
+<area shape="rect" id="node11" href="$classPxArticulationReducedCoordinate.html" title="a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver ..." alt="" coords="329,157,545,184"/>
+<area shape="rect" id="node13" href="$classPxArticulationJoint.html" title="a joint between two links in an articulation. " alt="" coords="372,208,503,235"/>
+<area shape="rect" id="node14" href="$classPxArticulationJointReducedCoordinate.html" title="a joint between two links in an articulation. " alt="" coords="347,259,528,301"/>
+<area shape="rect" id="node20" href="$classPxContactJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ..." alt="" coords="382,325,493,352"/>
+<area shape="rect" id="node21" href="$classPxD6Joint.html" title="A D6 joint is a general constraint between two actors. " alt="" coords="397,376,478,403"/>
+<area shape="rect" id="node22" href="$classPxDistanceJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ..." alt="" coords="379,427,495,453"/>
+<area shape="rect" id="node23" href="$classPxFixedJoint.html" title="A fixed joint permits no relative movement between two bodies. ie the bodies are glued together..." alt="" coords="389,477,486,504"/>
+<area shape="rect" id="node24" href="$classPxPrismaticJoint.html" title="A prismatic joint permits relative translational movement between two bodies along an axis..." alt="" coords="377,528,497,555"/>
+<area shape="rect" id="node25" href="$classPxRevoluteJoint.html" title="A joint which behaves in a similar way to a hinge or axle. " alt="" coords="380,579,495,605"/>
+<area shape="rect" id="node26" href="$classPxSphericalJoint.html" title="A joint which behaves in a similar way to a ball and socket. " alt="" coords="378,629,497,656"/>
+<area shape="rect" id="node31" href="$classPxBVH33TriangleMesh.html" title="A triangle mesh containing the PxMeshMidPhase::eBVH33 structure. " alt="" coords="359,680,515,707"/>
+<area shape="rect" id="node32" href="$classPxBVH34TriangleMesh.html" title="A triangle mesh containing the PxMeshMidPhase::eBVH34 structure. " alt="" coords="359,731,515,757"/>
+<area shape="rect" id="node34" href="$classPxVehicleDrive.html" title="A complete vehicle with instance dynamics data and configuration data for wheels and engine..." alt="" coords="383,781,492,808"/>
+<area shape="rect" id="node38" href="$classPxVehicleNoDrive.html" title="Data structure with instanced dynamics data and configuration data of a vehicle with no drive model..." alt="" coords="375,832,500,859"/>
+<area shape="rect" id="node35" href="$classPxVehicleDrive4W.html" title="Data structure with instanced dynamics data and configuration data of a vehicle with up to 4 driven w..." alt="" coords="597,731,727,757"/>
+<area shape="rect" id="node36" href="$classPxVehicleDriveNW.html" title="Data structure with instanced dynamics data and configuration data of a vehicle with up to PX_MAX_NB_..." alt="" coords="597,781,727,808"/>
+<area shape="rect" id="node37" href="$classPxVehicleDriveTank.html" title="Data structure with instanced dynamics data and configuration data of a tank. " alt="" coords="593,832,731,859"/>
+</map>

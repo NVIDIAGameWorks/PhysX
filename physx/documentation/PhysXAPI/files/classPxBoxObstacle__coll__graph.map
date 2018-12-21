@@ -1,0 +1,6 @@
+<map id="PxBoxObstacle" name="PxBoxObstacle">
+<area shape="rect" id="node2" href="$classPxObstacle.html" title="Base class for obstacles. " alt="" coords="80,95,171,121"/>
+<area shape="rect" id="node3" href="$structPxExtendedVec3.html" title="PxExtendedVec3" alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node4" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="152,5,219,32"/>
+<area shape="rect" id="node5" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="195,95,263,121"/>
+</map>

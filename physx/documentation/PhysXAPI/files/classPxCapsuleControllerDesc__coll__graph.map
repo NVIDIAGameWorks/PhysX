@@ -1,0 +1,10 @@
+<map id="PxCapsuleControllerDesc" name="PxCapsuleControllerDesc">
+<area shape="rect" id="node2" href="$classPxControllerDesc.html" title="Descriptor class for a character controller. " alt="" coords="743,107,865,133"/>
+<area shape="rect" id="node3" href="$structPxExtendedVec3.html" title="PxExtendedVec3" alt="" coords="436,5,559,32"/>
+<area shape="rect" id="node4" href="$classPxMaterial.html" title="Material class to represent a set of surface properties. " alt="" coords="455,56,539,83"/>
+<area shape="rect" id="node5" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="284,56,352,83"/>
+<area shape="rect" id="node6" href="$classPxFlags.html" title="PxFlags\&lt; PxBaseFlag\l::Enum, PxU16 \&gt;" alt="" coords="5,49,159,90"/>
+<area shape="rect" id="node7" href="$classPxControllerBehaviorCallback.html" title="User behavior callback. " alt="" coords="401,107,593,133"/>
+<area shape="rect" id="node8" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="463,157,531,184"/>
+<area shape="rect" id="node9" href="$classPxUserControllerHitReport.html" title="User callback class for character controller events. " alt="" coords="410,208,585,235"/>
+</map>

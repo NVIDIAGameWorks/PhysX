@@ -1,0 +1,4 @@
+<map id="PxOverlapHit" name="PxOverlapHit">
+<area shape="rect" id="node2" href="$structPxQueryHit.html" title="Scene query hit information. " alt="" coords="14,80,103,107"/>
+<area shape="rect" id="node3" href="$structPxActorShape.html" title="collection of set bits defined in PxHitFlag. " alt="" coords="5,5,112,32"/>
+</map>

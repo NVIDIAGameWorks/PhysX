@@ -1,0 +1,6 @@
+<map id="PxLocationHit" name="PxLocationHit">
+<area shape="rect" id="node4" href="$structPxRaycastHit.html" title="Stores results of raycast queries. " alt="" coords="5,229,108,256"/>
+<area shape="rect" id="node5" href="$structPxSweepHit.html" title="Stores results of sweep queries. " alt="" coords="133,229,226,256"/>
+<area shape="rect" id="node2" href="$structPxQueryHit.html" title="Scene query hit information. " alt="" coords="73,80,163,107"/>
+<area shape="rect" id="node3" href="$structPxActorShape.html" title="collection of set bits defined in PxHitFlag. " alt="" coords="65,5,171,32"/>
+</map>

@@ -213,7 +213,7 @@ static bool checkFile(bool& isBinary, const char* filename)
 		return true;
 	}
 
-	if (strcmp("<PhysX30Collection", testString) == 0)
+	if (strcmp("<PhysX", testString) == 0)
 	{
 		isBinary = false;
 		return true;

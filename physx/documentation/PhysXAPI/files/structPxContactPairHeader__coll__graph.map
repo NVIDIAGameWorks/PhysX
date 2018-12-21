@@ -1,0 +1,11 @@
+<map id="PxContactPairHeader" name="PxContactPairHeader">
+<area shape="rect" id="node2" href="$classPxRigidActor.html" title="PxRigidActor represents a base class shared between dynamic and static rigid bodies in the physics SD..." alt="" coords="741,177,839,204"/>
+<area shape="rect" id="node3" href="$classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK. " alt="" coords="462,188,531,215"/>
+<area shape="rect" id="node4" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="284,79,352,105"/>
+<area shape="rect" id="node9" href="$classPxShape.html" title="Abstract class for collision shapes. " alt="" coords="459,5,534,32"/>
+<area shape="rect" id="node5" href="$classPxFlags.html" title="PxFlags\&lt; PxBaseFlag\l::Enum, PxU16 \&gt;" alt="" coords="5,71,159,113"/>
+<area shape="rect" id="node6" href="$structPxContactPair.html" title="Contact report pair information. " alt="" coords="737,97,843,124"/>
+<area shape="rect" id="node7" href="$classPxFlags.html" title="PxFlags\&lt; PxContactPairFlag\l::Enum, PxU16 \&gt;" alt="" coords="401,57,592,98"/>
+<area shape="rect" id="node8" href="$classPxFlags.html" title="PxFlags\&lt; PxPairFlag\l::Enum, PxU16 \&gt;" alt="" coords="423,122,570,163"/>
+<area shape="rect" id="node10" href="$classPxFlags.html" title="PxFlags\&lt; PxContactPairHeader\lFlag::Enum, PxU16 \&gt;" alt="" coords="687,229,893,270"/>
+</map>

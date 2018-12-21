@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structPxHitCallback.html" title="This callback class facilitates reporting scene query hits (intersections) to the user..." alt="" coords="5,5,177,32"/>
+<area shape="rect" id="node2" href="$structPxHitBuffer.html" title="Returns scene query hits (intersections) to the user in a preallocated buffer. " alt="" coords="225,5,380,32"/>
+</map>

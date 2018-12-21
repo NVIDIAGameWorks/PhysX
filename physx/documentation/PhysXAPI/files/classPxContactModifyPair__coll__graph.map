@@ -1,0 +1,14 @@
+<map id="PxContactModifyPair" name="PxContactModifyPair">
+<area shape="rect" id="node2" href="$classPxRigidActor.html" title="PxRigidActor represents a base class shared between dynamic and static rigid bodies in the physics SD..." alt="" coords="5,376,104,403"/>
+<area shape="rect" id="node3" href="$classPxActor.html" title="PxActor is the base class for the main simulation objects in the physics SDK. " alt="" coords="21,275,91,301"/>
+<area shape="rect" id="node4" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="53,199,121,225"/>
+<area shape="rect" id="node13" href="$classPxShape.html" title="Abstract class for collision shapes. " alt="" coords="108,325,183,352"/>
+<area shape="rect" id="node5" href="$classPxFlags.html" title="PxFlags\&lt; PxBaseFlag\l::Enum, PxU16 \&gt;" alt="" coords="10,95,163,136"/>
+<area shape="rect" id="node6" href="$classPxContactSet.html" title="An array of contact points, as passed to contact modification. " alt="" coords="217,376,319,403"/>
+<area shape="rect" id="node7" href="$structPxModifiableContact.html" title="A modifiable contact point. This has additional fields per&#45;contact to permit modification by user..." alt="" coords="173,275,315,301"/>
+<area shape="rect" id="node8" href="$structPxExtendedContact.html" title="PxExtendedContact" alt="" coords="175,199,313,225"/>
+<area shape="rect" id="node9" href="$structPxContact.html" title="Contact point data including face (feature) indices. " alt="" coords="203,102,285,129"/>
+<area shape="rect" id="node10" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="225,5,293,32"/>
+<area shape="rect" id="node11" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="315,102,410,129"/>
+<area shape="rect" id="node12" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="332,5,399,32"/>
+</map>

@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="physx::PxProfilerCallback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classphysx_1_1PxProfilerCallback.html",tooltip="The pure virtual callback interface for general purpose instrumentation and profiling of GameWorks mo..."];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="PxPvd",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classPxPvd.html",tooltip="PxPvd is the top-level class for the PVD framework, and the main customer interface for PVD configura..."];
-}

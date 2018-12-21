@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structPxHitCallback.html" title="PxHitCallback\&lt; PxRaycast\lHit \&gt;" alt="" coords="5,5,185,47"/>
+<area shape="rect" id="node2" href="$structPxHitBuffer.html" title="PxHitBuffer\&lt; PxRaycastHit \&gt;" alt="" coords="233,13,424,39"/>
+<area shape="rect" id="node3" href="$structPxRaycastBufferN.html" title="Returns touching raycast hits to the user in a fixed size array embedded in the buffer class..." alt="" coords="472,13,633,39"/>
+</map>

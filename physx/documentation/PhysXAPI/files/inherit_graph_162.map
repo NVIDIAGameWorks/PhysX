@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structPxHitCallback.html" title="PxHitCallback\&lt; PxOverlap\lHit \&gt;" alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node2" href="$structPxHitBuffer.html" title="PxHitBuffer\&lt; PxOverlapHit \&gt;" alt="" coords="228,13,415,39"/>
+<area shape="rect" id="node3" href="$structPxOverlapBufferN.html" title="Returns touching overlap hits to the user in a fixed size array embedded in the buffer class..." alt="" coords="463,13,619,39"/>
+</map>

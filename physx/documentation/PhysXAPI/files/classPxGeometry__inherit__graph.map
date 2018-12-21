@@ -1,0 +1,9 @@
+<map id="PxGeometry" name="PxGeometry">
+<area shape="rect" id="node2" href="$classPxBoxGeometry.html" title="Class representing the geometry of a box. " alt="" coords="175,5,293,32"/>
+<area shape="rect" id="node3" href="$classPxCapsuleGeometry.html" title="Class representing the geometry of a capsule. " alt="" coords="163,56,305,83"/>
+<area shape="rect" id="node4" href="$classPxConvexMeshGeometry.html" title="Convex mesh geometry class. " alt="" coords="149,107,319,133"/>
+<area shape="rect" id="node5" href="$classPxHeightFieldGeometry.html" title="Height field geometry class. " alt="" coords="154,157,314,184"/>
+<area shape="rect" id="node6" href="$classPxPlaneGeometry.html" title="Class describing a plane geometry. " alt="" coords="170,208,298,235"/>
+<area shape="rect" id="node7" href="$classPxSphereGeometry.html" title="A class representing the geometry of a sphere. " alt="" coords="166,259,302,285"/>
+<area shape="rect" id="node8" href="$classPxTriangleMeshGeometry.html" title="Triangle mesh geometry class. " alt="" coords="148,309,320,336"/>
+</map>

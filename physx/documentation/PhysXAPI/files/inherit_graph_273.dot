@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="PxVehicleClutchAccuracyMode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxVehicleClutchAccuracyMode.html",tooltip="Choose between a potentially more expensive but more accurate solution to the clutch model or a poten..."];
-}

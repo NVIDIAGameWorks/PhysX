@@ -1,0 +1,5 @@
+<map id="PxArticulationJointBase" name="PxArticulationJointBase">
+<area shape="rect" id="node3" href="$classPxArticulationJoint.html" title="a joint between two links in an articulation. " alt="" coords="5,162,136,189"/>
+<area shape="rect" id="node4" href="$classPxArticulationJointReducedCoordinate.html" title="a joint between two links in an articulation. " alt="" coords="160,155,341,196"/>
+<area shape="rect" id="node2" href="$classPxBase.html" title="Base class for objects that can be members of a PxCollection. " alt="" coords="126,5,194,32"/>
+</map>

@@ -1,9 +1,0 @@
-digraph "windows" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_3a9a8be59dab4e04c1c4c25279c83750 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="foundation" fontname="Helvetica", fontsize="10", URL="dir_3a9a8be59dab4e04c1c4c25279c83750.html"]
-  dir_27f3f379401c19c60bdc750bd2b819f8 [shape=box, label="windows", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_27f3f379401c19c60bdc750bd2b819f8.html"];
-  }
-}

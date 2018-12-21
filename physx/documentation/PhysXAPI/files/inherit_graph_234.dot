@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="PxSerialization::PxXmlMisc\lParameter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structPxSerialization_1_1PxXmlMiscParameter.html",tooltip="Additional PxScene and PxPhysics options stored in XML serialized data. "];
-}
