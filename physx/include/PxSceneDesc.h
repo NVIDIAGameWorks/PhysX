@@ -632,7 +632,7 @@ public:
 	/**
 	\brief Selects the solver algorithm to use.
 
-	<b>Default:</b> PxSolverType::eDEFAULT
+	<b>Default:</b> PxSolverType::ePGS
 
 	@see PxSolverType
 	*/
