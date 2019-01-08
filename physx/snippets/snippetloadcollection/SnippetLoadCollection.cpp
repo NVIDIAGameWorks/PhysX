@@ -417,9 +417,12 @@ int snippetMain(int argc, const char *const* argv)
 
 	if (firstCollection)
 		firstCollection->release();
-
-	gScene->simulate(1.0f/60.0f);
-	gScene->fetchResults(true);
+	
+	for( PxU32 j = 0; j < 50; J++)
+	{
+		gScene->simulate(1.0f/60.0f);
+		gScene->fetchResults(true);
+	}
 
 	cleanupPhysics();	
 
