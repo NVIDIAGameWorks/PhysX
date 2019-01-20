@@ -418,7 +418,7 @@ int snippetMain(int argc, const char *const* argv)
 	if (firstCollection)
 		firstCollection->release();
 	
-	for( PxU32 j = 0; j < 50; J++)
+	for( PxU32 j = 0; j < 50; j++)
 	{
 		gScene->simulate(1.0f/60.0f);
 		gScene->fetchResults(true);
