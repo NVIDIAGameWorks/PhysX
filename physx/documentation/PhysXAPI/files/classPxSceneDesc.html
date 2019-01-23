@@ -227,6 +227,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a65aa4ceefbbd6aebd75ea879d7c385f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a65aa4ceefbbd6aebd75ea879d7c385f9">ccdMaxPasses</a></td></tr>
 <tr class="memdesc:a65aa4ceefbbd6aebd75ea879d7c385f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of CCD passes.  <a href="#a65aa4ceefbbd6aebd75ea879d7c385f9">More...</a><br /></td></tr>
 <tr class="separator:a65aa4ceefbbd6aebd75ea879d7c385f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8bb05a5b151da44d30986e729172c7"><td class="memItemLeft" align="right" valign="top">PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a5b8bb05a5b151da44d30986e729172c7">ccdThreshold</a></td></tr>
+<tr class="memdesc:a5b8bb05a5b151da44d30986e729172c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">CCD threshold.  <a href="#a5b8bb05a5b151da44d30986e729172c7">More...</a><br /></td></tr>
+<tr class="separator:a5b8bb05a5b151da44d30986e729172c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79e2c9c06f711272a48d7f07451117b7"><td class="memItemLeft" align="right" valign="top">PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a79e2c9c06f711272a48d7f07451117b7">wakeCounterResetValue</a></td></tr>
 <tr class="memdesc:a79e2c9c06f711272a48d7f07451117b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The wake counter reset value.  <a href="#a79e2c9c06f711272a48d7f07451117b7">More...</a><br /></td></tr>
 <tr class="separator:a79e2c9c06f711272a48d7f07451117b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -362,6 +365,28 @@ This defines the maximum number of passes the CCD can perform. It may perform fe
 <dl class="section note"><dt>Note</dt><dd>This only has any effect on contacting pairs where one of the bodies has <a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596af13d6aa80b364fe2cef81a0039e37d45" title="Register a rigid body to dynamicly adjust contact offset based on velocity. This can be used to achie...">PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD</a> raised.</dd></dl>
 <p><b>Range:</b> [0, PX_MAX_F32)<br />
  <b>Default:</b> 0.04 * <a class="el" href="classPxTolerancesScale.html#a7d93bf20de0e5b54783eda5bb64effeb">PxTolerancesScale::length</a> </p>
+
+<p class="reference">Referenced by <a class="el" href="group__physics.html#ga7faafa414d3b4a468091cdaf785a931e">isValid()</a>.</p>
+
+</div>
+</div>
+<a id="a5b8bb05a5b151da44d30986e729172c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b8bb05a5b151da44d30986e729172c7">&#9670;&nbsp;</a></span>ccdThreshold</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal PxSceneDesc::ccdThreshold</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>CCD threshold. </p>
+<p>CCD performs sweeps against shapes if and only if the relative motion of the shapes is fast-enough that a collision would be missed by the discrete contact generation. However, in some circumstances, e.g. when the environment is constructed from large convex shapes, this approach may produce undesired simulation artefacts. This parameter defines the minimum relative motion that would be required to force CCD between shapes. The smaller of this value and the sum of the thresholds calculated for the shapes involved will be used.</p>
+<dl class="section note"><dt>Note</dt><dd>It is not advisable to set this to a very small value as this may lead to CCD "jamming" and detrimentally effect performance. This value should be at least larger than the translation caused by a single frame's gravitational effect</dd></dl>
+<p><b>Default:</b> PX_MAX_F32 <b>Range:</b> [Eps, PX_MAX_F32]<br />
+ </p>
 
 <p class="reference">Referenced by <a class="el" href="group__physics.html#ga7faafa414d3b4a468091cdaf785a931e">isValid()</a>.</p>
 
@@ -909,7 +934,7 @@ This parameter can be used to tune the separation distance of contact points at 
 </div><div class="memdoc">
 
 <p>Selects the solver algorithm to use. </p>
-<p><b>Default:</b> PxSolverType::eDEFAULT</p>
+<p><b>Default:</b> <a class="el" href="structPxSolverType.html#a96adc2f8785c6b18805a18b03289dbe6ae450cc99d8cedb7faff78689f1bc84f5" title="Default Projected Gauss-Seidel iterative solver. ">PxSolverType::ePGS</a></p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxSolverType.html" title="Enum for selecting the type of solver used for the simulation. ">PxSolverType</a> </dd></dl>
 
 </div>
@@ -1000,7 +1025,7 @@ This parameter can be used to tune the separation distance of contact points at 
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPxSceneDesc.html">PxSceneDesc</a></li>
-    <li class="footer">Copyright &copy; 2008-2018 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

@@ -80,6 +80,7 @@ Windows switches:
 * PX_FLOAT_POINT_PRECISE_MATH - it is possible to switch to precise math rather than fast math, this is beneficial especially for robotics projects, which do require higher precision - default False
 
 
+Some switches like PX_GENERATE_STATIC_LIBRARIES may result in a need for additional defines to be set within your application. In this case you can include in your application PxConfig.h header, which is generated during generate projects.
 
 
 

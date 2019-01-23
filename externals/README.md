@@ -8,5 +8,6 @@ Hewlett-Packard Company,
 The Khronos Group Inc.,
 Pawel Olszta,
 VMWare,
+Kitware Inc.,
 and the clang and glew development teams.
 

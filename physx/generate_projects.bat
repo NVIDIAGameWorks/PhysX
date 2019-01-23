@@ -12,12 +12,19 @@ SET PM_PXSHARED_PATH=%PHYSX_ROOT_DIR%/../pxshared
 SET PM_TARGA_PATH=%PHYSX_ROOT_DIR%/../externals/targa
 SET PM_PATHS=%PM_CMAKEMODULES_PATH%;%PM_TARGA_PATH%
 
+if exist %PHYSX_ROOT_DIR%/../externals/cmake/x64/bin/cmake.exe (
+    SET PM_CMAKE_PATH=%PHYSX_ROOT_DIR%/../externals/cmake/x64
+    GOTO CMAKE_EXTERNAL    
+)
+
 where /q cmake
 IF ERRORLEVEL 1 (    
 	ECHO Cmake is missing, please install cmake version 3.12 and up.
     set /p DUMMY=Hit ENTER to continue...
 	exit /b 1
 )
+
+:CMAKE_EXTERNAL
 
 where /q python
 IF ERRORLEVEL 1 (
@@ -42,7 +49,9 @@ for /f "usebackq tokens=*" %%i in (`%PM_vswhere_PATH%\VsWhere.exe -latest -produ
 )	
 
 :ADDITIONAL_PARAMS_MISSING
-%PM_PYTHON% ./buildtools/cmake_generate_projects.py %1
+pushd %~dp0
+%PM_PYTHON% %PHYSX_ROOT_DIR%/buildtools/cmake_generate_projects.py %1
+popd
 if %ERRORLEVEL% neq 0 (
     set /p DUMMY=Hit ENTER to continue...
     exit /b %errorlevel%

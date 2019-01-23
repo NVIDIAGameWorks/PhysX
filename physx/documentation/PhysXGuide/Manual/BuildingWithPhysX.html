@@ -258,6 +258,7 @@ The build configuration files can be generated with the script <strong>generate_
 <li>NV_USE_DEBUG_WINCRT - specify whether debug CRT should be used - default True</li>
 <li>PX_FLOAT_POINT_PRECISE_MATH - it is possible to switch to precise math rather than fast math, this is beneficial especially for robotics projects, which do require higher precision - default False</li>
 </ul>
+<p>Some switches like PX_GENERATE_STATIC_LIBRARIES may result in a need for additional defines to be set within your application. In this case you can include in your application PxConfig.h header, which is generated during generate projects.</p>
 </div>
 </div>
 
@@ -281,7 +282,7 @@ The build configuration files can be generated with the script <strong>generate_
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2008-2018 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved
+        &copy; Copyright 2008-2019 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved
 
     </p>
   </div> 

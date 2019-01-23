@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 #include "foundation/PxPreprocessor.h"
+#include "foundation/PxAssert.h"
 #include "RawLoader.h"
 #include "PxTkFile.h"
 

@@ -686,7 +686,8 @@ var group__physics =
     [ "PxMaterialFlag", "structPxMaterialFlag.html", [
       [ "Enum", "structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298", [
         [ "eDISABLE_FRICTION", "structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298ae7ac972a545dcab3eea1c3cc4e7f385a", null ],
-        [ "eDISABLE_STRONG_FRICTION", "structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a5226d9bd4d9fca36ed7f116e95ea987c", null ]
+        [ "eDISABLE_STRONG_FRICTION", "structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a5226d9bd4d9fca36ed7f116e95ea987c", null ],
+        [ "eIMPROVED_PATCH_FRICTION", "structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a6789dd096a4391f38bca2f991c92a525", null ]
       ] ]
     ] ],
     [ "PxCombineMode", "structPxCombineMode.html", [
@@ -1097,6 +1098,7 @@ var group__physics =
       [ "ccdContactModifyCallback", "classPxSceneDesc.html#aae577616d3e898347924de90e16188bb", null ],
       [ "ccdMaxPasses", "classPxSceneDesc.html#a65aa4ceefbbd6aebd75ea879d7c385f9", null ],
       [ "ccdMaxSeparation", "classPxSceneDesc.html#a74dc6e8ebde591ca823a3ea4807fca33", null ],
+      [ "ccdThreshold", "classPxSceneDesc.html#a5b8bb05a5b151da44d30986e729172c7", null ],
       [ "contactModifyCallback", "classPxSceneDesc.html#a2000ccfa6287d160b88967769de34b90", null ],
       [ "contactReportStreamBufferSize", "classPxSceneDesc.html#a02d696140e9828477c8aa493a048f48a", null ],
       [ "cpuDispatcher", "classPxSceneDesc.html#ac74f5f6c12d72b873716f82c2225b725", null ],

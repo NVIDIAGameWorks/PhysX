@@ -25,7 +25,6 @@ var PxPreprocessor_8h =
     [ "PX_EMSCRIPTEN", "group__foundation.html#gab14d7af80f3dc4ff432087381fcefdb9", null ],
     [ "PX_ENABLE_ASSERTS", "group__foundation.html#ga43c56deefc64fae5fe077a232a10056c", null ],
     [ "PX_FORCE_INLINE", "group__foundation.html#ga6a774eed3cad34b0f636332a3d28c6bb", null ],
-    [ "PX_FOUNDATION_API", "group__foundation.html#gae7058022ea016a0af40eb7728a30c928", null ],
     [ "PX_GCC", "group__foundation.html#ga732674527c19934c396385ac405993b6", null ],
     [ "PX_GCC_FAMILY", "group__foundation.html#gae6e47183b054e4c5d6a478a00fe91e27", null ],
     [ "PX_INLINE", "group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec", null ],

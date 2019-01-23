@@ -62,6 +62,10 @@ var group__foundation =
       [ "mEndianSwap", "classPxFileBuf.html#a96cf617a20d1a36eee3e75557f7cd5c0", null ],
       [ "STREAM_SEEK_END", "classPxFileBuf.html#a47cf6bed5f9dca3628f4b61fc6ec6eb8", null ]
     ] ],
+    [ "PxAssertHandler", "classPxAssertHandler.html", [
+      [ "~PxAssertHandler", "classPxAssertHandler.html#a65e427030347eb6bd67d859f3e562563", null ],
+      [ "operator()", "classPxAssertHandler.html#aca1d7acf4d04ce3aa855a74920aea1f3", null ]
+    ] ],
     [ "PxFoundation", "classPxFoundation.html", [
       [ "~PxFoundation", "classPxFoundation.html#a525b818f28e61890a574aa0c501f5991", null ],
       [ "getAllocatorCallback", "classPxFoundation.html#a8e4381d58ae863b36f53dded4bf694c9", null ],
@@ -76,10 +80,6 @@ var group__foundation =
       [ "~PxAllocatorCallback", "classPxAllocatorCallback.html#a829ee0db96f23c14e13f4692edba9095", null ],
       [ "allocate", "classPxAllocatorCallback.html#a7bb2dde434cf541a556b40b31661da29", null ],
       [ "deallocate", "classPxAllocatorCallback.html#a6af8b56b5a786150796b9854d16fde38", null ]
-    ] ],
-    [ "PxAssertHandler", "classPxAssertHandler.html", [
-      [ "~PxAssertHandler", "classPxAssertHandler.html#a65e427030347eb6bd67d859f3e562563", null ],
-      [ "operator()", "classPxAssertHandler.html#aca1d7acf4d04ce3aa855a74920aea1f3", null ]
     ] ],
     [ "PxBitAndDataT", "classPxBitAndDataT.html", [
       [ "PxBitAndDataT", "classPxBitAndDataT.html#ad756412651559e3d4545581d39abb058", null ],
@@ -580,6 +580,7 @@ var group__foundation =
     [ "PX_PS4", "group__foundation.html#ga42b3e630801b256ea6a118cea57757d3", null ],
     [ "PX_PUSH_PACK_DEFAULT", "group__foundation.html#ga1145ffab2cc9a77ca65b59ba4126342f", null ],
     [ "PX_RESTRICT", "group__foundation.html#ga3b15bb2f7697b2bed10eb5477909fbe4", null ],
+    [ "PX_SHARED_ASSERT", "group__foundation.html#ga07ffc52cd4afa8e797a5fe6e1cb7e17a", null ],
     [ "PX_SSE2", "group__foundation.html#ga2dd18616fa4eec4df42b5f3505dd2a64", null ],
     [ "PX_STRINGIZE", "group__foundation.html#ga40e7fc272047a5ab6870668b81aca1a3", null ],
     [ "PX_STRINGIZE_HELPER", "group__foundation.html#gaaa541ee81b5c7958c1367b710cfa99ed", null ],
@@ -660,7 +661,7 @@ var group__foundation =
     [ "PxEquals", "group__foundation.html#gabb5e8a2eee08bb16174c87dedbe49498", null ],
     [ "PxExp", "group__foundation.html#gaf478a0d9ce3c6ec717d8fc74684f6cee", null ],
     [ "PxFloor", "group__foundation.html#gae0a6cff0842c2d8b1b78656bcd680e1c", null ],
-    [ "PxGetAssertHandler", "group__foundation.html#ga2184ad1a4338eacc3e80cfaa1d2024e5", null ],
+    [ "PxGetAssertHandler", "group__foundation.html#ga28ec9320669fc92cbc9945d85e2c980e", null ],
     [ "PxGetFoundation", "group__foundation.html#ga2f06b47e22c6e93701d766444c67f3a6", null ],
     [ "PxGetProfilerCallback", "group__foundation.html#ga0fb72a858fd527761dbe042cb4adbbe6", null ],
     [ "PxIsFinite", "group__foundation.html#gad6de0f4af98c5c5280b8fe695dc87318", null ],
@@ -680,7 +681,7 @@ var group__foundation =
     [ "PxQuat", "group__foundation.html#gaf4ea3337baa14716f97e5cae7f6047c2", null ],
     [ "PxRecipSqrt", "group__foundation.html#gacd945627f345ba03e83a30387ab99dea", null ],
     [ "PxRecipSqrt", "group__foundation.html#ga2e96f326a9b29ecb2cbe00f2f7662cf0", null ],
-    [ "PxSetAssertHandler", "group__foundation.html#ga315fba4871d4de90d9e36b992b43aaf6", null ],
+    [ "PxSetAssertHandler", "group__foundation.html#ga5a8c7865173b6730ec7f4e54ec8beedf", null ],
     [ "PxSetPhysXCommonDelayLoadHook", "group__foundation.html#ga5bf7ba25f65def2a2cdf3e17eac11129", null ],
     [ "PxSetPhysXCookingDelayLoadHook", "group__foundation.html#gaaf594b4102e909f7eef735d845735cb7", null ],
     [ "PxSetPhysXDelayLoadHook", "group__foundation.html#gac1ba7551ef78900c6a103ad63fc712ae", null ],

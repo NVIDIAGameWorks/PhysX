@@ -98,7 +98,8 @@ $(document).ready(function(){initNavTree('structPxMaterialFlag.html','');});
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a0cbfebf648d620e4619a5a81b49cc298"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298">Enum</a> { <a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298ae7ac972a545dcab3eea1c3cc4e7f385a">eDISABLE_FRICTION</a> = 1 &lt;&lt; 0, 
-<a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a5226d9bd4d9fca36ed7f116e95ea987c">eDISABLE_STRONG_FRICTION</a> = 1 &lt;&lt; 1
+<a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a5226d9bd4d9fca36ed7f116e95ea987c">eDISABLE_STRONG_FRICTION</a> = 1 &lt;&lt; 1, 
+<a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a6789dd096a4391f38bca2f991c92a525">eIMPROVED_PATCH_FRICTION</a> = 1 &lt;&lt; 2
  }</td></tr>
 <tr class="separator:a0cbfebf648d620e4619a5a81b49cc298"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -124,6 +125,10 @@ Public Types</h2></td></tr>
 <p>However, in some cases the strong friction could cause problems, and this is why it is possible to disable the strong friction feature by setting this flag. One example is raycast vehicles, that are sliding fast across the surface, but still need a precise steering behavior. It may be a good idea to reenable the strong friction when objects are coming to a rest, to prevent them from slowly creeping down inclines.</p>
 <p>Note: This flag only has an effect if the <a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298ae7ac972a545dcab3eea1c3cc4e7f385a">PxMaterialFlag::eDISABLE_FRICTION</a> bit is 0. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a0cbfebf648d620e4619a5a81b49cc298a6789dd096a4391f38bca2f991c92a525"></a>eIMPROVED_PATCH_FRICTION&#160;</td><td class="fielddoc"><p>This flag only has an effect if <a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96bacf891c8b96deb40e1e475237fe4f4047" title="Select default patch-friction model. ">PxFrictionType::ePATCH</a> friction model is used.</p>
+<p>When using the patch friction model, up to 2 friction anchors are generated per patch. As the number of friction anchors can be smaller than the number of contacts, the normal force is accumulated over all contacts and used to compute friction for all anchors. Where there are more than 2 anchors, this can produce frictional behavior that is too strong (approximately 2x as strong as analytical models suggest).</p>
+<p>This flag causes the normal force to be distributed between the friction anchors such that the total amount of friction applied does not exceed the analyical results. </p>
+</td></tr>
 </table>
 
 </div>
@@ -138,7 +143,7 @@ Public Types</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structPxMaterialFlag.html">PxMaterialFlag</a></li>
-    <li class="footer">Copyright &copy; 2008-2018 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

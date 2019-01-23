@@ -6,14 +6,10 @@ export PM_CMakeModules_PATH="$PHYSX_ROOT_DIR/../externals/cmakemodules"
 export PM_opengllinux_PATH="$PHYSX_ROOT_DIR/../externals/opengl-linux"
 export PM_PATHS=$PM_opengllinux_PATH
 
-if [[ $# -eq 0 ]] ; then
-    python ./buildtools/cmake_generate_projects.py
-    exit 1
-fi
-
+cd "$( dirname "${BASH_SOURCE[0]}" )"
 python ./buildtools/cmake_generate_projects.py $1
-status=$? 
+status=$?
 if [ "$status" -ne "0" ]; then
- echo "Error $status"
- exit 1
+echo "Error $status"
+exit 1
 fi

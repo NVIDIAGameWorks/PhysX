@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2018 NVIDIA Corporation. All rights reserved.  
+// Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.  
 
 // ****************************************************************************
 // This snippet illustrates simple use of physx
@@ -54,7 +54,6 @@
 //Toggles whether we batch constraints or not. Constraint batching is an optional process which can improve performance by grouping together independent constraints. These independent constraints
 //can be solved in parallel by using multiple lanes of SIMD registers.
 #define BATCH_CONTACTS 1
-
 
 using namespace physx;
 using namespace physx::shdfnd;
@@ -165,13 +164,10 @@ public:
 	{
 		release();
 	}
-
-
 };
 
 class TestCacheAllocator : public physx::PxCacheAllocator
 {
-
 	BlockBasedAllocator mAllocator[2];
 	PxU32 currIdx;
 
@@ -240,7 +236,6 @@ public:
 	PxRigidActor& actor1, PxU32 idx0, PxU32 idx1) : mContactPairs(contactPairs), mContactPoints(contactPoints),
 		mActor0(actor0), mActor1(actor1), mIdx0(idx0), mIdx1(idx1), mHasContacts(false)
 	{
-
 	}
 
 	virtual bool recordContacts(const Gu::ContactPoint* contactPoints, const PxU32 nbContacts, const PxU32 index)
@@ -296,8 +291,7 @@ static bool generateContacts(PxGeometryHolder& geom0, PxGeometryHolder& geom1, P
 	return recorder.hasContacts();
 }
 
-
-PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geometry, const PxVec3& velocity=PxVec3(0))
+static PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geometry, const PxVec3& velocity=PxVec3(0))
 {
 	PxRigidDynamic* dynamic = PxCreateDynamic(*gPhysics, t, geometry, *gMaterial, 10.0f);
 	dynamic->setAngularDamping(0.5f);
@@ -345,11 +339,10 @@ static void updateInertia(PxRigidBody* body, PxReal density)
 	body->setMass(inertia.mass);
 	body->setCMassLocalPose(PxTransform(inertia.centerOfMass, orient));
 	body->setMassSpaceInertiaTensor(diagInertia);
-
 #endif
 }
 
-void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
+static void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
 {
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
 	for (PxU32 i = 0; i<size; i++)
@@ -373,7 +366,7 @@ struct Triangle
 	PxU32 ind0, ind1, ind2;
 };
 
-PxTriangleMesh* createMeshGround()
+static PxTriangleMesh* createMeshGround()
 {
 	const PxU32 gridSize = 8;
 	const PxReal gridStep = 512.f / (gridSize-1);
@@ -409,7 +402,6 @@ PxTriangleMesh* createMeshGround()
 		}
 	}
 
-
 	PxTriangleMeshDesc meshDesc;
 	meshDesc.points.data = verts;
 	meshDesc.points.count = gridSize * gridSize;
@@ -423,93 +415,7 @@ PxTriangleMesh* createMeshGround()
 	return triMesh;
 }
 
-void updateContactPairs();
-
-void initPhysics(bool /*interactive*/)
-{
-	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
-	gPvd = PxCreatePvd(*gFoundation);
-	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	gPvd->connect(*transport, PxPvdInstrumentationFlag::ePROFILE);
-
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
-
-	PxCookingParams cookingParams(gPhysics->getTolerancesScale());
-
-	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, cookingParams);
-	
-
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f)*gUnitScale;
-	gDispatcher = PxDefaultCpuDispatcherCreate(4);			//Create a CPU dispatcher using 4 worther threads
-	sceneDesc.cpuDispatcher	= gDispatcher;
-	sceneDesc.filterShader	= PxDefaultSimulationFilterShader;
-
-	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;			//Enable PCM. PCM NP is supported on GPU. Legacy contact gen will fall back to CPU
-	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;	//Improve solver stability by enabling post-stabilization.
-															//A value of 8 generally gives best balance between performance and stability.
-
-	gScene = gPhysics->createScene(sceneDesc);
-
-
-	PxPvdSceneClient* pvdClient = gScene->getScenePvdClient();
-	if (pvdClient)
-	{
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, false);
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, false);
-		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, false);
-	}
-
-
-
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
-
-	gConstraints = new physx::shdfnd::Array<PxConstraint*>();
-
-	
-
-	PxTriangleMesh* mesh = createMeshGround();
-
-	PxTriangleMeshGeometry geom(mesh);
-
-	PxRigidStatic* groundMesh = gPhysics->createRigidStatic(PxTransform(PxVec3(0, 2, 0)));
-	PxRigidActorExt::createExclusiveShape(*groundMesh, geom, *gMaterial);
-	gScene->addActor(*groundMesh);
-
-	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0,1,0,0), *gMaterial);
-	gScene->addActor(*groundPlane);
-
-	for (PxU32 i = 0; i<4; i++)
-		createStack(PxTransform(PxVec3(0, 2, stackZ -= 10.0f*gUnitScale)), 20, gUnitScale);
-
-
-	
-
-	PxRigidDynamic* ball = createDynamic(PxTransform(PxVec3(0, 20, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
-	PxRigidDynamic* ball2 = createDynamic(PxTransform(PxVec3(0, 24, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
-	PxRigidDynamic* ball3 = createDynamic(PxTransform(PxVec3(0, 27, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
-	updateInertia(ball, 1000.f);
-	updateInertia(ball2, 1000.f);
-
-	PxD6Joint* joint = PxD6JointCreate(*gPhysics, ball, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball2, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
-	PxD6Joint* joint2 = PxD6JointCreate(*gPhysics, ball2, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball3, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
-	
-	gConstraints->pushBack(joint->getConstraint());
-	gConstraints->pushBack(joint2->getConstraint());
-
-	
-
-	gCacheAllocator = new TestCacheAllocator;
-	gConstraintAllocator = new TestConstraintAllocator;
-#if WITH_PERSISTENCY
-	allContactCache = new shdfnd::Array<PersistentContactPair>();
-#endif
-
-	updateContactPairs();
-}
-
-
-void updateContactPairs()
+static void updateContactPairs()
 {
 #if WITH_PERSISTENCY
 	
@@ -534,7 +440,76 @@ void updateContactPairs()
 #endif
 }
 
+void initPhysics(bool /*interactive*/)
+{
+	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
+	gPvd = PxCreatePvd(*gFoundation);
+	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
+	gPvd->connect(*transport, PxPvdInstrumentationFlag::ePROFILE);
 
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
+
+	PxCookingParams cookingParams(gPhysics->getTolerancesScale());
+
+	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, cookingParams);
+	
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f)*gUnitScale;
+	gDispatcher = PxDefaultCpuDispatcherCreate(4);			//Create a CPU dispatcher using 4 worther threads
+	sceneDesc.cpuDispatcher	= gDispatcher;
+	sceneDesc.filterShader	= PxDefaultSimulationFilterShader;
+
+	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;			//Enable PCM. PCM NP is supported on GPU. Legacy contact gen will fall back to CPU
+	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;	//Improve solver stability by enabling post-stabilization.
+
+	gScene = gPhysics->createScene(sceneDesc);
+
+	PxPvdSceneClient* pvdClient = gScene->getScenePvdClient();
+	if (pvdClient)
+	{
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, false);
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_CONTACTS, false);
+		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, false);
+	}
+
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	gConstraints = new physx::shdfnd::Array<PxConstraint*>();
+
+	PxTriangleMesh* mesh = createMeshGround();
+
+	PxTriangleMeshGeometry geom(mesh);
+
+	PxRigidStatic* groundMesh = gPhysics->createRigidStatic(PxTransform(PxVec3(0, 2, 0)));
+	PxRigidActorExt::createExclusiveShape(*groundMesh, geom, *gMaterial);
+	gScene->addActor(*groundMesh);
+
+	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0,1,0,0), *gMaterial);
+	gScene->addActor(*groundPlane);
+
+	for (PxU32 i = 0; i<4; i++)
+		createStack(PxTransform(PxVec3(0, 2, stackZ -= 10.0f*gUnitScale)), 20, gUnitScale);
+
+	PxRigidDynamic* ball = createDynamic(PxTransform(PxVec3(0, 20, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
+	PxRigidDynamic* ball2 = createDynamic(PxTransform(PxVec3(0, 24, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
+	PxRigidDynamic* ball3 = createDynamic(PxTransform(PxVec3(0, 27, 100)*gUnitScale), PxSphereGeometry(2 * gUnitScale), PxVec3(0, -25, -100)*gUnitScale);
+	updateInertia(ball, 1000.f);
+	updateInertia(ball2, 1000.f);
+
+	PxD6Joint* joint = PxD6JointCreate(*gPhysics, ball, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball2, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
+	PxD6Joint* joint2 = PxD6JointCreate(*gPhysics, ball2, PxTransform(PxVec3(0, 4, 0)*gUnitScale), ball3, PxTransform(PxVec3(0, -2, 0)*gUnitScale));
+	
+	gConstraints->pushBack(joint->getConstraint());
+	gConstraints->pushBack(joint2->getConstraint());
+
+	gCacheAllocator = new TestCacheAllocator;
+	gConstraintAllocator = new TestConstraintAllocator;
+#if WITH_PERSISTENCY
+	allContactCache = new shdfnd::Array<PersistentContactPair>();
+#endif
+
+	updateContactPairs();
+}
 
 void stepPhysics(bool interactive)
 {
@@ -543,8 +518,8 @@ void stepPhysics(bool interactive)
 	gCacheAllocator->reset();
 	gConstraintAllocator->release();
 
-	PxU32 nbStatics = gScene->getNbActors(PxActorTypeFlag::eRIGID_STATIC);
-	PxU32 nbDynamics = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
+	const PxU32 nbStatics = gScene->getNbActors(PxActorTypeFlag::eRIGID_STATIC);
+	const PxU32 nbDynamics = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
 
 	const PxU32 totalActors = nbDynamics + nbStatics;
 
@@ -553,17 +528,15 @@ void stepPhysics(bool interactive)
 
 	activeContactPairs.reserve(4 * totalActors);
 	
-
 	Array<PxActor*> actors(totalActors);
 	Array<PxBounds3> shapeBounds(totalActors);
 	Array<PxSolverBody> bodies(totalActors);
 	Array<PxSolverBodyData> bodyData(totalActors);
-	Array<PxGeometryHolder> mGeometries;
+	Array<PxGeometryHolder> mGeometries(totalActors);
 
 	gScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, actors.begin(), nbDynamics);
 
 	gScene->getActors(PxActorTypeFlag::eRIGID_STATIC, actors.begin() + nbDynamics, nbStatics);
-
 
 	//Now do collision detection...Brute force every dynamic against every dynamic/static
 	for (PxU32 a = 0; a < totalActors; ++a)
@@ -573,13 +546,12 @@ void stepPhysics(bool interactive)
 		PxShape* shape;
 		actor->getShapes(&shape, 1);
 
-
 		//Compute the AABBs. We inflate these by 2cm margins
 		shapeBounds[a] = PxShapeExt::getWorldBounds(*shape, *actor, 1.f);
 		shapeBounds[a].minimum -= PxVec3(0.02f)*gUnitScale;
 		shapeBounds[a].maximum += PxVec3(0.02f)*gUnitScale;
 
-		mGeometries.pushBack(shape->getGeometry());
+		mGeometries[a] = shape->getGeometry();
 	}
 
 	//Broad phase for active pairs...
@@ -650,7 +622,6 @@ void stepPhysics(bool interactive)
 #endif
 	}
 	
-
 	const PxReal dt = 1.f / 60.f;
 	const PxReal invDt = 60.f;
 
@@ -673,7 +644,6 @@ void stepPhysics(bool interactive)
 		data.angularDamping = dyn->getAngularDamping();
 		data.maxLinearVelocitySq = 100.f*100.f*gUnitScale*gUnitScale;
 		data.maxAngularVelocitySq = 7.f*7.f;
-
 
 		physx::immediate::PxConstructSolverBodies(&data, &bodyData[a], 1, gravity, dt);
 
@@ -706,7 +676,6 @@ void stepPhysics(bool interactive)
 		desc.linkIndexA = PxSolverConstraintDesc::NO_LINK;
 		desc.linkIndexB = PxSolverConstraintDesc::NO_LINK;
 
-
 		//Cache pointer to our contact data structure and identify which type of constraint this is. We'll need this later after batching.
 		//If we choose not to perform batching and instead just create a single header per-pair, then this would not be necessary because
 		//the constraintDescs would not have been reordered
@@ -736,7 +705,6 @@ void stepPhysics(bool interactive)
 
 		desc.constraint = reinterpret_cast<PxU8*>(constraint);
 		desc.constraintLengthOver16 = PxSolverConstraintDesc::eJOINT_CONSTRAINT;
-		
 	}
 
 	Array<PxConstraintBatchHeader> headers(descs.size());
@@ -754,9 +722,7 @@ void stepPhysics(bool interactive)
 
 	//2 batch the joints...
 	const PxU32 nbJointHeaders = physx::immediate::PxBatchConstraints(descs.begin() + activeContactPairs.size(), gConstraints->size(), bodies.begin(), nbDynamics, headers.begin() + nbContactHeaders, orderedDescs.begin() + activeContactPairs.size());
-	
-#else
-	
+#else	
 	physx::shdfnd::Array<PxSolverConstraintDesc>& orderedDescs = descs;
 	
 	//We are bypassing the constraint batching so we create dummy PxConstraintBatchHeaders
@@ -778,13 +744,9 @@ void stepPhysics(bool interactive)
 		hdr.mStride = 1;
 		hdr.mConstraintType = PxSolverConstraintDesc::eJOINT_CONSTRAINT;
 	}
-
-	
-
 #endif
 
 	const PxU32 totalHeaders = nbContactHeaders + nbJointHeaders;
-
 
 	headers.forceSize_Unsafe(totalHeaders);
 
@@ -911,10 +873,8 @@ void stepPhysics(bool interactive)
 			}
 
 			immediate::PxCreateJointConstraintsWithShaders(&header, 1, constraints, jointDescs, *gConstraintAllocator, dt, invDt);
-			
 		}
 	}
-
 
 	//Solve all the constraints produced earlier. Intermediate motion linear/angular velocity buffers are filled in. These contain intermediate delta velocity information that is used
 	//the PxIntegrateSolverBody
@@ -933,7 +893,7 @@ void stepPhysics(bool interactive)
 	{
 		PxRigidDynamic* dynamic = actors[a]->is<PxRigidDynamic>();
 
-		PxSolverBodyData& data = bodyData[a];
+		const PxSolverBodyData& data = bodyData[a];
 
 		dynamic->setLinearVelocity(data.linearVelocity);
 		dynamic->setAngularVelocity(data.angularVelocity);
@@ -987,8 +947,6 @@ void cleanupPhysics(bool interactive)
 		gFoundation = NULL;
 	}
 
-
-	
 	printf("SnippetImmediateMode done.\n");
 }
 

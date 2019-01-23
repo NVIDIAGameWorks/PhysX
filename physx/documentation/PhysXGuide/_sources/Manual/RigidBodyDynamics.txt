@@ -150,6 +150,8 @@ PhysX objects whose collision geometry is a triangle mesh or a heightfield (see 
 
 Friction uses the coulomb friction model, which is based around the concepts of 2 coefficients: the static friction coefficient and the dynamic friction coefficient (sometimes called kinetic friction). Friction resists relative lateral motion of two solid surfaces in contact. These two coefficients define a relationship between the normal force exerted by each surface on the other and the amount of friction force that is applied to resist lateral motion. Static friction defines the amount of friction that is applied between surfaces that are not moving lateral to each-other. Dynamic friction defines the amount of friction applied between surfaces that are moving relative to each-other.
 
+When using the default patch friction model, PhysX's friction model is, by default, stronger than analytical models. To achieve results much closer to analytical models, PhysX 4.0 introduced the PxMaterialFlag::eIMPROVED_PATCH_FRICTION flag. By default, this flag is not enabled to maintain legacy behavior. 
+
 The coefficient of restitution of two colliding objects is a fractional value representing the ratio of speeds after and before an impact, taken along the line of impact. A coefficient of restitution of 1 is said to collide elastically, while a coefficient of restitution < 1 is said to be inelastic.
 
 .. _sleeping:

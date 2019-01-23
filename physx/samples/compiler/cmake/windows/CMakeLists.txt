@@ -23,7 +23,7 @@
 ## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
-## Copyright (c) 2018 NVIDIA Corporation. All rights reserved.
+## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
 
 IF(NOT DEFINED PHYSX_WINDOWS_COMPILE_DEFS)
 	MESSAGE(FATAL ERROR "Samples uses the PhysX compile defs, and they're not defined when they need to be.")
@@ -43,7 +43,7 @@ IF(NOT CMAKE_CL_64)
 		SET(PHYSX_CUDA_DEFS "DISABLE_CUDA_PHYSX")
 	ENDIF()
 ENDIF()
-SET(SAMPLES_WINDOWS_COMPILE_DEFS ${PHYSX_CUDA_DEFS})
+SET(SAMPLES_WINDOWS_COMPILE_DEFS ${PHYSX_CUDA_DEFS};${PHYSX_LIBTYPE_DEFS})
 
 # Get the CXX Flags from the Cached variables set by the PhysX CMakeLists
 SET(CMAKE_CXX_FLAGS "${PHYSX_CXX_FLAGS}  /wd4245 /wd4512 /wd4996 /wd4244 /wd4100 /wd4456 /wd4189 /wd4505 /wd4389 /EHsc ${ADDL_WARNINGS}")
@@ -73,6 +73,12 @@ INCLUDE(SampleRenderer.cmake)
 INCLUDE(SamplePlatform.cmake)
 INCLUDE(SamplesToolkit.cmake)
 
+SET_PROPERTY(TARGET SampleToolkit PROPERTY FOLDER "PhysX Samples")
+SET_PROPERTY(TARGET SampleBase PROPERTY FOLDER "PhysX Samples")
+SET_PROPERTY(TARGET SampleFramework PROPERTY FOLDER "PhysX Samples")
+SET_PROPERTY(TARGET SamplePlatform PROPERTY FOLDER "PhysX Samples")
+SET_PROPERTY(TARGET SampleRenderer PROPERTY FOLDER "PhysX Samples")
+
 IF(PX_BUILDSAMPLES)
 	INCLUDE(SampleHelloWorld.cmake)
 	INCLUDE(SampleBridges.cmake)
@@ -86,9 +92,23 @@ IF(PX_BUILDSAMPLES)
 	INCLUDE(SampleSubmarine.cmake)
 	INCLUDE(SampleVehicle.cmake)
 	INCLUDE(Samples.cmake)
+
+	SET_PROPERTY(TARGET SampleHelloWorld PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleBridges PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleCharacterController PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleCustomGravity PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleDebugRendering PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleInstancing PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleLargeWorld PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleNorthPole PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleRaycastCCD PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleSubmarine PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET SampleVehicle PROPERTY FOLDER "PhysX Samples")
+	SET_PROPERTY(TARGET Samples PROPERTY FOLDER "PhysX Samples")
 ENDIF()
 
 IF(PX_BUILDPUBLICSAMPLES)
 	INCLUDE(Samples.cmake)
+	SET_PROPERTY(TARGET Samples PROPERTY FOLDER "PhysX Samples")
 ENDIF()
 

@@ -305,7 +305,7 @@ def presetProvided(pName):
         cmakeMasterDir = 'public'
     if parsedPreset.isMultiConfigPlatform():
         # cleanup and create output directory
-        outputDir = 'compiler\\' + parsedPreset.presetName
+        outputDir = os.path.join('compiler', parsedPreset.presetName)
         cleanupCompilerDir(outputDir)
 
         # run the cmake script
@@ -318,7 +318,7 @@ def presetProvided(pName):
         configs = ['debug', 'checked', 'profile', 'release']
         for config in configs:
             # cleanup and create output directory
-            outputDir = 'compiler\\' + parsedPreset.presetName + '-' + config
+            outputDir = os.path.join('compiler', parsedPreset.presetName + '-' + config)
             cleanupCompilerDir(outputDir)
 
             # run the cmake script

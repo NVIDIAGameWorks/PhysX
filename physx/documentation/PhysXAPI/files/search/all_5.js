@@ -224,6 +224,7 @@ var searchData=
   ['ehas_5ftarget_5fvelocity',['eHAS_TARGET_VELOCITY',['../structPxContactPatch.html#a704320591170cbad6698b74b5d1d9eb9acaf67d93398b35860d340dd017b13d43',1,'PxContactPatch::eHAS_TARGET_VELOCITY()'],['../PxContact_8h.html#af9fcf1349253d852867532028ee49b1da32773ce69a0e2839d14c2c8c9b66d1a5',1,'eHAS_TARGET_VELOCITY():&#160;PxContact.h']]],
   ['eheightfield',['eHEIGHTFIELD',['../structPxConcreteType.html#ad762aca1d4c8fffae41267fae4f1b8e8a0b7794c6d7c176b457e45ce84f9efb4a',1,'PxConcreteType::eHEIGHTFIELD()'],['../structPxGeometryType.html#aefc79f72c4c479192ac19d41a6f30ed5a77b1d68c4f5a18bc259a623e1497a880',1,'PxGeometryType::eHEIGHTFIELD()']]],
   ['ehole',['eHOLE',['../structPxHeightFieldMaterial.html#ab983db3533aff06d7362efdfac3948eca9fbe2fcd9293fdd5f5c02baf7e5a74bc',1,'PxHeightFieldMaterial']]],
+  ['eimproved_5fpatch_5ffriction',['eIMPROVED_PATCH_FRICTION',['../structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298a6789dd096a4391f38bca2f991c92a525',1,'PxMaterialFlag']]],
   ['eimproved_5fslerp',['eIMPROVED_SLERP',['../structPxConstraintFlag.html#a86960e99b3e80ddb9e0ab51d7afc3427a316da1cac10cf01bb0b55325ecc8e300',1,'PxConstraintFlag']]],
   ['eimpulse',['eIMPULSE',['../structPxForceMode.html#aadaaafefe0478d829b816154c676e545aa3699bd1b7ae178eda5b946097de52c4',1,'PxForceMode']]],
   ['einequality',['eINEQUALITY',['../structPxConstraintSolveHint.html#afa69114b7731ed70ff8db90bc171f97ea59ee4e2f181346d04cf16fb617962191',1,'PxConstraintSolveHint']]],
