@@ -311,8 +311,8 @@ def presetProvided(pName):
         # run the cmake script
         #print('Cmake params:' + cmakeParams)
         os.chdir(os.path.join(os.environ['PHYSX_ROOT_DIR'], outputDir))
-        os.system(cmakeExec + ' ' +
-                  os.environ['PHYSX_ROOT_DIR'] + '/compiler/' + cmakeMasterDir + cmakeParams)
+        os.system(cmakeExec + ' \"' + os.environ['PHYSX_ROOT_DIR'] + '/compiler/' +
+                      cmakeMasterDir + '\"' + cmakeParams)
         os.chdir(os.environ['PHYSX_ROOT_DIR'])
     else:
         configs = ['debug', 'checked', 'profile', 'release']
