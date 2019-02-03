@@ -558,7 +558,7 @@ PhysX provides two utility functions for serializing the entirety of the PhysX r
     // 2) Create a collection from all objects in the scene and add it
     //    to everythingCollection.
     PxCollection* collectionScene = PxCollectionExt::createCollection(*scene);
-    everythingCollection->add(collectionScene);
+    everythingCollection->add(*collectionScene);
     collectionScene->release();
 
     // 3) Complete collection
