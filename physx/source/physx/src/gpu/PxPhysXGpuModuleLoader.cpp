@@ -104,11 +104,12 @@ namespace physx
 
 #define DEFAULT_PHYSX_GPU_GUID    "D79FA4BF-177C-4841-8091-4375D311D6A3"
 
-	void PxLoadPhysxGPUModule(const char* appGUID)
+#if !PX_PHYSX_GPU_STATIC
+    void PxLoadPhysxGPUModule(const char* appGUID)
 	{
 		static HMODULE s_library;
 
-		if (s_library == NULL)
+        if (s_library == NULL)
 			s_library = GetModuleHandle(gPhysXGpuLibraryName);
 
 		if (s_library == NULL)
@@ -142,6 +143,7 @@ namespace physx
 		g_PxSetPhysXGpuDelayLoadHook_Func(PxGetPhysXDelayLoadHook());
 
 	}
+#endif
 
 #elif PX_LINUX
 

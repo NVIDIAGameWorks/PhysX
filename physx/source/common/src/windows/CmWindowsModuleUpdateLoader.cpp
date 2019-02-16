@@ -79,7 +79,11 @@ static void LogMessage(PXUL_ErrorCode messageType, char* message)
 CmModuleUpdateLoader::CmModuleUpdateLoader(const char* updateLoaderDllName)
 	: mGetUpdatedModuleFunc(NULL)
 {
+#if /*PX_SUPPORT_GPU_PHYSX |*/ !PX_PHYSX_STATIC_LIB
 	mUpdateLoaderDllHandle = loadLibrary(updateLoaderDllName);
+#else
+    PX_UNUSED(updateLoaderDllName);
+#endif
 
 	if (mUpdateLoaderDllHandle != NULL)
 	{
@@ -111,7 +115,8 @@ HMODULE CmModuleUpdateLoader::LoadModule(const char* moduleName, const char* app
 {
 	HMODULE result = NULL;
 
-	if (mGetUpdatedModuleFunc != NULL)
+#if /*PX_SUPPORT_GPU_PHYSX |*/ !PX_PHYSX_STATIC_LIB
+    if (mGetUpdatedModuleFunc != NULL)
 	{
 		// Try to get the module through PhysXUpdateLoader
 		GetUpdatedModule_FUNC getUpdatedModuleFunc = (GetUpdatedModule_FUNC)mGetUpdatedModuleFunc;
@@ -119,9 +124,13 @@ HMODULE CmModuleUpdateLoader::LoadModule(const char* moduleName, const char* app
 	}
 	else
 	{
-		// If no PhysXUpdateLoader, just load the DLL directly
+        // If no PhysXUpdateLoader, just load the DLL directly
 		result = loadLibrary(moduleName);
 	}
+#else
+    PX_UNUSED(appGUID);
+    PX_UNUSED(moduleName);
+#endif
 
 	return result;
 }

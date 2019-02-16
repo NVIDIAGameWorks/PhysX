@@ -27,6 +27,8 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "PxPhysXConfig.h"
+#if /*PX_SUPPORT_GPU_PHYSX |*/ !PX_PHYSX_STATIC_LIB
 
 #include "windows/PxWindowsDelayLoadHook.h"
 #include "windows/PsWindowsInclude.h"
@@ -45,6 +47,7 @@ void physx::PxSetPhysXCookingDelayLoadHook(const physx::PxDelayLoadHook* hook)
 
 using namespace physx;
 
+// only necessary if gpu (dll) or physx is build als dll
 #pragma comment(lib, "delayimp")
 
 FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo pdli)
@@ -80,3 +83,4 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo pdli)
 }
 
 PfnDliHook __pfnDliNotifyHook2 = delayHook;
+#endif

@@ -31,6 +31,10 @@
 #ifndef CM_WINDOWS_LOADLIBRARY_H
 #define CM_WINDOWS_LOADLIBRARY_H
 
+#include "PxPhysXConfig.h"
+#if /*PX_SUPPORT_GPU_PHYSX | */!PX_PHYSX_STATIC_LIB
+
+
 #include "foundation/PxPreprocessor.h"
 #include "windows/PxWindowsDelayLoadHook.h"
 #include "windows/PsWindowsInclude.h"
@@ -57,7 +61,7 @@ namespace Cm
 		return retVal;
 #else
 		return ::LoadLibraryA( name );
-#endif		
+#endif
 	};
 
 	PX_INLINE FARPROC WINAPI physXCommonDliNotePreLoadLibrary(const char* libraryName, const physx::PxDelayLoadHook* delayLoadHook)
@@ -83,5 +87,6 @@ namespace Cm
 } // namespace Cm
 } // namespace physx
 
+#endif  // PX_SUPPORT_GPU_PHYSX | !PX_PHYSX_STATIC_LIB
 
 #endif	// CM_WINDOWS_LOADLIBRARY_H
