@@ -28,6 +28,7 @@
 OPTION(PX_COPY_EXTERNAL_DLL "Copy external dlls into SDK bin directory" OFF)
 OPTION(PX_FLOAT_POINT_PRECISE_MATH "Float point precise math" OFF)
 OPTION(PX_USE_NVTX "Enabled NVTX profiling" OFF)
+OPTION(PX_DISABLE_CUDA_PHYSX "Disable CUDA PhysX" OFF)
 
 # We define the CXX flags for this CMakeLists and all others that are included afterwards. This is a GLOBAL setting. 
 # If/when the solutions go standalone (say, samples and visual tests) - those CMakeLists will need to be fixed.
@@ -89,6 +90,10 @@ IF(PX_USE_NVTX)
 	SET(NVTX_FLAG "PX_NVTX=1")
 ELSE()
 	SET(NVTX_FLAG "PX_NVTX=0")
+ENDIF()
+
+IF(PX_DISABLE_CUDA_PHYSX)
+  SET(CUDA_FLAG "DISABLE_CUDA_PHYSX")
 ENDIF()
 
 SET(PHYSX_WINDOWS_COMPILE_DEFS "WIN32;${WIN64_FLAG};${SCALAR_MATH_FLAG};${CUDA_FLAG};_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;${PHYSX_AUTOBUILD};${PHYSX_AUTOBUILDNUMBER}" CACHE INTERNAL "Base PhysX preprocessor definitions")
