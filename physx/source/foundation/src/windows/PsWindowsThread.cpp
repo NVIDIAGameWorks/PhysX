@@ -130,8 +130,12 @@ uint32_t ThreadImpl::getNbPhysicalCores()
 		DWORD processorCoreCount = 0;
 		DWORD byteOffset = 0;
 
+#if !PX_UWP
+		// TODO: Fails for uwp
 		glpi = (LPFN_GLPI)GetProcAddress(GetModuleHandle(TEXT("kernel32")), "GetLogicalProcessorInformation");
-
+#else
+		glpi = NULL;
+#endif
 		if(NULL == glpi)
 		{
 			// GetLogicalProcessorInformation not supported on OS < XP Service Pack 3
@@ -280,9 +284,11 @@ void ThreadImpl::quit()
 
 void ThreadImpl::kill()
 {
-	if(getThread(this)->state == _ThreadImpl::Started)
+#if !PX_UWP
+	if (getThread(this)->state == _ThreadImpl::Started)
 		TerminateThread(getThread(this)->thread, 0);
 	getThread(this)->state = _ThreadImpl::Stopped;
+#endif
 }
 
 void ThreadImpl::sleep(uint32_t ms)

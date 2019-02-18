@@ -58,11 +58,14 @@ physx::PhysXIndicator::PhysXIndicator(bool isGpu)
 		Windows XP				5.1
 		Windows 2000			5.0
 	**/
-	
 	char configName[128];
 
 #if _MSC_VER >= 1800
+#if !PX_UWP
 	if (!IsWindowsVistaOrGreater())
+#else
+    if(true)
+#endif
 #else
 	OSVERSIONINFOEX windowsVersionInfo;
 	windowsVersionInfo.dwOSVersionInfoSize = sizeof (windowsVersionInfo);
@@ -73,10 +76,16 @@ physx::PhysXIndicator::PhysXIndicator(bool isGpu)
 		NvPhysXToDrv_Build_SectionNameXP(GetCurrentProcessId(), configName);
 	else
 		NvPhysXToDrv_Build_SectionName(GetCurrentProcessId(), configName);
-	
-	mFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL,
-		PAGE_READWRITE, 0, sizeof(NvPhysXToDrv_Data_V1), configName);
 
+#if PX_UWP
+    wchar_t wConfigName[128];
+    mbstowcs(&wConfigName[0], configName, strlen(configName));
+	mFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL,
+		PAGE_READWRITE, 0, sizeof(NvPhysXToDrv_Data_V1), wConfigName);
+#else
+    mFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL,
+        PAGE_READWRITE, 0, sizeof(NvPhysXToDrv_Data_V1), configName);
+#endif
 	if (!mFileHandle || mFileHandle == INVALID_HANDLE_VALUE)
 		return;
 
