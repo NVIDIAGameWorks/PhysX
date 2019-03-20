@@ -20,7 +20,7 @@ def cmakeExt():
 
 
 def filterPreset(presetName):
-    winPresetFilter = ['win','ps4','switch','xboxone','android','crosscompile']
+    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile']
     if sys.platform == 'win32':        
         if any(presetName.find(elem) != -1 for elem in winPresetFilter):
             return True
@@ -170,6 +170,34 @@ class CMakePreset:
             outString = outString + ' -DTARGET_BUILD_PLATFORM=windows'
             outString = outString + ' -DPX_OUTPUT_ARCH=x86'
             return outString
+        elif self.targetPlatform == 'uwp64':
+            outString = outString + ' -Ax64'
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=uwp'
+            outString = outString + ' -DPX_OUTPUT_ARCH=x86'
+            outString = outString + ' -DCMAKE_SYSTEM_NAME=WindowsStore'
+            outString = outString + ' -DCMAKE_SYSTEM_VERSION=10.0'            
+            return outString
+        elif self.targetPlatform == 'uwp32':
+            outString = outString + ' -AWin32'
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=uwp'
+            outString = outString + ' -DPX_OUTPUT_ARCH=x86'
+            outString = outString + ' -DCMAKE_SYSTEM_NAME=WindowsStore'
+            outString = outString + ' -DCMAKE_SYSTEM_VERSION=10.0'            
+            return outString
+        elif self.targetPlatform == 'uwparm32':
+            outString = outString + ' -AARM'
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=uwp'
+            outString = outString + ' -DPX_OUTPUT_ARCH=arm'
+            outString = outString + ' -DCMAKE_SYSTEM_NAME=WindowsStore'
+            outString = outString + ' -DCMAKE_SYSTEM_VERSION=10.0'            
+            return outString
+        elif self.targetPlatform == 'uwparm64':
+            outString = outString + ' -AARM64'
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=uwp'
+            outString = outString + ' -DPX_OUTPUT_ARCH=arm'
+            outString = outString + ' -DCMAKE_SYSTEM_NAME=WindowsStore'
+            outString = outString + ' -DCMAKE_SYSTEM_VERSION=10.0'            
+            return outString
         elif self.targetPlatform == 'ps4':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=ps4'
             outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
@@ -311,8 +339,8 @@ def presetProvided(pName):
         # run the cmake script
         #print('Cmake params:' + cmakeParams)
         os.chdir(os.path.join(os.environ['PHYSX_ROOT_DIR'], outputDir))
-        os.system(cmakeExec + ' ' +
-                  os.environ['PHYSX_ROOT_DIR'] + '/compiler/' + cmakeMasterDir + cmakeParams)
+        os.system(cmakeExec + ' \"' +
+                  os.environ['PHYSX_ROOT_DIR'] + '/compiler/' + cmakeMasterDir + '\"' + cmakeParams)
         os.chdir(os.environ['PHYSX_ROOT_DIR'])
     else:
         configs = ['debug', 'checked', 'profile', 'release']

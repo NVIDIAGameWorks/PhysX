@@ -65,8 +65,9 @@ namespace physx
 			virtual			void					resolveReferences(PxDeserializationContext& );
 			static			PruningStructure*		createObject(PxU8*& address, PxDeserializationContext& context);
 			static			void					getBinaryMetaData(PxOutputStream& stream);
-			void									exportExtraData(PxSerializationContext&);
-			void									importExtraData(PxDeserializationContext&);
+							void					preExportDataReset() {}
+							void					exportExtraData(PxSerializationContext&);
+							void					importExtraData(PxDeserializationContext&);
 			virtual			void					requiresObjects(PxProcessPxBaseCallback&);
 			//~PX_SERIALIZATION
 

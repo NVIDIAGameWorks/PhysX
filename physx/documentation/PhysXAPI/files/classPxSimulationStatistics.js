@@ -25,6 +25,7 @@ var classPxSimulationStatistics =
     [ "nbDiscreteContactPairsWithCacheHits", "classPxSimulationStatistics.html#afc4203ee9a309b63e0a9638595d28867", null ],
     [ "nbDiscreteContactPairsWithContacts", "classPxSimulationStatistics.html#a897bc3a4b6dc809b1f04059fe4b4a2af", null ],
     [ "nbDynamicBodies", "classPxSimulationStatistics.html#a1d5feb904597a5a98d02f39707e6c349", null ],
+    [ "nbKinematicBodies", "classPxSimulationStatistics.html#a38012209b56e1e6993e0955f3a5606d2", null ],
     [ "nbLostPairs", "classPxSimulationStatistics.html#a84b14e904af17d9c86d158ecea5fb9d1", null ],
     [ "nbLostTouches", "classPxSimulationStatistics.html#ae20e0fabfd1e8dfdec622a496bfbaf83", null ],
     [ "nbModifiedContactPairs", "classPxSimulationStatistics.html#aade3e5f9699bfd0858786f9ed6b7d1c9", null ],

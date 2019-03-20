@@ -30,8 +30,9 @@
 #ifndef NP_SPHERICALJOINTCONSTRAINT_H
 #define NP_SPHERICALJOINTCONSTRAINT_H
 
+#include "extensions/PxSphericalJoint.h"
+
 #include "ExtJoint.h"
-#include "PxSphericalJoint.h"
 #include "CmUtils.h"
 
 namespace physx

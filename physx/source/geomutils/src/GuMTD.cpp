@@ -27,6 +27,10 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxMeshScale.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuMTD.h"
 #include "GuSphere.h"
 #include "GuCapsule.h"
@@ -42,7 +46,6 @@
 #include "GuInternal.h"
 
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuBoxConversion.h"
 #include "GuGeometryUnion.h"
 #include "GuShapeConvex.h"
@@ -54,8 +57,6 @@
 #include "PsUtilities.h"
 #include "PsVecTransform.h"
 #include "PsMathUtils.h"
-#include "PxMeshScale.h"
-#include "PxConvexMeshGeometry.h"
 
 using namespace physx;
 using namespace Gu;

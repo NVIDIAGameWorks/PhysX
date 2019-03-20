@@ -29,7 +29,7 @@
 
 #include "ExtDistanceJoint.h"
 #include "ExtConstraintHelper.h"
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;

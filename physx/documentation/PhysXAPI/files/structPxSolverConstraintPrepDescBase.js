@@ -15,5 +15,5 @@ var structPxSolverConstraintPrepDescBase =
     [ "data0", "structPxSolverConstraintPrepDescBase.html#ad58b181d4ac418941bddfd3ce8065a10", null ],
     [ "data1", "structPxSolverConstraintPrepDescBase.html#aeeffe63a1a4b9f7b3a822b0f2d99a62d", null ],
     [ "desc", "structPxSolverConstraintPrepDescBase.html#ae6a7c6dbbf6ade521ca9f485fa70ecab", null ],
-    [ "mInvMassScales", "structPxSolverConstraintPrepDescBase.html#a3ad8129bcfce0a8891ed853a3896095d", null ]
+    [ "invMassScales", "structPxSolverConstraintPrepDescBase.html#a298a86d11c87a19bab4874d932f19188", null ]
 ];

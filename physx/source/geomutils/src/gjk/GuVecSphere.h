@@ -33,9 +33,9 @@
 @{
 */
 
+#include "geometry/PxSphereGeometry.h"
 #include "GuVecConvex.h"
 #include "GuConvexSupportTable.h"
-#include "PxSphereGeometry.h"
 
 /**
 \brief Represents a sphere defined by its center point and radius.

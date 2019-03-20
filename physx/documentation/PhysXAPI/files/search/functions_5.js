@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['failuredetected',['failureDetected',['../classphysx_1_1PxGpuDispatcher.html#a3157fe3020f29f2a4c3bdc5eb11b79c6',1,'physx::PxGpuDispatcher']]],
   ['fattenfast',['fattenFast',['../group__foundation.html#gadbc9efd74535a6b4f58f28058da1670a',1,'PxBounds3']]],
   ['fattensafe',['fattenSafe',['../group__foundation.html#ga060890e60cdbd06a2819e6d4a1f2d3be',1,'PxBounds3']]],
   ['fetchcollision',['fetchCollision',['../classPxScene.html#ac320cd782704022cc044a1ef4b0c582f',1,'PxScene']]],
@@ -16,12 +15,10 @@ var searchData=
   ['findoverlapheightfield',['findOverlapHeightField',['../classPxMeshQuery.html#a461e1f01530df9d99e0762ca20493c2d',1,'PxMeshQuery']]],
   ['findoverlaptrianglemesh',['findOverlapTriangleMesh',['../classPxMeshQuery.html#aea451debbcaca51f9f1f49df3d5bfe74',1,'PxMeshQuery']]],
   ['finishbefore',['finishBefore',['../classphysx_1_1PxTask.html#aa417f4d080c31178ff6ded2c92b8bb05',1,'physx::PxTask']]],
-  ['finishgroup',['finishGroup',['../classphysx_1_1PxGpuDispatcher.html#a2ec171af375195b782acce8fae4d2e93',1,'physx::PxGpuDispatcher']]],
   ['flush',['flush',['../classPxFileBuf.html#a7c923528768b05d87a40a9d33ab22397',1,'PxFileBuf::flush()'],['../classPxPvdTransport.html#a46a1dc45e8cf27e34f717ff2cb587fa6',1,'PxPvdTransport::flush()']]],
   ['flushqueryupdates',['flushQueryUpdates',['../classPxScene.html#ab5b6fb6168a5fb8aa34299cbe73747ed',1,'PxScene']]],
   ['flushsimulation',['flushSimulation',['../classPxScene.html#ab557fc677e9549c71d36979dfd3ec8c5',1,'PxScene']]],
   ['forcedynamictreerebuild',['forceDynamicTreeRebuild',['../classPxScene.html#a03b103772b8c06f2bf5c8192f1cb3f70',1,'PxScene']]],
-  ['forcefailuremode',['forceFailureMode',['../classphysx_1_1PxGpuDispatcher.html#a0310275811d2b9df30ef6dfeda59333b',1,'physx::PxGpuDispatcher']]],
   ['forcegearchange',['forceGearChange',['../classPxVehicleDriveDynData.html#abac968004f04f286fa6cd9ca4ef5f3ca',1,'PxVehicleDriveDynData']]],
   ['free',['free',['../classPxVehicleDrive.html#a2af80cf3e4d767f1710a8f2e244cb9d5',1,'PxVehicleDrive::free()'],['../classPxVehicleDrive4W.html#a86d1716ae72d4c0627d531fcb3f93310',1,'PxVehicleDrive4W::free()'],['../classPxVehicleDriveNW.html#ad3d1999119fff4547dba2549e665f07d',1,'PxVehicleDriveNW::free()'],['../classPxVehicleDriveTank.html#a8570b6024d3da299b1fb3386e05d211d',1,'PxVehicleDriveTank::free()'],['../classPxVehicleNoDrive.html#a90b0f7e9da87f3de5e38e1844b404342',1,'PxVehicleNoDrive::free()'],['../classPxVehicleWheelsSimData.html#a2b6c609e342fd3f9fabc3e064602115b',1,'PxVehicleWheelsSimData::free()'],['../classPxVehicleWheels.html#a01b68575305d97f6e6dc9d6b1fb5b3dd',1,'PxVehicleWheels::free()']]],
   ['front',['front',['../classPxMat33.html#a77de4d49bcc24e45c9d2438a1c06bd7d',1,'PxMat33::front()'],['../classPxMat44.html#a4158154597b6168e4c51d3f36679a812',1,'PxMat44::front()']]],

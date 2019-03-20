@@ -91,6 +91,8 @@ public:
 	\param[in] dstMetaData	Target platform's meta-data stream
 
 	\return True if success
+
+	@see PxSerialization::dumpBinaryMetaData
 	*/
 	virtual		bool	setMetaData(PxInputStream& srcMetaData, PxInputStream& dstMetaData)					= 0;
 

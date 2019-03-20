@@ -1,7 +1,11 @@
 var searchData=
 [
+  ['targetpos',['targetPos',['../structPxFeatherstoneArticulationJointData.html#ad058bfd9b4c4db944855d5fbc5ffb061',1,'PxFeatherstoneArticulationJointData']]],
+  ['targetvel',['targetVel',['../structPxFeatherstoneArticulationJointData.html#a78ce6be4a5f5312fe52fa297d65116ad',1,'PxFeatherstoneArticulationJointData']]],
   ['targetwheelids',['targetWheelIds',['../classPxVehicleCopyDynamicsMap.html#a202a481ce5d1ce5dc79f951935ad34ce',1,'PxVehicleCopyDynamicsMap']]],
   ['tempbuffercapacity',['tempBufferCapacity',['../structPxgDynamicsMemoryConfig.html#a2d76891f7a9eb8f30f03430d9c80d7a0',1,'PxgDynamicsMemoryConfig']]],
+  ['tgsbodya',['tgsBodyA',['../structPxSolverConstraintDesc.html#a4e75c52e5f71af359af9b62c3f709564',1,'PxSolverConstraintDesc']]],
+  ['tgsbodyb',['tgsBodyB',['../structPxSolverConstraintDesc.html#a25fc01cac6b0554cac348a5c47430dc0',1,'PxSolverConstraintDesc']]],
   ['tirecontactactor',['tireContactActor',['../structPxWheelQueryResult.html#ac728726399b7e23755086c0a512c308b',1,'PxWheelQueryResult']]],
   ['tirecontactnormal',['tireContactNormal',['../structPxWheelQueryResult.html#a8d048db9af70ed06e0575d979093f538',1,'PxWheelQueryResult']]],
   ['tirecontactpoint',['tireContactPoint',['../structPxWheelQueryResult.html#a265780749830b4cd7b7895eed6133f8a',1,'PxWheelQueryResult']]],
@@ -11,6 +15,8 @@ var searchData=
   ['tirelongitudinaldir',['tireLongitudinalDir',['../structPxWheelQueryResult.html#ae9dd6242afb08aebe9895760785facae',1,'PxWheelQueryResult']]],
   ['tiresurfacematerial',['tireSurfaceMaterial',['../structPxWheelQueryResult.html#aab6dff9c3117e76f1ffaac4c867b2cca',1,'PxWheelQueryResult']]],
   ['tiresurfacetype',['tireSurfaceType',['../structPxWheelQueryResult.html#a3c95ac8a6cfbdac1f496c193140342e9',1,'PxWheelQueryResult']]],
+  ['torque',['torque',['../structPxSpatialForce.html#a0c350e4c06721f54057740e212d5c0e3',1,'PxSpatialForce::torque()'],['../PxArticulationReducedCoordinate_8h.html#abdcc8bb9f78d81acf11aabbf3367d09d',1,'torque():&#160;PxArticulationReducedCoordinate.h']]],
+  ['torsionalpatchradius',['torsionalPatchRadius',['../structPxTGSSolverContactDesc.html#a9925f638d123b5636e4b3ab9d58966ff',1,'PxTGSSolverContactDesc']]],
   ['totalcontacts',['totalContacts',['../structPxContactStreamIterator.html#a6c42c3dc1df41933cc6fe03155d1915f',1,'PxContactStreamIterator']]],
   ['totalpatches',['totalPatches',['../structPxContactStreamIterator.html#a4545778a99dad1fdc84ba545866f1ea1',1,'PxContactStreamIterator']]],
   ['touchedactor',['touchedActor',['../structPxControllerState.html#a85a7ade51c86a3fbe7582c95473c0e13',1,'PxControllerState']]],
@@ -23,6 +29,6 @@ var searchData=
   ['triangles',['triangles',['../classPxSimpleTriangleMesh.html#a1b39b2bb65a9f246eaa1848e881cf988',1,'PxSimpleTriangleMesh']]],
   ['triggeractor',['triggerActor',['../structPxTriggerPair.html#af4e22129ed6743a51b2ec3553e966950',1,'PxTriggerPair']]],
   ['triggershape',['triggerShape',['../structPxTriggerPair.html#ad9010d4ddceacd431e8733a010dee664',1,'PxTriggerPair']]],
-  ['type',['type',['../structPxMetaDataEntry.html#af798a0e7beeb8caf4ddbd713fc0994c6',1,'PxMetaDataEntry::type()'],['../structPxContactPairExtraDataItem.html#a18e83c33b02a0a57f0daf818379e06d6',1,'PxContactPairExtraDataItem::type()'],['../structPxConstraintInfo.html#a324fadc19904fff635aa9d16da7a21f9',1,'PxConstraintInfo::type()']]],
+  ['type',['type',['../structPxMetaDataEntry.html#af798a0e7beeb8caf4ddbd713fc0994c6',1,'PxMetaDataEntry::type()'],['../structPxFeatherstoneArticulationJointData.html#a4af74cf4f2211f48e01fea26c1e7caed',1,'PxFeatherstoneArticulationJointData::type()'],['../structPxContactPairExtraDataItem.html#a18e83c33b02a0a57f0daf818379e06d6',1,'PxContactPairExtraDataItem::type()'],['../structPxConstraintInfo.html#a324fadc19904fff635aa9d16da7a21f9',1,'PxConstraintInfo::type()']]],
   ['typename',['typeName',['../structPxRepXObject.html#a0c78e70aff2c5ede506a1279562e494a',1,'PxRepXObject']]]
 ];

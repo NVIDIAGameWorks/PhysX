@@ -147,78 +147,6 @@ template<> struct PxEnumTraits< physx::PxJointActorIndex::Enum > { PxEnumTraits(
 		const PxJointGeneratedInfo* getInfo() { return &Info; }
 	};
 
-	class PxContactJoint;
-	struct PxContactJointGeneratedValues
-		: PxJointGeneratedValues	{
-		PxVec3 Contact;
-		PxVec3 ContactNormal;
-		PxReal Penetration;
-		PxReal Resititution;
-		PxReal BounceThreshold;
-		const char * ConcreteTypeName;
-		  PxContactJointGeneratedValues( const PxContactJoint* inSource );
-	};
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Contact, PxContactJointGeneratedValues)
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, ContactNormal, PxContactJointGeneratedValues)
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Penetration, PxContactJointGeneratedValues)
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Resititution, PxContactJointGeneratedValues)
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, BounceThreshold, PxContactJointGeneratedValues)
-	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, ConcreteTypeName, PxContactJointGeneratedValues)
-	struct PxContactJointGeneratedInfo
-		: PxJointGeneratedInfo
-	{
-		static const char* getClassName() { return "PxContactJoint"; }
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Contact, PxContactJoint, const PxVec3 &, PxVec3 > Contact;
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_ContactNormal, PxContactJoint, const PxVec3 &, PxVec3 > ContactNormal;
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Penetration, PxContactJoint, const PxReal, PxReal > Penetration;
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Resititution, PxContactJoint, const PxReal, PxReal > Resititution;
-		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_BounceThreshold, PxContactJoint, const PxReal, PxReal > BounceThreshold;
-		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_ConcreteTypeName, PxContactJoint, const char * > ConcreteTypeName;
-
-		 PxContactJointGeneratedInfo();
-		template<typename TReturnType, typename TOperator>
-		TReturnType visitType( TOperator inOperator ) const
-		{
-			return inOperator( reinterpret_cast<PxContactJoint*>(NULL) );
-		}
-		template<typename TOperator>
-		void visitBases( TOperator inOperator )
-		{
-			PX_UNUSED(inOperator);
-			inOperator( *static_cast<PxJointGeneratedInfo*>( this ) );
-		}
-		template<typename TOperator>
-		PxU32 visitBaseProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
-		{
-			PX_UNUSED(inOperator);
-			PX_UNUSED(inStartIndex);
-			inStartIndex = PxJointGeneratedInfo::visitBaseProperties( inOperator, inStartIndex );
-			inStartIndex = PxJointGeneratedInfo::visitInstanceProperties( inOperator, inStartIndex );
-			return inStartIndex;
-		}
-		static PxU32 instancePropertyCount() { return 6; }
-		static PxU32 totalPropertyCount() { return instancePropertyCount()
-				+ PxJointGeneratedInfo::totalPropertyCount(); }
-		template<typename TOperator>
-		PxU32 visitInstanceProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
-		{
-			PX_UNUSED(inOperator);
-			PX_UNUSED(inStartIndex);
-			inOperator( Contact, inStartIndex + 0 );; 
-			inOperator( ContactNormal, inStartIndex + 1 );; 
-			inOperator( Penetration, inStartIndex + 2 );; 
-			inOperator( Resititution, inStartIndex + 3 );; 
-			inOperator( BounceThreshold, inStartIndex + 4 );; 
-			inOperator( ConcreteTypeName, inStartIndex + 5 );; 
-			return 6 + inStartIndex;
-		}
-	};
-	template<> struct PxClassInfoTraits<PxContactJoint>
-	{ 
-		PxContactJointGeneratedInfo Info;
-		const PxContactJointGeneratedInfo* getInfo() { return &Info; }
-	};
-
 	static PxU32ToName g_physx__PxD6Axis__EnumConversion[] = {
 		{ "eX", static_cast<PxU32>( physx::PxD6Axis::eX ) },
 		{ "eY", static_cast<PxU32>( physx::PxD6Axis::eY ) },
@@ -443,6 +371,78 @@ template<> struct PxEnumTraits< physx::PxDistanceJointFlag::Enum > { PxEnumTrait
 	{ 
 		PxDistanceJointGeneratedInfo Info;
 		const PxDistanceJointGeneratedInfo* getInfo() { return &Info; }
+	};
+
+	class PxContactJoint;
+	struct PxContactJointGeneratedValues
+		: PxJointGeneratedValues	{
+		PxVec3 Contact;
+		PxVec3 ContactNormal;
+		PxReal Penetration;
+		PxReal Resititution;
+		PxReal BounceThreshold;
+		const char * ConcreteTypeName;
+		  PxContactJointGeneratedValues( const PxContactJoint* inSource );
+	};
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Contact, PxContactJointGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, ContactNormal, PxContactJointGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Penetration, PxContactJointGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, Resititution, PxContactJointGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, BounceThreshold, PxContactJointGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxContactJoint, ConcreteTypeName, PxContactJointGeneratedValues)
+	struct PxContactJointGeneratedInfo
+		: PxJointGeneratedInfo
+	{
+		static const char* getClassName() { return "PxContactJoint"; }
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Contact, PxContactJoint, const PxVec3 &, PxVec3 > Contact;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_ContactNormal, PxContactJoint, const PxVec3 &, PxVec3 > ContactNormal;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Penetration, PxContactJoint, const PxReal, PxReal > Penetration;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_Resititution, PxContactJoint, const PxReal, PxReal > Resititution;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_BounceThreshold, PxContactJoint, const PxReal, PxReal > BounceThreshold;
+		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxContactJoint_ConcreteTypeName, PxContactJoint, const char * > ConcreteTypeName;
+
+		 PxContactJointGeneratedInfo();
+		template<typename TReturnType, typename TOperator>
+		TReturnType visitType( TOperator inOperator ) const
+		{
+			return inOperator( reinterpret_cast<PxContactJoint*>(NULL) );
+		}
+		template<typename TOperator>
+		void visitBases( TOperator inOperator )
+		{
+			PX_UNUSED(inOperator);
+			inOperator( *static_cast<PxJointGeneratedInfo*>( this ) );
+		}
+		template<typename TOperator>
+		PxU32 visitBaseProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
+		{
+			PX_UNUSED(inOperator);
+			PX_UNUSED(inStartIndex);
+			inStartIndex = PxJointGeneratedInfo::visitBaseProperties( inOperator, inStartIndex );
+			inStartIndex = PxJointGeneratedInfo::visitInstanceProperties( inOperator, inStartIndex );
+			return inStartIndex;
+		}
+		static PxU32 instancePropertyCount() { return 6; }
+		static PxU32 totalPropertyCount() { return instancePropertyCount()
+				+ PxJointGeneratedInfo::totalPropertyCount(); }
+		template<typename TOperator>
+		PxU32 visitInstanceProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
+		{
+			PX_UNUSED(inOperator);
+			PX_UNUSED(inStartIndex);
+			inOperator( Contact, inStartIndex + 0 );; 
+			inOperator( ContactNormal, inStartIndex + 1 );; 
+			inOperator( Penetration, inStartIndex + 2 );; 
+			inOperator( Resititution, inStartIndex + 3 );; 
+			inOperator( BounceThreshold, inStartIndex + 4 );; 
+			inOperator( ConcreteTypeName, inStartIndex + 5 );; 
+			return 6 + inStartIndex;
+		}
+	};
+	template<> struct PxClassInfoTraits<PxContactJoint>
+	{ 
+		PxContactJointGeneratedInfo Info;
+		const PxContactJointGeneratedInfo* getInfo() { return &Info; }
 	};
 
 	class PxFixedJoint;

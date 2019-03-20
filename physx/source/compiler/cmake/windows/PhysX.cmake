@@ -47,8 +47,6 @@ SOURCE_GROUP(include\\gpu FILES ${PHYSX_GPU_HEADERS})
 SET(PHYSX_CUDACONTEXT_MANAGER_GPU_HEADERS
 	${PHYSX_ROOT_DIR}/include/cudamanager/PxCudaContextManager.h
 	${PHYSX_ROOT_DIR}/include/cudamanager/PxCudaMemoryManager.h
-	${PHYSX_ROOT_DIR}/include/cudamanager/PxGpuCopyDesc.h
-	${PHYSX_ROOT_DIR}/include/cudamanager/PxGpuCopyDescQueue.h
 )
 SOURCE_GROUP(include\\cudamanager FILES ${PHYSX_CUDACONTEXT_MANAGER_GPU_HEADERS})
 
@@ -103,7 +101,7 @@ SET(PHYSX_PLATFORM_SRC_FILES
 
 	${PHYSX_WINDOWS_SOURCE}
 	
-	${PHYSX_PLATFORM_OBJECT_FILES}
+	${PHYSX_PLATFORM_OBJECT_FILES}	
 )
 
 INSTALL(FILES ${PHYSX_GPU_HEADERS} DESTINATION include/gpu)

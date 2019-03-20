@@ -28,13 +28,13 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "geometry/PxTriangleMesh.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuVecTriangle.h"
 #include "GuGeometryUnion.h"
-
 #include "GuContactMethodImpl.h"
 #include "GuConvexUtilsInternal.h"
-#include "PxTriangleMesh.h"
-#include "GuContactBuffer.h"
 #include "GuTriangleCache.h"
 #include "GuPCMContactConvexCommon.h"
 #include "GuHeightFieldUtil.h"

@@ -31,8 +31,8 @@
 #ifndef CCT_UTILS
 #define CCT_UTILS
 
-#include "PxExtended.h"
-#include "PxShapeExt.h"
+#include "extensions/PxShapeExt.h"
+#include "characterkinematic/PxExtended.h"
 
 namespace physx
 {

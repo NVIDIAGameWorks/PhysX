@@ -600,7 +600,7 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 	PxU32 solverConstraintByteSize = 0;
 	PxU32 axisConstraintCount = 0;
 
-	bool useExtContacts = !!((contactDesc.bodyState0 | contactDesc.bodyState1) & PxSolverContactDesc::eARTICULATION);
+	const bool useExtContacts = !!((contactDesc.bodyState0 | contactDesc.bodyState1) & PxSolverContactDesc::eARTICULATION);
 
 	const bool successfulReserve = reserveBlockStreamsCoulomb(
 		c,
@@ -629,11 +629,10 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 		if(solverConstraint)
 		{
 			bool hasFriction = false;
+			const PxSolverBodyData& data0 = *contactDesc.data0;
+			const PxSolverBodyData& data1 = *contactDesc.data1;
 			if(useExtContacts)
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
-
 				const SolverExtBody b0(reinterpret_cast<const void*>(contactDesc.body0), reinterpret_cast<const void*>(&data0), desc.linkIndexA);
 				const SolverExtBody b1(reinterpret_cast<const void*>(contactDesc.body1), reinterpret_cast<const void*>(&data1), desc.linkIndexB);
 
@@ -643,9 +642,6 @@ bool createFinalizeSolverContactsCoulomb(PxSolverContactDesc& contactDesc,
 			}
 			else
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
-
 				hasFriction = setupFinalizeSolverConstraintsCoulomb(contactDesc.shapeInteraction, buffer, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					data0, data1, invDtF32, bounceThresholdF32, numFrictionPerPatch, contactDesc.hasForceThresholds, contactDesc.bodyState1 == PxSolverContactDesc::eSTATIC_BODY,
 					invMassScale0, invInertiaScale0, invMassScale1, invInertiaScale1, contactDesc.restDistance, contactDesc.maxCCDSeparation, solverOffsetSlop);

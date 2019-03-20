@@ -508,22 +508,25 @@ void cleanupPhysics()
 {
 	gVehicle4W->getRigidDynamicActor()->release();
 	gVehicle4W->free();
-	gGroundPlane->release();
-	gBatchQuery->release();
+	PX_RELEASE(gGroundPlane);
+	PX_RELEASE(gBatchQuery);
 	gVehicleSceneQueryData->free(gAllocator);
-	gFrictionPairs->release();
+	PX_RELEASE(gFrictionPairs);
 	PxCloseVehicleSDK();
 
-	gMaterial->release();
-	gCooking->release();
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
+	PX_RELEASE(gMaterial);
+	PX_RELEASE(gCooking);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
 	
-  	gFoundation->release();
+  	PX_RELEASE(gFoundation);
 
 	printf("SnippetVehicleScale done.\n");
 }

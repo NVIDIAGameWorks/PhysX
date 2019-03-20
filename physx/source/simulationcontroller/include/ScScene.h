@@ -69,6 +69,7 @@ struct PxFilterInfo
 
 struct PxTriggerPair;
 
+class PxsContext;
 class PxsIslandManager;
 class PxsSimulationController;
 class PxsSimulationControllerCallback;
@@ -88,7 +89,6 @@ class PxsCCDContext;
 
 namespace Cm
 {
-	class DeferredIDPool;
 	class IDPool;
 }
 
@@ -110,11 +110,6 @@ namespace Dy
 	class Context;
 }
 
-namespace Pt
-{
-	class Context;
-}
-
 namespace Sc
 {
 	class ActorSim;
@@ -133,7 +128,6 @@ namespace Sc
 	class BodyCore;
 
 	class NPhaseCore;
-	class LowLevelThreadingThunk;
 	class Client;
 	class ConstraintInteraction;
 
@@ -294,6 +288,7 @@ namespace Sc
 					void						removeArticulationJoint(ArticulationJointCore&);
 
 					void						addArticulationSimControl(Sc::ArticulationCore& core);
+					void						removeArticulationSimControl(Sc::ArticulationCore& core);
 
 					PxU32						getNbArticulations() const;
 					Sc::ArticulationCore* const* getArticulations();
@@ -338,6 +333,9 @@ namespace Sc
 
 					void						setSolverBatchSize(PxU32 solverBatchSize);
 					PxU32						getSolverBatchSize() const;
+
+					void						setSolverArticBatchSize(PxU32 solverBatchSize);
+					PxU32						getSolverArticBatchSize() const;
 
 					void						setVisualizationParameter(PxVisualizationParameter::Enum param, PxReal value);
 					PxReal						getVisualizationParameter(PxVisualizationParameter::Enum param) const;
@@ -404,6 +402,7 @@ namespace Sc
 	PX_FORCE_INLINE	PxU32						getNbClients()	const	{ return mClients.size();	}
 
 					PxTaskManager*				getTaskManagerPtr() const { return mTaskManager; }
+					PxCudaContextManager*		getCudaContextManager() const { return mCudaContextManager; }
 
 					void						shiftOrigin(const PxVec3& shift);
 
@@ -617,13 +616,19 @@ namespace Sc
 #endif
 
 		PX_FORCE_INLINE	void						setSpeculativeCCDRigidBody(const PxU32 index) { mSpeculativeCCDRigidBodyBitMap.growAndSet(index); }
-		PX_FORCE_INLINE void						resetSpeculativeCCDRigidBody(const PxU32 index) { mSpeculativeCCDRigidBodyBitMap.reset(index); }
+		PX_FORCE_INLINE void						resetSpeculativeCCDRigidBody(const PxU32 index) { if(index < mSpeculativeCCDRigidBodyBitMap.size()) mSpeculativeCCDRigidBodyBitMap.reset(index); }
 
 		PX_FORCE_INLINE	void						setSpeculativeCCDArticulationLink(const PxU32 index) { mSpeculativeCDDArticulationBitMap.growAndSet(index); }
-		PX_FORCE_INLINE void						resetSpeculativeCCDArticulationLink(const PxU32 index) { mSpeculativeCDDArticulationBitMap.reset(index); }
+		PX_FORCE_INLINE void						resetSpeculativeCCDArticulationLink(const PxU32 index) { if(index < mSpeculativeCDDArticulationBitMap.size()) mSpeculativeCDDArticulationBitMap.reset(index); }
 
 		PX_FORCE_INLINE	PxU64						getContextId() const { return mContextId; }
 		PX_FORCE_INLINE bool						isUsingGpuRigidBodies() const { return mUseGpuRigidBodies; }
+
+		// statistics counters increase/decrease
+		PX_FORCE_INLINE	void						increaseNumKinematicsCounter() { mNbRigidKinematic++; }
+		PX_FORCE_INLINE	void						decreaseNumKinematicsCounter() { mNbRigidKinematic--; }
+		PX_FORCE_INLINE	void						increaseNumDynamicsCounter() { mNbRigidDynamics++; }
+		PX_FORCE_INLINE	void						decreaseNumDynamicsCounter() { mNbRigidDynamics--; }
 
 		//internal private methods:
 	private:
@@ -707,7 +712,7 @@ namespace Sc
 
 					//PxsIslandManager*			mIslandManager;
 
-					IG::SimpleIslandManager*		mSimpleIslandManager;
+					IG::SimpleIslandManager*	mSimpleIslandManager;
 
 					Dy::Context*				mDynamicsContext;
 
@@ -856,6 +861,7 @@ namespace Sc
 					// statics:
 					PxU32						mNbRigidStatics;
 					PxU32						mNbRigidDynamics;
+					PxU32						mNbRigidKinematic;
 					PxU32						mNbGeometries[PxGeometryType::eGEOMETRY_COUNT];
 
 					PxU32						mNumDeactivatingNodes[2];
@@ -962,6 +968,7 @@ namespace Sc
 
 					Cm::FlushPool															mTaskPool;
 					PxTaskManager*															mTaskManager;
+					PxCudaContextManager*													mCudaContextManager;
 
 					bool																	mContactReportsNeedPostSolverVelocity;
 					bool																	mUseGpuRigidBodies;

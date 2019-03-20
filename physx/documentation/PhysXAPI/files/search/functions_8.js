@@ -4,6 +4,7 @@ var searchData=
   ['importextradata',['importExtraData',['../classPxVehicleNoDrive.html#a6d3bcb6296ec9d8ce41377ecb04704af',1,'PxVehicleNoDrive::importExtraData()'],['../classPxVehicleWheels.html#a38ad927170326e69d65ab571e5fa18f5',1,'PxVehicleWheels::importExtraData()']]],
   ['include',['include',['../group__foundation.html#ga32315930deaa61e428aa2e0cda454189',1,'PxBounds3::include(const PxVec3 &amp;v)'],['../group__foundation.html#ga7e2f610707f2d4fd2a7f65c1af4fe022',1,'PxBounds3::include(const PxBounds3 &amp;b)']]],
   ['init',['init',['../classPxVehicleDrive.html#a251914d9b502687f2778e3f096dd0578',1,'PxVehicleDrive::init()'],['../classPxVehicleWheels.html#ac7de8bfda7bfd8a5c34c85a4c4ac4755',1,'PxVehicleWheels::init()']]],
+  ['initdata',['initData',['../structPxFeatherstoneArticulationLinkData.html#aebb0552bf75fa367ca80cadfce32361b',1,'PxFeatherstoneArticulationLinkData']]],
   ['intersects',['intersects',['../group__foundation.html#gafce532687809e3b8d5362b34f9b44992',1,'PxBounds3']]],
   ['intersects1d',['intersects1D',['../group__foundation.html#ga0535d4e635ffe422695adcf66644e2ae',1,'PxBounds3']]],
   ['invalidatecache',['invalidateCache',['../classPxController.html#a4d65669022c2f65926fde8112e72c500',1,'PxController']]],

@@ -35,12 +35,13 @@
 @{
 */
 
-#include "PsUserAllocated.h"
+#include "geometry/PxBVHStructure.h"
+
 #include "CmRefCountable.h"
 #include "CmPhysXCommon.h"
 #include "GuMeshFactory.h"
 #include "PsVecMath.h"
-#include "PxBVHStructure.h"
+#include "PsUserAllocated.h"
 
 namespace physx
 {

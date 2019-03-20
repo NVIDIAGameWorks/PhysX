@@ -27,20 +27,21 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxMeshScale.h"
 #include "PxVisualizationParameter.h"
+
 #include "PsIntrinsics.h"
-#include "CmPhysXCommon.h"
-#include "CmRenderOutput.h"
 #include "PsMathUtils.h"
+#include "PsAllocator.h"
+#include "PsFoundation.h"
 #include "GuConvexMesh.h"
 #include "GuTriangle32.h"
 #include "GuBigConvexData2.h"
 #include "GuSerialize.h"
 #include "GuMeshFactory.h"
+#include "CmPhysXCommon.h"
+#include "CmRenderOutput.h"
 #include "CmUtils.h"
-#include "PxMeshScale.h"
-#include "PsAllocator.h"
-#include "PsFoundation.h"
 
 using namespace physx;
 using namespace Gu;
@@ -119,18 +120,19 @@ bool Gu::ConvexMesh::isGpuCompatible() const
 }
 
 // PX_SERIALIZATION
-void Gu::ConvexMesh::exportExtraData(PxSerializationContext& stream)
+
+void Gu::ConvexMesh::exportExtraData(PxSerializationContext& context)
 {
-	stream.alignData(PX_SERIAL_ALIGN);
+	context.alignData(PX_SERIAL_ALIGN);
 	const PxU32 bufferSize = computeBufferSize(mHullData, getNb());
-	stream.writeData(mHullData.mPolygons, bufferSize);
+	context.writeData(mHullData.mPolygons, bufferSize);
 
 	if(mBigConvexData)
 	{
-		stream.alignData(PX_SERIAL_ALIGN);
-		stream.writeData(mBigConvexData, sizeof(BigConvexData));
+		context.alignData(PX_SERIAL_ALIGN);
+		context.writeData(mBigConvexData, sizeof(BigConvexData));
 
-		mBigConvexData->exportExtraData(stream);
+		mBigConvexData->exportExtraData(context);
 	}
 }
 
@@ -164,8 +166,11 @@ static bool convexHullLoad(Gu::ConvexHullData& data, PxInputStream& stream, PxBi
 	if(!ReadHeader('C', 'L', 'H', 'L', version, Mismatch, stream))
 		return false;
 
-	if(!ReadHeader('C', 'V', 'H', 'L', version, Mismatch, stream))
-		return false;
+	if(version<=8)
+	{
+		if(!ReadHeader('C', 'V', 'H', 'L', version, Mismatch, stream))
+			return false;
+	}
 
 	PxU32 Nb;
 

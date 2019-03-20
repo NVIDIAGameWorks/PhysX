@@ -31,14 +31,15 @@
 #ifndef PXC_NPTHREADCONTEXT_H
 #define PXC_NPTHREADCONTEXT_H
 
+#include "geometry/PxGeometry.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "PxvConfig.h"
 #include "CmScaling.h"
 #include "CmRenderOutput.h"
 #include "PxcNpCacheStreamPair.h"
 #include "PxcConstraintBlockStream.h"
-#include "GuContactBuffer.h"
 #include "PxcThreadCoherentCache.h"
-#include "PxGeometry.h"
 #include "CmBitMap.h"
 #include "../pcm/GuPersistentContactManifold.h"
 

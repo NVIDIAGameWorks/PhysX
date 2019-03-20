@@ -70,7 +70,6 @@ SET(LL_COMMON_PIPELINE_HEADERS
 	${LL_COMMON_DIR}/include/pipeline/PxcNpMemBlockPool.h
 	${LL_COMMON_DIR}/include/pipeline/PxcNpThreadContext.h
 	${LL_COMMON_DIR}/include/pipeline/PxcNpWorkUnit.h
-	${LL_COMMON_DIR}/include/pipeline/PxcRigidBody.h
 )
 SOURCE_GROUP("Common Includes\\pipeline" FILES ${LL_COMMON_PIPELINE_HEADERS})
 SET(LL_COMMON_UTILS_HEADERS	
@@ -79,10 +78,6 @@ SET(LL_COMMON_UTILS_HEADERS
 )
 SOURCE_GROUP("Common Includes\\utils" FILES ${LL_COMMON_UTILS_HEADERS})
 
-SET(LL_COMMON_COLLISION_SOURCE
-	${LL_COMMON_DIR}/src/collision/PxcContact.cpp	
-)
-SOURCE_GROUP("Common Source\\collision" FILES ${LL_COMMON_COLLISION_SOURCE})
 SET(LL_COMMON_PIPELINE_SOURCE	
 	${LL_COMMON_DIR}/src/pipeline/PxcContactCache.cpp
 	${LL_COMMON_DIR}/src/pipeline/PxcContactMethodImpl.cpp
@@ -159,9 +154,6 @@ TARGET_INCLUDE_DIRECTORIES(LowLevel
 	PRIVATE ${PHYSXFOUNDATION_INCLUDES}
 	
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/common
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geometry
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geomutils
 
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/include
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src

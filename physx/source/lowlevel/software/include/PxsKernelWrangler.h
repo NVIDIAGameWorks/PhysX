@@ -36,7 +36,6 @@
 namespace physx
 {
 	class KernelWrangler;
-	class PxGpuDispatcher; 
 	class PxErrorCallback;
 
 	class PxsKernelWranglerManager

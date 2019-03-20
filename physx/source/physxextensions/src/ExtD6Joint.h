@@ -30,8 +30,9 @@
 #ifndef NP_D6JOINTCONSTRAINT_H
 #define NP_D6JOINTCONSTRAINT_H
 
+#include "extensions/PxD6Joint.h"
+
 #include "ExtJoint.h"
-#include "PxD6Joint.h"
 #include "PsMathUtils.h"
 
 namespace physx

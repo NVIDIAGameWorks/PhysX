@@ -153,7 +153,6 @@ void SolverCoreRegisterArticulationFns()
 	gVTableSolveConcludeBlock[DY_SC_TYPE_EXT_1D] = solveExt1DConcludeBlock;
 }
 
-
 SolveBlockMethod* getSolveBlockTable()
 {
 	return gVTableSolveBlock;
@@ -168,9 +167,6 @@ SolveWriteBackBlockMethod* getSolveWritebackBlockTable()
 {
 	return gVTableSolveWriteBackBlock;
 }
-
-
-
 
 SolverCoreGeneral* SolverCoreGeneral::create(bool fricEveryIteration)
 {
@@ -194,7 +190,6 @@ void SolverCoreGeneral::destroyV()
 
 void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 {
-
 	const PxI32 TempThresholdStreamSize = 32;
 	ThresholdStreamElement tempThresholdStream[TempThresholdStreamSize];
 
@@ -207,7 +202,7 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 	cache.Z							= params.Z;
 	cache.deltaV					= params.deltaV;
 
-	PxI32 batchCount = PxI32(params.numConstraintHeaders);
+	const PxI32 batchCount = PxI32(params.numConstraintHeaders);
 
 	PxSolverBody* PX_RESTRICT bodyListStart = params.bodyListStart;
 	const PxU32 bodyListSize = params.bodyListSize;
@@ -230,7 +225,7 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 		for (PxU32 baIdx = 0; baIdx < bodyListSize; baIdx++)
 		{
 			Cm::SpatialVector& motionVel = motionVelocityArray[baIdx];
-			PxSolverBody& atom = bodyListStart[baIdx];
+			const PxSolverBody& atom = bodyListStart[baIdx];
 
 			motionVel.linear = atom.linearVelocity;
 			motionVel.angular = atom.angularState;
@@ -239,14 +234,17 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 		//Even thought there are no external constraints, there may still be internal constraints in the articulations...
 		for(PxU32 i = 0; i < positionIterations; ++i)
 			for (PxU32 j = 0; j < articulationListSize; ++j)
-				articulationListStart[j].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, false);
+				articulationListStart[j].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, false, false, 0.f);
 
 		for (PxU32 i = 0; i < articulationListSize; i++)
 			ArticulationPImpl::saveVelocity(articulationListStart[i], cache.deltaV);
 
 		for (PxU32 i = 0; i < velocityIterations; ++i)
 			for (PxU32 j = 0; j < articulationListSize; ++j)
-				articulationListStart[j].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true);
+				articulationListStart[j].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true, false, 0.f);
+
+		for (PxU32 j = 0; j < articulationListSize; ++j)
+			articulationListStart[j].articulation->writebackInternalConstraints(false);
 
 		return;
 	}
@@ -266,7 +264,7 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlock : gVTableSolveBlock, normalIter);
 
 		for (PxU32 i = 0; i < articulationListSize; ++i)
-			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, false);
+			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, false, false, 0.f);
 
 		++normalIter;
 	}
@@ -279,25 +277,21 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 		motionVel.angular = atom.angularState;
 	}
 	
-
 	for (PxU32 i = 0; i < articulationListSize; i++)
 		ArticulationPImpl::saveVelocity(articulationListStart[i], cache.deltaV);
-
 
 	const PxI32 velItersMinOne = (PxI32(velocityIterations)) - 1;
 
 	PxI32 iteration = 0;
 
 	for(; iteration < velItersMinOne; ++iteration)
-	{	
-
+	{
 		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
 			cache, contactIterator, gVTableSolveBlock, normalIter);
 
 		for (PxU32 i = 0; i < articulationListSize; ++i)
-			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true);
+			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true, false, 0.f);
 		++normalIter;
-
 	}
 
 	PxI32* outThresholdPairs = params.outThresholdPairs;
@@ -310,15 +304,16 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 	cache.mSharedOutThresholdPairs = outThresholdPairs;
 	for(; iteration < PxI32(velocityIterations); ++iteration)
 	{
-
 		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
 			cache, contactIterator, gVTableSolveWriteBackBlock, normalIter);
 
 		for (PxU32 i = 0; i < articulationListSize; ++i)
-			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true);
+		{
+			articulationListStart[i].articulation->solveInternalConstraints(params.dt, params.invDt, cache.Z, cache.deltaV, true, false, 0.f);
+			articulationListStart[i].articulation->writebackInternalConstraints(false);
+		}
 
 		++normalIter;
-
 	}	
 
 	//Write back remaining threshold streams
@@ -356,7 +351,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 	const PxI32 bodyListSize = PxI32(params.bodyListSize);
 	const PxI32 articulationListSize = PxI32(params.articulationListSize);
-
 
 	const PxI32 batchCount = PxI32(params.numConstraintHeaders);
 	cache.mThresholdStream = tempThresholdStream;
@@ -451,13 +445,12 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 			while (articSolveStart < maxArticIndex)
 			{
-				
-				PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
+				const PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
 
 				PxI32 nbSolved = 0;
 				while (articSolveStart < endIdx)
 				{
-					articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, false);
+					articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, false, false, 0.f);
 					articSolveStart++;
 					nbSolved++;
 				}
@@ -467,14 +460,13 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 					physx::shdfnd::atomicAdd(articIndex2, nbSolved);
 				}
 
-				PxI32 remaining = articSolveEnd - articSolveStart;
+				const PxI32 remaining = articSolveEnd - articSolveStart;
 
 				if (remaining == 0)
 				{
 					articSolveStart = physx::shdfnd::atomicAdd(articIndex, ArticCount) - ArticCount;
 					articSolveEnd = articSolveStart + ArticCount;
 				}
-
 			}
 
 			articIndexCounter += articulationListSize;
@@ -488,7 +480,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 	PxSolverBody* PX_RESTRICT bodyListStart = params.bodyListStart;
 	Cm::SpatialVector* PX_RESTRICT motionVelocityArray = params.motionVelocityArray;
-
 
 	//Save velocity - articulated
 	PxI32 endIndexCount2 = SaveUnrollCount;
@@ -517,7 +508,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 		//save velocity
 		
-
 		while(index2 < bodyListSize)
 		{
 			const PxI32 remainder = PxMin(endIndexCount2, (bodyListSize - index2));
@@ -550,7 +540,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 			physx::shdfnd::atomicAdd(bodyListIndex2, nbConcluded);
 		}
 	}
-
 
 	WAIT_FOR_PROGRESS(bodyListIndex2, (bodyListSize + articulationListSize));
 
@@ -594,13 +583,12 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 		while (articSolveStart < maxArticIndex)
 		{
-
-			PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
+			const PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
 
 			PxI32 nbSolved = 0;
 			while (articSolveStart < endIdx)
 			{
-				articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, true);
+				articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, true, false, 0.f);
 				articSolveStart++;
 				nbSolved++;
 			}
@@ -610,7 +598,7 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 				physx::shdfnd::atomicAdd(articIndex2, nbSolved);
 			}
 
-			PxI32 remaining = articSolveEnd - articSolveStart;
+			const PxI32 remaining = articSolveEnd - articSolveStart;
 
 			if (remaining == 0)
 			{
@@ -673,13 +661,13 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 
 			while (articSolveStart < maxArticIndex)
 			{
-
-				PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
+				const PxI32 endIdx = PxMin(articSolveEnd, maxArticIndex);
 
 				PxI32 nbSolved = 0;
 				while (articSolveStart < endIdx)
 				{
-					articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, false);
+					articulationListStart[articSolveStart - articIndexCounter].articulation->solveInternalConstraints(dt, invDt, cache.Z, cache.deltaV, false, false, 0.f);
+					articulationListStart[articSolveStart - articIndexCounter].articulation->writebackInternalConstraints(false);
 					articSolveStart++;
 					nbSolved++;
 				}
@@ -696,7 +684,6 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 					articSolveStart = physx::shdfnd::atomicAdd(articIndex, ArticCount) - ArticCount;
 					articSolveEnd = articSolveStart + ArticCount;
 				}
-
 			}
 		}
 
@@ -712,12 +699,10 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 		}
 
 		++normalIteration;
-
 	}
 
 #if PX_PROFILE_SOLVE_STALLS
 
-	
 	PxU64 endTime = readTimer();
 	PxReal totalTime = (PxReal)(endTime - startTime);
 	PxReal stallTime = (PxReal)stallCount;
@@ -732,9 +717,7 @@ PxI32 SolverCoreGeneral::solveVParallelAndWriteBack
 #endif
 
 	return normalIteration * batchCount;
-
 }
-
 
 void SolverCoreGeneral::writeBackV
 (const PxSolverConstraintDesc* PX_RESTRICT constraintList, const PxU32 /*constraintListSize*/, PxConstraintBatchHeader* batchHeaders, const PxU32 numBatches,
@@ -750,9 +733,9 @@ void SolverCoreGeneral::writeBackV
 	PxI32 outThreshIndex = 0;
 	for(PxU32 j = 0; j < numBatches; ++j)
 	{
-		PxU8 type = *constraintList[batchHeaders[j].mStartIndex].constraint;
-		writeBackTable[type](constraintList + batchHeaders[j].mStartIndex,
-			batchHeaders[j].mStride, cache);
+		PxU8 type = *constraintList[batchHeaders[j].startIndex].constraint;
+		writeBackTable[type](constraintList + batchHeaders[j].startIndex,
+			batchHeaders[j].stride, cache);
 	}
 
 	outThresholdPairs = PxU32(outThreshIndex);

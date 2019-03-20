@@ -50,15 +50,15 @@ namespace Sc
 		}
 	
 		virtual ~SimulationController(){}
-		virtual void addJoint(const PxU32 /*edgeIndex*/, Dy::Constraint* /*constraint*/, IG::IslandSim& /*islandSim*/, Ps::Array<PxU32, Ps::VirtualAllocator>& /*jointIndices*/,
+		virtual void addJoint(const PxU32 /*edgeIndex*/, Dy::Constraint* /*constraint*/, IG::IslandSim& /*islandSim*/, Ps::Array<PxU32>& /*jointIndices*/,
 		Ps::Array<PxgSolverConstraintManagerConstants, Ps::VirtualAllocator>& /*managerIter*/, PxU32 /*uniqueId*/){}
-		virtual void removeJoint(const PxU32 /*edgeIndex*/, Dy::Constraint* /*constraint*/, Ps::Array<PxU32, Ps::VirtualAllocator>& /*jointIndices*/, IG::IslandSim& /*islandSim*/){}
+		virtual void removeJoint(const PxU32 /*edgeIndex*/, Dy::Constraint* /*constraint*/, Ps::Array<PxU32>& /*jointIndices*/, IG::IslandSim& /*islandSim*/){}
 		virtual void addShape(PxsShapeSim* /*shapeSim*/, const PxU32 /*index*/){}
 		virtual void removeShape(const PxU32 /*index*/){}
 		virtual void addDynamic(PxsRigidBody* /*rigidBody*/, const IG::NodeIndex& /*nodeIndex*/){}
 		virtual void addDynamics(PxsRigidBody** /*rigidBody*/, const PxU32* /*nodeIndex*/, PxU32 /*nbBodies*/) {}
 		virtual void addArticulation(Dy::ArticulationV* /*articulation*/, const IG::NodeIndex& /*nodeIndex*/){}
-		virtual void releaseArticulation(Dy::ArticulationV* /*articulation*/) {}
+		virtual void releaseArticulation(Dy::ArticulationV* /*articulation*/, const IG::NodeIndex& /*nodeIndex*/) {}
 		virtual void releaseDeferredArticulationIds(){}
 		virtual void updateDynamic(const bool /*isArticulationLink*/, const IG::NodeIndex& /*nodeIndex*/) {}
 		virtual void updateJoint(const PxU32 /*edgeIndex*/, Dy::Constraint* /*constraint*/){}
@@ -83,6 +83,8 @@ namespace Sc
 		virtual void	clear() { }
 		virtual void	setBounds(Bp::BoundsArray* /*boundArray*/){}
 		virtual void	reserve(const PxU32 /*nbBodies*/) {}
+
+		virtual PxU32   getArticulationRemapIndex(const PxU32 /*nodeIndex*/) { return PX_INVALID_U32;}
 		
 	};
 }

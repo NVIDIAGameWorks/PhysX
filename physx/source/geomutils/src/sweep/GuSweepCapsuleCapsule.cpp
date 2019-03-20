@@ -27,13 +27,14 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxTriangle.h"
+#include "PxQueryReport.h"
+
 #include "GuSweepCapsuleCapsule.h"
 #include "GuCapsule.h"
 #include "GuDistancePointSegment.h"
 #include "GuDistanceSegmentSegment.h"
 #include "GuIntersectionRayCapsule.h"
-#include "PxQueryReport.h"
-#include "PxTriangle.h"
 
 using namespace physx;
 using namespace Gu;

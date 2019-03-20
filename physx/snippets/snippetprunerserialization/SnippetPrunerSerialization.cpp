@@ -226,31 +226,31 @@ void initPhysics(bool )
 	createStackWithSerializedPrunerStructure(PxTransform(PxVec3(0,0,stackZ-=10.0f)), 3, 2.0f);
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();	
-	gPhysics->release();	
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
 	
 	// Now that the objects have been released, it's safe to release the space they occupy.
 	for (PxU32 i = 0; i < gMemBlockCount; i++)
-	{
 		free(gMemBlocks[i]);
-	}
+
 	gMemBlockCount = 0;
 
-	gFoundation->release();
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetPrunerSerialization done.\n");
 }

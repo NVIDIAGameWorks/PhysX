@@ -84,8 +84,9 @@ $(document).ready(function(){initNavTree('PxArticulationReducedCoordinate_8h.htm
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">PxArticulationReducedCoordinate.h File Reference</div>  </div>
 </div><!--header-->
@@ -93,6 +94,7 @@ $(document).ready(function(){initNavTree('PxArticulationReducedCoordinate_8h.htm
 <div class="textblock"><code>#include &quot;<a class="el" href="PxArticulationBase_8h_source.html">PxArticulationBase.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PxVec3_8h_source.html">foundation/PxVec3.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PxTransform_8h_source.html">foundation/PxTransform.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PxSolverDefs_8h_source.html">solver/PxSolverDefs.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
@@ -106,9 +108,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxArticulationFlag.html">PxArticulationFlag</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxKinematicJacobian.html">PxKinematicJacobian</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxSpatialForce.html">PxSpatialForce</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxArticulationRootLinkData.html">PxArticulationRootLinkData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,25 +118,93 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver  <a href="classPxArticulationReducedCoordinate.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespaceCm"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCm.html">Cm</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ga40a321fce7bcb9669d32fca769d2958a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classPxFlags.html">PxFlags</a>&lt; <a class="el" href="structPxArticulationFlag.html#a89b0e25f041302ae04e5cc0b509a7609">PxArticulationFlag::Enum</a>, PxU8 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#ga40a321fce7bcb9669d32fca769d2958a">PxArticulationFlags</a></td></tr>
-<tr class="separator:ga40a321fce7bcb9669d32fca769d2958a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1619e335e650ffbd52cd4961bc0dea9a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classPxFlags.html">PxFlags</a>&lt; <a class="el" href="classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14e">PxArticulationCache::Enum</a>, PxU8 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#ga1619e335e650ffbd52cd4961bc0dea9a">PxArticulationCacheFlags</a></td></tr>
 <tr class="separator:ga1619e335e650ffbd52cd4961bc0dea9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga78dbfa89bc15b58e317e12f676c309f6"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structPxSpatialForce.html">PxSpatialForce</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#ga78dbfa89bc15b58e317e12f676c309f6">PX_ALIGN_SUFFIX</a> (16)</td></tr>
+<tr class="separator:ga78dbfa89bc15b58e317e12f676c309f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a1f5925a4680ca8dff39369ff8d47ab7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPxVec3.html">PxVec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="PxArticulationReducedCoordinate_8h.html#a1f5925a4680ca8dff39369ff8d47ab7c">force</a></td></tr>
+<tr class="separator:a1f5925a4680ca8dff39369ff8d47ab7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38edacc159efc770954897a85a7c8146"><td class="memItemLeft" align="right" valign="top">PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="PxArticulationReducedCoordinate_8h.html#a38edacc159efc770954897a85a7c8146">pad0</a></td></tr>
+<tr class="separator:a38edacc159efc770954897a85a7c8146"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdcc8bb9f78d81acf11aabbf3367d09d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPxVec3.html">PxVec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="PxArticulationReducedCoordinate_8h.html#abdcc8bb9f78d81acf11aabbf3367d09d">torque</a></td></tr>
+<tr class="separator:abdcc8bb9f78d81acf11aabbf3367d09d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88c56ce9e0d40d8821c1dc1bd6182ccd"><td class="memItemLeft" align="right" valign="top">PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="PxArticulationReducedCoordinate_8h.html#a88c56ce9e0d40d8821c1dc1bd6182ccd">pad1</a></td></tr>
+<tr class="separator:a88c56ce9e0d40d8821c1dc1bd6182ccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad00ce21229da4335d2cbdee921317aa6"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structPxArticulationRootLinkData.html">PxArticulationRootLinkData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__physics.html#gad00ce21229da4335d2cbdee921317aa6">PX_ALIGN_SUFFIX</a></td></tr>
+<tr class="separator:gad00ce21229da4335d2cbdee921317aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a1f5925a4680ca8dff39369ff8d47ab7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5925a4680ca8dff39369ff8d47ab7c">&#9670;&nbsp;</a></span>force</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classPxVec3.html">PxVec3</a> force</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38edacc159efc770954897a85a7c8146"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38edacc159efc770954897a85a7c8146">&#9670;&nbsp;</a></span>pad0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal pad0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88c56ce9e0d40d8821c1dc1bd6182ccd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88c56ce9e0d40d8821c1dc1bd6182ccd">&#9670;&nbsp;</a></span>pad1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxReal pad1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abdcc8bb9f78d81acf11aabbf3367d09d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdcc8bb9f78d81acf11aabbf3367d09d">&#9670;&nbsp;</a></span>torque</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classPxVec3.html">PxVec3</a> torque</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_29360d1ece32a6e2128493c81edcca5c.html">include</a></li><li class="navelem"><a class="el" href="PxArticulationReducedCoordinate_8h.html">PxArticulationReducedCoordinate.h</a></li>
+    <li class="navelem"><a class="el" href="dir_2969af80058834902e7cdf6ae4c741d8.html">include</a></li><li class="navelem"><a class="el" href="PxArticulationReducedCoordinate_8h.html">PxArticulationReducedCoordinate.h</a></li>
     <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>

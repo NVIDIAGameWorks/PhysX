@@ -261,30 +261,26 @@ Releases all physics objects, including memory blocks containing deserialized da
 */
 void cleanupPhysics()
 {
-	gScene->release();
-	gScene = NULL;
-	gDispatcher->release();
-	gDispatcher = NULL;
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
 
-	gPhysics->release();	// releases all objects	
-	gPhysics = NULL;
-	gCooking->release();
-	gCooking = NULL;
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	gPvd = NULL;
-	transport->release();
+	PX_RELEASE(gPhysics);	// releases all objects	
+	PX_RELEASE(gCooking);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
 
 	// Now that the objects have been released, it's safe to release the space they occupy
 	for (PxU32 i = 0; i < gMemBlockCount; i++)
-	{
 		free(gMemBlocks[i]);
-	}
+
 	gMemBlockCount = 0;
 
-	gFoundation->release();
-	gFoundation = NULL;
+	PX_RELEASE(gFoundation);
 }
 
 int snippetMain(int, const char*const*)

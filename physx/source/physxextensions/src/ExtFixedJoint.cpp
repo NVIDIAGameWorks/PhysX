@@ -29,9 +29,7 @@
 
 #include "ExtFixedJoint.h"
 #include "ExtConstraintHelper.h"
-#include "CmVisualization.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;
@@ -170,7 +168,6 @@ static PxU32 FixedJointSolverPrep(Px1DConstraint* constraints,
 	ch.prepareLockedAxes(cA2w.q, cB2w.q, cA2w.transformInv(cB2w.p), 7, 7, ra, rb);
 	cA2wOut = ra + bA2w.p;
 	cB2wOut = rb + bB2w.p;
-
 
 	return ch.getCount();
 }

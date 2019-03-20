@@ -47,6 +47,7 @@ TARGET_INCLUDE_DIRECTORIES(Snippet${SNIPPET_NAME}
 	PRIVATE ${SNIPPET_PLATFORM_INCLUDES}
 	
 	PRIVATE ${PHYSX_ROOT_DIR}/include/
+	PRIVATE ${PHYSX_ROOT_DIR}/source/physxextensions/src
 )
 
 TARGET_COMPILE_DEFINITIONS(Snippet${SNIPPET_NAME}
@@ -74,7 +75,7 @@ ELSE()
 ENDIF()
 
 TARGET_LINK_LIBRARIES(Snippet${SNIPPET_NAME} 
-	PUBLIC PhysX PhysXExtensions PhysXCharacterKinematic PhysXCooking PhysXFoundation PhysXVehicle PhysXPvdSDK SnippetUtils
+	PUBLIC PhysX PhysXPvdSDK PhysXVehicle PhysXCharacterKinematic PhysXExtensions PhysXCooking PhysXCommon PhysXFoundation SnippetUtils
 	PUBLIC ${SNIPPET_PLATFORM_LINKED_LIBS})
 
 IF(CUSTOM_SNIPPET_TARGET_PROPERTIES)

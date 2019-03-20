@@ -35,7 +35,6 @@
 
 #if PX_SUPPORT_GPU_PHYSX
 #include "PxPhysXGpu.h"
-#include "task/PxGpuDispatcher.h"
 #endif
 
 #include "PxsContactManagerState.h"

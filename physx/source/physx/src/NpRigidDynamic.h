@@ -31,10 +31,10 @@
 #ifndef PX_PHYSICS_NP_RIGIDDYNAMIC
 #define PX_PHYSICS_NP_RIGIDDYNAMIC
 
-#include "NpRigidBodyTemplate.h"
+#include "common/PxMetaData.h"
 #include "PxRigidDynamic.h"
+#include "NpRigidBodyTemplate.h"
 #include "ScbBody.h"
-#include "PxMetaData.h"
 
 namespace physx
 {
@@ -54,7 +54,7 @@ public:
 // PX_SERIALIZATION
 									NpRigidDynamic(PxBaseFlags baseFlags) : NpRigidDynamicT(baseFlags) {}
 
-	virtual		void				exportData(PxSerializationContext& context) const;
+				void				preExportDataReset();
 	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
 
 	static		NpRigidDynamic*		createObject(PxU8*& address, PxDeserializationContext& context);

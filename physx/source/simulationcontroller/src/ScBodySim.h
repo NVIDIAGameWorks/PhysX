@@ -61,6 +61,11 @@ namespace Sc
 
 	static const PxReal ScInternalWakeCounterResetValue = 20.0f*0.02f;
 
+#if PX_VC 
+    #pragma warning(push)   
+	#pragma warning( disable : 4324 ) // Padding was added at the end of a structure because of a __declspec(align) value.
+#endif
+
 	class BodySim : public RigidSim
 	{
 	public:
@@ -273,6 +278,10 @@ namespace Sc
 		// note: the link of the root body is not necces. the root link due to the re-rooting of the articulation!
 						ConstraintGroupNode*	mConstraintGroup;
 	};
+
+#if PX_VC 
+     #pragma warning(pop) 
+#endif
 
 } // namespace Sc
 

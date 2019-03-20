@@ -101,7 +101,6 @@ Inheritance diagram for physx::PxTask:</div>
 <div class="dyncontent">
 <div class="center"><img src="classphysx_1_1PxTask__inherit__graph.png" border="0" usemap="#physx_1_1PxTask_inherit__map" alt="Inheritance graph"/></div>
 <map name="physx_1_1PxTask_inherit__map" id="physx_1_1PxTask_inherit__map">
-<area shape="rect" id="node3" href="classphysx_1_1PxGpuTask.html" title="PxTask implementation for launching CUDA work. " alt="" coords="8,155,141,181"/>
 <area shape="rect" id="node2" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types. " alt="" coords="5,5,144,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -145,9 +144,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a0a6f83fcd05069f594631272faa8ae"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#a2a0a6f83fcd05069f594631272faa8ae">submitted</a> ()</td></tr>
 <tr class="memdesc:a2a0a6f83fcd05069f594631272faa8ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> at submission time for initialization.  <a href="#a2a0a6f83fcd05069f594631272faa8ae">More...</a><br /></td></tr>
 <tr class="separator:a2a0a6f83fcd05069f594631272faa8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2506a8dacc91048a7baafba5187d787a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#a2506a8dacc91048a7baafba5187d787a">requestSyncPoint</a> ()</td></tr>
-<tr class="memdesc:a2506a8dacc91048a7baafba5187d787a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specify that the GpuTask sync flag be set.  <a href="#a2506a8dacc91048a7baafba5187d787a">More...</a><br /></td></tr>
-<tr class="separator:a2506a8dacc91048a7baafba5187d787a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classphysx_1_1PxBaseTask"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classphysx_1_1PxBaseTask')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classphysx_1_1PxBaseTask.html">physx::PxBaseTask</a></td></tr>
 <tr class="memitem:a387b986ef3916322502452724d9ba582 inherit pub_methods_classphysx_1_1PxBaseTask"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#a387b986ef3916322502452724d9ba582">PxBaseTask</a> ()</td></tr>
 <tr class="separator:a387b986ef3916322502452724d9ba582 inherit pub_methods_classphysx_1_1PxBaseTask"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,12 +168,6 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:aa67264a3a16ca138fd854539bf52ac06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacephysx.html#a7a08e207472f32da1e024056f32d64a2">PxTaskID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#aa67264a3a16ca138fd854539bf52ac06">mTaskID</a></td></tr>
 <tr class="memdesc:aa67264a3a16ca138fd854539bf52ac06"><td class="mdescLeft">&#160;</td><td class="mdescRight">ID assigned at submission.  <a href="#aa67264a3a16ca138fd854539bf52ac06">More...</a><br /></td></tr>
 <tr class="separator:aa67264a3a16ca138fd854539bf52ac06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c506b76e0ce7380e77a384837fbbcc5"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#a5c506b76e0ce7380e77a384837fbbcc5">mStreamIndex</a></td></tr>
-<tr class="memdesc:a5c506b76e0ce7380e77a384837fbbcc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">GpuTask CUDA stream index.  <a href="#a5c506b76e0ce7380e77a384837fbbcc5">More...</a><br /></td></tr>
-<tr class="separator:a5c506b76e0ce7380e77a384837fbbcc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addde0e4cc4291d493d0025682f767606"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#addde0e4cc4291d493d0025682f767606">mPreSyncRequired</a></td></tr>
-<tr class="memdesc:addde0e4cc4291d493d0025682f767606"><td class="mdescLeft">&#160;</td><td class="mdescRight">GpuTask sync flag.  <a href="#addde0e4cc4291d493d0025682f767606">More...</a><br /></td></tr>
-<tr class="separator:addde0e4cc4291d493d0025682f767606"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classphysx_1_1PxBaseTask"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classphysx_1_1PxBaseTask')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classphysx_1_1PxBaseTask.html">physx::PxBaseTask</a></td></tr>
 <tr class="memitem:a67864643cd2dfaf8483f8b7a75376bc7 inherit pro_attribs_classphysx_1_1PxBaseTask"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacephysx.html#a8ee037dcecf7198800e1f302795c10ee">PxU64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxBaseTask.html#a67864643cd2dfaf8483f8b7a75376bc7">mContextID</a></td></tr>
 <tr class="memdesc:a67864643cd2dfaf8483f8b7a75376bc7 inherit pro_attribs_classphysx_1_1PxBaseTask"><td class="mdescLeft">&#160;</td><td class="mdescRight">Context ID for profiler interface.  <a href="classphysx_1_1PxBaseTask.html#a67864643cd2dfaf8483f8b7a75376bc7">More...</a><br /></td></tr>
@@ -190,8 +180,6 @@ Protected Attributes</h2></td></tr>
 Friends</h2></td></tr>
 <tr class="memitem:ac4a43ca8ae513a20c1d61bc9aecfce89"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#ac4a43ca8ae513a20c1d61bc9aecfce89">PxTaskMgr</a></td></tr>
 <tr class="separator:ac4a43ca8ae513a20c1d61bc9aecfce89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f49a59cfb28fd74ba8601e2d0d2d35a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTask.html#a7f49a59cfb28fd74ba8601e2d0d2d35a">PxGpuWorkerThread</a></td></tr>
-<tr class="separator:a7f49a59cfb28fd74ba8601e2d0d2d35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A <a class="el" href="classphysx_1_1PxBaseTask.html" title="Base class of all task types. ">PxBaseTask</a> implementation with deferred execution and full dependencies. </p>
@@ -397,11 +385,7 @@ Friends</h2></td></tr>
 
 <p>Implements <a class="el" href="classphysx_1_1PxBaseTask.html#a3be62f992c1ff7218e2cf0fc0ba5b244">physx::PxBaseTask</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classphysx_1_1PxGpuTask.html#a31d2f0fa38080d3bc7e0324f52c902ef">physx::PxGpuTask</a>.</p>
-
 <p class="reference">References <a class="el" href="classphysx_1_1PxBaseTask.html#af23fffec1e92c794d3ad73e9fc4fa974">physx::PxBaseTask::mTm</a>, <a class="el" href="group__foundation.html#ga4a83a657390b324a460f14684e5accee">PX_ASSERT</a>, and <a class="el" href="classphysx_1_1PxTaskManager.html#a36a746ff81e26d57195ebfdd0141e912">physx::PxTaskManager::taskCompleted()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="classphysx_1_1PxGpuTask.html#a31d2f0fa38080d3bc7e0324f52c902ef">physx::PxGpuTask::release()</a>.</p>
 
 </div>
 </div>
@@ -433,35 +417,6 @@ Friends</h2></td></tr>
 <p>Implements <a class="el" href="classphysx_1_1PxBaseTask.html#a78f9b745c6fb4114350cb1a26f3461d3">physx::PxBaseTask</a>.</p>
 
 <p class="reference">References <a class="el" href="classphysx_1_1PxTask.html#aa67264a3a16ca138fd854539bf52ac06">mTaskID</a>, <a class="el" href="classphysx_1_1PxBaseTask.html#af23fffec1e92c794d3ad73e9fc4fa974">physx::PxBaseTask::mTm</a>, and <a class="el" href="group__foundation.html#ga4a83a657390b324a460f14684e5accee">PX_ASSERT</a>.</p>
-
-</div>
-</div>
-<a id="a2506a8dacc91048a7baafba5187d787a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2506a8dacc91048a7baafba5187d787a">&#9670;&nbsp;</a></span>requestSyncPoint()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> void physx::PxTask::requestSyncPoint </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Specify that the GpuTask sync flag be set. </p>
-
-<p class="reference">References <a class="el" href="classphysx_1_1PxTask.html#addde0e4cc4291d493d0025682f767606">mPreSyncRequired</a>.</p>
 
 </div>
 </div>
@@ -521,33 +476,9 @@ Friends</h2></td></tr>
 <p>Called by <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> at submission time for initialization. </p>
 <p>Perform simulation step initialization here. </p>
 
-<p class="reference">References <a class="el" href="classphysx_1_1PxTask.html#addde0e4cc4291d493d0025682f767606">mPreSyncRequired</a>, and <a class="el" href="classphysx_1_1PxTask.html#a5c506b76e0ce7380e77a384837fbbcc5">mStreamIndex</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a7f49a59cfb28fd74ba8601e2d0d2d35a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f49a59cfb28fd74ba8601e2d0d2d35a">&#9670;&nbsp;</a></span>PxGpuWorkerThread</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class PxGpuWorkerThread</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ac4a43ca8ae513a20c1d61bc9aecfce89"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac4a43ca8ae513a20c1d61bc9aecfce89">&#9670;&nbsp;</a></span>PxTaskMgr</h2>
 
@@ -571,58 +502,6 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="addde0e4cc4291d493d0025682f767606"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addde0e4cc4291d493d0025682f767606">&#9670;&nbsp;</a></span>mPreSyncRequired</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool physx::PxTask::mPreSyncRequired</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>GpuTask sync flag. </p>
-
-<p class="reference">Referenced by <a class="el" href="classphysx_1_1PxTask.html#a2506a8dacc91048a7baafba5187d787a">requestSyncPoint()</a>, and <a class="el" href="classphysx_1_1PxTask.html#a2a0a6f83fcd05069f594631272faa8ae">submitted()</a>.</p>
-
-</div>
-</div>
-<a id="a5c506b76e0ce7380e77a384837fbbcc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c506b76e0ce7380e77a384837fbbcc5">&#9670;&nbsp;</a></span>mStreamIndex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t physx::PxTask::mStreamIndex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>GpuTask CUDA stream index. </p>
-
-<p class="reference">Referenced by <a class="el" href="classphysx_1_1PxTask.html#a2a0a6f83fcd05069f594631272faa8ae">submitted()</a>.</p>
-
-</div>
-</div>
 <a id="aa67264a3a16ca138fd854539bf52ac06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa67264a3a16ca138fd854539bf52ac06">&#9670;&nbsp;</a></span>mTaskID</h2>
 

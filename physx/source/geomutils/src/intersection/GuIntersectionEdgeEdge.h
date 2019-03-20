@@ -30,7 +30,7 @@
 #ifndef GU_INTERSECTION_EDGE_EDGE_H
 #define GU_INTERSECTION_EDGE_EDGE_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

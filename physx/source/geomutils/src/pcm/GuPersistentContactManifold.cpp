@@ -28,12 +28,12 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxMemory.h"
+#include "geomutils/GuContactBuffer.h"
 #include "CmPhysXCommon.h"
-#include "GuPersistentContactManifold.h"
-#include "GuContactBuffer.h"
 #include "PsAllocator.h"
 #include "PsVecTransform.h"
 #include "PsUtilities.h"
+#include "GuPersistentContactManifold.h"
 #include "GuGJKUtil.h"
 
 using namespace physx;

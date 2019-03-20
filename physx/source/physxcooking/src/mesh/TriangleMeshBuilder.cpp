@@ -27,12 +27,13 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "cooking/PxTriangleMeshDesc.h"
+
 #include "RTreeCooking.h"
 #include "TriangleMeshBuilder.h"
 #include "EdgeList.h"
 #include "MeshCleaner.h"
 #include "GuConvexEdgeFlags.h"
-#include "PxTriangleMeshDesc.h"
 #include "GuSerialize.h"
 #include "Cooking.h"
 #include "GuMeshData.h"

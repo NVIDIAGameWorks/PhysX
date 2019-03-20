@@ -30,10 +30,10 @@
 #ifndef GU_SWEEP_CONVEX_TRI
 #define GU_SWEEP_CONVEX_TRI
 
+#include "geometry/PxConvexMeshGeometry.h"
 #include "GuVecTriangle.h"
 #include "GuVecConvexHull.h"
 #include "GuConvexMesh.h"
-#include "PxConvexMeshGeometry.h"
 #include "GuGJKRaycast.h"
 
 // return true if hit, false if no hit

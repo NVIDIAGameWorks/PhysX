@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
-  <title>Threading &mdash; NVIDIA PhysX SDK 4.0 Documentation</title>
+  <title>Threading &mdash; NVIDIA PhysX SDK 4.1 Documentation</title>
   
 
   
@@ -34,7 +34,7 @@
     
         <style>
             .wy-nav-content::before {
-                content: "PhysX 4.0 SDK Guide";
+                content: "PhysX 4.1 SDK Guide";
             }
         </style>
     
@@ -356,21 +356,15 @@ tasks, so the function must be thread-safe.</p>
 </div>
 <p>The PxExtensions library has default implementations for all dispatcher types, the following code snippets are taken from SampleBase and show how the default dispatchers are created.
 <em>mNbThreads</em> which is passed to <em>PxDefaultCpuDispatcherCreate</em> defines how many worker threads the CPU dispatcher will have.:</p>
-<div class="highlight-c++"><div class="highlight"><pre>    <span class="n">PxSceneDesc</span> <span class="nf">sceneDesc</span><span class="p">(</span><span class="n">mPhysics</span><span class="o">-&gt;</span><span class="n">getTolerancesScale</span><span class="p">());</span>
-    <span class="p">[...]</span>
-    <span class="c1">// create CPU dispatcher which mNbThreads worker threads</span>
-    <span class="n">mCpuDispatcher</span> <span class="o">=</span> <span class="n">PxDefaultCpuDispatcherCreate</span><span class="p">(</span><span class="n">mNbThreads</span><span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">mCpuDispatcher</span><span class="p">)</span>
-        <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;PxDefaultCpuDispatcherCreate failed!&quot;</span><span class="p">);</span>
-    <span class="n">sceneDesc</span><span class="p">.</span><span class="n">cpuDispatcher</span> <span class="o">=</span> <span class="n">mCpuDispatcher</span><span class="p">;</span>
-<span class="cp">#if PX_WINDOWS</span>
-    <span class="c1">// create GPU dispatcher</span>
-    <span class="n">PxCudaContextManagerDesc</span> <span class="n">cudaContextManagerDesc</span><span class="p">;</span>
-    <span class="n">mCudaContextManager</span> <span class="o">=</span> <span class="n">PxCreateCudaContextManager</span><span class="p">(</span><span class="n">cudaContextManagerDesc</span><span class="p">);</span>
-    <span class="n">sceneDesc</span><span class="p">.</span><span class="n">gpuDispatcher</span> <span class="o">=</span> <span class="n">mCudaContextManager</span><span class="o">-&gt;</span><span class="n">getGpuDispatcher</span><span class="p">();</span>
-<span class="cp">#endif</span>
-    <span class="p">[...]</span>
-    <span class="n">mScene</span> <span class="o">=</span> <span class="n">mPhysics</span><span class="o">-&gt;</span><span class="n">createScene</span><span class="p">(</span><span class="n">sceneDesc</span><span class="p">);</span>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxSceneDesc</span> <span class="nf">sceneDesc</span><span class="p">(</span><span class="n">mPhysics</span><span class="o">-&gt;</span><span class="n">getTolerancesScale</span><span class="p">());</span>
+<span class="p">[...]</span>
+<span class="c1">// create CPU dispatcher which mNbThreads worker threads</span>
+<span class="n">mCpuDispatcher</span> <span class="o">=</span> <span class="n">PxDefaultCpuDispatcherCreate</span><span class="p">(</span><span class="n">mNbThreads</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">mCpuDispatcher</span><span class="p">)</span>
+    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;PxDefaultCpuDispatcherCreate failed!&quot;</span><span class="p">);</span>
+<span class="n">sceneDesc</span><span class="p">.</span><span class="n">cpuDispatcher</span> <span class="o">=</span> <span class="n">mCpuDispatcher</span><span class="p">;</span>
+<span class="p">[...]</span>
+<span class="n">mScene</span> <span class="o">=</span> <span class="n">mPhysics</span><span class="o">-&gt;</span><span class="n">createScene</span><span class="p">(</span><span class="n">sceneDesc</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -571,7 +565,7 @@ each simulation step to keep the GpuDispatcher synchronized.</p>
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0',
+              VERSION:'4.1',
               LANGUAGE:'',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',

@@ -52,7 +52,6 @@ namespace physx
 namespace Dy
 {
 	struct ArticulationJointTransforms;
-	struct PxTGSSolverConstraintDesc;
 	struct FsInertia;
 	struct FsData;
 
@@ -68,7 +67,7 @@ class Articulation : public ArticulationV
 public:
 	// public interface
 
-	Articulation(Sc::ArticulationSim*);
+	Articulation(void*);
 	~Articulation();
 
 	virtual bool resize(const PxU32 linkCount);
@@ -90,6 +89,12 @@ public:
 		Cm::SpatialVectorF* Z,
 		const Cm::SpatialVector& impulse,
 		Cm::SpatialVector& deltaV) const;
+
+	virtual	void	getImpulseResponse(
+		PxU32 linkID,
+		Cm::SpatialVectorV* Z,
+		const Cm::SpatialVectorV& impulse,
+		Cm::SpatialVectorV& deltaV) const;
 
 	virtual	void	getImpulseSelfResponse(
 		PxU32 linkID0,
@@ -126,7 +131,7 @@ public:
 
 	static PxU32 setupSolverConstraintsTGS(const ArticulationSolverDesc& articDesc,
 		PxcConstraintBlockStream& stream,
-		PxTGSSolverConstraintDesc* constraintDesc,
+		PxSolverConstraintDesc* constraintDesc,
 		PxReal dt,
 		PxReal invDt,
 		PxReal totalDt,
@@ -152,7 +157,9 @@ public:
 		const Ps::aos::Vec3V& angular2, Cm::SpatialVectorF* Z, Cm::SpatialVectorF* deltaV);
 
 	virtual void solveInternalConstraints(const PxReal dt, const PxReal invDt, Cm::SpatialVectorF* impulses, Cm::SpatialVectorF* DeltaV,
-		bool velIteration);
+		bool velIteration, bool isTGS, const PxReal elapsedTime);
+
+	virtual void writebackInternalConstraints(bool /*isTGS*/) {}
 	
 	virtual Cm::SpatialVectorV pxcFsGetVelocity(PxU32 linkID);
 	virtual void pxcFsGetVelocities(PxU32 linkID, PxU32 linkID1, Cm::SpatialVectorV& v0, Cm::SpatialVectorV& v1);

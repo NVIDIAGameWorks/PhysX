@@ -601,6 +601,7 @@ var group__foundation =
     [ "PX_X64", "group__foundation.html#ga559a6fbf1f502edf3e25e3b90647f111", null ],
     [ "PX_X86", "group__foundation.html#ga4f7abce9f24240386fb46d29e4332d3d", null ],
     [ "PX_XBOXONE", "group__foundation.html#ga966bf639353d2b617e4925513859c1ff", null ],
+    [ "USE_VOLATILE_UNION", "group__foundation.html#ga471d6bb3bd98ced0974dbc866268c15a", null ],
     [ "PxBitAndByte", "group__foundation.html#ga8c8d56ad8584332dc0d55c7936fb0af3", null ],
     [ "PxBitAndDword", "group__foundation.html#ga2520ecfd21a5e8e15d5ae3d1f9bcfd1c", null ],
     [ "PxBitAndWord", "group__foundation.html#gaa36637513874db07a2b4839703eef2ee", null ],

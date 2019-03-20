@@ -108,7 +108,7 @@ namespace Gu
 		// we calculate the eps based on 10% of the minimum margin of two shapes
 		const FloatV tenPerc = FLoad(0.1f);
 		const FloatV minMargin = FMin(a.getMinMargin(), b.getMinMargin());
-		const FloatV eps = FMul(minMargin, tenPerc);
+		const FloatV eps = FMax(FLoad(1e-6f), FMul(minMargin, tenPerc));
 		
 		// ML:epsRel is square value of 1.5% which applied to the distance of a closest point(v) to the origin.
 		// If |v|- v/|v|.dot(w) < epsRel*|v|,

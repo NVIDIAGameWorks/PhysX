@@ -30,8 +30,8 @@
 #ifndef PXC_MATERIALMETHOD_H
 #define PXC_MATERIALMETHOD_H
 
+#include "geometry/PxGeometry.h"
 #include "CmPhysXCommon.h"
-#include "PxGeometry.h"
 
 namespace physx
 {

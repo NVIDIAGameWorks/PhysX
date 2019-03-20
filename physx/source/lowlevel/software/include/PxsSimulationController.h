@@ -65,7 +65,6 @@ namespace physx
 		class NodeIndex;
 	}
 
-	class PxGpuDispatcher;
 	class PxsTransformCache;
 	class PxvNphaseImplementationContext;
 	class PxBaseTask;
@@ -96,15 +95,15 @@ namespace physx
 		PxsSimulationController(PxsSimulationControllerCallback* callback): mCallback(callback){}
 		virtual ~PxsSimulationController(){}
 
-		virtual void addJoint(const PxU32 edgeIndex, Dy::Constraint* constraint, IG::IslandSim& islandSim, Ps::Array<PxU32, Ps::VirtualAllocator>& jointIndices, 
+		virtual void addJoint(const PxU32 edgeIndex, Dy::Constraint* constraint, IG::IslandSim& islandSim, Ps::Array<PxU32>& jointIndices, 
 			Ps::Array<PxgSolverConstraintManagerConstants, Ps::VirtualAllocator>& managerIter, PxU32 uniqueId) = 0;
-		virtual void removeJoint(const PxU32 edgeIndex, Dy::Constraint* constraint, Ps::Array<PxU32, Ps::VirtualAllocator>& jointIndices, IG::IslandSim& islandSim) = 0;
+		virtual void removeJoint(const PxU32 edgeIndex, Dy::Constraint* constraint, Ps::Array<PxU32>& jointIndices, IG::IslandSim& islandSim) = 0;
 		virtual void addShape(PxsShapeSim* shapeSim, const PxU32 index) = 0;
 		virtual void removeShape(const PxU32 index) = 0;
 		virtual void addDynamic(PxsRigidBody* rigidBody, const IG::NodeIndex& nodeIndex) = 0;
 		virtual void addDynamics(PxsRigidBody** rigidBody, const PxU32* nodeIndex, PxU32 nbToProcess) = 0;
 		virtual void addArticulation(Dy::ArticulationV* articulation, const IG::NodeIndex& nodeIndex) = 0;
-		virtual void releaseArticulation(Dy::ArticulationV* articulation) = 0;
+		virtual void releaseArticulation(Dy::ArticulationV* articulation, const IG::NodeIndex& nodeIndex) = 0;
 		virtual void releaseDeferredArticulationIds() = 0;
 		virtual void updateDynamic(const bool isArticulationLink, const IG::NodeIndex&) = 0;
 		virtual void updateJoint(const PxU32 edgeIndex, Dy::Constraint* constraint) = 0;
@@ -127,6 +126,8 @@ namespace physx
 		virtual void	clear() = 0;
 		virtual void	setBounds(Bp::BoundsArray* boundArray) = 0;
 		virtual void	reserve(const PxU32 nbBodies) = 0;
+
+		virtual PxU32   getArticulationRemapIndex(const PxU32 nodeIndex) = 0;
 
 	protected:
 		PxsSimulationControllerCallback* mCallback;

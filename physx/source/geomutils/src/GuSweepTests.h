@@ -30,9 +30,9 @@
 #ifndef GU_SWEEP_TESTS_H
 #define GU_SWEEP_TESTS_H
 
-#include "CmPhysXCommon.h"
 #include "PxQueryReport.h"
-#include "PxGeometry.h"
+#include "geometry/PxGeometry.h"
+#include "CmPhysXCommon.h"
 
 namespace physx
 {

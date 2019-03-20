@@ -28,12 +28,12 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "cooking/PxCooking.h"
+
 #include "PsUserAllocated.h"
 #include "PsUtilities.h"
 #include "PsMathUtils.h"
 #include "PsVecMath.h"
-
-#include "PxCooking.h"
 
 #include "GuConvexMeshData.h"
 #include "GuBigConvexData2.h"

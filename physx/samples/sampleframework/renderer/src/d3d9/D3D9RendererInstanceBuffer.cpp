@@ -31,6 +31,10 @@
 #include "D3D9RendererInstanceBuffer.h"
 #include <RendererInstanceBufferDesc.h>
 
+#if PX_SUPPORT_GPU_PHYSX
+#include <cudamanager/PxCudaContextManager.h>
+#endif
+
 using namespace SampleRenderer;
 
 static D3DVERTEXELEMENT9 buildVertexElement(WORD stream, WORD offset, D3DDECLTYPE type, BYTE method, BYTE usage, BYTE usageIndex)

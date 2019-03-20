@@ -27,7 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxGeometryQuery.h"
+#include "geometry/PxGeometryQuery.h"
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxBoxGeometry.h"
+#include "geometry/PxPlaneGeometry.h"
+#include "geometry/PxCapsuleGeometry.h"
+#include "geometry/PxTriangleMeshGeometry.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "geometry/PxHeightFieldGeometry.h"
+
 #include "GuInternal.h"
 #include "GuOverlapTests.h"
 #include "GuSweepTests.h"
@@ -40,13 +48,6 @@
 #include "GuConvexMesh.h"
 #include "GuDistancePointBox.h"
 #include "PsFPU.h"
-#include "PxSphereGeometry.h"
-#include "PxBoxGeometry.h"
-#include "PxPlaneGeometry.h"
-#include "PxCapsuleGeometry.h"
-#include "PxTriangleMeshGeometry.h"
-#include "PxConvexMeshGeometry.h"
-#include "PxHeightFieldGeometry.h"
 
 using namespace physx;
 using namespace Gu;

@@ -80,18 +80,7 @@ Sc::ArticulationSim::ArticulationSim(ArticulationCore& core, Scene& scene, BodyC
 	mCore.setSim(this);
 
 	mLLArticulation->setDyContext(mScene.getDynamicsContext());
-	mLLArticulation->getSolverDesc().core			= &core.getCore();
-	mLLArticulation->getSolverDesc().internalLoads	= NULL;
-	mLLArticulation->getSolverDesc().externalLoads	= NULL;
-	mLLArticulation->getSolverDesc().articulation	= NULL;
-	mLLArticulation->getSolverDesc().poses			= NULL;
-	mLLArticulation->getSolverDesc().motionVelocity	= NULL;
-	mLLArticulation->getSolverDesc().acceleration = NULL;
-	mLLArticulation->getSolverDesc().totalDataSize	= 0;
-	mLLArticulation->getSolverDesc().solverDataSize	= 0;
-	mLLArticulation->getSolverDesc().linkCount		= 0;
-	mLLArticulation->getSolverDesc().scratchMemory	= NULL;
-	mLLArticulation->getSolverDesc().scratchMemorySize = 0;
+	mLLArticulation->getSolverDesc().initData(&core.getCore(), NULL);
 
 	//mLLArticulation->onUpdateSolverDesc();
 }
@@ -201,13 +190,12 @@ void Sc::ArticulationSim::addBody(BodySim& body, BodySim* parent, ArticulationJo
 			  (((index!=0) && joint) && (parent && (parent->getArticulation() == this))));
 
 	ArticulationLink& link = mLinks.insert();
-	link.body = &body.getLowLevelBody();
-	link.bodyCore = &body.getBodyCore().getCore();
-	link.children = 0;
+	link.bodyCore	= &body.getBodyCore().getCore();
+	link.children	= 0;
 	bool shouldSleep;
 	bool currentlyAsleep;
-	bool bodyReadyForSleep = body.checkSleepReadinessBesidesWakeCounter();
-	PxReal wakeCounter = getCore().getWakeCounter();
+	const bool bodyReadyForSleep = body.checkSleepReadinessBesidesWakeCounter();
+	const PxReal wakeCounter = getCore().getWakeCounter();
 
 	if(parent)
 	{
@@ -237,7 +225,7 @@ void Sc::ArticulationSim::addBody(BodySim& body, BodySim* parent, ArticulationJo
 
 	mLLArticulation->setMaxDepth(mMaxDepth);
 
-	if (currentlyAsleep && (!shouldSleep))
+	if(currentlyAsleep && !shouldSleep)
 	{
 		for(PxU32 i=0; i < (mBodies.size() - 1); i++)
 			mBodies[i]->internalWakeUpArticulationLink(wakeCounter);
@@ -286,6 +274,8 @@ void Sc::ArticulationSim::removeBody(BodySim &body)
 	}
 
 	mLinks.popBack();
+	mBodies.popBack();
+	mJoints.popBack();
 
 	mLLArticulation->setMaxDepth(mMaxDepth);
 	mLLArticulation->removeBody();
@@ -296,14 +286,7 @@ void Sc::ArticulationSim::checkResize() const
 	if(!mBodies.size())
 		return;
 
-	//if this is needed, we need to re-allocated the link data
-	mLLArticulation->resize(mLinks.size());
-	
-	mLLArticulation->getSolverDesc().links		= const_cast<Dy::ArticulationLink*>(mLinks.begin());
-	mLLArticulation->getSolverDesc().linkCount	= Ps::to8(mLinks.size());
-
-	//if this is needed, we need to re-allocated the joint data
-	mLLArticulation->onUpdateSolverDesc();
+	mLLArticulation->setupLinks(mLinks.size(), const_cast<Dy::ArticulationLink*>(mLinks.begin()));
 }
 
 PxU32 Sc::ArticulationSim::getCCDLinks(BodySim** sims)
@@ -353,7 +336,7 @@ void Sc::ArticulationSim::sleepCheck(PxReal dt)
 
 	for(PxU32 i=0;i<mLinks.size();i++)
 	{
-		const Cm::SpatialVector motionVelocity = mLLArticulation->getMotionVelocity(i);
+		const Cm::SpatialVector& motionVelocity = mLLArticulation->getMotionVelocity(i);
 		PxReal timer = mBodies[i]->updateWakeCounter(dt, sleepThreshold, motionVelocity);
 		maxTimer = PxMax(maxTimer, timer);
 		minTimer = PxMin(minTimer, timer);
@@ -424,7 +407,7 @@ void Sc::ArticulationSim::updateForces(PxReal dt, bool simUsesAdaptiveForce)
 		}
 
 		PxU32 type = mLLArticulation->getType();
-		const bool useAccelerations = (type == PxArticulationBase::Enum::eReducedCoordinate);
+		const bool useAccelerations = (type == Articulation::Enum::eReducedCoordinate);
 
 		mBodies[i]->updateForces(dt, NULL, NULL, count, &mLLArticulation->getSolverDesc().acceleration[i], 
 			useAccelerations, simUsesAdaptiveForce);
@@ -516,11 +499,14 @@ PxU32 Sc::ArticulationSim::getDof(const PxU32 linkID) const
 	return mLLArticulation->getDof(linkID);
 }
 
+PX_COMPILE_TIME_ASSERT(sizeof(Cm::SpatialVector)==sizeof(PxSpatialForce));
 PxArticulationCache* Sc::ArticulationSim::createCache() const
 {
 	checkResize();
 
 	PxU32 totalSize = getCacheDataSize() + sizeof(PxArticulationCache);
+
+	const PxU32 jointCount = mLinks.size() - 1;
 
 	PxU8* tCache = reinterpret_cast<PxU8*>(PX_ALLOC(totalSize, "Articulation cache"));
 
@@ -531,13 +517,12 @@ PxArticulationCache* Sc::ArticulationSim::createCache() const
 	PxArticulationCache* cache = reinterpret_cast<PxArticulationCache*>(tCache);
 
 	PxU32 offset = sizeof(PxArticulationCache);
-	cache->externalForces = reinterpret_cast<Cm::SpatialVector*>(tCache + offset);
+	cache->externalForces = reinterpret_cast<PxSpatialForce*>(tCache + offset);
+	offset += sizeof(PxSpatialForce) * mLinks.size();
+	
+	cache->denseJacobian = reinterpret_cast<PxReal*>(tCache + offset);
+	offset += sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6);				//size of dense jacobian assuming free floating base link.
 
-	offset += sizeof(Cm::SpatialVector) * mLinks.size();
-
-	cache->jacobian = reinterpret_cast<PxKinematicJacobian*>(tCache + offset);
-
-	offset += sizeof(PxReal) * totalDofs * 6;//maximum 6 columns for coefficent matrix
 	cache->massMatrix = reinterpret_cast<PxReal*>(tCache + offset);
 
 	offset += sizeof(PxReal) *totalDofs * totalDofs;
@@ -552,11 +537,11 @@ PxArticulationCache* Sc::ArticulationSim::createCache() const
 	offset += sizeof(PxReal) * totalDofs;
 	cache->jointForce = reinterpret_cast<PxReal*>(tCache + offset);
 
-	offset += sizeof(void*);
-	cache->coefficentMatrix = reinterpret_cast<PxReal*>(tCache + offset);
+	offset += sizeof(PxReal) * totalDofs;
+	cache->rootLinkData = reinterpret_cast<PxArticulationRootLinkData*>(tCache + offset);
 
-	offset += sizeof(void*);
-	cache->lambda = reinterpret_cast<PxReal*>(tCache + offset);
+	cache->coefficientMatrix = NULL;
+	cache->lambda =NULL;
 
 	const PxU32 scratchMemorySize = getScratchMemorySize();
 	void* scratchMemory = PX_ALLOC(scratchMemorySize, "Cache scratch memory");
@@ -576,21 +561,11 @@ PxU32 Sc::ArticulationSim::getCacheDataSize() const
 	const PxU32 jointCount = mLinks.size() - 1;
 	PxU32 totalSize =
 		sizeof(Cm::SpatialVector) * mLinks.size()				//external force
-		+ sizeof(PxKinematicJacobian) * jointCount				//jacobian matrix
+		+ sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6)//offset to end of dense jacobian (assuming free floating base)
 		+ sizeof(PxReal) * totalDofs * totalDofs				//mass matrix
 		+ sizeof(PxReal) * totalDofs * 4						//jointVelocity, jointAcceleration, jointPosition, joint force
-		+ sizeof(void*) * 2										//pointer to coefficent matrix and pointer to lambda vector
-		+ sizeof(PxArticulationRootLinkData)					//root link data
-		+ sizeof(void*) * 2										//pointer to scratch memory/scratch memory allocator
-		+ sizeof(PxU32);										//version
-		
-	return totalSize;
-}
-
-PxU32 Sc::ArticulationSim::getCacheConstantDataSize() const
-{
-	PxU32 totalSize = sizeof(void*) * 2 + sizeof(PxU32);			//pointer to scratch memory & scrach memory allocator, version
-
+		+ sizeof(PxArticulationRootLinkData);					//root link data
+	
 	return totalSize;
 }
 
@@ -599,7 +574,7 @@ PxU32 Sc::ArticulationSim::getScratchMemorySize() const
 	const PxU32 totalDofs = mLLArticulation->getDofs();
 	const PxU32 linkCount = mLinks.size();
 
-	PxU32 totalSize =
+	const PxU32 totalSize =
 		sizeof(Cm::SpatialVectorF) * linkCount * 5				//motionVelocity, motionAccelerations, coriolisVectors, spatialZAVectors, externalAccels;
 		+ sizeof(Dy::SpatialMatrix) * linkCount					//compositeSpatialInertias;
 		+ sizeof(PxReal) * totalDofs * 5;						//jointVelocity, jointAcceleration, jointForces, jointPositions, jointFrictionForces
@@ -610,10 +585,8 @@ PxU32 Sc::ArticulationSim::getScratchMemorySize() const
 void Sc::ArticulationSim::zeroCache(PxArticulationCache& cache) const
 {
 	const PxU32 cacheDataSize = getCacheDataSize();
-	const PxU32 constantSize = getCacheConstantDataSize();
 
-	//don't zero gravity, dt and version  
-	PxMemZero(cache.externalForces, (cacheDataSize - constantSize));
+	PxMemZero(cache.externalForces, cacheDataSize);
 }
 
 //copy external data to internal data
@@ -685,14 +658,14 @@ void Sc::ArticulationSim::computeJointForce(PxArticulationCache& cache)
 	mLLArticulation->getJointForce(cache);
 }
 
-void Sc::ArticulationSim::computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache)
+void Sc::ArticulationSim::computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols)
 {
-	mLLArticulation->getKinematicJacobian(linkID, cache);
+	mLLArticulation->getDenseJacobian(cache, nRows, nCols);
 }
 
-void Sc::ArticulationSim::computeCoefficentMatrix(PxArticulationCache& cache)
+void Sc::ArticulationSim::computeCoefficientMatrix(PxArticulationCache& cache)
 {
-	mLLArticulation->getCoefficentMatrixWithLoopJoints(mLoopConstraints.begin(), mLoopConstraints.size(), cache);
+	mLLArticulation->getCoefficientMatrixWithLoopJoints(mLoopConstraints.begin(), mLoopConstraints.size(), cache);
 }
 
 bool Sc::ArticulationSim::computeLambda(PxArticulationCache& cache, PxArticulationCache& initialState,
@@ -732,7 +705,7 @@ void Sc::ArticulationSim::computeGeneralizedMassMatrix(PxArticulationCache& cach
 	PX_FREE(massMatrix);*/
 }
 
-PxU32 Sc::ArticulationSim::getCoefficentMatrixSize() const
+PxU32 Sc::ArticulationSim::getCoefficientMatrixSize() const
 {
 	const PxU32 size = mLoopConstraints.size();
 	const PxU32 totalDofs = mLLArticulation->getDofs();

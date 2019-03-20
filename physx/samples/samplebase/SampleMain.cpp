@@ -93,7 +93,7 @@ bool mainContinue()
 #endif
 			gApp->getInputMutex().unlock();
 		}
-		Ps::Thread::yield();
+		Ps::Thread::sleep(1);
 		return true;
 	}
 

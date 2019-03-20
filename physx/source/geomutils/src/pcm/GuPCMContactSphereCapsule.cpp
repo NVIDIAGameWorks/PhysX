@@ -28,13 +28,11 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-//#include "GuGJKWrapper.h"
+#include "geomutils/GuContactBuffer.h"
 #include "GuVecSphere.h"
 #include "GuVecCapsule.h"
 #include "GuGeometryUnion.h"
-
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 
 
 namespace physx

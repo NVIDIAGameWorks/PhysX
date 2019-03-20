@@ -427,21 +427,26 @@ static PX_FORCE_INLINE bool filterJointedBodies(const Sc::BodySim* b0, const Sc:
 	return false;
 }
 
-static PX_FORCE_INLINE bool filterKinematics(const Sc::BodySim* b0, const Sc::BodySim* b1, bool kine0, bool kine1, const PxSceneFlags& sceneFlags)
+static PX_FORCE_INLINE bool filterKinematics(const Sc::BodySim* b0, const Sc::BodySim* b1, bool kine0, bool kine1, /*const PxSceneFlags& sceneFlags*/
+	const PxPairFilteringMode::Enum kineKineFilteringMode, const PxPairFilteringMode::Enum staticKineFilteringMode)
 {
 	// if at least one object is kinematic
 	const bool kinematicPair = kine0 | kine1;
 	if(kinematicPair)
 	{
+		const bool keepStaticKine = staticKineFilteringMode == PxPairFilteringMode::eKEEP;
+
 		// ...then ignore kinematic vs. static pairs
-		if(!(sceneFlags & PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS))
+		if(!keepStaticKine)
 		{
 			if(!b0 || !b1)
 				return true;
 		}
 
+		const bool keepKineKine = kineKineFilteringMode == PxPairFilteringMode::eKEEP;
+
 		// ...and ignore kinematic vs. kinematic pairs
-		if(!(sceneFlags & PxSceneFlag::eENABLE_KINEMATIC_PAIRS))
+		if(!keepKineKine)
 		{
 			if(kine0 && kine1)
 				return true;
@@ -468,7 +473,7 @@ static PxFilterInfo filterRbCollisionPair(const FilteringContext& context, const
 		const bool kine0 = b0 ? b0->isKinematic() : false;
 		const bool kine1 = b1 ? b1->isKinematic() : false;
 
-		if(filterKinematics(b0, b1, kine0, kine1, context.mSceneFlags))
+		if(filterKinematics(b0, b1, kine0, kine1, context.mKineKineFilteringMode, context.mStaticKineFilteringMode))
 			return filterOutRbCollisionPair(context.mFilterPairManager, filterPairIndex, PxFilterFlag::eSUPPRESS);
 
 		const ActorSim& rbActor0 = s0.getActor();
@@ -535,7 +540,8 @@ static PX_FORCE_INLINE PxFilterInfo filterRbCollisionPair(const FilteringContext
 	PX_ASSERT(!(s0.getFlags() & PxShapeFlag::eTRIGGER_SHAPE));
 	PX_ASSERT(!(s1.getFlags() & PxShapeFlag::eTRIGGER_SHAPE));
 
-	if(filterKinematics(b0, b1, kine0, kine1, context.mSceneFlags))
+	if(filterKinematics(b0, b1, kine0, kine1, context.mKineKineFilteringMode, context.mStaticKineFilteringMode))
+//	if(filterKinematics(b0, b1, kine0, kine1, context.mSceneFlags))
 		return PxFilterInfo(PxFilterFlag::eSUPPRESS);
 
 	if(filterJointedBodies(b0, b1, rbActor0, rbActor1))

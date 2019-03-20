@@ -28,12 +28,14 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "PxTriangleMeshExt.h"
-#include "PxMeshQuery.h"
-#include "PxGeometryQuery.h"
-#include "PxTriangleMeshGeometry.h"
-#include "PxHeightFieldGeometry.h"
-#include "PxTriangleMesh.h"
+#include "geometry/PxMeshQuery.h"
+#include "geometry/PxGeometryQuery.h"
+#include "geometry/PxTriangleMeshGeometry.h"
+#include "geometry/PxHeightFieldGeometry.h"
+#include "geometry/PxHeightField.h"
+#include "geometry/PxTriangleMesh.h"
+#include "extensions/PxTriangleMeshExt.h"
+
 #include "PsAllocator.h"
 
 using namespace physx;
@@ -81,24 +83,32 @@ PxU32 PxMeshOverlapUtil::findOverlap(const PxGeometry& geom, const PxTransform& 
 PxU32 PxMeshOverlapUtil::findOverlap(const PxGeometry& geom, const PxTransform& geomPose, const PxHeightFieldGeometry& hfGeom, const PxTransform& hfPose)
 {
 	bool overflow = true;
-	PxU32 nbTouchedTris = 0;
-	do
-	{
-		nbTouchedTris = PxMeshQuery::findOverlapHeightField(geom, geomPose, hfGeom, hfPose, mResultsMemory, mMaxNbResults, 0, overflow);
-		if(overflow)
-		{
-			const PxU32 maxNbTris = mMaxNbResults * 2;
+	PxU32 nbTouchedTris = PxMeshQuery::findOverlapHeightField(geom, geomPose, hfGeom, hfPose, mResultsMemory, mMaxNbResults, 0, overflow);
 
+	if(overflow)
+	{
+		const PxU32 maxNbTris = hfGeom.heightField->getNbRows()*hfGeom.heightField->getNbColumns()*2;
+		if(!maxNbTris)
+		{
+			mNbResults = 0;
+			return 0;
+		}
+
+		if(mMaxNbResults<maxNbTris)
+		{
 			if(mResultsMemory != mResults)
 				PX_FREE(mResultsMemory);
 
 			mResultsMemory = reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*maxNbTris, "PxMeshOverlapUtil::findOverlap"));
 			mMaxNbResults = maxNbTris;
 		}
-	}while(overflow);
-
+		nbTouchedTris = PxMeshQuery::findOverlapHeightField(geom, geomPose, hfGeom, hfPose, mResultsMemory, mMaxNbResults, 0, overflow);
+		PX_ASSERT(nbTouchedTris);
+		PX_ASSERT(!overflow);
+	}
 	mNbResults = nbTouchedTris;
 	return nbTouchedTris;
+
 }
 namespace
 {

@@ -28,21 +28,22 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxIO.h"
-#include "PxExtensionsAPI.h"
+#include "common/PxMetaData.h"
+#include "common/PxSerializer.h"
+#include "extensions/PxExtensionsAPI.h"
+#include "extensions/PxRepXSerializer.h"
+
 #include "PsFoundation.h"
-#include "PxMetaData.h"
 #include "ExtDistanceJoint.h"
 #include "ExtD6Joint.h"
 #include "ExtFixedJoint.h"
 #include "ExtPrismaticJoint.h"
 #include "ExtRevoluteJoint.h"
 #include "ExtSphericalJoint.h"
-#include "PxRepXSerializer.h"
+#include "ExtSerialization.h"
 #include "SnRepXCoreSerializer.h"
 #include "SnJointRepXSerializer.h"
 #include "PxExtensionMetaDataObjects.h"
-#include "PxSerializer.h"
-#include "ExtSerialization.h"
 
 #if PX_SUPPORT_PVD
 #include "ExtPvd.h"
@@ -135,32 +136,32 @@ void PxCloseExtensions(void)
 void Ext::RegisterExtensionsSerializers(PxSerializationRegistry& sr)
 {
 	//for repx serialization
-	sr.registerRepXSerializer(PxConcreteType::eMATERIAL,			PX_NEW_REPX_SERIALIZER( PxMaterialRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eSHAPE,				PX_NEW_REPX_SERIALIZER( PxShapeRepXSerializer ));	
-//	sr.registerRepXSerializer(PxConcreteType::eTRIANGLE_MESH,		PX_NEW_REPX_SERIALIZER( PxTriangleMeshRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eTRIANGLE_MESH_BVH33,	PX_NEW_REPX_SERIALIZER( PxBVH33TriangleMeshRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eTRIANGLE_MESH_BVH34,	PX_NEW_REPX_SERIALIZER( PxBVH34TriangleMeshRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eHEIGHTFIELD,			PX_NEW_REPX_SERIALIZER( PxHeightFieldRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eCONVEX_MESH,			PX_NEW_REPX_SERIALIZER( PxConvexMeshRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eRIGID_STATIC,		PX_NEW_REPX_SERIALIZER( PxRigidStaticRepXSerializer ));	
-	sr.registerRepXSerializer(PxConcreteType::eRIGID_DYNAMIC,		PX_NEW_REPX_SERIALIZER( PxRigidDynamicRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eARTICULATION,		PX_NEW_REPX_SERIALIZER( PxArticulationRepXSerializer ));
-	sr.registerRepXSerializer(PxConcreteType::eAGGREGATE,			PX_NEW_REPX_SERIALIZER( PxAggregateRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eMATERIAL,						PX_NEW_REPX_SERIALIZER( PxMaterialRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eSHAPE,							PX_NEW_REPX_SERIALIZER( PxShapeRepXSerializer ));	
+	sr.registerRepXSerializer(PxConcreteType::eTRIANGLE_MESH_BVH33,				PX_NEW_REPX_SERIALIZER( PxBVH33TriangleMeshRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eTRIANGLE_MESH_BVH34,				PX_NEW_REPX_SERIALIZER( PxBVH34TriangleMeshRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eHEIGHTFIELD,						PX_NEW_REPX_SERIALIZER( PxHeightFieldRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eCONVEX_MESH,						PX_NEW_REPX_SERIALIZER( PxConvexMeshRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eRIGID_STATIC,					PX_NEW_REPX_SERIALIZER( PxRigidStaticRepXSerializer ));	
+	sr.registerRepXSerializer(PxConcreteType::eRIGID_DYNAMIC,					PX_NEW_REPX_SERIALIZER( PxRigidDynamicRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eARTICULATION,					PX_NEW_REPX_SERIALIZER( PxArticulationRepXSerializer ));
+	sr.registerRepXSerializer(PxConcreteType::eARTICULATION_REDUCED_COORDINATE,	PX_NEW_REPX_SERIALIZER( PxArticulationReducedCoordinateRepXSerializer));
+	sr.registerRepXSerializer(PxConcreteType::eAGGREGATE,						PX_NEW_REPX_SERIALIZER( PxAggregateRepXSerializer ));
 	
-	sr.registerRepXSerializer(PxJointConcreteType::eFIXED,			PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxFixedJoint> ));
-	sr.registerRepXSerializer(PxJointConcreteType::eDISTANCE,		PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxDistanceJoint> ));
-	sr.registerRepXSerializer(PxJointConcreteType::eD6,				PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxD6Joint> ));
-	sr.registerRepXSerializer(PxJointConcreteType::ePRISMATIC,		PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxPrismaticJoint> ));
-	sr.registerRepXSerializer(PxJointConcreteType::eREVOLUTE,		PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxRevoluteJoint> ));
-	sr.registerRepXSerializer(PxJointConcreteType::eSPHERICAL,		PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxSphericalJoint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::eFIXED,						PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxFixedJoint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::eDISTANCE,					PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxDistanceJoint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::eD6,							PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxD6Joint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::ePRISMATIC,					PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxPrismaticJoint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::eREVOLUTE,					PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxRevoluteJoint> ));
+	sr.registerRepXSerializer(PxJointConcreteType::eSPHERICAL,					PX_NEW_REPX_SERIALIZER( PxJointRepXSerializer<PxSphericalJoint> ));
 
 	//for binary serialization
-	sr.registerSerializer(PxJointConcreteType::eFIXED,				PX_NEW_SERIALIZER_ADAPTER( FixedJoint ));
-	sr.registerSerializer(PxJointConcreteType::eDISTANCE,			PX_NEW_SERIALIZER_ADAPTER( DistanceJoint ));
-	sr.registerSerializer(PxJointConcreteType::eD6,					PX_NEW_SERIALIZER_ADAPTER( D6Joint) );
-	sr.registerSerializer(PxJointConcreteType::ePRISMATIC,			PX_NEW_SERIALIZER_ADAPTER( PrismaticJoint ));
-	sr.registerSerializer(PxJointConcreteType::eREVOLUTE,			PX_NEW_SERIALIZER_ADAPTER( RevoluteJoint ));
-	sr.registerSerializer(PxJointConcreteType::eSPHERICAL,			PX_NEW_SERIALIZER_ADAPTER( SphericalJoint ));
+	sr.registerSerializer(PxJointConcreteType::eFIXED,							PX_NEW_SERIALIZER_ADAPTER( FixedJoint ));
+	sr.registerSerializer(PxJointConcreteType::eDISTANCE,						PX_NEW_SERIALIZER_ADAPTER( DistanceJoint ));
+	sr.registerSerializer(PxJointConcreteType::eD6,								PX_NEW_SERIALIZER_ADAPTER( D6Joint) );
+	sr.registerSerializer(PxJointConcreteType::ePRISMATIC,						PX_NEW_SERIALIZER_ADAPTER( PrismaticJoint ));
+	sr.registerSerializer(PxJointConcreteType::eREVOLUTE,						PX_NEW_SERIALIZER_ADAPTER( RevoluteJoint ));
+	sr.registerSerializer(PxJointConcreteType::eSPHERICAL,						PX_NEW_SERIALIZER_ADAPTER( SphericalJoint ));
 }
 
 void Ext::UnregisterExtensionsSerializers(PxSerializationRegistry& sr)
@@ -182,6 +183,7 @@ void Ext::UnregisterExtensionsSerializers(PxSerializationRegistry& sr)
 	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxConcreteType::eRIGID_STATIC));	
 	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxConcreteType::eRIGID_DYNAMIC));
 	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxConcreteType::eARTICULATION));
+	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxConcreteType::eARTICULATION_REDUCED_COORDINATE));
 	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxConcreteType::eAGGREGATE));
 
 	PX_DELETE_REPX_SERIALIZER(sr.unregisterRepXSerializer(PxJointConcreteType::eFIXED));

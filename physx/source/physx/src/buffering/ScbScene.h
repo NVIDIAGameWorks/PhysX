@@ -142,10 +142,10 @@ namespace Scb
 	class MaterialEvent
 	{
 	public:
-		PX_FORCE_INLINE	MaterialEvent(PxU32 handle, MATERIAL_EVENT type) : mHandle(handle), mType(type)	{}
+		PX_FORCE_INLINE	MaterialEvent(PxU16 handle, MATERIAL_EVENT type) : mHandle(handle), mType(type)	{}
 		PX_FORCE_INLINE	MaterialEvent()																	{}
 
-		PxU32			mHandle;//handle to the master material table
+		PxU16			mHandle;//handle to the master material table
 		MATERIAL_EVENT	mType;
 	};
 
@@ -161,7 +161,8 @@ namespace Scb
 			BF_DOMINANCE_PAIRS			= (1 << 3),
 			BF_SOLVER_BATCH_SIZE		= (1 << 4),
 			BF_VISUALIZATION			= (1 << 5),
-			BF_CULLING_BOX				= (1 << 6)
+			BF_CULLING_BOX				= (1 << 6),
+			BF_SOLVER_ARTIC_BATCH_SIZE	= (1 << 7)
 		};
 
 	public:
@@ -243,6 +244,9 @@ namespace Scb
 
 		PX_INLINE void						setSolverBatchSize(PxU32 solverBatchSize);
 		PX_INLINE PxU32						getSolverBatchSize() const;
+
+		PX_INLINE void						setSolverArticulationBatchSize(PxU32 solverBatchSize);
+		PX_INLINE PxU32						getSolverArticulationBatchSize() const;
 
 		PX_INLINE void						simulate(PxReal timeStep, PxBaseTask* continuation)	{ mScene.simulate(timeStep, continuation);	}
 		PX_INLINE void						collide(PxReal timeStep, PxBaseTask* continuation)	{ mScene.collide(timeStep, continuation);	}
@@ -640,9 +644,31 @@ PX_INLINE void Scb::Scene::setSolverBatchSize(PxU32 solverBatchSize)
 	}
 }
 
+PX_INLINE PxU32 Scb::Scene::getSolverArticulationBatchSize() const
+{
+	if(isBuffered(BF_SOLVER_ARTIC_BATCH_SIZE))
+		return mBufferedData.mSolverBatchSize;
+	else
+		return mScene.getSolverArticBatchSize();
+}
+
+PX_INLINE void Scb::Scene::setSolverArticulationBatchSize(PxU32 solverBatchSize)
+{
+	if (!isPhysicsBuffering())
+	{
+		mScene.setSolverArticBatchSize(solverBatchSize);
+		updatePvdProperties();
+	}
+	else
+	{
+		mBufferedData.mSolverArticulationBatchSize = solverBatchSize;
+		markUpdated(BF_SOLVER_ARTIC_BATCH_SIZE);
+	}
+}
+
 PX_INLINE PxU32 Scb::Scene::getSolverBatchSize() const
 {
-	if(isBuffered(BF_SOLVER_BATCH_SIZE))
+	if (isBuffered(BF_SOLVER_BATCH_SIZE))
 		return mBufferedData.mSolverBatchSize;
 	else
 		return mScene.getSolverBatchSize();

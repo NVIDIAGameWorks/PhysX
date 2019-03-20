@@ -1,6 +1,6 @@
 var classPxVehicleDriveDynData =
 [
-    [ "eMAX_NB_ANALOG_INPUTS", "classPxVehicleDriveDynData.html#a87e3e187ebb0dfebd7650c359aecaa26abb804b086657c71c6737676966a60980", null ],
+    [ "eMAX_NB_ANALOG_INPUTS", "classPxVehicleDriveDynData.html#a9eb80a7fe1316aec1a2e1be319e97a65abb804b086657c71c6737676966a60980", null ],
     [ "PxVehicleDriveDynData", "classPxVehicleDriveDynData.html#af38233e891d581d123bcae2724d57dc7", null ],
     [ "PxVehicleDriveDynData", "classPxVehicleDriveDynData.html#a5395d429ef9607844d63447c2b89c146", null ],
     [ "forceGearChange", "classPxVehicleDriveDynData.html#abac968004f04f286fa6cd9ca4ef5f3ca", null ],

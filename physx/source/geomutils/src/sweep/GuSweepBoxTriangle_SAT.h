@@ -30,8 +30,9 @@
 #ifndef GU_SWEEP_BOX_TRIANGLE_SAT_H
 #define GU_SWEEP_BOX_TRIANGLE_SAT_H
 
+#include "geometry/PxTriangle.h"
+
 #include "GuSweepSharedTests.h"
-#include "PxTriangle.h"
 
 	#define	RetType	int
 	#define	MTDType	bool

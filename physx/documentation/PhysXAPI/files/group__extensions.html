@@ -248,7 +248,7 @@ Macros</h2></td></tr>
 <tr class="memitem:gaf9d523f77e7143a4c7e49424d9f0081e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__extensions.html#gaf9d523f77e7143a4c7e49424d9f0081e">PX_DELETE_SERIALIZER_ADAPTER</a>(x)&#160;&#160;&#160;{ <a class="el" href="classPxSerializer.html">PxSerializer</a>* s = x; if (s) { s-&gt;~<a class="el" href="classPxSerializer.html">PxSerializer</a>(); <a class="el" href="group__foundation.html#ga2f06b47e22c6e93701d766444c67f3a6">PxGetFoundation</a>().getAllocatorCallback().deallocate(s); } }</td></tr>
 <tr class="memdesc:gaf9d523f77e7143a4c7e49424d9f0081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Preprocessor Macro to simplify adapter deletion.  <a href="#gaf9d523f77e7143a4c7e49424d9f0081e">More...</a><br /></td></tr>
 <tr class="separator:gaf9d523f77e7143a4c7e49424d9f0081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaced14ebcd90bf2d866b38867cde959ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__extensions.html#gaced14ebcd90bf2d866b38867cde959ae">PX_BINARY_SERIAL_VERSION</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:gaced14ebcd90bf2d866b38867cde959ae"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__extensions.html#gaced14ebcd90bf2d866b38867cde959ae">PX_BINARY_SERIAL_VERSION</a>&#160;&#160;&#160;&quot;9CC88140D6474C72BA8410E38FE6CAB1&quot;</td></tr>
 <tr class="separator:gaced14ebcd90bf2d866b38867cde959ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -429,12 +429,11 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PX_BINARY_SERIAL_VERSION&#160;&#160;&#160;0</td>
+          <td class="memname">#define PX_BINARY_SERIAL_VERSION&#160;&#160;&#160;&quot;9CC88140D6474C72BA8410E38FE6CAB1&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>PX_BINARY_SERIAL_VERSION is used to specify the binary data format compatibility additionally to the physics sdk version. The binary format version is defined as "PX_PHYSICS_VERSION_MAJOR.PX_PHYSICS_VERSION_MINOR.PX_PHYSICS_VERSION_BUGFIX-PX_BINARY_SERIAL_VERSION". The following binary format versions are compatible with the current physics version: (no compatible versions)</p>
-<p>The PX_BINARY_SERIAL_VERSION for a given PhysX release is typically 0. If incompatible modifications are made to a customer specific branch the number should be increased. </p>
+<p>PX_BINARY_SERIAL_VERSION is used to version the PhysX binary data and meta data. The global unique identifier of the PhysX SDK needs to match the one in the data and meta data, otherwise they are considered incompatible. A 32 character wide GUID can be generated with <a href="https://www.guidgenerator.com/">https://www.guidgenerator.com/</a> for example. </p>
 
 </div>
 </div>
@@ -474,7 +473,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">*<span class="keyword">new</span>( <a class="code" href="group__foundation.html#ga2f06b47e22c6e93701d766444c67f3a6">PxGetFoundation</a>().getAllocatorCallback().allocate(<span class="keyword">sizeof</span>(<a class="code" href="classPxSerializerDefaultAdapter.html">PxSerializerDefaultAdapter&lt;x&gt;</a>), \</div><div class="line">    <span class="stringliteral">&quot;PxSerializerDefaultAdapter&quot;</span>,  __FILE__, __LINE__ )) <a class="code" href="classPxSerializerDefaultAdapter.html">PxSerializerDefaultAdapter&lt;x&gt;</a>(#x)</div><div class="ttc" id="group__foundation_html_ga2f06b47e22c6e93701d766444c67f3a6"><div class="ttname"><a href="group__foundation.html#ga2f06b47e22c6e93701d766444c67f3a6">PxGetFoundation</a></div><div class="ttdeci">PX_C_EXPORT PX_FOUNDATION_API physx::PxFoundation &amp;PX_CALL_CONV PxGetFoundation()</div><div class="ttdoc">Retrieves the Foundation SDK after it has been created. </div></div>
-<div class="ttc" id="classPxSerializerDefaultAdapter_html"><div class="ttname"><a href="classPxSerializerDefaultAdapter.html">PxSerializerDefaultAdapter</a></div><div class="ttdoc">Default PxSerializer implementation. </div><div class="ttdef"><b>Definition:</b> PxSerializer.h:148</div></div>
+<div class="ttc" id="classPxSerializerDefaultAdapter_html"><div class="ttname"><a href="classPxSerializerDefaultAdapter.html">PxSerializerDefaultAdapter</a></div><div class="ttdoc">Default PxSerializer implementation. </div><div class="ttdef"><b>Definition:</b> PxSerializer.h:151</div></div>
 </div><!-- fragment -->
 <p>Preprocessor Macro to simplify adapter creation. </p>
 <p>Note: that the allocator used for creation needs to match with the one used in PX_DELETE_SERIALIZER_ADAPTER. </p>

@@ -33,10 +33,11 @@
 #include "foundation/PxSimpleTypes.h"
 #include "foundation/PxVec4.h"
 #include "foundation/PxBounds3.h"
+#include "geometry/PxTriangleMesh.h"
+
 #include "PsUserAllocated.h"
-#include "CmPhysXCommon.h"
 #include "PsAllocator.h"
-#include "PxTriangleMesh.h"
+#include "CmPhysXCommon.h"
 #include "GuRTree.h"
 #include "GuBV4.h"
 #include "GuBV32.h"

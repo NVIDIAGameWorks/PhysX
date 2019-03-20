@@ -30,9 +30,9 @@
 #ifndef GU_CONTACTBUFFER_H
 #define GU_CONTACTBUFFER_H
 
+#include "geomutils/GuContactPoint.h"
 #include "PxPhysXConfig.h"
 #include "PxContact.h"
-#include "GuContactPoint.h"
 
 namespace physx
 {

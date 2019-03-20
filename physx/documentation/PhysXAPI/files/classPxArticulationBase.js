@@ -1,9 +1,5 @@
 var classPxArticulationBase =
 [
-    [ "Enum", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4", [
-      [ "eReducedCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad", null ],
-      [ "eMaximumCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf", null ]
-    ] ],
     [ "~PxArticulationBase", "classPxArticulationBase.html#a6fe7170f2077b283b7da5dfb23b25ba0", null ],
     [ "PxArticulationBase", "classPxArticulationBase.html#abdd331a2b48fd30ad35af280772996d9", null ],
     [ "PxArticulationBase", "classPxArticulationBase.html#a07f4354244d4d6dbc0adec96ccf2ab85", null ],
@@ -19,7 +15,6 @@ var classPxArticulationBase =
     [ "getSleepThreshold", "classPxArticulationBase.html#a27983cb67e45e167edc2c698a2c125a5", null ],
     [ "getSolverIterationCounts", "classPxArticulationBase.html#ae292db93f6052f91036b3bbf56286739", null ],
     [ "getStabilizationThreshold", "classPxArticulationBase.html#a3c460c0dc44c8170b0b494c38c13d1dc", null ],
-    [ "getType", "classPxArticulationBase.html#acb9a9c0e3cb4b16a63b828f89067a733", null ],
     [ "getWakeCounter", "classPxArticulationBase.html#afb872fa8ecea5c1bc226a8e4ba0b2256", null ],
     [ "getWorldBounds", "classPxArticulationBase.html#a77173436aa4210cfa9f29e33dce66d1b", null ],
     [ "isSleeping", "classPxArticulationBase.html#aa4689e7adf28a83f73301ea4eec0ca98", null ],

@@ -32,8 +32,8 @@
 #include "D3D9RendererIndexBuffer.h"
 #include <RendererIndexBufferDesc.h>
 
-#if PX_WINDOWS
-#include <task/PxTask.h>
+#if PX_SUPPORT_GPU_PHYSX
+#include <cudamanager/PxCudaContextManager.h>
 #endif
 
 using namespace SampleRenderer;

@@ -31,10 +31,11 @@
 #define GU_CONVEX_MESH_DATA_H
 
 #include "foundation/PxPlane.h"
+#include "foundation/PxBitAndData.h"
+
 #include "PsIntrinsics.h"
 #include "GuSerialize.h"
 #include "GuCenterExtents.h"
-#include "foundation/PxBitAndData.h"
 
 // Data definition
 

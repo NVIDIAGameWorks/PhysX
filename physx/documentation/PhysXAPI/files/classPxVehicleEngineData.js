@@ -1,6 +1,6 @@
 var classPxVehicleEngineData =
 [
-    [ "eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES", "classPxVehicleEngineData.html#a0d1b44dcf6ca1dc85306c47fd8664b21a36fa1b079397822aa5a1f800221bd9af", null ],
+    [ "eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES", "classPxVehicleEngineData.html#a01db24d707cdda32882ccb5dd07e1911a36fa1b079397822aa5a1f800221bd9af", null ],
     [ "PxVehicleEngineData", "classPxVehicleEngineData.html#a003aa44611d0be2a466787521db49fb2", null ],
     [ "PxVehicleEngineData", "classPxVehicleEngineData.html#aa24a9523ad4a01e87df3a6d1d7c168a1", null ],
     [ "getRecipMaxOmega", "classPxVehicleEngineData.html#a025daaaa87f9eb06e8d715201ea59091", null ],

@@ -47,6 +47,8 @@ namespace physx
 {
 #endif
 
+	class PxCudaContextManager;
+
 /**
 \brief Pruning structure used to accelerate scene queries.
 
@@ -220,30 +222,6 @@ struct PxSceneFlag
 		eADAPTIVE_FORCE			= (1<<3),
 
 		/**
-		\brief Enable contact pair filtering between kinematic and static rigid bodies.
-		
-		By default contacts between kinematic and static rigid bodies are suppressed (see #PxFilterFlag::eSUPPRESS) and don't get reported to the filter mechanism.
-		Raise this flag if these pairs should go through the filtering pipeline nonetheless.
-
-		\note This flag is not mutable, and must be set in PxSceneDesc at scene creation.
-
-		<b>Default:</b> false
-		*/
-		eENABLE_KINEMATIC_STATIC_PAIRS	PX_DEPRECATED = (1<<4),
-
-		/**
-		\brief Enable contact pair filtering between kinematic rigid bodies.
-		
-		By default contacts between kinematic bodies are suppressed (see #PxFilterFlag::eSUPPRESS) and don't get reported to the filter mechanism.
-		Raise this flag if these pairs should go through the filtering pipeline nonetheless.
-
-		\note This flag is not mutable, and must be set in PxSceneDesc at scene creation.
-
-		<b>Default:</b> false
-		*/
-		eENABLE_KINEMATIC_PAIRS	PX_DEPRECATED = (1<<5),
-
-		/**
 		\brief Enable GJK-based distance collision detection system.
 		
 		\note This flag is not mutable, and must be set in PxSceneDesc at scene creation.
@@ -326,7 +304,7 @@ struct PxSceneFlag
 
 		/*\brief Enables the GPU dynamics pipeline
 
-		When set to true, a CUDA ARCH 3.0 or above-enabled NVIDIA GPU is present and the GPU dispatcher has been configured, this will run the GPU dynamics pipelin instead of the CPU dynamics pipeline.
+		When set to true, a CUDA ARCH 3.0 or above-enabled NVIDIA GPU is present and the CUDA context manager has been configured, this will run the GPU dynamics pipelin instead of the CPU dynamics pipeline.
 
 		Note that this flag is not mutable and must be set in PxSceneDesc at scene creation.
 		*/
@@ -700,13 +678,13 @@ public:
 	PxCpuDispatcher*		cpuDispatcher;
 
 	/**
-	\brief The GPU task dispatcher for the scene.
+	\brief The CUDA context manager for the scene.
 
 	<b>Platform specific:</b> Applies to PC GPU only.
 
-	See PxGpuDispatcher, PxScene::getGpuDispatcher
+	See PxCudaContextManager, PxScene::getCudaContextManager
 	*/
-	PxGpuDispatcher* 		gpuDispatcher;
+	PxCudaContextManager* 	cudaContextManager;
 
 	/**
 	\brief Defines the structure used to store static objects.
@@ -761,11 +739,30 @@ public:
 	detrimentally affect performance if some bodies in the scene have large solver iteration counts because all constraints in a given island are solved by the 
 	maximum number of solver iterations requested by any body in the island.
 
+	Note that a rigid body solver task chain is spawned as soon as either a sufficient number of rigid bodies or articulations are batched together.
+
 	<b>Default:</b> 128
 
 	@see PxScene.setSolverBatchSize() PxScene.getSolverBatchSize()
 	*/
 	PxU32					solverBatchSize;
+
+	/**
+	\brief Defines the number of articulations required to spawn a separate rigid body solver island task chain.
+
+	This parameter defines the minimum number of articulations required to spawn a separate rigid body solver task chain. Setting a low value
+	will potentially cause more task chains to be generated. This may result in the overhead of spawning tasks can become a limiting performance factor.
+	Setting a high value will potentially cause fewer islands to be generated. This may reduce thread scaling (fewer task chains spawned) and may
+	detrimentally affect performance if some bodies in the scene have large solver iteration counts because all constraints in a given island are solved by the
+	maximum number of solver iterations requested by any body in the island.
+
+	Note that a rigid body solver task chain is spawned as soon as either a sufficient number of rigid bodies or articulations are batched together. 
+
+	<b>Default:</b> 128
+
+	@see PxScene.setSolverArticulationBatchSize() PxScene.getSolverArticulationBatchSize()
+	*/
+	PxU32					solverArticulationBatchSize;
 
 	/**
 	\brief Setting to define the number of 16K blocks that will be initially reserved to store contact, friction, and contact cache data.
@@ -980,7 +977,7 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	flags								(PxSceneFlag::eENABLE_PCM),
 
 	cpuDispatcher						(NULL),
-	gpuDispatcher						(NULL),
+	cudaContextManager					(NULL),
 
 	staticStructure						(PxPruningStructureType::eDYNAMIC_AABB_TREE),
 	dynamicStructure					(PxPruningStructureType::eDYNAMIC_AABB_TREE),
@@ -990,6 +987,7 @@ PX_INLINE PxSceneDesc::PxSceneDesc(const PxTolerancesScale& scale):
 	userData							(NULL),
 
 	solverBatchSize						(128),
+	solverArticulationBatchSize			(16),
 
 	nbContactDataBlocks					(0),
 	maxNbContactDataBlocks				(1<<16),

@@ -31,8 +31,8 @@
 #define GU_HEIGHTFIELD_DATA_H
 
 #include "foundation/PxSimpleTypes.h"
-#include "PxHeightFieldFlag.h"
-#include "PxHeightFieldSample.h"
+#include "geometry/PxHeightFieldFlag.h"
+#include "geometry/PxHeightFieldSample.h"
 #include "GuCenterExtents.h"
 
 namespace physx

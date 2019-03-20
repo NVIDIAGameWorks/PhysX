@@ -97,7 +97,7 @@ class PxsContext : public Ps::UserAllocated, public PxcNpContext
 {
 												PX_NOCOPY(PxsContext)
 public:
-												PxsContext(	const PxSceneDesc& desc, PxTaskManager*, Cm::FlushPool&, PxU64 contextID);
+												PxsContext(	const PxSceneDesc& desc, PxTaskManager*, Cm::FlushPool&, PxCudaContextManager*, PxU64 contextID);
 												~PxsContext();
 
 					void						removeRigidBody(PxsRigidBody&);
@@ -222,6 +222,11 @@ public:
 													return *mTaskManager; 
 												}
 
+	PX_FORCE_INLINE PxCudaContextManager*		getCudaContextManager()
+												{
+													return mCudaContextManager;
+												}
+
 	PX_FORCE_INLINE	void						clearManagerTouchEvents();
 
 	PX_FORCE_INLINE Cm::PoolList<PxsContactManager, PxsContext>& getContactManagerPool()
@@ -292,6 +297,7 @@ private:
 					PxTaskManager*				mTaskManager;
 					Cm::FlushPool&				mTaskPool;
 
+					PxCudaContextManager*		mCudaContextManager;
 
 					//	PxU32					mTouchesLost;
 					//	PxU32					mTouchesFound;

@@ -33,8 +33,9 @@
 /* Exclude from documentation */
 /** \cond */
 
+#include "characterkinematic/PxCapsuleController.h"
+
 #include "CctController.h"
-#include "PxCapsuleController.h"
 
 namespace physx
 {

@@ -63,6 +63,7 @@ public:
 // PX_SERIALIZATION
 	static			void					getBinaryMetaData(PxOutputStream& stream);
 											NpShapeManager(const PxEMPTY);
+					void					preExportDataReset();
 					void					exportExtraData(PxSerializationContext& stream);
 					void					importExtraData(PxDeserializationContext& context);
 //~PX_SERIALIZATION

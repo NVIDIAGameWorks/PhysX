@@ -36,49 +36,32 @@
 #include "PxArticulationBase.h"
 #include "foundation/PxVec3.h"
 #include "foundation/PxTransform.h"
+#include "solver/PxSolverDefs.h"
 
 #if !PX_DOXYGEN
 namespace physx
 {
 #endif
 
-	namespace Cm
+	PX_ALIGN_PREFIX(16)
+	struct PxSpatialForce
 	{
-		class SpatialVector;
+		PxVec3 force;
+		PxReal pad0;
+		PxVec3 torque;
+		PxReal pad1;
 	}
-
-	class PxContactJoint;
-
-	struct PxArticulationFlag
-	{
-		enum Enum
-		{
-			eFIX_BASE = (1 << 0)
-		};
-	};
+	PX_ALIGN_SUFFIX(16);
 
 	class PxJoint;
 
-	typedef PxFlags<PxArticulationFlag::Enum, PxU8> PxArticulationFlags;
-	PX_FLAGS_OPERATORS(PxArticulationFlag::Enum, PxU8)
-
-	//PxKinematicJacobian is in world space 6x6 matrix
-	class PxKinematicJacobian
-	{
-	public:
-		//in each single column, top part is angular term and bottom is linear term
-		PxReal j[6][6];//[column][row]
-
-		PxU32	nbColumns;
-	};
-
 	struct PxArticulationRootLinkData
 	{
-		PxTransform				transform;
-		PxVec3					linVel;
-		PxVec3					angVel;
-		PxVec3					linAcel;
-		PxVec3					angAcel;
+		PxTransform	transform;
+		PxVec3		worldLinVel;
+		PxVec3		worldAngVel;
+		PxVec3		worldLinAccel;
+		PxVec3		worldAngAccel;
 	};
 
 	class PxArticulationCache
@@ -93,28 +76,39 @@ namespace physx
 			eROOT			= (1 << 4),		//!< Root link transform, velocity and acceleration. Note, when the application call applyCache with eROOT flag, it won't apply root link's acceleration to the simulation
 			eALL			= (eVELOCITY | eACCELERATION | ePOSITION| eROOT)
 		};
-		PxArticulationCache() : coefficentMatrix(NULL), lambda(NULL)
+		PxArticulationCache() :
+			externalForces		(NULL),
+			denseJacobian		(NULL),
+			massMatrix			(NULL),
+			jointVelocity		(NULL),
+			jointAcceleration	(NULL),
+			jointPosition		(NULL),
+			jointForce			(NULL),
+			rootLinkData		(NULL),
+			coefficientMatrix	(NULL),
+			lambda				(NULL),
+			scratchMemory		(NULL),
+			scratchAllocator	(NULL),
+			version				(0)
 		{}
 
-		Cm::SpatialVector*		externalForces; // N total number of links
-		PxKinematicJacobian*	jacobian; //this store jacobian matrix
-		PxReal*					massMatrix; //N X N (dof X dof)
-		PxReal*					jointVelocity; //N total Dofs
-		PxReal*					jointAcceleration; //N total Dofs
-		PxReal*					jointPosition; //N total Dofs
-		PxReal*					jointForce; //N total Dofs
+		PxSpatialForce*				externalForces;		// N = getNbLinks()
+		PxReal*						denseJacobian;		// N = 6*getDofs()*NumJoints, NumJoints = getNbLinks() - 1
+		PxReal*						massMatrix;			// N = getDofs()*getDofs()
+		PxReal*						jointVelocity;		// N = getDofs()
+		PxReal*						jointAcceleration;	// N = getDofs()
+		PxReal*						jointPosition;		// N = getDofs()
+		PxReal*						jointForce;			// N = getDofs()
+		PxArticulationRootLinkData*	rootLinkData;		// root link Data
 
 		//application need to allocate those memory and assign them to the cache
-		PxReal*					coefficentMatrix; 
-		PxReal*					lambda;
-
-		//root link data
-		PxArticulationRootLinkData	rootLinkData;
+		PxReal*						coefficientMatrix; 
+		PxReal*						lambda;
 
 		//These three members won't be set to zero when zeroCache get called 
-		void*					scratchMemory;		//this is used for internal calculation
-		void*					scratchAllocator;
-		PxU32					version; //cache version. If the articulation configulation change, the cache is invalid
+		void*						scratchMemory;		//this is used for internal calculation
+		void*						scratchAllocator;
+		PxU32						version;			//cache version. If the articulation configuration change, the cache is invalid
 	};
 
 	typedef PxFlags<PxArticulationCache::Enum, PxU8> PxArticulationCacheFlags;
@@ -235,7 +229,7 @@ namespace physx
 		virtual		void					unpackJointData(const PxReal* reduced, PxReal* maximum) const = 0;
 
 		/**
-		\brief initialize all the common data for inverse dynamic
+		\brief initialize all the common data for inverse dynamics
 		*/
 		virtual		void					commonInit() const = 0;
 
@@ -291,27 +285,30 @@ namespace physx
 		virtual		void					computeJointForce(PxArticulationCache& cache) const = 0;
 
 		/**
-		\brief compute the kinematic jacobian for each joint from end effector to the root in world space
-		\param[in] linkID is the end effector id
-		\param[in] cache return jacobian matrix
+		\brief compute the dense Jacobian for the entire articulation in world space
+		\param[out] cache sets cache.denseJacobian matrix.  The matrix is indexed [nCols * row + column].
+		\param[out] nRows set to number of rows in matrix, which corresponds to the number of articulation links times 6.
+		\param[out] nCols set to number of columns in matrix, which corresponds to the number of joint DOFs, plus 6 in the case eFIX_BASE is false.
 
-		@see commonInit
+		Note that this computes the dense representation of an inherently sparse matrix.  Multiplication with this matrix maps 
+		joint space velocities to 6DOF world space linear and angular velocities.
 		*/
-		virtual		void					computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache) const = 0;
+		virtual		void					computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const = 0;
+
 
 		/**
-		\brief compute the coefficent matrix for contact force. PxContactJoint is the contact point
-		\param[out] cache returs the coefficent matrix. Each column is the joint force effected by a contact based on impulse strength 1
+		\brief compute the coefficient matrix for contact force.
+		\param[out] cache returns the coefficient matrix. Each column is the joint force effected by a contact based on impulse strength 1
 		@see commonInit
 		*/
-		virtual		void					computeCoefficentMatrix(PxArticulationCache& cache) const = 0;
+		virtual		void					computeCoefficientMatrix(PxArticulationCache& cache) const = 0;
 		
 		/**
 		\brief compute the lambda value when the test impulse is 1
 		\param[in] initialState the initial state of the articulation system
 		\param[in] jointTorque M(q)*qddot + C(q,qdot) + g(q)
 		\param[in] maxIter maximum number of solver iterations to run. If the system converges, fewer iterations may be used. 
-		\param[out] cache returns the coefficent matrix. Each column is the joint force effected by a contact based on impulse strength 1
+		\param[out] cache returns the coefficient matrix. Each column is the joint force effected by a contact based on impulse strength 1
 		@see commonInit
 		*/
 		virtual		bool					computeLambda(PxArticulationCache& cache, PxArticulationCache& initialState, const PxReal* const jointTorque, const PxU32 maxIter) const = 0;
@@ -364,7 +361,7 @@ namespace physx
 		\brief returns the required size of coeffient matrix in the articulation. The coefficient matrix is number of constraint(loop joints) by total dofs. Constraint Torque = transpose(K) * lambda(). Lambda is a vector of number of constraints
 		\return bite size of the coefficient matrix(nc * n)
 		*/
-		virtual		PxU32					getCoefficentMatrixSize() const = 0;
+		virtual		PxU32					getCoefficientMatrixSize() const = 0;
 
 		/**
 		\brief teleport root link to a new location

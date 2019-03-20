@@ -106,6 +106,13 @@ namespace physx
 		virtual void objectToFileImpl( const PxArticulation*, PxCollection*, XmlWriter&, MemoryBuffer&, PxRepXInstantiationArgs& );
 		virtual PxArticulation* allocateObject( PxRepXInstantiationArgs& );
 	};
+
+	struct PxArticulationReducedCoordinateRepXSerializer : public RepXSerializerImpl<PxArticulationReducedCoordinate>
+	{
+		PxArticulationReducedCoordinateRepXSerializer(PxAllocatorCallback& inCallback) : RepXSerializerImpl<PxArticulationReducedCoordinate>(inCallback) {}
+		virtual void objectToFileImpl(const PxArticulationReducedCoordinate*, PxCollection*, XmlWriter&, MemoryBuffer&, PxRepXInstantiationArgs&);
+		virtual PxArticulationReducedCoordinate* allocateObject(PxRepXInstantiationArgs&);
+	};
 	
 	struct PxAggregateRepXSerializer :  public RepXSerializerImpl<PxAggregate>
 	{

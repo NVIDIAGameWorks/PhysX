@@ -29,12 +29,13 @@
 
 #include "foundation/PxVec4.h"
 #include "foundation/PxMemory.h"
+#include "geometry/PxTriangle.h"
+
 #include "GuBV4Build.h"
 #include "GuBV4.h"
-#include "PxTriangle.h"
+#include "GuCenterExtents.h"
 #include "CmPhysXCommon.h"
 #include "PsBasicTemplates.h"
-#include "GuCenterExtents.h"
 #include <stdio.h>
 
 using namespace physx;

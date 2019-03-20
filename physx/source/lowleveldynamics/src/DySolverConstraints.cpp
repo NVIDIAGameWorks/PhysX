@@ -760,14 +760,73 @@ void clearExt1D(const PxSolverConstraintDesc& desc, SolverContext& /*cache*/)
 	}
 }
 
+void solveExt1D(const PxSolverConstraintDesc& desc, Vec3V& linVel0, Vec3V& linVel1, Vec3V& angVel0, Vec3V& angVel1,
+	Vec3V& li0, Vec3V& li1, Vec3V& ai0, Vec3V& ai1)
+{
+	PxU8* PX_RESTRICT bPtr = desc.constraint;
+	const SolverConstraint1DHeader* PX_RESTRICT  header = reinterpret_cast<const SolverConstraint1DHeader*>(bPtr);
+	SolverConstraint1DExt* PX_RESTRICT base = reinterpret_cast<SolverConstraint1DExt*>(bPtr + sizeof(SolverConstraint1DHeader));
+
+
+
+	for (PxU32 i = 0; i<header->count; ++i, base++)
+	{
+		Ps::prefetchLine(base + 1);
+
+		const Vec4V lin0XYZ_constantW = V4LoadA(&base->lin0.x);
+		const Vec4V lin1XYZ_unbiasedConstantW = V4LoadA(&base->lin1.x);
+		const Vec4V ang0XYZ_velMultiplierW = V4LoadA(&base->ang0.x);
+		const Vec4V ang1XYZ_impulseMultiplierW = V4LoadA(&base->ang1.x);
+		const Vec4V minImpulseX_maxImpulseY_appliedForceZ = V4LoadA(&base->minImpulse);
+
+		const Vec3V lin0 = Vec3V_From_Vec4V(lin0XYZ_constantW);				FloatV constant = V4GetW(lin0XYZ_constantW);
+		const Vec3V lin1 = Vec3V_From_Vec4V(lin1XYZ_unbiasedConstantW);
+		const Vec3V ang0 = Vec3V_From_Vec4V(ang0XYZ_velMultiplierW);		FloatV vMul = V4GetW(ang0XYZ_velMultiplierW);
+		const Vec3V ang1 = Vec3V_From_Vec4V(ang1XYZ_impulseMultiplierW);	FloatV iMul = V4GetW(ang1XYZ_impulseMultiplierW);
+
+		const FloatV minImpulse = V4GetX(minImpulseX_maxImpulseY_appliedForceZ);
+		const FloatV maxImpulse = V4GetY(minImpulseX_maxImpulseY_appliedForceZ);
+		const FloatV appliedForce = V4GetZ(minImpulseX_maxImpulseY_appliedForceZ);
+
+		const Vec3V v0 = V3MulAdd(linVel0, lin0, V3Mul(angVel0, ang0));
+		const Vec3V v1 = V3MulAdd(linVel1, lin1, V3Mul(angVel1, ang1));
+		const FloatV normalVel = V3SumElems(V3Sub(v0, v1));
+
+		const FloatV unclampedForce = FScaleAdd(iMul, appliedForce, FScaleAdd(vMul, normalVel, constant));
+		const FloatV clampedForce = FMin(maxImpulse, (FMax(minImpulse, unclampedForce)));
+		const FloatV deltaF = FSub(clampedForce, appliedForce);
+
+		FStore(clampedForce, &base->appliedForce);
+		li0 = V3ScaleAdd(lin0, deltaF, li0);	ai0 = V3ScaleAdd(ang0, deltaF, ai0);
+		li1 = V3ScaleAdd(lin1, deltaF, li1);	ai1 = V3ScaleAdd(ang1, deltaF, ai1);
+
+		linVel0 = V3ScaleAdd(base->deltaVA.linear, deltaF, linVel0); 		angVel0 = V3ScaleAdd(base->deltaVA.angular, deltaF, angVel0);
+		linVel1 = V3ScaleAdd(base->deltaVB.linear, deltaF, linVel1); 		angVel1 = V3ScaleAdd(base->deltaVB.angular, deltaF, angVel1);
+
+#if 0
+		PxVec3 lv0, lv1, av0, av1;
+		V3StoreU(linVel0, lv0); V3StoreU(linVel1, lv1);
+		V3StoreU(angVel0, av0); V3StoreU(angVel1, av1);
+
+		PX_ASSERT(lv0.magnitude() < 30.f);
+		PX_ASSERT(lv1.magnitude() < 30.f);
+		PX_ASSERT(av0.magnitude() < 30.f);
+		PX_ASSERT(av1.magnitude() < 30.f);
+#endif
+
+	}
+
+	li0 = V3Scale(li0, FLoad(header->linearInvMassScale0));
+	li1 = V3Scale(li1, FLoad(header->linearInvMassScale1));
+	ai0 = V3Scale(ai0, FLoad(header->angularInvMassScale0));
+	ai1 = V3Scale(ai1, FLoad(header->angularInvMassScale1));
+}
+
 //Port of scalar implementation to SIMD maths with some interleaving of instructions
 void solveExt1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 {
-	PxU8* PX_RESTRICT bPtr = desc.constraint;
+	
 	//PxU32 length = desc.constraintLength;
-
-	const SolverConstraint1DHeader* PX_RESTRICT  header = reinterpret_cast<const SolverConstraint1DHeader*>(bPtr);
-	SolverConstraint1DExt* PX_RESTRICT base = reinterpret_cast<SolverConstraint1DExt*>(bPtr + sizeof(SolverConstraint1DHeader));
 
 	Vec3V linVel0, angVel0, linVel1, angVel1;
 
@@ -810,57 +869,12 @@ void solveExt1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 
 	Vec3V li0 = V3Zero(), li1 = V3Zero(), ai0 = V3Zero(), ai1 = V3Zero();
 
-	for(PxU32 i=0; i<header->count;++i, base++)
-	{
-		Ps::prefetchLine(base+1);
-
-		const Vec4V lin0XYZ_constantW						= V4LoadA(&base->lin0.x);	
-		const Vec4V lin1XYZ_unbiasedConstantW				= V4LoadA(&base->lin1.x);
-		const Vec4V ang0XYZ_velMultiplierW					= V4LoadA(&base->ang0.x);
-		const Vec4V ang1XYZ_impulseMultiplierW				= V4LoadA(&base->ang1.x);	
-		const Vec4V minImpulseX_maxImpulseY_appliedForceZ	= V4LoadA(&base->minImpulse);
-
-		const Vec3V lin0 = Vec3V_From_Vec4V(lin0XYZ_constantW);				FloatV constant = V4GetW(lin0XYZ_constantW);
-		const Vec3V lin1 = Vec3V_From_Vec4V(lin1XYZ_unbiasedConstantW);
-		const Vec3V ang0 = Vec3V_From_Vec4V(ang0XYZ_velMultiplierW);		FloatV vMul = V4GetW(ang0XYZ_velMultiplierW);
-		const Vec3V ang1 = Vec3V_From_Vec4V(ang1XYZ_impulseMultiplierW);	FloatV iMul = V4GetW(ang1XYZ_impulseMultiplierW);
-
-		const FloatV minImpulse		= V4GetX(minImpulseX_maxImpulseY_appliedForceZ);
-		const FloatV maxImpulse		= V4GetY(minImpulseX_maxImpulseY_appliedForceZ);
-		const FloatV appliedForce	= V4GetZ(minImpulseX_maxImpulseY_appliedForceZ);
-
-		const Vec3V v0 = V3MulAdd(linVel0, lin0, V3Mul(angVel0, ang0));
-		const Vec3V v1 = V3MulAdd(linVel1, lin1, V3Mul(angVel1, ang1));
-		const FloatV normalVel = V3SumElems(V3Sub(v0, v1));
-
-		const FloatV unclampedForce = FScaleAdd(iMul, appliedForce, FScaleAdd(vMul, normalVel, constant));
-		const FloatV clampedForce = FMin(maxImpulse, (FMax(minImpulse, unclampedForce)));
-		const FloatV deltaF = FSub(clampedForce, appliedForce);
-
-		FStore(clampedForce, &base->appliedForce);
-		li0 = V3ScaleAdd(lin0, deltaF, li0);	ai0 = V3ScaleAdd(ang0, deltaF, ai0);
-		li1 = V3ScaleAdd(lin1, deltaF, li1);	ai1 = V3ScaleAdd(ang1, deltaF, ai1);
-
-		linVel0 = V3ScaleAdd(base->deltaVA.linear, deltaF, linVel0); 		angVel0 = V3ScaleAdd(base->deltaVA.angular, deltaF, angVel0);
-		linVel1 = V3ScaleAdd(base->deltaVB.linear, deltaF, linVel1); 		angVel1 = V3ScaleAdd(base->deltaVB.angular, deltaF, angVel1);
-
-#if 0
-		PxVec3 lv0, lv1, av0, av1;
-		V3StoreU(linVel0, lv0); V3StoreU(linVel1, lv1);
-		V3StoreU(angVel0, av0); V3StoreU(angVel1, av1);
-
-		PX_ASSERT(lv0.magnitude() < 30.f);
-		PX_ASSERT(lv1.magnitude() < 30.f);
-		PX_ASSERT(av0.magnitude() < 30.f);
-		PX_ASSERT(av1.magnitude() < 30.f);
-#endif
-
-	}
+	solveExt1D(desc, linVel0, linVel1, angVel0, angVel1, li0, li1, ai0, ai1);
 
 	if (desc.articulationA == desc.articulationB)
 	{
-		desc.articulationA->pxcFsApplyImpulses(desc.linkIndexA, V3Scale(li0, FLoad(header->linearInvMassScale0)), V3Scale(ai0, FLoad(header->angularInvMassScale0)),
-			desc.linkIndexB, V3Scale(li1, FLoad(header->linearInvMassScale1)), V3Scale(ai1, FLoad(header->angularInvMassScale1)), cache.Z, cache.deltaV);
+		desc.articulationA->pxcFsApplyImpulses(desc.linkIndexA, li0, ai0,
+			desc.linkIndexB, li1, ai1, cache.Z, cache.deltaV);
 	}
 	else
 	{
@@ -872,8 +886,8 @@ void solveExt1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 		}
 		else
 		{
-			desc.articulationA->pxcFsApplyImpulse(desc.linkIndexA, V3Scale(li0, FLoad(header->linearInvMassScale0)),
-				V3Scale(ai0, FLoad(header->angularInvMassScale0)), cache.Z, cache.deltaV);
+			desc.articulationA->pxcFsApplyImpulse(desc.linkIndexA, li0,
+				ai0, cache.Z, cache.deltaV);
 
 
 		}
@@ -885,8 +899,8 @@ void solveExt1D(const PxSolverConstraintDesc& desc, SolverContext& cache)
 		}
 		else
 		{
-			desc.articulationB->pxcFsApplyImpulse(desc.linkIndexB, V3Scale(li1, FLoad(header->linearInvMassScale1)),
-				V3Scale(ai1, FLoad(header->angularInvMassScale1)), cache.Z, cache.deltaV);
+			desc.articulationB->pxcFsApplyImpulse(desc.linkIndexB, li1,
+				ai1, cache.Z, cache.deltaV);
 		}
 	}
 
@@ -957,44 +971,18 @@ FloatV solveExtContacts(SolverContactPointExt* contacts, const PxU32 nbContactPo
 	return accumulatedNormalImpulse;
 }
 
-void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
+
+void solveExtContact(const PxSolverConstraintDesc& desc, Vec3V& linVel0, Vec3V& linVel1, Vec3V& angVel0, Vec3V& angVel1,
+	Vec3V& linImpulse0, Vec3V& linImpulse1, Vec3V& angImpulse0, Vec3V& angImpulse1, bool doFriction)
 {
-	Vec3V linVel0, angVel0, linVel1, angVel1;
-
-	if(desc.linkIndexA == PxSolverConstraintDesc::NO_LINK)
-	{
-		linVel0 = V3LoadA(desc.bodyA->linearVelocity);
-		angVel0 = V3LoadA(desc.bodyA->angularState);
-	}
-	else
-	{
-		Cm::SpatialVectorV v = desc.articulationA->pxcFsGetVelocity(desc.linkIndexA);
-		linVel0 = v.linear;
-		angVel0 = v.angular;
-	}
-
-	if(desc.linkIndexB == PxSolverConstraintDesc::NO_LINK)
-	{
-		linVel1 = V3LoadA(desc.bodyB->linearVelocity);
-		angVel1 = V3LoadA(desc.bodyB->angularState);
-	}
-	else
-	{
-		Cm::SpatialVectorV v = desc.articulationB->pxcFsGetVelocity(desc.linkIndexB);
-		linVel1 = v.linear;
-		angVel1 = v.angular;
-	}
-
-	//Vec3V origLin0 = linVel0, origAng0 = angVel0, origLin1 = linVel1, origAng1 = angVel1;
-
-	const PxU8* PX_RESTRICT last = desc.constraint + desc.constraintLengthOver16*16;
+	const PxU8* PX_RESTRICT last = desc.constraint + desc.constraintLengthOver16 * 16;
 
 	//hopefully pointer aliasing doesn't bite.
 	PxU8* PX_RESTRICT currPtr = desc.constraint;
 
-	Vec3V linImpulse0 = V3Zero(), linImpulse1 = V3Zero(), angImpulse0 = V3Zero(), angImpulse1 = V3Zero();
 
-	while(currPtr < last)
+
+	while (currPtr < last)
 	{
 		SolverContactHeader* PX_RESTRICT hdr = reinterpret_cast<SolverContactHeader*>(currPtr);
 		currPtr += sizeof(SolverContactHeader);
@@ -1012,18 +1000,17 @@ void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
 		SolverContactFrictionExt* PX_RESTRICT frictions = reinterpret_cast<SolverContactFrictionExt*>(currPtr);
 		currPtr += numFrictionConstr * sizeof(SolverContactFrictionExt);
 
-		
 
 		Vec3V li0 = V3Zero(), li1 = V3Zero(), ai0 = V3Zero(), ai1 = V3Zero();
 
 		const Vec3V contactNormal = Vec3V_From_Vec4V(hdr->normal_minAppliedImpulseForFrictionW);
 		const FloatV minNorImpulse = V4GetW(hdr->normal_minAppliedImpulseForFrictionW);
 
-		const FloatV accumulatedNormalImpulse = FMax(solveExtContacts(contacts, numNormalConstr, contactNormal, linVel0, angVel0, linVel1, 
+		const FloatV accumulatedNormalImpulse = FMax(solveExtContacts(contacts, numNormalConstr, contactNormal, linVel0, angVel0, linVel1,
 			angVel1, li0, ai0, li1, ai1, appliedForceBuffer), minNorImpulse);
 
 
-		if(cache.doFriction && numFrictionConstr)
+		if (doFriction && numFrictionConstr)
 		{
 			Ps::prefetchLine(frictions);
 			const FloatV maxFrictionImpulse = FMul(hdr->getStaticFriction(), accumulatedNormalImpulse);
@@ -1031,10 +1018,10 @@ void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
 
 			BoolV broken = BFFFF();
 
-			for(PxU32 i=0;i<numFrictionConstr;i++)
+			for (PxU32 i = 0; i<numFrictionConstr; i++)
 			{
 				SolverContactFrictionExt& f = frictions[i];
-				Ps::prefetchLine(&frictions[i+1]);
+				Ps::prefetchLine(&frictions[i + 1]);
 
 				const Vec4V normalXYZ_appliedForceW = f.normalXYZ_appliedForceW;
 				const Vec4V raXnXYZ_velMultiplierW = f.raXnXYZ_velMultiplierW;
@@ -1060,7 +1047,7 @@ void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
 				const FloatV normalVel = V3SumElems(V3Sub(v0, v1));
 
 				// appliedForce -bias * velMultiplier - a hoisted part of the total impulse computation
-				const FloatV tmp1 = FNegScaleSub(FSub(bias, targetVel),velMultiplier,appliedForce); 
+				const FloatV tmp1 = FNegScaleSub(FSub(bias, targetVel), velMultiplier, appliedForce);
 
 				// Algorithm:
 				// if abs(appliedForce + deltaF) > maxFrictionImpulse
@@ -1083,15 +1070,15 @@ void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
 				const FloatV totalClampedHigh = FMin(maxDynFrictionImpulse, totalImpulse);
 
 				const FloatV newAppliedForce = FSel(clampLow, totalClampedLow,
-															  FSel(clampHigh, totalClampedHigh, totalImpulse));
+					FSel(clampHigh, totalClampedHigh, totalImpulse));
 
 				broken = BOr(broken, BOr(clampLow, clampHigh));
 
 				FloatV deltaF = FSub(newAppliedForce, appliedForce);
 
-				linVel0 = V3ScaleAdd(f.linDeltaVA, deltaF, linVel0);	
+				linVel0 = V3ScaleAdd(f.linDeltaVA, deltaF, linVel0);
 				angVel0 = V3ScaleAdd(f.angDeltaVA, deltaF, angVel0);
-				linVel1 = V3ScaleAdd(f.linDeltaVB, deltaF, linVel1);	
+				linVel1 = V3ScaleAdd(f.linDeltaVB, deltaF, linVel1);
 				angVel1 = V3ScaleAdd(f.angDeltaVB, deltaF, angVel1);
 
 				li0 = V3ScaleAdd(normal, deltaF, li0);	ai0 = V3ScaleAdd(raXn, deltaF, ai0);
@@ -1113,35 +1100,90 @@ void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
 			Store_From_BoolV(broken, &hdr->broken);
 		}
 
-		linImpulse0 = V3ScaleAdd(li0, hdr->getDominance0(), linImpulse0);		
+		linImpulse0 = V3ScaleAdd(li0, hdr->getDominance0(), linImpulse0);
 		angImpulse0 = V3ScaleAdd(ai0, FLoad(hdr->angDom0), angImpulse0);
-		linImpulse1 = V3NegScaleSub(li1, hdr->getDominance1(), linImpulse1);	
+		linImpulse1 = V3NegScaleSub(li1, hdr->getDominance1(), linImpulse1);
 		angImpulse1 = V3NegScaleSub(ai1, FLoad(hdr->angDom1), angImpulse1);
 	}
+}
 
-	if(desc.linkIndexA == PxSolverConstraintDesc::NO_LINK)
+
+void solveExtContact(const PxSolverConstraintDesc& desc, SolverContext& cache)
+{
+	Vec3V linVel0, angVel0, linVel1, angVel1;
+
+	if (desc.articulationA == desc.articulationB)
 	{
-		V3StoreA(linVel0, desc.bodyA->linearVelocity);
-		V3StoreA(angVel0, desc.bodyA->angularState);
+		Cm::SpatialVectorV v0, v1;
+		desc.articulationA->pxcFsGetVelocities(desc.linkIndexA, desc.linkIndexB, v0, v1);
+		linVel0 = v0.linear;
+		angVel0 = v0.angular;
+		linVel1 = v1.linear;
+		angVel1 = v1.angular;
 	}
 	else
 	{
-		desc.articulationA->pxcFsApplyImpulse(desc.linkIndexA, 
-			linImpulse0, angImpulse0, cache.Z, cache.deltaV);
+
+		if (desc.linkIndexA == PxSolverConstraintDesc::NO_LINK)
+		{
+			linVel0 = V3LoadA(desc.bodyA->linearVelocity);
+			angVel0 = V3LoadA(desc.bodyA->angularState);
+		}
+		else
+		{
+			Cm::SpatialVectorV v = desc.articulationA->pxcFsGetVelocity(desc.linkIndexA);
+			linVel0 = v.linear;
+			angVel0 = v.angular;
+		}
+
+		if (desc.linkIndexB == PxSolverConstraintDesc::NO_LINK)
+		{
+			linVel1 = V3LoadA(desc.bodyB->linearVelocity);
+			angVel1 = V3LoadA(desc.bodyB->angularState);
+		}
+		else
+		{
+			Cm::SpatialVectorV v = desc.articulationB->pxcFsGetVelocity(desc.linkIndexB);
+			linVel1 = v.linear;
+			angVel1 = v.angular;
+		}
 	}
 
-	if(desc.linkIndexB == PxSolverConstraintDesc::NO_LINK)
+	Vec3V linImpulse0 = V3Zero(), linImpulse1 = V3Zero(), angImpulse0 = V3Zero(), angImpulse1 = V3Zero();
+
+	//Vec3V origLin0 = linVel0, origAng0 = angVel0, origLin1 = linVel1, origAng1 = angVel1;
+
+	solveExtContact(desc, linVel0, linVel1, angVel0, angVel1, linImpulse0, linImpulse1, angImpulse0, angImpulse1, cache.doFriction);
+
+	if (desc.articulationA == desc.articulationB)
 	{
-		V3StoreA(linVel1, desc.bodyB->linearVelocity);
-		V3StoreA(angVel1, desc.bodyB->angularState);
+		desc.articulationA->pxcFsApplyImpulses(desc.linkIndexA, linImpulse0, angImpulse0, desc.linkIndexB, linImpulse1, angImpulse1, 
+			cache.Z, cache.deltaV);
 	}
 	else
 	{
-		desc.articulationB->pxcFsApplyImpulse(desc.linkIndexB, 
-			linImpulse1, angImpulse1, cache.Z, cache.deltaV);
-	}
+		if (desc.linkIndexA == PxSolverConstraintDesc::NO_LINK)
+		{
+			V3StoreA(linVel0, desc.bodyA->linearVelocity);
+			V3StoreA(angVel0, desc.bodyA->angularState);
+		}
+		else
+		{
+			desc.articulationA->pxcFsApplyImpulse(desc.linkIndexA,
+				linImpulse0, angImpulse0, cache.Z, cache.deltaV);
+		}
 
-	PX_ASSERT(currPtr == last);
+		if (desc.linkIndexB == PxSolverConstraintDesc::NO_LINK)
+		{
+			V3StoreA(linVel1, desc.bodyB->linearVelocity);
+			V3StoreA(angVel1, desc.bodyB->angularState);
+		}
+		else
+		{
+			desc.articulationB->pxcFsApplyImpulse(desc.linkIndexB,
+				linImpulse1, angImpulse1, cache.Z, cache.deltaV);
+		}
+	}
 }
 
 

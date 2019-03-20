@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structPxArticulationJointDriveType.html" title="The type of joint drive to use for the articulation joint. " alt="" coords="5,5,192,32"/>
+<area shape="rect" id="node1" href="$structPxArticulationJointData.html" title="PxArticulationJointData" alt="" coords="5,13,163,39"/>
+<area shape="rect" id="node2" href="$structPxFeatherstoneArticulationJointData.html" title="PxFeatherstoneArticulation\lJointData" alt="" coords="211,5,389,47"/>
 </map>

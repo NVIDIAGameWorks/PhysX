@@ -240,7 +240,6 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 
 	ArticulationSolverDesc* PX_RESTRICT articulationListStart = params.articulationListStart;
 
-
 	PX_ASSERT(velocityIterations >= 1);
 	PX_ASSERT(positionIterations >= 1);
 
@@ -263,13 +262,11 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 	BatchIterator contactIterator(params.constraintBatchHeaders, params.numConstraintHeaders);
 	BatchIterator frictionIterator(params.frictionConstraintBatches, params.numFrictionConstraintHeaders);
 
-
-	PxI32 frictionBatchCount = PxI32(params.numFrictionConstraintHeaders);
+	const PxI32 frictionBatchCount = PxI32(params.numFrictionConstraintHeaders);
 
 	PxSolverConstraintDesc* PX_RESTRICT constraintList = params.constraintList;
 
 	PxSolverConstraintDesc* PX_RESTRICT frictionConstraintList = params.frictionConstraintList;
-
 
 	//0-(n-1) iterations
 	PxI32 normalIter = 0;
@@ -280,7 +277,6 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
 			cache, contactIterator, iteration == 1 ? gVTableSolveConcludeBlockCoulomb : gVTableSolveBlockCoulomb, normalIter);
 		++normalIter;
-	
 	}
 
 	if(frictionBatchCount>0)
@@ -302,10 +298,8 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 		motionVel.angular = atom.angularState;
 	}
 	
-
 	for (PxU32 i = 0; i < articulationListSize; i++)
 		ArticulationPImpl::saveVelocity(articulationListStart[i], cache.deltaV);
-
 
 	const PxU32 velItersMinOne = velocityIterations - 1;
 
@@ -313,7 +307,6 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 
 	for(; iteration < velItersMinOne; ++iteration)
 	{	
-
 		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
 			cache, contactIterator, gVTableSolveBlockCoulomb, normalIter);
 		++normalIter;
@@ -354,14 +347,13 @@ void SolverCoreGeneralPF::solveV_Blocks(SolverIslandParams& params) const
 	if(cache.mThresholdStreamIndex > 0)
 	{
 		//Write back to global buffer
-		PxI32 threshIndex = physx::shdfnd::atomicAdd(reinterpret_cast<PxI32*>(&outThresholdPairs), PxI32(cache.mThresholdStreamIndex)) - PxI32(cache.mThresholdStreamIndex);
+		const PxI32 threshIndex = physx::shdfnd::atomicAdd(reinterpret_cast<PxI32*>(&outThresholdPairs), PxI32(cache.mThresholdStreamIndex)) - PxI32(cache.mThresholdStreamIndex);
 		for(PxU32 b = 0; b < cache.mThresholdStreamIndex; ++b)
 		{
 			thresholdStream[b + threshIndex] = cache.mThresholdStream[b];
 		}
 		cache.mThresholdStreamIndex = 0;
 	}
-
 }
 
 PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params,
@@ -375,7 +367,6 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 
 	const PxI32 TempThresholdStreamSize = 32;
 	ThresholdStreamElement tempThresholdStream[TempThresholdStreamSize];
-
 
 	const PxI32 batchCount = PxI32(params.numConstraintHeaders);
 	const PxI32 frictionBatchCount = PxI32(params.numFrictionConstraintHeaders);//frictionConstraintBatches.size();
@@ -402,7 +393,6 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 	PxI32 index = physx::shdfnd::atomicAdd(constraintIndex, UnrollCount) - UnrollCount;
 	PxI32 frictionIndex = physx::shdfnd::atomicAdd(frictionConstraintIndex, UnrollCount) - UnrollCount;
 	
-
 	BatchIterator contactIter(params.constraintBatchHeaders, params.numConstraintHeaders);
 	BatchIterator frictionIter(params.frictionConstraintBatches, params.numFrictionConstraintHeaders);
 
@@ -414,7 +404,6 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 
 	PxSolverConstraintDesc* PX_RESTRICT constraintList = params.constraintList;
 	PxSolverConstraintDesc* PX_RESTRICT frictionConstraintList = params.frictionConstraintList;
-
 
 	PxI32 maxNormalIndex = 0;
 	PxI32 maxProgress = 0;
@@ -457,9 +446,7 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			}
 			++normalIteration;
 		}
-
 	}
-
 
 	for(PxU32 i = 0; i < 2; ++i)
 	{
@@ -494,14 +481,11 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 				}
 			}
 			++frictionIteration;
-			
 		}
-
 	}
 
 	WAIT_FOR_PROGRESS(constraintIndex2, maxProgress);
 
-	
 	PxI32* bodyListIndex = &params.bodyListIndex;
 
 	ArticulationSolverDesc* PX_RESTRICT articulationListStart = params.articulationListStart;
@@ -537,7 +521,6 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 
 		//save velocity
 		
-
 		while(index2 < bodyListSize)
 		{
 			const PxI32 remainder = PxMin(endIndexCount2, (bodyListSize - index2));
@@ -570,7 +553,6 @@ PxI32 SolverCoreGeneralPF::solveVParallelAndWriteBack(SolverIslandParams& params
 			physx::shdfnd::atomicAdd(bodyListIndex2, nbConcluded);
 		}
 	}
-
 
 	WAIT_FOR_PROGRESS(bodyListIndex2, (bodyListSize + articulationListSize));
 
@@ -744,9 +726,9 @@ void SolverCoreGeneralPF::writeBackV
 	PxI32 outThreshIndex = 0;
 	for(PxU32 j = 0; j < numBatches; ++j)
 	{
-		PxU8 type = *constraintList[batchHeaders[j].mStartIndex].constraint;
-		writeBackTable[type](constraintList + batchHeaders[j].mStartIndex,
-			batchHeaders[j].mStride, cache);
+		PxU8 type = *constraintList[batchHeaders[j].startIndex].constraint;
+		writeBackTable[type](constraintList + batchHeaders[j].startIndex,
+			batchHeaders[j].stride, cache);
 	}
 
 	outThresholdPairs = PxU32(outThreshIndex);

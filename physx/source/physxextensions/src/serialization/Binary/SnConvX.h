@@ -29,8 +29,9 @@
 #define PX_CONVX_H
 
 #include "foundation/PxErrors.h"
-#include "PxBinaryConverter.h"
-#include "PxTypeInfo.h"
+#include "common/PxTypeInfo.h"
+#include "extensions/PxBinaryConverter.h"
+
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
 #include "PsArray.h"
@@ -54,7 +55,6 @@ namespace Sn {
 				PointerRemap();
 				~PointerRemap();
 
-		bool	checkRefIsNotUsed(PxU32 ref)	const;
 		void	setObjectRef(PxU64 object64, PxU32 ref);
 		bool	getObjectRef(PxU64 object64, PxU32& ref)	const;
 
@@ -62,6 +62,24 @@ namespace Sn {
 		{
 			PxU64	object;
 			PxU32	id;
+		};
+
+		Ps::Array<InternalData>	mData;
+	};
+
+	class Handle16Remap
+	{
+		public:
+				Handle16Remap();
+				~Handle16Remap();
+
+		void	setObjectRef(PxU16 object, PxU16 ref);
+		bool	getObjectRef(PxU16 object, PxU16& ref)	const;
+
+		struct InternalData
+		{
+			PxU16	object;
+			PxU16	id;
 		};
 
 		Ps::Array<InternalData>	mData;
@@ -109,6 +127,7 @@ namespace Sn {
 						bool					convertClass(const char* buffer, const MetaClass* mc, int offset);
 						const char*				convertExtraData_Array(const char* Address, const char* lastAddress, const char* objectAddress, const ExtraDataEntry& ed);
 						const char*				convertExtraData_Ptr(const char* Address, const char* lastAddress, const PxMetaDataEntry& entry, int count, int ptrSize_Src, int ptrSize_Dst);
+						const char*				convertExtraData_Handle(const char* Address, const char* lastAddress, const PxMetaDataEntry& entry, int count);
 						int						getConcreteType(const char* buffer);
 						bool					convertCollection(const void* buffer, int fileSize, int nbObjects);
 						const void*				convertManifestTable(const void* buffer, int& fileSize);
@@ -148,6 +167,7 @@ namespace Sn {
 						void					convert64	(const char* src, const PxMetaDataEntry& entry, const PxMetaDataEntry& dstEntry);
 						void					convertFloat(const char* src, const PxMetaDataEntry& entry, const PxMetaDataEntry& dstEntry);
 						void					convertPtr	(const char* src, const PxMetaDataEntry& entry, const PxMetaDataEntry& dstEntry);
+						void					convertHandle16(const char* src, const PxMetaDataEntry& entry, const PxMetaDataEntry& dstEntry);
 						PxOutputStream*			mOutStream;
 						bool					mMustFlip;
 						int						mOutputSize;
@@ -172,9 +192,12 @@ namespace Sn {
 						void					exportIntAsPtr(int value);
 						void					exportInt(int value);
 						void					exportInt64(PxU64 value);
-						PointerRemap			mRemap;
-						PointerRemap*			mActiveRemap;
+						PointerRemap			mPointerRemap;
+						PointerRemap*			mPointerActiveRemap;
 						PxU32					mPointerRemapCounter;
+						Handle16Remap			mHandle16Remap;
+						Handle16Remap*			mHandle16ActiveRemap;
+						PxU16					mHandle16RemapCounter;
 
 		friend class MetaData;
 		friend struct MetaClass;

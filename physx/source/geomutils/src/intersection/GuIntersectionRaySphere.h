@@ -30,7 +30,7 @@
 #ifndef GU_INTERSECTION_RAY_SPHERE_H
 #define GU_INTERSECTION_RAY_SPHERE_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

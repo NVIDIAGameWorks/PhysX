@@ -378,6 +378,33 @@ PX_PHYSX_CORE_API PxArticulationJointGeneratedValues::PxArticulationJointGenerat
 	getPxArticulationJoint_SwingLimit( inSource, SwingLimit[0], SwingLimit[1] );
 	getPxArticulationJoint_TwistLimit( inSource, TwistLimit[0], TwistLimit[1] );
 }
+void setPxArticulationJointReducedCoordinate_JointType( PxArticulationJointReducedCoordinate* inObj, PxArticulationJointType::Enum inArg){ inObj->setJointType( inArg ); }
+PxArticulationJointType::Enum getPxArticulationJointReducedCoordinate_JointType( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getJointType(); }
+void setPxArticulationJointReducedCoordinate_Motion( PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex, PxArticulationMotion::Enum inArg ){ inObj->setMotion( inIndex, inArg ); }
+PxArticulationMotion::Enum getPxArticulationJointReducedCoordinate_Motion( const PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex ) { return inObj->getMotion( inIndex ); }
+void setPxArticulationJointReducedCoordinate_FrictionCoefficient( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setFrictionCoefficient( inArg ); }
+PxReal getPxArticulationJointReducedCoordinate_FrictionCoefficient( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getFrictionCoefficient(); }
+const char * getPxArticulationJointReducedCoordinate_ConcreteTypeName( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getConcreteTypeName(); }
+void setPxArticulationJointReducedCoordinate_MaxJointVelocity( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setMaxJointVelocity( inArg ); }
+PxReal getPxArticulationJointReducedCoordinate_MaxJointVelocity( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getMaxJointVelocity(); }
+PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedInfo::PxArticulationJointReducedCoordinateGeneratedInfo()
+	: JointType( "JointType", setPxArticulationJointReducedCoordinate_JointType, getPxArticulationJointReducedCoordinate_JointType)
+	, Motion( "Motion", setPxArticulationJointReducedCoordinate_Motion, getPxArticulationJointReducedCoordinate_Motion)
+	, FrictionCoefficient( "FrictionCoefficient", setPxArticulationJointReducedCoordinate_FrictionCoefficient, getPxArticulationJointReducedCoordinate_FrictionCoefficient)
+	, ConcreteTypeName( "ConcreteTypeName", getPxArticulationJointReducedCoordinate_ConcreteTypeName)
+	, MaxJointVelocity( "MaxJointVelocity", setPxArticulationJointReducedCoordinate_MaxJointVelocity, getPxArticulationJointReducedCoordinate_MaxJointVelocity)
+{}
+PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedValues::PxArticulationJointReducedCoordinateGeneratedValues( const PxArticulationJointReducedCoordinate* inSource )
+		:PxArticulationJointBaseGeneratedValues( inSource )
+		,JointType( getPxArticulationJointReducedCoordinate_JointType( inSource ) )
+		,FrictionCoefficient( getPxArticulationJointReducedCoordinate_FrictionCoefficient( inSource ) )
+		,ConcreteTypeName( getPxArticulationJointReducedCoordinate_ConcreteTypeName( inSource ) )
+		,MaxJointVelocity( getPxArticulationJointReducedCoordinate_MaxJointVelocity( inSource ) )
+{
+	PX_UNUSED(inSource);
+		for ( PxU32 idx = 0; idx < static_cast<PxU32>( physx::PxArticulationAxis::eCOUNT ); ++idx )
+		Motion[idx] = getPxArticulationJointReducedCoordinate_Motion( inSource, static_cast< PxArticulationAxis::Enum >( idx ) );
+}
 PxScene * getPxArticulationBase_Scene( const PxArticulationBase* inObj ) { return inObj->getScene(); }
 void setPxArticulationBase_SolverIterationCounts( PxArticulationBase* inObj, PxU32 inArg0, PxU32 inArg1 ) { inObj->setSolverIterationCounts( inArg0, inArg1 ); }
 void getPxArticulationBase_SolverIterationCounts( const PxArticulationBase* inObj, PxU32& inArg0, PxU32& inArg1 ) { inObj->getSolverIterationCounts( inArg0, inArg1 ); }
@@ -393,7 +420,6 @@ PxU32 getNbPxArticulationBase_Links( const PxArticulationBase* inObj ) { return 
 void setPxArticulationBase_Name( PxArticulationBase* inObj, const char * inArg){ inObj->setName( inArg ); }
 const char * getPxArticulationBase_Name( const PxArticulationBase* inObj ) { return inObj->getName(); }
 PxAggregate * getPxArticulationBase_Aggregate( const PxArticulationBase* inObj ) { return inObj->getAggregate(); }
-PxArticulationBase::Enum getPxArticulationBase_Type( const PxArticulationBase* inObj ) { return inObj->getType(); }
 inline void * getPxArticulationBaseUserData( const PxArticulationBase* inOwner ) { return inOwner->userData; }
 inline void setPxArticulationBaseUserData( PxArticulationBase* inOwner, void * inData) { inOwner->userData = inData; }
 PX_PHYSX_CORE_API PxArticulationBaseGeneratedInfo::PxArticulationBaseGeneratedInfo()
@@ -406,7 +432,6 @@ PX_PHYSX_CORE_API PxArticulationBaseGeneratedInfo::PxArticulationBaseGeneratedIn
 	, Links( "Links", getPxArticulationBase_Links, getNbPxArticulationBase_Links )
 	, Name( "Name", setPxArticulationBase_Name, getPxArticulationBase_Name)
 	, Aggregate( "Aggregate", getPxArticulationBase_Aggregate)
-	, Type( "Type", getPxArticulationBase_Type)
 	, UserData( "UserData", setPxArticulationBaseUserData, getPxArticulationBaseUserData )
 {}
 PX_PHYSX_CORE_API PxArticulationBaseGeneratedValues::PxArticulationBaseGeneratedValues( const PxArticulationBase* inSource )
@@ -417,7 +442,6 @@ PX_PHYSX_CORE_API PxArticulationBaseGeneratedValues::PxArticulationBaseGenerated
 		,WakeCounter( getPxArticulationBase_WakeCounter( inSource ) )
 		,Name( getPxArticulationBase_Name( inSource ) )
 		,Aggregate( getPxArticulationBase_Aggregate( inSource ) )
-		,Type( getPxArticulationBase_Type( inSource ) )
 		,UserData( inSource->userData )
 {
 	PX_UNUSED(inSource);
@@ -443,6 +467,26 @@ PX_PHYSX_CORE_API PxArticulationGeneratedValues::PxArticulationGeneratedValues( 
 		,SeparationTolerance( getPxArticulation_SeparationTolerance( inSource ) )
 		,InternalDriveIterations( getPxArticulation_InternalDriveIterations( inSource ) )
 		,ExternalDriveIterations( getPxArticulation_ExternalDriveIterations( inSource ) )
+{
+	PX_UNUSED(inSource);
+}
+void setPxArticulationReducedCoordinate_ArticulationFlags( PxArticulationReducedCoordinate* inObj, PxArticulationFlags inArg){ inObj->setArticulationFlags( inArg ); }
+PxArticulationFlags getPxArticulationReducedCoordinate_ArticulationFlags( const PxArticulationReducedCoordinate* inObj ) { return inObj->getArticulationFlags(); }
+PxU32 getPxArticulationReducedCoordinate_Dofs( const PxArticulationReducedCoordinate* inObj ) { return inObj->getDofs(); }
+PxU32 getPxArticulationReducedCoordinate_CacheDataSize( const PxArticulationReducedCoordinate* inObj ) { return inObj->getCacheDataSize(); }
+PxU32 getPxArticulationReducedCoordinate_CoefficientMatrixSize( const PxArticulationReducedCoordinate* inObj ) { return inObj->getCoefficientMatrixSize(); }
+PX_PHYSX_CORE_API PxArticulationReducedCoordinateGeneratedInfo::PxArticulationReducedCoordinateGeneratedInfo()
+	: ArticulationFlags( "ArticulationFlags", setPxArticulationReducedCoordinate_ArticulationFlags, getPxArticulationReducedCoordinate_ArticulationFlags)
+	, Dofs( "Dofs", getPxArticulationReducedCoordinate_Dofs)
+	, CacheDataSize( "CacheDataSize", getPxArticulationReducedCoordinate_CacheDataSize)
+	, CoefficientMatrixSize( "CoefficientMatrixSize", getPxArticulationReducedCoordinate_CoefficientMatrixSize)
+{}
+PX_PHYSX_CORE_API PxArticulationReducedCoordinateGeneratedValues::PxArticulationReducedCoordinateGeneratedValues( const PxArticulationReducedCoordinate* inSource )
+		:PxArticulationBaseGeneratedValues( inSource )
+		,ArticulationFlags( getPxArticulationReducedCoordinate_ArticulationFlags( inSource ) )
+		,Dofs( getPxArticulationReducedCoordinate_Dofs( inSource ) )
+		,CacheDataSize( getPxArticulationReducedCoordinate_CacheDataSize( inSource ) )
+		,CoefficientMatrixSize( getPxArticulationReducedCoordinate_CoefficientMatrixSize( inSource ) )
 {
 	PX_UNUSED(inSource);
 }
@@ -748,33 +792,6 @@ PX_PHYSX_CORE_API PxHeightFieldDescGeneratedValues::PxHeightFieldDescGeneratedVa
 {
 	PX_UNUSED(inSource);
 }
-void setPxArticulationJointReducedCoordinate_JointType( PxArticulationJointReducedCoordinate* inObj, PxArticulationJointType::Enum inArg){ inObj->setJointType( inArg ); }
-PxArticulationJointType::Enum getPxArticulationJointReducedCoordinate_JointType( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getJointType(); }
-void setPxArticulationJointReducedCoordinate_Motion( PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex, PxArticulationMotion::Enum inArg ){ inObj->setMotion( inIndex, inArg ); }
-PxArticulationMotion::Enum getPxArticulationJointReducedCoordinate_Motion( const PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex ) { return inObj->getMotion( inIndex ); }
-void setPxArticulationJointReducedCoordinate_FrictionCoefficient( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setFrictionCoefficient( inArg ); }
-PxReal getPxArticulationJointReducedCoordinate_FrictionCoefficient( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getFrictionCoefficient(); }
-const char * getPxArticulationJointReducedCoordinate_ConcreteTypeName( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getConcreteTypeName(); }
-void setPxArticulationJointReducedCoordinate_MaxJointVelocity( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setMaxJointVelocity( inArg ); }
-PxReal getPxArticulationJointReducedCoordinate_MaxJointVelocity( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getMaxJointVelocity(); }
-PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedInfo::PxArticulationJointReducedCoordinateGeneratedInfo()
-	: JointType( "JointType", setPxArticulationJointReducedCoordinate_JointType, getPxArticulationJointReducedCoordinate_JointType)
-	, Motion( "Motion", setPxArticulationJointReducedCoordinate_Motion, getPxArticulationJointReducedCoordinate_Motion)
-	, FrictionCoefficient( "FrictionCoefficient", setPxArticulationJointReducedCoordinate_FrictionCoefficient, getPxArticulationJointReducedCoordinate_FrictionCoefficient)
-	, ConcreteTypeName( "ConcreteTypeName", getPxArticulationJointReducedCoordinate_ConcreteTypeName)
-	, MaxJointVelocity( "MaxJointVelocity", setPxArticulationJointReducedCoordinate_MaxJointVelocity, getPxArticulationJointReducedCoordinate_MaxJointVelocity)
-{}
-PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedValues::PxArticulationJointReducedCoordinateGeneratedValues( const PxArticulationJointReducedCoordinate* inSource )
-		:PxArticulationJointBaseGeneratedValues( inSource )
-		,JointType( getPxArticulationJointReducedCoordinate_JointType( inSource ) )
-		,FrictionCoefficient( getPxArticulationJointReducedCoordinate_FrictionCoefficient( inSource ) )
-		,ConcreteTypeName( getPxArticulationJointReducedCoordinate_ConcreteTypeName( inSource ) )
-		,MaxJointVelocity( getPxArticulationJointReducedCoordinate_MaxJointVelocity( inSource ) )
-{
-	PX_UNUSED(inSource);
-		for ( PxU32 idx = 0; idx < static_cast<PxU32>( physx::PxArticulationAxis::eCOUNT ); ++idx )
-		Motion[idx] = getPxArticulationJointReducedCoordinate_Motion( inSource, static_cast< PxArticulationAxis::Enum >( idx ) );
-}
 PxSceneFlags getPxScene_Flags( const PxScene* inObj ) { return inObj->getFlags(); }
 void setPxScene_Limits( PxScene* inObj, const PxSceneLimits & inArg){ inObj->setLimits( inArg ); }
 PxSceneLimits getPxScene_Limits( const PxScene* inObj ) { return inObj->getLimits(); }
@@ -788,7 +805,7 @@ PxU32 getNbPxScene_Constraints( const PxScene* inObj ) { return inObj->getNbCons
 PxU32 getPxScene_Aggregates( const PxScene* inObj, PxAggregate ** outBuffer, PxU32 inBufSize ) { return inObj->getAggregates( outBuffer, inBufSize ); }
 PxU32 getNbPxScene_Aggregates( const PxScene* inObj ) { return inObj->getNbAggregates(  ); }
 PxCpuDispatcher * getPxScene_CpuDispatcher( const PxScene* inObj ) { return inObj->getCpuDispatcher(); }
-PxGpuDispatcher * getPxScene_GpuDispatcher( const PxScene* inObj ) { return inObj->getGpuDispatcher(); }
+PxCudaContextManager * getPxScene_CudaContextManager( const PxScene* inObj ) { return inObj->getCudaContextManager(); }
 void setPxScene_SimulationEventCallback( PxScene* inObj, PxSimulationEventCallback * inArg){ inObj->setSimulationEventCallback( inArg ); }
 PxSimulationEventCallback * getPxScene_SimulationEventCallback( const PxScene* inObj ) { return inObj->getSimulationEventCallback(); }
 void setPxScene_ContactModifyCallback( PxScene* inObj, PxContactModifyCallback * inArg){ inObj->setContactModifyCallback( inArg ); }
@@ -800,6 +817,8 @@ PxBroadPhaseCallback * getPxScene_BroadPhaseCallback( const PxScene* inObj ) { r
 PxU32 getPxScene_FilterShaderDataSize( const PxScene* inObj ) { return inObj->getFilterShaderDataSize(); }
 PxSimulationFilterShader getPxScene_FilterShader( const PxScene* inObj ) { return inObj->getFilterShader(); }
 PxSimulationFilterCallback * getPxScene_FilterCallback( const PxScene* inObj ) { return inObj->getFilterCallback(); }
+PxPairFilteringMode::Enum getPxScene_KinematicKinematicFilteringMode( const PxScene* inObj ) { return inObj->getKinematicKinematicFilteringMode(); }
+PxPairFilteringMode::Enum getPxScene_StaticKinematicFilteringMode( const PxScene* inObj ) { return inObj->getStaticKinematicFilteringMode(); }
 void setPxScene_Gravity( PxScene* inObj, const PxVec3 & inArg){ inObj->setGravity( inArg ); }
 PxVec3 getPxScene_Gravity( const PxScene* inObj ) { return inObj->getGravity(); }
 void setPxScene_BounceThresholdVelocity( PxScene* inObj, const PxReal inArg){ inObj->setBounceThresholdVelocity( inArg ); }
@@ -827,6 +846,8 @@ PxU32 getPxScene_MaxNbContactDataBlocksUsed( const PxScene* inObj ) { return inO
 PxU32 getPxScene_ContactReportStreamBufferSize( const PxScene* inObj ) { return inObj->getContactReportStreamBufferSize(); }
 void setPxScene_SolverBatchSize( PxScene* inObj, PxU32 inArg){ inObj->setSolverBatchSize( inArg ); }
 PxU32 getPxScene_SolverBatchSize( const PxScene* inObj ) { return inObj->getSolverBatchSize(); }
+void setPxScene_SolverArticulationBatchSize( PxScene* inObj, PxU32 inArg){ inObj->setSolverArticulationBatchSize( inArg ); }
+PxU32 getPxScene_SolverArticulationBatchSize( const PxScene* inObj ) { return inObj->getSolverArticulationBatchSize(); }
 PxReal getPxScene_WakeCounterResetValue( const PxScene* inObj ) { return inObj->getWakeCounterResetValue(); }
 inline void * getPxSceneUserData( const PxScene* inOwner ) { return inOwner->userData; }
 inline void setPxSceneUserData( PxScene* inOwner, void * inData) { inOwner->userData = inData; }
@@ -839,7 +860,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedInfo::PxSceneGeneratedInfo()
 	, Constraints( "Constraints", getPxScene_Constraints, getNbPxScene_Constraints )
 	, Aggregates( "Aggregates", getPxScene_Aggregates, getNbPxScene_Aggregates )
 	, CpuDispatcher( "CpuDispatcher", getPxScene_CpuDispatcher)
-	, GpuDispatcher( "GpuDispatcher", getPxScene_GpuDispatcher)
+	, CudaContextManager( "CudaContextManager", getPxScene_CudaContextManager)
 	, SimulationEventCallback( "SimulationEventCallback", setPxScene_SimulationEventCallback, getPxScene_SimulationEventCallback)
 	, ContactModifyCallback( "ContactModifyCallback", setPxScene_ContactModifyCallback, getPxScene_ContactModifyCallback)
 	, CCDContactModifyCallback( "CCDContactModifyCallback", setPxScene_CCDContactModifyCallback, getPxScene_CCDContactModifyCallback)
@@ -847,6 +868,8 @@ PX_PHYSX_CORE_API PxSceneGeneratedInfo::PxSceneGeneratedInfo()
 	, FilterShaderDataSize( "FilterShaderDataSize", getPxScene_FilterShaderDataSize)
 	, FilterShader( "FilterShader", getPxScene_FilterShader)
 	, FilterCallback( "FilterCallback", getPxScene_FilterCallback)
+	, KinematicKinematicFilteringMode( "KinematicKinematicFilteringMode", getPxScene_KinematicKinematicFilteringMode)
+	, StaticKinematicFilteringMode( "StaticKinematicFilteringMode", getPxScene_StaticKinematicFilteringMode)
 	, Gravity( "Gravity", setPxScene_Gravity, getPxScene_Gravity)
 	, BounceThresholdVelocity( "BounceThresholdVelocity", setPxScene_BounceThresholdVelocity, getPxScene_BounceThresholdVelocity)
 	, CCDMaxPasses( "CCDMaxPasses", setPxScene_CCDMaxPasses, getPxScene_CCDMaxPasses)
@@ -865,6 +888,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedInfo::PxSceneGeneratedInfo()
 	, MaxNbContactDataBlocksUsed( "MaxNbContactDataBlocksUsed", getPxScene_MaxNbContactDataBlocksUsed)
 	, ContactReportStreamBufferSize( "ContactReportStreamBufferSize", getPxScene_ContactReportStreamBufferSize)
 	, SolverBatchSize( "SolverBatchSize", setPxScene_SolverBatchSize, getPxScene_SolverBatchSize)
+	, SolverArticulationBatchSize( "SolverArticulationBatchSize", setPxScene_SolverArticulationBatchSize, getPxScene_SolverArticulationBatchSize)
 	, WakeCounterResetValue( "WakeCounterResetValue", getPxScene_WakeCounterResetValue)
 	, UserData( "UserData", setPxSceneUserData, getPxSceneUserData )
 {}
@@ -873,7 +897,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedValues::PxSceneGeneratedValues( const PxScene*
 		,Limits( getPxScene_Limits( inSource ) )
 		,Timestamp( getPxScene_Timestamp( inSource ) )
 		,CpuDispatcher( getPxScene_CpuDispatcher( inSource ) )
-		,GpuDispatcher( getPxScene_GpuDispatcher( inSource ) )
+		,CudaContextManager( getPxScene_CudaContextManager( inSource ) )
 		,SimulationEventCallback( getPxScene_SimulationEventCallback( inSource ) )
 		,ContactModifyCallback( getPxScene_ContactModifyCallback( inSource ) )
 		,CCDContactModifyCallback( getPxScene_CCDContactModifyCallback( inSource ) )
@@ -881,6 +905,8 @@ PX_PHYSX_CORE_API PxSceneGeneratedValues::PxSceneGeneratedValues( const PxScene*
 		,FilterShaderDataSize( getPxScene_FilterShaderDataSize( inSource ) )
 		,FilterShader( getPxScene_FilterShader( inSource ) )
 		,FilterCallback( getPxScene_FilterCallback( inSource ) )
+		,KinematicKinematicFilteringMode( getPxScene_KinematicKinematicFilteringMode( inSource ) )
+		,StaticKinematicFilteringMode( getPxScene_StaticKinematicFilteringMode( inSource ) )
 		,Gravity( getPxScene_Gravity( inSource ) )
 		,BounceThresholdVelocity( getPxScene_BounceThresholdVelocity( inSource ) )
 		,CCDMaxPasses( getPxScene_CCDMaxPasses( inSource ) )
@@ -897,6 +923,7 @@ PX_PHYSX_CORE_API PxSceneGeneratedValues::PxSceneGeneratedValues( const PxScene*
 		,MaxNbContactDataBlocksUsed( getPxScene_MaxNbContactDataBlocksUsed( inSource ) )
 		,ContactReportStreamBufferSize( getPxScene_ContactReportStreamBufferSize( inSource ) )
 		,SolverBatchSize( getPxScene_SolverBatchSize( inSource ) )
+		,SolverArticulationBatchSize( getPxScene_SolverArticulationBatchSize( inSource ) )
 		,WakeCounterResetValue( getPxScene_WakeCounterResetValue( inSource ) )
 		,UserData( inSource->userData )
 {
@@ -1022,8 +1049,8 @@ inline PxSceneFlags getPxSceneDescFlags( const PxSceneDesc* inOwner ) { return i
 inline void setPxSceneDescFlags( PxSceneDesc* inOwner, PxSceneFlags inData) { inOwner->flags = inData; }
 inline PxCpuDispatcher * getPxSceneDescCpuDispatcher( const PxSceneDesc* inOwner ) { return inOwner->cpuDispatcher; }
 inline void setPxSceneDescCpuDispatcher( PxSceneDesc* inOwner, PxCpuDispatcher * inData) { inOwner->cpuDispatcher = inData; }
-inline PxGpuDispatcher * getPxSceneDescGpuDispatcher( const PxSceneDesc* inOwner ) { return inOwner->gpuDispatcher; }
-inline void setPxSceneDescGpuDispatcher( PxSceneDesc* inOwner, PxGpuDispatcher * inData) { inOwner->gpuDispatcher = inData; }
+inline PxCudaContextManager * getPxSceneDescCudaContextManager( const PxSceneDesc* inOwner ) { return inOwner->cudaContextManager; }
+inline void setPxSceneDescCudaContextManager( PxSceneDesc* inOwner, PxCudaContextManager * inData) { inOwner->cudaContextManager = inData; }
 inline PxPruningStructureType::Enum getPxSceneDescStaticStructure( const PxSceneDesc* inOwner ) { return inOwner->staticStructure; }
 inline void setPxSceneDescStaticStructure( PxSceneDesc* inOwner, PxPruningStructureType::Enum inData) { inOwner->staticStructure = inData; }
 inline PxPruningStructureType::Enum getPxSceneDescDynamicStructure( const PxSceneDesc* inOwner ) { return inOwner->dynamicStructure; }
@@ -1036,6 +1063,8 @@ inline void * getPxSceneDescUserData( const PxSceneDesc* inOwner ) { return inOw
 inline void setPxSceneDescUserData( PxSceneDesc* inOwner, void * inData) { inOwner->userData = inData; }
 inline PxU32 getPxSceneDescSolverBatchSize( const PxSceneDesc* inOwner ) { return inOwner->solverBatchSize; }
 inline void setPxSceneDescSolverBatchSize( PxSceneDesc* inOwner, PxU32 inData) { inOwner->solverBatchSize = inData; }
+inline PxU32 getPxSceneDescSolverArticulationBatchSize( const PxSceneDesc* inOwner ) { return inOwner->solverArticulationBatchSize; }
+inline void setPxSceneDescSolverArticulationBatchSize( PxSceneDesc* inOwner, PxU32 inData) { inOwner->solverArticulationBatchSize = inData; }
 inline PxU32 getPxSceneDescNbContactDataBlocks( const PxSceneDesc* inOwner ) { return inOwner->nbContactDataBlocks; }
 inline void setPxSceneDescNbContactDataBlocks( PxSceneDesc* inOwner, PxU32 inData) { inOwner->nbContactDataBlocks = inData; }
 inline PxU32 getPxSceneDescMaxNbContactDataBlocks( const PxSceneDesc* inOwner ) { return inOwner->maxNbContactDataBlocks; }
@@ -1081,13 +1110,14 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedInfo::PxSceneDescGeneratedInfo()
 	, SolverOffsetSlop( "SolverOffsetSlop", setPxSceneDescSolverOffsetSlop, getPxSceneDescSolverOffsetSlop )
 	, Flags( "Flags", setPxSceneDescFlags, getPxSceneDescFlags )
 	, CpuDispatcher( "CpuDispatcher", setPxSceneDescCpuDispatcher, getPxSceneDescCpuDispatcher )
-	, GpuDispatcher( "GpuDispatcher", setPxSceneDescGpuDispatcher, getPxSceneDescGpuDispatcher )
+	, CudaContextManager( "CudaContextManager", setPxSceneDescCudaContextManager, getPxSceneDescCudaContextManager )
 	, StaticStructure( "StaticStructure", setPxSceneDescStaticStructure, getPxSceneDescStaticStructure )
 	, DynamicStructure( "DynamicStructure", setPxSceneDescDynamicStructure, getPxSceneDescDynamicStructure )
 	, DynamicTreeRebuildRateHint( "DynamicTreeRebuildRateHint", setPxSceneDescDynamicTreeRebuildRateHint, getPxSceneDescDynamicTreeRebuildRateHint )
 	, SceneQueryUpdateMode( "SceneQueryUpdateMode", setPxSceneDescSceneQueryUpdateMode, getPxSceneDescSceneQueryUpdateMode )
 	, UserData( "UserData", setPxSceneDescUserData, getPxSceneDescUserData )
 	, SolverBatchSize( "SolverBatchSize", setPxSceneDescSolverBatchSize, getPxSceneDescSolverBatchSize )
+	, SolverArticulationBatchSize( "SolverArticulationBatchSize", setPxSceneDescSolverArticulationBatchSize, getPxSceneDescSolverArticulationBatchSize )
 	, NbContactDataBlocks( "NbContactDataBlocks", setPxSceneDescNbContactDataBlocks, getPxSceneDescNbContactDataBlocks )
 	, MaxNbContactDataBlocks( "MaxNbContactDataBlocks", setPxSceneDescMaxNbContactDataBlocks, getPxSceneDescMaxNbContactDataBlocks )
 	, MaxBiasCoefficient( "MaxBiasCoefficient", setPxSceneDescMaxBiasCoefficient, getPxSceneDescMaxBiasCoefficient )
@@ -1122,13 +1152,14 @@ PX_PHYSX_CORE_API PxSceneDescGeneratedValues::PxSceneDescGeneratedValues( const 
 		,SolverOffsetSlop( inSource->solverOffsetSlop )
 		,Flags( inSource->flags )
 		,CpuDispatcher( inSource->cpuDispatcher )
-		,GpuDispatcher( inSource->gpuDispatcher )
+		,CudaContextManager( inSource->cudaContextManager )
 		,StaticStructure( inSource->staticStructure )
 		,DynamicStructure( inSource->dynamicStructure )
 		,DynamicTreeRebuildRateHint( inSource->dynamicTreeRebuildRateHint )
 		,SceneQueryUpdateMode( inSource->sceneQueryUpdateMode )
 		,UserData( inSource->userData )
 		,SolverBatchSize( inSource->solverBatchSize )
+		,SolverArticulationBatchSize( inSource->solverArticulationBatchSize )
 		,NbContactDataBlocks( inSource->nbContactDataBlocks )
 		,MaxNbContactDataBlocks( inSource->maxNbContactDataBlocks )
 		,MaxBiasCoefficient( inSource->maxBiasCoefficient )
@@ -1153,6 +1184,8 @@ inline PxU32 getPxSimulationStatisticsNbStaticBodies( const PxSimulationStatisti
 inline void setPxSimulationStatisticsNbStaticBodies( PxSimulationStatistics* inOwner, PxU32 inData) { inOwner->nbStaticBodies = inData; }
 inline PxU32 getPxSimulationStatisticsNbDynamicBodies( const PxSimulationStatistics* inOwner ) { return inOwner->nbDynamicBodies; }
 inline void setPxSimulationStatisticsNbDynamicBodies( PxSimulationStatistics* inOwner, PxU32 inData) { inOwner->nbDynamicBodies = inData; }
+inline PxU32 getPxSimulationStatisticsNbKinematicBodies( const PxSimulationStatistics* inOwner ) { return inOwner->nbKinematicBodies; }
+inline void setPxSimulationStatisticsNbKinematicBodies( PxSimulationStatistics* inOwner, PxU32 inData) { inOwner->nbKinematicBodies = inData; }
 inline PxU32 getPxSimulationStatisticsNbAggregates( const PxSimulationStatistics* inOwner ) { return inOwner->nbAggregates; }
 inline void setPxSimulationStatisticsNbAggregates( PxSimulationStatistics* inOwner, PxU32 inData) { inOwner->nbAggregates = inData; }
 inline PxU32 getPxSimulationStatisticsNbArticulations( const PxSimulationStatistics* inOwner ) { return inOwner->nbArticulations; }
@@ -1191,6 +1224,7 @@ PX_PHYSX_CORE_API PxSimulationStatisticsGeneratedInfo::PxSimulationStatisticsGen
 	, NbActiveKinematicBodies( "NbActiveKinematicBodies", setPxSimulationStatisticsNbActiveKinematicBodies, getPxSimulationStatisticsNbActiveKinematicBodies )
 	, NbStaticBodies( "NbStaticBodies", setPxSimulationStatisticsNbStaticBodies, getPxSimulationStatisticsNbStaticBodies )
 	, NbDynamicBodies( "NbDynamicBodies", setPxSimulationStatisticsNbDynamicBodies, getPxSimulationStatisticsNbDynamicBodies )
+	, NbKinematicBodies( "NbKinematicBodies", setPxSimulationStatisticsNbKinematicBodies, getPxSimulationStatisticsNbKinematicBodies )
 	, NbAggregates( "NbAggregates", setPxSimulationStatisticsNbAggregates, getPxSimulationStatisticsNbAggregates )
 	, NbArticulations( "NbArticulations", setPxSimulationStatisticsNbArticulations, getPxSimulationStatisticsNbArticulations )
 	, NbAxisSolverConstraints( "NbAxisSolverConstraints", setPxSimulationStatisticsNbAxisSolverConstraints, getPxSimulationStatisticsNbAxisSolverConstraints )
@@ -1214,6 +1248,7 @@ PX_PHYSX_CORE_API PxSimulationStatisticsGeneratedValues::PxSimulationStatisticsG
 		,NbActiveKinematicBodies( inSource->nbActiveKinematicBodies )
 		,NbStaticBodies( inSource->nbStaticBodies )
 		,NbDynamicBodies( inSource->nbDynamicBodies )
+		,NbKinematicBodies( inSource->nbKinematicBodies )
 		,NbAggregates( inSource->nbAggregates )
 		,NbArticulations( inSource->nbArticulations )
 		,NbAxisSolverConstraints( inSource->nbAxisSolverConstraints )

@@ -29,7 +29,8 @@
 
 
 #include "foundation/PxAllocatorCallback.h"
-#include "PxStringTableExt.h"
+#include "extensions/PxStringTableExt.h"
+
 #include "PxProfileAllocatorWrapper.h" //tools for using a custom allocator
 #include "PsString.h"
 #include "PsUserAllocated.h"

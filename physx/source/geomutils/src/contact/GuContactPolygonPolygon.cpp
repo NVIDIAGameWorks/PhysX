@@ -28,9 +28,10 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxMemory.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuContactPolygonPolygon.h"
 #include "GuShapeConvex.h"
-#include "GuContactBuffer.h"
 #include "PsMathUtils.h"
 #include "PsAllocator.h"
 #include "PsFPU.h"

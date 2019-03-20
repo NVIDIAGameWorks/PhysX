@@ -47,30 +47,15 @@ void NpRigidDynamic::requiresObjects(PxProcessPxBaseCallback& c)
 	NpRigidDynamicT::requiresObjects(c);
 }
 
-void NpRigidDynamic::exportData(PxSerializationContext& context) const
+void NpRigidDynamic::preExportDataReset()
 {
-	//Clearing the aggregate ID for serialization so we avoid having a stale 
-	//reference after deserialization. The aggregate ID get's reset on readding to the 
-	//scene anyway.
-	//Also restore dynamic data in case the actor is configured as a kinematic.
-	//otherwise we would loose the data for switching the kinematic actor back to dynamic
-	//after deserialization.
-	Sc::BodyCore& bodyCore = const_cast<Sc::BodyCore&>(getScbBodyFast().getScBody());
-	Sc::ActorCore& actorCore = const_cast<Sc::ActorCore&>(getScbActorFast().getActorCore());
+	NpRigidDynamicT::preExportDataReset();
 	if (isKinematic())
 	{
-		bodyCore.restoreDynamicData();
-	}
-	PxU32 backupAggregateID = actorCore.getAggregateID();
-	actorCore.setAggregateID(PX_INVALID_U32);
-
-	context.writeData(this, sizeof(NpRigidDynamic));
-	
-	actorCore.setAggregateID(backupAggregateID);
-
-	if (isKinematic())
-	{
-		bodyCore.backupDynamicData();
+		//Restore dynamic data in case the actor is configured as a kinematic.
+		//otherwise we would loose the data for switching the kinematic actor back to dynamic
+		//after deserialization.
+		getScbBodyFast().getScBody().restoreDynamicData();
 	}
 }
 

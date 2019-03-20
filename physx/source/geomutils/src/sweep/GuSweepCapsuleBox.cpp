@@ -29,14 +29,15 @@
 
 #include "foundation/PxBounds3.h"
 #include "foundation/PxTransform.h"
+#include "geometry/PxTriangle.h"
+
 #include "GuSweepCapsuleBox.h"
 #include "GuSweepSphereTriangle.h"
 #include "GuCapsule.h"
-#include "PxTriangle.h"
 #include "GuDistanceSegmentBox.h"
 #include "GuInternal.h"
-#include "PsAlloca.h"
 #include "GuSIMDHelpers.h"
+#include "PsAlloca.h"
 
 using namespace physx;
 using namespace Gu;

@@ -34,9 +34,12 @@
 @{
 */
 
-#include "PxSerialFramework.h"
-#include "PxCollection.h"
 #include "foundation/PxAssert.h"
+#include "foundation/PxAllocatorCallback.h"
+#include "common/PxSerialFramework.h"
+#include "common/PxCollection.h"
+#include "PxFoundation.h"
+
 
 #if !PX_DOXYGEN
 namespace physx
@@ -189,8 +192,13 @@ public:
 	}
 
 	virtual void exportData(PxBase& obj, PxSerializationContext& s) const
-	{ 
-		s.writeData(&obj, sizeof(T));
+	{
+		PxAllocatorCallback& allocator = PxGetFoundation().getAllocatorCallback();
+		T* copy = reinterpret_cast<T*>(allocator.allocate(sizeof(T), "TmpAllocExportData", __FILE__, __LINE__));
+		PxMemCopy(copy, &obj, sizeof(T));
+		copy->preExportDataReset();
+		s.writeData(copy, sizeof(T));
+		allocator.deallocate(copy);
 	}
 
 	virtual void registerReferences(PxBase& obj, PxSerializationContext& s) const

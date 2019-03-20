@@ -28,24 +28,25 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #include "common/PxProfileZone.h"
+#include "geometry/PxMeshQuery.h"
+#include "PxRigidDynamic.h"
+
 #include "CctCharacterController.h"
 #include "CctCharacterControllerManager.h"
 #include "CctSweptBox.h"
 #include "CctSweptCapsule.h"
 #include "CctObstacleContext.h"
-#include "PxRigidDynamic.h"
 #include "CmRenderOutput.h"
-#include "PsMathUtils.h"
 #include "GuIntersectionBoxBox.h"
 #include "GuDistanceSegmentBox.h"
-#include "PxMeshQuery.h"
+#include "PsMathUtils.h"
 #include "PsFPU.h"
 
 // PT: TODO: remove those includes.... shouldn't be allowed from here
-#include "PxControllerObstacles.h"	// (*)
+#include "characterkinematic/PxControllerObstacles.h"	// (*)
+#include "characterkinematic/PxControllerManager.h"	// (*)
+#include "characterkinematic/PxControllerBehavior.h"	// (*)
 #include "CctInternalStructs.h"		// (*)
-#include "PxControllerManager.h"	// (*)
-#include "PxControllerBehavior.h"	// (*)
 
 //#define DEBUG_MTD
 #ifdef DEBUG_MTD
@@ -1962,13 +1963,14 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 
 // This is an interface between NX users and the internal character controller module.
 
+#include "characterkinematic/PxControllerBehavior.h"
+#include "PxActor.h"
+#include "PxScene.h"
+
 #include "CctInternalStructs.h"
 #include "CctBoxController.h"
 #include "CctCapsuleController.h"
 #include "CctCharacterControllerManager.h"
-#include "PxActor.h"
-#include "PxScene.h"
-#include "PxControllerBehavior.h"
 #include "CctObstacleContext.h"
 
 	// PT: we use a local class instead of making "Controller" a PxQueryFilterCallback, since it would waste more memory.

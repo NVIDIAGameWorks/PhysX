@@ -47,6 +47,10 @@ call "..\..\buildtools\update_packman.cmd"
 
 call !PACKMAN_CMD! pull "%~dp0..\..\dependencies.xml" --include-tag=RequiredForMetaGen
 @if errorlevel 1 @exit /b %errorlevel%
+:: use python from packman if available
+if not defined PYTHON (
+	set PYTHON=!PM_python_PATH!\python.exe
+)
 :no_packman
 
 :: look for python in p4 location unless PYTHON is set

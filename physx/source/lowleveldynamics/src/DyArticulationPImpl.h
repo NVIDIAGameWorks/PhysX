@@ -60,8 +60,7 @@ public:
 													 const PxVec3& gravity, PxU64 contextID,
 													 Cm::SpatialVectorF* Z, Cm::SpatialVectorF* DeltaV);
 
-	typedef void (*UpdateBodiesFn)(const ArticulationSolverDesc& desc,
-								   PxReal dt);
+	typedef void (*UpdateBodiesFn)(const ArticulationSolverDesc& desc, PxReal dt);
 
 	typedef void (*SaveVelocityFn)(const ArticulationSolverDesc &m, Cm::SpatialVectorF* deltaV);
 
@@ -69,7 +68,7 @@ public:
 
 	typedef PxU32(*SetupInternalConstraintsTGSFn)(const ArticulationSolverDesc& desc,
 		PxcConstraintBlockStream& stream,
-		PxTGSSolverConstraintDesc* constraintDesc,
+		PxSolverConstraintDesc* constraintDesc,
 		PxReal dt,
 		PxReal invDt,
 		PxReal totalDt,
@@ -179,7 +178,7 @@ public:
 
 	static PxU32 setupSolverInternalConstraintsTGS(const ArticulationSolverDesc& desc,
 		PxcConstraintBlockStream& stream,
-		PxTGSSolverConstraintDesc* constraintDesc,
+		PxSolverConstraintDesc* constraintDesc,
 		PxReal dt,
 		PxReal invDt,
 		PxReal totalDt,

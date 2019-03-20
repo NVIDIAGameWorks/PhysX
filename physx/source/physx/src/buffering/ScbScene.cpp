@@ -819,6 +819,9 @@ void Scb::Scene::syncState()
 		if(isBuffered(BF_SOLVER_BATCH_SIZE))
 			mScene.setSolverBatchSize(mBufferedData.mSolverBatchSize);
 
+		if(isBuffered(BF_SOLVER_ARTIC_BATCH_SIZE))
+			mScene.setSolverArticBatchSize(mBufferedData.mSolverArticulationBatchSize);
+
 		if(isBuffered(BF_VISUALIZATION))
 		{
 			for(PxU32 i=0; i<PxVisualizationParameter::eNUM_VALUES; i++)

@@ -30,9 +30,9 @@
 #ifndef GU_INTERSECTION_TRIANGLE_BOX_H
 #define GU_INTERSECTION_TRIANGLE_BOX_H
 
-#include "PxPhysXCommonConfig.h"
-#include "CmPhysXCommon.h"
 #include "foundation/PxMat33.h"
+#include "common/PxPhysXCommonConfig.h"
+#include "CmPhysXCommon.h"
 
 namespace physx
 {

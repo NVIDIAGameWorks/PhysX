@@ -28,7 +28,8 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxMemory.h"
-#include "PxVehicleTireFriction.h"
+#include "vehicle/PxVehicleTireFriction.h"
+
 #include "CmPhysXCommon.h"
 #include "PsFoundation.h"
 

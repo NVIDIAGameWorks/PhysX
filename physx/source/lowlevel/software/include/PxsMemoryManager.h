@@ -42,8 +42,6 @@ namespace physx
 		class VirtualAllocatorCallback;
 	}
 
-	class PxGpuDispatcher;
-
 	class PxsMemoryManager
 	{
 	public:

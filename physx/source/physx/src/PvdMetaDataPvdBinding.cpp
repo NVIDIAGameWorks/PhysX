@@ -46,6 +46,7 @@ PX_DUMMY_SYMBOL
 #include "PvdMetaDataBindingData.h"
 #include "PxRigidDynamic.h"
 #include "PxArticulation.h"
+#include "PxArticulationReducedCoordinate.h"
 #include "PxArticulationLink.h"
 #include "NpScene.h"
 #include "NpPhysics.h"
@@ -461,10 +462,17 @@ void PvdMetaDataBinding::registerSDKProperties(PvdDataStream& inStream)
 		definePropertyStruct<PxArticulationBase, PxArticulationBaseGeneratedValues, PxArticulationBase>(inStream);
 	}
 	
-	//{ // PxArticulation
-	//	createClassDeriveAndDefineProperties<PxArticulation, PxArticulationBase>(inStream);	
-	//	definePropertyStruct<PxArticulation, PxArticulationGeneratedValues, PxArticulation>(inStream);
-	//}
+	//no support yet for concrete articulation types
+	{ // PxArticulation
+		//createClassDeriveAndDefineProperties<PxArticulation, PxArticulationBase>(inStream);	
+		//definePropertyStruct<PxArticulation, PxArticulationGeneratedValues, PxArticulation>(inStream);
+	}
+
+	//no support yet for concrete articulation types
+	{ // PxArticulationReducedCoordinate
+		//createClassDeriveAndDefineProperties<PxArticulationReducedCoordinate, PxArticulationBase>(inStream);
+		//definePropertyStruct<PxArticulationReducedCoordinate, PxArticulationReducedCoordinateGeneratedValues, PxArticulationReducedCoordinate>(inStream);
+	}
 
 	{ // PxArticulationLink
 		createClassDeriveAndDefineProperties<PxArticulationLink, PxRigidBody>(inStream);
@@ -575,7 +583,7 @@ void PvdMetaDataBinding::sendAllProperties(PvdDataStream& inStream, const PxScen
 		theDesc.flags = inScene.getFlags();
 
 		theDesc.cpuDispatcher = inScene.getCpuDispatcher();
-		theDesc.gpuDispatcher = inScene.getGpuDispatcher();
+		theDesc.cudaContextManager = inScene.getCudaContextManager();
 		
 		theDesc.staticStructure = inScene.getStaticStructure();
 		theDesc.dynamicStructure = inScene.getDynamicStructure();

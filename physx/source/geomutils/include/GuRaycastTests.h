@@ -30,10 +30,10 @@
 #ifndef GU_RAYCAST_TESTS_H
 #define GU_RAYCAST_TESTS_H
 
-#include "CmPhysXCommon.h"
 #include "foundation/PxSimpleTypes.h"
+#include "geometry/PxGeometry.h"
 #include "PxQueryReport.h"
-#include "PxGeometry.h"
+#include "CmPhysXCommon.h"
 
 namespace physx
 {

@@ -33,7 +33,7 @@
 
 #include "foundation/PxMemory.h"
 #include "foundation/PxBounds3.h"
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
 #include "PsVecMath.h"

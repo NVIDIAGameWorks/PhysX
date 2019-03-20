@@ -16,8 +16,9 @@ var searchData=
   ['comparemetadata',['compareMetaData',['../classPxBinaryConverter.html#ac39cc433f7d1db69e1c17e401adec9cc',1,'PxBinaryConverter']]],
   ['complete',['complete',['../classPxSerialization.html#a0cf59eda36c56e9e66bac0c2b5168094',1,'PxSerialization']]],
   ['computebytesize',['computeByteSize',['../classPxVehicleDrive.html#a46a02e65052ebd02fa20f0fc44ee3550',1,'PxVehicleDrive::computeByteSize()'],['../classPxVehicleWheelsSimData.html#a9290088c460b018a8d9f3e083882c0d0',1,'PxVehicleWheelsSimData::computeByteSize()'],['../classPxVehicleWheelsDynData.html#ae26f98f5ee9ddaf52e26f76f9c7a49f4',1,'PxVehicleWheelsDynData::computeByteSize()'],['../classPxVehicleWheels.html#a6f4df7db37ceba78c08e8925c7486b04',1,'PxVehicleWheels::computeByteSize()']]],
-  ['computecoefficentmatrix',['computeCoefficentMatrix',['../classPxArticulationReducedCoordinate.html#a0a5026aa7fa58fd96a3feb3808427b71',1,'PxArticulationReducedCoordinate']]],
+  ['computecoefficientmatrix',['computeCoefficientMatrix',['../classPxArticulationReducedCoordinate.html#a0eb36b4e092c322893c811f1e7c85b4d',1,'PxArticulationReducedCoordinate']]],
   ['computecoriolisandcentrifugalforce',['computeCoriolisAndCentrifugalForce',['../classPxArticulationReducedCoordinate.html#af1947172f99feef066872b12d675d046',1,'PxArticulationReducedCoordinate']]],
+  ['computedensejacobian',['computeDenseJacobian',['../classPxArticulationReducedCoordinate.html#a08a58ac2a98d339c0fcab0e69f6761e0',1,'PxArticulationReducedCoordinate']]],
   ['computeforwardspeed',['computeForwardSpeed',['../classPxVehicleWheels.html#a60b139fb8ffd58bb50bd1ec7c8812779',1,'PxVehicleWheels']]],
   ['computegeneralizedexternalforce',['computeGeneralizedExternalForce',['../classPxArticulationReducedCoordinate.html#a95e6f19bc92d7003e4d735a26b6ebb46',1,'PxArticulationReducedCoordinate']]],
   ['computegeneralizedgravityforce',['computeGeneralizedGravityForce',['../classPxArticulationReducedCoordinate.html#af8b5217bd48e6d1ccc8ba3e495c66df7',1,'PxArticulationReducedCoordinate']]],
@@ -28,7 +29,6 @@ var searchData=
   ['computejacobians',['computeJacobians',['../classPxContactJoint.html#ae5c68765fb4b399dcaa240efd1624048',1,'PxContactJoint']]],
   ['computejointacceleration',['computeJointAcceleration',['../classPxArticulationReducedCoordinate.html#afc82b045f2afb76484ea967515c01067',1,'PxArticulationReducedCoordinate']]],
   ['computejointforce',['computeJointForce',['../classPxArticulationReducedCoordinate.html#a408e219bfac920e7cf527c6a7c972674',1,'PxArticulationReducedCoordinate']]],
-  ['computekinematicjacobian',['computeKinematicJacobian',['../classPxArticulationReducedCoordinate.html#ad6baf5f760905b778c6d5478b9c63302',1,'PxArticulationReducedCoordinate']]],
   ['computelambda',['computeLambda',['../classPxArticulationReducedCoordinate.html#a06a554a20844b28a9251e60ca69ebac5',1,'PxArticulationReducedCoordinate']]],
   ['computelinearangularimpulse',['computeLinearAngularImpulse',['../classPxRigidBodyExt.html#aa1215782ff3e5c18ca42d8805578c21a',1,'PxRigidBodyExt']]],
   ['computemasspropertiesfromshapes',['computeMassPropertiesFromShapes',['../classPxRigidBodyExt.html#a44f1a4248b259bc96ff5dfb233860b4d',1,'PxRigidBodyExt']]],
@@ -80,7 +80,7 @@ var searchData=
   ['createserialobjectids',['createSerialObjectIds',['../classPxSerialization.html#a84d55e6e21727087653a70cc20557765',1,'PxSerialization']]],
   ['createshape',['createShape',['../classPxPhysics.html#abc564607f208cbc1944880172a3d62fe',1,'PxPhysics::createShape(const PxGeometry &amp;geometry, const PxMaterial &amp;material, bool isExclusive=false, PxShapeFlags shapeFlags=PxShapeFlag::eVISUALIZATION|PxShapeFlag::eSCENE_QUERY_SHAPE|PxShapeFlag::eSIMULATION_SHAPE)'],['../classPxPhysics.html#afde7d3527975abe62c8b4951d9e69978',1,'PxPhysics::createShape(const PxGeometry &amp;geometry, PxMaterial *const *materials, PxU16 materialCount, bool isExclusive=false, PxShapeFlags shapeFlags=PxShapeFlag::eVISUALIZATION|PxShapeFlag::eSCENE_QUERY_SHAPE|PxShapeFlag::eSIMULATION_SHAPE)=0']]],
   ['createstringtable',['createStringTable',['../classPxStringTableExt.html#ab55c61beea368e12068fa362e7f86294',1,'PxStringTableExt']]],
-  ['createtaskmanager',['createTaskManager',['../classphysx_1_1PxTaskManager.html#a940fded6abf31baf0dd31b01b2b86c36',1,'physx::PxTaskManager']]],
+  ['createtaskmanager',['createTaskManager',['../classphysx_1_1PxTaskManager.html#a4f3449671ec8b26f1ae587844b678fa7',1,'physx::PxTaskManager']]],
   ['createtrianglemesh',['createTriangleMesh',['../classPxCooking.html#a227e676ba5b15b9cf292fd457427b13b',1,'PxCooking::createTriangleMesh()'],['../classPxPhysics.html#a29dcbbe128cef11eaf4ce5696c216dfd',1,'PxPhysics::createTriangleMesh()']]],
   ['cross',['cross',['../structPxExtendedVec3.html#a77717e0c9d3089c740ca47499cb4663d',1,'PxExtendedVec3::cross(const PxExtendedVec3 &amp;left, const PxVec3 &amp;right)'],['../structPxExtendedVec3.html#af3f6403e17d5c180a05206477fe6d879',1,'PxExtendedVec3::cross(const PxExtendedVec3 &amp;left, const PxExtendedVec3 &amp;right)'],['../structPxExtendedVec3.html#ac2c9851ce34c21f697801eead6e083e2',1,'PxExtendedVec3::cross(const PxExtendedVec3 &amp;v) const'],['../structPxExtendedVec3.html#a9eb2896468ae9bb29e755ce9cabebc09',1,'PxExtendedVec3::cross(const PxVec3 &amp;left, const PxExtendedVec3 &amp;right)'],['../classPxVec3.html#adc865d00a152264bd992dc0656ec0532',1,'PxVec3::cross()']]]
 ];

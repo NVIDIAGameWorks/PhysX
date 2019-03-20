@@ -191,9 +191,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac74f5f6c12d72b873716f82c2225b725"><td class="memItemLeft" align="right" valign="top">PxCpuDispatcher *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#ac74f5f6c12d72b873716f82c2225b725">cpuDispatcher</a></td></tr>
 <tr class="memdesc:ac74f5f6c12d72b873716f82c2225b725"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CPU task dispatcher for the scene.  <a href="#ac74f5f6c12d72b873716f82c2225b725">More...</a><br /></td></tr>
 <tr class="separator:ac74f5f6c12d72b873716f82c2225b725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3e78a948f61b9b2d3cd47c62205bccc"><td class="memItemLeft" align="right" valign="top">PxGpuDispatcher *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#ae3e78a948f61b9b2d3cd47c62205bccc">gpuDispatcher</a></td></tr>
-<tr class="memdesc:ae3e78a948f61b9b2d3cd47c62205bccc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The GPU task dispatcher for the scene.  <a href="#ae3e78a948f61b9b2d3cd47c62205bccc">More...</a><br /></td></tr>
-<tr class="separator:ae3e78a948f61b9b2d3cd47c62205bccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad55a6e9d290779839659bb2763db2e2a"><td class="memItemLeft" align="right" valign="top">PxCudaContextManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#ad55a6e9d290779839659bb2763db2e2a">cudaContextManager</a></td></tr>
+<tr class="memdesc:ad55a6e9d290779839659bb2763db2e2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CUDA context manager for the scene.  <a href="#ad55a6e9d290779839659bb2763db2e2a">More...</a><br /></td></tr>
+<tr class="separator:ad55a6e9d290779839659bb2763db2e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00495fa3240d1087d38cf33eebc313a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structPxPruningStructureType.html#a058454782f6ed1cc953b8d6561b636d9">PxPruningStructureType::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a00495fa3240d1087d38cf33eebc313a7">staticStructure</a></td></tr>
 <tr class="memdesc:a00495fa3240d1087d38cf33eebc313a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the structure used to store static objects.  <a href="#a00495fa3240d1087d38cf33eebc313a7">More...</a><br /></td></tr>
 <tr class="separator:a00495fa3240d1087d38cf33eebc313a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,6 +212,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a26b321b928708c10a047b38ec9127797"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a26b321b928708c10a047b38ec9127797">solverBatchSize</a></td></tr>
 <tr class="memdesc:a26b321b928708c10a047b38ec9127797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the number of actors required to spawn a separate rigid body solver island task chain.  <a href="#a26b321b928708c10a047b38ec9127797">More...</a><br /></td></tr>
 <tr class="separator:a26b321b928708c10a047b38ec9127797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57fd72417c89bd73fc398678ae153c52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a57fd72417c89bd73fc398678ae153c52">solverArticulationBatchSize</a></td></tr>
+<tr class="memdesc:a57fd72417c89bd73fc398678ae153c52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the number of articulations required to spawn a separate rigid body solver island task chain.  <a href="#a57fd72417c89bd73fc398678ae153c52">More...</a><br /></td></tr>
+<tr class="separator:a57fd72417c89bd73fc398678ae153c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a625cdbae7d2149a9df472fb4f9c06f83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSceneDesc.html#a625cdbae7d2149a9df472fb4f9c06f83">nbContactDataBlocks</a></td></tr>
 <tr class="memdesc:a625cdbae7d2149a9df472fb4f9c06f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setting to define the number of 16K blocks that will be initially reserved to store contact, friction, and contact cache data. This is the number of 16K memory blocks that will be automatically allocated from the user allocator when the scene is instantiated. Further 16k memory blocks may be allocated during the simulation up to maxNbContactDataBlocks.  <a href="#a625cdbae7d2149a9df472fb4f9c06f83">More...</a><br /></td></tr>
 <tr class="separator:a625cdbae7d2149a9df472fb4f9c06f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -451,6 +454,24 @@ This defines the maximum number of passes the CCD can perform. It may perform fe
 
 </div>
 </div>
+<a id="ad55a6e9d290779839659bb2763db2e2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad55a6e9d290779839659bb2763db2e2a">&#9670;&nbsp;</a></span>cudaContextManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PxCudaContextManager* PxSceneDesc::cudaContextManager</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The CUDA context manager for the scene. </p>
+<p><b>Platform specific:</b> Applies to PC GPU only.</p>
+<p>See PxCudaContextManager, <a class="el" href="classPxScene.html#ac74778bafc058fbd4e8abd8006c323e8" title="Return the CUDA context manager that was set in PxSceneDesc::cudaContextManager when creating the sce...">PxScene::getCudaContextManager</a> </p>
+
+</div>
+</div>
 <a id="a038ba820b16315ea55c6e12a3cbe2b7f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a038ba820b16315ea55c6e12a3cbe2b7f">&#9670;&nbsp;</a></span>dynamicStructure</h2>
 
@@ -647,24 +668,6 @@ This parameter can be used to tune the separation distance of contact points at 
 </div><div class="memdoc">
 
 <p>Defines which compute version the GPU dynamics should target. DO NOT MODIFY. </p>
-
-</div>
-</div>
-<a id="ae3e78a948f61b9b2d3cd47c62205bccc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3e78a948f61b9b2d3cd47c62205bccc">&#9670;&nbsp;</a></span>gpuDispatcher</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">PxGpuDispatcher* PxSceneDesc::gpuDispatcher</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The GPU task dispatcher for the scene. </p>
-<p><b>Platform specific:</b> Applies to PC GPU only.</p>
-<p>See PxGpuDispatcher, <a class="el" href="classPxScene.html#a256ac6d74578418c446fc5fe1fe95170" title="Return the gpu dispatcher that was set in PxSceneDesc::gpuDispatcher when creating the scene with PxP...">PxScene::getGpuDispatcher</a> </p>
 
 </div>
 </div>
@@ -882,6 +885,26 @@ This parameter can be used to tune the separation distance of contact points at 
 
 </div>
 </div>
+<a id="a57fd72417c89bd73fc398678ae153c52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57fd72417c89bd73fc398678ae153c52">&#9670;&nbsp;</a></span>solverArticulationBatchSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxSceneDesc::solverArticulationBatchSize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines the number of articulations required to spawn a separate rigid body solver island task chain. </p>
+<p>This parameter defines the minimum number of articulations required to spawn a separate rigid body solver task chain. Setting a low value will potentially cause more task chains to be generated. This may result in the overhead of spawning tasks can become a limiting performance factor. Setting a high value will potentially cause fewer islands to be generated. This may reduce thread scaling (fewer task chains spawned) and may detrimentally affect performance if some bodies in the scene have large solver iteration counts because all constraints in a given island are solved by the maximum number of solver iterations requested by any body in the island.</p>
+<p>Note that a rigid body solver task chain is spawned as soon as either a sufficient number of rigid bodies or articulations are batched together.</p>
+<p><b>Default:</b> 128</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxScene.html#a0db918a532ef4d36474bf3f46cfad5a8" title="Sets the number of articulations required to spawn a separate rigid body solver thread. ">PxScene.setSolverArticulationBatchSize()</a> <a class="el" href="classPxScene.html#af11e6f5eedaa53bb4a1e3420e1c2c531" title="Retrieves the number of articulations required to spawn a separate rigid body solver thread...">PxScene.getSolverArticulationBatchSize()</a> </dd></dl>
+
+</div>
+</div>
 <a id="a26b321b928708c10a047b38ec9127797"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a26b321b928708c10a047b38ec9127797">&#9670;&nbsp;</a></span>solverBatchSize</h2>
 
@@ -896,6 +919,7 @@ This parameter can be used to tune the separation distance of contact points at 
 
 <p>Defines the number of actors required to spawn a separate rigid body solver island task chain. </p>
 <p>This parameter defines the minimum number of actors required to spawn a separate rigid body solver task chain. Setting a low value will potentially cause more task chains to be generated. This may result in the overhead of spawning tasks can become a limiting performance factor. Setting a high value will potentially cause fewer islands to be generated. This may reduce thread scaling (fewer task chains spawned) and may detrimentally affect performance if some bodies in the scene have large solver iteration counts because all constraints in a given island are solved by the maximum number of solver iterations requested by any body in the island.</p>
+<p>Note that a rigid body solver task chain is spawned as soon as either a sufficient number of rigid bodies or articulations are batched together.</p>
 <p><b>Default:</b> 128</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxScene.html#aad9cc8bf329f4de4b407436f5cd38c98" title="Sets the number of actors required to spawn a separate rigid body solver thread. ">PxScene.setSolverBatchSize()</a> <a class="el" href="classPxScene.html#add966317a1feb083e273fd8c12f454b5" title="Retrieves the number of actors required to spawn a separate rigid body solver thread. ">PxScene.getSolverBatchSize()</a> </dd></dl>
 

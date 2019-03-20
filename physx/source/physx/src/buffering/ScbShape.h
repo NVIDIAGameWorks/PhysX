@@ -30,18 +30,13 @@
 #ifndef PX_PHYSICS_SCB_SHAPE
 #define PX_PHYSICS_SCB_SHAPE
 
+#include "common/PxSerialFramework.h"
+#include "PsUtilities.h"
 #include "NpMaterial.h"
 #include "NpPhysics.h"
 #include "ScbNpDeps.h"
 #include "ScShapeCore.h"
 #include "ScRigidCore.h"
-
-#include "PsUtilities.h"
-
-// PX_SERIALIZATION
-#include "PxSerialFramework.h"
-//~PX_SERIALIZATION
-
 #include "ScbDefs.h"
 
 namespace physx

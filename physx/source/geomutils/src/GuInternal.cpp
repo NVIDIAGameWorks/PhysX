@@ -29,12 +29,12 @@
 
 
 #include "foundation/PxBounds3.h"
+#include "geometry/PxCapsuleGeometry.h"
 #include "PsIntrinsics.h"
 #include "GuInternal.h"
 #include "GuBox.h"
 #include "GuVecPlane.h"
 #include "PsMathUtils.h"
-#include "PxCapsuleGeometry.h"
 #include "PsVecMath.h"
 using namespace physx::shdfnd::aos;
 

@@ -27,14 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PsIntrinsics.h"
+#include "geometry/PxMeshScale.h"
+#include "PxVisualizationParameter.h"
+
 #include "GuMidphaseInterface.h"
 #include "GuSerialize.h"
 #include "GuMeshFactory.h"
-#include "CmRenderOutput.h"
-#include "PxVisualizationParameter.h"
 #include "GuBox.h"
-#include "PxMeshScale.h"
+#include "PsIntrinsics.h"
+#include "CmRenderOutput.h"
 #include "CmUtils.h"
 
 using namespace physx;

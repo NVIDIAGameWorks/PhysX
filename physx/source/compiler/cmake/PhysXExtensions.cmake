@@ -75,6 +75,7 @@ SET(PHYSX_EXTENSIONS_SOURCE
 	${LL_SOURCE_DIR}/ExtFixedJoint.h
 	${LL_SOURCE_DIR}/ExtInertiaTensor.h
 	${LL_SOURCE_DIR}/ExtJoint.h
+	${LL_SOURCE_DIR}/ExtJointData.h
 	${LL_SOURCE_DIR}/ExtJointMetaDataExtensions.h
 	${LL_SOURCE_DIR}/ExtPlatform.h
 	${LL_SOURCE_DIR}/ExtPrismaticJoint.h
@@ -228,13 +229,6 @@ TARGET_INCLUDE_DIRECTORIES(PhysXExtensions
 	PRIVATE ${PHYSXEXTENSIONS_PLATFORM_INCLUDES}
 
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/common
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geometry
-	PRIVATE ${PHYSX_ROOT_DIR}/include/pvd
-	PRIVATE ${PHYSX_ROOT_DIR}/include/cooking
-	PRIVATE ${PHYSX_ROOT_DIR}/include/extensions
-	PRIVATE ${PHYSX_ROOT_DIR}/include/vehicle
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geomutils
 
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/include
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src

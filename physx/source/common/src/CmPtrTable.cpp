@@ -29,9 +29,9 @@
 
 #include "foundation/PxAssert.h"
 #include "foundation/PxMemory.h"
+#include "common/PxMetaData.h"
 #include "CmPtrTable.h"
 #include "CmUtils.h"
-#include "PxMetaData.h"
 #include "PsBitUtils.h"
 
 using namespace physx;

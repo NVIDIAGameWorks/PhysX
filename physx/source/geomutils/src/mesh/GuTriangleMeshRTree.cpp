@@ -53,7 +53,6 @@ Gu::TriangleMesh* Gu::RTreeTriangleMesh::createObject(PxU8*& address, PxDeserial
 	RTreeTriangleMesh* obj = new (address) RTreeTriangleMesh(PxBaseFlag::eIS_RELEASABLE);
 	address += sizeof(RTreeTriangleMesh);	
 	obj->importExtraData(context);
-	obj->resolveReferences(context);
 	return obj;
 }
 

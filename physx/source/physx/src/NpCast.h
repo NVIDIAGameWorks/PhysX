@@ -76,13 +76,13 @@ namespace physx
 
 	PX_FORCE_INLINE const NpArticulation* getNpArticulation(const Scb::Articulation* scbArticulation)
 	{
-		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulation*>(0)->mImpl.getArticulation()));
+		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulation*>(0)->mImpl.getScbArticulation()));
 		return reinterpret_cast<const NpArticulation*>(reinterpret_cast<const char*>(scbArticulation) - offset);
 	}
 
 	PX_FORCE_INLINE const NpArticulationReducedCoordinate* getNpArticulationRC(const Scb::Articulation* scbArticulation)
 	{
-		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulationReducedCoordinate*>(0)->mImpl.getArticulation()));
+		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulationReducedCoordinate*>(0)->mImpl.getScbArticulation()));
 		return reinterpret_cast<const NpArticulationReducedCoordinate*>(reinterpret_cast<const char*>(scbArticulation) - offset);
 	}
 
@@ -90,6 +90,12 @@ namespace physx
 	{
 		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulationJoint*>(0)->getScbArticulationJoint()));
 		return reinterpret_cast<const NpArticulationJoint*>(reinterpret_cast<const char*>(scbArticulationJoint) - offset);
+	}
+
+	PX_FORCE_INLINE const NpArticulationJointReducedCoordinate* getNpArticulationJointReducedCoordinate(const Scb::ArticulationJoint* scbArticulationJoint)
+	{
+		const size_t offset = reinterpret_cast<size_t>(&(reinterpret_cast<NpArticulationJointReducedCoordinate*>(0)->getScbArticulationJoint()));
+		return reinterpret_cast<const NpArticulationJointReducedCoordinate*>(reinterpret_cast<const char*>(scbArticulationJoint) - offset);
 	}
 
 	PX_FORCE_INLINE const NpAggregate* getNpAggregate(const Scb::Aggregate* aggregate)

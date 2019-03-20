@@ -27,16 +27,16 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxVehicleComponents.h"
-#include "PxVehicleDrive.h"
-#include "PxVehicleNoDrive.h"
-#include "PxVehicleDrive4W.h"
-#include "PxVehicleDriveNW.h"
-#include "PxVehicleDriveTank.h"
+#include "common/PxMetaData.h"
+#include "vehicle/PxVehicleComponents.h"
+#include "vehicle/PxVehicleDrive.h"
+#include "vehicle/PxVehicleNoDrive.h"
+#include "vehicle/PxVehicleDrive4W.h"
+#include "vehicle/PxVehicleDriveNW.h"
+#include "vehicle/PxVehicleDriveTank.h"
+
 #include "PxVehicleSuspWheelTire4.h"
 #include "PxVehicleSuspLimitConstraintShader.h"
-
-#include "PxMetaData.h"
 
 using namespace physx;
 

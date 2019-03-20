@@ -83,7 +83,6 @@ SET(LLDYNAMICS_SOURCE
 	${LLDYNAMICS_BASE_DIR}/src/DyThreadContext.cpp
 	${LLDYNAMICS_BASE_DIR}/src/DyThresholdTable.cpp
 	${LLDYNAMICS_BASE_DIR}/src/DyTGSDynamics.cpp
-	${LLDYNAMICS_BASE_DIR}/src/DyTGSPartition.cpp
 	${LLDYNAMICS_BASE_DIR}/src/DyTGSContactPrep.cpp
 	${LLDYNAMICS_BASE_DIR}/src/DyTGSContactPrepBlock.cpp
 )
@@ -128,8 +127,8 @@ SET(LLDYNAMICS_INTERNAL_INCLUDES
 	${LLDYNAMICS_BASE_DIR}/src/DySolverExt.h
 	${LLDYNAMICS_BASE_DIR}/src/DySpatial.h
 	${LLDYNAMICS_BASE_DIR}/src/DyThreadContext.h
-	${LLDYNAMICS_BASE_DIR}/src/DyTGSPartition.h
 	${LLDYNAMICS_BASE_DIR}/src/DyTGSDynamics.h
+    ${LLDYNAMICS_BASE_DIR}/src/DyTGSContactPrep.h
 )
 SOURCE_GROUP("Dynamics Internal Includes" FILES ${LLDYNAMICS_INTERNAL_INCLUDES})
 
@@ -147,9 +146,6 @@ TARGET_INCLUDE_DIRECTORIES(LowLevelDynamics
 	PRIVATE ${PHYSXFOUNDATION_INCLUDES}
 
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/common
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geometry
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geomutils
 
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src
 	

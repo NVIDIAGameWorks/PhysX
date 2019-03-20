@@ -50,9 +50,11 @@
 #if !defined(PX_SIMD_DISABLED)
 #if PX_INTEL_FAMILY && (!defined(__EMSCRIPTEN__) || defined(__SSE2__))
 #define COMPILE_VECTOR_INTRINSICS 1
-#elif PX_ANDROID&& PX_NEON
+#elif PX_ANDROID && PX_NEON
 #define COMPILE_VECTOR_INTRINSICS 1
-#elif PX_IOS&& PX_NEON
+#elif PX_UWP && PX_NEON
+#define COMPILE_VECTOR_INTRINSICS 1
+#elif PX_IOS && PX_NEON
 #define COMPILE_VECTOR_INTRINSICS 1
 #elif PX_SWITCH
 #define COMPILE_VECTOR_INTRINSICS 1
@@ -1002,6 +1004,11 @@ PX_FORCE_INLINE VecU32V V4U32Andc(VecU32V a, VecU32V b);
 PX_FORCE_INLINE VecU32V V4IsGrtrV32u(const Vec4V a, const Vec4V b);
 
 // Math operations on 16-byte aligned Mat33s (represents any 3x3 matrix)
+PX_FORCE_INLINE Mat33V M33Load(const PxMat33& m) 
+{
+	return Mat33V(Vec3V_From_Vec4V(V4LoadU(&m.column0.x)), 
+	Vec3V_From_Vec4V(V4LoadU(&m.column1.x)), V3LoadU(m.column2)); 
+}
 // a*b
 PX_FORCE_INLINE Vec3V M33MulV3(const Mat33V& a, const Vec3V b);
 // A*x + b

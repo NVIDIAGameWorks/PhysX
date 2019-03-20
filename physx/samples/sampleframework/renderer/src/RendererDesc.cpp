@@ -43,7 +43,7 @@ RendererDesc::RendererDesc(void)
 
 	errorCallback = 0;
 
-	vsync = false;
+	vsync = true;
 
 	multipassDepthBias = false;
 }

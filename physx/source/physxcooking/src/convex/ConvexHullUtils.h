@@ -33,14 +33,12 @@
 
 #include "foundation/PxMemory.h"
 #include "foundation/PxPlane.h"
+#include "cooking/PxConvexMeshDesc.h"
 
 #include "CmPhysXCommon.h"
-
 #include "PsUserAllocated.h"
 #include "PsArray.h"
 #include "PsMathUtils.h"
-
-#include "PxConvexMeshDesc.h"
 
 namespace physx
 {

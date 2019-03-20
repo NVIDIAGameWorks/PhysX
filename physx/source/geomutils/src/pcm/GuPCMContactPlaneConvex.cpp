@@ -28,11 +28,10 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "geomutils/GuContactBuffer.h"
 #include "GuVecConvexHull.h"
 #include "GuGeometryUnion.h"
-
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuPersistentContactManifold.h"
 
 

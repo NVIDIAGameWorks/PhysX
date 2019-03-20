@@ -28,32 +28,28 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "PxRigidBodyExt.h"
-#include "PxShapeExt.h"
-#include "PxMassProperties.h"
+#include "geometry/PxBoxGeometry.h"
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxCapsuleGeometry.h"
+#include "geometry/PxPlaneGeometry.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "geometry/PxTriangleMeshGeometry.h"
+#include "geometry/PxHeightFieldGeometry.h"
+#include "geometry/PxGeometryHelpers.h"
+#include "geometry/PxConvexMesh.h"
+#include "extensions/PxRigidBodyExt.h"
+#include "extensions/PxShapeExt.h"
+#include "extensions/PxMassProperties.h"
+#include "PxShape.h"
+#include "PxScene.h"
+#include "PxBatchQuery.h"
+#include "PxRigidDynamic.h"
+#include "PxRigidStatic.h"
 
 #include "ExtInertiaTensor.h"
 #include "PsAllocator.h"
 #include "PsFoundation.h"
 
-#include "PxShape.h"
-#include "PxScene.h"
-
-#include "PxBoxGeometry.h"
-#include "PxSphereGeometry.h"
-#include "PxCapsuleGeometry.h"
-#include "PxPlaneGeometry.h"
-#include "PxConvexMeshGeometry.h"
-#include "PxTriangleMeshGeometry.h"
-#include "PxHeightFieldGeometry.h"
-#include "PxGeometryHelpers.h"
-
-#include "PxConvexMesh.h"
-
-#include "PxBatchQuery.h"
-
-#include "PxRigidDynamic.h"
-#include "PxRigidStatic.h"
 #include "CmUtils.h"
 
 using namespace physx;

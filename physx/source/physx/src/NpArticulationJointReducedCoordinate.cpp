@@ -35,6 +35,8 @@
 
 namespace physx
 {
+	//PX_SERIALIZATION
+
 	NpArticulationJointReducedCoordinate* NpArticulationJointReducedCoordinate::createObject(PxU8*& address, PxDeserializationContext& context)
 	{
 		NpArticulationJointReducedCoordinate* obj = new (address) NpArticulationJointReducedCoordinate(PxBaseFlags(0));
@@ -44,23 +46,17 @@ namespace physx
 		return obj;
 	}
 
-	void NpArticulationJointReducedCoordinate::getBinaryMetaData(PxOutputStream& stream)
+	void NpArticulationJointReducedCoordinate::resolveReferences(PxDeserializationContext& context)
 	{
-		// 184 => 200 => 192 => 224 => 208 bytes
-		PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulationJointReducedCoordinate)
-		PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulationJointReducedCoordinate, PxBase)
-
-		PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJointReducedCoordinate, PxArticulationJointImpl, mImpl, 0)
-
+		mImpl.resolveReferences(context, *this);
 	}
-	//~PX_SERIALIZATION
-	NpArticulationJointReducedCoordinate::NpArticulationJointReducedCoordinate(NpArticulationLink& parent,
-		const PxTransform& parentFrame,
-		NpArticulationLink& child,
-		const PxTransform& childFrame) :
-		NpArticulationJointTemplate(parent, parentFrame, child, childFrame, PxArticulationBase::eReducedCoordinate)
-	{
 
+	//~PX_SERIALIZATION
+
+	NpArticulationJointReducedCoordinate::NpArticulationJointReducedCoordinate(NpArticulationLink& parent, const PxTransform& parentFrame,
+		NpArticulationLink& child, const PxTransform& childFrame) 
+	: NpArticulationJointTemplate(PxConcreteType::eARTICULATION_JOINT_REDUCED_COORDINATE, parent, parentFrame, child, childFrame)
+	{
 	}
 
 	NpArticulationJointReducedCoordinate::~NpArticulationJointReducedCoordinate()
@@ -215,13 +211,13 @@ namespace physx
 	{
 		mImpl.getScbArticulationJoint().getLimit(axis, lowLimit, highLimit);
 	}
-	void NpArticulationJointReducedCoordinate::setDrive(PxArticulationAxis::Enum axis, const PxReal stiffness, const PxReal damping, const PxReal maxForce, bool isAccelerationDrive)
+	void NpArticulationJointReducedCoordinate::setDrive(PxArticulationAxis::Enum axis, const PxReal stiffness, const PxReal damping, const PxReal maxForce, PxArticulationDriveType::Enum driveType)
 	{
-		mImpl.getScbArticulationJoint().setDrive(axis, stiffness, damping, maxForce, isAccelerationDrive);
+		mImpl.getScbArticulationJoint().setDrive(axis, stiffness, damping, maxForce, driveType);
 	}
-	void NpArticulationJointReducedCoordinate::getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration)
+	void NpArticulationJointReducedCoordinate::getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, PxArticulationDriveType::Enum& driveType)
 	{
-		mImpl.getScbArticulationJoint().getDrive(axis, stiffness, damping, maxForce, isAcceleration);
+		mImpl.getScbArticulationJoint().getDrive(axis, stiffness, damping, maxForce, driveType);
 	}
 	void NpArticulationJointReducedCoordinate::setDriveTarget(PxArticulationAxis::Enum axis, const PxReal target)
 	{

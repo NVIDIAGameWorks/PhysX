@@ -29,13 +29,13 @@
 
 #include "NpShapeManager.h"
 #include "NpFactory.h"
-#include "ScbRigidObject.h"
 #include "NpActor.h"
-#include "SqPruningStructure.h"
 #include "NpScene.h"
 #include "NpPtrTableStorageManager.h"
 #include "NpRigidDynamic.h"
 #include "NpArticulationLink.h"
+#include "SqPruningStructure.h"
+#include "ScbRigidObject.h"
 #include "ScBodySim.h"
 #include "GuBounds.h"
 #include "CmUtils.h"
@@ -68,10 +68,32 @@ NpShapeManager::~NpShapeManager()
 	mSceneQueryData.clear(sm);
 }
 
+void NpShapeManager::preExportDataReset()
+{
+	//Clearing SceneQueryPruner handles to avoid stale references after deserialization and for deterministic serialization output.
+	//Multi shape cases handled in exportExtraData
+	if (getNbShapes() == 1)
+	{
+		setPrunerData(0, Sq::PrunerData(SQ_INVALID_PRUNER_DATA));
+	}
+}
+
 void NpShapeManager::exportExtraData(PxSerializationContext& stream)
 { 
-	mShapes.exportExtraData(stream);							
-	mSceneQueryData.exportExtraData(stream);
+	mShapes.exportExtraData(stream);
+
+	//Clearing SceneQueryPruner handles to avoid stale references after deserialization and for deterministic serialization output.
+	//For single shape, it's handled on exportData.
+	PxU32 numShapes = getNbShapes();
+	if (numShapes > 1)
+	{
+		stream.alignData(PX_SERIAL_ALIGN);
+		for (PxU32 i = 0; i < numShapes; i++)
+		{
+			void* data = reinterpret_cast<void*>(Sq::PrunerData(SQ_INVALID_PRUNER_DATA));
+			stream.writeData(&data, sizeof(void*));
+		}
+	}
 }
 
 void NpShapeManager::importExtraData(PxDeserializationContext& context)
@@ -378,8 +400,8 @@ void NpShapeManager::teardownSceneQuery(SceneQueryManager& sqManager, PxU32 inde
 
 #if PX_ENABLE_DEBUG_VISUALIZATION
 #include "GuHeightFieldUtil.h"
-#include "PxGeometryQuery.h"
-#include "PxMeshQuery.h"
+#include "geometry/PxGeometryQuery.h"
+#include "geometry/PxMeshQuery.h"
 #include "GuConvexEdgeFlags.h"
 #include "GuMidphaseInterface.h"
 

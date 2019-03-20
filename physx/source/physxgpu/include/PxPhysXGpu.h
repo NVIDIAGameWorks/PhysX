@@ -97,7 +97,7 @@ public:
 	/**
 	Create GPU memory manager.
 	*/
-	virtual PxsMemoryManager* createGpuMemoryManager(PxGpuDispatcher* gpuDispatcher, class PxGraphicsContextManager* graphicsContextManager) = 0;
+	virtual PxsMemoryManager* createGpuMemoryManager(PxCudaContextManager* cudaContextManager, class PxGraphicsContextManager* graphicsContextManager) = 0;
 
 	virtual PxsHeapMemoryAllocatorManager* createGpuHeapMemoryAllocatorManager(
 		const PxU32 heapCapacity, 
@@ -108,7 +108,7 @@ public:
 	Create GPU kernel wrangler manager.
 	*/
 	virtual PxsKernelWranglerManager* createGpuKernelWranglerManager(
-		PxGpuDispatcher* gpuDispatcher, 
+		PxCudaContextManager* cudaContextManager, 
 		PxErrorCallback& errorCallback, 
 		const PxU32 gpuComputeVersion) = 0;
 
@@ -117,7 +117,7 @@ public:
 	*/
 	virtual Bp::BroadPhase* createGpuBroadPhase(
 		PxsKernelWranglerManager* gpuKernelWrangler,
-		PxGpuDispatcher* gpuDispatch,
+		PxCudaContextManager* cudaContextManager,
 		PxGraphicsContextManager* graphicsContext,
 		const PxU32 gpuComputeVersion,
 		const PxgDynamicsMemoryConfig& config,
@@ -137,7 +137,7 @@ public:
 	Create GPU simulation controller.
 	*/
 	virtual PxsSimulationController* createGpuSimulationController(PxsKernelWranglerManager* gpuWranglerManagers, 
-		PxGpuDispatcher* gpuDispatcher, PxGraphicsContextManager* graphicsContextManager,
+		PxCudaContextManager* cudaContextManager, PxGraphicsContextManager* graphicsContextManager,
 		Dy::Context* dynamicContext, PxvNphaseImplementationContext* npContext, Bp::BroadPhase* bp, 
 		const bool useGpuBroadphase, IG::SimpleIslandManager* simpleIslandSim,
 		PxsSimulationControllerCallback* callback, const PxU32 gpuComputeVersion, PxsHeapMemoryAllocatorManager* heapMemoryManager) = 0;
@@ -146,7 +146,7 @@ public:
 	Create GPU dynamics context.
 	*/
 	virtual Dy::Context* createGpuDynamicsContext(Cm::FlushPool& taskPool, PxsKernelWranglerManager* gpuKernelWragler, 
-		PxGpuDispatcher* gpuDispatcher, PxGraphicsContextManager* graphicsContextManager,
+		PxCudaContextManager* cudaContextManager, PxGraphicsContextManager* graphicsContextManager,
 		const PxgDynamicsMemoryConfig& config, IG::IslandSim* accurateIslandSim, const PxU32 maxNumPartitions, 
 		const bool enableStabilization, const bool useEnhancedDeterminism, const bool useAdaptiveForce, const PxReal maxBiasCoefficient,
 		const PxU32 gpuComputeVersion, PxvSimStats& simStats, PxsHeapMemoryAllocatorManager* heapMemoryManager,
@@ -156,13 +156,6 @@ public:
 
 }
 
-#if PX_WINDOWS
-/**
-Sets delay load hook instance for PhysXGpu dll.
-*/
-PX_C_EXPORT PX_PHYSX_GPU_API void PX_CALL_CONV PxSetPhysXGpuDelayLoadHook(const physx::PxDelayLoadHook* hook);
-#endif
-
 /**
 Create PxPhysXGpu interface class.
 */
@@ -171,7 +164,7 @@ PX_C_EXPORT PX_PHYSX_GPU_API physx::PxPhysXGpu* PX_CALL_CONV PxCreatePhysXGpu();
 /**
 Create a cuda context manager.
 */
-PX_C_EXPORT PX_PHYSX_GPU_API physx::PxCudaContextManager* PX_CALL_CONV PxCreateCudaContextManager(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc);
+PX_C_EXPORT PX_PHYSX_GPU_API physx::PxCudaContextManager* PX_CALL_CONV PxCreateCudaContextManager(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc, physx::PxProfilerCallback* profilerCallback = NULL);
 
 /**
 Query the device ordinal - depends on control panel settings.

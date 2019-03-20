@@ -1,0 +1,12 @@
+<map id="PxTGSSolverConstraintPrepDescBase" name="PxTGSSolverConstraintPrepDescBase">
+<area shape="rect" id="node2" href="$structPxSolverConstraintDesc.html" title="PxSolverConstraintDesc" alt="" coords="619,79,781,105"/>
+<area shape="rect" id="node3" href="$structPxSolverBody.html" title="PxSolverBody" alt="" coords="281,79,384,105"/>
+<area shape="rect" id="node4" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="5,153,73,180"/>
+<area shape="rect" id="node5" href="$structPxTGSSolverBodyVel.html" title="PxTGSSolverBodyVel" alt="" coords="259,153,407,180"/>
+<area shape="rect" id="node8" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="285,300,380,327"/>
+<area shape="rect" id="node10" href="$classPxMat33.html" title="3x3 matrix class " alt="" coords="295,231,370,257"/>
+<area shape="rect" id="node11" href="$structPxTGSSolverBodyData.html" title="PxTGSSolverBodyData" alt="" coords="431,20,587,47"/>
+<area shape="rect" id="node6" href="$structPxConstraintInvMassScale.html" title="PxConstraintInvMassScale" alt="" coords="611,129,789,156"/>
+<area shape="rect" id="node7" href="$structPxTGSSolverBodyTxInertia.html" title="PxTGSSolverBodyTxInertia" alt="" coords="611,257,789,284"/>
+<area shape="rect" id="node9" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="6,319,73,345"/>
+</map>

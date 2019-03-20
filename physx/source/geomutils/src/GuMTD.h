@@ -30,7 +30,7 @@
 #ifndef GU_MTD_H
 #define GU_MTD_H
 
-#include "PxGeometry.h"
+#include "geometry/PxGeometry.h"
 
 namespace physx
 {

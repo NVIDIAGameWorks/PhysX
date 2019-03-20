@@ -58,7 +58,7 @@ SET(PHYSX_HEADERS
 	${PHYSX_ROOT_DIR}/include/PxConstraint.h
 	${PHYSX_ROOT_DIR}/include/PxConstraintDesc.h
 	${PHYSX_ROOT_DIR}/include/PxContact.h
-	${PHYSX_ROOT_DIR}/include/PxContactModifyCallback.h
+	${PHYSX_ROOT_DIR}/include/PxContactModifyCallback.h	
 	${PHYSX_ROOT_DIR}/include/PxDeletionListener.h
 	${PHYSX_ROOT_DIR}/include/PxFiltering.h
 	${PHYSX_ROOT_DIR}/include/PxForceMode.h
@@ -261,16 +261,13 @@ INSTALL(FILES ${PHYSX_COMMON_HEADERS} DESTINATION include/common)
 INSTALL(FILES ${PHYSX_PVD_HEADERS} DESTINATION include/pvd)
 INSTALL(FILES ${PHYSX_COLLISION_HEADERS} DESTINATION include/collision)
 INSTALL(FILES ${PHYSX_SOLVER_HEADERS} DESTINATION include/solver)
+# install the custom config file
+INSTALL(FILES ${PHYSX_ROOT_DIR}/include/PxConfig.h DESTINATION include)
 
 TARGET_INCLUDE_DIRECTORIES(PhysX 
 	PRIVATE ${PHYSX_PLATFORM_INCLUDES}
 
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/gpu
-	PRIVATE ${PHYSX_ROOT_DIR}/include/common
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geometry
-	PRIVATE ${PHYSX_ROOT_DIR}/include/pvd
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geomutils
 
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/include
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src
@@ -350,9 +347,7 @@ ENDIF()
 
 TARGET_LINK_LIBRARIES(PhysX 
 	PRIVATE ${PHYSX_PRIVATE_PLATFORM_LINKED_LIBS}
-	PRIVATE PhysXPvdSDK
-	PUBLIC PhysXCommon 
-	PUBLIC PhysXFoundation
+	PRIVATE PhysXPvdSDK PhysXCommon PhysXFoundation
 	PUBLIC ${PHYSX_PLATFORM_LINKED_LIBS}
 )
 

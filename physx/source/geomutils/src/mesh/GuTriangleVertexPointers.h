@@ -30,7 +30,7 @@
 #ifndef GU_TRIANGLE_VERTEX_POINTERS_H
 #define GU_TRIANGLE_VERTEX_POINTERS_H
 
-#include "PxTriangleMesh.h"
+#include "geometry/PxTriangleMesh.h"
 #include "GuTriangleMesh.h"
 
 namespace physx {

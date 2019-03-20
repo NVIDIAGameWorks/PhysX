@@ -90,49 +90,6 @@ namespace physx
 		class DynamicsContext;
 		struct SolverContext;
 
-		struct PxTGSSolverConstraintDesc
-		{
-			static const PxU16 NO_LINK = 0xffff;
-
-			enum ConstraintType
-			{
-				eCONTACT_CONSTRAINT,				//!< Defines this pair is a contact constraint
-				eJOINT_CONSTRAINT					//!< Defines this pair is a joint constraint
-			};
-
-			union
-			{
-				PxTGSSolverBodyVel*	bodyA;			//!< bodyA pointer
-				Dy::ArticulationV*		articulationA;	//!< Articulation pointer for body A
-			};
-
-			union
-			{
-				PxTGSSolverBodyVel*	bodyB;			//!< BodyB pointer
-				Dy::ArticulationV*		articulationB;	//!< Articulation pointer for body B
-			};
-
-			PxU16					linkIndexA;
-			PxU16					linkIndexB;
-			union
-			{
-				PxU16				articulationALength;
-				PxU32				bodyAIdx;
-			};
-			union
-			{
-				PxU16				articulationBLength;
-				PxU32				bodyBIdx;
-			};
-
-			PxU16					writeBackLengthOver4;	//!< writeBackLength/4, max writeback length is 256K, allows PxSolverConstraintDesc to fit in 32 bytes
-			PxU16					constraintLengthOver16;	//!< constraintLength/16, max constraint length is 1MB, allows PxSolverConstraintDesc to fit in 32 bytes
-
-			PxU8*					constraint;				//!< Pointer to the constraint rows to be solved
-			void*					writeBack;				//!< Pointer to the writeback structure results for this given constraint are to be written to
-
-		};
-
 		struct SolverIslandObjectsStep
 		{
 			PxsRigidBody**				bodies;
@@ -145,9 +102,9 @@ namespace physx
 			PxU32*						bodyRemapTable;
 			PxU32*						nodeIndexArray;
 
-			PxTGSSolverConstraintDesc*	constraintDescs;
-			PxTGSSolverConstraintDesc*	orderedConstraintDescs;
-			PxTGSSolverConstraintDesc*	tempConstraintDescs;
+			PxSolverConstraintDesc*	constraintDescs;
+			PxSolverConstraintDesc*	orderedConstraintDescs;
+			PxSolverConstraintDesc*	tempConstraintDescs;
 			PxConstraintBatchHeader*	constraintBatchHeaders;
 			Cm::SpatialVector*			motionVelocities;
 			PxsBodyCore**				bodyCoreArray;
@@ -180,85 +137,6 @@ namespace physx
 			PxI32				mArticulationIntegratedCount;
 		};
 
-
-		
-
-		struct PxTGSSolverConstraintPrepDescBase
-		{
-			PxConstraintInvMassScale mInvMassScales;	//!< In: The local mass scaling for this pair.
-
-			PxTGSSolverConstraintDesc* desc;				//!< Output: The PxSolverConstraintDesc filled in by contact prep
-
-			const PxTGSSolverBodyVel* body0;					//!< In: The first body. Stores velocity information. Unused unless contact involves articulations.
-			const PxTGSSolverBodyVel *body1;					//!< In: The second body. Stores velocity information. Unused unless contact involves articulations.
-
-			const PxTGSSolverBodyTxInertia* body0TxI;
-			const PxTGSSolverBodyTxInertia* body1TxI;
-
-			const PxStepSolverBodyData* bodyData0;
-			const PxStepSolverBodyData* bodyData1;
-
-			PxTransform bodyFrame0;						//!< In: The world-space transform of the first body.
-			PxTransform bodyFrame1;						//!< In: The world-space transform of the second body.
-
-			PxSolverContactDesc::BodyState bodyState0;						//!< In: Defines what kind of actor the first body is
-			PxSolverContactDesc::BodyState bodyState1;						//!< In: Defines what kind of actor the second body is
-
-		};
-
-		struct PxTGSSolverConstraintPrepDesc : public PxTGSSolverConstraintPrepDescBase
-		{
-			Px1DConstraint* rows;			//!< The start of the constraint rows
-			PxU32 numRows;								//!< The number of rows
-
-			PxReal linBreakForce, angBreakForce;		//!< Break forces
-			PxReal minResponseThreshold;				//!< The minimum response threshold
-			void* writeback;							//!< Pointer to constraint writeback structure. Reports back joint breaking. If not required, set to NULL.
-			bool disablePreprocessing;					//!< Disable joint pre-processing. Pre-processing can improve stability but under certain circumstances, e.g. when some invInertia rows are zero/almost zero, can cause instabilities.	
-			bool improvedSlerp;							//!< Use improved slerp model
-			bool driveLimitsAreForces;					//!< Indicates whether drive limits are forces
-			bool extendedLimits;						//!< Indiciates whether extended limits are used
-
-			PxVec3 body0WorldOffset;					//!< Body0 world offset
-			PxVec3 cA2w;								//!< Location of anchor point A in world space
-			PxVec3 cB2w;								//!< Location of anchor point B in world space
-		};
-
-
-		struct PxTGSSolverContactDesc : public PxTGSSolverConstraintPrepDescBase
-		{
-
-			Sc::ShapeInteraction* shapeInteraction; //!< Pointer to share interaction. Used for force threshold reports in solver. Set to NULL if using immediate mode.
-			Gu::ContactPoint* contacts;				//!< The start of the contacts for this pair
-			PxU32 numContacts;						//!< The total number of contacs this pair references.
-
-			bool hasMaxImpulse;						//!< Defines whether this pairs has maxImpulses clamping enabled
-			bool disableStrongFriction;				//!< Defines whether this pair disables strong friction (sticky friction correlation)
-			bool hasForceThresholds;				//!< Defines whether this pair requires force thresholds	
-
-			PxReal restDistance;					//!< A distance at which the solver should aim to hold the bodies separated. Default is 0
-			PxReal maxCCDSeparation;				//!< A distance used to configure speculative CCD behavior. Default is PX_MAX_F32. Set internally in PhysX for bodies with eENABLE_SPECULATIVE_CCD on. Do not set directly!
-
-			PxU8* frictionPtr;						//!< InOut: Friction patch correlation data. Set each frame by solver. Can be retained for improved behaviour or discarded each frame.
-			PxU8 frictionCount;						//!< The total number of friction patches in this pair
-
-			PxReal* contactForces;					//!< Out: A buffer for the solver to write applied contact forces to.
-
-			PxU32 startFrictionPatchIndex;			//!< Start index of friction patch in the correlation buffer. Set by friction correlation
-			PxU32 numFrictionPatches;				//!< Total number of friction patches in this pair. Set by friction correlation
-
-			PxU32 startContactPatchIndex;			//!< The start index of this pair's contact patches in the correlation buffer. For internal use only
-			PxU16 numContactPatches;				//!< Total number of contact patches.
-			PxU16 axisConstraintCount;				//!< Axis constraint count. Defines how many constraint rows this pair has produced. Useful for statistical purposes.
-
-			PxReal maxImpulse;
-
-			PxReal torsionalPatchRadius;
-			PxReal minTorsionalPatchRadius;
-		};
-
-
-
 		struct SolverIslandObjectsStep;
 
 		class SolverBodyVelDataPool : public Ps::Array<PxTGSSolverBodyVel, Ps::AlignedAllocator<128, Ps::ReflectionAllocator<PxTGSSolverBodyVel> > >
@@ -275,7 +153,7 @@ namespace physx
 			SolverBodyTxInertiaPool() {}
 		};
 
-		class SolverBodyDataStepPool : public Ps::Array<PxStepSolverBodyData, Ps::AlignedAllocator<128, Ps::ReflectionAllocator<PxStepSolverBodyData> > >
+		class SolverBodyDataStepPool : public Ps::Array<PxTGSSolverBodyData, Ps::AlignedAllocator<128, Ps::ReflectionAllocator<PxTGSSolverBodyData> > >
 		{
 			PX_NOCOPY(SolverBodyDataStepPool)
 		public:
@@ -284,7 +162,7 @@ namespace physx
 
 		
 
-		class SolverStepConstraintDescPool : public Ps::Array<PxTGSSolverConstraintDesc, Ps::AlignedAllocator<128, Ps::ReflectionAllocator<PxTGSSolverConstraintDesc> > >
+		class SolverStepConstraintDescPool : public Ps::Array<PxSolverConstraintDesc, Ps::AlignedAllocator<128, Ps::ReflectionAllocator<PxSolverConstraintDesc> > >
 		{
 			PX_NOCOPY(SolverStepConstraintDescPool)
 		public:
@@ -398,6 +276,8 @@ namespace physx
 			PX_FORCE_INLINE	PxU32					getKinematicCount()		const	{ return mKinematicCount; }
 			PX_FORCE_INLINE	PxU64					getContextId()			const	{ return mContextID; }
 
+			PX_FORCE_INLINE PxReal					getLengthScale()		const	{ return mLengthScale; }
+
 		protected:
 
 			/**
@@ -435,11 +315,11 @@ namespace physx
 			\param[in,out] desc The PxSolverConstraintDesc
 			\param[in] constraint The PxsIndexedInteraction
 			*/
-			void								setDescFromIndices(PxTGSSolverConstraintDesc& desc,
+			void								setDescFromIndices(PxSolverConstraintDesc& desc,
 				const PxsIndexedInteraction& constraint, const PxU32 solverBodyOffset, PxTGSSolverBodyVel* solverBodies);
 
 
-			void								setDescFromIndices(PxTGSSolverConstraintDesc& desc, IG::EdgeIndex edgeIndex,
+			void								setDescFromIndices(PxSolverConstraintDesc& desc, IG::EdgeIndex edgeIndex,
 				const IG::SimpleIslandManager& islandManager, PxU32* bodyRemapTable, const PxU32 solverBodyOffset, PxTGSSolverBodyVel* solverBodies);
 
 
@@ -459,40 +339,40 @@ namespace physx
 				PxsContactManagerOutputIterator& outputs);
 
 			void preIntegrateBodies(PxsBodyCore** bodyArray, PxsRigidBody** originalBodyArray,
-				PxTGSSolverBodyVel* solverBodyVelPool, PxTGSSolverBodyTxInertia* solverBodyTxInertia, PxStepSolverBodyData* solverBodyDataPool2,
+				PxTGSSolverBodyVel* solverBodyVelPool, PxTGSSolverBodyTxInertia* solverBodyTxInertia, PxTGSSolverBodyData* solverBodyDataPool2,
 				PxU32* nodeIndexArray, const PxU32 bodyCount, const PxVec3& gravity, const PxReal dt, PxU32& posIters, PxU32& velIters, PxU32 iteration);
 
 			void setupArticulations(IslandContextStep& islandContext, const PxVec3& gravity, const PxReal dt, PxU32& posIters, PxU32& velIters, PxBaseTask* continuation);
 
-			PxU32 setupArticulationInternalConstraints(IslandContextStep& islandContext, PxReal dt, PxReal invStepDt, PxTGSSolverConstraintDesc* constraintDescs);
+			PxU32 setupArticulationInternalConstraints(IslandContextStep& islandContext, PxReal dt, PxReal invStepDt, PxSolverConstraintDesc* constraintDescs);
 
-			void createSolverConstraints(PxTGSSolverConstraintDesc* contactDescPtr, PxConstraintBatchHeader* headers, const PxU32 nbHeaders,
+			void createSolverConstraints(PxSolverConstraintDesc* contactDescPtr, PxConstraintBatchHeader* headers, const PxU32 nbHeaders,
 				PxsContactManagerOutputIterator& outputs, Dy::ThreadContext& islandThreadContext, Dy::ThreadContext& threadContext, PxReal stepDt, PxReal totalDt, 
 				PxReal invStepDt, PxU32 nbSubsteps);
 
-			void solveConstraintsIteration(const PxTGSSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders, bool doFriction, PxReal invStepDt,
+			void solveConstraintsIteration(const PxSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders, PxReal invStepDt,
 				const PxTGSSolverBodyTxInertia* const solverTxInertia, const PxReal elapsedTime, const PxReal minPenetration, SolverContext& cache);
 
-			void solveConcludeConstraintsIteration(const PxTGSSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders,
+			void solveConcludeConstraintsIteration(const PxSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders,
 				PxTGSSolverBodyTxInertia* solverTxInertia, const PxReal elapsedTime, SolverContext& cache);
 
-			void parallelSolveConstraints(const PxTGSSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders, bool doFriction, PxTGSSolverBodyTxInertia* solverTxInertia,
+			void parallelSolveConstraints(const PxSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders, PxTGSSolverBodyTxInertia* solverTxInertia,
 				const PxReal elapsedTime, const PxReal minPenetration, SolverContext& cache);
 
-			void writebackConstraintsIteration(const PxConstraintBatchHeader* const hdrs, const PxTGSSolverConstraintDesc* const contactDescPtr, const PxU32 nbHeaders);
+			void writebackConstraintsIteration(const PxConstraintBatchHeader* const hdrs, const PxSolverConstraintDesc* const contactDescPtr, const PxU32 nbHeaders);
 
-			void parallelWritebackConstraintsIteration(const PxTGSSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders);
+			void parallelWritebackConstraintsIteration(const PxSolverConstraintDesc* const contactDescPtr, const PxConstraintBatchHeader* const batchHeaders, const PxU32 nbHeaders);
 
 			void integrateBodies(const SolverIslandObjectsStep& objects,
 				const PxU32 count, PxTGSSolverBodyVel* vels,
-				PxTGSSolverBodyTxInertia* txInertias, const PxStepSolverBodyData*const bodyDatas, PxReal dt);
+				PxTGSSolverBodyTxInertia* txInertias, const PxTGSSolverBodyData*const bodyDatas, PxReal dt);
 
 			void parallelIntegrateBodies(PxTGSSolverBodyVel* vels, PxTGSSolverBodyTxInertia* txInertias,
-				const PxStepSolverBodyData* const bodyDatas, const PxU32 count, PxReal dt);
+				const PxTGSSolverBodyData* const bodyDatas, const PxU32 count, PxReal dt);
 
 			void copyBackBodies(const SolverIslandObjectsStep& objects,
 				PxTGSSolverBodyVel* vels, PxTGSSolverBodyTxInertia* txInertias,
-				PxStepSolverBodyData* solverBodyData, PxReal invDt,	IG::IslandSim& islandSim,
+				PxTGSSolverBodyData* solverBodyData, PxReal invDt,	IG::IslandSim& islandSim,
 				PxU32 startIdx, PxU32 endIdx);
 
 			void updateArticulations(Dy::ThreadContext& threadContext, const PxU32 startIdx, const PxU32 endIdx, PxReal dt);
@@ -529,7 +409,7 @@ namespace physx
 
 			PxTGSSolverBodyVel						mWorldSolverBodyVel;
 			PxTGSSolverBodyTxInertia				mWorldSolverBodyTxInertia;
-			PxStepSolverBodyData					mWorldSolverBodyData2;
+			PxTGSSolverBodyData						mWorldSolverBodyData2;
 
 			/**
 			\brief A thread context pool

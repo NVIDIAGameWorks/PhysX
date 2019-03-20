@@ -47,10 +47,10 @@ namespace physx
 	namespace Dy
 	{
 		FloatV setupExtSolverContact(const SolverExtBody& b0, const SolverExtBody& b1,
-			const PxF32 d0, const PxF32 d1, const PxF32 angD0, const PxF32 angD1, const PxTransform& bodyFrame0, const PxTransform& bodyFrame1,
+			const FloatV& d0, const FloatV& d1, const FloatV& angD0, const FloatV& angD1, const Vec3V& bodyFrame0p, const Vec3V& bodyFrame1p,
 			const Vec3VArg normal, const FloatVArg invDt, const FloatVArg invDtp8, const FloatVArg restDistance, const FloatVArg maxPenBias, const FloatVArg restitution,
 			const FloatVArg bounceThreshold, const Gu::ContactPoint& contact, SolverContactPointExt& solverContact, const FloatVArg ccdMaxSeparation,
-			Cm::SpatialVectorF* Z);
+			Cm::SpatialVectorF* Z, const Cm::SpatialVectorV& v0, const Cm::SpatialVectorV& v1);
 	} //namespace Dy
 }
 

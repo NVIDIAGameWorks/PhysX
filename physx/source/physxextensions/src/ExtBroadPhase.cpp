@@ -29,7 +29,7 @@
 
 
 #include "foundation/PxBounds3.h"
-#include "PxBroadPhaseExt.h"
+#include "extensions/PxBroadPhaseExt.h"
 #include "PsFoundation.h"
 #include "CmPhysXCommon.h"
 

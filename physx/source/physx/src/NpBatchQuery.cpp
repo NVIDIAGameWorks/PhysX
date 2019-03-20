@@ -28,16 +28,17 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "common/PxProfileZone.h"
+#include "geometry/PxGeometryQuery.h"
+
 #include "NpBatchQuery.h"
 #include "NpReadCheck.h"
 #include "NpActor.h"
 #include "NpShapeManager.h"
+#include "NpScene.h"
 #include "PsAtomic.h"
 #include "PsFoundation.h"
 #include "PsUtilities.h"
-#include "NpScene.h"
-#include "PxGeometryQuery.h"
-#include "common/PxProfileZone.h"
 
 using namespace physx;
 using namespace Sq;

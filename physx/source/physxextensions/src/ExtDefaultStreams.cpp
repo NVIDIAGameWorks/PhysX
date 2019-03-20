@@ -31,14 +31,15 @@
 #include "foundation/PxAssert.h"
 #include "foundation/PxAllocatorCallback.h"
 #include "foundation/PxMemory.h"
+#include "extensions/PxDefaultStreams.h"
 
-#include <errno.h>
 #include "PsFoundation.h"
-#include "PxDefaultStreams.h"
 #include "SnFile.h"
 #include "CmPhysXCommon.h"
 #include "PsUtilities.h"
 #include "PsBitUtils.h"
+
+#include <errno.h>
 
 using namespace physx;
 

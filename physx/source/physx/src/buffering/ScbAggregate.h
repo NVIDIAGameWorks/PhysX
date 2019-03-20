@@ -30,15 +30,13 @@
 #ifndef PX_PHYSICS_SCB_AGGREGATE
 #define PX_PHYSICS_SCB_AGGREGATE
 
-#include "CmPhysXCommon.h"
+#include "common/PxSerialFramework.h"
 #include "PxAggregate.h"
+#include "CmPhysXCommon.h"
 #include "ScbActor.h"
 #include "ScbAggregate.h"
 #include "ScbBase.h"
 
-// PX_SERIALIZATION
-#include "PxSerialFramework.h"
-//~PX_SERIALIZATION
 
 namespace physx
 {

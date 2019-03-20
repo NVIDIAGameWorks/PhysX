@@ -315,7 +315,7 @@ TINST(1,1)
 #undef TINST
 
 #include "GuRaycastTests.h"
-#include "PxTriangleMeshGeometry.h"
+#include "geometry/PxTriangleMeshGeometry.h"
 #include "GuTriangleMesh.h"
 #include "CmScaling.h"
 

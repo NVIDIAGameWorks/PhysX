@@ -1,0 +1,5 @@
+<map id="PxArticulationJointData" name="PxArticulationJointData">
+<area shape="rect" id="node2" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="37,95,132,121"/>
+<area shape="rect" id="node3" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="5,5,73,32"/>
+<area shape="rect" id="node4" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="98,5,165,32"/>
+</map>

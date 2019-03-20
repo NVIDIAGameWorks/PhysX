@@ -33,10 +33,10 @@
 
 #include "foundation/PxTransform.h"
 #include "foundation/PxBounds3.h"
+#include "geometry/PxBoxGeometry.h"
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxCapsuleGeometry.h"
 #include "CmPhysXCommon.h"
-#include "PxBoxGeometry.h"
-#include "PxSphereGeometry.h"
-#include "PxCapsuleGeometry.h"
 #include "PsVecMath.h"
 
 namespace physx

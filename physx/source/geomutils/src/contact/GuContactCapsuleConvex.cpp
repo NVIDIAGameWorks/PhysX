@@ -27,9 +27,10 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuConvexMesh.h"
 #include "GuConvexHelper.h"
-#include "GuContactBuffer.h"
 #include "GuContactMethodImpl.h"
 #include "GuVecConvexHull.h"
 #include "GuVecCapsule.h"

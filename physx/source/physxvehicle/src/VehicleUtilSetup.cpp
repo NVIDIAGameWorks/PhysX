@@ -28,14 +28,15 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxMath.h"
-#include "PxVehicleUtilSetup.h"
-#include "PxVehicleDrive4W.h"
-#include "PxVehicleDriveNW.h"
-#include "PxVehicleDriveTank.h"
-#include "PxVehicleNoDrive.h"
-#include "PxVehicleWheels.h"
-#include "PxVehicleUtil.h"
-#include "PxVehicleUpdate.h"
+#include "vehicle/PxVehicleUtilSetup.h"
+#include "vehicle/PxVehicleDrive4W.h"
+#include "vehicle/PxVehicleDriveNW.h"
+#include "vehicle/PxVehicleDriveTank.h"
+#include "vehicle/PxVehicleNoDrive.h"
+#include "vehicle/PxVehicleWheels.h"
+#include "vehicle/PxVehicleUtil.h"
+#include "vehicle/PxVehicleUpdate.h"
+
 #include "PsFoundation.h"
 #include "CmPhysXCommon.h"
 

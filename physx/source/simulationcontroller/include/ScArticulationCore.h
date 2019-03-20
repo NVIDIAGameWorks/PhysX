@@ -71,7 +71,7 @@ namespace Sc
 													ArticulationCore(const PxEMPTY) : mSim(NULL)	{}
 		static		void							getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
-													ArticulationCore();
+													ArticulationCore(bool reducedCoordinate);
 													~ArticulationCore();
 
 		//---------------------------------------------------------------------------------
@@ -106,8 +106,8 @@ namespace Sc
 						void						wakeUp(PxReal wakeCounter);
 						void						putToSleep();
 
-						PxArticulation*				getPxArticulation();
-						const PxArticulation*		getPxArticulation() const;
+						PxArticulationBase*			getPxArticulationBase();
+						const PxArticulationBase*	getPxArticulationBase() const;
 
 		//---------------------------------------------------------------------------------
 		// Drive Cache API
@@ -171,15 +171,15 @@ namespace Sc
 
 						void						computeJointForce(PxArticulationCache& cache) const;
 
-						void						computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache) const;
+						void						computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const;
 
-						void						computeCoefficentMatrix(PxArticulationCache& cache) const;
+						void						computeCoefficientMatrix(PxArticulationCache& cache) const;
 
 						bool						computeLambda(PxArticulationCache& cache, PxArticulationCache& rollBackCache, const PxReal* const jointTorque, const PxVec3 gravity, const PxU32 maxIter) const;
 
 						void						computeGeneralizedMassMatrix(PxArticulationCache& cache) const;
 
-						PxU32						getCoefficentMatrixSize() const;
+						PxU32						getCoefficientMatrixSize() const;
 		//---------------------------------------------------------------------------------
 		// Internal API
 		//---------------------------------------------------------------------------------
@@ -199,8 +199,7 @@ namespace Sc
 														return *reinterpret_cast<ArticulationCore*>(reinterpret_cast<PxU8*>(&core) - offset);
 													}
 
-		PX_INLINE		PxArticulationBase::Enum	getArticulationType()							const	{ return PxArticulationBase::Enum(mType);	}
-		PX_INLINE		void						setArticulationType(PxArticulationBase::Enum type)		{ mType = type;								}
+		PX_INLINE		bool						isReducedCoordinate() const	{ return mIsReducedCoordinate;	}
 
 						IG::NodeIndex				getIslandNodeIndex() const;
 
@@ -210,7 +209,7 @@ namespace Sc
 	private:
 						ArticulationSim*			mSim;
 						Dy::ArticulationCore		mCore;
-						PxU32						mType;
+						bool						mIsReducedCoordinate;
 	};
 
 } // namespace Sc

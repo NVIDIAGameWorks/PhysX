@@ -27,8 +27,9 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxVehicleUtilControl.h"
-#include "PxVehicleDrive4W.h"
+#include "vehicle/PxVehicleUtilControl.h"
+#include "vehicle/PxVehicleDrive4W.h"
+
 #include "PsFoundation.h"
 #include "PsUtilities.h"
 #include "CmPhysXCommon.h"

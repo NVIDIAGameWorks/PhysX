@@ -30,7 +30,7 @@
 #ifndef DY_CONTACT_REDUCTION_H
 #define DY_CONTACT_REDUCTION_H
 
-#include "GuContactPoint.h"
+#include "geomutils/GuContactPoint.h"
 #include "PxsMaterialManager.h"
 
 namespace physx

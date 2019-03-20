@@ -28,13 +28,14 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxVec4.h"
+#include "geometry/PxTriangle.h"
+
 #include "GuBV32Build.h"
 #include "GuBV32.h"
-#include "PxTriangle.h"
-#include "CmPhysXCommon.h"
-#include "PsBasicTemplates.h"
 #include "GuCenterExtents.h"
 #include "GuBV4Build.h"
+#include "CmPhysXCommon.h"
+#include "PsBasicTemplates.h"
 #include "PsAllocator.h"
 
 using namespace physx;

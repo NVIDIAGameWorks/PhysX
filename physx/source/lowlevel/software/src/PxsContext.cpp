@@ -46,7 +46,6 @@
 #include "PxsSimpleIslandManager.h"
 
 #if PX_SUPPORT_GPU_PHYSX
-#include "task/PxGpuDispatcher.h"
 #include "PxPhysXGpu.h"
 #endif
 
@@ -63,7 +62,7 @@ using namespace physx::shdfnd;
 #define PXS_BODYSHAPE_SLABSIZE 1024
 #define PXS_MAX_BODYSHAPE_SLABS 16
 
-PxsContext::PxsContext(const PxSceneDesc& desc, PxTaskManager* taskManager, Cm::FlushPool& taskPool, PxU64 contextID) :
+PxsContext::PxsContext(const PxSceneDesc& desc, PxTaskManager* taskManager, Cm::FlushPool& taskPool, PxCudaContextManager* cudaContextManager, PxU64 contextID) :
 	mNpThreadContextPool		(this),
 	mContactManagerPool			("mContactManagerPool", this, 256),
 	mManifoldPool				("mManifoldPool", 256),
@@ -73,6 +72,7 @@ PxsContext::PxsContext(const PxSceneDesc& desc, PxTaskManager* taskManager, Cm::
 	mNpFallbackImplementationContext(NULL),
 	mTaskManager				(taskManager),
 	mTaskPool					(taskPool),
+	mCudaContextManager			(cudaContextManager),
 	mPCM						(desc.flags & PxSceneFlag::eENABLE_PCM),
 	mContactCache				(false),
 	mCreateAveragePoint			(desc.flags & PxSceneFlag::eENABLE_AVERAGE_POINT),

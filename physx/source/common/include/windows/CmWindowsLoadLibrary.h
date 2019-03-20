@@ -32,7 +32,7 @@
 #define CM_WINDOWS_LOADLIBRARY_H
 
 #include "foundation/PxPreprocessor.h"
-#include "windows/PxWindowsDelayLoadHook.h"
+#include "common/windows/PxWindowsDelayLoadHook.h"
 #include "windows/PsWindowsInclude.h"
 
 #ifdef PX_SECURE_LOAD_LIBRARY

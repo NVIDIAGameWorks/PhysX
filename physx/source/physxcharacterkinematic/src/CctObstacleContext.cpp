@@ -415,8 +415,8 @@ const PxObstacle* ObstacleContext::getObstacleByHandle(ObstacleHandle handle) co
 }
 
 #include "GuRaycastTests.h"
-#include "PxBoxGeometry.h"
-#include "PxCapsuleGeometry.h"
+#include "geometry/PxBoxGeometry.h"
+#include "geometry/PxCapsuleGeometry.h"
 #include "PsMathUtils.h"
 using namespace Gu;
 const PxObstacle* ObstacleContext::raycastSingle(PxRaycastHit& hit, const PxVec3& origin, const PxVec3& unitDir, const PxReal distance, ObstacleHandle& obstacleHandle) const

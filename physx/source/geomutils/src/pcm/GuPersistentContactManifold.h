@@ -30,7 +30,7 @@
 #ifndef Gu_PERSISTENTCONTACTMANIFOLD_H
 #define Gu_PERSISTENTCONTACTMANIFOLD_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "foundation/PxUnionCast.h"
 #include "foundation/PxMemory.h"
 #include "CmPhysXCommon.h"
@@ -159,7 +159,10 @@ public:
 
 	PersistentContactManifold(PersistentContact* contactPointsBuff, PxU8 capacity): mNumContacts(0), mCapacity(capacity), mNumWarmStartPoints(0), mContactPoints(contactPointsBuff)
 	{
+		using namespace physx::shdfnd::aos;
 		mRelativeTransform.Invalidate();
+		mQuatA = QuatIdentity();
+		mQuatB = QuatIdentity();
 	}
 
 	PX_FORCE_INLINE PxU32	getNumContacts() const { return mNumContacts;}
@@ -231,9 +234,17 @@ public:
 		mRelativeTransform = transform;
 	}
 
+	PX_FORCE_INLINE void setRelativeTransform(const Ps::aos::PsTransformV& transform, const Ps::aos::QuatV quatA, const Ps::aos::QuatV quatB)
+	{
+		mRelativeTransform = transform;
+		mQuatA = quatA;
+		mQuatB = quatB;
+	}
+
 	//This is used for the box/convexhull vs box/convexhull contact gen to decide whether the relative movement of a pair of objects are 
 	//small enough. In this case, we can skip the collision detection all together
-	PX_FORCE_INLINE PxU32 invalidate_BoxConvex(const Ps::aos::PsTransformV& curRTrans, const Ps::aos::FloatVArg minMargin)
+	PX_FORCE_INLINE PxU32 invalidate_BoxConvex(const Ps::aos::PsTransformV& curRTrans, const Ps::aos::QuatV& quatA, const Ps::aos::QuatV& quatB,
+		const Ps::aos::FloatVArg minMargin, const Ps::aos::FloatVArg radiusA, const Ps::aos::FloatVArg radiusB)
 	{
 		using namespace Ps::aos;
 		PX_ASSERT(mNumContacts <= GU_MANIFOLD_CACHE_SIZE);
@@ -242,10 +253,31 @@ public:
 		const FloatV deltaP = maxTransformPositionDelta(curRTrans.p);
 
 		const FloatV thresholdQ = FLoad(invalidateQuatThresholds[mNumContacts]);
-		const FloatV deltaQ = QuatDot(curRTrans.q, mRelativeTransform.q);
-		const BoolV con = BOr(FIsGrtr(deltaP, thresholdP), FIsGrtr(thresholdQ, deltaQ));
+		const FloatV deltaQA = QuatDot(quatA, mQuatA);
+		const FloatV deltaQB = QuatDot(quatB, mQuatB);
 
-		return BAllEqTTTT(con);
+		const BoolV con0 = BOr(FIsGrtr(deltaP, thresholdP), BOr(FIsGrtr(thresholdQ, deltaQA), FIsGrtr(thresholdQ, deltaQB)));
+		PxU32 generateContacts = BAllEqTTTT(con0);
+		if (!generateContacts)
+		{
+		
+			PxReal dqA, dqB;
+			FStore(deltaQA, &dqA);
+			FStore(deltaQB, &dqB);
+
+			const PxReal aRadian = dqA < 1.0f ? PxAcos(dqA) : 0.f;
+			const FloatV travelDistA = FMul(FLoad(aRadian), radiusA);
+			
+			const PxReal bRadian = dqB < 1.0f ? PxAcos(dqB) : 0.f;
+			const FloatV travelDistB = FMul(FLoad(bRadian), radiusB);
+
+
+			const BoolV con = BOr(FIsGrtr(travelDistA, thresholdP), FIsGrtr(travelDistB, thresholdP));
+
+			generateContacts = BAllEqTTTT(con);
+		}
+
+		return generateContacts;
 	}
 
 	//This is used for the sphere/capsule vs other primitives contact gen to decide whether the relative movement of a pair of objects are 
@@ -364,6 +396,8 @@ public:
 	static void drawPolygon( Cm::RenderOutput& out, const Ps::aos::PsMatTransformV& transform,  Ps::aos::Vec3V* points, const PxU32 numVerts, const PxU32 color = 0xff00ffff);
 
 	Ps::aos::PsTransformV mRelativeTransform;//aToB
+	Ps::aos::QuatV mQuatA;
+	Ps::aos::QuatV mQuatB;
 	PxU8 mNumContacts;
 	PxU8 mCapacity;
 	PxU8 mNumWarmStartPoints;

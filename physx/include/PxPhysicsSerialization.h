@@ -31,8 +31,8 @@
 #ifndef PX_PHYSICS_PX_PHYSICS_SERIALIZATION
 #define PX_PHYSICS_PX_PHYSICS_SERIALIZATION
 
-#include "PxPhysXConfig.h"
 #include "common/PxSerialFramework.h"
+#include "PxPhysXConfig.h"
 
 #if !PX_DOXYGEN
 /**

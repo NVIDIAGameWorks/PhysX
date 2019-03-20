@@ -452,6 +452,19 @@ namespace physx {
 	PxArticulation* PxArticulationRepXSerializer::allocateObject( PxRepXInstantiationArgs& inArgs ) { return inArgs.physics.createArticulation(); }
 
 	//*************************************************************
+	//	Actual RepXSerializer implementations for PxArticulationReducedCoordinate
+	//*************************************************************
+	void PxArticulationReducedCoordinateRepXSerializer::objectToFileImpl(const PxArticulationReducedCoordinate* inObj, PxCollection* inCollection, XmlWriter& inWriter, MemoryBuffer& inTempBuffer, PxRepXInstantiationArgs& /*inArgs*/)
+	{
+		TNameStack nameStack(inTempBuffer.mManager->mWrapper);
+		Sn::TArticulationLinkLinkMap linkMap(inTempBuffer.mManager->mWrapper);
+		RepXVisitorWriter<PxArticulationReducedCoordinate> writer(nameStack, inWriter, inObj, inTempBuffer, *inCollection, &linkMap);
+		RepXPropertyFilter<RepXVisitorWriter<PxArticulationReducedCoordinate> > theOp(writer);
+		visitAllProperties<PxArticulationReducedCoordinate>(theOp);
+	}
+	PxArticulationReducedCoordinate* PxArticulationReducedCoordinateRepXSerializer::allocateObject(PxRepXInstantiationArgs& inArgs) { return inArgs.physics.createArticulationReducedCoordinate(); }
+
+	//*************************************************************
 	//	Actual RepXSerializer implementations for PxAggregate
 	//*************************************************************
 	void PxAggregateRepXSerializer::objectToFileImpl( const PxAggregate* data, PxCollection* inCollection, XmlWriter& inWriter, MemoryBuffer& inTempBuffer, PxRepXInstantiationArgs& /*inArgs*/)

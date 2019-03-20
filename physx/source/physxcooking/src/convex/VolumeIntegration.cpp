@@ -35,9 +35,10 @@
 *	Based on public domain code by Brian Mirtich.
 */
 #include "foundation/PxMemory.h"
+#include "geometry/PxSimpleTriangleMesh.h"
+#include "cooking/PxConvexMeshDesc.h"
+
 #include "VolumeIntegration.h"
-#include "PxSimpleTriangleMesh.h"
-#include "PxConvexMeshDesc.h"
 #include "GuConvexMeshData.h"
 #include "PsUtilities.h"
 #include "PsVecMath.h"

@@ -36,7 +36,7 @@
 #include "foundation/PxMemory.h"
 #include "foundation/PxVec3.h"
 #include "common/PxCoreUtilityTypes.h"
-#include "PxVehicleSDK.h"
+#include "vehicle/PxVehicleSDK.h"
 #include "common/PxTypeInfo.h"
 
 #if !PX_DOXYGEN

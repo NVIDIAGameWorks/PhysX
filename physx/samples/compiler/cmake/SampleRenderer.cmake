@@ -132,7 +132,6 @@ TARGET_INCLUDE_DIRECTORIES(SampleRenderer
 	PRIVATE ${PHYSX_ROOT_DIR}/samples/sampleframework/framework/include
 
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/utils
 	PRIVATE ${PHYSX_ROOT_DIR}/source/common/src
 
 )

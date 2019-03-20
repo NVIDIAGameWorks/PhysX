@@ -31,7 +31,7 @@
 #define GU_BV4_H
 
 #include "foundation/PxBounds3.h"
-#include "PxSerialFramework.h"
+#include "common/PxSerialFramework.h"
 #include "PsUserAllocated.h"
 #include "GuBV4Settings.h"
 #include "GuCenterExtents.h"

@@ -30,7 +30,7 @@
 #ifndef GU_DISTANCE_POINT_TRIANGLE_SIMD_H
 #define GU_DISTANCE_POINT_TRIANGLE_SIMD_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "PsVecMath.h"
 

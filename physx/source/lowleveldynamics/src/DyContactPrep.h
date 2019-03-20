@@ -40,7 +40,9 @@ namespace physx
 
 struct PxcNpWorkUnit;
 class PxsConstraintBlockManager;
+class PxcConstraintBlockStream;
 struct PxsContactManagerOutput;
+class FrictionPatchStreamPair;
 struct PxSolverBody;
 struct PxSolverBodyData;
 struct PxSolverConstraintDesc;
@@ -175,6 +177,34 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb2D(PxsContac
 
 
 PxU32 getContactManagerConstraintDesc(const PxsContactManagerOutput& cmOutput, const PxsContactManager& cm, PxSolverConstraintDesc& desc);
+
+class BlockAllocator : public PxConstraintAllocator
+{
+	PxsConstraintBlockManager& mConstraintBlockManager;
+	PxcConstraintBlockStream& mConstraintBlockStream;
+	FrictionPatchStreamPair& mFrictionPatchStreamPair;
+	PxU32& mTotalConstraintByteSize;
+public:
+
+	BlockAllocator(PxsConstraintBlockManager& constraintBlockManager, PxcConstraintBlockStream& constraintBlockStream, FrictionPatchStreamPair& frictionPatchStreamPair,
+		PxU32& totalConstraintByteSize) :
+		mConstraintBlockManager(constraintBlockManager), mConstraintBlockStream(constraintBlockStream), mFrictionPatchStreamPair(frictionPatchStreamPair),
+		mTotalConstraintByteSize(totalConstraintByteSize)
+	{
+	}
+
+	virtual PxU8* reserveConstraintData(const PxU32 size);
+
+	virtual PxU8* reserveFrictionData(const PxU32 size);
+
+	virtual PxU8* findInputPatches(PxU8* frictionCookie)
+	{
+		return frictionCookie;
+	}
+
+	PX_NOCOPY(BlockAllocator)
+
+};
 
 }
 

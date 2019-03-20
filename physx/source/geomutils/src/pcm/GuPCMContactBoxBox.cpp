@@ -27,15 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuGJKPenetration.h"
 #include "GuEPA.h"
 #include "GuVecBox.h"
 #include "GuGeometryUnion.h"
-
 #include "GuConvexHelper.h"
 #include "GuPCMShapeConvex.h"
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuPCMContactGenUtil.h"
 
 
@@ -942,10 +942,11 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
   
 	PX_UNUSED(bLostContacts);
 
-	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))	
+	const FloatV radiusA = V3Length(boxExtents0);
+	const FloatV radiusB = V3Length(boxExtents1);
+	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, transf0.q, transf1.q, minMargin, radiusA, radiusB))
 	{
-		
-		manifold.setRelativeTransform(curRTrans);
+		manifold.setRelativeTransform(curRTrans, transf0.q, transf1.q);
 		
 		const PsMatTransformV transfV0(transf0);
 		const PsMatTransformV transfV1(transf1);

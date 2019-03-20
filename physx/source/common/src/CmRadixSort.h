@@ -30,7 +30,7 @@
 #ifndef CM_RADIX_SORT_H
 #define CM_RADIX_SORT_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 
 namespace physx
 {

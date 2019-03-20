@@ -92,10 +92,10 @@ struct ArticulationJointBuffer
 	PxReal				mTwistLimitLower;
 	PxReal				mTwistLimitUpper;
 
-	Dy::ArticulationLimit mLimits[6];
-	Dy::ArticulationDrive mDrives[6];
-	PxReal				  mTargetP[6];
-	PxReal				  mTargetV[6];
+	PxArticulationLimit	mLimits[PxArticulationAxis::eCOUNT];
+	PxArticulationDrive	mDrives[PxArticulationAxis::eCOUNT];
+	PxReal				mTargetP[PxArticulationAxis::eCOUNT];
+	PxReal				mTargetV[PxArticulationAxis::eCOUNT];
 
 	//Joint limit/drive/whatever flags
 	enum
@@ -126,12 +126,13 @@ class ArticulationJoint : public Base
 public:
 // PX_SERIALIZATION
 										ArticulationJoint(const PxEMPTY) : Base(PxEmpty), mJoint(PxEmpty)	{}
+				void					preExportDataReset() { mJoint.preExportDataReset(); }
 	static		void					getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
 	PX_INLINE							ArticulationJoint( const PxTransform& parentFrame,
 														   const PxTransform& childFrame,
-															PxArticulationBase::Enum type);
+														   bool reducedCoordinate);
 	PX_INLINE							~ArticulationJoint();
 
 	//---------------------------------------------------------------------------------
@@ -212,8 +213,8 @@ public:
 	PX_INLINE void						setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper);
 	PX_INLINE void						getLimit(PxArticulationAxis::Enum axis, PxReal& lower, PxReal& upper) const;
 
-	PX_INLINE void						setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, bool isAcceleration);
-	PX_INLINE void						getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration) const;
+	PX_INLINE void						setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, PxArticulationDriveType::Enum driveType);
+	PX_INLINE void						getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, PxArticulationDriveType::Enum& driveType) const;
 
 	PX_INLINE void						setDriveTarget(PxArticulationAxis::Enum axis, PxReal targetP);
 	PX_INLINE PxReal					getDriveTarget(PxArticulationAxis::Enum axis) const;
@@ -224,7 +225,6 @@ public:
 	PX_INLINE PxArticulationJointType::Enum
 										getJointType() const { return read<Buf::BF_JointType>(); }
 	PX_INLINE void						setJointType(PxArticulationJointType::Enum v) { write<Buf::BF_JointType>(v); }
-
 
 	PX_INLINE PxArticulationMotion::Enum	
 										getMotion(PxArticulationAxis::Enum axis) const;
@@ -245,10 +245,15 @@ public:
 	PX_FORCE_INLINE Core&				getScArticulationJoint()				{ return mJoint; }  // Only use if you know what you're doing!
 
 
-	PX_FORCE_INLINE void				setScArticulation(Scb::Articulation* articulation) { mJoint.setArticulation(&articulation->getScArticulation()); }
+	static			size_t				getScOffset()							{ return reinterpret_cast<size_t>(&reinterpret_cast<ArticulationJoint*>(0)->mJoint);	}
+
+	PX_FORCE_INLINE void				setScArticulation(Scb::Articulation* articulation)	{ mJoint.setArticulation(&articulation->getScArticulation()); }
+
+	PX_FORCE_INLINE const Sc::ArticulationCore* 
+										getScArticulation() const 							{ return mJoint.getArticulation(); }
 
 private:
-	Core mJoint;
+					Core				mJoint;
 
 	PX_FORCE_INLINE	const Buf*			getBuffer()	const	{ return reinterpret_cast<const Buf*>(getStream()); }
 	PX_FORCE_INLINE	Buf*				getBuffer()			{ return reinterpret_cast<Buf*>(getStream()); }
@@ -265,9 +270,8 @@ private:
 #endif
 };
 
-ArticulationJoint::ArticulationJoint(const PxTransform& parentFrame, const PxTransform& childFrame,
-	PxArticulationBase::Enum type) :
-	mJoint(parentFrame, childFrame, type)
+ArticulationJoint::ArticulationJoint(const PxTransform& parentFrame, const PxTransform& childFrame, bool reducedCoordinate) :
+	mJoint(parentFrame, childFrame, reducedCoordinate)
 {
 	setScbType(ScbType::eARTICULATION_JOINT);
 }
@@ -324,17 +328,15 @@ PX_INLINE void ArticulationJoint::setTwistLimit(PxReal lower, PxReal upper)
 
 PX_INLINE void ArticulationJoint::setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mJoint.setLimit(axis, lower, upper);
 	else
 	{
-		if (!isBuffered(Buf::BF_Limits))
+		if(!isBuffered(Buf::BF_Limits))
 		{
-			Dy::ArticulationLimit* limits = getBuffer()->mLimits;
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
-			{
+			PxArticulationLimit* limits = getBuffer()->mLimits;
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 				mJoint.getLimit(PxArticulationAxis::Enum(i), limits[i].low, limits[i].high);
-			}
 		}
 		getBuffer()->mLimits[axis].low = lower;
 		getBuffer()->mLimits[axis].high = upper;
@@ -343,7 +345,7 @@ PX_INLINE void ArticulationJoint::setLimit(PxArticulationAxis::Enum axis, PxReal
 }
 PX_INLINE void ArticulationJoint::getLimit(PxArticulationAxis::Enum axis, PxReal& lower, PxReal& upper) const
 {
-	if (isBuffered(Buf::BF_Limits))
+	if(isBuffered(Buf::BF_Limits))
 	{
 		lower = getBuffer()->mLimits[axis].low;
 		upper = getBuffer()->mLimits[axis].high;
@@ -352,51 +354,49 @@ PX_INLINE void ArticulationJoint::getLimit(PxArticulationAxis::Enum axis, PxReal
 		mJoint.getLimit(axis, lower, upper);
 }
 
-PX_INLINE void ArticulationJoint::setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, bool isAcceleration)
+PX_INLINE void ArticulationJoint::setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, PxArticulationDriveType::Enum driveType)
 {
-	if (!isBuffering())
-		mJoint.setDrive(axis, stiffness, damping, maxForce, isAcceleration);
+	if(!isBuffering())
+		mJoint.setDrive(axis, stiffness, damping, maxForce, driveType);
 	else
 	{
-		if (!isBuffered(Buf::BF_Drives))
+		if(!isBuffered(Buf::BF_Drives))
 		{
-			Dy::ArticulationDrive* drives = getBuffer()->mDrives;
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
-			{
-				mJoint.getDrive(PxArticulationAxis::Enum(i), drives[i].stiffness, drives[i].damping, drives[i].maxForce, drives[i].isAcceleration);
-			}
+			PxArticulationDrive* drives = getBuffer()->mDrives;
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
+				mJoint.getDrive(PxArticulationAxis::Enum(i), drives[i].stiffness, drives[i].damping, drives[i].maxForce, drives[i].driveType);
 		}
 		getBuffer()->mDrives[axis].stiffness = stiffness;
 		getBuffer()->mDrives[axis].damping = damping;
 		getBuffer()->mDrives[axis].maxForce = maxForce;
-		getBuffer()->mDrives[axis].isAcceleration = isAcceleration;
+		getBuffer()->mDrives[axis].driveType = driveType;
 		markUpdated(Buf::BF_Drives);
 	}
 }
-PX_INLINE void ArticulationJoint::getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration) const
+PX_INLINE void ArticulationJoint::getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, PxArticulationDriveType::Enum& driveType) const
 {
-	if (!isBuffered(Buf::BF_Drives))
-		mJoint.getDrive(axis, stiffness, damping, maxForce, isAcceleration);
+	if(!isBuffered(Buf::BF_Drives))
+		mJoint.getDrive(axis, stiffness, damping, maxForce, driveType);
 	else
 	{
 		stiffness = getBuffer()->mDrives[axis].stiffness;
 		damping = getBuffer()->mDrives[axis].damping;
 		maxForce = getBuffer()->mDrives[axis].maxForce;
-		isAcceleration = getBuffer()->mDrives[axis].isAcceleration;
+		driveType = getBuffer()->mDrives[axis].driveType;
 	}
 }
 
-PX_INLINE void	 ArticulationJoint::setDriveTarget(PxArticulationAxis::Enum axis, PxReal targetP)
+PX_INLINE void  ArticulationJoint::setDriveTarget(PxArticulationAxis::Enum axis, PxReal targetP)
 {
-	if (!isBuffering())
+	if(!isBuffering())
 		mJoint.setTargetP(axis, targetP);
 	else
 	{
-		if (!isBuffered(Buf::BF_Targets))
+		if(!isBuffered(Buf::BF_Targets))
 		{
 			PxReal* targetP_ = getBuffer()->mTargetP;
 			PxReal* targetV_ = getBuffer()->mTargetV;
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
 				targetP_[i] = mJoint.getTargetP(PxArticulationAxis::Enum(i));
 				targetV_[i] = mJoint.getTargetV(PxArticulationAxis::Enum(i));
@@ -408,25 +408,23 @@ PX_INLINE void	 ArticulationJoint::setDriveTarget(PxArticulationAxis::Enum axis,
 }
 PX_INLINE PxReal ArticulationJoint::getDriveTarget(PxArticulationAxis::Enum axis) const
 {
-	if (!isBuffered(Buf::BF_Targets))
+	if(!isBuffered(Buf::BF_Targets))
 		return mJoint.getTargetP(axis);
 	else
-	{
 		return getBuffer()->mTargetP[axis];
-	}
 }
 
-PX_INLINE void	 ArticulationJoint::setDriveVelocity(PxArticulationAxis::Enum axis, PxReal targetP)
+PX_INLINE void  ArticulationJoint::setDriveVelocity(PxArticulationAxis::Enum axis, PxReal targetP)
 {
 	if (!isBuffering())
 		mJoint.setTargetV(axis, targetP);
 	else
 	{
-		if (!isBuffered(Buf::BF_Targets))
+		if(!isBuffered(Buf::BF_Targets))
 		{
 			PxReal* targetP_ = getBuffer()->mTargetP;
 			PxReal* targetV_ = getBuffer()->mTargetV;
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
 				targetP_[i] = mJoint.getTargetP(PxArticulationAxis::Enum(i));
 				targetV_[i] = mJoint.getTargetV(PxArticulationAxis::Enum(i));
@@ -441,9 +439,7 @@ PX_INLINE PxReal ArticulationJoint::getDriveVelocity(PxArticulationAxis::Enum ax
 	if (!isBuffered(Buf::BF_Targets))
 		return mJoint.getTargetV(axis);
 	else
-	{
 		return getBuffer()->mTargetV[axis];
-	}
 }
 
 
@@ -453,27 +449,22 @@ PX_INLINE void ArticulationJoint::setMotion(PxArticulationAxis::Enum axis, PxArt
 		mJoint.setMotion(axis, motion);
 	else
 	{
-		if (!isBuffered(Buf::BF_Motion))
+		if(!isBuffered(Buf::BF_Motion))
 		{
 			PxArticulationMotion::Enum* motionAxis = getBuffer()->mMotion;
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
-			{
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 				motionAxis[i] = mJoint.getMotion(PxArticulationAxis::Enum(i));
-			}
 		}
 
 		getBuffer()->mMotion[axis] = motion;
 		markUpdated(PxU32(Buf::BF_Motion));
-
 	}
 }
 
 PX_INLINE PxArticulationMotion::Enum ArticulationJoint::getMotion(PxArticulationAxis::Enum axis) const
 {
-	if (isBuffered(PxU32(Buf::BF_Motion)))
-	{
+	if(isBuffered(PxU32(Buf::BF_Motion)))
 		return getBuffer()->mMotion[axis];
-	}
 	else
 		return mJoint.getMotion(axis);
 }
@@ -534,33 +525,33 @@ PX_INLINE void ArticulationJoint::syncState()
 		if(isBuffered(Buf::BF_TwistLimit))
 			mJoint.setTwistLimit(buffer.mTwistLimitLower, buffer.mTwistLimitUpper);
 
-		if (isBuffered(Buf::BF_Motion))
+		if(isBuffered(Buf::BF_Motion))
 		{
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
 				mJoint.setMotion(PxArticulationAxis::Enum(i), buffer.mMotion[i]);
 			}
 		}
 
-		if (isBuffered(Buf::BF_Limits))
+		if(isBuffered(Buf::BF_Limits))
 		{
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
 				mJoint.setLimit(PxArticulationAxis::Enum(i), buffer.mLimits[i].low, buffer.mLimits[i].high);
 			}
 		}
 
-		if (isBuffered(Buf::BF_Drives))
+		if(isBuffered(Buf::BF_Drives))
 		{
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
-				mJoint.setDrive(PxArticulationAxis::Enum(i), buffer.mDrives[i].stiffness, buffer.mDrives[i].damping, buffer.mDrives[i].maxForce, buffer.mDrives[i].isAcceleration);
+				mJoint.setDrive(PxArticulationAxis::Enum(i), buffer.mDrives[i].stiffness, buffer.mDrives[i].damping, buffer.mDrives[i].maxForce, buffer.mDrives[i].driveType);
 			}
 		}
 
-		if (isBuffered(Buf::BF_Targets))
+		if(isBuffered(Buf::BF_Targets))
 		{
-			for (PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
+			for(PxU32 i=0; i<PxArticulationAxis::eCOUNT; i++)
 			{
 				mJoint.setTargetP(PxArticulationAxis::Enum(i), buffer.mTargetP[i]);
 				mJoint.setTargetV(PxArticulationAxis::Enum(i), buffer.mTargetV[i]);

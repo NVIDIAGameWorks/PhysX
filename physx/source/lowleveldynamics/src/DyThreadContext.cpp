@@ -42,7 +42,7 @@ ThreadContext::ThreadContext(PxcNpMemBlockPool* memBlockPool):
 	mConstraintBlockStream	(*memBlockPool),
 	mNumDifferentBodyConstraints(0),
 	mNumSelfConstraints(0),
-	mNumSelfConstraintBlocks(0),
+	mNumStaticConstraints(0),
 	mConstraintsPerPartition(PX_DEBUG_EXP("ThreadContext::mConstraintsPerPartition")),
 	mFrictionConstraintsPerPartition(PX_DEBUG_EXP("ThreadContext::frictionsConstraintsPerPartition")),
 	mPartitionNormalizationBitmap(PX_DEBUG_EXP("ThreadContext::mPartitionNormalizationBitmap")),
@@ -101,8 +101,8 @@ void ThreadContext::reset()
 	mMaxSolverVelocityIterations = 0;
 	mNumDifferentBodyConstraints = 0;
 	mNumSelfConstraints = 0;
+	mNumStaticConstraints = 0;
 	mSelfConstraintBlocks = NULL;
-	mNumSelfConstraintBlocks = 0;
 	mConstraintSize = 0;
 }
 

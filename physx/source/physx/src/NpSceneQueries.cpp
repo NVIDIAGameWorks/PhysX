@@ -27,14 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "GuIntersectionRayBox.h"
-#include "PxGeometryQuery.h"
+#include "common/PxProfileZone.h"
+#include "geometry/PxGeometryQuery.h"
+
 #include "NpRigidDynamic.h"
 #include "NpQueryShared.h"
 #include "SqPruner.h"
+#include "GuIntersectionRayBox.h"
 #include "GuBounds.h"
 #include "GuIntersectionRay.h"
-#include "common/PxProfileZone.h"
 
 // Synchronous scene queries
 

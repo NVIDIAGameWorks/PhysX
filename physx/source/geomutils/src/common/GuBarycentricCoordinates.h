@@ -30,7 +30,7 @@
 #ifndef GU_BARYCENTRIC_COORDINATES_H
 #define GU_BARYCENTRIC_COORDINATES_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "PsVecMath.h"
 

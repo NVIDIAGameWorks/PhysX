@@ -27,18 +27,16 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "common/PxRenderBuffer.h"
+#include "PxPhysics.h"
+
 #include "ExtD6Joint.h"
 #include "ExtConstraintHelper.h"
-#include "CmRenderOutput.h"
 #include "CmConeLimitHelper.h"
-#include "PxTolerancesScale.h"
-#include "CmUtils.h"
-#include "PxConstraint.h"
-
-#include "common/PxSerialFramework.h"
 
 using namespace physx;
 using namespace Ext;
+using namespace shdfnd;
 
 PxD6Joint* physx::PxD6JointCreate(PxPhysics& physics, PxRigidActor* actor0, const PxTransform& localFrame0, PxRigidActor* actor1, const PxTransform& localFrame1)
 {

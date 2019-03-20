@@ -27,9 +27,11 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "GuContactBuffer.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuContactMethodImpl.h"
 #include "GuGeometryUnion.h"
+
 #include "CmMatrix34.h"
 #include "PsUtilities.h"
 

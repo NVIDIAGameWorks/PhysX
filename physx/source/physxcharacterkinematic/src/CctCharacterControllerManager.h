@@ -33,10 +33,11 @@
 //Exclude file from docs
 /** \cond */
 
-#include "PxControllerManager.h"
-#include "PxControllerObstacles.h"
-#include "PxMeshQuery.h"
+#include "geometry/PxMeshQuery.h"
+#include "characterkinematic/PxControllerManager.h"
+#include "characterkinematic/PxControllerObstacles.h"
 #include "PxDeletionListener.h"
+
 #include "CmRenderOutput.h"
 #include "CctUtils.h"
 #include "PsHashSet.h"

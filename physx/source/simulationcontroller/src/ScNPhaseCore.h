@@ -344,33 +344,26 @@ namespace Sc
 
 	struct FilteringContext
 	{
+		PX_NOCOPY(FilteringContext)
+	public:
 		FilteringContext(const Sc::Scene& scene, FilterPairManager* filterPairManager) :
 			mFilterShader			(scene.getFilterShaderFast()),
 			mFilterShaderData		(scene.getFilterShaderDataFast()),
 			mFilterShaderDataSize	(scene.getFilterShaderDataSizeFast()),
 			mFilterCallback			(scene.getFilterCallbackFast()),
 			mFilterPairManager		(filterPairManager),
-			mSceneFlags				(scene.getPublicFlags())
+			mKineKineFilteringMode	(scene.getKineKineFilteringMode()),
+			mStaticKineFilteringMode(scene.getStaticKineFilteringMode())
 		{
-			const PxPairFilteringMode::Enum kineKineFilteringMode = scene.getKineKineFilteringMode();
-			if(kineKineFilteringMode==PxPairFilteringMode::eKEEP)
-				mSceneFlags |= PxSceneFlag::eENABLE_KINEMATIC_PAIRS;
-			else if(kineKineFilteringMode==PxPairFilteringMode::eSUPPRESS)
-				mSceneFlags &= ~PxSceneFlag::eENABLE_KINEMATIC_PAIRS;
-
-			const PxPairFilteringMode::Enum staticKineFilteringMode = scene.getStaticKineFilteringMode();
-			if(staticKineFilteringMode==PxPairFilteringMode::eKEEP)
-				mSceneFlags |= PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS;
-			else if(staticKineFilteringMode==PxPairFilteringMode::eSUPPRESS)
-				mSceneFlags &= ~PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS;
 		}
 
-		PxSimulationFilterShader	mFilterShader;
-		const void*					mFilterShaderData;
-		PxU32						mFilterShaderDataSize;
-		PxSimulationFilterCallback*	mFilterCallback;
-		FilterPairManager*			mFilterPairManager;
-		PxSceneFlags				mSceneFlags;
+		PxSimulationFilterShader			mFilterShader;
+		const void*							mFilterShaderData;
+		PxU32								mFilterShaderDataSize;
+		PxSimulationFilterCallback*			mFilterCallback;
+		FilterPairManager*					mFilterPairManager;
+		const PxPairFilteringMode::Enum		mKineKineFilteringMode;
+		const PxPairFilteringMode::Enum		mStaticKineFilteringMode;
 	};
 
 	// helper function to run the filter logic after some hardwired filter criteria have been passed successfully

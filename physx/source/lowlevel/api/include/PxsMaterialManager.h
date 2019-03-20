@@ -63,8 +63,8 @@ namespace physx
 
 		void setMaterial(PxsMaterialCore* mat)
 		{
-			const PxU32 materialIndex = mat->getMaterialIndex();
-			resize(materialIndex+1);
+			const PxU16 materialIndex = mat->getMaterialIndex();
+			resize(PxU32(materialIndex) + 1);
 			materials[materialIndex] = *mat;
 		}
 

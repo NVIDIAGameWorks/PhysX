@@ -31,7 +31,7 @@
 #define SQ_PRUNER_H
 
 #include "foundation/PxBounds3.h"
-#include "PxGeometry.h"
+#include "geometry/PxGeometry.h"
 #include "PxQueryReport.h"
 #include "PxQueryFiltering.h"
 #include "PsUserAllocated.h"

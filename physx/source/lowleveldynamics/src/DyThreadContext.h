@@ -32,20 +32,20 @@
 #define DY_THREADCONTEXT_H
 
 #include "foundation/PxTransform.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "PxvConfig.h"
+#include "PxvDynamics.h"
+#include "PxcThreadCoherentCache.h"
+#include "PxcConstraintBlockStream.h"
 #include "CmBitMap.h"
 #include "CmMatrix34.h"
-#include "PxcThreadCoherentCache.h"
 #include "DyThresholdTable.h"
-#include "PsAllocator.h"
-#include "PsAllocator.h"
-#include "GuContactBuffer.h"
-#include "DySolverConstraintDesc.h"
-#include "PxvDynamics.h"
 #include "DyArticulation.h"
 #include "DyFrictionPatchStreamPair.h"
-#include "PxcConstraintBlockStream.h"
+#include "DySolverConstraintDesc.h"
 #include "DyCorrelationBuffer.h"
+#include "PsAllocator.h"
 
 namespace physx
 {
@@ -53,53 +53,6 @@ struct PxsIndexedContactManager;
 
 namespace Dy
 {
-
-	//Needed by all constraints
-	struct PxTGSSolverBodyVel
-	{
-		PX_ALIGN(16, PxVec3) linearVelocity;			//12
-		PxU16			nbStaticInteractions;	//14 Used to accumulate the number of static interactions
-		PxU16			maxDynamicPartition;	//16 Used to accumualte the max partition of dynamic interactions
-		PxVec3			angularVelocity;		//28
-		PxU32			partitionMask;			//32 Used in partitioning as a bit-field
-		PxVec3			deltaAngDt;				//44
-		PxReal			maxAngVel;				//48
-		PxVec3			deltaLinDt;				//60
-		PxU16			lockFlags;				//62
-		bool			isKinematic;			//63
-		PxU8			pad;					//64
-
-		PX_FORCE_INLINE PxReal projectVelocity(const PxVec3& lin, const PxVec3& ang)	const
-		{
-			return linearVelocity.dot(lin) + angularVelocity.dot(ang);
-		}
-
-	};
-	
-	//Needed only by prep, integration and 1D constraints
-	struct PxTGSSolverBodyTxInertia
-	{
-		PxTransform deltaBody2World;
-		PxMat33 sqrtInvInertia;
-	};
-
-	struct PxStepSolverBodyData
-	{
-		PX_ALIGN(16, PxVec3) originalLinearVelocity;
-		PxReal maxContactImpulse;
-		PxVec3 originalAngularVelocity;
-		PxReal penBiasClamp;
-		
-		PxReal invMass;
-		PxU32 nodeIndex;
-		PxReal reportThreshold;
-		PxU32 pad;
-
-		PxReal projectVelocity(const PxVec3& linear, const PxVec3& angular) const
-		{
-			return originalLinearVelocity.dot(linear) + originalAngularVelocity.dot(angular);
-		}
-	};
 
 /*!
 Cache information specific to the software implementation(non common).
@@ -170,8 +123,8 @@ public:
 	PxU32 mNumDifferentBodyConstraints;
 	PxU32 mNumDifferentBodyFrictionConstraints;
 	PxU32 mNumSelfConstraints;
+	PxU32 mNumStaticConstraints;
 	PxU32 mNumSelfFrictionConstraints;
-	PxU32 mNumSelfConstraintBlocks;
 	PxU32 mNumSelfConstraintFrictionBlocks;
 
 	Ps::Array<PxU32>					mConstraintsPerPartition;

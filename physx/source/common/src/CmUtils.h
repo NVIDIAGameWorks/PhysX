@@ -35,8 +35,8 @@
 #include "foundation/PxVec3.h"
 #include "foundation/PxMat33.h"
 #include "foundation/PxBounds3.h"
+#include "common/PxBase.h"
 #include "CmPhysXCommon.h"
-#include "PxBase.h"
 #include "PsInlineArray.h"
 #include "PsArray.h"
 #include "PsAllocator.h"
@@ -216,6 +216,10 @@ PX_INLINE void deletePxBase(T* object)
 		object->~T();
 }
 
+#define PX_PADDING_8 0xcd
+#define PX_PADDING_16 0xcdcd
+#define PX_PADDING_32 0xcdcdcdcd
+
 #if PX_CHECKED
 /**
 Mark a specified amount of memory with 0xcd pattern. This is used to check that the meta data 
@@ -238,7 +242,6 @@ Note: Only use PX_NEW_SERIALIZED once in a scope.
 
 #else
 PX_INLINE void markSerializedMem(void*, PxU32){}
-
 #define PX_NEW_SERIALIZED(v,T)  v = PX_NEW(T)
 #endif
 

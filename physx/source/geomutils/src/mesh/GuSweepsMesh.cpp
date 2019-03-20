@@ -92,8 +92,8 @@ static bool sweepSphereTriangle(const PxTriangle& tri,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-SweepShapeMeshHitCallback::SweepShapeMeshHitCallback(CallbackMode::Enum mode, const PxHitFlags& hitFlags, bool flipNormal, float distCoef) :
-	MeshHitCallback<PxRaycastHit>	(mode),
+SweepShapeMeshHitCallback::SweepShapeMeshHitCallback(CallbackMode::Enum inMode, const PxHitFlags& hitFlags, bool flipNormal, float distCoef) :
+	MeshHitCallback<PxRaycastHit>	(inMode),
 	mHitFlags						(hitFlags),
 	mStatus							(false),
 	mInitialOverlap					(false),

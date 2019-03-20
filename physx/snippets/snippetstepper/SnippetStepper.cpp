@@ -202,13 +202,16 @@ void initPhysics()
 
 void cleanupPhysics()
 {
-	gDispatcher->release();
-	gPhysics->release();
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
 	
-  	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	gFoundation->release();
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 }
 
 int snippetMain(int, const char*const*)

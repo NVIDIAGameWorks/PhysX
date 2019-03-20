@@ -102,7 +102,7 @@ namespace Dy
 
 	private:
 		Cm::SpatialVectorF columns[6];			//192		192			
-		PxU32	numColumns;						//4			196
+		PxU32	numColumns;						//4			208 (12 bytes padding)
 
 	};
 
@@ -215,6 +215,16 @@ namespace Dy
 			T = other.T;
 		}
 
+	};
+
+	struct InvStIs
+	{
+		PxReal invStIs[6][6];
+	};
+
+	struct IsInvD
+	{
+		Cm::SpatialVectorF isInvD[6];
 	};
 
 	//this should be 6x6 matrix and initialize to
@@ -511,6 +521,31 @@ namespace Dy
 			}
 		}
 
+		static PX_FORCE_INLINE Ps::aos::Mat33V invertSym33(const Ps::aos::Mat33V& in)
+		{
+			using namespace Ps::aos;
+			const Vec3V v0 = V3Cross(in.col1, in.col2);
+			const Vec3V v1 = V3Cross(in.col2, in.col0);
+			const Vec3V v2 = V3Cross(in.col0, in.col1);
+
+			FloatV det = V3Dot(v0, in.col0);
+
+			const FloatV recipDet = FRecip(det);
+
+			if (!FAllEq(det, FZero()))
+			{
+				return Mat33V(V3Scale(v0, recipDet),
+					V3Scale(V3Merge(V3GetY(v0), V3GetY(v1), V3GetZ(v1)), recipDet),
+					V3Scale(V3Merge(V3GetZ(v0), V3GetZ(v1), V3GetZ(v2)), recipDet));
+			}
+			else
+			{
+				return Mat33V(V3UnitX(), V3UnitY(), V3UnitZ());
+			}
+
+			//return M33Inverse(in);
+		}
+
 		PX_CUDA_CALLABLE PX_FORCE_INLINE SpatialMatrix invertInertia()
 		{
 			PxMat33 aa = bottomLeft, ll = topRight, la = topLeft;
@@ -531,6 +566,36 @@ namespace Dy
 			SpatialMatrix result(LA.getTranspose(), AA, LL);// , LA);
 
 			return result;
+		}
+
+		PX_FORCE_INLINE void M33Store(const Ps::aos::Mat33V& src, PxMat33& dest)
+		{
+			Ps::aos::V3StoreU(src.col0, dest.column0);
+			Ps::aos::V3StoreU(src.col1, dest.column1);
+			Ps::aos::V3StoreU(src.col2, dest.column2);
+		}
+
+		PX_FORCE_INLINE void invertInertiaV(SpatialMatrix& result)
+		{
+			using namespace Ps::aos;
+			Mat33V aa = M33Load(bottomLeft), ll = M33Load(topRight), la = M33Load(topLeft);
+
+			aa = M33Scale(M33Add(aa, M33Trnsps(aa)), FHalf());
+			ll = M33Scale(M33Add(ll, M33Trnsps(ll)), FHalf());
+
+			Mat33V AAInv = invertSym33(aa);
+
+			Mat33V z = M33MulM33(M33Neg(la), AAInv);
+			Mat33V S = M33Add(ll, M33MulM33(z, M33Trnsps(la)));	// Schur complement of mAA
+
+			Mat33V LL = invertSym33(S);
+
+			Mat33V LA = M33MulM33(LL, z);
+			Mat33V AA = M33Add(AAInv, M33MulM33(M33Trnsps(z), LA));
+
+			M33Store(M33Trnsps(LA), result.topLeft);
+			M33Store(AA, result.topRight);
+			M33Store(LL, result.bottomLeft);
 		}
 
 		SpatialMatrix getInverse()
@@ -561,6 +626,68 @@ namespace Dy
 			bottomLeft = PxMat33(PxZero);
 		}
 
+	};
+
+	struct SpatialImpulseResponseMatrix
+	{
+		Cm::SpatialVectorF rows[6];
+
+		Cm::SpatialVectorF getResponse(const Cm::SpatialVectorF& impulse) const
+		{
+			/*return rows[0] * impulse.top.x + rows[1] * impulse.top.y + rows[2] * impulse.top.z
+			+ rows[3] * impulse.bottom.x + rows[4] * impulse.bottom.y + rows[5] * impulse.bottom.z;*/
+
+			using namespace Ps::aos;
+			Cm::SpatialVectorV row0(V3LoadA(&rows[0].top.x), V3LoadA(&rows[0].bottom.x));
+			Cm::SpatialVectorV row1(V3LoadA(&rows[1].top.x), V3LoadA(&rows[1].bottom.x));
+			Cm::SpatialVectorV row2(V3LoadA(&rows[2].top.x), V3LoadA(&rows[2].bottom.x));
+			Cm::SpatialVectorV row3(V3LoadA(&rows[3].top.x), V3LoadA(&rows[3].bottom.x));
+			Cm::SpatialVectorV row4(V3LoadA(&rows[4].top.x), V3LoadA(&rows[4].bottom.x));
+			Cm::SpatialVectorV row5(V3LoadA(&rows[5].top.x), V3LoadA(&rows[5].bottom.x));
+
+			Vec4V top = V4LoadA(&impulse.top.x);
+			Vec4V bottom = V4LoadA(&impulse.bottom.x);
+
+			const FloatV ix = V4GetX(top);
+			const FloatV iy = V4GetY(top);
+			const FloatV iz = V4GetZ(top);
+			const FloatV ia = V4GetX(bottom);
+			const FloatV ib = V4GetY(bottom);
+			const FloatV ic = V4GetZ(bottom);
+
+			Cm::SpatialVectorV res =  row0 * ix + row1 * iy + row2 * iz + row3 * ia + row4 * ib + row5 * ic;
+
+			Cm::SpatialVectorF returnVal;
+			V4StoreA(Vec4V_From_Vec3V(res.linear), &returnVal.top.x);
+			V4StoreA(Vec4V_From_Vec3V(res.angular), &returnVal.bottom.x);
+
+			return returnVal;
+
+		}
+
+		Cm::SpatialVectorV getResponse(const Cm::SpatialVectorV& impulse) const
+		{
+			using namespace Ps::aos;
+			Cm::SpatialVectorV row0(V3LoadA(&rows[0].top.x), V3LoadA(&rows[0].bottom.x));
+			Cm::SpatialVectorV row1(V3LoadA(&rows[1].top.x), V3LoadA(&rows[1].bottom.x));
+			Cm::SpatialVectorV row2(V3LoadA(&rows[2].top.x), V3LoadA(&rows[2].bottom.x));
+			Cm::SpatialVectorV row3(V3LoadA(&rows[3].top.x), V3LoadA(&rows[3].bottom.x));
+			Cm::SpatialVectorV row4(V3LoadA(&rows[4].top.x), V3LoadA(&rows[4].bottom.x));
+			Cm::SpatialVectorV row5(V3LoadA(&rows[5].top.x), V3LoadA(&rows[5].bottom.x));
+
+			const Vec3V top = impulse.linear;
+			const Vec3V bottom = impulse.angular;
+
+			const FloatV ix = V3GetX(top);
+			const FloatV iy = V3GetY(top);
+			const FloatV iz = V3GetZ(top);
+			const FloatV ia = V3GetX(bottom);
+			const FloatV ib = V3GetY(bottom);
+			const FloatV ic = V3GetZ(bottom);
+
+			Cm::SpatialVectorV res = row0 * ix + row1 * iy + row2 * iz + row3 * ia + row4 * ib + row5 * ic;
+			return res;
+		}
 	};
 
 	struct Temp6x6Matrix;
@@ -871,6 +998,15 @@ namespace Dy
 		swing1 = swing.y != 0.f ? PxQuat(0.f, swing.y, 0.f, swing.w).getNormalized() : PxQuat(PxIdentity);
 		swing = swing * swing1.getConjugate();
 		swing2 = swing.z != 0.f ? PxQuat(0.f, 0.f, swing.z, swing.w).getNormalized() : PxQuat(PxIdentity);
+	}
+
+	PX_CUDA_CALLABLE PX_FORCE_INLINE void separateSwingTwist2(const PxQuat& q, PxQuat& twist, PxQuat& swing1, PxQuat& swing2)
+	{
+		swing2 = q.z != 0.0f ? PxQuat(0.f, 0.f, q.z, q.w).getNormalized() : PxQuat(PxIdentity);
+		PxQuat swing = q * swing2.getConjugate();
+		swing1 = swing.y != 0.f ? PxQuat(0.f, swing.y, 0.f, swing.w).getNormalized() : PxQuat(PxIdentity);
+		swing = swing * swing1.getConjugate();
+		twist = swing.x != 0.f ? PxQuat(swing.x, 0.f, 0.f, swing.w).getNormalized() : PxQuat(PxIdentity);
 	}
 
 

@@ -32,11 +32,12 @@
 
 //#define USE_CONTACT_NORMAL_FOR_SLOPE_TEST
 
-#include "PxController.h"
-#include "PxControllerObstacles.h"
+#include "geometry/PxTriangle.h"
+#include "characterkinematic/PxController.h"
+#include "characterkinematic/PxControllerObstacles.h"
+
 #include "CctCharacterControllerManager.h"
 #include "CctUtils.h"
-#include "PxTriangle.h"
 #include "PsArray.h"
 #include "PsHashSet.h"
 #include "CmPhysXCommon.h"

@@ -30,8 +30,8 @@
 #ifndef GU_BIG_CONVEX_DATA2_H
 #define GU_BIG_CONVEX_DATA2_H
 
+#include "common/PxMetaData.h"
 #include "GuBigConvexData.h"
-#include "PxMetaData.h"
 
 namespace physx
 {

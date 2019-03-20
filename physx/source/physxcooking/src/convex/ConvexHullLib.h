@@ -31,8 +31,9 @@
 #ifndef PX_CONVEXHULLLIB_H
 #define PX_CONVEXHULLLIB_H
 
-#include "PxConvexMeshDesc.h"
-#include "PxCooking.h"
+#include "cooking/PxConvexMeshDesc.h"
+#include "cooking/PxCooking.h"
+
 #include "CmPhysXCommon.h"
 
 namespace physx

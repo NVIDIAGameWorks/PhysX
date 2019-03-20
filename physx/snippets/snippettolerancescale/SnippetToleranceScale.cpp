@@ -126,23 +126,24 @@ void initPhysics(bool interactive, const PxTolerancesScale& scale, PxReal scaleM
 		createDynamic(PxTransform(PxVec3(0,40,100) * scaleLength), PxSphereGeometry(10 * scaleLength), 100.0f * scaleMass, PxVec3(0,-50,-100) * scaleLength);
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
 }
 
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	gFoundation->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 }
 
 void runSim(const PxTolerancesScale& scale, PxReal scaleMass)

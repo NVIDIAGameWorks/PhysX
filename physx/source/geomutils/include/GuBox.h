@@ -34,11 +34,11 @@
 @{
 */
 
-#include "PxPhysXCommonConfig.h"
-#include "CmPhysXCommon.h"
-#include "CmScaling.h"
 #include "foundation/PxTransform.h"
 #include "foundation/PxMat33.h"
+#include "common/PxPhysXCommonConfig.h"
+#include "CmPhysXCommon.h"
+#include "CmScaling.h"
 
 namespace physx
 {

@@ -163,6 +163,11 @@ namespace physx { namespace Sn {
 		writeReference( writer, inCollection, inPropName, inDatatype );
 	}
 	
+	inline void writeProperty(XmlWriter& writer, PxCollection& inCollection, MemoryBuffer& /*inBuffer*/, const char* inPropName, PxArticulationReducedCoordinate* inDatatype)
+	{
+		writeReference(writer, inCollection, inPropName, inDatatype);
+	}
+
 	inline void writeProperty( XmlWriter& writer, PxCollection& inCollection, MemoryBuffer& /*inBuffer*/, const char* inPropName, PxRigidActor* inDatatype )
 	{
 		writeReference( writer, inCollection, inPropName, inDatatype );
@@ -310,7 +315,7 @@ namespace physx { namespace Sn {
 	
 		
 	template<typename TObjType, typename TWriterType, typename TInfoType>
-	inline void handleComplexObj( TWriterType& oldVisitor, const TObjType* inObj, TInfoType& info);
+	inline void handleComplexObj( TWriterType& oldVisitor, const TObjType* inObj, const TInfoType& info);
 
 	template<typename TCollectionType, typename TVisitor, typename TPropType, typename TInfoType >
 	void handleComplexCollection( TVisitor& visitor, const TPropType& inProp, const char* childName, TInfoType& inInfo )
@@ -552,7 +557,6 @@ namespace physx { namespace Sn {
 			}	
 		}
 
-
 		void handleShapes( const PxRigidActorShapeCollection& inProp )
 		{
 			physx::Sn::handleShapes( *this, inProp );
@@ -561,6 +565,12 @@ namespace physx { namespace Sn {
 		void handleShapeMaterials( const PxShapeMaterialsProperty& inProp )
 		{
 			physx::Sn::handleShapeMaterials( *this, inProp );
+		}
+
+		void handleRigidActorGlobalPose(const PxRigidActorGlobalPosePropertyInfo& inProp)
+		{
+			PxRepXPropertyAccessor<PxPropertyInfoName::PxRigidActor_GlobalPose, PxRigidActor, const PxTransform &, PxTransform> theAccessor( inProp );
+			simpleProperty(PxPropertyInfoName::PxRigidActor_GlobalPose, theAccessor);
 		}
 	};
 
@@ -593,12 +603,21 @@ namespace physx { namespace Sn {
 
 		void handleIncomingJoint( const TIncomingJointPropType& prop )
 		{
-			const PxArticulationJointBase* theJoint( prop.get( mObj ) );
-			if ( theJoint )
+			const PxArticulationJointBase* jointBase( prop.get( mObj ) );
+			if ( jointBase )
 			{
-				PxArticulationJointGeneratedInfo info;
 				pushName( "Joint" );
-				handleComplexObj( *this, theJoint, info );
+				const PxArticulationJoint* joint = jointBase->is<PxArticulationJoint>();
+				if (joint)
+				{
+					handleComplexObj( *this, joint, PxArticulationJointGeneratedInfo());
+				}
+				else
+				{
+					const PxArticulationJointReducedCoordinate* jointReducedCoordinate = jointBase->is<PxArticulationJointReducedCoordinate>();
+					PX_ASSERT(jointReducedCoordinate);
+					handleComplexObj( *this, jointReducedCoordinate, PxArticulationJointReducedCoordinateGeneratedInfo());
+				}
 				popName();
 			}
 		}
@@ -606,6 +625,17 @@ namespace physx { namespace Sn {
 	
 	typedef PxProfileHashMap< const PxSerialObjectId, const PxArticulationLink* > TArticulationLinkLinkMap;
 	
+	static void recurseAddLinkAndChildren( const PxArticulationLink* inLink, Ps::InlineArray<const PxArticulationLink*, 64>& ioLinks )
+	{
+		ioLinks.pushBack( inLink );
+		Ps::InlineArray<PxArticulationLink*, 8> theChildren;
+		PxU32 childCount( inLink->getNbChildren() );
+		theChildren.resize( childCount );
+		inLink->getChildren( theChildren.begin(), childCount );
+		for ( PxU32 idx = 0; idx < childCount; ++idx )
+			recurseAddLinkAndChildren( theChildren[idx], ioLinks );
+	}
+
 	template<>
 	struct RepXVisitorWriter<PxArticulation> : RepXVisitorWriterBase<PxArticulation>
 	{
@@ -660,17 +690,6 @@ namespace physx { namespace Sn {
 			popName();
 		}
 
-		void recurseAddLinkAndChildren( const PxArticulationLink* inLink, Ps::InlineArray<const PxArticulationLink*, 64>& ioLinks )
-		{
-			ioLinks.pushBack( inLink );
-			Ps::InlineArray<PxArticulationLink*, 8> theChildren;
-			PxU32 childCount( inLink->getNbChildren() );
-			theChildren.resize( childCount );
-			inLink->getChildren( theChildren.begin(), childCount );
-			for ( PxU32 idx = 0; idx < childCount; ++idx )
-				recurseAddLinkAndChildren( theChildren[idx], ioLinks );
-		}
-
 		void handleArticulationLinks( const PxArticulationLinkCollectionProp& inProp )
 		{
 			//topologically sort the links as per my discussion with Dilip because
@@ -698,6 +717,89 @@ namespace physx { namespace Sn {
 		}
 	private:
 		RepXVisitorWriter<PxArticulation>& operator=(const RepXVisitorWriter<PxArticulation>&);
+	};
+
+	template<>
+	struct RepXVisitorWriter<PxArticulationReducedCoordinate> : RepXVisitorWriterBase<PxArticulationReducedCoordinate>
+	{
+		TArticulationLinkLinkMap& mArticulationLinkParents;
+
+		RepXVisitorWriter(TNameStack& ns, XmlWriter& writer, const PxArticulationReducedCoordinate* inArticulation, MemoryBuffer& buf, PxCollection& collection, TArticulationLinkLinkMap* artMap = NULL)
+			: RepXVisitorWriterBase<PxArticulationReducedCoordinate>(ns, writer, inArticulation, buf, collection)
+			, mArticulationLinkParents(*artMap)
+		{
+			Ps::InlineArray<PxArticulationLink*, 64, PxProfileWrapperReflectionAllocator<PxArticulationLink*> > linkList(PxProfileWrapperReflectionAllocator<PxArticulationLink*>(buf.mManager->getWrapper()));
+			PxU32 numLinks = inArticulation->getNbLinks();
+			linkList.resize(numLinks);
+			inArticulation->getLinks(linkList.begin(), numLinks);
+			for (PxU32 idx = 0; idx < numLinks; ++idx)
+			{
+				const PxArticulationLink* theLink(linkList[idx]);
+
+				Ps::InlineArray<PxArticulationLink*, 64> theChildList;
+				PxU32 numChildren = theLink->getNbChildren();
+				theChildList.resize(numChildren);
+				theLink->getChildren(theChildList.begin(), numChildren);
+				for (PxU32 childIdx = 0; childIdx < numChildren; ++childIdx)
+					mArticulationLinkParents.insert(static_cast<uint64_t>(reinterpret_cast<size_t>(theChildList[childIdx])), theLink);
+			}
+		}
+
+		RepXVisitorWriter(const RepXVisitorWriter<PxArticulationReducedCoordinate>& other)
+			: RepXVisitorWriterBase<PxArticulationReducedCoordinate>(other)
+			, mArticulationLinkParents(other.mArticulationLinkParents)
+		{
+		}
+		template<typename TAccessorType, typename TInfoType>
+		void complexProperty(PxU32* /*key*/, const TAccessorType& inProp, TInfoType& inInfo)
+		{
+			typedef typename TAccessorType::prop_type TPropertyType;
+			TPropertyType propVal = inProp.get(mObj);
+			handleComplexObj(*this, &propVal, inInfo);
+		}
+
+		void writeArticulationLink(const PxArticulationLink* inLink)
+		{
+			pushName("PxArticulationLink");
+			gotoTopName();
+
+			const TArticulationLinkLinkMap::Entry* theParentPtr = mArticulationLinkParents.find(static_cast<uint64_t>(reinterpret_cast<size_t>(inLink)));
+			if (theParentPtr != NULL)
+				writeProperty(mWriter, mCollection, mTempBuffer, "Parent", theParentPtr->second);
+			writeProperty(mWriter, mCollection, mTempBuffer, "Id", inLink);
+
+			PxArticulationLinkGeneratedInfo info;
+			handleComplexObj(*this, inLink, info);
+			popName();
+		}
+
+		void handleArticulationLinks(const PxArticulationLinkCollectionProp& inProp)
+		{
+			//topologically sort the links as per my discussion with Dilip because
+			//links aren't guaranteed to have the parents before the children in the
+			//overall link list and it is unlikely to be done by beta 1.
+			PxU32 count(inProp.size(mObj));
+			if (count)
+			{
+				Ps::InlineArray<PxArticulationLink*, 64> theLinks;
+				theLinks.resize(count);
+				inProp.get(mObj, theLinks.begin(), count);
+
+				Ps::InlineArray<const PxArticulationLink*, 64> theSortedLinks;
+				for (PxU32 idx = 0; idx < count; ++idx)
+				{
+					const PxArticulationLink* theLink(theLinks[idx]);
+					if (mArticulationLinkParents.find(static_cast<uint64_t>(reinterpret_cast<size_t>(theLink))) == NULL)
+						recurseAddLinkAndChildren(theLink, theSortedLinks);
+				}
+				PX_ASSERT(theSortedLinks.size() == count);
+				for (PxU32 idx = 0; idx < count; ++idx)
+					writeArticulationLink(theSortedLinks[idx]);
+				popName();
+			}
+		}
+	private:
+		RepXVisitorWriter<PxArticulationReducedCoordinate>& operator=(const RepXVisitorWriter<PxArticulationReducedCoordinate>&);
 	};
 	
 	template<>
@@ -781,12 +883,6 @@ namespace physx { namespace Sn {
 	
 	template<typename TObjType, typename TWriterType, typename TInfoType>
 	inline void handleComplexObj( TWriterType& oldVisitor, const TObjType* inObj, const TInfoType& /*info*/)
-	{
-		writeAllProperties( oldVisitor.mNameStack, inObj, oldVisitor.mWriter, oldVisitor.mTempBuffer, oldVisitor.mCollection );
-	}
-
-	template<typename TObjType, typename TWriterType, typename TInfoType>
-	inline void handleComplexObj( TWriterType& oldVisitor, const TObjType* inObj, TInfoType& /*info*/)
 	{
 		writeAllProperties( oldVisitor.mNameStack, inObj, oldVisitor.mWriter, oldVisitor.mTempBuffer, oldVisitor.mCollection );
 	}

@@ -31,8 +31,9 @@
 #ifndef PX_BVH_STRUCTURE_BUILDER_H
 #define PX_BVH_STRUCTURE_BUILDER_H
 
+#include "cooking/PxCooking.h"
+
 #include "PsUserAllocated.h"
-#include "PxCooking.h"
 #include "GuBVHStructure.h"
 
 namespace physx

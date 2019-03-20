@@ -37,6 +37,7 @@ if [ -f $PHYSX_ROOT_DIR/buildtools/update_packman.sh ] ; then
     $PHYSX_ROOT_DIR/buildtools/packman/packman pull "$PHYSX_ROOT_DIR/dependencies.xml" --platform linux --include-tag=requiredForMetaGen --postscript $SCRIPT_DIR/helper.sh
 else
     export PM_PxShared_PATH="$PHYSX_ROOT_DIR/../pxshared"
+    export PM_clangMetadata_PATH="$PHYSX_ROOT_DIR/../externals/clang-physxmetadata/4.0.0"
     $SCRIPT_DIR/helper.sh
 fi
 

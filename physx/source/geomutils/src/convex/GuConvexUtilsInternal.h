@@ -30,7 +30,7 @@
 #ifndef GU_CONVEX_UTILS_INTERNALS_H
 #define GU_CONVEX_UTILS_INTERNALS_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
-  <title>Serialization &mdash; NVIDIA PhysX SDK 4.0 Documentation</title>
+  <title>Serialization &mdash; NVIDIA PhysX SDK 4.1 Documentation</title>
   
 
   
@@ -34,7 +34,7 @@
     
         <style>
             .wy-nav-content::before {
-                content: "PhysX 4.0 SDK Guide";
+                content: "PhysX 4.1 SDK Guide";
             }
         </style>
     
@@ -735,7 +735,7 @@
 <span class="c1">// 2) Create a collection from all objects in the scene and add it</span>
 <span class="c1">//    to everythingCollection.</span>
 <span class="n">PxCollection</span><span class="o">*</span> <span class="n">collectionScene</span> <span class="o">=</span> <span class="n">PxCollectionExt</span><span class="o">::</span><span class="n">createCollection</span><span class="p">(</span><span class="o">*</span><span class="n">scene</span><span class="p">);</span>
-<span class="n">everythingCollection</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="n">collectionScene</span><span class="p">);</span>
+<span class="n">everythingCollection</span><span class="o">-&gt;</span><span class="n">add</span><span class="p">(</span><span class="o">*</span><span class="n">collectionScene</span><span class="p">);</span>
 <span class="n">collectionScene</span><span class="o">-&gt;</span><span class="n">release</span><span class="p">();</span>
 
 <span class="c1">// 3) Complete collection</span>
@@ -860,7 +860,7 @@
 </div>
 <div class="section" id="versioning">
 <span id="retargeting"></span><h4>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h4>
-<p>The binary serialized data is typically specific to the version of the SDK it was produced with. However, a SDK version can load the data of older SDK versions if the binary format didn't change. This is usually the case with bugfix releases. The compatible SDK versions are listed in the code documentation of <em>PX_BINARY_SERIAL_VERSION</em> in <em>PxSerialization.h</em>.</p>
+<p>The binary serialized data is typically specific to the version of the SDK it was produced with. However, a SDK version can load the data of older SDK versions if the binary format didn't change. This is usually the case with bugfix releases. The global unique identifier PX_BINARY_SERIAL_VERSION is used to version the binary data and is updated for every release with changed format.</p>
 </div>
 <div class="section" id="retargeting-to-other-platforms">
 <h4>Retargeting to other Platforms<a class="headerlink" href="#retargeting-to-other-platforms" title="Permalink to this headline">¶</a></h4>
@@ -1032,7 +1032,7 @@ one platform to another. It only compiles and runs on authoring platforms (Windo
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0',
+              VERSION:'4.1',
               LANGUAGE:'',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',

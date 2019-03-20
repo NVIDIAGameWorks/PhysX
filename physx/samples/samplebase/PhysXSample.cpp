@@ -860,7 +860,7 @@ void PhysXSample::onInit()
 			cudaContextManagerDesc.graphicsDevice = getRenderer()->getDevice();
 		}
 #endif 
-		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc);
+		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
 		if( mCudaContextManager )
 		{
 			if( !mCudaContextManager->contextIsValid() )
@@ -919,8 +919,8 @@ void PhysXSample::onInit()
 		sceneDesc.filterShader	= getSampleFilterShader();
 
 #if PX_SUPPORT_GPU_PHYSX
-	if(!sceneDesc.gpuDispatcher && mCudaContextManager)
-		sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
+	if(!sceneDesc.cudaContextManager)
+		sceneDesc.cudaContextManager = mCudaContextManager;
 #endif
 
 	//sceneDesc.frictionType = PxFrictionType::eTWO_DIRECTIONAL;

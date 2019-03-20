@@ -121,7 +121,7 @@ PxConstraintAllocator& allocator)
 			c.maxImpulse = PX_MAX_REAL;
 		}
 
-		desc.mInvMassScales.linear0 = desc.mInvMassScales.linear1 = desc.mInvMassScales.angular0 = desc.mInvMassScales.angular1 = 1.f;
+		desc.invMassScales.linear0 = desc.invMassScales.linear1 = desc.invMassScales.angular0 = desc.invMassScales.angular1 = 1.f;
 
 		desc.body0WorldOffset = PxVec3(0.f);
 
@@ -130,7 +130,7 @@ PxConstraintAllocator& allocator)
 		PxU32 constraintCount = (*shaderDesc.solverPrep)(rows,
 			desc.body0WorldOffset,
 			MAX_CONSTRAINT_ROWS,
-			desc.mInvMassScales,
+			desc.invMassScales,
 			shaderDesc.constantBlock,
 			desc.bodyFrame0, desc.bodyFrame1, desc.extendedLimits, ra, rb);
 
@@ -170,7 +170,7 @@ PxConstraintAllocator& allocator, PxU32 maxRows)
 
 		preprocessRows(sorted, desc.rows, angSqrtInvInertia0 + numRows, angSqrtInvInertia1 + numRows, desc.numRows, 
 			desc.data0->sqrtInvInertia, desc.data1->sqrtInvInertia, desc.data0->invMass, desc.data1->invMass, 
-			desc.mInvMassScales, desc.disablePreprocessing, desc.improvedSlerp);
+			desc.invMassScales, desc.disablePreprocessing, desc.improvedSlerp);
 
 		numRows += desc.numRows;
 	}
@@ -242,10 +242,10 @@ PxConstraintAllocator& allocator, PxU32 maxRows)
 
 		//Load up masses, invInertia, velocity etc.
 
-		const Vec4V invMassScale0 = V4LoadXYZW(constraintDescs[0].mInvMassScales.linear0, constraintDescs[1].mInvMassScales.linear0, 
-			constraintDescs[2].mInvMassScales.linear0, constraintDescs[3].mInvMassScales.linear0);
-		const Vec4V invMassScale1 = V4LoadXYZW(constraintDescs[0].mInvMassScales.linear1, constraintDescs[1].mInvMassScales.linear1, 
-			constraintDescs[2].mInvMassScales.linear1, constraintDescs[3].mInvMassScales.linear1);
+		const Vec4V invMassScale0 = V4LoadXYZW(constraintDescs[0].invMassScales.linear0, constraintDescs[1].invMassScales.linear0, 
+			constraintDescs[2].invMassScales.linear0, constraintDescs[3].invMassScales.linear0);
+		const Vec4V invMassScale1 = V4LoadXYZW(constraintDescs[0].invMassScales.linear1, constraintDescs[1].invMassScales.linear1, 
+			constraintDescs[2].invMassScales.linear1, constraintDescs[3].invMassScales.linear1);
 
 
 		const Vec4V iMass0 = V4LoadXYZW(bd00.invMass, bd01.invMass, bd02.invMass, bd03.invMass);
@@ -256,10 +256,10 @@ PxConstraintAllocator& allocator, PxU32 maxRows)
 		const Vec4V invMass1 = V4Mul(iMass1, invMassScale1);
 
 
-		const Vec4V invInertiaScale0 = V4LoadXYZW(constraintDescs[0].mInvMassScales.angular0, constraintDescs[1].mInvMassScales.angular0, 
-			constraintDescs[2].mInvMassScales.angular0, constraintDescs[3].mInvMassScales.angular0);
-		const Vec4V invInertiaScale1 = V4LoadXYZW(constraintDescs[0].mInvMassScales.angular1, constraintDescs[1].mInvMassScales.angular1, 
-			constraintDescs[2].mInvMassScales.angular1, constraintDescs[3].mInvMassScales.angular1);
+		const Vec4V invInertiaScale0 = V4LoadXYZW(constraintDescs[0].invMassScales.angular0, constraintDescs[1].invMassScales.angular0, 
+			constraintDescs[2].invMassScales.angular0, constraintDescs[3].invMassScales.angular0);
+		const Vec4V invInertiaScale1 = V4LoadXYZW(constraintDescs[0].invMassScales.angular1, constraintDescs[1].invMassScales.angular1, 
+			constraintDescs[2].invMassScales.angular1, constraintDescs[3].invMassScales.angular1);
 
 		//Velocities
 		Vec4V linVel00 = V4LoadA(&bd00.linearVelocity.x);

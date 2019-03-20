@@ -31,7 +31,7 @@
 #ifndef PX_PHYSICS_PX_COLLECTION
 #define PX_PHYSICS_PX_COLLECTION
 
-#include "PxSerialFramework.h"
+#include "common/PxSerialFramework.h"
 
 /** \addtogroup common
 @{

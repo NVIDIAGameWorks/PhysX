@@ -26,11 +26,12 @@
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 
 #include "foundation/PxErrorCallback.h"
+#include "extensions/PxDefaultStreams.h"
+
 #include "SnConvX.h"
 #include "serialization/SnSerialUtils.h"
 #include "PsAlloca.h"
 #include "CmUtils.h"
-#include "PxDefaultStreams.h"
 #include <assert.h>
 
 using namespace physx;
@@ -70,6 +71,13 @@ void Sn::ConvX::_enumerateFields(const MetaClass* mc, ExtraDataEntry2* entries, 
 				entries[nb].entry	= entry;
 				entries[nb].offset	= currentOffset;
 				entries[nb].cb		= &Sn::ConvX::convertPtr;
+				nb++;
+			}
+			else if(entry.mFlags & PxMetaDataFlag::eHANDLE)
+			{
+				entries[nb].entry	= entry;
+				entries[nb].offset	= currentOffset;
+				entries[nb].cb		= &Sn::ConvX::convertHandle16;
 				nb++;
 			}
 			else
@@ -704,6 +712,33 @@ const char* Sn::ConvX::convertExtraData_Ptr(const char* Address, const char* las
 	return Address;
 }
 
+const char* Sn::ConvX::convertExtraData_Handle(const char* Address, const char* lastAddress, const PxMetaDataEntry& entry, int count)
+{
+	(void)lastAddress;
+
+	MetaClass* fieldType = getMetaClass(entry.mType, META_DATA_SRC);
+	int typeSize = fieldType->mSize;
+
+	PxMetaDataEntry tmpSrc = entry;
+	tmpSrc.mCount = count;
+	tmpSrc.mSize = count*typeSize;
+
+	PxMetaDataEntry tmpDst = entry;
+	tmpDst.mCount = count;
+	tmpDst.mSize = count*typeSize;
+
+	displayMessage(PxErrorCode::eDEBUG_INFO, "extra data handles\n");
+	displayMessage(PxErrorCode::eDEBUG_INFO, "+++++++++++++++++++++++++++++++++++++++++++++\n");
+	displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t\t\t%s", Address, static_cast<unsigned char>(Address[0]), entry.mName);
+	for (int byteCount = 1; byteCount < tmpSrc.mSize; ++byteCount) 
+		displayMessage(PxErrorCode::eDEBUG_INFO, "\t0x%p\t%02x\t\t\t.", Address + byteCount, static_cast<unsigned char>(Address[byteCount]));
+
+	convertHandle16(Address, tmpSrc, tmpDst);
+	Address += count*typeSize;
+	assert(Address<=lastAddress);
+	return Address;
+}
+
 static bool decodeControl(PxU64 control, const ExtraDataEntry& ed, PxU64 controlMask = 0)
 {
 	if(ed.entry.mFlags & PxMetaDataFlag::eCONTROL_FLIP)
@@ -994,6 +1029,10 @@ bool Sn::ConvX::convertCollection(const void* buffer, int fileSize, int nbObject
 						{
 							Address = convertExtraData_Ptr(Address, lastAddress, ed.entry, count, ptrSize_Src, ptrSize_Dst);
 						}
+						else if (ed.entry.mFlags & PxMetaDataFlag::eHANDLE)
+						{
+							Address = convertExtraData_Handle(Address, lastAddress, ed.entry, count);
+						}
 						else
 						{
 							MetaClass* mc = getMetaClass(ed.entry.mType, META_DATA_SRC);
@@ -1084,19 +1123,20 @@ bool Sn::ConvX::convert(const void* buffer, int fileSize)
 
 	const int version = read32(buffer);						fileSize -= 4;	(void)version;
 
-	const int binaryVersion = read32(buffer);				fileSize -= 4;
+	char binaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS + 1];
+	memcpy(binaryVersionGuid, buffer, SN_BINARY_VERSION_GUID_NUM_CHARS);
+	binaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS] = 0;
+	buffer = reinterpret_cast<const void*>(size_t(buffer) + SN_BINARY_VERSION_GUID_NUM_CHARS);
+	fileSize -= SN_BINARY_VERSION_GUID_NUM_CHARS;
+	output(binaryVersionGuid, SN_BINARY_VERSION_GUID_NUM_CHARS);
 
-	if (!checkCompatibility(PxU32(version), PxU32(binaryVersion)))
+	if (!checkCompatibility(binaryVersionGuid))
 	{
-		char buf[512];
-		getCompatibilityVersionsStr(buf, 512);
-
 		displayMessage(physx::PxErrorCode::eINVALID_PARAMETER,
-			"PxBinaryConverter: Buffer contains data version (%x-%d) is incompatible with this PhysX sdk.\n These versions would be compatible: %s",
-			version, binaryVersion, buf);
+			"PxBinaryConverter: Buffer contains binary data version 0x%s which is incompatible with this PhysX sdk (0x%s).\n",
+			binaryVersionGuid, getBinaryVersionGuid());
 		return false;
 	}
-	const int buildNumber = read32(buffer);						fileSize -= 4;	(void)buildNumber;
 
 	//read src platform tag and write dst platform tag according dst meta data
 	const int srcPlatformTag = *reinterpret_cast<const int*>(buffer);
@@ -1176,17 +1216,6 @@ PointerRemap::~PointerRemap()
 {
 }
 
-bool PointerRemap::checkRefIsNotUsed(PxU32 ref) const
-{
-	const PxU32 size = mData.size();
-	for(PxU32 i=0;i<size;i++)
-	{
-		if(mData[i].id==ref)
-			return false;
-	}
-	return true;
-}
-
 void PointerRemap::setObjectRef(PxU64 object64, PxU32 ref)
 {
 	const PxU32 size = mData.size();
@@ -1210,6 +1239,45 @@ bool PointerRemap::getObjectRef(PxU64 object64, PxU32& ref) const
 	for(PxU32 i=0;i<size;i++)
 	{
 		if(mData[i].object==object64)
+		{
+			ref = mData[i].id;
+			return true;
+		}
+	}
+	return false;
+}
+
+Handle16Remap::Handle16Remap()
+{
+}
+
+Handle16Remap::~Handle16Remap()
+{
+}
+
+void Handle16Remap::setObjectRef(PxU16 object, PxU16 ref)
+{
+	const PxU32 size = mData.size();
+	for(PxU32 i=0;i<size;i++)
+	{
+		if(mData[i].object==object)
+		{
+			mData[i].id = ref;
+			return;
+		}
+	}
+	InternalData data;
+	data.object	= object;
+	data.id		= ref;
+	mData.pushBack(data);
+}
+
+bool Handle16Remap::getObjectRef(PxU16 object, PxU16& ref) const
+{	
+	const PxU32 size = mData.size();
+	for(PxU32 i=0;i<size;i++)
+	{
+		if(mData[i].object==object)
 		{
 			ref = mData[i].id;
 			return true;
@@ -1371,15 +1439,17 @@ const void* Sn::ConvX::convertInternalReferences(const void* buffer, int& fileSi
 		buffer = address;
 	}
 
-	//index references
-	int nbIdxReferences = read32(buffer);
+	//16 bit handle references
+	int nbHandle16References = read32(buffer);
 	fileSize -= 4;
-	if (nbIdxReferences)
+	if (nbHandle16References)
 	{
+		//pre add invalid handle value
+		mHandle16Remap.setObjectRef(0xffff, 0xffff);
 		const char* address = reinterpret_cast<const char*>(buffer);
-		MetaClass* mc = getMetaClass("Sn::InternalReferenceIdx", META_DATA_SRC);
+		MetaClass* mc = getMetaClass("Sn::InternalReferenceHandle16", META_DATA_SRC);
 		assert(mc);
-		for(int i=0;i<nbIdxReferences;i++)
+		for(int i=0;i<nbHandle16References;i++)
 		{
 			convertClass(address, mc, 0);
 			address += mc->mSize;
@@ -1388,6 +1458,7 @@ const void* Sn::ConvX::convertInternalReferences(const void* buffer, int& fileSi
 		}
 		buffer = address;
 	}
+
 	return buffer;
 }
 
@@ -1395,9 +1466,13 @@ const void* Sn::ConvX::convertInternalReferences(const void* buffer, int& fileSi
 const void* Sn::ConvX::convertReferenceTables(const void* buffer, int& fileSize, int& nbObjectsInCollection)
 {	
 	// PT: the map should not be used while creating it, so use one indirection
-	mActiveRemap = NULL;
-	mRemap.mData.clear();
+	mPointerActiveRemap = NULL;
+	mPointerRemap.mData.clear();
 	mPointerRemapCounter = 0;
+
+	mHandle16ActiveRemap = NULL;
+	mHandle16Remap.mData.clear();
+	mHandle16RemapCounter = 0;
 
 	PxU32 padding = getPadding(size_t(buffer), ALIGN_DEFAULT);
 	buffer = alignStream(reinterpret_cast<const char*>(buffer));
@@ -1418,7 +1493,8 @@ const void* Sn::ConvX::convertReferenceTables(const void* buffer, int& fileSize,
 	buffer = convertInternalReferences(buffer, fileSize);
 
 	// PT: the map can now be used
-	mActiveRemap = &mRemap;
+	mPointerActiveRemap = &mPointerRemap;
+	mHandle16ActiveRemap = &mHandle16Remap;
 
 	return buffer;
 }

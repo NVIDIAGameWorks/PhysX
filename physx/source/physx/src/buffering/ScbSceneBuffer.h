@@ -65,6 +65,7 @@ public:
 	PxReal								mBounceThresholdVelocity;
 	PxSceneFlags						mFlags;
 	PxU32								mSolverBatchSize;
+	PxU32								mSolverArticulationBatchSize;
 	PxU32								mNumClientsCreated;
 };
 

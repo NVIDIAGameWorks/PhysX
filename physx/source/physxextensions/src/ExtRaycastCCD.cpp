@@ -27,19 +27,19 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxRaycastCCD.h"
-
-using namespace physx;
-
 #include "geometry/PxBoxGeometry.h"
 #include "geometry/PxSphereGeometry.h"
 #include "geometry/PxCapsuleGeometry.h"
 #include "geometry/PxConvexMeshGeometry.h"
 #include "geometry/PxConvexMesh.h"
+#include "extensions/PxShapeExt.h"
+#include "extensions/PxRaycastCCD.h"
 #include "PxScene.h"
 #include "PxRigidDynamic.h"
-#include "extensions/PxShapeExt.h"
+
 #include "PsArray.h"
+
+using namespace physx;
 
 namespace physx
 {

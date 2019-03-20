@@ -32,6 +32,7 @@
 #define DY_SOLVERCONSTRAINTEXT_H
 
 #include "DySolverExt.h"
+#include "PsVecMath.h"
 
 namespace physx
 {
@@ -54,7 +55,12 @@ namespace Dy
 		const SolverExtBody& b1, const Cm::SpatialVector& impulse1, Cm::SpatialVector& deltaV1, PxReal dom1, PxReal angDom1,
 		Cm::SpatialVectorF* Z, bool allowSelfCollision = false);
 
+	Ps::aos::FloatV getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVectorV& impulse0, Cm::SpatialVectorV& deltaV0, const Ps::aos::FloatV& dom0, const Ps::aos::FloatV& angDom0,
+		const SolverExtBody& b1, const Cm::SpatialVectorV& impulse1, Cm::SpatialVectorV& deltaV1, const Ps::aos::FloatV& dom1, const Ps::aos::FloatV& angDom1,
+		Cm::SpatialVectorV* Z, bool allowSelfCollision = false);
+
 	Cm::SpatialVector createImpulseResponseVector(const PxVec3& linear, const PxVec3& angular, const SolverExtBody& body);
+	Cm::SpatialVectorV createImpulseResponseVector(const Ps::aos::Vec3V& linear, const Ps::aos::Vec3V& angular, const SolverExtBody& body);
 
 	void setupFinalizeExtSolverContacts(
 		const Gu::ContactPoint* buffer,

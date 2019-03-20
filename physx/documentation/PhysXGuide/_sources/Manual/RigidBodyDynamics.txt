@@ -382,59 +382,105 @@ The solver groups contacts into friction patches; friction patches are groups of
 Immediate Mode
 ===============================
 
-In addition to simulation using a PxScene, PhysX offers a low-level simulation API called "immediate mode". This provides an API to access the low-level contact generation and constraint solver. This approach currently supports only CPU rigid bodies and does not support articulations. 
+In addition to simulation using a *PxScene*, *PhysX* offers a low-level simulation API called "immediate mode". This provides an API to access the low-level contact generation and constraint solver. This approach currently only supports CPU rigid bodies and reduced coordinate articulations. It does not support maximal coordinate articulations.
 
-The immediate mode API is defined in PxImmediateMode.h and there is a Snippet demonstrating its usage in "SnippetImmediateMode". 
+The immediate mode API is defined in *PxImmediateMode.h* and there are two Snippets demonstrating its usage: "SnippetImmediateMode" and "SnippetImmediateArticulation". The first one does not use articulations and shows how to use the API for rigid bodies and joints that still belong to a *PxScene*. This can be used e.g. to simulate a specific actor of a scene with a higher frequency than the rest of the scene. The second snippet is a "pure" immediate mode example where all involved actors, joints and articulations exist without the need for *PxScene*, *PxActor* or *PxArticulation* objects.
 
-The API provides a function to perform contact generation::
+The immediate mode API provides a function to perform contact generation::
 
-	PX_C_EXPORT PX_PHYSX_CORE_API bool PxGenerateContacts(const PxGeometry* geom0, const PxGeometry* geom1, const PxTransform* pose0, const PxTransform* pose1, PxCache* contactCache, const PxU32 nbPairs, PxContactRecorder& contactRecorder,
-		const PxReal contactDistance, const PxReal meshContactMargin, const PxReal toleranceLength, PxCacheAllocator& allocator);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxGenerateContacts(const PxGeometry* const * geom0, const PxGeometry* const * geom1, const PxTransform* pose0, const PxTransform* pose1, PxCache* contactCache, const PxU32 nbPairs, PxContactRecorder& contactRecorder, const PxReal contactDistance, const PxReal meshContactMargin, const PxReal toleranceLength, PxCacheAllocator& allocator);
+		
+This function takes a set of pairs of *PxGeometry* objects located at specific poses and performs collision detection between the pairs. If the pair of geometries collide, contacts are generated, which are reported to *contactRecorder*. In addition, information may be cached in *contactCache* to accelerate future queries between these pairs of geometries. Any memory required for this cached information will be allocated using *allocator*. 
 
-This function takes a set of pairs of PxGeometry objects located at specific poses and performs collision detection between the pairs. If the pair of geometries collide, contacts are generated, which are reported to contactRecorder. In addition, information may be cached in contactCache to accelerate future queries between these pairs of geometries. Any memory required for this cached information will be allocated using "allocator". 
-
-In addition, the immediate mode provides APIs for the constraint solver. These include functions to create bodies used by  the solver::
+In addition, the immediate mode provides APIs for the constraint solver. These include functions to create bodies used by the solver::
 
 	PX_C_EXPORT PX_PHYSX_CORE_API void PxConstructSolverBodies(const PxRigidBodyData* inRigidData, PxSolverBodyData* outSolverBodyData, const PxU32 nbBodies, const PxVec3& gravity, const PxReal dt);
+	
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxConstructStaticSolverBody(const PxTransform& globalPose, PxSolverBodyData& solverBodyData);
 
-	PX_C_EXPORT PX_PHYSX_CORE_API void PxConstructStaticSolverBody(const PxTransform& globalPose,PxSolverBodyData& solverBodyData);
-
-In addition to constructing the bodies, PxConstraintSolverBodies also integrates the provided gravitational acceleration into the bodies velocities.
+In addition to constructing the bodies, *PxConstructSolverBodies* also integrates the provided gravitational acceleration into the bodies velocities.
 
 The following function is optional and is used to batch constraints::
 
-	PX_C_EXPORT PX_PHYSX_CORE_API PxU32 PxBatchConstraints(PxSolverConstraintDesc* solverConstraintDescs, const PxU32 nbConstraints, PxSolverBody* solverBodies, PxU32 nbBodies, PxConstraintBatchHeader* outBatchHeaders,
-		PxSolverConstraintDesc* outOrderedConstraintDescs);
-
+	PX_C_EXPORT PX_PHYSX_CORE_API PxU32 PxBatchConstraints(	const PxSolverConstraintDesc* solverConstraintDescs, const PxU32 nbConstraints, PxSolverBody* solverBodies, const PxU32 nbBodies,
+															PxConstraintBatchHeader* outBatchHeaders, PxSolverConstraintDesc* outOrderedConstraintDescs,
+															Dy::ArticulationV** articulations=NULL, const PxU32 nbArticulations=0);
+															
 Batching constraints reorders the provided constraints and produces batchHeaders, which can be used by the solver to accelerate constraint solving by grouping together independent constraints and solving them in parallel using multiple lanes in SIMD registers. This process is entirely optional and can bypassed if not desired. Note that this will change the order in which constraints are processed, which can change the outcome of the solver.
 
 The following methods is provided to create contact constraints::
 
-	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateContactConstraints(PxConstraintBatchHeader* batchHeader, const PxU32 nbHeaders, PxSolverContactDesc* contactDescs,
-		PxConstraintAllocator& allocator, PxReal invDt, PxReal bounceThreshold, PxReal frictionOffsetThreshold, PxReal correlationDistance);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateContactConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbHeaders, PxSolverContactDesc* contactDescs,
+		PxConstraintAllocator& allocator, const PxReal invDt, const PxReal bounceThreshold, const PxReal frictionOffsetThreshold, const PxReal correlationDistance);
 
-This method can be provided with the contacts produced by PxGenerateContacts or by contacts produced by application-specific contact generation approaches.
+This method can be provided with the contacts produced by *PxGenerateContacts* or by contacts produced by application-specific contact generation approaches.
 
 The following methods are provided to create joint constraints::
 
-	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraints(PxConstraintBatchHeader* batchHeader, const PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator, PxReal dt, PxReal invDt);
-
-	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraintsWithShaders(PxConstraintBatchHeader* batchHeader, const PxU32 nbBatchHeaders, PxConstraint** constraints, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator, PxReal dt, PxReal invDt);
-
-The methods provide a mechanism for the application to define joint rows or for the application to make use of PhysX PxConstraint objects, which create the constraint rows.
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbHeaders, PxSolverConstraintPrepDesc* jointDescs, PxConstraintAllocator& allocator,
+																const PxReal dt, const PxReal invDt);
+		
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraintsWithShaders(PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, PxConstraint** constraints, PxSolverConstraintPrepDesc* jointDescs,
+																			PxConstraintAllocator& allocator, const PxReal dt, const PxReal invDt);
+	
+	PX_C_EXPORT PX_PHYSX_CORE_API bool PxCreateJointConstraintsWithImmediateShaders(PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, immConstraint* constraints, PxSolverConstraintPrepDesc* jointDescs,
+																					PxConstraintAllocator& allocator, const PxReal dt, const PxReal invDt);
+	
+The methods provide a mechanism for the application to define joint rows or for the application to make use of *PhysX PxConstraint* objects, which create the constraint rows.
 
 The following method solves the constraints::
 
-	PX_C_EXPORT PX_PHYSX_CORE_API void PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, PxSolverConstraintDesc* solverConstraintDescs, PxSolverBody* solverBodies,
-		PxVec3* linearMotionVelocity, PxVec3* angularMotionVelocity, const PxU32 nbSolverBodies, const PxU32 nbPositionIterations, const PxU32 nbVelocityIterations);
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxSolveConstraints(const PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, const PxSolverConstraintDesc* solverConstraintDescs,
+		const PxSolverBody* solverBodies, PxVec3* linearMotionVelocity, PxVec3* angularMotionVelocity, const PxU32 nbSolverBodies, const PxU32 nbPositionIterations, const PxU32 nbVelocityIterations,
+		const float dt=0.0f, const float invDt=0.0f, const PxU32 nbSolverArticulations=0, Dy::ArticulationV** solverArticulations=NULL);
+		
+This method performs all required position and velocity iterations and updates the objects' delta velocities and motion velocities, which are stored in *PxSolverBody* and *linear/angularMotionVelocity* respectively.
 
-This method performs all required position and velocity iterations and updates the objects' delta velocities and motion velocities, which are stored in PxSolverBody and linear/angularMotionVelocity respectively.
+The following method is provided to integrate the bodies' final poses and update the bodies' velocities to reflect the motion produced by the constraint solver::
 
-The following method is provided to integrate the bodies' final poses and update the bodies' velocities to reflect the motion produced by the constraint solver.
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxIntegrateSolverBodies(PxSolverBodyData* solverBodyData, PxSolverBody* solverBody, const PxVec3* linearMotionVelocity, const PxVec3* angularMotionState, const PxU32 nbBodiesToIntegrate,
+ 	const PxReal dt);
 
-An example of how the immediate mode can be used is provided in SnippetImmediateMode.
+The above methods are the ones needed for simulating regular rigid bodies and joints in immediate mode. See SnippetImmediateMode for an example.
 
+Additional functions are provided to simulate reduced coordinate articulations. First, register articulation-related solver functions with *PxRegisterImmediateArticulations*::
 
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxRegisterImmediateArticulations();
+
+This is the counterpart of *PxRegisterArticulationsReducedCoordinate* for immediate mode. You only need to call it once at the start of your program. Then create a low-level reduced coordinate articulations with the following function::
+	
+	PX_C_EXPORT PX_PHYSX_CORE_API Dy::ArticulationV*	PxCreateFeatherstoneArticulation(const PxFeatherstoneArticulationData& data);
+
+Once the articulation is created, add articulation links to it with the following function::
+	
+	PX_C_EXPORT PX_PHYSX_CORE_API Dy::ArticulationLinkHandle	PxAddArticulationLink(Dy::ArticulationV* articulation, const PxFeatherstoneArticulationLinkData& data, bool isLastLink=false);
+
+The number of links per articulation is currently limited to 64, just as with PxScene-level articulations. After all links have been added, the articulation is ready to be simulated.
+	
+Note that for articulations the current API is not as "immediate" as for rigid bodies, since the returned object is still a thin "retained mode" wrapper around low-level structures. This is done to make articulations easier to use: the low-level structures currently contain data for both reduced coordinate and maximal coordinate articulations, and intimate knowledge of PhysX's internals is needed to distinguish between the two. The thin wrapper makes things more accessible. On the other hand, the data is not directly owned by the user, and the following function must be called to eventually release it at the end of your program::
+
+	PX_C_EXPORT PX_PHYSX_CORE_API void	PxReleaseArticulation(Dy::ArticulationV* articulation);
+
+Meanwhile there are a number of data accessor functions available::
+	
+	PX_C_EXPORT PX_PHYSX_CORE_API Dy::ArticulationV*	PxGetLinkArticulation(const Dy::ArticulationLinkHandle link);
+	PX_C_EXPORT PX_PHYSX_CORE_API PxU32	PxGetLinkIndex(const Dy::ArticulationLinkHandle link);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool	PxGetLinkData(const Dy::ArticulationLinkHandle link, PxLinkData& data);
+	PX_C_EXPORT PX_PHYSX_CORE_API PxU32	PxGetAllLinkData(const Dy::ArticulationV* articulation, PxLinkData* data);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool	PxGetMutableLinkData(const Dy::ArticulationLinkHandle link, PxMutableLinkData& data);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool	PxSetMutableLinkData(Dy::ArticulationLinkHandle link, const PxMutableLinkData& data);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool	PxGetJointData(const Dy::ArticulationLinkHandle link, PxFeatherstoneArticulationJointData& data);
+	PX_C_EXPORT PX_PHYSX_CORE_API bool	PxSetJointData(Dy::ArticulationLinkHandle link, const PxFeatherstoneArticulationJointData& data);
+	
+Some of them are here to update the data at runtime, say for articulation drives. Some of them are needed to setup the articulation data for aforementioned immediate mode functions like *PxSolveConstraints*, which have been updated in *PhysX 4.1* to take additional articulation-related parameters (but which should otherwise be used the same way as for immediate mode rigid bodies).
+
+The only new articulation-specific functions are otherwise::
+
+	PX_C_EXPORT PX_PHYSX_CORE_API void	PxComputeUnconstrainedVelocities(Dy::ArticulationV* articulation, const PxVec3& gravity, const PxReal dt);
+	PX_C_EXPORT PX_PHYSX_CORE_API void	PxUpdateArticulationBodies(Dy::ArticulationV* articulation, const PxReal dt);
+
+Use the first one at the start of the simulation loop to compute unconstrained velocities for each immediate mode articulations. Use the second one at the end of the simulation loop to update the articulation bodies/links after *PxIntegrateSolverBodies* has finished. Please refer to SnippetImmediateArticulation for examples.
+	
 ======================
 Enhanced Determinism
 ======================

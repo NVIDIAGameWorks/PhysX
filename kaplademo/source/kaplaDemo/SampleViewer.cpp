@@ -692,7 +692,7 @@ void RecreateSDKScenes()
 
 
 	sceneDesc.cpuDispatcher = gPxDispatcher;
-	sceneDesc.gpuDispatcher = gCudaContextManager->getGpuDispatcher();
+	sceneDesc.cudaContextManager = gCudaContextManager;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;

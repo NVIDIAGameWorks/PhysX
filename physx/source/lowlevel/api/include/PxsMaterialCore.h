@@ -32,65 +32,17 @@
 #define PXS_MATERIAL_H
 
 #include "foundation/PxVec3.h"
+#include "common/PxMetaData.h"
 #include "PxMaterial.h"
 #include "PsUserAllocated.h"
-#include "CmPhysXCommon.h"
-#include "PxMetaData.h"
 #include "PsUtilities.h"
+#include "CmPhysXCommon.h"
+#include "CmUtils.h"
 
 namespace physx
 {
 
-#define	MATERIAL_INVALID_HANDLE	0xffffffff
-
-	//PX_ALIGN_PREFIX(16) struct PxsMaterialData 
-	//{
-	//	PxReal					dynamicFriction;
-	//	PxReal					staticFriction;
-	//	PxReal					restitution;
-	//	PxReal					dynamicFrictionV;
-	//	PxReal					staticFrictionV;
-	//	PxVec3					dirOfAnisotropy;//might need to get rid of this
-	//	PxCombineMode::Enum		frictionCombineMode;
-	//	PxCombineMode::Enum		restitutionCombineMode;
-
-	//	PxMaterialFlags			flags;
-	//	PxU8					paddingFromFlags[2];
-	//	PxU32					pads;
-
-	//	PxsMaterialData()
-	//	:	dynamicFriction(0.0)
-	//	,	staticFriction(0.0f)
-	//	,	restitution(0.0f)
-	//	,	dynamicFrictionV(0.0f)
-	//	,	staticFrictionV(0.0f)
-	//	,	dirOfAnisotropy(1,0,0)
-	//	,	frictionCombineMode(PxCombineMode::eAVERAGE)
-	//	,	restitutionCombineMode(PxCombineMode::eAVERAGE)
-	//	{}
-
-	//	PX_FORCE_INLINE PxCombineMode::Enum getFrictionCombineMode() const
-	//	{
-	//		return frictionCombineMode;
-	//	}
-
-	//	
-	//	PX_FORCE_INLINE PxCombineMode::Enum getRestitutionCombineMode() const
-	//	{
-	//		return restitutionCombineMode;
-	//	}
-
-	//	PX_FORCE_INLINE void setFrictionCombineMode(PxCombineMode::Enum frictionFlags)
-	//	{
-	//		frictionCombineMode = frictionFlags;
-	//	}
-
-	//	PX_FORCE_INLINE void setRestitutionCombineMode(PxCombineMode::Enum restitutionFlags)
-	//	{
-	//		restitutionCombineMode = restitutionFlags;
-	//	}
-
-	//}PX_ALIGN_SUFFIX(16);
+#define	MATERIAL_INVALID_HANDLE	0xffff
 
 	PX_ALIGN_PREFIX(16) struct PxsMaterialData 
 	{
@@ -106,7 +58,7 @@ namespace physx
 		,	staticFriction(0.0f)
 		,	restitution(0.0f)
 		,	fricRestCombineMode((PxCombineMode::eAVERAGE << 4) | PxCombineMode::eAVERAGE)
-		,	padding(0)
+		,	padding(PX_PADDING_8)
 		{}
 
 		PxsMaterialData(const PxEMPTY) {}
@@ -138,11 +90,18 @@ namespace physx
 	{
 	public:
 					
-											PxsMaterialCore(const PxsMaterialData& desc): PxsMaterialData(desc), mNxMaterial(0), mMaterialIndex(MATERIAL_INVALID_HANDLE)
+											PxsMaterialCore(const PxsMaterialData& desc)
+											:	PxsMaterialData(desc)
+											,	mNxMaterial(0)
+											,	mMaterialIndex(MATERIAL_INVALID_HANDLE)
+											,	mPadding(PX_PADDING_16)
 											{
 											}
 
-											PxsMaterialCore(): mNxMaterial(0), mMaterialIndex(MATERIAL_INVALID_HANDLE)
+											PxsMaterialCore()
+											:	mNxMaterial(0)
+											,	mMaterialIndex(MATERIAL_INVALID_HANDLE)
+											,	mPadding(PX_PADDING_16)
 											{
 											}
 
@@ -154,12 +113,13 @@ namespace physx
 
 	PX_FORCE_INLINE	void					setNxMaterial(PxMaterial* m)					{ mNxMaterial = m;		}
 	PX_FORCE_INLINE	PxMaterial*				getNxMaterial()					const			{ return mNxMaterial;	}
-	PX_FORCE_INLINE	void					setMaterialIndex(const PxU32 materialIndex)		{ mMaterialIndex = materialIndex; }
-	PX_FORCE_INLINE	PxU32					getMaterialIndex()				const			{ return mMaterialIndex; }
+	PX_FORCE_INLINE	void					setMaterialIndex(const PxU16 materialIndex)		{ mMaterialIndex = materialIndex; }
+	PX_FORCE_INLINE	PxU16					getMaterialIndex()				const			{ return mMaterialIndex; }
 
 	protected:
 					PxMaterial*				mNxMaterial;
-					PxU32					mMaterialIndex; //handle assign by the handle manager
+					PxU16					mMaterialIndex; //handle assign by the handle manager
+					PxU16					mPadding;
 	};
 
 } //namespace phyxs

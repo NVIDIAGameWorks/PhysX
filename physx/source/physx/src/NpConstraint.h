@@ -61,11 +61,12 @@ public:
 																		   const PxConstraintShaderTable &t);
 	static			NpConstraint*					createObject(PxU8*& address, PxDeserializationContext& context);
 	static			void							getBinaryMetaData(PxOutputStream& stream);
-					void							exportExtraData(PxSerializationContext&)	{}
-					void							importExtraData(PxDeserializationContext&)	{ }
+					void							preExportDataReset() {}
+					void							exportExtraData(PxSerializationContext&) {}
+					void							importExtraData(PxDeserializationContext&) {}
 					void							resolveReferences(PxDeserializationContext& context);
-	virtual			void							requiresObjects(PxProcessPxBaseCallback&){}
-	virtual		    bool			                isSubordinate()  const	 { return true; }  
+	virtual			void							requiresObjects(PxProcessPxBaseCallback&) {}
+	virtual		    bool			                isSubordinate() const { return true; }  
 //~PX_SERIALIZATION
 													NpConstraint(PxRigidActor* actor0, PxRigidActor* actor1, PxConstraintConnector& connector, const PxConstraintShaderTable& shaders, PxU32 dataSize);
 													~NpConstraint();

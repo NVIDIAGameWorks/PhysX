@@ -41,6 +41,13 @@ namespace physx
 {
 #endif
 
+// Needed for clang 7
+#if PX_CLANG && PX_CLANG_MAJOR >= 7
+ #define USE_VOLATILE_UNION volatile 
+#else
+ #define USE_VOLATILE_UNION
+#endif
+
 template <class A, class B>
 PX_FORCE_INLINE A PxUnionCast(B b)
 {
@@ -51,14 +58,11 @@ PX_FORCE_INLINE A PxUnionCast(B b)
 		}
 		 B _b;
 		 A _a;
-// needed for clang 7
-#if PX_LINUX && PX_CLANG 
-	} volatile u(b);
-#else
-	} u(b);
-#endif
+	} USE_VOLATILE_UNION u(b);
 	return u._a;
 }
+
+#undef USE_VOLATILE_UNION
 
 #if !PX_DOXYGEN
 } // namespace physx

@@ -31,15 +31,15 @@
 #define GU_GEOMETRY_UNION_H
 
 #include "foundation/PxBounds3.h"
+#include "geometry/PxBoxGeometry.h"
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxCapsuleGeometry.h"
+#include "geometry/PxPlaneGeometry.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "geometry/PxTriangleMeshGeometry.h"
+#include "geometry/PxHeightFieldGeometry.h"
 #include "GuSIMDHelpers.h"
 #include <stddef.h>
-#include "PxBoxGeometry.h"
-#include "PxSphereGeometry.h"
-#include "PxCapsuleGeometry.h"
-#include "PxPlaneGeometry.h"
-#include "PxConvexMeshGeometry.h"
-#include "PxTriangleMeshGeometry.h"
-#include "PxHeightFieldGeometry.h"
 #include "PsAllocator.h"
 #include "GuBox.h"
 #include "GuCenterExtents.h"
@@ -90,7 +90,13 @@ struct PX_PHYSX_COMMON_API MaterialIndicesStruct
 	static void getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
-	MaterialIndicesStruct() : indices(NULL), numIndices(0)
+	MaterialIndicesStruct()
+	:	indices(NULL)
+	,	numIndices(0)
+	,	pad(PX_PADDING_16)
+#if PX_P64_FAMILY
+	,	pad64(PX_PADDING_32)
+#endif
 	{
 	}
 

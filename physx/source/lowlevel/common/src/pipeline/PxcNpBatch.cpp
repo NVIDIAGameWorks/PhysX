@@ -28,10 +28,10 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "geometry/PxTriangleMesh.h"
+
 #include "PxcNpBatch.h"
 #include "PxcNpWorkUnit.h"
-#include "PxsContactManager.h"
-#include "GuGeometryUnion.h"
 #include "PxcContactCache.h"
 #include "PxcMaterialMethodImpl.h"
 #include "PxcNpContactPrepShared.h"
@@ -39,11 +39,12 @@
 #include "PxvGeometry.h"			// for PxsShapeCore
 #include "CmFlushPool.h"
 #include "CmTask.h"
-#include "PxTriangleMesh.h"
+#include "PxsContactManager.h"
 #include "PxsMaterialManager.h"
 #include "PxsTransformCache.h"
-#include "GuPersistentContactManifold.h"
 #include "PxsContactManagerState.h"
+#include "GuGeometryUnion.h"
+#include "GuPersistentContactManifold.h"
 #include "PsFoundation.h"
 
 using namespace physx;
@@ -405,9 +406,9 @@ static PX_FORCE_INLINE void discreteNarrowPhase(PxcNpThreadContext& context, con
 	}
 
 	const PxcGetMaterialMethod materialMethod = g_GetMaterialMethodTable[type0][type1];
-	PX_ASSERT(materialMethod);
-
-	materialMethod(shape0, shape1, context,  materialInfo);
+//	PX_ASSERT(materialMethod);
+	if(materialMethod)
+		materialMethod(shape0, shape1, context,  materialInfo);
 
 	if(flip)
 		flipContacts(context, materialInfo);

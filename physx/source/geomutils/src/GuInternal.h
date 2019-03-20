@@ -30,10 +30,10 @@
 #ifndef GU_GEOM_UTILS_INTERNAL_H
 #define GU_GEOM_UTILS_INTERNAL_H
 
+#include "geometry/PxCapsuleGeometry.h"
+#include "geometry/PxBoxGeometry.h"
 #include "CmPhysXCommon.h"
 #include "GuCapsule.h"
-#include "PxCapsuleGeometry.h"
-#include "PxBoxGeometry.h"
 #include "PsMathUtils.h"
 #include "PsUtilities.h"
 

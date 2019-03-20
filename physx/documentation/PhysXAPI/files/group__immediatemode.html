@@ -98,6 +98,20 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxContactRecorder.html">PxContactRecorder</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback class to record contact points produced by immediate::PxGenerateContacts.  <a href="classPxContactRecorder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxImmediateConstraint.html">PxImmediateConstraint</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxArticulationJointData.html">PxArticulationJointData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFeatherstoneArticulationJointData.html">PxFeatherstoneArticulationJointData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFeatherstoneArticulationData.html">PxFeatherstoneArticulationData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxMutableLinkData.html">PxMutableLinkData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxLinkData.html">PxLinkData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxFeatherstoneArticulationLinkData.html">PxFeatherstoneArticulationLinkData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -107,32 +121,155 @@ Functions</h2></td></tr>
 <tr class="memitem:gab1ff672bf5a0569d6cc5f137142b1c1d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gab1ff672bf5a0569d6cc5f137142b1c1d">PxConstructStaticSolverBody</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;globalPose, <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> &amp;solverBodyData)</td></tr>
 <tr class="memdesc:gab1ff672bf5a0569d6cc5f137142b1c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> structure for a static body at a given pose.  <a href="#gab1ff672bf5a0569d6cc5f137142b1c1d">More...</a><br /></td></tr>
 <tr class="separator:gab1ff672bf5a0569d6cc5f137142b1c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga06ca05e94083ad8df2c5377cf692b4bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga06ca05e94083ad8df2c5377cf692b4bf">PxBatchConstraints</a> (<a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbConstraints, <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBodies, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodies, <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *outBatchHeaders, <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *outOrderedConstraintDescs)</td></tr>
-<tr class="memdesc:ga06ca05e94083ad8df2c5377cf692b4bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups together sets of independent <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> objects to be solved using SIMD SOA approach.  <a href="#ga06ca05e94083ad8df2c5377cf692b4bf">More...</a><br /></td></tr>
-<tr class="separator:ga06ca05e94083ad8df2c5377cf692b4bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3dc6c7ca660d5352b3da3198ab5036c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga3dc6c7ca660d5352b3da3198ab5036c8">PxCreateContactConstraints</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeader, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxSolverContactDesc.html">PxSolverContactDesc</a> *contactDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, PxReal invDt, PxReal bounceThreshold, PxReal frictionOffsetThreshold, PxReal correlationDistance)</td></tr>
-<tr class="memdesc:ga3dc6c7ca660d5352b3da3198ab5036c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of contact constraint blocks. Note that, depending the results of PxBatchConstraints, each batchHeader may refer to up to 4 solverConstraintDescs. This function will allocate both constraint and friction patch data via the <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> provided. Constraint data is only valid until PxSolveConstraints has completed. Friction data is to be retained and provided by the application for friction correlation.  <a href="#ga3dc6c7ca660d5352b3da3198ab5036c8">More...</a><br /></td></tr>
-<tr class="separator:ga3dc6c7ca660d5352b3da3198ab5036c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac016be640f563f4ec9acd6b33fecba1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gac016be640f563f4ec9acd6b33fecba1e">PxCreateJointConstraints</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeader, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, PxReal dt, PxReal invDt)</td></tr>
-<tr class="memdesc:gac016be640f563f4ec9acd6b33fecba1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs.  <a href="#gac016be640f563f4ec9acd6b33fecba1e">More...</a><br /></td></tr>
-<tr class="separator:gac016be640f563f4ec9acd6b33fecba1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga730ffbd6f8687f7909131b37b1cc0c05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga730ffbd6f8687f7909131b37b1cc0c05">PxCreateJointConstraintsWithShaders</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeader, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="classPxConstraint.html">PxConstraint</a> **constraints, <a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, PxReal dt, PxReal invDt)</td></tr>
-<tr class="memdesc:ga730ffbd6f8687f7909131b37b1cc0c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.  <a href="#ga730ffbd6f8687f7909131b37b1cc0c05">More...</a><br /></td></tr>
-<tr class="separator:ga730ffbd6f8687f7909131b37b1cc0c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf5de05898680bb26c7b24012acb0336d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gaf5de05898680bb26c7b24012acb0336d">PxSolveConstraints</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBodies, <a class="el" href="classPxVec3.html">PxVec3</a> *linearMotionVelocity, <a class="el" href="classPxVec3.html">PxVec3</a> *angularMotionVelocity, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSolverBodies, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbPositionIterations, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVelocityIterations)</td></tr>
-<tr class="memdesc:gaf5de05898680bb26c7b24012acb0336d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iteratively solves the set of constraints defined by the provided <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> and <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> structures. Updates deltaVelocities inside the <a class="el" href="structPxSolverBody.html">PxSolverBody</a> structures. Produces resulting linear and angular motion velocities.  <a href="#gaf5de05898680bb26c7b24012acb0336d">More...</a><br /></td></tr>
-<tr class="separator:gaf5de05898680bb26c7b24012acb0336d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabda17f364d0771bc7c0613ca0761cb73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gabda17f364d0771bc7c0613ca0761cb73">PxIntegrateSolverBodies</a> (<a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> *solverBodyData, <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBody, const <a class="el" href="classPxVec3.html">PxVec3</a> *linearMotionVelocity, const <a class="el" href="classPxVec3.html">PxVec3</a> *angularMotionState, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodiesToIntegrate, PxReal dt)</td></tr>
-<tr class="memdesc:gabda17f364d0771bc7c0613ca0761cb73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integrates a rigid body, returning the new velocities and transforms. After this function has been called, solverBodyData stores all the body's velocity data.  <a href="#gabda17f364d0771bc7c0613ca0761cb73">More...</a><br /></td></tr>
-<tr class="separator:gabda17f364d0771bc7c0613ca0761cb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02aa17b8f928f23a16520036c572e862"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga02aa17b8f928f23a16520036c572e862">PxBatchConstraints</a> (const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbConstraints, <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBodies, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodies, <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *outBatchHeaders, <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *outOrderedConstraintDescs, Dy::ArticulationV **articulations=NULL, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbArticulations=0)</td></tr>
+<tr class="memdesc:ga02aa17b8f928f23a16520036c572e862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups together sets of independent <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> objects to be solved using SIMD SOA approach.  <a href="#ga02aa17b8f928f23a16520036c572e862">More...</a><br /></td></tr>
+<tr class="separator:ga02aa17b8f928f23a16520036c572e862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02dd00aca33ee58a65f32472719e9b07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga02dd00aca33ee58a65f32472719e9b07">PxCreateContactConstraints</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxSolverContactDesc.html">PxSolverContactDesc</a> *contactDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal invDt, const PxReal bounceThreshold, const PxReal frictionOffsetThreshold, const PxReal correlationDistance)</td></tr>
+<tr class="memdesc:ga02dd00aca33ee58a65f32472719e9b07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of contact constraint blocks. Note that, depending the results of PxBatchConstraints, each batchHeader may refer to up to 4 solverConstraintDescs. This function will allocate both constraint and friction patch data via the <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> provided. Constraint data is only valid until PxSolveConstraints has completed. Friction data is to be retained and provided by the application for friction correlation.  <a href="#ga02dd00aca33ee58a65f32472719e9b07">More...</a><br /></td></tr>
+<tr class="separator:ga02dd00aca33ee58a65f32472719e9b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8db0a2ecb56789d5311172ce228b7740"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740">PxCreateJointConstraints</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal invDt)</td></tr>
+<tr class="memdesc:ga8db0a2ecb56789d5311172ce228b7740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs.  <a href="#ga8db0a2ecb56789d5311172ce228b7740">More...</a><br /></td></tr>
+<tr class="separator:ga8db0a2ecb56789d5311172ce228b7740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab92fb9ab349962c5271c9644d3ec9f71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gab92fb9ab349962c5271c9644d3ec9f71">PxCreateJointConstraintsWithShaders</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="classPxConstraint.html">PxConstraint</a> **constraints, <a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal invDt)</td></tr>
+<tr class="memdesc:gab92fb9ab349962c5271c9644d3ec9f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.  <a href="#gab92fb9ab349962c5271c9644d3ec9f71">More...</a><br /></td></tr>
+<tr class="separator:gab92fb9ab349962c5271c9644d3ec9f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c55ff4fd977b9c0e3e0c629f5b32326"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga9c55ff4fd977b9c0e3e0c629f5b32326">PxCreateJointConstraintsWithImmediateShaders</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="structPxImmediateConstraint.html">PxImmediateConstraint</a> *constraints, <a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal invDt)</td></tr>
+<tr class="memdesc:ga9c55ff4fd977b9c0e3e0c629f5b32326"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxImmediateConstraint* param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.  <a href="#ga9c55ff4fd977b9c0e3e0c629f5b32326">More...</a><br /></td></tr>
+<tr class="separator:ga9c55ff4fd977b9c0e3e0c629f5b32326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae59ded2b77c594a690169036785f2ef5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gae59ded2b77c594a690169036785f2ef5">PxSolveConstraints</a> (const <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, const <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBodies, <a class="el" href="classPxVec3.html">PxVec3</a> *linearMotionVelocity, <a class="el" href="classPxVec3.html">PxVec3</a> *angularMotionVelocity, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSolverBodies, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbPositionIterations, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVelocityIterations, const float dt=0.0f, const float invDt=0.0f, const PxU32 nbSolverArticulations=0, Dy::ArticulationV **solverArticulations=NULL)</td></tr>
+<tr class="memdesc:gae59ded2b77c594a690169036785f2ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iteratively solves the set of constraints defined by the provided <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> and <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> structures. Updates deltaVelocities inside the <a class="el" href="structPxSolverBody.html">PxSolverBody</a> structures. Produces resulting linear and angular motion velocities.  <a href="#gae59ded2b77c594a690169036785f2ef5">More...</a><br /></td></tr>
+<tr class="separator:gae59ded2b77c594a690169036785f2ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad743f4cb0eef3d3b166bfa0ff548ca5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gad743f4cb0eef3d3b166bfa0ff548ca5f">PxIntegrateSolverBodies</a> (<a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> *solverBodyData, <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *solverBody, const <a class="el" href="classPxVec3.html">PxVec3</a> *linearMotionVelocity, const <a class="el" href="classPxVec3.html">PxVec3</a> *angularMotionState, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodiesToIntegrate, const PxReal dt)</td></tr>
+<tr class="memdesc:gad743f4cb0eef3d3b166bfa0ff548ca5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integrates a rigid body, returning the new velocities and transforms. After this function has been called, solverBodyData stores all the body's velocity data.  <a href="#gad743f4cb0eef3d3b166bfa0ff548ca5f">More...</a><br /></td></tr>
+<tr class="separator:gad743f4cb0eef3d3b166bfa0ff548ca5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga43ee6393438e91aa05bb2790559104b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga43ee6393438e91aa05bb2790559104b7">PxGenerateContacts</a> (const <a class="el" href="classPxGeometry.html">PxGeometry</a> *const *geom0, const <a class="el" href="classPxGeometry.html">PxGeometry</a> *const *geom1, const <a class="el" href="classPxTransform.html">PxTransform</a> *pose0, const <a class="el" href="classPxTransform.html">PxTransform</a> *pose1, <a class="el" href="structPxCache.html">PxCache</a> *contactCache, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbPairs, <a class="el" href="classPxContactRecorder.html">PxContactRecorder</a> &amp;contactRecorder, const PxReal contactDistance, const PxReal meshContactMargin, const PxReal toleranceLength, <a class="el" href="classPxCacheAllocator.html">PxCacheAllocator</a> &amp;allocator)</td></tr>
 <tr class="memdesc:ga43ee6393438e91aa05bb2790559104b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs contact generation for a given pair of geometries at the specified poses. Produced contacts are stored in the provided Gu::ContactBuffer. Information is cached in <a class="el" href="structPxCache.html" title="A structure to cache contact information produced by LL contact gen functions. ">PxCache</a> structure to accelerate future contact generation between pairs. This cache data is valid only as long as the memory provided by <a class="el" href="classPxCacheAllocator.html">PxCacheAllocator</a> has not been released/re-used. Recommendation is to retain that data for a single simulation frame, discarding cached data after 2 frames. If the cached memory has been released/re-used prior to the corresponding pair having contact generation performed again, it is the application's responsibility to reset the <a class="el" href="structPxCache.html" title="A structure to cache contact information produced by LL contact gen functions. ">PxCache</a>.  <a href="#ga43ee6393438e91aa05bb2790559104b7">More...</a><br /></td></tr>
 <tr class="separator:ga43ee6393438e91aa05bb2790559104b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d8ad8d1a6156da1f4473d4ec4922016"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga6d8ad8d1a6156da1f4473d4ec4922016">PxRegisterImmediateArticulations</a> ()</td></tr>
+<tr class="memdesc:ga6d8ad8d1a6156da1f4473d4ec4922016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register articulation-related solver functions. This is equivalent to <a class="el" href="group__physics.html#gafa22d81f1318ef3c37f1d746ac686c22" title="Enables the usage of the reduced coordinate articulations feature. This function is called automatica...">PxRegisterArticulationsReducedCoordinate()</a> for PxScene-level articulations. Call this first to enable reduced coordinates articulations in immediate mode.  <a href="#ga6d8ad8d1a6156da1f4473d4ec4922016">More...</a><br /></td></tr>
+<tr class="separator:ga6d8ad8d1a6156da1f4473d4ec4922016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga86ececaefac85fdb67e6e46332eedc75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> Dy::ArticulationV *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga86ececaefac85fdb67e6e46332eedc75">PxCreateFeatherstoneArticulation</a> (const <a class="el" href="structPxFeatherstoneArticulationData.html">PxFeatherstoneArticulationData</a> &amp;data)</td></tr>
+<tr class="memdesc:ga86ececaefac85fdb67e6e46332eedc75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an immediate-mode reduced-coordinate articulation.  <a href="#ga86ececaefac85fdb67e6e46332eedc75">More...</a><br /></td></tr>
+<tr class="separator:ga86ececaefac85fdb67e6e46332eedc75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5df3edcbf7b639900668b49ff50eda22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga5df3edcbf7b639900668b49ff50eda22">PxReleaseArticulation</a> (Dy::ArticulationV *articulation)</td></tr>
+<tr class="memdesc:ga5df3edcbf7b639900668b49ff50eda22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases an immediate-mode reduced-coordinate articulation.  <a href="#ga5df3edcbf7b639900668b49ff50eda22">More...</a><br /></td></tr>
+<tr class="separator:ga5df3edcbf7b639900668b49ff50eda22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c2749699d2f9e22cfb34ed83a7b80ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga8c2749699d2f9e22cfb34ed83a7b80ce">PxAddArticulationLink</a> (Dy::ArticulationV *articulation, const <a class="el" href="structPxFeatherstoneArticulationLinkData.html">PxFeatherstoneArticulationLinkData</a> &amp;data, bool isLastLink=false)</td></tr>
+<tr class="memdesc:ga8c2749699d2f9e22cfb34ed83a7b80ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a link to an immediate-mode reduced-coordinate articulation. The articulation becomes the link's owner/parent.  <a href="#ga8c2749699d2f9e22cfb34ed83a7b80ce">More...</a><br /></td></tr>
+<tr class="separator:ga8c2749699d2f9e22cfb34ed83a7b80ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee273e15ba5dbdb78948da2d2c64dc7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> Dy::ArticulationV *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gaee273e15ba5dbdb78948da2d2c64dc7f">PxGetLinkArticulation</a> (const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link)</td></tr>
+<tr class="memdesc:gaee273e15ba5dbdb78948da2d2c64dc7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves owner/parent articulation handle from a link handle.  <a href="#gaee273e15ba5dbdb78948da2d2c64dc7f">More...</a><br /></td></tr>
+<tr class="separator:gaee273e15ba5dbdb78948da2d2c64dc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4371afa7be6b3dfd04fd94491b7ccf1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga4371afa7be6b3dfd04fd94491b7ccf1e">PxGetLinkIndex</a> (const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link)</td></tr>
+<tr class="memdesc:ga4371afa7be6b3dfd04fd94491b7ccf1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves link index from a link handle.  <a href="#ga4371afa7be6b3dfd04fd94491b7ccf1e">More...</a><br /></td></tr>
+<tr class="separator:ga4371afa7be6b3dfd04fd94491b7ccf1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54ca8e8099a543250c31f23452e7bb07"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga54ca8e8099a543250c31f23452e7bb07">PxGetLinkData</a> (const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link, <a class="el" href="structPxLinkData.html">PxLinkData</a> &amp;data)</td></tr>
+<tr class="memdesc:ga54ca8e8099a543250c31f23452e7bb07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves non-mutable link data from a link handle. The data here is computed by the articulation code but cannot be directly changed by users.  <a href="#ga54ca8e8099a543250c31f23452e7bb07">More...</a><br /></td></tr>
+<tr class="separator:ga54ca8e8099a543250c31f23452e7bb07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae81a4356d18a396730d81d94f28bbd0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gae81a4356d18a396730d81d94f28bbd0e">PxGetAllLinkData</a> (const Dy::ArticulationV *articulation, <a class="el" href="structPxLinkData.html">PxLinkData</a> *data)</td></tr>
+<tr class="memdesc:gae81a4356d18a396730d81d94f28bbd0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves non-mutable link data from an articulation handle (all links). The data here is computed by the articulation code but cannot be directly changed by users.  <a href="#gae81a4356d18a396730d81d94f28bbd0e">More...</a><br /></td></tr>
+<tr class="separator:gae81a4356d18a396730d81d94f28bbd0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad77847bba5b58c7439d0c2463643d041"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gad77847bba5b58c7439d0c2463643d041">PxGetMutableLinkData</a> (const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link, <a class="el" href="structPxMutableLinkData.html">PxMutableLinkData</a> &amp;data)</td></tr>
+<tr class="memdesc:gad77847bba5b58c7439d0c2463643d041"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves mutable link data from a link handle.  <a href="#gad77847bba5b58c7439d0c2463643d041">More...</a><br /></td></tr>
+<tr class="separator:gad77847bba5b58c7439d0c2463643d041"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga404f7b347df78a632073246c46c173ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga404f7b347df78a632073246c46c173ec">PxSetMutableLinkData</a> (<a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link, const <a class="el" href="structPxMutableLinkData.html">PxMutableLinkData</a> &amp;data)</td></tr>
+<tr class="memdesc:ga404f7b347df78a632073246c46c173ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets mutable link data for given link.  <a href="#ga404f7b347df78a632073246c46c173ec">More...</a><br /></td></tr>
+<tr class="separator:ga404f7b347df78a632073246c46c173ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8bdb9d1d481fad7a05c3dc9212c4f734"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga8bdb9d1d481fad7a05c3dc9212c4f734">PxGetJointData</a> (const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link, <a class="el" href="structPxFeatherstoneArticulationJointData.html">PxFeatherstoneArticulationJointData</a> &amp;data)</td></tr>
+<tr class="memdesc:ga8bdb9d1d481fad7a05c3dc9212c4f734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves joint data from a link handle.  <a href="#ga8bdb9d1d481fad7a05c3dc9212c4f734">More...</a><br /></td></tr>
+<tr class="separator:ga8bdb9d1d481fad7a05c3dc9212c4f734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29ab413fa60db236c4d9ef93081f6928"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga29ab413fa60db236c4d9ef93081f6928">PxSetJointData</a> (<a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> link, const <a class="el" href="structPxFeatherstoneArticulationJointData.html">PxFeatherstoneArticulationJointData</a> &amp;data)</td></tr>
+<tr class="memdesc:ga29ab413fa60db236c4d9ef93081f6928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets joint data for given link.  <a href="#ga29ab413fa60db236c4d9ef93081f6928">More...</a><br /></td></tr>
+<tr class="separator:ga29ab413fa60db236c4d9ef93081f6928"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4d9bc901669de439d061962e7ab9509e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga4d9bc901669de439d061962e7ab9509e">PxComputeUnconstrainedVelocities</a> (Dy::ArticulationV *articulation, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;gravity, const PxReal dt)</td></tr>
+<tr class="memdesc:ga4d9bc901669de439d061962e7ab9509e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes unconstrained velocities for a given articulation.  <a href="#ga4d9bc901669de439d061962e7ab9509e">More...</a><br /></td></tr>
+<tr class="separator:ga4d9bc901669de439d061962e7ab9509e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac31250973d5aca117634091dcf184ffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gac31250973d5aca117634091dcf184ffc">PxUpdateArticulationBodies</a> (Dy::ArticulationV *articulation, const PxReal dt)</td></tr>
+<tr class="memdesc:gac31250973d5aca117634091dcf184ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates bodies for a given articulation.  <a href="#gac31250973d5aca117634091dcf184ffc">More...</a><br /></td></tr>
+<tr class="separator:gac31250973d5aca117634091dcf184ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0bae177a8cae93690234bdcb6a29e8d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga0bae177a8cae93690234bdcb6a29e8d9">PxComputeUnconstrainedVelocitiesTGS</a> (Dy::ArticulationV *articulation, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;gravity, const PxReal dt, const PxReal totalDt, const PxReal invDt, const PxReal invTotalDt)</td></tr>
+<tr class="memdesc:ga0bae177a8cae93690234bdcb6a29e8d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes unconstrained velocities for a given articulation.  <a href="#ga0bae177a8cae93690234bdcb6a29e8d9">More...</a><br /></td></tr>
+<tr class="separator:ga0bae177a8cae93690234bdcb6a29e8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga167edbc51a6406fe313f2eaade4bc9d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga167edbc51a6406fe313f2eaade4bc9d2">PxUpdateArticulationBodiesTGS</a> (Dy::ArticulationV *articulation, const PxReal dt)</td></tr>
+<tr class="memdesc:ga167edbc51a6406fe313f2eaade4bc9d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates bodies for a given articulation.  <a href="#ga167edbc51a6406fe313f2eaade4bc9d2">More...</a><br /></td></tr>
+<tr class="separator:ga167edbc51a6406fe313f2eaade4bc9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa4db837c3284147da8c85356d969258"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gaaa4db837c3284147da8c85356d969258">PxConstructSolverBodiesTGS</a> (const <a class="el" href="structPxRigidBodyData.html">PxRigidBodyData</a> *inRigidData, <a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *outSolverBodyVel, <a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *outSolverBodyTxInertia, <a class="el" href="structPxTGSSolverBodyData.html">PxTGSSolverBodyData</a> *outSolverBodyData, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodies, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;gravity, const PxReal dt)</td></tr>
+<tr class="memdesc:gaaa4db837c3284147da8c85356d969258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> structure based on rigid body properties. Applies gravity, damping and clamps maximum velocity.  <a href="#gaaa4db837c3284147da8c85356d969258">More...</a><br /></td></tr>
+<tr class="separator:gaaa4db837c3284147da8c85356d969258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2dc9fa88d851b81cb15e382060e27ec7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga2dc9fa88d851b81cb15e382060e27ec7">PxConstructStaticSolverBodyTGS</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;globalPose, <a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> &amp;solverBodyVel, <a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> &amp;solverBodyTxInertia, <a class="el" href="structPxTGSSolverBodyData.html">PxTGSSolverBodyData</a> &amp;solverBodyData)</td></tr>
+<tr class="memdesc:ga2dc9fa88d851b81cb15e382060e27ec7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> structure for a static body at a given pose.  <a href="#ga2dc9fa88d851b81cb15e382060e27ec7">More...</a><br /></td></tr>
+<tr class="separator:ga2dc9fa88d851b81cb15e382060e27ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78e8a4101cc5ede158fd8ae7b9a9d13b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga78e8a4101cc5ede158fd8ae7b9a9d13b">PxBatchConstraintsTGS</a> (const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbConstraints, <a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *solverBodies, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodies, <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *outBatchHeaders, <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *outOrderedConstraintDescs, Dy::ArticulationV **articulations=NULL, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbArticulations=0)</td></tr>
+<tr class="memdesc:ga78e8a4101cc5ede158fd8ae7b9a9d13b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groups together sets of independent <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> objects to be solved using SIMD SOA approach.  <a href="#ga78e8a4101cc5ede158fd8ae7b9a9d13b">More...</a><br /></td></tr>
+<tr class="separator:ga78e8a4101cc5ede158fd8ae7b9a9d13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81189e2221bba32ed064faf2769d9844"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga81189e2221bba32ed064faf2769d9844">PxCreateContactConstraintsTGS</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxTGSSolverContactDesc.html">PxTGSSolverContactDesc</a> *contactDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal invDt, const PxReal invTotalDt, const PxReal bounceThreshold, const PxReal frictionOffsetThreshold, const PxReal correlationDistance)</td></tr>
+<tr class="memdesc:ga81189e2221bba32ed064faf2769d9844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of contact constraint blocks. Note that, depending the results of PxBatchConstraints, each batchHeader may refer to up to 4 solverConstraintDescs. This function will allocate both constraint and friction patch data via the <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> provided. Constraint data is only valid until PxSolveConstraints has completed. Friction data is to be retained and provided by the application for friction correlation.  <a href="#ga81189e2221bba32ed064faf2769d9844">More...</a><br /></td></tr>
+<tr class="separator:ga81189e2221bba32ed064faf2769d9844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c5323528d0de709b168178bf9ddb0ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga6c5323528d0de709b168178bf9ddb0ac">PxCreateJointConstraintsTGS</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbHeaders, <a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal totalDt, const PxReal invDt, const PxReal invTotalDt, const PxReal lengthScale)</td></tr>
+<tr class="memdesc:ga6c5323528d0de709b168178bf9ddb0ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs.  <a href="#ga6c5323528d0de709b168178bf9ddb0ac">More...</a><br /></td></tr>
+<tr class="separator:ga6c5323528d0de709b168178bf9ddb0ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga629b4a4c51411cad67e91991e74a1fa9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga629b4a4c51411cad67e91991e74a1fa9">PxCreateJointConstraintsWithShadersTGS</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="classPxConstraint.html">PxConstraint</a> **constraints, <a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal totalDt, const PxReal invDt, const PxReal invTotalDt, const PxReal lengthScale)</td></tr>
+<tr class="memdesc:ga629b4a4c51411cad67e91991e74a1fa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.  <a href="#ga629b4a4c51411cad67e91991e74a1fa9">More...</a><br /></td></tr>
+<tr class="separator:ga629b4a4c51411cad67e91991e74a1fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab61d264d8d74cb67dbbe06b041bde7bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gab61d264d8d74cb67dbbe06b041bde7bd">PxCreateJointConstraintsWithImmediateShadersTGS</a> (<a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, <a class="el" href="structPxImmediateConstraint.html">PxImmediateConstraint</a> *constraints, <a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *jointDescs, <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;allocator, const PxReal dt, const PxReal totalDt, const PxReal invDt, const PxReal invTotalDt, const PxReal lengthScale)</td></tr>
+<tr class="memdesc:gab61d264d8d74cb67dbbe06b041bde7bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxImmediateConstraint* param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints.  <a href="#gab61d264d8d74cb67dbbe06b041bde7bd">More...</a><br /></td></tr>
+<tr class="separator:gab61d264d8d74cb67dbbe06b041bde7bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga650d7b45abd5412722bd0f226df3d246"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#ga650d7b45abd5412722bd0f226df3d246">PxSolveConstraintsTGS</a> (const <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *batchHeaders, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBatchHeaders, const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *solverConstraintDescs, <a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *solverBodies, <a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *txInertias, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSolverBodies, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbPositionIterations, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVelocityIterations, const float dt, const float invDt, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSolverArticulations, Dy::ArticulationV **solverArticulations)</td></tr>
+<tr class="memdesc:ga650d7b45abd5412722bd0f226df3d246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iteratively solves the set of constraints defined by the provided <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> and <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> structures. Updates deltaVelocities inside the <a class="el" href="structPxSolverBody.html">PxSolverBody</a> structures. Produces resulting linear and angular motion velocities.  <a href="#ga650d7b45abd5412722bd0f226df3d246">More...</a><br /></td></tr>
+<tr class="separator:ga650d7b45abd5412722bd0f226df3d246"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd1a23fee83c2fab66822275bbcf50bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__immediatemode.html#gabd1a23fee83c2fab66822275bbcf50bb">PxIntegrateSolverBodiesTGS</a> (<a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *solverBody, <a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *txInertia, <a class="el" href="classPxTransform.html">PxTransform</a> *poses, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbBodiesToIntegrate, const PxReal dt)</td></tr>
+<tr class="memdesc:gabd1a23fee83c2fab66822275bbcf50bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integrates a rigid body, returning the new velocities and transforms. After this function has been called, solverBody stores all the body's velocity data.  <a href="#gabd1a23fee83c2fab66822275bbcf50bb">More...</a><br /></td></tr>
+<tr class="separator:gabd1a23fee83c2fab66822275bbcf50bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga06ca05e94083ad8df2c5377cf692b4bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga06ca05e94083ad8df2c5377cf692b4bf">&#9670;&nbsp;</a></span>PxBatchConstraints()</h2>
+<a id="ga8c2749699d2f9e22cfb34ed83a7b80ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8c2749699d2f9e22cfb34ed83a7b80ce">&#9670;&nbsp;</a></span>PxAddArticulationLink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a> PxAddArticulationLink </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structPxFeatherstoneArticulationLinkData.html">PxFeatherstoneArticulationLinkData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isLastLink</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds a link to an immediate-mode reduced-coordinate articulation. The articulation becomes the link's owner/parent. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Link data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">isLastLink</td><td>Hint to tell the system whether the added link is the last one or not. This is a minor optimization, it is also ok to always use either true or false here. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Articulation link handle </dd></dl>
+
+</div>
+</div>
+<a id="ga02aa17b8f928f23a16520036c572e862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga02aa17b8f928f23a16520036c572e862">&#9670;&nbsp;</a></span>PxBatchConstraints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -140,7 +277,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxBatchConstraints </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
           <td class="paramname"><em>solverConstraintDescs</em>, </td>
         </tr>
         <tr>
@@ -158,7 +295,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
           <td class="paramname"><em>nbBodies</em>, </td>
         </tr>
         <tr>
@@ -171,7 +308,19 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
-          <td class="paramname"><em>outOrderedConstraintDescs</em>&#160;</td>
+          <td class="paramname"><em>outOrderedConstraintDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dy::ArticulationV **&#160;</td>
+          <td class="paramname"><em>articulations</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbArticulations</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -184,17 +333,209 @@ Functions</h2></td></tr>
 <p>Groups together sets of independent <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> objects to be solved using SIMD SOA approach. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">solverConstraintDescs</td><td>the set of solver constraint descs to batch </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverConstraintDescs</td><td>The set of solver constraint descs to batch </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbConstraints</td><td>The number of constraints to batch </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">solverBodies</td><td>The array of solver bodies that the constraints reference. Some fields in these structures are written to as scratch memory for the batching. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbBodies</td><td>The number of bodies </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">outBatchHeaders</td><td>The batch headers produced by this batching process. This array must have at least 1 entry per input constraint </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">outOrderedConstraintDescs</td><td>A reordered copy of the constraint descs. This array is referenced by the constraint batches. This array must have at least 1 entry per input constraint. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">articulations</td><td>The array of articulations that the constraints reference. Some fields in these structures are written to as scratch memory for the batching. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbArticulations</td><td>The number of articulations </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The total number of batches produced. This should be less than or equal to nbConstraints.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This method considers all bodies within the range [0, nbBodies-1] to be valid dynamic bodies. A given dynamic body can only be referenced in a batch once. Static or kinematic bodies can be referenced multiple times within a batch safely because constraints do not affect their velocities. The batching will implicitly consider any bodies outside of the range [0, nbBodies-1] to be infinite mass (static or kinematic). This means that either appending static/kinematic to the end of the array of bodies or placing static/kinematic bodies at before the start body pointer will ensure that the minimum number of batches are produced. </dd></dl>
+
+</div>
+</div>
+<a id="ga78e8a4101cc5ede158fd8ae7b9a9d13b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga78e8a4101cc5ede158fd8ae7b9a9d13b">&#9670;&nbsp;</a></span>PxBatchConstraintsTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxBatchConstraintsTGS </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
+          <td class="paramname"><em>solverConstraintDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbConstraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *&#160;</td>
+          <td class="paramname"><em>solverBodies</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBodies</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>outBatchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
+          <td class="paramname"><em>outOrderedConstraintDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dy::ArticulationV **&#160;</td>
+          <td class="paramname"><em>articulations</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbArticulations</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Groups together sets of independent <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> objects to be solved using SIMD SOA approach. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverConstraintDescs</td><td>The set of solver constraint descs to batch </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbConstraints</td><td>The number of constraints to batch </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">solverBodies</td><td>The array of solver bodies that the constraints reference. Some fields in these structures are written to as scratch memory for the batching. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBodies</td><td>The number of bodies </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">outBatchHeaders</td><td>The batch headers produced by this batching process. This array must have at least 1 entry per input constraint </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">outOrderedConstraintDescs</td><td>A reordered copy of the constraint descs. This array is referenced by the constraint batches. This array must have at least 1 entry per input constraint. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">articulations</td><td>The array of articulations that the constraints reference. Some fields in these structures are written to as scratch memory for the batching. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbArticulations</td><td>The number of articulations </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The total number of batches produced. This should be less than or equal to nbConstraints.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method considers all bodies within the range [0, nbBodies-1] to be valid dynamic bodies. A given dynamic body can only be referenced in a batch once. Static or kinematic bodies can be referenced multiple times within a batch safely because constraints do not affect their velocities. The batching will implicitly consider any bodies outside of the range [0, nbBodies-1] to be infinite mass (static or kinematic). This means that either appending static/kinematic to the end of the array of bodies or placing static/kinematic bodies at before the start body pointer will ensure that the minimum number of batches are produced. </dd></dl>
+
+</div>
+</div>
+<a id="ga4d9bc901669de439d061962e7ab9509e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4d9bc901669de439d061962e7ab9509e">&#9670;&nbsp;</a></span>PxComputeUnconstrainedVelocities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxComputeUnconstrainedVelocities </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;&#160;</td>
+          <td class="paramname"><em>gravity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes unconstrained velocities for a given articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gravity</td><td>Gravity vector </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Timestep </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga0bae177a8cae93690234bdcb6a29e8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0bae177a8cae93690234bdcb6a29e8d9">&#9670;&nbsp;</a></span>PxComputeUnconstrainedVelocitiesTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxComputeUnconstrainedVelocitiesTGS </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;&#160;</td>
+          <td class="paramname"><em>gravity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>totalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invTotalDt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes unconstrained velocities for a given articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gravity</td><td>Gravity vector </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Timestep/numPosIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">totalDt</td><td>Timestep </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>1/(Timestep/numPosIterations) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invTotalDt</td><td>1/Timestep </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -256,6 +597,78 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaaa4db837c3284147da8c85356d969258"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaa4db837c3284147da8c85356d969258">&#9670;&nbsp;</a></span>PxConstructSolverBodiesTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxConstructSolverBodiesTGS </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxRigidBodyData.html">PxRigidBodyData</a> *&#160;</td>
+          <td class="paramname"><em>inRigidData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *&#160;</td>
+          <td class="paramname"><em>outSolverBodyVel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *&#160;</td>
+          <td class="paramname"><em>outSolverBodyTxInertia</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyData.html">PxTGSSolverBodyData</a> *&#160;</td>
+          <td class="paramname"><em>outSolverBodyData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBodies</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;&#160;</td>
+          <td class="paramname"><em>gravity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> structure based on rigid body properties. Applies gravity, damping and clamps maximum velocity. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inRigidData</td><td>The array rigid body properties </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">outSolverBodyVel</td><td>The array of <a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> structures produced to represent these bodies </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">outSolverBodyTxInertia</td><td>The array of <a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> produced to represent these bodies </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">outSolverBodyData</td><td>The array of PxTGSolverBodyData produced to repreent these bodies </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBodies</td><td>The total number of solver bodies to create </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gravity</td><td>The gravity vector </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The timestep </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="gab1ff672bf5a0569d6cc5f137142b1c1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gab1ff672bf5a0569d6cc5f137142b1c1d">&#9670;&nbsp;</a></span>PxConstructStaticSolverBody()</h2>
 
@@ -293,8 +706,59 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga3dc6c7ca660d5352b3da3198ab5036c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3dc6c7ca660d5352b3da3198ab5036c8">&#9670;&nbsp;</a></span>PxCreateContactConstraints()</h2>
+<a id="ga2dc9fa88d851b81cb15e382060e27ec7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2dc9fa88d851b81cb15e382060e27ec7">&#9670;&nbsp;</a></span>PxConstructStaticSolverBodyTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxConstructStaticSolverBodyTGS </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;&#160;</td>
+          <td class="paramname"><em>globalPose</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> &amp;&#160;</td>
+          <td class="paramname"><em>solverBodyVel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> &amp;&#160;</td>
+          <td class="paramname"><em>solverBodyTxInertia</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyData.html">PxTGSSolverBodyData</a> &amp;&#160;</td>
+          <td class="paramname"><em>solverBodyData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a <a class="el" href="structPxSolverBodyData.html">PxSolverBodyData</a> structure for a static body at a given pose. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">globalPose</td><td>The pose of this static actor </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">solverBodyVel</td><td>The velocity component of this body (will be zero) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">solverBodyTxInertia</td><td>The intertia and transform delta component of this body (will be zero) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">solverBodyData</td><td>The solver body representation of this static actor </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga02dd00aca33ee58a65f32472719e9b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga02dd00aca33ee58a65f32472719e9b07">&#9670;&nbsp;</a></span>PxCreateContactConstraints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -303,7 +767,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateContactConstraints </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
-          <td class="paramname"><em>batchHeader</em>, </td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -326,25 +790,25 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>invDt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>bounceThreshold</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>frictionOffsetThreshold</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>correlationDistance</em>&#160;</td>
         </tr>
         <tr>
@@ -358,7 +822,7 @@ Functions</h2></td></tr>
 <p>Creates a set of contact constraint blocks. Note that, depending the results of PxBatchConstraints, each batchHeader may refer to up to 4 solverConstraintDescs. This function will allocate both constraint and friction patch data via the <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> provided. Constraint data is only valid until PxSolveConstraints has completed. Friction data is to be retained and provided by the application for friction correlation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeader</td><td>Array of batch headers to process </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>Array of batch headers to process </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbHeaders</td><td>The total number of headers </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">contactDescs</td><td>An array of contact descs defining the pair and contact properties of each respective contacting pair </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint and friction memory </td></tr>
@@ -373,8 +837,123 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gac016be640f563f4ec9acd6b33fecba1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac016be640f563f4ec9acd6b33fecba1e">&#9670;&nbsp;</a></span>PxCreateJointConstraints()</h2>
+<a id="ga81189e2221bba32ed064faf2769d9844"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga81189e2221bba32ed064faf2769d9844">&#9670;&nbsp;</a></span>PxCreateContactConstraintsTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateContactConstraintsTGS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverContactDesc.html">PxTGSSolverContactDesc</a> *&#160;</td>
+          <td class="paramname"><em>contactDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;&#160;</td>
+          <td class="paramname"><em>allocator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invTotalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>bounceThreshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>frictionOffsetThreshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>correlationDistance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a set of contact constraint blocks. Note that, depending the results of PxBatchConstraints, each batchHeader may refer to up to 4 solverConstraintDescs. This function will allocate both constraint and friction patch data via the <a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> provided. Constraint data is only valid until PxSolveConstraints has completed. Friction data is to be retained and provided by the application for friction correlation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>Array of batch headers to process </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbHeaders</td><td>The total number of headers </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">contactDescs</td><td>An array of contact descs defining the pair and contact properties of each respective contacting pair </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint and friction memory </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>The inverse timestep/nbPositionIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invTotalDt</td><td>The inverse time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bounceThreshold</td><td>The bounce threshold. Relative velocities below this will be solved by bias only. Relative velocities above this will be solved by restitution. If restitution is zero then these pairs will always be solved by bias. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">frictionOffsetThreshold</td><td>The friction offset threshold. Contacts whose separations are below this threshold can generate friction constraints. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">correlationDistance</td><td>The correlation distance used by friction correlation to identify whether a friction patch is broken on the grounds of relation separation.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a boolean to define if this method was successful or not. </dd></dl>
+
+</div>
+</div>
+<a id="ga86ececaefac85fdb67e6e46332eedc75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga86ececaefac85fdb67e6e46332eedc75">&#9670;&nbsp;</a></span>PxCreateFeatherstoneArticulation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> Dy::ArticulationV* PxCreateFeatherstoneArticulation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxFeatherstoneArticulationData.html">PxFeatherstoneArticulationData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates an immediate-mode reduced-coordinate articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Articulation data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Articulation handle</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga5df3edcbf7b639900668b49ff50eda22" title="Releases an immediate-mode reduced-coordinate articulation. ">PxReleaseArticulation</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga8db0a2ecb56789d5311172ce228b7740"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8db0a2ecb56789d5311172ce228b7740">&#9670;&nbsp;</a></span>PxCreateJointConstraints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +962,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraints </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
-          <td class="paramname"><em>batchHeader</em>, </td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -406,13 +985,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>dt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>invDt</em>&#160;</td>
         </tr>
         <tr>
@@ -426,7 +1005,7 @@ Functions</h2></td></tr>
 <p>Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeader</td><td>The array of batch headers to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The array of batch headers to be processed </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbHeaders</td><td>The total number of batch headers to process </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint data </td></tr>
@@ -439,8 +1018,264 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga730ffbd6f8687f7909131b37b1cc0c05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga730ffbd6f8687f7909131b37b1cc0c05">&#9670;&nbsp;</a></span>PxCreateJointConstraintsWithShaders()</h2>
+<a id="ga6c5323528d0de709b168178bf9ddb0ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c5323528d0de709b168178bf9ddb0ac">&#9670;&nbsp;</a></span>PxCreateJointConstraintsTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraintsTGS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *&#160;</td>
+          <td class="paramname"><em>jointDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;&#160;</td>
+          <td class="paramname"><em>allocator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>totalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invTotalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>lengthScale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The array of batch headers to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbHeaders</td><td>The total number of batch headers to process </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The total time-step/nbPositionIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">totalDt</td><td>The total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>The inverse (timestep/nbPositionIterations) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invTotalDt</td><td>The inverse total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lengthScale</td><td>PxToleranceScale::length, i.e. a meter in simulation units </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a boolean indicating if this method was successful or not. </dd></dl>
+
+</div>
+</div>
+<a id="ga9c55ff4fd977b9c0e3e0c629f5b32326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9c55ff4fd977b9c0e3e0c629f5b32326">&#9670;&nbsp;</a></span>PxCreateJointConstraintsWithImmediateShaders()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraintsWithImmediateShaders </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBatchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxImmediateConstraint.html">PxImmediateConstraint</a> *&#160;</td>
+          <td class="paramname"><em>constraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxSolverConstraintPrepDesc.html">PxSolverConstraintPrepDesc</a> *&#160;</td>
+          <td class="paramname"><em>jointDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;&#160;</td>
+          <td class="paramname"><em>allocator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxImmediateConstraint* param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The set of batchHeaders to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBatchHeaders</td><td>The number of batch headers to process. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">constraints</td><td>The set of constraints to be used to produce constraint rows </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The timestep </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>The inverse timestep </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a boolean indicating if this method was successful or not. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740" title="Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. ">PxCreateJointConstraints</a> </dd></dl>
+
+</div>
+</div>
+<a id="gab61d264d8d74cb67dbbe06b041bde7bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab61d264d8d74cb67dbbe06b041bde7bd">&#9670;&nbsp;</a></span>PxCreateJointConstraintsWithImmediateShadersTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraintsWithImmediateShadersTGS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBatchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxImmediateConstraint.html">PxImmediateConstraint</a> *&#160;</td>
+          <td class="paramname"><em>constraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *&#160;</td>
+          <td class="paramname"><em>jointDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;&#160;</td>
+          <td class="paramname"><em>allocator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>totalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invTotalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>lengthScale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxImmediateConstraint* param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The set of batchHeaders to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBatchHeaders</td><td>The number of batch headers to process. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">constraints</td><td>The set of constraints to be used to produce constraint rows </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The total time-step/nbPositionIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">totalDt</td><td>The total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>The inverse (timestep/nbPositionIterations) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invTotalDt</td><td>The inverse total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lengthScale</td><td>PxToleranceScale::length, i.e. a meter in simulation units </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a boolean indicating if this method was successful or not. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740" title="Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. ">PxCreateJointConstraints</a> </dd></dl>
+
+</div>
+</div>
+<a id="gab92fb9ab349962c5271c9644d3ec9f71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab92fb9ab349962c5271c9644d3ec9f71">&#9670;&nbsp;</a></span>PxCreateJointConstraintsWithShaders()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,7 +1284,7 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraintsWithShaders </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
-          <td class="paramname"><em>batchHeader</em>, </td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -478,13 +1313,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>dt</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>invDt</em>&#160;</td>
         </tr>
         <tr>
@@ -498,7 +1333,7 @@ Functions</h2></td></tr>
 <p>Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeader</td><td>The set of batchHeaders to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The set of batchHeaders to be processed </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbBatchHeaders</td><td>The number of batch headers to process. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">constraints</td><td>The set of constraints to be used to produce constraint rows </td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
@@ -509,6 +1344,102 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a boolean indicating if this method was successful or not. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740" title="Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. ">PxCreateJointConstraints</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga629b4a4c51411cad67e91991e74a1fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga629b4a4c51411cad67e91991e74a1fa9">&#9670;&nbsp;</a></span>PxCreateJointConstraintsWithShadersTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxCreateJointConstraintsWithShadersTGS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBatchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraint.html">PxConstraint</a> **&#160;</td>
+          <td class="paramname"><em>constraints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverConstraintPrepDesc.html">PxTGSSolverConstraintPrepDesc</a> *&#160;</td>
+          <td class="paramname"><em>jointDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxConstraintAllocator.html">PxConstraintAllocator</a> &amp;&#160;</td>
+          <td class="paramname"><em>allocator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>totalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>invTotalDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>lengthScale</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a set of joint constraint blocks. This function runs joint shaders defined inside PxConstraint** param, fills in joint row information in jointDescs and then calls PxCreateJointConstraints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The set of batchHeaders to be processed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBatchHeaders</td><td>The number of batch headers to process. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">constraints</td><td>The set of constraints to be used to produce constraint rows </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">jointDescs</td><td>An array of constraint prep descs defining the properties of the constraints being created </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">allocator</td><td>An allocator callback to allocate constraint data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The total time-step/nbPositionIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">totalDt</td><td>The total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>The inverse (timestep/nbPositionIterations) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invTotalDt</td><td>The inverse total time-step </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lengthScale</td><td>PxToleranceScale::length, i.e. a meter in simulation units </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a boolean indicating if this method was successful or not. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740" title="Creates a set of joint constraint blocks. Note that, depending the results of PxBatchConstraints, the batchHeader may refer to up to 4 solverConstraintDescs. ">PxCreateJointConstraints</a> </dd></dl>
 
 </div>
 </div>
@@ -613,8 +1544,218 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gabda17f364d0771bc7c0613ca0761cb73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabda17f364d0771bc7c0613ca0761cb73">&#9670;&nbsp;</a></span>PxIntegrateSolverBodies()</h2>
+<a id="gae81a4356d18a396730d81d94f28bbd0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae81a4356d18a396730d81d94f28bbd0e">&#9670;&nbsp;</a></span>PxGetAllLinkData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxGetAllLinkData </td>
+          <td>(</td>
+          <td class="paramtype">const Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxLinkData.html">PxLinkData</a> *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves non-mutable link data from an articulation handle (all links). The data here is computed by the articulation code but cannot be directly changed by users. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>Link data for N links, or NULL to just retrieve the number of links. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of links in the articulation = number of link data structure written to the data array.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga54ca8e8099a543250c31f23452e7bb07" title="Retrieves non-mutable link data from a link handle. The data here is computed by the articulation cod...">PxGetLinkData</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga8bdb9d1d481fad7a05c3dc9212c4f734"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8bdb9d1d481fad7a05c3dc9212c4f734">&#9670;&nbsp;</a></span>PxGetJointData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxGetJointData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxFeatherstoneArticulationJointData.html">PxFeatherstoneArticulationJointData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves joint data from a link handle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>Joint data for this link </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if success</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga29ab413fa60db236c4d9ef93081f6928" title="Sets joint data for given link. ">PxSetJointData</a> </dd></dl>
+
+</div>
+</div>
+<a id="gaee273e15ba5dbdb78948da2d2c64dc7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaee273e15ba5dbdb78948da2d2c64dc7f">&#9670;&nbsp;</a></span>PxGetLinkArticulation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> Dy::ArticulationV* PxGetLinkArticulation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves owner/parent articulation handle from a link handle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Articulation handle </dd></dl>
+
+</div>
+</div>
+<a id="ga54ca8e8099a543250c31f23452e7bb07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga54ca8e8099a543250c31f23452e7bb07">&#9670;&nbsp;</a></span>PxGetLinkData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxGetLinkData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxLinkData.html">PxLinkData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves non-mutable link data from a link handle. The data here is computed by the articulation code but cannot be directly changed by users. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>Link data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if success</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#gae81a4356d18a396730d81d94f28bbd0e" title="Retrieves non-mutable link data from an articulation handle (all links). The data here is computed by...">PxGetAllLinkData</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga4371afa7be6b3dfd04fd94491b7ccf1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4371afa7be6b3dfd04fd94491b7ccf1e">&#9670;&nbsp;</a></span>PxGetLinkIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxGetLinkIndex </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves link index from a link handle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Link index </dd></dl>
+
+</div>
+</div>
+<a id="gad77847bba5b58c7439d0c2463643d041"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad77847bba5b58c7439d0c2463643d041">&#9670;&nbsp;</a></span>PxGetMutableLinkData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxGetMutableLinkData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxMutableLinkData.html">PxMutableLinkData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves mutable link data from a link handle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>Data for this link </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if success</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga404f7b347df78a632073246c46c173ec" title="Sets mutable link data for given link. ">PxSetMutableLinkData</a> </dd></dl>
+
+</div>
+</div>
+<a id="gad743f4cb0eef3d3b166bfa0ff548ca5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad743f4cb0eef3d3b166bfa0ff548ca5f">&#9670;&nbsp;</a></span>PxIntegrateSolverBodies()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -652,7 +1793,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PxReal&#160;</td>
+          <td class="paramtype">const PxReal&#160;</td>
           <td class="paramname"><em>dt</em>&#160;</td>
         </tr>
         <tr>
@@ -678,8 +1819,191 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaf5de05898680bb26c7b24012acb0336d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf5de05898680bb26c7b24012acb0336d">&#9670;&nbsp;</a></span>PxSolveConstraints()</h2>
+<a id="gabd1a23fee83c2fab66822275bbcf50bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabd1a23fee83c2fab66822275bbcf50bb">&#9670;&nbsp;</a></span>PxIntegrateSolverBodiesTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxIntegrateSolverBodiesTGS </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *&#160;</td>
+          <td class="paramname"><em>solverBody</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *&#160;</td>
+          <td class="paramname"><em>txInertia</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxTransform.html">PxTransform</a> *&#160;</td>
+          <td class="paramname"><em>poses</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBodiesToIntegrate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Integrates a rigid body, returning the new velocities and transforms. After this function has been called, solverBody stores all the body's velocity data. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">solverBody</td><td>The array of solver bodies to be integrated </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">txInertia</td><td>The delta pose and inertia terms </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">poses</td><td>The original poses of the bodies. Updated to be the new poses of the bodies </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBodiesToIntegrate</td><td>The total number of bodies to integrate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>The timestep </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6d8ad8d1a6156da1f4473d4ec4922016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d8ad8d1a6156da1f4473d4ec4922016">&#9670;&nbsp;</a></span>PxRegisterImmediateArticulations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxRegisterImmediateArticulations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register articulation-related solver functions. This is equivalent to <a class="el" href="group__physics.html#gafa22d81f1318ef3c37f1d746ac686c22" title="Enables the usage of the reduced coordinate articulations feature. This function is called automatica...">PxRegisterArticulationsReducedCoordinate()</a> for PxScene-level articulations. Call this first to enable reduced coordinates articulations in immediate mode. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__physics.html#gafa22d81f1318ef3c37f1d746ac686c22" title="Enables the usage of the reduced coordinate articulations feature. This function is called automatica...">PxRegisterArticulationsReducedCoordinate</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga5df3edcbf7b639900668b49ff50eda22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5df3edcbf7b639900668b49ff50eda22">&#9670;&nbsp;</a></span>PxReleaseArticulation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxReleaseArticulation </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Releases an immediate-mode reduced-coordinate articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga86ececaefac85fdb67e6e46332eedc75" title="Creates an immediate-mode reduced-coordinate articulation. ">PxCreateFeatherstoneArticulation</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga29ab413fa60db236c4d9ef93081f6928"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga29ab413fa60db236c4d9ef93081f6928">&#9670;&nbsp;</a></span>PxSetJointData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxSetJointData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structPxFeatherstoneArticulationJointData.html">PxFeatherstoneArticulationJointData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets joint data for given link. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Joint data for this link </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if success</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#ga8bdb9d1d481fad7a05c3dc9212c4f734" title="Retrieves joint data from a link handle. ">PxGetJointData</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga404f7b347df78a632073246c46c173ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga404f7b347df78a632073246c46c173ec">&#9670;&nbsp;</a></span>PxSetMutableLinkData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> bool PxSetMutableLinkData </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceDy.html#a5be4d4b78399a053941fded260b04e61">Dy::ArticulationLinkHandle</a>&#160;</td>
+          <td class="paramname"><em>link</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structPxMutableLinkData.html">PxMutableLinkData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets mutable link data for given link. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">link</td><td>Link handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Data for this link </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if success</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__immediatemode.html#gad77847bba5b58c7439d0c2463643d041" title="Retrieves mutable link data from a link handle. ">PxGetMutableLinkData</a> </dd></dl>
+
+</div>
+</div>
+<a id="gae59ded2b77c594a690169036785f2ef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae59ded2b77c594a690169036785f2ef5">&#9670;&nbsp;</a></span>PxSolveConstraints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -687,7 +2011,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxSolveConstraints </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
           <td class="paramname"><em>batchHeaders</em>, </td>
         </tr>
         <tr>
@@ -699,13 +2023,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
           <td class="paramname"><em>solverConstraintDescs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structPxSolverBody.html">PxSolverBody</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structPxSolverBody.html">PxSolverBody</a> *&#160;</td>
           <td class="paramname"><em>solverBodies</em>, </td>
         </tr>
         <tr>
@@ -736,7 +2060,31 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
-          <td class="paramname"><em>nbVelocityIterations</em>&#160;</td>
+          <td class="paramname"><em>nbVelocityIterations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>dt</em> = <code>0.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>invDt</em> = <code>0.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbSolverArticulations</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dy::ArticulationV **&#160;</td>
+          <td class="paramname"><em>solverArticulations</em> = <code>NULL</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -758,6 +2106,191 @@ Functions</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbSolverBodies</td><td>The total number of solver bodies </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbPositionIterations</td><td>The number of position iterations to run </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbVelocityIterations</td><td>The number of velocity iterations to run </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Timestep. Only needed if articulations are sent to the function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>Inverse timestep. Only needed if articulations are sent to the function. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbSolverArticulations</td><td>Number of articulations to solve constraints for. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverArticulations</td><td>Array of articulations to solve constraints for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga650d7b45abd5412722bd0f226df3d246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga650d7b45abd5412722bd0f226df3d246">&#9670;&nbsp;</a></span>PxSolveConstraintsTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxSolveConstraintsTGS </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> *&#160;</td>
+          <td class="paramname"><em>batchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbBatchHeaders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> *&#160;</td>
+          <td class="paramname"><em>solverConstraintDescs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyVel.html">PxTGSSolverBodyVel</a> *&#160;</td>
+          <td class="paramname"><em>solverBodies</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPxTGSSolverBodyTxInertia.html">PxTGSSolverBodyTxInertia</a> *&#160;</td>
+          <td class="paramname"><em>txInertias</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbSolverBodies</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbPositionIterations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbVelocityIterations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>invDt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>nbSolverArticulations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dy::ArticulationV **&#160;</td>
+          <td class="paramname"><em>solverArticulations</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Iteratively solves the set of constraints defined by the provided <a class="el" href="structPxConstraintBatchHeader.html">PxConstraintBatchHeader</a> and <a class="el" href="structPxSolverConstraintDesc.html">PxSolverConstraintDesc</a> structures. Updates deltaVelocities inside the <a class="el" href="structPxSolverBody.html">PxSolverBody</a> structures. Produces resulting linear and angular motion velocities. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">batchHeaders</td><td>The set of batch headers to be solved </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbBatchHeaders</td><td>The total number of batch headers to be solved </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverConstraintDescs</td><td>The reordererd set of solver constraint descs referenced by the batch headers </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">solverBodies</td><td>The set of solver bodies the bodies reference </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">txInertias</td><td>The set of solver body TxInertias the bodies reference </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbSolverBodies</td><td>The total number of solver bodies </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbPositionIterations</td><td>The number of position iterations to run </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbVelocityIterations</td><td>The number of velocity iterations to run </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>time-step/nbPositionIterations </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">invDt</td><td>1/(time-step/nbPositionIterations) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nbSolverArticulations</td><td>Number of articulations to solve constraints for. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverArticulations</td><td>Array of articulations to solve constraints for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gac31250973d5aca117634091dcf184ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac31250973d5aca117634091dcf184ffc">&#9670;&nbsp;</a></span>PxUpdateArticulationBodies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxUpdateArticulationBodies </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates bodies for a given articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Timestep </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga167edbc51a6406fe313f2eaade4bc9d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga167edbc51a6406fe313f2eaade4bc9d2">&#9670;&nbsp;</a></span>PxUpdateArticulationBodiesTGS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gaea189596f11f07c586d4757cc67e8f7f">PX_C_EXPORT</a> <a class="el" href="group__common.html#ga4636d12a5a01930fa258136f3f93366f">PX_PHYSX_CORE_API</a> void PxUpdateArticulationBodiesTGS </td>
+          <td>(</td>
+          <td class="paramtype">Dy::ArticulationV *&#160;</td>
+          <td class="paramname"><em>articulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxReal&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates bodies for a given articulation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">articulation</td><td>Articulation handle </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dt</td><td>Timestep </td></tr>
   </table>
   </dd>
 </dl>

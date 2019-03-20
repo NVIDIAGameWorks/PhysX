@@ -360,6 +360,12 @@ bool NpAggregate::getSelfCollision() const
 }
 
 // PX_SERIALIZATION
+
+void NpAggregate::preExportDataReset()
+{
+	mAggregate.setAggregateID(PX_INVALID_U32);
+}
+
 void NpAggregate::exportExtraData(PxSerializationContext& stream)
 {
 	if(mActors)

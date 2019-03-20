@@ -202,12 +202,6 @@ The PxExtensions library has default implementations for all dispatcher types, t
         if(!mCpuDispatcher)
             fatalError("PxDefaultCpuDispatcherCreate failed!");
         sceneDesc.cpuDispatcher = mCpuDispatcher;
-    #if PX_WINDOWS
-        // create GPU dispatcher
-        PxCudaContextManagerDesc cudaContextManagerDesc;
-        mCudaContextManager = PxCreateCudaContextManager(cudaContextManagerDesc);
-        sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
-    #endif
         [...]
         mScene = mPhysics->createScene(sceneDesc);
 

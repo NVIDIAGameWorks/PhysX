@@ -36,12 +36,10 @@
 
 #include "foundation/PxStrideIterator.h"
 #include "pvd/PxPvdTransport.h"
+#include "pvd/PxPvdSceneClient.h"
 
-#include "PxPvdSceneClient.h"
 #include "PvdMetaDataPvdBinding.h"
-
 #include "CmBitMap.h"
-
 #include "PxPvdClient.h"
 #include "PxPvdUserRenderer.h"
 #include "PsPvd.h"

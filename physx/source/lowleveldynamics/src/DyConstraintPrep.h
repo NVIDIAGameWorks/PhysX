@@ -37,6 +37,7 @@
 #include "PsArray.h"
 
 #define DY_ARTICULATION_MIN_RESPONSE 1e-5f
+#define DY_ARTICULATION_CFM	1e-4f
 
 #define DY_ARTICULATION_BAD_RESPONSE 0.02f
 

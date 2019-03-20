@@ -30,8 +30,9 @@
 #ifndef PX_PHYSICS_SN_SERIALIZATION_REGISTRY
 #define PX_PHYSICS_SN_SERIALIZATION_REGISTRY
 
-#include "PxSerialization.h"
-#include "PxRepXSerializer.h"
+#include "extensions/PxSerialization.h"
+#include "extensions/PxRepXSerializer.h"
+
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
 #include "PsArray.h"

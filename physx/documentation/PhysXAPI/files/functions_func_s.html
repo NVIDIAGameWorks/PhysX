@@ -117,6 +117,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 <li>serializeCollectionToBinary()
 : <a class="el" href="classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03">PxSerialization</a>
 </li>
+<li>serializeCollectionToBinaryDeterministic()
+: <a class="el" href="classPxSerialization.html#a159728a265b7ed81cd5cf329f8cad30e">PxSerialization</a>
+</li>
 <li>serializeCollectionToXml()
 : <a class="el" href="classPxSerialization.html#acbb99dac3e71e78338ab3eec4ab0ab75">PxSerialization</a>
 </li>
@@ -232,9 +235,6 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 <li>setCMassLocalPose()
 : <a class="el" href="classPxRigidBody.html#ab152773926fe7b222d61e982c3cb6adf">PxRigidBody</a>
 </li>
-<li>setCompletionTask()
-: <a class="el" href="classphysx_1_1PxGpuTask.html#a70580dd1b3cfde44c4cbb66064cdab4c">physx::PxGpuTask</a>
-</li>
 <li>setConstraintFlag()
 : <a class="el" href="classPxJoint.html#a5bbf2a4196e036d711eea9bd5e542ce9">PxJoint</a>
 </li>
@@ -330,7 +330,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 : <a class="el" href="classPxVehicleAutoBoxData.html#aa2353fe51236e4d02924eff9bccd94b2">PxVehicleAutoBoxData</a>
 </li>
 <li>setDrive()
-: <a class="el" href="classPxArticulationJointReducedCoordinate.html#a95b2eca4dc04091587b99486b972901a">PxArticulationJointReducedCoordinate</a>
+: <a class="el" href="classPxArticulationJointReducedCoordinate.html#ad87777bdb8ca5431c23fd1fce9bb0228">PxArticulationJointReducedCoordinate</a>
 , <a class="el" href="classPxD6Joint.html#a85811f1770be8ff4ea79b4e49b313599">PxD6Joint</a>
 </li>
 <li>setDriveForceLimit()
@@ -449,9 +449,6 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 </li>
 <li>setGlobalPose()
 : <a class="el" href="classPxRigidActor.html#a26994d9594ed9a04bd412bdeb2a55f3e">PxRigidActor</a>
-</li>
-<li>setGpuDispatcher()
-: <a class="el" href="classphysx_1_1PxTaskManager.html#a2222879a9e1f258c3d46579f56d65275">physx::PxTaskManager</a>
 </li>
 <li>setGravity()
 : <a class="el" href="classPxScene.html#a575ed34c73adbd61892d728a688479f3">PxScene</a>
@@ -741,6 +738,9 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 <li>setSlopeLimit()
 : <a class="el" href="classPxController.html#a5e3a554fe03319301360df65122f22c8">PxController</a>
 </li>
+<li>setSolverArticulationBatchSize()
+: <a class="el" href="classPxScene.html#a0db918a532ef4d36474bf3f46cfad5a8">PxScene</a>
+</li>
 <li>setSolverBatchSize()
 : <a class="el" href="classPxScene.html#aad9cc8bf329f4de4b407436f5cd38c98">PxScene</a>
 </li>
@@ -945,7 +945,7 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 : <a class="el" href="classPxContactSet.html#ae8b03d814a326b0301d679d45d2c42ff">PxContactSet</a>
 </li>
 <li>sphere()
-: <a class="el" href="classPxGeometryHolder.html#a15960fc039146c97c4fda4eea05f9f91">PxGeometryHolder</a>
+: <a class="el" href="classPxGeometryHolder.html#a725211588eba5f168eb9266a25e0b59b">PxGeometryHolder</a>
 </li>
 <li>startAfter()
 : <a class="el" href="classphysx_1_1PxTask.html#a5ea294d819b903a507efe1358f86b8cd">physx::PxTask</a>
@@ -953,19 +953,14 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 <li>startGearChange()
 : <a class="el" href="classPxVehicleDriveDynData.html#a2ba2789e69500d31d1acf2f6e11545cf">PxVehicleDriveDynData</a>
 </li>
-<li>startGroup()
-: <a class="el" href="classphysx_1_1PxGpuDispatcher.html#a86f6db8b18cf8380967890d694e3df8e">physx::PxGpuDispatcher</a>
-</li>
 <li>startSimulation()
-: <a class="el" href="classphysx_1_1PxGpuDispatcher.html#a091cb121a38ddf39fcab51f5118a15d2">physx::PxGpuDispatcher</a>
-, <a class="el" href="classphysx_1_1PxTaskManager.html#aab9b613b731eb4cc5007db33fc801017">physx::PxTaskManager</a>
+: <a class="el" href="classphysx_1_1PxTaskManager.html#aab9b613b731eb4cc5007db33fc801017">physx::PxTaskManager</a>
 </li>
 <li>statusChange()
 : <a class="el" href="classPxSimulationFilterCallback.html#a0ba6a20106fd9ef3eca10099be8017da">PxSimulationFilterCallback</a>
 </li>
 <li>stopSimulation()
-: <a class="el" href="classphysx_1_1PxGpuDispatcher.html#ab46896dea09105e1f5fc1d19a98f2b1b">physx::PxGpuDispatcher</a>
-, <a class="el" href="classphysx_1_1PxTaskManager.html#a6008ca7efcd7fa4a77d10f0606e3f17a">physx::PxTaskManager</a>
+: <a class="el" href="classphysx_1_1PxTaskManager.html#a6008ca7efcd7fa4a77d10f0606e3f17a">physx::PxTaskManager</a>
 </li>
 <li>storeAny()
 : <a class="el" href="classPxGeometryHolder.html#a7f4cab3419580e1d985858d1f5ffb653">PxGeometryHolder</a>
@@ -993,7 +988,6 @@ $(document).ready(function(){initNavTree('functions_func_s.html','');});
 </li>
 <li>submitTask()
 : <a class="el" href="classphysx_1_1PxCpuDispatcher.html#a0030e67bed850b70d6725775e5c3ce3c">physx::PxCpuDispatcher</a>
-, <a class="el" href="classphysx_1_1PxGpuDispatcher.html#a5ffc5d0c124afbcad0b6fcf1080af5ee">physx::PxGpuDispatcher</a>
 </li>
 <li>submitted()
 : <a class="el" href="classphysx_1_1PxTask.html#a2a0a6f83fcd05069f594631272faa8ae">physx::PxTask</a>

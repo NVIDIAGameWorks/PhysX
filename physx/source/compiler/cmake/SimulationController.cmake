@@ -132,10 +132,6 @@ TARGET_INCLUDE_DIRECTORIES(SimulationController
 	PRIVATE ${PHYSXFOUNDATION_INCLUDES}
 
 	PRIVATE ${PHYSX_ROOT_DIR}/include
-	PRIVATE ${PHYSX_ROOT_DIR}/include/common
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geometry
-	PRIVATE ${PHYSX_ROOT_DIR}/include/pvd
-	PRIVATE ${PHYSX_ROOT_DIR}/include/geomutils
 	
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/include
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src

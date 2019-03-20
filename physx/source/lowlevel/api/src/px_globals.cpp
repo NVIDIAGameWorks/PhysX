@@ -44,29 +44,6 @@ namespace physx
 
 PxvOffsetTable gPxvOffsetTable;
 
-bool PxcPCMContactSphereHeightField		(GU_CONTACT_METHOD_ARGS);
-bool PxcPCMContactCapsuleHeightField	(GU_CONTACT_METHOD_ARGS);
-bool PxcPCMContactBoxHeightField		(GU_CONTACT_METHOD_ARGS);
-bool PxcPCMContactConvexHeightField		(GU_CONTACT_METHOD_ARGS);
-
-bool PxcContactSphereHeightField		(GU_CONTACT_METHOD_ARGS);
-bool PxcContactCapsuleHeightField		(GU_CONTACT_METHOD_ARGS);
-bool PxcContactBoxHeightField			(GU_CONTACT_METHOD_ARGS);
-bool PxcContactConvexHeightField		(GU_CONTACT_METHOD_ARGS);
-
-void PxvRegisterHeightFields()
-{
-	g_ContactMethodTable[PxGeometryType::eSPHERE][PxGeometryType::eHEIGHTFIELD]			= PxcContactSphereHeightField;
-	g_ContactMethodTable[PxGeometryType::eCAPSULE][PxGeometryType::eHEIGHTFIELD]		= PxcContactCapsuleHeightField;
-	g_ContactMethodTable[PxGeometryType::eBOX][PxGeometryType::eHEIGHTFIELD]			= PxcContactBoxHeightField;
-	g_ContactMethodTable[PxGeometryType::eCONVEXMESH][PxGeometryType::eHEIGHTFIELD]		= PxcContactConvexHeightField;
-
-	g_PCMContactMethodTable[PxGeometryType::eSPHERE][PxGeometryType::eHEIGHTFIELD]		= PxcPCMContactSphereHeightField;
-	g_PCMContactMethodTable[PxGeometryType::eCAPSULE][PxGeometryType::eHEIGHTFIELD]		= PxcPCMContactCapsuleHeightField;
-	g_PCMContactMethodTable[PxGeometryType::eBOX][PxGeometryType::eHEIGHTFIELD]			= PxcPCMContactBoxHeightField;
-	g_PCMContactMethodTable[PxGeometryType::eCONVEXMESH][PxGeometryType::eHEIGHTFIELD]	= PxcPCMContactConvexHeightField;
-}
-
 void PxvInit(const PxvOffsetTable& offsetTable)
 {
 #if PX_SUPPORT_GPU_PHYSX

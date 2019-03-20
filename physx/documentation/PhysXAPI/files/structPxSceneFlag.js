@@ -5,8 +5,6 @@ var structPxSceneFlag =
       [ "eENABLE_CCD", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a05d1e69880f10fb3de7d26c2e2e7eca3", null ],
       [ "eDISABLE_CCD_RESWEEP", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53ae5e231832542525c2c1faedcc4a49d11", null ],
       [ "eADAPTIVE_FORCE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53af41a174026200b36d385fbe91a67eac0", null ],
-      [ "PX_DEPRECATED", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a38481fa715039972c2047d15094a1060", null ],
-      [ "PX_DEPRECATED", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a38481fa715039972c2047d15094a1060", null ],
       [ "eENABLE_PCM", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a29717fa631812cc31261d73055762e03", null ],
       [ "eDISABLE_CONTACT_REPORT_BUFFER_RESIZE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a8644817a9a2916453433702614672565", null ],
       [ "eDISABLE_CONTACT_CACHE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a9f72bafbe1387992429615ab5842b07a", null ],

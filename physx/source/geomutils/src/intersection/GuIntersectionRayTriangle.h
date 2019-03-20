@@ -31,7 +31,7 @@
 #define GU_INTERSECTION_RAY_TRIANGLE_H
 
 #include "foundation/PxVec3.h"
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

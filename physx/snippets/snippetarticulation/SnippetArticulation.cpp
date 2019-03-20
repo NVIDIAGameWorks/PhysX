@@ -560,7 +560,7 @@ void stepPhysics(bool /*interactive*/)
 
 	if (gClosing && driveValue < -1.2f)
 		gClosing = false;
-	else if (!gClosing && driveValue > 0.2f)
+	else if (!gClosing && driveValue > 0.f)
 		gClosing = true;
 
 	if (gClosing)

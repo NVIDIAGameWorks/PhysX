@@ -30,7 +30,7 @@
 #ifndef GU_DISTANCE_SEGMENT_TRIANGLE_H
 #define GU_DISTANCE_SEGMENT_TRIANGLE_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "GuSegment.h"
 
 namespace physx

@@ -569,28 +569,31 @@ void cleanupPhysics()
 		gVehicles[i]->getRigidDynamicActor()->release();
 		static_cast<PxVehicleDrive4W*>(gVehicles[i])->free();
 	}
-	gGroundPlane->release();
-	gFrictionPairs->release();
+	PX_RELEASE(gGroundPlane);
+	PX_RELEASE(gFrictionPairs);
 	for(PxU32 i = 0; i < NUM_VEHICLES;	i++)
 	{
-		gBatchQueries[i]->release();
+		PX_RELEASE(gBatchQueries[i]);
 	}
 	gVehicleSceneQueryData->free(gAllocator);
 	PxCloseVehicleSDK();
 
 	//Clean up the task manager used for concurrent vehicle updates.
-	gTaskManager->release();
+	PX_RELEASE(gTaskManager);
 
 	//Clean up the scene and sdk.
-	gMaterial->release();
-	gCooking->release();
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	gFoundation->release();
+	PX_RELEASE(gMaterial);
+	PX_RELEASE(gCooking);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 
 	printf("SnippetVehicleMultiThreading done.\n");
 }

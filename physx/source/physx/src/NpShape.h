@@ -31,9 +31,9 @@
 #ifndef PX_PHYSICS_NP_SHAPE
 #define PX_PHYSICS_NP_SHAPE
 
+#include "common/PxMetaData.h"
 #include "PxShape.h"
 #include "buffering/ScbShape.h"
-#include "PxMetaData.h"
 
 namespace physx
 {
@@ -80,7 +80,8 @@ class NpShape : public PxShape, public Ps::UserAllocated, public Cm::RefCountabl
 public:
 // PX_SERIALIZATION
 												NpShape(PxBaseFlags baseFlags);
-	virtual			void						exportExtraData(PxSerializationContext& stream);
+					void						preExportDataReset();
+	virtual			void						exportExtraData(PxSerializationContext& context);
 					void						importExtraData(PxDeserializationContext& context);
 	virtual			void						requiresObjects(PxProcessPxBaseCallback& c);
 					void						resolveReferences(PxDeserializationContext& context);

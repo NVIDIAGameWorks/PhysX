@@ -36,6 +36,8 @@
 
 namespace physx
 {
+	class PxcNpThreadContext;
+
 	bool PxcCacheLocalContacts(	PxcNpThreadContext& context, Gu::Cache& pairContactCache,
 								const PxTransform& tm0, const PxTransform& tm1,
 								const PxcContactMethod conMethod,

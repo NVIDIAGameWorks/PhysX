@@ -30,8 +30,9 @@
 #ifndef NP_FIXEDJOINTCONSTRAINT_H
 #define NP_FIXEDJOINTCONSTRAINT_H
 
+#include "extensions/PxFixedJoint.h"
+
 #include "ExtJoint.h"
-#include "PxFixedJoint.h"
 #include "CmUtils.h"
 
 namespace physx

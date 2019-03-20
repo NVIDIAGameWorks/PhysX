@@ -27,10 +27,11 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "cooking/PxCooking.h"
+
 #include "CmPhysXCommon.h"
-#include "GuMeshData.h"
-#include "PxCooking.h"
 #include "PsArray.h"
+#include "GuMeshData.h"
 #include "GuRTree.h"
 
 namespace physx

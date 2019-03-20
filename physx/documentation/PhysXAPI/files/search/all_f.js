@@ -58,6 +58,7 @@ var searchData=
   ['operator_7c',['operator|',['../classPxFlags.html#a232dca59ed67f882697942f1dd485caa',1,'PxFlags::operator|(enumtype e) const'],['../classPxFlags.html#a9f182aca3a616e762565a5a4095432d7',1,'PxFlags::operator|(const PxFlags&lt; enumtype, storagetype &gt; &amp;f) const']]],
   ['operator_7c_3d',['operator|=',['../classPxFlags.html#a6529b01698b270c18328b7510c52a6ed',1,'PxFlags::operator|=(enumtype e)'],['../classPxFlags.html#a20a38bcd525e2c6c86dff450b378c8b5',1,'PxFlags::operator|=(const PxFlags&lt; enumtype, storagetype &gt; &amp;f)']]],
   ['operator_7e',['operator~',['../classPxFlags.html#af10708703948ebbe91dca048fe767618',1,'PxFlags']]],
+  ['originalangularvelocity',['originalAngularVelocity',['../structPxTGSSolverBodyData.html#adcfb898a3284a280700296191ac1ac45',1,'PxTGSSolverBodyData']]],
   ['other',['other',['../structPxControllersHit.html#ac609ec1ced86c8cce5543fc4e1aa97a2',1,'PxControllersHit']]],
   ['otheractor',['otherActor',['../structPxTriggerPair.html#ad079ad0829b0e0e58a962a2167dcf566',1,'PxTriggerPair']]],
   ['othershape',['otherShape',['../structPxTriggerPair.html#a483aaaaecb45e77230879bb0b303b8df',1,'PxTriggerPair']]],

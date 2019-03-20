@@ -27,9 +27,9 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxConvexMeshGeometry.h"
 #include "GuHeightFieldUtil.h"
 #include "GuEntityReport.h"
-#include "PxConvexMeshGeometry.h"
 #include "GuConvexMesh.h"
 #include "GuSweepSharedTests.h"  
 #include "GuConvexUtilsInternal.h"

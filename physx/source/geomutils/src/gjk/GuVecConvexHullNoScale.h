@@ -31,7 +31,7 @@
 #define GU_VEC_CONVEXHULL_NOSCALE_H
 
 #include "foundation/PxUnionCast.h"
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "GuVecConvexHull.h"
 
 

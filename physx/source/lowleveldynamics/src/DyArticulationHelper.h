@@ -37,10 +37,7 @@
 namespace physx
 {
 struct PxsBodyCore;
-
-class PxcConstraintBlockStream;
-class PxcRigidBody;
-class PxsConstraintBlockManager;
+struct PxSolverConstraintDesc;
 struct PxSolverConstraintDesc;
 
 namespace Dy
@@ -51,14 +48,12 @@ namespace Dy
 	struct ArticulationSolverDesc;
 	struct SolverConstraint1DExtStep;
 	struct PxcFsScratchAllocator;
-	struct PxTGSSolverConstraintDesc;
-
 
 struct ArticulationJointTransforms
 {
-	PxTransform		cA2w;				// joint parent frame in world space 
-	PxTransform		cB2w;				// joint child frame in world space
-	PxTransform		cB2cA;				// joint relative pose in world space
+	PxTransform		cA2w;	// joint parent frame in world space 
+	PxTransform		cB2w;	// joint child frame in world space
+	PxTransform		cB2cA;	// joint relative pose in world space
 };
 
 class ArticulationHelper

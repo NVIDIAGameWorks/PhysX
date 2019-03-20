@@ -31,9 +31,10 @@
 #ifndef PX_CONVEXHULLBUILDER_H
 #define PX_CONVEXHULLBUILDER_H
 
+#include "cooking/PxCooking.h"
+
 #include "GuConvexMeshData.h"
 #include "PsUserAllocated.h"
-#include "PxCooking.h"
 
 namespace physx
 {

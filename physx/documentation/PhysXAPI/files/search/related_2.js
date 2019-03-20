@@ -1,7 +1,6 @@
 var searchData=
 [
   ['pxbasetask',['PxBaseTask',['../classphysx_1_1PxTaskManager.html#af33eb2b61a29f3a4d62f211a78c46f47',1,'physx::PxTaskManager']]],
-  ['pxgpuworkerthread',['PxGpuWorkerThread',['../classphysx_1_1PxTask.html#a7f49a59cfb28fd74ba8601e2d0d2d35a',1,'physx::PxTask::PxGpuWorkerThread()'],['../classphysx_1_1PxTaskManager.html#a7f49a59cfb28fd74ba8601e2d0d2d35a',1,'physx::PxTaskManager::PxGpuWorkerThread()']]],
   ['pxlightcputask',['PxLightCpuTask',['../classphysx_1_1PxTaskManager.html#a4635f476e861159685a7a960660a5842',1,'physx::PxTaskManager']]],
   ['pxtask',['PxTask',['../classphysx_1_1PxTaskManager.html#a09f24c51c8921a6866cfb6dd214e1282',1,'physx::PxTaskManager']]],
   ['pxtaskmgr',['PxTaskMgr',['../classphysx_1_1PxBaseTask.html#ac4a43ca8ae513a20c1d61bc9aecfce89',1,'physx::PxBaseTask::PxTaskMgr()'],['../classphysx_1_1PxTask.html#ac4a43ca8ae513a20c1d61bc9aecfce89',1,'physx::PxTask::PxTaskMgr()'],['../classphysx_1_1PxLightCpuTask.html#ac4a43ca8ae513a20c1d61bc9aecfce89',1,'physx::PxLightCpuTask::PxTaskMgr()']]],

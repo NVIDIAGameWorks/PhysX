@@ -10,7 +10,7 @@ var group__vehicle =
       [ "pad", "classPxVehicleChassisData.html#a7e37b2a81f834c76e9b00bf9b7358421", null ]
     ] ],
     [ "PxVehicleEngineData", "classPxVehicleEngineData.html", [
-      [ "eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES", "classPxVehicleEngineData.html#a0d1b44dcf6ca1dc85306c47fd8664b21a36fa1b079397822aa5a1f800221bd9af", null ],
+      [ "eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES", "classPxVehicleEngineData.html#a01db24d707cdda32882ccb5dd07e1911a36fa1b079397822aa5a1f800221bd9af", null ],
       [ "PxVehicleEngineData", "classPxVehicleEngineData.html#a003aa44611d0be2a466787521db49fb2", null ],
       [ "PxVehicleEngineData", "classPxVehicleEngineData.html#aa24a9523ad4a01e87df3a6d1d7c168a1", null ],
       [ "getRecipMaxOmega", "classPxVehicleEngineData.html#a025daaaa87f9eb06e8d715201ea59091", null ],
@@ -251,7 +251,7 @@ var group__vehicle =
       [ "mGears", "classPxVehicleDriveSimData.html#a6d955959a2949b43abe61a79521cc887", null ]
     ] ],
     [ "PxVehicleDriveDynData", "classPxVehicleDriveDynData.html", [
-      [ "eMAX_NB_ANALOG_INPUTS", "classPxVehicleDriveDynData.html#a87e3e187ebb0dfebd7650c359aecaa26abb804b086657c71c6737676966a60980", null ],
+      [ "eMAX_NB_ANALOG_INPUTS", "classPxVehicleDriveDynData.html#a9eb80a7fe1316aec1a2e1be319e97a65abb804b086657c71c6737676966a60980", null ],
       [ "PxVehicleDriveDynData", "classPxVehicleDriveDynData.html#af38233e891d581d123bcae2724d57dc7", null ],
       [ "PxVehicleDriveDynData", "classPxVehicleDriveDynData.html#a5395d429ef9607844d63447c2b89c146", null ],
       [ "forceGearChange", "classPxVehicleDriveDynData.html#abac968004f04f286fa6cd9ca4ef5f3ca", null ],
@@ -513,11 +513,11 @@ var group__vehicle =
       ] ]
     ] ],
     [ "PxVehicleDrivableSurfaceType", "structPxVehicleDrivableSurfaceType.html", [
-      [ "eSURFACE_TYPE_UNKNOWN", "structPxVehicleDrivableSurfaceType.html#aa26a92784bd7456d98f88bd29a37e2e7ad2a01ae83fd1798640e6edcd52148307", null ],
+      [ "eSURFACE_TYPE_UNKNOWN", "structPxVehicleDrivableSurfaceType.html#a5ad1929dde533b6feaafac8b033d6a0ead2a01ae83fd1798640e6edcd52148307", null ],
       [ "mType", "structPxVehicleDrivableSurfaceType.html#a5438e12074ec8241cea75ea8b0517150", null ]
     ] ],
     [ "PxVehicleDrivableSurfaceToTireFrictionPairs", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html", [
-      [ "eMAX_NB_SURFACE_TYPES", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html#a84f8254ae3d1ab41dd8ee1b058af3655ab2a1b700aec01af2e3ade75acf926d14", null ],
+      [ "eMAX_NB_SURFACE_TYPES", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html#aca969227c009ec16e61c25aac46b4ec3ab2a1b700aec01af2e3ade75acf926d14", null ],
       [ "PxVehicleDrivableSurfaceToTireFrictionPairs", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html#a6838139851fe46e93a55cc3fb4f55239", null ],
       [ "~PxVehicleDrivableSurfaceToTireFrictionPairs", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html#ab318b7ef23407bdf40ea05c367ef2b81", null ],
       [ "allocate", "classPxVehicleDrivableSurfaceToTireFrictionPairs.html#aecff4e0404b9c0458f701754a9a7e1bb", null ],
@@ -800,6 +800,7 @@ var group__vehicle =
       [ "isKindOf", "classPxVehicleWheels.html#af89137887231400e356bc4d2b33052f2", null ],
       [ "isValid", "classPxVehicleWheels.html#a631f380f7e677ff0247c9dd14a3f6a49", null ],
       [ "patchupPointers", "classPxVehicleWheels.html#a07c073158a6df39214f655f59d130b69", null ],
+      [ "preExportDataReset", "classPxVehicleWheels.html#aec83ecde4a8c2a38a8f4be88b973160a", null ],
       [ "release", "classPxVehicleWheels.html#a47f6215d5555890bef75e38668596522", null ],
       [ "requiresObjects", "classPxVehicleWheels.html#ae58ab064534a9b0256665c60ed8e63d2", null ],
       [ "resolveReferences", "classPxVehicleWheels.html#ad6041f92998a2be40cbb353b5d49fb92", null ],

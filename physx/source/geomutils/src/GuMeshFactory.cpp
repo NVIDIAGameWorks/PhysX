@@ -27,9 +27,9 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PsIntrinsics.h"
+#include "geometry/PxHeightFieldDesc.h"
+
 #include "GuMeshFactory.h"
-#include "PxHeightFieldDesc.h"
 #include "GuTriangleMesh.h"
 #include "GuTriangleMeshBV4.h"
 #include "GuTriangleMeshRTree.h"
@@ -37,8 +37,9 @@
 #include "GuBVHStructure.h"
 #include "GuHeightField.h"
 #include "GuConvexMeshData.h"
-#include "CmUtils.h"
 #include "GuMeshData.h"
+#include "CmUtils.h"
+#include "PsIntrinsics.h"
 #include "PsFoundation.h"
 
 using namespace physx;

@@ -66,11 +66,7 @@ CharacterControllerManager::CharacterControllerManager(PxScene& scene, bool lock
 
 CharacterControllerManager::~CharacterControllerManager()
 {
-	if(mRenderBuffer)
-	{
-		delete mRenderBuffer;
-		mRenderBuffer = 0;
-	}
+	PX_DELETE_AND_RESET(mRenderBuffer);
 }
 
 void CharacterControllerManager::release() 
@@ -109,11 +105,7 @@ void CharacterControllerManager::setDebugRenderingFlags(PxControllerDebugRenderF
 
 	if(!flags)
 	{
-		if(mRenderBuffer)
-		{
-			delete mRenderBuffer;
-			mRenderBuffer = 0;
-		}
+		PX_DELETE_AND_RESET(mRenderBuffer);
 	}
 }
 
@@ -142,7 +134,10 @@ PxController* CharacterControllerManager::getController(PxU32 index)
 PxController* CharacterControllerManager::createController(const PxControllerDesc& desc)
 {
 	if(!desc.isValid())
+	{
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "PxControllerManager::createController(): desc.isValid() fails.");
 		return NULL;
+	}
 
 	Controller* newController = NULL;
 
@@ -231,7 +226,7 @@ void CharacterControllerManager::onRelease(const PxBase* observed, void* , PxDel
 
 	if(releaseEntry)
 	{
-		for (PxU32 i = 0; i < mControllers.size(); i++)
+		for(PxU32 i = 0; i < mControllers.size(); i++)
 		{
 			Controller* controller = mControllers[i];
 			if(mLockingEnabled)
@@ -329,7 +324,6 @@ void CharacterControllerManager::onObstacleAdded(ObstacleHandle index, const PxO
 	}
 }
 
-
 // PT: TODO: move to array class?
 template <class T> 
 void resetOrClear(T& a)
@@ -395,7 +389,7 @@ void CharacterControllerManager::shiftOrigin(const PxVec3& shift)
 		mObstacleContexts[i]->onOriginShift(shift);
 	}
 
-	if (mRenderBuffer)
+	if(mRenderBuffer)
 		mRenderBuffer->shift(-shift);
 
 	// assumption is that these are just used for temporary stuff

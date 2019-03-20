@@ -657,26 +657,23 @@ bool createFinalizeSolverContacts(
 		//Initialise solverConstraint buffer.
 		if (solverConstraint)
 		{
+			const PxSolverBodyData& data0 = *contactDesc.data0;
+			const PxSolverBodyData& data1 = *contactDesc.data1;
 			if (useExtContacts)
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
-
 				const SolverExtBody b0(reinterpret_cast<const void*>(contactDesc.body0), reinterpret_cast<const void*>(&data0), desc.linkIndexA);
 				const SolverExtBody b1(reinterpret_cast<const void*>(contactDesc.body1), reinterpret_cast<const void*>(&data1), desc.linkIndexB);
 
 				setupFinalizeExtSolverContacts(contactDesc.contacts, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					b0, b1, invDtF32, bounceThresholdF32,
-					contactDesc.mInvMassScales.linear0, contactDesc.mInvMassScales.angular0, contactDesc.mInvMassScales.linear1, contactDesc.mInvMassScales.angular1, 
+					contactDesc.invMassScales.linear0, contactDesc.invMassScales.angular0, contactDesc.invMassScales.linear1, contactDesc.invMassScales.angular1, 
 					contactDesc.restDistance, frictionDataPtr, contactDesc.maxCCDSeparation, Z);
 			}
 			else
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
 				setupFinalizeSolverConstraints(contactDesc.shapeInteraction, contactDesc.contacts, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					data0, data1, invDtF32, bounceThresholdF32,
-					contactDesc.mInvMassScales.linear0, contactDesc.mInvMassScales.angular0, contactDesc.mInvMassScales.linear1, contactDesc.mInvMassScales.angular1, 
+					contactDesc.invMassScales.linear0, contactDesc.invMassScales.angular0, contactDesc.invMassScales.linear1, contactDesc.invMassScales.angular1, 
 					hasForceThreshold, staticOrKinematicBody, contactDesc.restDistance, frictionDataPtr, contactDesc.maxCCDSeparation, solverOffsetSlop);
 			}
 			//KS - set to 0 so we have a counter for the number of times we solved the constraint
@@ -689,34 +686,38 @@ bool createFinalizeSolverContacts(
 }
 
 FloatV setupExtSolverContact(const SolverExtBody& b0, const SolverExtBody& b1,
-	const PxF32 d0, const PxF32 d1, const PxF32 angD0, const PxF32 angD1, const PxTransform& bodyFrame0, const PxTransform& bodyFrame1,
+	const FloatV& d0, const FloatV& d1, const FloatV& angD0, const FloatV& angD1, const Vec3V& bodyFrame0p, const Vec3V& bodyFrame1p,
 	const Vec3VArg normal, const FloatVArg invDt, const FloatVArg invDtp8, const FloatVArg restDistance, const FloatVArg maxPenBias, const FloatVArg restitution,
-	const FloatVArg bounceThreshold, const Gu::ContactPoint& contact, SolverContactPointExt& solverContact, const FloatVArg ccdMaxSeparation, Cm::SpatialVectorF* zVector)
+	const FloatVArg bounceThreshold, const Gu::ContactPoint& contact, SolverContactPointExt& solverContact, const FloatVArg ccdMaxSeparation, Cm::SpatialVectorF* zVector,
+	const Cm::SpatialVectorV& v0, const Cm::SpatialVectorV& v1)
 {
 	const FloatV zero = FZero();
 	const FloatV separation = FLoad(contact.separation);
 
 	const FloatV penetration = FSub(separation, restDistance);
 
-	const PxVec3 ra = contact.point - bodyFrame0.p;
-	const PxVec3 rb = contact.point - bodyFrame1.p;
+	const Vec3V point = V3LoadA(contact.point);
 
-	const PxVec3 raXn = ra.cross(contact.normal);
-	const PxVec3 rbXn = rb.cross(contact.normal);
+	const Vec3V ra = V3Sub(point, bodyFrame0p);
+	const Vec3V rb = V3Sub(point, bodyFrame1p);
 
-	Cm::SpatialVector deltaV0, deltaV1;
+	const Vec3V raXn = V3Cross(ra, normal);
+	const Vec3V rbXn = V3Cross(rb, normal);
 
-	const Cm::SpatialVector resp0 = createImpulseResponseVector(contact.normal, raXn, b0);
-	const Cm::SpatialVector resp1 = createImpulseResponseVector(-contact.normal, -rbXn, b1);
+	Cm::SpatialVectorV deltaV0, deltaV1;
 
-	const FloatV unitResponse = FLoad(getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
-		b1, resp1, deltaV1, d1, angD1, zVector));
+	const Cm::SpatialVectorV resp0 = createImpulseResponseVector(normal, raXn, b0);
+	const Cm::SpatialVectorV resp1 = createImpulseResponseVector(V3Neg(normal), V3Neg(rbXn), b1);
+
+	const FloatV unitResponse = getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
+		b1, resp1, deltaV1, d1, angD1, reinterpret_cast<Cm::SpatialVectorV*>(zVector));
 
 
-	const FloatV vel0 = FLoad(b0.projectVelocity(contact.normal, raXn));
-	const FloatV vel1 = FLoad(b1.projectVelocity(contact.normal, rbXn));
 
-	const FloatV vrel = FSub(vel0, vel1);
+	const Vec3V vel0 = V3Add(V3Mul(v0.linear, normal), V3Mul(v0.angular, raXn));
+	const Vec3V vel1 = V3Add(V3Mul(v1.linear, normal), V3Mul(v1.angular, rbXn));
+
+	const FloatV vrel = V3SumElems(V3Sub(vel0, vel1));
 
 	FloatV velMultiplier = FSel(FIsGrtr(FLoad(DY_ARTICULATION_MIN_RESPONSE), unitResponse), zero, FRecip(unitResponse));
 	//FloatV velMultiplier = FSel(FIsGrtr(FEps(), unitResponse), zero, FRecip(unitResponse));
@@ -733,9 +734,9 @@ FloatV setupExtSolverContact(const SolverExtBody& b0, const SolverExtBody& b1,
 
 	//Get the rigid body's current velocity and embed into the constraint target velocities
 	if (b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-		targetVelocity = FSub(targetVelocity, vel0);
+		targetVelocity = FSub(targetVelocity, V3SumElems(vel0));
 	else if (b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-		targetVelocity = FAdd(targetVelocity, vel1);
+		targetVelocity = FAdd(targetVelocity, V3SumElems(vel1));
 
 	targetVelocity = FAdd(targetVelocity, V3Dot(V3LoadA(contact.targetVel), normal));
 
@@ -750,12 +751,12 @@ FloatV setupExtSolverContact(const SolverExtBody& b0, const SolverExtBody& b1,
 	FStore(unbiasedErr, &solverContact.unbiasedErr);
 	solverContact.maxImpulse = contact.maxImpulse;
 
-	solverContact.raXn = V3LoadA(resp0.angular);
-	solverContact.rbXn = V3Neg(V3LoadA(resp1.angular));
-	solverContact.linDeltaVA = V3LoadA(deltaV0.linear);
-	solverContact.angDeltaVA = V3LoadA(deltaV0.angular);
-	solverContact.linDeltaVB = V3LoadA(deltaV1.linear);
-	solverContact.angDeltaVB = V3LoadA(deltaV1.angular);
+	solverContact.raXn = resp0.angular;
+	solverContact.rbXn = V3Neg(resp1.angular);
+	solverContact.linDeltaVA = deltaV0.linear;
+	solverContact.angDeltaVA = deltaV0.angular;
+	solverContact.linDeltaVB = deltaV1.linear;
+	solverContact.angDeltaVB = deltaV1.angular;
 
 	return deltaF;
 }
@@ -798,10 +799,10 @@ bool createFinalizeSolverContacts(PxSolverContactDesc& contactDesc,
 		contactDesc.numContacts = numContacts;
 		contactDesc.disableStrongFriction = contactDesc.disableStrongFriction || hasTargetVelocity;
 		contactDesc.hasMaxImpulse = hasMaxImpulse;
-		contactDesc.mInvMassScales.linear0 *= invMassScale0;
-		contactDesc.mInvMassScales.linear1 *= invMassScale1;
-		contactDesc.mInvMassScales.angular0 *= invInertiaScale0;
-		contactDesc.mInvMassScales.angular1 *= invInertiaScale1;
+		contactDesc.invMassScales.linear0 *= invMassScale0;
+		contactDesc.invMassScales.linear1 *= invMassScale1;
+		contactDesc.invMassScales.angular0 *= invInertiaScale0;
+		contactDesc.invMassScales.angular1 *= invInertiaScale1;
 	}
 	
 	CorrelationBuffer& c = threadContext.mCorrelationBuffer;

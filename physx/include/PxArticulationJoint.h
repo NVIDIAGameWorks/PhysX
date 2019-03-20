@@ -35,6 +35,7 @@
 
 #include "PxPhysXConfig.h"
 #include "common/PxBase.h"
+#include "solver/PxSolverDefs.h"
 
 #if !PX_DOXYGEN
 namespace physx
@@ -62,47 +63,6 @@ struct PxArticulationJointDriveType
 	{
 		eTARGET = 0,			// use the quaternion as the drive target
 		eERROR 	= 1				// use the vector part of the quaternion as the drive error.
-	};
-};
-
-struct PxArticulationAxis
-{
-	enum Enum
-	{
-		eTWIST = 0,
-		eSWING1 = 1,
-		eSWING2 = 2,
-		eX = 3,
-		eY = 4,
-		eZ = 5,
-		eCOUNT = 6
-	};
-};
-
-PX_FLAGS_OPERATORS(PxArticulationAxis::Enum, PxU8)
-
-struct PxArticulationMotion
-{
-	enum Enum
-	{
-		eLOCKED = 0,
-		eLIMITED = 1,
-		eFREE = 2
-	};
-};
-
-typedef PxFlags<PxArticulationMotion::Enum, PxU8> PxArticulationMotions;
-PX_FLAGS_OPERATORS(PxArticulationMotion::Enum, PxU8)
-
-struct PxArticulationJointType
-{
-	enum Enum
-	{
-		ePRISMATIC = 0,
-		eREVOLUTE = 1,
-		eSPHERICAL = 2,
-		eFIX = 3,
-		eUNDEFINED = 4
 	};
 };
 
@@ -249,8 +209,7 @@ public:
 
 	@see setDriveType()
 	*/
-	virtual		PxArticulationJointDriveType::Enum
-								getDriveType() const = 0;
+	virtual		PxArticulationJointDriveType::Enum	getDriveType() const = 0;
 
 	/**
 	\brief set the drive strength of the joint acceleration spring. 

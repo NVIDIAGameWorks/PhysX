@@ -27,10 +27,10 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxConvexMeshGeometry.h"
 #include "GuMidphaseInterface.h"
 #include "GuInternal.h"
-#include "PxSphereGeometry.h"
-#include "PxConvexMeshGeometry.h"
 #include "GuIntersectionRayCapsule.h"
 #include "GuIntersectionRaySphere.h"
 #include "GuIntersectionRayPlane.h"

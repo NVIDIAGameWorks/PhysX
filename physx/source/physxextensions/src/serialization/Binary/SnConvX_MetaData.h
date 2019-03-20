@@ -28,8 +28,10 @@
 #ifndef PX_CONVX_METADATA_H
 #define PX_CONVX_METADATA_H
 
+#include "common/PxMetaDataFlags.h"
+
 #include "SnConvX_Output.h"
-#include "PxMetaDataFlags.h"
+#include "serialization/SnSerialUtils.h"
 
 namespace physx { namespace Sn {
 
@@ -135,7 +137,6 @@ namespace physx { namespace Sn {
 
 		inline_	MetaDataType			getType()							const	{ return mType;						}
 		inline_ int						getVersion()						const	{ return mVersion;					}
-		inline_ int						getBuildNumber()					const	{ return mBuildNumber;				}
 		inline_	int						getPtrSize()						const	{ return mSizeOfPtr;				}
 		inline_	int						getPlatformTag()					const	{ return mPlatformTag;				}
 		inline_	int						getGaussMapLimit()					const	{ return mGaussMapLimit;			}
@@ -150,15 +151,14 @@ namespace physx { namespace Sn {
 				bool					compare(const MetaData& candidate) const;
 		private:
 				MetaData&				operator=(const MetaData&);
-			Sn::ConvX&					mConvX;
+				Sn::ConvX&				mConvX;
 				MetaDataType			mType;
 				int						mNbEntries;
 				PxMetaDataEntry*		mEntries;
 				char*					mStringTable;
 				PsArray<MetaClass*>		mMetaClasses;
 				int						mVersion;
-				int						mBinaryVersion;
-				int						mBuildNumber;
+				char					mBinaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS + 1];
 				int						mSizeOfPtr;
 				int						mPlatformTag;
 				int						mGaussMapLimit;

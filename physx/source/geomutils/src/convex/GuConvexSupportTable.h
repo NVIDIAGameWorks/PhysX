@@ -30,9 +30,9 @@
 #ifndef GU_CONVEX_SUPPORT_TABLE_H
 #define GU_CONVEX_SUPPORT_TABLE_H
 
+#include "common/PxPhysXCommonConfig.h"
 #include "GuVecConvex.h"
 #include "PsVecTransform.h"
-#include "PxPhysXCommonConfig.h"
 
 namespace physx
 {

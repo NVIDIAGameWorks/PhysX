@@ -27,6 +27,8 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxTriangleMeshGeometry.h"
+
 #include "GuBV4.h"
 using namespace physx;
 using namespace Gu;
@@ -45,9 +47,8 @@ using namespace physx::shdfnd::aos;
 #include "GuIntersectionTriangleBox.h"
 #include "GuIntersectionCapsuleTriangle.h"
 #include "GuIntersectionRayBox.h"
-#include "PxTriangleMeshGeometry.h"
-#include "CmScaling.h"
 #include "GuTriangleMeshBV4.h"
+#include "CmScaling.h"
 
 // This file contains code specific to the BV4 midphase.
 

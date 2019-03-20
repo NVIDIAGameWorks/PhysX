@@ -31,10 +31,10 @@
 #ifndef PX_COLLISION_ACTOR_CORE
 #define PX_COLLISION_ACTOR_CORE
 
+#include "common/PxMetaData.h"
+#include "PxActor.h"
 #include "PsUserAllocated.h"
 #include "CmPhysXCommon.h"
-#include "PxMetaData.h"
-#include "PxActor.h"
 
 namespace physx
 {

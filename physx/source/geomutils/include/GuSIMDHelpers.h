@@ -30,10 +30,10 @@
 #ifndef GU_SIMD_HELPERS_H
 #define GU_SIMD_HELPERS_H
 
-#include "PxPhysXCommonConfig.h"
-#include "CmPhysXCommon.h"
-#include "geometry/PxTriangle.h"
 #include "foundation/PxMat33.h"
+#include "common/PxPhysXCommonConfig.h"
+#include "geometry/PxTriangle.h"
+#include "CmPhysXCommon.h"
 #include "PsVecMath.h"
 
 namespace physx
@@ -72,7 +72,7 @@ namespace Gu
 			const QuatV qV = V4LoadU(&q.x);
 			Vec3V column0V, column1V, column2V;
 			QuatGetMat33V(qV, column0V, column1V, column2V);
-#if defined(PX_SIMD_DISABLED) || PX_ANDROID || (PX_LINUX && (PX_ARM || PX_A64))
+#if defined(PX_SIMD_DISABLED) || PX_ANDROID || (PX_LINUX && (PX_ARM || PX_A64)) || (PX_UWP && (PX_ARM || PX_A64))
 			V3StoreU(column0V, column0);
 			V3StoreU(column1V, column1);
 			V3StoreU(column2V, column2);

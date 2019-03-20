@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="PxContact_8h.html#a7550f40944aecd3905f32947f68b8152">PxContact.h</a>
 </li>
 <li>PX_ALIGN_SUFFIX()
-: <a class="el" href="group__physics.html#ga7f1b415cf346b53f1eb533e68f22ddb0">PxConstraintDesc.h</a>
+: <a class="el" href="group__physics.html#ga78dbfa89bc15b58e317e12f676c309f6">PxArticulationReducedCoordinate.h</a>
 , <a class="el" href="PxContact_8h.html#a6da79c26d4305b0b843d2adf54454732">PxContact.h</a>
 , <a class="el" href="group__geomutils.html#ga657370d4666df870740a609fc2037f05">PxGeometryHelpers.h</a>
 </li>
@@ -120,6 +120,9 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxAcos()
 : <a class="el" href="group__foundation.html#ga0953977efc7599071aefadc35e842f97">PxMath.h</a>
 </li>
+<li>PxAddArticulationLink()
+: <a class="el" href="group__immediatemode.html#ga8c2749699d2f9e22cfb34ed83a7b80ce">PxImmediateMode.h</a>
+</li>
 <li>PxAsin()
 : <a class="el" href="group__foundation.html#ga437cafb349b7bc7d1d912ab27392bfe9">PxMath.h</a>
 </li>
@@ -130,7 +133,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__foundation.html#ga3b820cf45fee058a4083d955daa02154">PxMath.h</a>
 </li>
 <li>PxBatchConstraints()
-: <a class="el" href="group__immediatemode.html#ga06ca05e94083ad8df2c5377cf692b4bf">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#ga02aa17b8f928f23a16520036c572e862">PxImmediateMode.h</a>
+</li>
+<li>PxBatchConstraintsTGS()
+: <a class="el" href="group__immediatemode.html#ga78e8a4101cc5ede158fd8ae7b9a9d13b">PxImmediateMode.h</a>
 </li>
 <li>PxBuildSmoothNormals()
 : <a class="el" href="group__extensions.html#ga0b02c67cce6515397bef82eba539a4d8">PxSmoothNormals.h</a>
@@ -162,14 +168,26 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxComputeTriangleMeshPenetration()
 : <a class="el" href="group__extensions.html#ga78a7fcf3e5c470de1083ada5fde8e32f">PxTriangleMeshExt.h</a>
 </li>
+<li>PxComputeUnconstrainedVelocities()
+: <a class="el" href="group__immediatemode.html#ga4d9bc901669de439d061962e7ab9509e">PxImmediateMode.h</a>
+</li>
+<li>PxComputeUnconstrainedVelocitiesTGS()
+: <a class="el" href="group__immediatemode.html#ga0bae177a8cae93690234bdcb6a29e8d9">PxImmediateMode.h</a>
+</li>
 <li>PxConstraintInvMassScale()
 : <a class="el" href="PxConstraintDesc_8h.html#a083cd4ca8aaceb00496ed0c050110573">PxConstraintDesc.h</a>
 </li>
 <li>PxConstructSolverBodies()
 : <a class="el" href="group__immediatemode.html#ga56e360f21e02eeed788a58782e77316a">PxImmediateMode.h</a>
 </li>
+<li>PxConstructSolverBodiesTGS()
+: <a class="el" href="group__immediatemode.html#gaaa4db837c3284147da8c85356d969258">PxImmediateMode.h</a>
+</li>
 <li>PxConstructStaticSolverBody()
 : <a class="el" href="group__immediatemode.html#gab1ff672bf5a0569d6cc5f137142b1c1d">PxImmediateMode.h</a>
+</li>
+<li>PxConstructStaticSolverBodyTGS()
+: <a class="el" href="group__immediatemode.html#ga2dc9fa88d851b81cb15e382060e27ec7">PxImmediateMode.h</a>
 </li>
 <li>PxContactJointCreate()
 : <a class="el" href="PxContactJoint_8h.html#ac7c7c57db1c86be7a6159b0fa8bf9e7d">PxContactJoint.h</a>
@@ -184,7 +202,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__common.html#gaa3979f24ebe59e173e262c7155b1a489">PxCollection.h</a>
 </li>
 <li>PxCreateContactConstraints()
-: <a class="el" href="group__immediatemode.html#ga3dc6c7ca660d5352b3da3198ab5036c8">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#ga02dd00aca33ee58a65f32472719e9b07">PxImmediateMode.h</a>
+</li>
+<li>PxCreateContactConstraintsTGS()
+: <a class="el" href="group__immediatemode.html#ga81189e2221bba32ed064faf2769d9844">PxImmediateMode.h</a>
 </li>
 <li>PxCreateControllerManager()
 : <a class="el" href="group__character.html#gabffa036f72e7a2309b3393bb50486724">PxControllerManager.h</a>
@@ -195,14 +216,29 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxCreateDynamic()
 : <a class="el" href="group__extensions.html#ga6f8a1ee174c919242d7e5a00c57f0fdb">PxSimpleFactory.h</a>
 </li>
+<li>PxCreateFeatherstoneArticulation()
+: <a class="el" href="group__immediatemode.html#ga86ececaefac85fdb67e6e46332eedc75">PxImmediateMode.h</a>
+</li>
 <li>PxCreateFoundation()
 : <a class="el" href="group__foundation.html#ga9deda8eaad9681fc9eb456adc5225668">PxFoundation.h</a>
 </li>
 <li>PxCreateJointConstraints()
-: <a class="el" href="group__immediatemode.html#gac016be640f563f4ec9acd6b33fecba1e">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#ga8db0a2ecb56789d5311172ce228b7740">PxImmediateMode.h</a>
+</li>
+<li>PxCreateJointConstraintsTGS()
+: <a class="el" href="group__immediatemode.html#ga6c5323528d0de709b168178bf9ddb0ac">PxImmediateMode.h</a>
+</li>
+<li>PxCreateJointConstraintsWithImmediateShaders()
+: <a class="el" href="group__immediatemode.html#ga9c55ff4fd977b9c0e3e0c629f5b32326">PxImmediateMode.h</a>
+</li>
+<li>PxCreateJointConstraintsWithImmediateShadersTGS()
+: <a class="el" href="group__immediatemode.html#gab61d264d8d74cb67dbbe06b041bde7bd">PxImmediateMode.h</a>
 </li>
 <li>PxCreateJointConstraintsWithShaders()
-: <a class="el" href="group__immediatemode.html#ga730ffbd6f8687f7909131b37b1cc0c05">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#gab92fb9ab349962c5271c9644d3ec9f71">PxImmediateMode.h</a>
+</li>
+<li>PxCreateJointConstraintsWithShadersTGS()
+: <a class="el" href="group__immediatemode.html#ga629b4a4c51411cad67e91991e74a1fa9">PxImmediateMode.h</a>
 </li>
 <li>PxCreateKinematic()
 : <a class="el" href="group__extensions.html#gad2b49dd51647b7228668827c689bbb32">PxSimpleFactory.h</a>
@@ -220,7 +256,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__Serializers.html#gaf191e298bb6922cf8a727058a7980552">PxRepXSerializer.h</a>
 </li>
 <li>PxCreateStatic()
-: <a class="el" href="group__extensions.html#ga5b375e0249df691cb6c9375fe3ce3eda">PxSimpleFactory.h</a>
+: <a class="el" href="group__extensions.html#ga79da8a82087b6fe978e615f61118f03e">PxSimpleFactory.h</a>
 </li>
 <li>PxD6JointCreate()
 : <a class="el" href="group__extensions.html#ga5d942bf8c3069024e50a8dd2254c390c">PxD6Joint.h</a>
@@ -291,6 +327,9 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxGeometryHolder()
 : <a class="el" href="PxGeometryHelpers_8h.html#a8a1769a854a2e09114a5c4610bd54292">PxGeometryHelpers.h</a>
 </li>
+<li>PxGetAllLinkData()
+: <a class="el" href="group__immediatemode.html#gae81a4356d18a396730d81d94f28bbd0e">PxImmediateMode.h</a>
+</li>
 <li>PxGetAssertHandler()
 : <a class="el" href="group__foundation.html#ga28ec9320669fc92cbc9945d85e2c980e">PxAssert.h</a>
 </li>
@@ -318,6 +357,21 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxGetGroupsMask()
 : <a class="el" href="group__extensions.html#ga13ef0a91d385e0f45c1b73b3ffafa8dc">PxDefaultSimulationFilterShader.h</a>
 </li>
+<li>PxGetJointData()
+: <a class="el" href="group__immediatemode.html#ga8bdb9d1d481fad7a05c3dc9212c4f734">PxImmediateMode.h</a>
+</li>
+<li>PxGetLinkArticulation()
+: <a class="el" href="group__immediatemode.html#gaee273e15ba5dbdb78948da2d2c64dc7f">PxImmediateMode.h</a>
+</li>
+<li>PxGetLinkData()
+: <a class="el" href="group__immediatemode.html#ga54ca8e8099a543250c31f23452e7bb07">PxImmediateMode.h</a>
+</li>
+<li>PxGetLinkIndex()
+: <a class="el" href="group__immediatemode.html#ga4371afa7be6b3dfd04fd94491b7ccf1e">PxImmediateMode.h</a>
+</li>
+<li>PxGetMutableLinkData()
+: <a class="el" href="group__immediatemode.html#gad77847bba5b58c7439d0c2463643d041">PxImmediateMode.h</a>
+</li>
 <li>PxGetPhysics()
 : <a class="el" href="group__physics.html#ga824f991be62d7c28eadf32316562408f">PxPhysics.h</a>
 </li>
@@ -331,19 +385,22 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__vehicle.html#gaa7aaf3de1f2da04c2617a36d053398ca">PxVehicleSDK.h</a>
 </li>
 <li>PxIntegrateSolverBodies()
-: <a class="el" href="group__immediatemode.html#gabda17f364d0771bc7c0613ca0761cb73">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#gad743f4cb0eef3d3b166bfa0ff548ca5f">PxImmediateMode.h</a>
+</li>
+<li>PxIntegrateSolverBodiesTGS()
+: <a class="el" href="group__immediatemode.html#gabd1a23fee83c2fab66822275bbcf50bb">PxImmediateMode.h</a>
 </li>
 <li>PxIsFinite()
-: <a class="el" href="group__foundation.html#gad6de0f4af98c5c5280b8fe695dc87318">PxMath.h</a>
+: <a class="el" href="group__foundation.html#gaa689e47bbd54cfc6a4a1ce5bc7f1a2f6">PxMath.h</a>
 </li>
 <li>PxLog()
 : <a class="el" href="group__foundation.html#gae43dc1649f209f1142a57cf14b200ad2">PxMath.h</a>
 </li>
 <li>PxMakeIterator()
-: <a class="el" href="group__foundation.html#ga030b6ea7a6da25c914f73cb33a45a191">PxStrideIterator.h</a>
+: <a class="el" href="group__foundation.html#ga8403f44c41004280119dd86deb6dd333">PxStrideIterator.h</a>
 </li>
 <li>PxMax()
-: <a class="el" href="group__foundation.html#gaa014664f566202f7be1b2caa5625ffd6">PxMath.h</a>
+: <a class="el" href="group__foundation.html#gab1eb4b15bf78c96fd1a5f926bfe1da4e">PxMath.h</a>
 </li>
 <li>PxMemCopy()
 : <a class="el" href="group__foundation.html#ga939562c42c614caac1aaba467f77d510">PxMemory.h</a>
@@ -381,6 +438,12 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxRegisterHeightFields()
 : <a class="el" href="group__physics.html#gae3a84455caaa6a7de67513ea29a315e1">PxPhysics.h</a>
 </li>
+<li>PxRegisterImmediateArticulations()
+: <a class="el" href="group__immediatemode.html#ga6d8ad8d1a6156da1f4473d4ec4922016">PxImmediateMode.h</a>
+</li>
+<li>PxReleaseArticulation()
+: <a class="el" href="group__immediatemode.html#ga5df3edcbf7b639900668b49ff50eda22">PxImmediateMode.h</a>
+</li>
 <li>PxRevoluteJointCreate()
 : <a class="el" href="group__extensions.html#ga4aa56f32cb1cb2245d1c0cde99d0af17">PxRevoluteJoint.h</a>
 </li>
@@ -408,8 +471,14 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 <li>PxSetGroupsMask()
 : <a class="el" href="group__extensions.html#ga4e9876a60fc230eb433a6b3d77beaae9">PxDefaultSimulationFilterShader.h</a>
 </li>
+<li>PxSetJointData()
+: <a class="el" href="group__immediatemode.html#ga29ab413fa60db236c4d9ef93081f6928">PxImmediateMode.h</a>
+</li>
 <li>PxSetJointGlobalFrame()
 : <a class="el" href="group__extensions.html#ga43cc950618f193fd1fdbde2f624e0e52">PxJoint.h</a>
+</li>
+<li>PxSetMutableLinkData()
+: <a class="el" href="group__immediatemode.html#ga404f7b347df78a632073246c46c173ec">PxImmediateMode.h</a>
 </li>
 <li>PxSetPhysXCommonDelayLoadHook()
 : <a class="el" href="group__foundation.html#ga5bf7ba25f65def2a2cdf3e17eac11129">PxWindowsDelayLoadHook.h</a>
@@ -433,7 +502,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__foundation.html#ga98f571cc01fc3aa0e73e215c27ab8069">PxMath.h</a>
 </li>
 <li>PxSolveConstraints()
-: <a class="el" href="group__immediatemode.html#gaf5de05898680bb26c7b24012acb0336d">PxImmediateMode.h</a>
+: <a class="el" href="group__immediatemode.html#gae59ded2b77c594a690169036785f2ef5">PxImmediateMode.h</a>
+</li>
+<li>PxSolveConstraintsTGS()
+: <a class="el" href="group__immediatemode.html#ga650d7b45abd5412722bd0f226df3d246">PxImmediateMode.h</a>
 </li>
 <li>PxSphericalJointCreate()
 : <a class="el" href="group__extensions.html#ga02d8221452498576e374288ef10b8dc9">PxSphericalJoint.h</a>
@@ -442,7 +514,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 : <a class="el" href="group__foundation.html#ga11d5e4e77acad728886b380b5f3806f0">PxMath.h</a>
 </li>
 <li>PxTan()
-: <a class="el" href="group__foundation.html#ga3ad36c60750fd7773dd217aa681ee0d1">PxMath.h</a>
+: <a class="el" href="group__foundation.html#ga7b8deaee36a7d45581d4706ae6c9905b">PxMath.h</a>
 </li>
 <li>PxTransformFromPlaneEquation()
 : <a class="el" href="group__geomutils.html#gad7702c73625ee858ad6458b97856d475">PxPlaneGeometry.h</a>
@@ -452,6 +524,12 @@ $(document).ready(function(){initNavTree('globals_func_p.html','');});
 </li>
 <li>PxUnionCast()
 : <a class="el" href="group__foundation.html#gaee15b10ce840455479f928e5d9f2916b">PxUnionCast.h</a>
+</li>
+<li>PxUpdateArticulationBodies()
+: <a class="el" href="group__immediatemode.html#gac31250973d5aca117634091dcf184ffc">PxImmediateMode.h</a>
+</li>
+<li>PxUpdateArticulationBodiesTGS()
+: <a class="el" href="group__immediatemode.html#ga167edbc51a6406fe313f2eaade4bc9d2">PxImmediateMode.h</a>
 </li>
 <li>PxVehicle4WEnable3WDeltaMode()
 : <a class="el" href="group__vehicle.html#ga34079f5978ce1dfcf2a991c0458108f2">PxVehicleUtilSetup.h</a>

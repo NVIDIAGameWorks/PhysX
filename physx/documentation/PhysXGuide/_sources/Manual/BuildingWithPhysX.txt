@@ -71,7 +71,7 @@ General switches:
 
 Windows switches:
 
-* PX_GENERATE_STATIC_LIBRARIES - it is possible to switch the PhysX build to output static libs instead of DLLs. Note that the static library build is currently not compatible with the PhysXGpu DLL. - default False
+* PX_GENERATE_STATIC_LIBRARIES - it is possible to switch the PhysX build to output static libs instead of DLLs - default False
 
 * NV_USE_STATIC_WINCRT - sets static or dynamic runtime usage - default True
 

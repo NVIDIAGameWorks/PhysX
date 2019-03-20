@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
-  <title>GPU Rigid Bodies &mdash; NVIDIA PhysX SDK 4.0 Documentation</title>
+  <title>GPU Rigid Bodies &mdash; NVIDIA PhysX SDK 4.1 Documentation</title>
   
 
   
@@ -34,7 +34,7 @@
     
         <style>
             .wy-nav-content::before {
-                content: "PhysX 4.0 SDK Guide";
+                content: "PhysX 4.1 SDK Guide";
             }
         </style>
     
@@ -202,17 +202,17 @@
 <div class="section" id="using-gpu-rigid-bodies">
 <h2>Using GPU Rigid Bodies<a class="headerlink" href="#using-gpu-rigid-bodies" title="Permalink to this headline">¶</a></h2>
 <p>GPU rigid bodies are no more difficult to use than CPU rigid bodies. GPU rigid bodies use the exact same API and same classes as CPU rigid bodies. GPU rigid body acceleration is enabled on a per-scene basis. If enabled, all rigid bodies occupying the scene will be processed by the GPU. This feature is implemented in CUDA and requires SM3.0 (Kepler) or later compatible GPU. If no compatible device is found, simulation will fall back onto the CPU and corresponding error messages will be provided.</p>
-<p>This feature is split into two components: rigid body dynamics and broad phase. These are enabled using PxSceneFlag::eENABLE_GPU_DYNAMICS and by setting PxSceneDesc::broadphaseType to PxBroadPhaseType::eGPU respectively.  These properties are immutable properties of the scene. In addition, you must initialize the CUDA context manager and set the GPU dispatcher on the PxSceneDesc. A snippet demonstrating how to enable GPU rigid body simulation is provided in SnippetHelloGRB. The code example below serves as a brief reference:</p>
+<p>This feature is split into two components: rigid body dynamics and broad phase. These are enabled using PxSceneFlag::eENABLE_GPU_DYNAMICS and by setting PxSceneDesc::broadphaseType to PxBroadPhaseType::eGPU respectively.  These properties are immutable properties of the scene. In addition, you must initialize the CUDA context manager and set it on the PxSceneDesc. A snippet demonstrating how to enable GPU rigid body simulation is provided in SnippetHelloGRB. The code example below serves as a brief reference:</p>
 <div class="highlight-c++"><div class="highlight"><pre><span class="n">PxCudaContextManagerDesc</span> <span class="n">cudaContextManagerDesc</span><span class="p">;</span>
 
-<span class="n">gCudaContextManager</span> <span class="o">=</span> <span class="n">PxCreateCudaContextManager</span><span class="p">(</span><span class="o">*</span><span class="n">gFoundation</span><span class="p">,</span> <span class="n">cudaContextManagerDesc</span><span class="p">);</span>
+<span class="n">gCudaContextManager</span> <span class="o">=</span> <span class="n">PxCreateCudaContextManager</span><span class="p">(</span><span class="o">*</span><span class="n">gFoundation</span><span class="p">,</span> <span class="n">cudaContextManagerDesc</span><span class="p">,</span> <span class="n">PxGetProfilerCallback</span><span class="p">());</span>
 
 <span class="n">PxSceneDesc</span> <span class="nf">sceneDesc</span><span class="p">(</span><span class="n">gPhysics</span><span class="o">-&gt;</span><span class="n">getTolerancesScale</span><span class="p">());</span>
 <span class="n">sceneDesc</span><span class="p">.</span><span class="n">gravity</span> <span class="o">=</span> <span class="n">PxVec3</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.81f</span><span class="p">,</span> <span class="mf">0.0f</span><span class="p">);</span>
 <span class="n">gDispatcher</span> <span class="o">=</span> <span class="n">PxDefaultCpuDispatcherCreate</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="n">sceneDesc</span><span class="p">.</span><span class="n">cpuDispatcher</span> <span class="o">=</span> <span class="n">gDispatcher</span><span class="p">;</span>
 <span class="n">sceneDesc</span><span class="p">.</span><span class="n">filterShader</span>  <span class="o">=</span> <span class="n">PxDefaultSimulationFilterShader</span><span class="p">;</span>
-<span class="n">sceneDesc</span><span class="p">.</span><span class="n">gpuDispatcher</span> <span class="o">=</span> <span class="n">gCudaContextManager</span><span class="o">-&gt;</span><span class="n">getGpuDispatcher</span><span class="p">();</span>
+<span class="n">sceneDesc</span><span class="p">.</span><span class="n">cudaContextManager</span> <span class="o">=</span> <span class="n">gCudaContextManager</span><span class="p">;</span>
 
 <span class="n">sceneDesc</span><span class="p">.</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">PxSceneFlag</span><span class="o">::</span><span class="n">eENABLE_GPU_DYNAMICS</span><span class="p">;</span>
 <span class="n">sceneDesc</span><span class="p">.</span><span class="n">broadPhaseType</span> <span class="o">=</span> <span class="n">PxBroadPhaseType</span><span class="o">::</span><span class="n">eGPU</span><span class="p">;</span>
@@ -342,7 +342,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0',
+              VERSION:'4.1',
               LANGUAGE:'',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',

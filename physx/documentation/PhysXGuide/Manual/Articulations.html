@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   
-  <title>Articulations &mdash; NVIDIA PhysX SDK 4.0 Documentation</title>
+  <title>Articulations &mdash; NVIDIA PhysX SDK 4.1 Documentation</title>
   
 
   
@@ -34,7 +34,7 @@
     
         <style>
             .wy-nav-content::before {
-                content: "PhysX 4.0 SDK Guide";
+                content: "PhysX 4.1 SDK Guide";
             }
         </style>
     
@@ -431,6 +431,13 @@ joint-&gt;setTargetOrientation(PxQuat(error.x, error.y, error.z, 0));</div></blo
 </pre></div>
 </div>
 <p>In addition, it contains several fields related to inverse dynamics, which will be described later in this document.</p>
+<p>The Jacobian matrix is an important concept to roboticists.  Multiplication with the Jacobian matrix maps the joint space velocities of the robot to world space velocities.  The Jacobian matrix of an articulation can be computed using:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">PxU32</span> <span class="n">nRows</span><span class="p">;</span>
+<span class="n">PxU32</span> <span class="n">nCols</span><span class="p">;</span>
+<span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeDenseJacobian</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">,</span> <span class="n">nRows</span><span class="p">,</span> <span class="n">nCols</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This will write the Jacobian matrix to PxArticulationCache::denseJacobian;  the dimensions of the matrix are written to the two unsigned integers.  Note how the Jacobian matrix is a sparse triangular matrix so such explicit dense representation is in general not an optimal use of memory.  PhysX does not use this representation internally.</p>
 </div>
 <div class="section" id="inverse-dynamics">
 <h2>Inverse Dynamics<a class="headerlink" href="#inverse-dynamics" title="Permalink to this headline">¶</a></h2>
@@ -507,8 +514,8 @@ cache-&gt;lambda = lambda;</div></blockquote>
 <span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeLambda</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">,</span> <span class="o">*</span><span class="n">initialState</span><span class="p">,</span> <span class="n">jointForces</span><span class="p">,</span> <span class="n">maxIterations</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>The kinematic jacobian for an end effector can be computed using the following method. This provides the jacobian matrix for each joint from the end effector to the root link in world space:</p>
-<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">computeKinematicJacobian</span><span class="p">(</span><span class="n">linkID</span><span class="p">,</span> <span class="o">*</span><span class="n">cache</span><span class="p">);</span>
+<p>Computes the dense representation of an inherently sparse matrix.  Multiplication with this matrix maps joint space velocities to 6DOF world space linear and angular velocities:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">articulation</span><span class="o">-&gt;</span><span class="n">getDenseJacobian</span><span class="p">(</span><span class="o">*</span><span class="n">cache</span><span class="p">,</span> <span class="n">nRows</span><span class="p">,</span> <span class="n">nCols</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -557,7 +564,7 @@ cache-&gt;lambda = lambda;</div></blockquote>
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'4.0',
+              VERSION:'4.1',
               LANGUAGE:'',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',

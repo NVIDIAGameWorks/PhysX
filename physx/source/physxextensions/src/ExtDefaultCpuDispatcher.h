@@ -30,14 +30,15 @@
 #ifndef PX_PHYSICS_EXTENSIONS_NP_DEFAULT_CPU_DISPATCHER_H
 #define PX_PHYSICS_EXTENSIONS_NP_DEFAULT_CPU_DISPATCHER_H
 
+#include "common/PxProfileZone.h"
+#include "task/PxTask.h"
+#include "extensions/PxDefaultCpuDispatcher.h"
+
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
 #include "PsSync.h"
 #include "PsSList.h"
-#include "PxDefaultCpuDispatcher.h"
 #include "ExtSharedQueueEntryPool.h"
-#include "task/PxTask.h"
-#include "common/PxProfileZone.h"
 
 namespace physx
 {

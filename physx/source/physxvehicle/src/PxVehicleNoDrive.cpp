@@ -28,8 +28,8 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxMemory.h"
-#include "PxVehicleNoDrive.h"
-#include "PxVehicleWheels.h"
+#include "vehicle/PxVehicleNoDrive.h"
+#include "vehicle/PxVehicleWheels.h"
 #include "PxVehicleDefaults.h"
 #include "PxRigidDynamic.h"
 #include "CmPhysXCommon.h"

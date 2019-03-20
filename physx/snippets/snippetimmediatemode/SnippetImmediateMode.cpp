@@ -44,6 +44,8 @@
 #include "../snippetcommon/SnippetPrint.h"
 #include "extensions/PxRigidActorExt.h"
 
+#define USE_TGS 1
+
 //Enables whether we want persistent state caching (contact cache, friction caching) or not. Avoiding persistency results in one-shot collision detection and zero friction 
 //correlation but simplifies code by not longer needing to cache persistent pairs.
 #define WITH_PERSISTENCY 1
@@ -208,8 +210,8 @@ public:
 	virtual ~TestConstraintAllocator() {}
 };
 
-TestCacheAllocator* gCacheAllocator;
-TestConstraintAllocator* gConstraintAllocator;
+static TestCacheAllocator* gCacheAllocator = NULL;
+static TestConstraintAllocator* gConstraintAllocator = NULL;
 
 struct ContactPair
 {
@@ -241,45 +243,44 @@ public:
 	virtual bool recordContacts(const Gu::ContactPoint* contactPoints, const PxU32 nbContacts, const PxU32 index)
 	{
 		PX_UNUSED(index);
-		ContactPair pair;
-		pair.actor0 = &mActor0;
-		pair.actor1 = &mActor1;
-		pair.nbContacts = nbContacts;
-		pair.startContactIndex = mContactPoints.size();
-		pair.idx0 = mIdx0;
-		pair.idx1 = mIdx1;
+		{
+			ContactPair pair;
+			pair.actor0				= &mActor0;
+			pair.actor1				= &mActor1;
+			pair.nbContacts			= nbContacts;
+			pair.startContactIndex	= mContactPoints.size();
+			pair.idx0				= mIdx0;
+			pair.idx1				= mIdx1;
+			mContactPairs.pushBack(pair);
+			mHasContacts = true;
+		}
 
 		for (PxU32 c = 0; c < nbContacts; ++c)
 		{
 			//Fill in solver-specific data that our contact gen does not produce...
 
 			Gu::ContactPoint point = contactPoints[c];
-			point.maxImpulse = PX_MAX_F32;
-			point.targetVel = PxVec3(0.f);
-			point.staticFriction = 0.5f;
-			point.dynamicFriction = 0.5f;
-			point.restitution = 0.6f;
-			point.materialFlags = 0;
+			point.maxImpulse		= PX_MAX_F32;
+			point.targetVel			= PxVec3(0.f);
+			point.staticFriction	= 0.5f;
+			point.dynamicFriction	= 0.5f;
+			point.restitution		= 0.2f;
+			point.materialFlags		= 0;
 			mContactPoints.pushBack(point);
 		}
-
-		mContactPairs.pushBack(pair);
-		mHasContacts = true;
 		return true;
 	}
 
-	PX_FORCE_INLINE bool hasContacts() { return mHasContacts; }
+	PX_FORCE_INLINE bool hasContacts() const	{ return mHasContacts; }
 private:
 	PX_NOCOPY(TestContactRecorder)
 };
 
-static bool generateContacts(PxGeometryHolder& geom0, PxGeometryHolder& geom1, PxRigidDynamic& actor0, PxRigidActor& actor1, PxCacheAllocator& cacheAllocator, Array<Gu::ContactPoint>& contactPoints,
-	Array<ContactPair>& contactPairs, PxU32 idx0, PxU32 idx1, PxCache& cache)
+static bool generateContacts(	const PxGeometryHolder& geom0, const PxGeometryHolder& geom1, PxRigidDynamic& actor0, PxRigidActor& actor1, PxCacheAllocator& cacheAllocator,
+								Array<Gu::ContactPoint>& contactPoints, Array<ContactPair>& contactPairs, PxU32 idx0, PxU32 idx1, PxCache& cache)
 {
-	Gu::ContactBuffer buffer;
-
-	PxTransform tr0 = actor0.getGlobalPose();
-	PxTransform tr1 = actor1.getGlobalPose();
+	const PxTransform tr0 = actor0.getGlobalPose();
+	const PxTransform tr1 = actor1.getGlobalPose();
 
 	TestContactRecorder recorder(contactPairs, contactPoints, actor0, actor1, idx0, idx1);
 
@@ -303,6 +304,7 @@ static PxRigidDynamic* createDynamic(const PxTransform& t, const PxGeometry& geo
 static void updateInertia(PxRigidBody* body, PxReal density)
 {
 #if !USE_LOWLEVEL_INERTIA_COMPUTATION
+	PX_UNUSED(density);
 	//Compute the inertia of the rigid body using the helper function in PxRigidBodyExt
 	PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
 #else
@@ -342,7 +344,7 @@ static void updateInertia(PxRigidBody* body, PxReal density)
 #endif
 }
 
-static void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
+/*static*/ void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
 {
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(halfExtent, halfExtent, halfExtent), *gMaterial);
 	for (PxU32 i = 0; i<size; i++)
@@ -418,7 +420,6 @@ static PxTriangleMesh* createMeshGround()
 static void updateContactPairs()
 {
 #if WITH_PERSISTENCY
-	
 	allContactCache->clear();
 
 	const PxU32 nbDynamic = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
@@ -472,7 +473,7 @@ void initPhysics(bool /*interactive*/)
 		pvdClient->setScenePvdFlag(PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, false);
 	}
 
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.2f);
 
 	gConstraints = new physx::shdfnd::Array<PxConstraint*>();
 
@@ -511,10 +512,8 @@ void initPhysics(bool /*interactive*/)
 	updateContactPairs();
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gCacheAllocator->reset();
 	gConstraintAllocator->release();
 
@@ -530,9 +529,17 @@ void stepPhysics(bool interactive)
 	
 	Array<PxActor*> actors(totalActors);
 	Array<PxBounds3> shapeBounds(totalActors);
+	Array<PxGeometryHolder> mGeometries(totalActors);
+
+#if USE_TGS
+	Array<PxTGSSolverBodyVel> bodies(totalActors);
+	Array<PxTGSSolverBodyData> bodyData(totalActors);
+	Array<PxTGSSolverBodyTxInertia> txInertia(totalActors);
+	Array<PxTransform> globalPoses(totalActors);
+#else
 	Array<PxSolverBody> bodies(totalActors);
 	Array<PxSolverBodyData> bodyData(totalActors);
-	Array<PxGeometryHolder> mGeometries(totalActors);
+#endif
 
 	gScene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC, actors.begin(), nbDynamics);
 
@@ -600,10 +607,10 @@ void stepPhysics(bool interactive)
 		const ContactPair& pair = activePairs[a];
 
 		PxRigidDynamic* dyn0 = pair.actor0;
-		PxGeometryHolder& holder0 = mGeometries[pair.idx0];
+		const PxGeometryHolder& holder0 = mGeometries[pair.idx0];
 
 		PxRigidActor* actor1 = pair.actor1;
-		PxGeometryHolder& holder1 = mGeometries[pair.idx1];
+		const PxGeometryHolder& holder1 = mGeometries[pair.idx1];
 
 #if WITH_PERSISTENCY
 		const PxU32 startIndex = pair.idx0 == 0 ? 0 : (pair.idx0 * totalActors) - (pair.idx0 * (pair.idx0 + 1)) / 2;
@@ -625,6 +632,14 @@ void stepPhysics(bool interactive)
 	const PxReal dt = 1.f / 60.f;
 	const PxReal invDt = 60.f;
 
+	const PxU32 nbPositionIterations = 4;
+	const PxU32 nbVelocityIterations = 1;
+
+#if USE_TGS
+	const PxReal stepDt = dt/PxReal(nbPositionIterations);
+	const PxReal invStepDt = invDt * PxReal(nbPositionIterations);
+#endif
+
 	const PxVec3 gravity(0.f, -9.8f* gUnitScale, 0.f);
 
 	//Construct solver bodies
@@ -633,19 +648,24 @@ void stepPhysics(bool interactive)
 		PxRigidDynamic* dyn = actors[a]->is<PxRigidDynamic>();
 
 		immediate::PxRigidBodyData data;
-		data.linearVelocity = dyn->getLinearVelocity();
-		data.angularVelocity = dyn->getAngularVelocity();
-		data.invMass = dyn->getInvMass();
-		data.invInertia = dyn->getMassSpaceInvInertiaTensor();		
-		data.body2World = dyn->getGlobalPose();
-		data.maxDepenetrationVelocity = dyn->getMaxDepenetrationVelocity();
-		data.maxContactImpulse = dyn->getMaxContactImpulse();
-		data.linearDamping = dyn->getLinearDamping();
-		data.angularDamping = dyn->getAngularDamping();
-		data.maxLinearVelocitySq = 100.f*100.f*gUnitScale*gUnitScale;
-		data.maxAngularVelocitySq = 7.f*7.f;
+		data.linearVelocity				= dyn->getLinearVelocity();
+		data.angularVelocity			= dyn->getAngularVelocity();
+		data.invMass					= dyn->getInvMass();
+		data.invInertia					= dyn->getMassSpaceInvInertiaTensor();		
+		data.body2World					= dyn->getGlobalPose();
+		data.maxDepenetrationVelocity	= dyn->getMaxDepenetrationVelocity();
+		data.maxContactImpulse			= dyn->getMaxContactImpulse();
+		data.linearDamping				= dyn->getLinearDamping();
+		data.angularDamping				= dyn->getAngularDamping();
+		data.maxLinearVelocitySq		= 100.f*100.f*gUnitScale*gUnitScale;
+		data.maxAngularVelocitySq		= 7.f*7.f;
 
+#if USE_TGS
+		physx::immediate::PxConstructSolverBodiesTGS(&data, &bodies[a], &txInertia[a], &bodyData[a], 1, gravity, dt);
+		globalPoses[a] = data.body2World;
+#else
 		physx::immediate::PxConstructSolverBodies(&data, &bodyData[a], 1, gravity, dt);
+#endif
 
 		size_t szA = size_t(a);
 		dyn->userData = reinterpret_cast<void*>(szA);
@@ -655,7 +675,12 @@ void stepPhysics(bool interactive)
 	for (PxU32 a = nbDynamics; a < totalActors; ++a)
 	{
 		PxRigidStatic* sta = actors[a]->is<PxRigidStatic>();
+#if USE_TGS
+		physx::immediate::PxConstructStaticSolverBodyTGS(sta->getGlobalPose(), bodies[a], txInertia[a], bodyData[a]);
+		globalPoses[a] = sta->getGlobalPose();
+#else
 		physx::immediate::PxConstructStaticSolverBody(sta->getGlobalPose(), bodyData[a]);
+#endif
 		size_t szA = a;
 		sta->userData = reinterpret_cast<void*>(szA);
 	}
@@ -668,8 +693,13 @@ void stepPhysics(bool interactive)
 		ContactPair& pair = activeContactPairs[a];
 
 		//Set body pointers and bodyData idxs
+#if USE_TGS
+		desc.tgsBodyA = &bodies[pair.idx0];
+		desc.tgsBodyB = &bodies[pair.idx1];
+#else
 		desc.bodyA = &bodies[pair.idx0];
 		desc.bodyB = &bodies[pair.idx1];
+#endif
 
 		desc.bodyADataIndex = PxU16(pair.idx0);
 		desc.bodyBDataIndex = PxU16(pair.idx1);
@@ -695,8 +725,13 @@ void stepPhysics(bool interactive)
 		PxU32 id0 = PxU32(size_t(actor0->userData));
 		PxU32 id1 = PxU32(size_t(actor1->userData));
 
+#if USE_TGS
+		desc.tgsBodyA = &bodies[id0];
+		desc.tgsBodyB = &bodies[id1];
+#else
 		desc.bodyA = &bodies[id0];
 		desc.bodyB = &bodies[id1];
+#endif
 
 		desc.bodyADataIndex = PxU16(id0);
 		desc.bodyBDataIndex = PxU16(id1);
@@ -717,11 +752,19 @@ void stepPhysics(bool interactive)
 #if BATCH_CONTACTS
 	Array<PxSolverConstraintDesc> tempOrderedDescs(descs.size());
 	physx::shdfnd::Array<PxSolverConstraintDesc>& orderedDescs = tempOrderedDescs;
+#if USE_TGS
+	//1 batch the contacts
+	const PxU32 nbContactHeaders = physx::immediate::PxBatchConstraintsTGS(descs.begin(), activeContactPairs.size(), bodies.begin(), nbDynamics, headers.begin(), orderedDescs.begin());
+
+	//2 batch the joints...
+	const PxU32 nbJointHeaders = physx::immediate::PxBatchConstraintsTGS(descs.begin() + activeContactPairs.size(), gConstraints->size(), bodies.begin(), nbDynamics, headers.begin() + nbContactHeaders, orderedDescs.begin() + activeContactPairs.size());
+#else
 	//1 batch the contacts
 	const PxU32 nbContactHeaders = physx::immediate::PxBatchConstraints(descs.begin(), activeContactPairs.size(), bodies.begin(), nbDynamics, headers.begin(), orderedDescs.begin());
 
 	//2 batch the joints...
 	const PxU32 nbJointHeaders = physx::immediate::PxBatchConstraints(descs.begin() + activeContactPairs.size(), gConstraints->size(), bodies.begin(), nbDynamics, headers.begin() + nbContactHeaders, orderedDescs.begin() + activeContactPairs.size());
+#endif
 #else	
 	physx::shdfnd::Array<PxSolverConstraintDesc>& orderedDescs = descs;
 	
@@ -732,17 +775,17 @@ void stepPhysics(bool interactive)
 	for (PxU32 i = 0; i < nbContactHeaders; ++i)
 	{
 		PxConstraintBatchHeader& hdr = headers[i];
-		hdr.mStartIndex = i;
-		hdr.mStride = 1;
-		hdr.mConstraintType = PxSolverConstraintDesc::eCONTACT_CONSTRAINT;
+		hdr.startIndex = i;
+		hdr.stride = 1;
+		hdr.constraintType = PxSolverConstraintDesc::eCONTACT_CONSTRAINT;
 	}
 
 	for (PxU32 i = 0; i < nbJointHeaders; ++i)
 	{
 		PxConstraintBatchHeader& hdr = headers[nbContactHeaders+i];
-		hdr.mStartIndex = i;
-		hdr.mStride = 1;
-		hdr.mConstraintType = PxSolverConstraintDesc::eJOINT_CONSTRAINT;
+		hdr.startIndex = i;
+		hdr.stride = 1;
+		hdr.constraintType = PxSolverConstraintDesc::eJOINT_CONSTRAINT;
 	}
 #endif
 
@@ -756,29 +799,58 @@ void stepPhysics(bool interactive)
 	{
 		PxConstraintBatchHeader& header = headers[i];
 
-		PX_ASSERT(header.mConstraintType == PxSolverConstraintDesc::eCONTACT_CONSTRAINT);
+		PX_ASSERT(header.constraintType == PxSolverConstraintDesc::eCONTACT_CONSTRAINT);
+#if USE_TGS
+		PxTGSSolverContactDesc contactDescs[4];
+#else
 		PxSolverContactDesc contactDescs[4];
+#endif
 
-		ContactPair* pairs[4];
-
-		for (PxU32 a = 0; a < header.mStride; ++a)
+#if WITH_PERSISTENCY
+		const ContactPair* pairs[4];
+#endif
+		for (PxU32 a = 0; a < header.stride; ++a)
 		{
-			PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
+			PxSolverConstraintDesc& constraintDesc = orderedDescs[header.startIndex + a];
+#if USE_TGS
+			PxTGSSolverContactDesc& contactDesc = contactDescs[a];
+#else
 			PxSolverContactDesc& contactDesc = contactDescs[a];
+#endif
 			//Extract the contact pair that we saved in this structure earlier.
-			ContactPair& pair = *reinterpret_cast<ContactPair*>(constraintDesc.constraint);
+			const ContactPair& pair = *reinterpret_cast<const ContactPair*>(constraintDesc.constraint);
 
+#if WITH_PERSISTENCY
 			pairs[a] = &pair;
+#endif
+#if USE_TGS
+			contactDesc.body0 = constraintDesc.tgsBodyA;
+			contactDesc.body1 = constraintDesc.tgsBodyB;
+			contactDesc.bodyData0 = &bodyData[constraintDesc.bodyADataIndex];
+			contactDesc.bodyData1 = &bodyData[constraintDesc.bodyBDataIndex];
+			contactDesc.body0TxI = &txInertia[constraintDesc.bodyADataIndex];
+			contactDesc.body1TxI = &txInertia[constraintDesc.bodyBDataIndex];
 
+
+			//This may seem redundant but the bodyFrame is not defined by the bodyData object when using articulations. This
+			//example does not use articulations.
+			contactDesc.bodyFrame0 = globalPoses[constraintDesc.bodyADataIndex];
+			contactDesc.bodyFrame1 = globalPoses[constraintDesc.bodyBDataIndex];
+			contactDesc.torsionalPatchRadius = 0.f;
+			contactDesc.minTorsionalPatchRadius = 0.f;
+#else
 			contactDesc.body0 = constraintDesc.bodyA;
 			contactDesc.body1 = constraintDesc.bodyB;
 			contactDesc.data0 = &bodyData[constraintDesc.bodyADataIndex];
 			contactDesc.data1 = &bodyData[constraintDesc.bodyBDataIndex];
 
+
 			//This may seem redundant but the bodyFrame is not defined by the bodyData object when using articulations. This
 			//example does not use articulations.
 			contactDesc.bodyFrame0 = contactDesc.data0->body2World;
 			contactDesc.bodyFrame1 = contactDesc.data1->body2World;
+			
+#endif
 
 			contactDesc.contactForces = &contactForces[pair.startContactIndex];
 			contactDesc.contacts = &contactPoints[pair.startContactIndex];
@@ -798,22 +870,31 @@ void stepPhysics(bool interactive)
 			contactDesc.shapeInteraction = NULL;
 			contactDesc.restDistance = 0.f;
 			contactDesc.maxCCDSeparation = PX_MAX_F32;
+			
 
 			contactDesc.bodyState0 = PxSolverConstraintPrepDescBase::eDYNAMIC_BODY;
 			contactDesc.bodyState1 = pair.actor1->is<PxRigidDynamic>() ? PxSolverConstraintPrepDescBase::eDYNAMIC_BODY : PxSolverConstraintPrepDescBase::eSTATIC_BODY;
 			contactDesc.desc = &constraintDesc;
-			contactDesc.mInvMassScales.angular0 = contactDesc.mInvMassScales.angular1 = contactDesc.mInvMassScales.linear0 = contactDesc.mInvMassScales.linear1 = 1.f;
+			contactDesc.invMassScales.angular0 = contactDesc.invMassScales.angular1 = contactDesc.invMassScales.linear0 = contactDesc.invMassScales.linear1 = 1.f;
 		}
 
+#if USE_TGS
+		immediate::PxCreateContactConstraintsTGS(&header, 1, contactDescs, *gConstraintAllocator, invStepDt, invDt, -2.f * gUnitScale, 0.04f * gUnitScale, 0.025f * gUnitScale);
+#else
 		immediate::PxCreateContactConstraints(&header, 1, contactDescs, *gConstraintAllocator, invDt, -2.f * gUnitScale, 0.04f * gUnitScale, 0.025f * gUnitScale);
+#endif
 
 #if WITH_PERSISTENCY
-		for (PxU32 a = 0; a < header.mStride; ++a)
+		for (PxU32 a = 0; a < header.stride; ++a)
 		{
 			//Cache friction information...
+#if USE_TGS
+			PxTGSSolverContactDesc& contactDesc = contactDescs[a];
+#else
 			PxSolverContactDesc& contactDesc = contactDescs[a];
-			//PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
-			ContactPair& pair = *pairs[a];
+#endif
+			//PxSolverConstraintDesc& constraintDesc = orderedDescs[header.startIndex + a];
+			const ContactPair& pair = *pairs[a];
 
 			const PxU32 startIndex = pair.idx0 == 0 ? 0 : (pair.idx0 * totalActors) - (pair.idx0 * (pair.idx0 + 1)) / 2;
 
@@ -827,25 +908,42 @@ void stepPhysics(bool interactive)
 	{
 		PxConstraintBatchHeader& header = headers[i];
 
-		PX_ASSERT(header.mConstraintType == PxSolverConstraintDesc::eJOINT_CONSTRAINT);
+		PX_ASSERT(header.constraintType == PxSolverConstraintDesc::eJOINT_CONSTRAINT);
 
 		{
+#if USE_TGS
+			PxTGSSolverConstraintPrepDesc jointDescs[4];
+#else
 			PxSolverConstraintPrepDesc jointDescs[4];
+#endif
 
 			PxConstraint* constraints[4];
 
-			header.mStartIndex += activeContactPairs.size();
+			header.startIndex += activeContactPairs.size();
 
-			for (PxU32 a = 0; a < header.mStride; ++a)
+			for (PxU32 a = 0; a < header.stride; ++a)
 			{
-				PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
+				PxSolverConstraintDesc& constraintDesc = orderedDescs[header.startIndex + a];
 				//Extract the contact pair that we saved in this structure earlier.
 				PxConstraint& constraint = *reinterpret_cast<PxConstraint*>(constraintDesc.constraint);
 
 				constraints[a] = &constraint;
 
-				PxSolverConstraintPrepDesc& jointDesc = jointDescs[a];
+#if USE_TGS
+				PxTGSSolverConstraintPrepDesc& jointDesc = jointDescs[a];
+				jointDesc.body0 = constraintDesc.tgsBodyA;
+				jointDesc.body1 = constraintDesc.tgsBodyB;
+				jointDesc.bodyData0 = &bodyData[constraintDesc.bodyADataIndex];
+				jointDesc.bodyData1 = &bodyData[constraintDesc.bodyBDataIndex];
+				jointDesc.body0TxI = &txInertia[constraintDesc.bodyADataIndex];
+				jointDesc.body1TxI = &txInertia[constraintDesc.bodyBDataIndex];
 
+				//This may seem redundant but the bodyFrame is not defined by the bodyData object when using articulations. This
+				//example does not use articulations.
+				jointDesc.bodyFrame0 = globalPoses[constraintDesc.bodyADataIndex];
+				jointDesc.bodyFrame1 = globalPoses[constraintDesc.bodyBDataIndex];
+#else
+				PxSolverConstraintPrepDesc& jointDesc = jointDescs[a];
 				jointDesc.body0 = constraintDesc.bodyA;
 				jointDesc.body1 = constraintDesc.bodyB;
 				jointDesc.data0 = &bodyData[constraintDesc.bodyADataIndex];
@@ -855,6 +953,9 @@ void stepPhysics(bool interactive)
 				//example does not use articulations.
 				jointDesc.bodyFrame0 = jointDesc.data0->body2World;
 				jointDesc.bodyFrame1 = jointDesc.data1->body2World;
+#endif
+
+				
 
 				PxRigidActor* actor0, *actor1;
 
@@ -863,7 +964,7 @@ void stepPhysics(bool interactive)
 				jointDesc.bodyState0 = PxSolverConstraintPrepDescBase::eDYNAMIC_BODY;
 				jointDesc.bodyState1 = actor1 == NULL ? PxSolverConstraintPrepDescBase::eSTATIC_BODY : actor1->is<PxRigidDynamic>() ? PxSolverConstraintPrepDescBase::eDYNAMIC_BODY : PxSolverConstraintPrepDescBase::eSTATIC_BODY;
 				jointDesc.desc = &constraintDesc;
-				jointDesc.mInvMassScales.angular0 = jointDesc.mInvMassScales.angular1 = jointDesc.mInvMassScales.linear0 = jointDesc.mInvMassScales.linear1 = 1.f;
+				jointDesc.invMassScales.angular0 = jointDesc.invMassScales.angular1 = jointDesc.invMassScales.linear0 = jointDesc.invMassScales.linear1 = 1.f;
 				jointDesc.writeback = NULL;
 				constraint.getBreakForce(jointDesc.linBreakForce, jointDesc.angBreakForce);
 				jointDesc.minResponseThreshold = constraint.getMinResponseThreshold();
@@ -872,10 +973,30 @@ void stepPhysics(bool interactive)
 				jointDesc.driveLimitsAreForces = !!(constraint.getFlags() & PxConstraintFlag::eDRIVE_LIMITS_ARE_FORCES);
 			}
 
+#if USE_TGS
+			immediate::PxCreateJointConstraintsWithShadersTGS(&header, 1, constraints, jointDescs, *gConstraintAllocator, stepDt, dt, invStepDt, invDt, 1.f);
+#else
 			immediate::PxCreateJointConstraintsWithShaders(&header, 1, constraints, jointDescs, *gConstraintAllocator, dt, invDt);
+#endif
 		}
 	}
 
+#if USE_TGS
+	immediate::PxSolveConstraintsTGS(headers.begin(), headers.size(), orderedDescs.begin(), bodies.begin(), txInertia.begin(), nbDynamics, nbPositionIterations, nbVelocityIterations, stepDt, invStepDt, 0, NULL);
+
+	immediate::PxIntegrateSolverBodiesTGS(bodies.begin(), txInertia.begin(), globalPoses.begin(), nbDynamics, dt);
+
+	for (PxU32 a = 0; a < nbDynamics; ++a)
+	{
+		PxRigidDynamic* dynamic = actors[a]->is<PxRigidDynamic>();
+
+		const PxTGSSolverBodyVel& body = bodies[a];
+
+		dynamic->setLinearVelocity(body.linearVelocity);
+		dynamic->setAngularVelocity(body.angularVelocity);
+		dynamic->setGlobalPose(globalPoses[a]);
+	}
+#else
 	//Solve all the constraints produced earlier. Intermediate motion linear/angular velocity buffers are filled in. These contain intermediate delta velocity information that is used
 	//the PxIntegrateSolverBody
 	Array<PxVec3> motionLinearVelocity(nbDynamics);
@@ -885,7 +1006,7 @@ void stepPhysics(bool interactive)
 	//that this buffer is zeroed.
 	PxMemZero(bodies.begin(), bodies.size() * sizeof(PxSolverBody));
 
-	immediate::PxSolveConstraints(headers.begin(), headers.size(), orderedDescs.begin(), bodies.begin(), motionLinearVelocity.begin(), motionAngularVelocity.begin(), nbDynamics, 4, 1);
+	immediate::PxSolveConstraints(headers.begin(), headers.size(), orderedDescs.begin(), bodies.begin(), motionLinearVelocity.begin(), motionAngularVelocity.begin(), nbDynamics, nbPositionIterations, nbVelocityIterations);
 
 	immediate::PxIntegrateSolverBodies(bodyData.begin(), bodies.begin(), motionLinearVelocity.begin(), motionAngularVelocity.begin(), nbDynamics, dt);
 
@@ -899,40 +1020,23 @@ void stepPhysics(bool interactive)
 		dynamic->setAngularVelocity(data.angularVelocity);
 		dynamic->setGlobalPose(data.body2World);
 	}
+#endif
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
 
-	if (gScene)
-	{
-		gScene->release();
-		gScene = NULL;
-	}
-	if (gDispatcher)
-	{
-		gDispatcher->release();
-		gDispatcher = NULL;
-	}
-	
-	if (gPhysics)
-	{
-		gPhysics->release();
-		gPhysics = NULL;
-
-	}
-	if (gPvd)
+	if(gPvd)
 	{
 		PxPvdTransport* transport = gPvd->getTransport();
-		gPvd->release();
-		transport->release();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
 	}
-	if (gCooking)
-	{
-		gCooking->release();
-		gCooking = NULL;
-	}
+
+	PX_RELEASE(gCooking);
 
 	delete gCacheAllocator;
 	delete gConstraintAllocator;
@@ -941,11 +1045,7 @@ void cleanupPhysics(bool interactive)
 	delete allContactCache;
 #endif
 
-	if (gFoundation)
-	{
-		gFoundation->release();
-		gFoundation = NULL;
-	}
+	PX_RELEASE(gFoundation);
 
 	printf("SnippetImmediateMode done.\n");
 }

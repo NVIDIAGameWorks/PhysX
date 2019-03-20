@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_NP_ARTICULATION_LINK
 #define PX_PHYSICS_NP_ARTICULATION_LINK
 
@@ -40,7 +39,6 @@
 
 namespace physx
 {
-
 class NpArticulation;
 class NpArticulationLink;
 class NpArticulationJoint;
@@ -64,8 +62,6 @@ public:
 	NpArticulationLinkArray() : Ps::InlineArray<NpArticulationLink*, 4>(PX_DEBUG_EXP("articulationLinkArray")) {}
 };
 
-
-
 class NpArticulationLink : public NpArticulationLinkT
 {
 //= ATTENTION! =====================================================================================
@@ -76,101 +72,96 @@ class NpArticulationLink : public NpArticulationLinkT
 //==================================================================================================
 public:
 // PX_SERIALIZATION
-									NpArticulationLink(PxBaseFlags baseFlags) : NpArticulationLinkT(baseFlags), mChildLinks(PxEmpty)	{}
-	virtual		void				exportData(PxSerializationContext& context) const;
-	virtual		void				exportExtraData(PxSerializationContext& stream);
-				void				importExtraData(PxDeserializationContext& context);
-				void				registerReferences(PxSerializationContext& stream);
-				void				resolveReferences(PxDeserializationContext& context);
-	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
-	virtual		bool			    isSubordinate()  const	 { return true; } 
-	static		NpArticulationLink*	createObject(PxU8*& address, PxDeserializationContext& context);
-	static		void				getBinaryMetaData(PxOutputStream& stream);		
+											NpArticulationLink(PxBaseFlags baseFlags) : NpArticulationLinkT(baseFlags), mChildLinks(PxEmpty)	{}
+				void						preExportDataReset() { NpArticulationLinkT::preExportDataReset(); }
+	virtual		void						exportExtraData(PxSerializationContext& context);
+				void						importExtraData(PxDeserializationContext& context);
+				void						resolveReferences(PxDeserializationContext& context);
+	virtual		void						requiresObjects(PxProcessPxBaseCallback& c);
+	virtual		bool						isSubordinate()  const	 { return true; } 
+	static		NpArticulationLink*			createObject(PxU8*& address, PxDeserializationContext& context);
+	static		void						getBinaryMetaData(PxOutputStream& stream);		
 //~PX_SERIALIZATION
-	virtual							~NpArticulationLink();
+	virtual									~NpArticulationLink();
 
 	//---------------------------------------------------------------------------------
 	// PxArticulationLink implementation
 	//---------------------------------------------------------------------------------
-	virtual		void				release();
+	virtual		void						release();
 
 
-	virtual		PxActorType::Enum	getType() const { return PxActorType::eARTICULATION_LINK; }
+	virtual		PxActorType::Enum			getType() const { return PxActorType::eARTICULATION_LINK; }
 
 	// Pose
-	virtual		void				setGlobalPose(const PxTransform& pose);
-	virtual		void 				setGlobalPose(const PxTransform& pose, bool autowake);
-	virtual		PxTransform			getGlobalPose() const;
+	virtual		void						setGlobalPose(const PxTransform& pose);
+	virtual		void 						setGlobalPose(const PxTransform& pose, bool autowake);
+	virtual		PxTransform					getGlobalPose() const;
 
 	//damping
-	virtual		void				setLinearDamping(PxReal linDamp);
-	virtual		PxReal				getLinearDamping() const;
+	virtual		void						setLinearDamping(PxReal linDamp);
+	virtual		PxReal						getLinearDamping() const;
 
-	virtual		void				setAngularDamping(PxReal angDamp);
-	virtual		PxReal				getAngularDamping() const;
+	virtual		void						setAngularDamping(PxReal angDamp);
+	virtual		PxReal						getAngularDamping() const;
 	
 	// Velocity
-	virtual		void				setLinearVelocity(const PxVec3&, bool autowake = true);
-	virtual		void				setAngularVelocity(const PxVec3&, bool autowake = true);
-	virtual		void				setMaxAngularVelocity(PxReal);
-	virtual		PxReal				getMaxAngularVelocity() const;
-	virtual		void				setMaxLinearVelocity(PxReal);
-	virtual		PxReal				getMaxLinearVelocity() const;
+	virtual		void						setLinearVelocity(const PxVec3&, bool autowake = true);
+	virtual		void						setAngularVelocity(const PxVec3&, bool autowake = true);
+	virtual		void						setMaxAngularVelocity(PxReal);
+	virtual		PxReal						getMaxAngularVelocity() const;
+	virtual		void						setMaxLinearVelocity(PxReal);
+	virtual		PxReal						getMaxLinearVelocity() const;
 
-	virtual		PxArticulationBase&						getArticulation() const;
+	virtual		PxArticulationBase&			getArticulation() const;
+	virtual		PxArticulationJointBase*	getInboundJoint() const;
+	virtual		PxU32						getInboundJointDof() const;
 
-	virtual		PxArticulationReducedCoordinate&		getArticulationReducedCoordinate() const;
-	
-	virtual		PxArticulationJointBase*				getInboundJoint() const;
-	virtual		PxU32									getInboundJointDof() const;
+	virtual		PxU32						getNbChildren() const;
+	virtual		PxU32						getChildren(PxArticulationLink** userBuffer, PxU32 bufferSize, PxU32 startIndex) const;
+	virtual		PxU32						getLinkIndex() const;
+	virtual		void						setCMassLocalPose(const PxTransform& pose);
 
-	virtual		PxU32				getNbChildren() const;
-	virtual		PxU32				getChildren(PxArticulationLink** userBuffer, PxU32 bufferSize, PxU32 startIndex) const;
-	virtual		PxU32				getLinkIndex() const;
-	virtual		void				setCMassLocalPose(const PxTransform& pose);
-
-	virtual		void				addForce(const PxVec3& force, PxForceMode::Enum mode = PxForceMode::eFORCE, bool autowake = true);
-	virtual		void				addTorque(const PxVec3& torque, PxForceMode::Enum mode = PxForceMode::eFORCE, bool autowake = true);
-	virtual		void				setForceAndTorque(const PxVec3& force, const PxVec3& torque, PxForceMode::Enum mode = PxForceMode::eFORCE);
-	virtual		void				clearForce(PxForceMode::Enum mode = PxForceMode::eFORCE);
-	virtual		void				clearTorque(PxForceMode::Enum mode = PxForceMode::eFORCE);
+	virtual		void						addForce(const PxVec3& force, PxForceMode::Enum mode = PxForceMode::eFORCE, bool autowake = true);
+	virtual		void						addTorque(const PxVec3& torque, PxForceMode::Enum mode = PxForceMode::eFORCE, bool autowake = true);
+	virtual		void						setForceAndTorque(const PxVec3& force, const PxVec3& torque, PxForceMode::Enum mode = PxForceMode::eFORCE);
+	virtual		void						clearForce(PxForceMode::Enum mode = PxForceMode::eFORCE);
+	virtual		void						clearTorque(PxForceMode::Enum mode = PxForceMode::eFORCE);
 
 	//---------------------------------------------------------------------------------
 	// Miscellaneous
 	//---------------------------------------------------------------------------------
-										NpArticulationLink(const PxTransform& bodyPose, PxArticulationBase& root, NpArticulationLink* parent);
+											NpArticulationLink(const PxTransform& bodyPose, PxArticulationBase& root, NpArticulationLink* parent);
 
-				void					releaseInternal();
+				void						releaseInternal();
 
-	PX_INLINE	PxArticulationBase&		getRoot()	{ return *mRoot; }
-	PX_INLINE	NpArticulationLink*		getParent()	{ return mParent; }
+	PX_INLINE	PxArticulationBase&			getRoot()	{ return *mRoot; }
+	PX_INLINE	NpArticulationLink*			getParent()	{ return mParent; }
 
-	PX_INLINE	void					setInboundJoint(PxArticulationJointBase& joint) { mInboundJoint = &joint; }
+	PX_INLINE	void						setInboundJoint(PxArticulationJointBase& joint) { mInboundJoint = &joint; }
 
-	void 								setGlobalPoseInternal(const PxTransform& pose, bool autowake);
-	void								setLLIndex(const PxU32 index) { mLLIndex = index; }
-	void								setInboundJointDof(const PxU32 index) { mInboundJointDof = index; }
+	void 									setGlobalPoseInternal(const PxTransform& pose, bool autowake);
+	void									setLLIndex(const PxU32 index) { mLLIndex = index; }
+	void									setInboundJointDof(const PxU32 index) { mInboundJointDof = index; }
 private:
-	PX_INLINE	void					addToChildList(NpArticulationLink& link) { mChildLinks.pushBack(&link); }
-	PX_INLINE	void					removeFromChildList(NpArticulationLink& link) { PX_ASSERT(mChildLinks.find(&link) != mChildLinks.end()); mChildLinks.findAndReplaceWithLast(&link); }
+	PX_INLINE	void						addToChildList(NpArticulationLink& link) { mChildLinks.pushBack(&link); }
+	PX_INLINE	void						removeFromChildList(NpArticulationLink& link) { PX_ASSERT(mChildLinks.find(&link) != mChildLinks.end()); mChildLinks.findAndReplaceWithLast(&link); }
 
 public:
 	PX_INLINE	NpArticulationLink* const*	getChildren() { return mChildLinks.empty() ? NULL : &mChildLinks.front(); }
 
 #if PX_ENABLE_DEBUG_VISUALIZATION
 public:
-				void					visualize(Cm::RenderOutput& out, NpScene* scene);
-				void					visualizeJoint(PxConstraintVisualizer& jointViz);
+				void						visualize(Cm::RenderOutput& out, NpScene* scene);
+				void						visualizeJoint(PxConstraintVisualizer& jointViz);
 #endif
 
-
 private:
-				PxArticulationBase*				mRoot;  //!!!AL TODO: Revisit: Could probably be avoided if registration and deregistration in root is handled differently
-				PxArticulationJointBase*		mInboundJoint;
-				NpArticulationLink*				mParent;  //!!!AL TODO: Revisit: Some memory waste but makes things faster
-				NpArticulationLinkArray			mChildLinks;
-				PxU32							mLLIndex;
-				PxU32							mInboundJointDof;
+				PxArticulationBase*			mRoot;  //!!!AL TODO: Revisit: Could probably be avoided if registration and deregistration in root is handled differently
+				PxArticulationJointBase*	mInboundJoint;
+				NpArticulationLink*			mParent;  //!!!AL TODO: Revisit: Some memory waste but makes things faster
+				NpArticulationLinkArray		mChildLinks;
+				PxU32						mLLIndex;
+				PxU32						mInboundJointDof;
 };
 
 }

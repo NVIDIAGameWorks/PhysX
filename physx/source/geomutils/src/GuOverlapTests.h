@@ -33,8 +33,8 @@
 #include "foundation/PxVec3.h"
 #include "foundation/PxTransform.h"
 #include "foundation/PxAssert.h"
+#include "geometry/PxGeometry.h"
 #include "CmPhysXCommon.h"
-#include "PxGeometry.h"
 #include "PsFoundation.h"
 
 namespace physx

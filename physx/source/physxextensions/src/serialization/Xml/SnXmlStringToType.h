@@ -29,11 +29,13 @@
 #ifndef PX_XML_STRINGTOTYPE_H
 #define PX_XML_STRINGTOTYPE_H
 
+#include "common/PxCoreUtilityTypes.h"
+#include "PxFiltering.h"
+
+#include "PsString.h"
+
 #include <stdio.h>
 #include <ctype.h>
-#include "PsString.h"
-#include "PxCoreUtilityTypes.h"
-#include "PxFiltering.h"
 
 //Remapping function name for gcc-based systems.
 #ifndef _MSC_VER

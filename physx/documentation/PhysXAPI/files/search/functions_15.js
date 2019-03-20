@@ -51,7 +51,6 @@ var searchData=
   ['_7epxfilebuf',['~PxFileBuf',['../classPxFileBuf.html#a99b5918f6ae9142a7a440c64055d419e',1,'PxFileBuf']]],
   ['_7epxfixedsizelookuptable',['~PxFixedSizeLookupTable',['../classPxFixedSizeLookupTable.html#a0dad801c7db5e501d02e267a9c98b39e',1,'PxFixedSizeLookupTable']]],
   ['_7epxfoundation',['~PxFoundation',['../classPxFoundation.html#a525b818f28e61890a574aa0c501f5991',1,'PxFoundation']]],
-  ['_7epxgpudispatcher',['~PxGpuDispatcher',['../classphysx_1_1PxGpuDispatcher.html#a732e0687b5f29c5ec9cacf8674a0e805',1,'physx::PxGpuDispatcher']]],
   ['_7epxgroupsmask',['~PxGroupsMask',['../classPxGroupsMask.html#ac298ba87c071f52e1a809d1604621702',1,'PxGroupsMask']]],
   ['_7epxheightfield',['~PxHeightField',['../classPxHeightField.html#ae396d735d14cac4cf08958256362bc79',1,'PxHeightField']]],
   ['_7epxhitbuffer',['~PxHitBuffer',['../structPxHitBuffer.html#af3810ae6d94b93028e7a7d813f820cb4',1,'PxHitBuffer']]],

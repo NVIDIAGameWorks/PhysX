@@ -120,9 +120,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af6b8fa92c606bc4641ef3e06750b4a37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxDeserializationContext.html#af6b8fa92c606bc4641ef3e06750b4a37">alignExtraData</a> (<a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> alignment=<a class="el" href="group__common.html#ga2fda99afe264006a8ef8a699aa1328aa">PX_SERIAL_ALIGN</a>)</td></tr>
 <tr class="memdesc:af6b8fa92c606bc4641ef3e06750b4a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to align the extra data stream to a power of 2 alignment.  <a href="#af6b8fa92c606bc4641ef3e06750b4a37">More...</a><br /></td></tr>
 <tr class="separator:af6b8fa92c606bc4641ef3e06750b4a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe1146f20c2d30d916e0afc0f22cba53"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxDeserializationContext.html#abe1146f20c2d30d916e0afc0f22cba53">getPhysXVersion</a> () const =0</td></tr>
-<tr class="memdesc:abe1146f20c2d30d916e0afc0f22cba53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to return the PX_PHYSX_VERSION value with which the data was originally serialized.  <a href="#abe1146f20c2d30d916e0afc0f22cba53">More...</a><br /></td></tr>
-<tr class="separator:abe1146f20c2d30d916e0afc0f22cba53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -219,33 +216,6 @@ Protected Attributes</h2></td></tr>
 <p>Function to align the extra data stream to a power of 2 alignment. </p>
 <p>This function is assumed to be called within the implementation of <a class="el" href="classPxSerializer.html#a1fadfa942cb290428004ef688825dfb3" title="Create object at a given address, resolve references and import extra data. ">PxSerializer::createObject</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSerializationContext.html#a5d7a1f5789f666908ea28caf166fc609" title="Aligns the serialized data. ">PxSerializationContext::alignData</a>, <a class="el" href="classPxSerializer.html#a1fadfa942cb290428004ef688825dfb3" title="Create object at a given address, resolve references and import extra data. ">PxSerializer::createObject</a> </dd></dl>
-
-</div>
-</div>
-<a id="abe1146f20c2d30d916e0afc0f22cba53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe1146f20c2d30d916e0afc0f22cba53">&#9670;&nbsp;</a></span>getPhysXVersion()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxDeserializationContext::getPhysXVersion </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Function to return the PX_PHYSX_VERSION value with which the data was originally serialized. </p>
 
 </div>
 </div>

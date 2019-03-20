@@ -184,7 +184,7 @@ Macros</h2></td></tr>
 <tr class="separator:gae7058022ea016a0af40eb7728a30c928"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga75378be4130e1bdda740c22c07314640"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga75378be4130e1bdda740c22c07314640">PX_PHYSICS_VERSION_MAJOR</a>&#160;&#160;&#160;4</td></tr>
 <tr class="separator:ga75378be4130e1bdda740c22c07314640"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga25c9c85e3980cdbf0bedfbcad822aed7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga25c9c85e3980cdbf0bedfbcad822aed7">PX_PHYSICS_VERSION_MINOR</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memitem:ga25c9c85e3980cdbf0bedfbcad822aed7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga25c9c85e3980cdbf0bedfbcad822aed7">PX_PHYSICS_VERSION_MINOR</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ga25c9c85e3980cdbf0bedfbcad822aed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4edfc95b25e96e7d308d83347c93a69f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga4edfc95b25e96e7d308d83347c93a69f">PX_PHYSICS_VERSION_BUGFIX</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga4edfc95b25e96e7d308d83347c93a69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -376,6 +376,8 @@ Macros</h2></td></tr>
 <tr class="separator:ga86fdc6216f1e58e9fa63a2c0108261a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c63f0632cd5766a4233686020a33159"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga4c63f0632cd5766a4233686020a33159">PX_MIN_U32</a>&#160;&#160;&#160;UINT32_MIN</td></tr>
 <tr class="separator:ga4c63f0632cd5766a4233686020a33159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga471d6bb3bd98ced0974dbc866268c15a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__foundation.html#ga471d6bb3bd98ced0974dbc866268c15a">USE_VOLATILE_UNION</a></td></tr>
+<tr class="separator:ga471d6bb3bd98ced0974dbc866268c15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -1848,7 +1850,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define PX_PHYSICS_VERSION_MINOR&#160;&#160;&#160;0</td>
+          <td class="memname">#define PX_PHYSICS_VERSION_MINOR&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -2261,6 +2263,22 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga471d6bb3bd98ced0974dbc866268c15a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga471d6bb3bd98ced0974dbc866268c15a">&#9670;&nbsp;</a></span>USE_VOLATILE_UNION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define USE_VOLATILE_UNION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="reference">Referenced by <a class="el" href="group__foundation.html#gaee15b10ce840455479f928e5d9f2916b">PxUnionCast()</a>.</p>
 
 </div>
 </div>
@@ -3731,6 +3749,8 @@ template&lt;class T &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>The behavior of this method is undefined if the foundation instance has not been created already.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__foundation.html#ga9deda8eaad9681fc9eb456adc5225668" title="Creates an instance of the foundation class. ">PxCreateFoundation()</a> </dd></dl>
 
+<p class="reference">Referenced by <a class="el" href="classPxSerializerDefaultAdapter.html#a3514c52a4f55add2174bd05600f7d992">PxSerializerDefaultAdapter&lt; T &gt;::exportData()</a>.</p>
+
 </div>
 </div>
 <a id="ga0fb72a858fd527761dbe042cb4adbbe6"></a>
@@ -3994,7 +4014,7 @@ template&lt;&gt; </div>
 
 <p class="reference">References <a class="el" href="namespacephysx_1_1intrinsics.html#addd62b5b25acaca7d93f0f2ffe7ca4e5">physx::intrinsics::memCopy()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="group__physics.html#ga737af8e8faa77ff454b310957b681ad0">PxContactPair::bufferContacts()</a>, <a class="el" href="classPxFixedSizeLookupTable.html#a8292ce2756c85eb0520209cb15e605f2">PxFixedSizeLookupTable&lt; eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES &gt;::operator=()</a>, and <a class="el" href="classPxFixedSizeLookupTable.html#a5e6d807b0faad7d8722f34fdb2344e2d">PxFixedSizeLookupTable&lt; eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES &gt;::PxFixedSizeLookupTable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="group__physics.html#ga737af8e8faa77ff454b310957b681ad0">PxContactPair::bufferContacts()</a>, <a class="el" href="classPxSerializerDefaultAdapter.html#a3514c52a4f55add2174bd05600f7d992">PxSerializerDefaultAdapter&lt; T &gt;::exportData()</a>, <a class="el" href="classPxFixedSizeLookupTable.html#a8292ce2756c85eb0520209cb15e605f2">PxFixedSizeLookupTable&lt; eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES &gt;::operator=()</a>, and <a class="el" href="classPxFixedSizeLookupTable.html#a5e6d807b0faad7d8722f34fdb2344e2d">PxFixedSizeLookupTable&lt; eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES &gt;::PxFixedSizeLookupTable()</a>.</p>
 
 </div>
 </div>
@@ -4632,6 +4652,8 @@ template&lt;class A , class B &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p class="reference">References <a class="el" href="group__foundation.html#ga471d6bb3bd98ced0974dbc866268c15a">USE_VOLATILE_UNION</a>.</p>
 
 </div>
 </div>

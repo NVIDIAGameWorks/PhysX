@@ -49,13 +49,8 @@ sometimes they are stored in a byte.
   @{
 */
 
-//
-// Important: if you adjust the versions below, don't forget to adjust the compatibility list in
-// sBinaryCompatibleVersions as well.
-//
-
 #define PX_PHYSICS_VERSION_MAJOR 4
-#define PX_PHYSICS_VERSION_MINOR 0
+#define PX_PHYSICS_VERSION_MINOR 1
 #define PX_PHYSICS_VERSION_BUGFIX 0
 
 /**

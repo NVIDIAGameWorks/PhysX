@@ -34,9 +34,10 @@
 #include "foundation/PxVec4.h"
 #include "foundation/PxBounds3.h"
 #include "foundation/PxAssert.h"
+#include "common/PxSerialFramework.h"
+#include "geometry/PxTriangleMesh.h"
+
 #include "PsUserAllocated.h" // for PxSerializationContext
-#include "PxSerialFramework.h"
-#include "PxTriangleMesh.h"
 #include "PsAlignedMalloc.h"
 
 

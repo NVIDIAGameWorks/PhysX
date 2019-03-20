@@ -27,15 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxD6JointCreate.h"
-#include "PxD6Joint.h"
-#include "PxFixedJoint.h"
-#include "PxRevoluteJoint.h"
-#include "PxSphericalJoint.h"
-#include "PxPrismaticJoint.h"
-#include "PxDistanceJoint.h"
-#include "PxPhysics.h"
 #include "foundation/PxMathUtils.h"
+#include "extensions/PxD6JointCreate.h"
+#include "extensions/PxD6Joint.h"
+#include "extensions/PxFixedJoint.h"
+#include "extensions/PxRevoluteJoint.h"
+#include "extensions/PxSphericalJoint.h"
+#include "extensions/PxPrismaticJoint.h"
+#include "extensions/PxDistanceJoint.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 

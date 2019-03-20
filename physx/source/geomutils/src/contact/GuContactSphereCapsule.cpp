@@ -27,9 +27,10 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuDistancePointSegment.h"
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuInternal.h"
 #include "GuGeometryUnion.h"
 

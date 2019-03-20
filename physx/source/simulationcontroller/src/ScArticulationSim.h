@@ -142,8 +142,6 @@ namespace Sc
 
 					PxU32					getCacheDataSize() const;
 
-					PxU32					getCacheConstantDataSize() const;
-
 					PxU32					getScratchMemorySize() const;
 
 					void					zeroCache(PxArticulationCache&) const;
@@ -172,13 +170,15 @@ namespace Sc
 
 					void					computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache);
 
-					void					computeCoefficentMatrix(PxArticulationCache& cache);
+					void					computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols);
+
+					void					computeCoefficientMatrix(PxArticulationCache& cache);
 
 					bool					computeLambda(PxArticulationCache& cache, PxArticulationCache& rollBackCache, const PxReal* jointTorque, const PxVec3 gravity, const PxU32 maxIter);
 
 					void					computeGeneralizedMassMatrix(PxArticulationCache& cache);
 
-					PxU32					getCoefficentMatrixSize() const;
+					PxU32					getCoefficientMatrixSize() const;
 					//internal method implementation
 					PX_FORCE_INLINE IG::NodeIndex		getIslandNodeIndex() const { return mIslandNodeIndex; }
 

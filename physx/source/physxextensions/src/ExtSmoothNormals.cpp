@@ -29,7 +29,8 @@
 
 
 #include "foundation/PxMemory.h"
-#include "PxSmoothNormals.h"
+#include "extensions/PxSmoothNormals.h"
+
 #include "PsMathUtils.h"
 #include "PsUserAllocated.h"
 #include "PsUtilities.h"

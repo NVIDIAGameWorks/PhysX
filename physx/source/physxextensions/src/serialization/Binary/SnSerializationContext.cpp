@@ -27,7 +27,7 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxBase.h"
+#include "common/PxBase.h"
 #include "SnSerializationContext.h"
 #include "PsFoundation.h"
 
@@ -36,9 +36,24 @@ using namespace Sn;
 
 PxBase* DeserializationContext::resolveReference(PxU32 kind, size_t reference) const
 {
-	const InternalRefMap::Entry* entry0 = mInternalReferencesMap.find(InternalRefKey(reference, kind));
-	PX_ASSERT(entry0);
-	SerialObjectIndex objIndex = entry0->second;
+	SerialObjectIndex objIndex;
+	if (kind == PX_SERIAL_REF_KIND_PXBASE)
+	{
+		const InternalPtrRefMap::Entry* entry0 = mInternalPtrReferencesMap.find(reference);
+		PX_ASSERT(entry0);
+		objIndex = entry0->second;
+	}
+	else if (kind == PX_SERIAL_REF_KIND_MATERIAL_IDX)
+	{
+		const InternalHandle16RefMap::Entry* entry0 = mInternalHandle16ReferencesMap.find(PxU16(reference));
+		PX_ASSERT(entry0);
+		objIndex = entry0->second;
+	}
+	else
+	{
+		return NULL;
+	}
+	
 	bool isExternal;
 	PxU32 index = objIndex.getIndex(isExternal);
 	PxBase* base = NULL;
@@ -59,9 +74,9 @@ PxBase* DeserializationContext::resolveReference(PxU32 kind, size_t reference) c
 void SerializationContext::registerReference(PxBase& serializable, PxU32 kind, size_t reference)
 {
 #if PX_CHECKED
-	if ((kind & PX_SERIAL_REF_KIND_PTR_TYPE_BIT) == 0 && reference > 0xffffffff)
+	if ((kind & PX_SERIAL_REF_KIND_PTR_TYPE_BIT) == 0 && reference > 0xffff)
 	{
-		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "PxSerializationContext::registerReference: only 32 bit indices supported.");
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "PxSerializationContext::registerReference: only 16 bit handles supported.");
 		return;
 	}
 #endif
@@ -89,6 +104,12 @@ void SerializationContext::registerReference(PxBase& serializable, PxU32 kind, s
 		index = mObjToCollectionIndexMap[&serializable];
 	}
 
-	InternalRefMap& targetMap = (kind & PX_SERIAL_REF_KIND_PTR_TYPE_BIT) ? mInternalReferencesPtrMap : mInternalReferencesIdxMap;
-	targetMap[InternalRefKey(reference, kind)] = SerialObjectIndex(index, isExternal);
+	if (kind & PX_SERIAL_REF_KIND_PXBASE)
+	{
+		mInternalPtrReferencesMap[reference] = SerialObjectIndex(index, isExternal);
+	}
+	else if (kind & PX_SERIAL_REF_KIND_MATERIAL_IDX)
+	{
+		mInternalHandle16ReferencesMap[PxU16(reference)] = SerialObjectIndex(index, isExternal);
+	}
 }

@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "NpArticulationLink.h"
 #include "NpArticulationJoint.h"
 #include "NpWriteCheck.h"
@@ -47,20 +46,6 @@ void NpArticulationLink::requiresObjects(PxProcessPxBaseCallback& c)
 	
 	if(mInboundJoint)
 		c.process(*mInboundJoint);
-}
-
-void NpArticulationLink::exportData(PxSerializationContext& context) const
-{
-	//Clearing the aggregate ID for serialization so we avoid having a stale 
-	//reference after deserialization. The aggregate ID get's reset on readding to the 
-	//scene anyway. 
-	Sc::ActorCore& actorCore = const_cast<Sc::ActorCore&>(getScbActorFast().getActorCore());
-	PxU32 backupAggregateID = actorCore.getAggregateID();
-	actorCore.setAggregateID(PX_INVALID_U32);
-
-	context.writeData(this, sizeof(NpArticulationLink));
-
-	actorCore.setAggregateID(backupAggregateID);
 }
 
 void NpArticulationLink::exportExtraData(PxSerializationContext& stream)
@@ -98,13 +83,13 @@ NpArticulationLink* NpArticulationLink::createObject(PxU8*& address, PxDeseriali
 }
 //~PX_SERIALIZATION
 
-NpArticulationLink::NpArticulationLink(const PxTransform& bodyPose, PxArticulationBase& root, NpArticulationLink* parent)
-: NpArticulationLinkT(PxConcreteType::eARTICULATION_LINK, PxBaseFlag::eOWNS_MEMORY, PxActorType::eARTICULATION_LINK, bodyPose)
-, mRoot(&root)
-, mInboundJoint(NULL)
-, mParent(parent)
-, mLLIndex(0xffffffff)
-, mInboundJointDof(0xffffffff)
+NpArticulationLink::NpArticulationLink(const PxTransform& bodyPose, PxArticulationBase& root, NpArticulationLink* parent) :
+	NpArticulationLinkT	(PxConcreteType::eARTICULATION_LINK, PxBaseFlag::eOWNS_MEMORY, PxActorType::eARTICULATION_LINK, bodyPose),
+	mRoot				(&root),
+	mInboundJoint		(NULL),
+	mParent				(parent),
+	mLLIndex			(0xffffffff),
+	mInboundJointDof	(0xffffffff)
 {
 	PX_ASSERT(mBody.getScbType() == ScbType::eBODY);
 	mBody.setScbType(ScbType::eBODY_FROM_ARTICULATION_LINK);
@@ -112,7 +97,6 @@ NpArticulationLink::NpArticulationLink(const PxTransform& bodyPose, PxArticulati
 	if (parent)
 		parent->addToChildList(*this);
 }
-
 
 NpArticulationLink::~NpArticulationLink()
 {
@@ -135,11 +119,14 @@ void NpArticulationLink::releaseInternal()
 
 	NpScene* npScene = NpActor::getAPIScene(*this);
 	if (npScene)
+	{
 		npScene->getScene().removeActor(mBody, true, false);
+		//Removing this link may displace the link IDs for the other links in the articulation, so recompute them all
+		impl->recomputeLinkIDs();
+	}
 
 	mBody.destroy();
 }
-
 
 void NpArticulationLink::release()
 {
@@ -167,8 +154,6 @@ void NpArticulationLink::release()
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxArticulationLink::release(): Only leaf articulation links can be released. Release call failed");
 	}
 }
-
-
 
 PxTransform NpArticulationLink::getGlobalPose() const
 {
@@ -216,15 +201,6 @@ PxArticulationBase& NpArticulationLink::getArticulation() const
 	return *mRoot;
 }
 
-PxArticulationReducedCoordinate& NpArticulationLink::getArticulationReducedCoordinate() const
-{
-	NP_READ_CHECK(NpActor::getOwnerScene(*this));
-	//return *mRoot;
-	PxArticulationReducedCoordinate* ret = NULL;
-	return *ret;
-}
-
-
 PxArticulationJointBase* NpArticulationLink::getInboundJoint() const
 {
 	NP_READ_CHECK(NpActor::getOwnerScene(*this));
@@ -234,7 +210,6 @@ PxArticulationJointBase* NpArticulationLink::getInboundJoint() const
 PxU32 NpArticulationLink::getInboundJointDof() const
 {
 	NP_READ_CHECK(NpActor::getOwnerScene(*this));
-
 	return mInboundJointDof;
 }
 
@@ -243,7 +218,6 @@ PxU32 NpArticulationLink::getNbChildren() const
 	NP_READ_CHECK(NpActor::getOwnerScene(*this));
 	return mChildLinks.size();
 }
-
 
 PxU32 NpArticulationLink::getChildren(PxArticulationLink** userBuffer, PxU32 bufferSize, PxU32 startIndex) const
 {
@@ -257,15 +231,14 @@ PxU32 NpArticulationLink::getLinkIndex() const
 	return mLLIndex;
 }
 
-
 void NpArticulationLink::setCMassLocalPose(const PxTransform& pose)
 {
 	NP_WRITE_CHECK(NpActor::getOwnerScene(*this));
 	PX_CHECK_AND_RETURN(pose.isSane(), "PxArticulationLink::setCMassLocalPose: invalid parameter");
 
-	PxTransform p = pose.getNormalized();
-	PxTransform oldpose = getScbBodyFast().getBody2Actor();
-	PxTransform comShift = p.transformInv(oldpose);
+	const PxTransform p = pose.getNormalized();
+	const PxTransform oldpose = getScbBodyFast().getBody2Actor();
+	const PxTransform comShift = p.transformInv(oldpose);
 
 	NpArticulationLinkT::setCMassLocalPoseInternal(p);
 
@@ -282,7 +255,6 @@ void NpArticulationLink::setCMassLocalPose(const PxTransform& pose)
 	}
 }
 
-
 void NpArticulationLink::addForce(const PxVec3& force, PxForceMode::Enum mode, bool autowake)
 {
 	NpScene* scene = NpActor::getOwnerScene(*this);
@@ -296,7 +268,6 @@ void NpArticulationLink::addForce(const PxVec3& force, PxForceMode::Enum mode, b
 
 	reinterpret_cast<PxArticulationImpl*>(mRoot->getImpl())->wakeUpInternal((!force.isZero()), autowake);
 }
-
 
 void NpArticulationLink::addTorque(const PxVec3& torque, PxForceMode::Enum mode, bool autowake)
 {
@@ -325,7 +296,6 @@ void NpArticulationLink::setForceAndTorque(const PxVec3& force, const PxVec3& to
 	setSpatialForce(&force, &torque, mode);
 
 	reinterpret_cast<PxArticulationImpl*>(mRoot->getImpl())->wakeUpInternal((!torque.isZero()), true);
-
 }
 
 void NpArticulationLink::clearForce(PxForceMode::Enum mode)
@@ -379,11 +349,9 @@ void NpArticulationLink::setGlobalPose(const PxTransform& pose)
 
 void NpArticulationLink::setGlobalPose(const PxTransform& pose, bool autowake)
 {
-	PX_CHECK_AND_RETURN(mRoot->getType() == PxArticulationBase::eMaximumCoordinate, "NpArticulationLink::setGlobalPose teleport isn't allowed in the reduced coordinate system.");
-	
+	PX_CHECK_AND_RETURN(mRoot->getConcreteType() == PxConcreteType::eARTICULATION, "NpArticulationLink::setGlobalPose teleport isn't allowed in the reduced coordinate system.");
 	setGlobalPoseInternal(pose, autowake);
 }
-
 
 void NpArticulationLink::setLinearVelocity(const PxVec3& velocity, bool autowake)
 {
@@ -398,7 +366,6 @@ void NpArticulationLink::setLinearVelocity(const PxVec3& velocity, bool autowake
 	if (scene)
 		reinterpret_cast<PxArticulationImpl*>(mRoot->getImpl())->wakeUpInternal((!velocity.isZero()), autowake);
 }
-
 
 void NpArticulationLink::setAngularVelocity(const PxVec3& velocity, bool autowake)
 {
@@ -446,7 +413,6 @@ PxReal NpArticulationLink::getMaxLinearVelocity() const
 	return PxSqrt(getScbBodyFast().getMaxLinVelSq());
 }
 
-
 #if PX_ENABLE_DEBUG_VISUALIZATION
 void NpArticulationLink::visualize(Cm::RenderOutput& out, NpScene* scene)
 {
@@ -488,7 +454,8 @@ static PX_FORCE_INLINE PxReal computePhi(const PxQuat& q)
 	return angle;
 }
 
-static PX_FORCE_INLINE float	computeSwingAngle(float swingYZ, float swingW)
+// PT: TODO: don't duplicate this, it should be available in MathUtils or something
+static PX_FORCE_INLINE float computeSwingAngle(float swingYZ, float swingW)
 {
 	return 4.0f * PxAtan2(swingYZ, 1.0f + swingW);	// tan (t/2) = sin(t)/(1+cos t), so this is the quarter angle
 }
@@ -502,7 +469,6 @@ static PX_FORCE_INLINE void separateSwingTwist(const PxQuat& q, PxQuat& twist, P
 	swing2 = swing.z != 0.f ? PxQuat(0.f, 0.f, swing.z, swing.w).getNormalized() : PxQuat(PxIdentity);
 }
 
-
 void NpArticulationLink::visualizeJoint(PxConstraintVisualizer& jointViz)
 {
 	NpArticulationLink* parent = getParent();
@@ -515,9 +481,8 @@ void NpArticulationLink::visualizeJoint(PxConstraintVisualizer& jointViz)
 
 		PxArticulationJointImpl* impl = mInboundJoint->getImpl();
 
-		if (impl->mType == PxArticulationBase::eMaximumCoordinate)
+		if (getArticulation().getConcreteType() == PxConcreteType::eARTICULATION)
 		{
-
 			PxTransform parentFrame = cB2w;
 
 			if (cA2w.q.dot(cB2w.q) < 0)
@@ -545,6 +510,7 @@ void NpArticulationLink::visualizeJoint(PxConstraintVisualizer& jointViz)
 		}
 		else
 		{
+			PX_ASSERT(getArticulation().getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE);
 			//(1) visualize any angular dofs/limits...
 
 			const PxMat33 cA2w_m(cA2w.q), cB2w_m(cB2w.q);

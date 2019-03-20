@@ -408,7 +408,10 @@ void IncrementalAABBPruner::visualize(Cm::RenderOutput& out, PxU32 color) const
 			{
 				PxBounds3 bounds;
 				V4StoreU(node->mBVMin, &bounds.minimum.x);
-				V4StoreU(node->mBVMax, &bounds.maximum.x);
+				PX_ALIGN(16, PxVec4) max4;
+				V4StoreA(node->mBVMax, &max4.x);
+				bounds.maximum = PxVec3(max4.x, max4.y, max4.z);
+
 				out_ << Cm::DebugBox(bounds, true);
 				if (node->isLeaf())
 					return;

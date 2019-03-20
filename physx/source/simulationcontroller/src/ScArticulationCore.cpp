@@ -39,8 +39,9 @@
 
 using namespace physx;
 
-Sc::ArticulationCore::ArticulationCore() :
-	mSim(NULL)
+Sc::ArticulationCore::ArticulationCore(bool reducedCoordinate) :
+	mSim(NULL), 
+	mIsReducedCoordinate(reducedCoordinate)
 {
 	const PxTolerancesScale& scale = Physics::getInstance().getTolerancesScale();
 
@@ -99,27 +100,25 @@ void Sc::ArticulationCore::putToSleep()
 #endif
 }
 
-PxArticulation* Sc::ArticulationCore::getPxArticulation()
+PxArticulationBase* Sc::ArticulationCore::getPxArticulationBase()
 {
-	return gOffsetTable.convertScArticulation2Px(this);
+	return gOffsetTable.convertScArticulation2Px(this, isReducedCoordinate());
 }
 
-const PxArticulation* Sc::ArticulationCore::getPxArticulation() const
+const PxArticulationBase* Sc::ArticulationCore::getPxArticulationBase() const
 {
-	return gOffsetTable.convertScArticulation2Px(this);
+	return gOffsetTable.convertScArticulation2Px(this, isReducedCoordinate());
 }
 
-Sc::ArticulationDriveCache* Sc::ArticulationCore::createDriveCache(PxReal compliance,
-												  PxU32 driveIterations) const
+Sc::ArticulationDriveCache* Sc::ArticulationCore::createDriveCache(PxReal compliance, PxU32 driveIterations) const
 {
-	return mSim? mSim->createDriveCache(compliance, driveIterations) : NULL;
+	return mSim ? mSim->createDriveCache(compliance, driveIterations) : NULL;
 }
 
-void Sc::ArticulationCore::updateDriveCache(ArticulationDriveCache& cache,
-											PxReal compliance,
-											PxU32 driveIterations) const
+void Sc::ArticulationCore::updateDriveCache(ArticulationDriveCache& cache, PxReal compliance, PxU32 driveIterations) const
 {
-	mSim->updateDriveCache(cache, compliance, driveIterations);
+	if(mSim)
+		mSim->updateDriveCache(cache, compliance, driveIterations);
 }
 
 void Sc::ArticulationCore::releaseDriveCache(Sc::ArticulationDriveCache& driveCache) const
@@ -170,125 +169,117 @@ PxU32 Sc::ArticulationCore::getCacheDataSize() const
 
 void Sc::ArticulationCore::zeroCache(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->zeroCache(cache);
 }
 
 void Sc::ArticulationCore::applyCache(PxArticulationCache& cache, const PxArticulationCacheFlags flag) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->applyCache(cache, flag);
 }
 
 void Sc::ArticulationCore::copyInternalStateToCache(PxArticulationCache& cache, const PxArticulationCacheFlags flag) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->copyInternalStateToCache(cache, flag);
 }
 
 void Sc::ArticulationCore::releaseCache(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->releaseCache(cache);
 }
 
 void Sc::ArticulationCore::packJointData(const PxReal* maximum, PxReal* reduced) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->packJointData(maximum, reduced);
 }
 
 void Sc::ArticulationCore::unpackJointData(const PxReal* reduced, PxReal* maximum) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->unpackJointData(reduced, maximum);
 }
 
 void Sc::ArticulationCore::commonInit() const
 {
-	if (mSim)
+	if(mSim)
 		mSim->commonInit();
 }
 
 void Sc::ArticulationCore::computeGeneralizedGravityForce(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeGeneralizedGravityForce(cache);
 }
 
 void Sc::ArticulationCore::computeCoriolisAndCentrifugalForce(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeCoriolisAndCentrifugalForce(cache);
 }
 
 void Sc::ArticulationCore::computeGeneralizedExternalForce(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeGeneralizedExternalForce(cache);
 }
 
 void Sc::ArticulationCore::computeJointAcceleration(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeJointAcceleration(cache);
 }
 
 void Sc::ArticulationCore::computeJointForce(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeJointForce(cache);
 }
 
-void Sc::ArticulationCore::computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache) const
+void Sc::ArticulationCore::computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const
 {
-	if (mSim)
-		mSim->computeKinematicJacobian(linkID, cache);
+	if(mSim)
+		mSim->computeDenseJacobian(cache, nRows, nCols);
 }
 
-void Sc::ArticulationCore::computeCoefficentMatrix(PxArticulationCache& cache) const
+void Sc::ArticulationCore::computeCoefficientMatrix(PxArticulationCache& cache) const
 {
-	if (mSim)
-		mSim->computeCoefficentMatrix(cache);
+	if(mSim)
+		mSim->computeCoefficientMatrix(cache);
 }
 
 bool Sc::ArticulationCore::computeLambda(PxArticulationCache& cache, PxArticulationCache& initialState, const PxReal* const jointTorque, const PxVec3 gravity, const PxU32 maxIter) const
 {
-	if (mSim)
-		return mSim->computeLambda(cache, initialState, jointTorque, gravity, maxIter);
-
-	return false;
+	return mSim ? mSim->computeLambda(cache, initialState, jointTorque, gravity, maxIter) : false;
 }
 
 void Sc::ArticulationCore::computeGeneralizedMassMatrix(PxArticulationCache& cache) const
 {
-	if (mSim)
+	if(mSim)
 		mSim->computeGeneralizedMassMatrix(cache);
 }
 
-PxU32 Sc::ArticulationCore::getCoefficentMatrixSize() const
+PxU32 Sc::ArticulationCore::getCoefficientMatrixSize() const
 {
-	if (mSim)
-		return mSim->getCoefficentMatrixSize();
-
-	return 0;
+	return mSim ? mSim->getCoefficientMatrixSize() : 0;
 }
 
 IG::NodeIndex Sc::ArticulationCore::getIslandNodeIndex() const
 {
-	if (mSim)
-		return mSim->getIslandNodeIndex();
-	return IG::NodeIndex(IG_INVALID_NODE);
+	return mSim ? mSim->getIslandNodeIndex() : IG::NodeIndex(IG_INVALID_NODE);
 }
 
 void Sc::ArticulationCore::setGlobalPose()
 {
-	if (mSim)
+	if(mSim)
 		mSim->setGlobalPose();
 }
 
 void Sc::ArticulationCore::setDirty(const bool dirty)
 {
-	if (mSim)
+	if(mSim)
 		mSim->setDirty(dirty);
 }

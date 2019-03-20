@@ -94,6 +94,12 @@ using namespace physx::shdfnd;
 using namespace physx::Cm;
 using namespace physx::Dy;
 
+static PX_FORCE_INLINE Sc::ArticulationSim* getSim(const IG::IslandSim& islandSim, IG::NodeIndex nodeIndex)
+{
+	void* userData = islandSim.getLLArticulation(nodeIndex)->getUserData();
+	return reinterpret_cast<Sc::ArticulationSim*>(userData);
+}
+
 // slightly ugly, but we don't want a compile-time dependency on DY_ARTICULATION_MAX_SIZE in the ScScene.h header
 namespace physx { 
 #if PX_SUPPORT_GPU_PHYSX
@@ -588,6 +594,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	mVisualizationParameterChanged	(false),
 	mNbRigidStatics					(0),
 	mNbRigidDynamics				(0),
+	mNbRigidKinematic				(0),
 	mSecondPassNarrowPhase			(contextID, this, "ScScene.secondPassNarrowPhase"),
 	mPostNarrowPhase				(contextID, this, "ScScene.postNarrowPhase"),
 	mFinalizationPhase				(contextID, this, "ScScene.finalizationPhase"),
@@ -665,7 +672,8 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 
 	mSqBoundsManager = PX_NEW(SqBoundsManager);
 
-	mTaskManager = physx::PxTaskManager::createTaskManager(Ps::getFoundation().getErrorCallback(), desc.cpuDispatcher, desc.gpuDispatcher);
+	mTaskManager = physx::PxTaskManager::createTaskManager(Ps::getFoundation().getErrorCallback(), desc.cpuDispatcher);
+	mCudaContextManager = desc.cudaContextManager;
 
 	for(PxU32 i=0; i<PxGeometryType::eGEOMETRY_COUNT; i++)
 		mNbGeometries[i] = 0;
@@ -677,35 +685,35 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	if (desc.flags & PxSceneFlag::eENABLE_GPU_DYNAMICS)
 	{
 		useGpuDynamics = true;
-		if (mTaskManager->getGpuDispatcher() == NULL)
+		if (mCudaContextManager == NULL)
 		{
 			shdfnd::getFoundation().error(PxErrorCode::eDEBUG_WARNING,
 				__FILE__, __LINE__, "GPU solver pipeline failed, switching to software");
 
 			useGpuDynamics = false;
 		}
-		else if (!mTaskManager->getGpuDispatcher()->getCudaContextManager()->supportsArchSM30())
+		else if (!mCudaContextManager->supportsArchSM30())
 			useGpuDynamics = false;
 	}
 
 	if (desc.broadPhaseType == PxBroadPhaseType::eGPU)
 	{
 		useGpuBroadphase = true;
-		if (mTaskManager->getGpuDispatcher() == NULL)
+		if (mCudaContextManager == NULL)
 		{
 			shdfnd::getFoundation().error(PxErrorCode::eDEBUG_WARNING,
 				__FILE__, __LINE__, "GPU Bp pipeline failed, switching to software");
 
 			useGpuBroadphase = false;
 		}
-		else if (!mTaskManager->getGpuDispatcher()->getCudaContextManager()->supportsArchSM30())
+		else if (!mCudaContextManager->supportsArchSM30())
 			useGpuBroadphase = false;
 	}
 #endif
 
 	mUseGpuRigidBodies = useGpuBroadphase || useGpuDynamics;
 
-	mLLContext = PX_NEW(PxsContext)(desc, mTaskManager, mTaskPool, contextID);
+	mLLContext = PX_NEW(PxsContext)(desc, mTaskManager, mTaskPool, mCudaContextManager, contextID);
 	
 	if (mLLContext == 0)
 	{
@@ -722,8 +730,8 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 
 	if (useGpuBroadphase || useGpuDynamics)
 	{
-		mMemoryManager = PxvGetPhysXGpu(true)->createGpuMemoryManager(mLLContext->getTaskManager().getGpuDispatcher(), NULL);
-		mGpuWranglerManagers = PxvGetPhysXGpu(true)->createGpuKernelWranglerManager(mLLContext->getTaskManager().getGpuDispatcher(), getFoundation().getErrorCallback(),desc.gpuComputeVersion);
+		mMemoryManager = PxvGetPhysXGpu(true)->createGpuMemoryManager(mLLContext->getCudaContextManager(), NULL);
+		mGpuWranglerManagers = PxvGetPhysXGpu(true)->createGpuKernelWranglerManager(mLLContext->getCudaContextManager(), getFoundation().getErrorCallback(),desc.gpuComputeVersion);
 		mHeapMemoryAllocationManager = PxvGetPhysXGpu(true)->createGpuHeapMemoryAllocatorManager(desc.gpuDynamicsConfig.heapCapacity, mMemoryManager, desc.gpuComputeVersion);
 	}
 	else
@@ -755,7 +763,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 		mBP = PxvGetPhysXGpu(true)->createGpuBroadPhase
 			(
 			mGpuWranglerManagers,
-			mLLContext->getTaskManager().getGpuDispatcher(),
+			mLLContext->getCudaContextManager(),
 			NULL,
 			desc.gpuComputeVersion,
 			desc.gpuDynamicsConfig,
@@ -810,7 +818,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 	else
 	{
 #if PX_SUPPORT_GPU_PHYSX
-		mDynamicsContext = PxvGetPhysXGpu(true)->createGpuDynamicsContext(mLLContext->getTaskPool(), mGpuWranglerManagers, mLLContext->getTaskManager().getGpuDispatcher(), NULL,
+		mDynamicsContext = PxvGetPhysXGpu(true)->createGpuDynamicsContext(mLLContext->getTaskPool(), mGpuWranglerManagers, mLLContext->getCudaContextManager(), NULL,
 			desc.gpuDynamicsConfig, &mSimpleIslandManager->getAccurateIslandSim(), desc.gpuMaxNumPartitions, mEnableStabilization, useEnhancedDeterminism, useAdaptiveForce, desc.maxBiasCoefficient, desc.gpuComputeVersion, mLLContext->getSimStats(),
 			mHeapMemoryAllocationManager, !!(desc.flags & PxSceneFlag::eENABLE_FRICTION_EVERY_ITERATION), desc.solverType);
 
@@ -828,7 +836,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 
 		mSimulationControllerCallback = PX_PLACEMENT_NEW(PX_ALLOC(sizeof(PxgSimulationControllerCallback), PX_DEBUG_EXP("PxgSimulationControllerCallback")), PxgSimulationControllerCallback(this));
 
-		mSimulationController = PxvGetPhysXGpu(true)->createGpuSimulationController(mGpuWranglerManagers, mLLContext->getTaskManager().getGpuDispatcher(), NULL,
+		mSimulationController = PxvGetPhysXGpu(true)->createGpuSimulationController(mGpuWranglerManagers, mLLContext->getCudaContextManager(), NULL,
 			mDynamicsContext, gpuNphaseImplementation, mBP, useGpuBroadphase, mSimpleIslandManager, mSimulationControllerCallback, desc.gpuComputeVersion, mHeapMemoryAllocationManager);
 
 		mSimulationController->setBounds(mBoundsArray);
@@ -864,6 +872,7 @@ Sc::Scene::Scene(const PxSceneDesc& desc, PxU64 contextID) :
 		desc.ccdThreshold);
 	
 	setSolverBatchSize(desc.solverBatchSize);
+	setSolverArticBatchSize(desc.solverArticulationBatchSize);
 	mDynamicsContext->setFrictionOffsetThreshold(desc.frictionOffsetThreshold);
 	mDynamicsContext->setCCDSeparationThreshold(desc.ccdMaxSeparation);
 	mDynamicsContext->setSolverOffsetSlop(desc.solverOffsetSlop);
@@ -1777,6 +1786,13 @@ void Sc::Scene::addArticulationSimControl(Sc::ArticulationCore& core)
 		mSimulationController->addArticulation(sim->getLowLevelArticulation(), sim->getIslandNodeIndex());
 }
 
+void Sc::Scene::removeArticulationSimControl(Sc::ArticulationCore& core)
+{
+	Sc::ArticulationSim* sim = core.getSim();
+	if (sim)
+		mSimulationController->releaseArticulation(sim->getLowLevelArticulation(), sim->getIslandNodeIndex());
+}
+
 void Sc::Scene::addBrokenConstraint(Sc::ConstraintCore* c)
 {
 	PX_ASSERT(mBrokenConstraints.find(c) == mBrokenConstraints.end());
@@ -2186,8 +2202,8 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	Cm::BitMap::Iterator articulateCCDIter(mSpeculativeCDDArticulationBitMap);
 	while ((index = articulateCCDIter.getNext()) != Cm::BitMap::Iterator::DONE)
 	{
-		Sc::ArticulationSim* articulationSim = islandSim.getLLArticulation(IG::NodeIndex(index))->getArticulationSim();
-		if (articulationSim)
+		Sc::ArticulationSim* articulationSim = getSim(islandSim, IG::NodeIndex(index));
+		if(articulationSim)
 		{
 			hasContactDistanceChanged = true;
 			articulationUpdateTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceArticulationUpdateTask)), SpeculativeCCDContactDistanceArticulationUpdateTask)(getContextId(), mContactDistance->begin(), mDt, *mBoundsArray);
@@ -2546,8 +2562,8 @@ PX_FORCE_INLINE void Sc::Scene::putObjectsToSleep(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToSleep;i++)
 	{
-		Sc::ArticulationSim* articSim = islandSim.getLLArticulation(articIndices[i])->getArticulationSim();
-		if (articSim && !islandSim.getNode(articIndices[i]).isActive())
+		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
+		if(articSim && !islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(false, infoFlag);
 	}
 }
@@ -2605,7 +2621,7 @@ PX_FORCE_INLINE void Sc::Scene::wakeObjectsUp(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToWake;i++)
 	{
-		Sc::ArticulationSim* articSim = islandSim.getLLArticulation(articIndices[i])->getArticulationSim();
+		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
 		if (articSim && islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(true, infoFlag);
 	}
@@ -2975,7 +2991,7 @@ public:
 				Sc::ShapeSim* sim = static_cast<Sc::ShapeSim*>(current);
 				if(sim->getFlags()&PxU32(PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eTRIGGER_SHAPE))
 				{
-					Ps::IntBool fastMovingShape = sim->updateSweptBounds();
+					const Ps::IntBool fastMovingShape = sim->updateSweptBounds();
 					activeShapes += fastMovingShape;
 
 					isFastMoving = isFastMoving | fastMovingShape;
@@ -2983,7 +2999,7 @@ public:
 				current = current->mNextInActor;
 			}
 
-			bodySim.getLowLevelBody().getCore().isFastMoving = PxU16(isFastMoving);
+			bodySim.getLowLevelBody().getCore().isFastMoving = isFastMoving!=0;
 		}
 
 		Ps::atomicAdd(mNumFastMovingShapes, PxI32(activeShapes));
@@ -3834,7 +3850,7 @@ public:
 
 		for (PxU32 a = 0; a < mNumArticulations; ++a)
 		{
-			Sc::ArticulationSim* PX_RESTRICT articSim = islandSim.getLLArticulation(mArticIndices[a])->getArticulationSim();
+			Sc::ArticulationSim* PX_RESTRICT articSim = getSim(islandSim, mArticIndices[a]);
 			articSim->checkResize();
 			articSim->updateForces(mDt, mSimUsesAdaptiveForce);
 			articSim->saveLastCCDTransform();
@@ -3910,7 +3926,7 @@ void Sc::Scene::beforeSolver(PxBaseTask* continuation)
 	const PxU32 nbActiveArticulations = islandSim.getNbActiveNodes(IG::Node::eARTICULATION_TYPE);
 	const IG::NodeIndex* const articIndices = islandSim.getActiveNodes(IG::Node::eARTICULATION_TYPE);
 
-	const PxU32 nbArticsPerTask = 8;
+	const PxU32 nbArticsPerTask = 32;
 	
 	for(PxU32 a = 0; a < nbActiveArticulations; a+= nbArticsPerTask)
 	{
@@ -4123,7 +4139,7 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 		Cm::FlushPool& flushPool = mLLContext->getTaskPool();
 		ArticulationCore* const* articList = mArticulations.getEntries();
 
-		const PxU32 nbArticulationsPerTask = 8;
+		const PxU32 nbArticulationsPerTask = 64;
 		const PxU32 articCount = mArticulations.size();
 		for (PxU32 i = 0; i < articCount; i += nbArticulationsPerTask)
 		{
@@ -4769,6 +4785,7 @@ void Sc::Scene::getStats(PxSimulationStatistics& s) const
 	mStats->readOut(s, mLLContext->getSimStats());
 	s.nbStaticBodies = mNbRigidStatics;
 	s.nbDynamicBodies = mNbRigidDynamics;
+	s.nbKinematicBodies = mNbRigidKinematic;
 	s.nbArticulations = mArticulations.size(); 
 
 	s.nbAggregates = mAABBManager->getNbActiveAggregates();
@@ -4876,7 +4893,7 @@ void Sc::Scene::addBody(BodyCore& body, void*const *shapes, PxU32 nbShapes, size
 
 	const bool isArticulationLink = sim->isArticulationLink();
 
-	if (sim->getLowLevelBody().mCore->mFlags & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
+	if (sim->getLowLevelBody().mCore->mFlags & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD && sim->isActive())
 	{
 		if (isArticulationLink)
 		{
@@ -4890,7 +4907,10 @@ void Sc::Scene::addBody(BodyCore& body, void*const *shapes, PxU32 nbShapes, size
 	//articulation for gpu
 	if(sim->getNodeIndex().isValid())
 		mSimulationController->addDynamic(&sim->getLowLevelBody(), sim->getNodeIndex());
-	mNbRigidDynamics++;
+	if(body.getSimStateData(true) && body.getSimStateData(true)->isKine())
+		mNbRigidKinematic++;
+	else
+		mNbRigidDynamics++;
 	addShapes(shapes, nbShapes, shapePtrOffset, *sim, outBounds);
 }
 
@@ -4913,10 +4933,14 @@ void Sc::Scene::removeBody(BodyCore& body, Ps::InlineArray<const Sc::ShapeCore*,
 		{
 			//clear bit map
 			if (sim->getLowLevelBody().mCore->mFlags & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
-				mSpeculativeCCDRigidBodyBitMap.reset(sim->getNodeIndex().index());
-		}
+				sim->getScene().resetSpeculativeCCDRigidBody(sim->getNodeIndex().index());
+				
+		}		
+		if(body.getSimStateData(true) && body.getSimStateData(true)->isKine())
+			mNbRigidKinematic--;
+		else
+			mNbRigidDynamics--;
 		mBodySimPool->destroy(sim);
-		mNbRigidDynamics--;
 	}
 }
 
@@ -5015,7 +5039,8 @@ void Sc::Scene::addBody(PxActor* actor, BatchInsertionState& s, PxBounds3* outBo
 	if(shapeTable->getCount())
 		Ps::prefetch(shapes[0], PxU32(s.shapeOffset+sizeof(Sc::ShapeCore)));
 
-	mBodySimPool->construct(sim, *this, *Ps::pointerOffset<Sc::BodyCore*>(actor, s.dynamicActorOffset), compound);
+	Sc::BodyCore* bodyCore = Ps::pointerOffset<Sc::BodyCore*>(actor, s.dynamicActorOffset);
+	mBodySimPool->construct(sim, *this, *bodyCore, compound);	
 	s.bodySim = mBodySimPool->allocateAndPrefetch();
 
 	const bool isArticulationLink = sim->isArticulationLink();
@@ -5035,7 +5060,10 @@ void Sc::Scene::addBody(PxActor* actor, BatchInsertionState& s, PxBounds3* outBo
 		mSimulationController->addDynamic(&sim->getLowLevelBody(), sim->getNodeIndex());
 
 	addShapes(shapes, shapeTable->getCount(), size_t(s.shapeOffset), *sim, s.shapeSim, outBounds);
-	mNbRigidDynamics++;
+	if(bodyCore->getSimStateData(true) && bodyCore->getSimStateData(true)->isKine())
+		mNbRigidKinematic++;
+	else
+		mNbRigidDynamics++;
 }
 
 void Sc::Scene::finishBatchInsertion(BatchInsertionState& state)
@@ -5093,6 +5121,16 @@ void Sc::Scene::setSolverBatchSize(PxU32 solverBatchSize)
 PxU32 Sc::Scene::getSolverBatchSize() const
 {
 	return mDynamicsContext->getSolverBatchSize();
+}
+
+void Sc::Scene::setSolverArticBatchSize(PxU32 solverBatchSize)
+{
+	mDynamicsContext->setSolverArticBatchSize(solverBatchSize);
+}
+
+PxU32 Sc::Scene::getSolverArticBatchSize() const
+{
+	return mDynamicsContext->getSolverArticBatchSize();
 }
 
 void Sc::Scene::setVisualizationParameter(PxVisualizationParameter::Enum param, PxReal value)
@@ -5446,13 +5484,12 @@ ArticulationV* Sc::Scene::createLLArticulation(Sc::ArticulationSim* sim)
 {
 	ArticulationV* articulation = NULL;
 	
-	if (sim->getCore().getArticulationType() == PxArticulationBase::eMaximumCoordinate)
+	if (!sim->getCore().isReducedCoordinate())
 	{
 		articulation =  mLLArticulationPool->construct(sim);
 	}
 	else 
 	{
-		PX_ASSERT(sim->getCore().getArticulationType() == PxArticulationBase::eReducedCoordinate);
 		articulation = mLLArticulationRCPool->construct(sim);
 	}
 
@@ -5461,11 +5498,11 @@ ArticulationV* Sc::Scene::createLLArticulation(Sc::ArticulationSim* sim)
 
 void Sc::Scene::destroyLLArticulation(ArticulationV& articulation)
 {
-	if (articulation.getType() == PxArticulationBase::eMaximumCoordinate)
+	if (articulation.getType() == Articulation::eMaximumCoordinate)
 		mLLArticulationPool->destroy(static_cast<Dy::Articulation*>(&articulation));
 	else
 	{
-		PX_ASSERT(articulation.getType() == PxArticulationBase::eReducedCoordinate);
+		PX_ASSERT(articulation.getType() == Articulation::eReducedCoordinate);
 		mLLArticulationRCPool->destroy(static_cast<Dy::FeatherstoneArticulation*>(&articulation));
 	}
 }

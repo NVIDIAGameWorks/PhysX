@@ -32,11 +32,11 @@
 
 #if PX_SUPPORT_PVD
 
+#include "common/PxCoreUtilityTypes.h"
+
 #include "PvdMetaDataPropertyVisitor.h"
 #include "PxPvdDataStreamHelpers.h"
 #include "PxPvdDataStream.h"
-#include "PxCoreUtilityTypes.h"
-
 
 namespace physx
 {

@@ -39,7 +39,7 @@
 #include "foundation/PxTransform.h"
 #include "foundation/PxIO.h"
 #include "geometry/PxGeometryHelpers.h"
-#include "PxVehicleComponents.h"
+#include "vehicle/PxVehicleComponents.h"
 #include "PxBatchQueryDesc.h"
 
 #if !PX_DOXYGEN

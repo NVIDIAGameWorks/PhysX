@@ -1,5 +1,6 @@
 <map id="PxAllocatorCallback.h" name="PxAllocatorCallback.h">
-<area shape="rect" id="node2" href="$PxDefaultAllocator_8h.html" title="PxDefaultAllocator.h" alt="" coords="5,80,145,107"/>
-<area shape="rect" id="node4" href="$PxPhysicsAPI_8h.html" title="PxPhysicsAPI.h" alt="" coords="71,229,189,256"/>
-<area shape="rect" id="node3" href="$PxExtensionsAPI_8h.html" title="PxExtensionsAPI.h" alt="" coords="9,155,144,181"/>
+<area shape="rect" id="node2" href="$PxSerializer_8h.html" title="PxSerializer.h" alt="" coords="5,155,108,181"/>
+<area shape="rect" id="node3" href="$PxPhysicsAPI_8h.html" title="PxPhysicsAPI.h" alt="" coords="87,229,205,256"/>
+<area shape="rect" id="node4" href="$PxDefaultAllocator_8h.html" title="PxDefaultAllocator.h" alt="" coords="184,80,324,107"/>
+<area shape="rect" id="node5" href="$PxExtensionsAPI_8h.html" title="PxExtensionsAPI.h" alt="" coords="185,155,320,181"/>
 </map>

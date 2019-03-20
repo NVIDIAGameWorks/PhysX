@@ -27,14 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxTriangleMesh.h"
+#include "geomutils/GuContactBuffer.h"
+
 #include "PsVecMath.h"
 #include "PsVecTransform.h"
+
 #include "GuVecTriangle.h"
 #include "GuGeometryUnion.h"
-
 #include "GuContactMethodImpl.h"
-#include "PxTriangleMesh.h"
-#include "GuContactBuffer.h"
 #include "GuHeightField.h"
 #include "GuPCMContactConvexCommon.h"
 #include "GuSegment.h"

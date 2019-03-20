@@ -31,8 +31,8 @@
 #include "D3D11RendererInstanceBuffer.h"
 #include <RendererInstanceBufferDesc.h>
 
-#if PX_WINDOWS
-#include <task/PxTask.h>
+#if PX_SUPPORT_GPU_PHYSX
+#include <cudamanager/PxCudaContextManager.h>
 #endif
 
 using namespace SampleRenderer;

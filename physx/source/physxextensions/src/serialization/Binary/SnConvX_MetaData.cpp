@@ -148,7 +148,8 @@ bool MetaClass::check(const MetaData& owner)
 					owner.mConvX.displayMessage(PxErrorCode::eINTERNAL_ERROR, 
 						"PxBinaryConverter: %s: %d overlapping bytes at offset %d!\n", mClassName, nbBytes, startOffset);
 					startOffset = -1;
-					PX_ALWAYS_ASSERT_MESSAGE("Overlapping bytes!");
+					PX_FREE(map);
+					return false;
 				}
 			}
 			map[j] = true;
@@ -158,7 +159,8 @@ bool MetaClass::check(const MetaData& owner)
 			owner.mConvX.displayMessage(PxErrorCode::eINTERNAL_ERROR,
 				"PxBinaryConverter: %s: %d overlapping bytes at offset %d!\n", mClassName, nbBytes, startOffset);
 			startOffset = -1;
-			PX_ALWAYS_ASSERT_MESSAGE("Overlapping bytes!");
+			PX_FREE(map);
+			return false;
 		}
 	}
 
@@ -224,7 +226,6 @@ MetaData::MetaData(ConvX& convx) :
 	mEntries				(NULL),
 	mStringTable			(NULL),
 	mVersion				(0),
-	mBuildNumber			(0),
 	mSizeOfPtr				(0),
 	mPlatformTag			(0),
 	mGaussMapLimit			(0),
@@ -326,28 +327,21 @@ bool MetaData::load(PxInputStream& inputStream, MetaDataType type)
 		}
 
 		inputStream.read(&mVersion, 4);
-		inputStream.read(&mBinaryVersion, 4);
 		if(mFlip)
 		{
 			flip(mVersion);
-			flip(mBinaryVersion);
 		}
+		inputStream.read(mBinaryVersionGuid, SN_BINARY_VERSION_GUID_NUM_CHARS);
+		mBinaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS] = 0;
 
-		if (!checkCompatibility(PxU32(mVersion), PxU32(mBinaryVersion)))
+		if (!checkCompatibility(mBinaryVersionGuid))
 		{
-			char buffer[512];
-		    getCompatibilityVersionsStr(buffer, 512);
-
 			mConvX.displayMessage(PxErrorCode::eINVALID_PARAMETER,
-				"PxBinaryConverter: data version (%x-%d) is incompatible with this PhysX sdk.\n These versions would be compatible: %s",
-				mVersion, mBinaryVersion, buffer);
+				"PxBinaryConverter: binary data version 0x%s is incompatible with this PhysX sdk (0x%s).\n",
+				mBinaryVersionGuid, getBinaryVersionGuid());
 			
 			return false;
 		}
-		inputStream.read(&mBuildNumber, 4);
-		if(mFlip)
-			flip(mBuildNumber);
-
 		
 		inputStream.read(&mSizeOfPtr, 4);
 		if(mFlip)
@@ -741,9 +735,8 @@ bool MetaData::compare(const MetaData& dst) const
 
 	//mType
 	COMPARE_METADATA_BOOL_MD(MetaData, *this, dst, mFlip)
-	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mVersion)
-	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mBinaryVersion)
-	//mBuildNumber
+	//mVersion
+	COMPARE_METADATA_STRING_MD(MetaData, *this, dst, mBinaryVersionGuid)
 	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mSizeOfPtr)
 	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mPlatformTag)
 	COMPARE_METADATA_INT_MD(MetaData, *this, dst, mGaussMapLimit)
@@ -769,7 +762,7 @@ bool MetaData::compare(const MetaData& dst) const
 
 		if (mcSrc == nullptr)
 		{
-			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "dst is missing meta class %s", mcSrc->mClassName);
+			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "src is missing meta class %s", mcDst->mClassName);
 		}
 	}
 

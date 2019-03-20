@@ -27,13 +27,12 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "GuConvexUtilsInternal.h"
-
 #include "foundation/PxBounds3.h"
-#include "CmScaling.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "GuConvexUtilsInternal.h"
 #include "GuBoxConversion.h"
-#include "PxConvexMeshGeometry.h"
 #include "GuConvexMesh.h"
+#include "CmScaling.h"
 
 using namespace physx;
 using namespace Gu;

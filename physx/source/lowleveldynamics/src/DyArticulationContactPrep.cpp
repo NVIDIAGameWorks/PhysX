@@ -52,33 +52,32 @@ namespace Dy
 // constraint-gen only, since these use getVelocity methods
 // which aren't valid during the solver phase
 
-PX_INLINE void computeFrictionTangents(const PxVec3& vrel,const PxVec3& unitNormal, PxVec3& t0, PxVec3& t1)
-{
-	PX_ASSERT(PxAbs(unitNormal.magnitude()-1)<1e-3f);
-
-	t0 = vrel - unitNormal * unitNormal.dot(vrel);
-	PxReal ll = t0.magnitudeSquared();
-
-	if (ll > 1e10f)										//can set as low as 0.
-	{
-		t0 *= PxRecipSqrt(ll);
-		t1 = unitNormal.cross(t0);
-	}
-	else
-		Ps::normalToTangents(unitNormal, t0, t1);		//fallback
-}
+//PX_INLINE void computeFrictionTangents(const Ps::aos::Vec3V& vrel,const Ps::aos::Vec3V& unitNormal, Ps::aos::Vec3V& t0, Ps::aos::Vec3V& t1)
+//{
+//	using namespace Ps::aos;
+//	//PX_ASSERT(PxAbs(unitNormal.magnitude()-1)<1e-3f);
+//
+//	t0 = V3Sub(vrel, V3Scale(unitNormal, V3Dot(unitNormal, vrel)));
+//	const FloatV ll = V3Dot(t0, t0);
+//
+//	if (FAllGrtr(ll, FLoad(1e10f)))										//can set as low as 0.
+//	{
+//		t0 = V3Scale(t0, FRsqrt(ll));
+//		t1 = V3Cross(unitNormal, t0);
+//	}
+//	else
+//		Ps::normalToTangents(unitNormal, t0, t1);		//fallback
+//}
 
 PxReal SolverExtBody::projectVelocity(const PxVec3& linear, const PxVec3& angular) const
 {
 	if(mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-	{
 		return mBodyData->projectVelocity(linear, angular);
-	}
 	else
 	{
 		const Cm::SpatialVectorV velocity = mArticulation->getLinkVelocity(mLinkIndex);
 
-		FloatV fv = velocity.dot(Cm::SpatialVector(linear, angular));
+		const FloatV fv = velocity.dot(Cm::SpatialVector(linear, angular));
 
 		PxF32 f;
 		FStore(fv, &f);
@@ -89,13 +88,28 @@ PxReal SolverExtBody::projectVelocity(const PxVec3& linear, const PxVec3& angula
 	}
 }
 
+Ps::aos::FloatV SolverExtBody::projectVelocity(const Ps::aos::Vec3V& linear, const Ps::aos::Vec3V& angular) const
+{
+	if (mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+	{
+		return V3SumElems(V3Add(V3Mul(V3LoadA(mBodyData->linearVelocity), linear), V3Mul(V3LoadA(mBodyData->angularVelocity), angular)));
+	}
+	else
+	{
+		const Cm::SpatialVectorV velocity = mArticulation->getLinkVelocity(mLinkIndex);
+
+		return velocity.dot(Cm::SpatialVectorV(linear, angular));
+	}
+}
+
+
 PxVec3 SolverExtBody::getLinVel() const
 {
 	if(mLinkIndex == PxSolverConstraintDesc::NO_LINK)
 		return mBodyData->linearVelocity;
 	else
 	{
-		Vec3V linear = mArticulation->getLinkVelocity(mLinkIndex).linear;
+		const Vec3V linear = mArticulation->getLinkVelocity(mLinkIndex).linear;
 
 		PxVec3 result;
 		V3StoreU(linear, result);
@@ -105,15 +119,13 @@ PxVec3 SolverExtBody::getLinVel() const
 	}
 }
 
-
 PxVec3 SolverExtBody::getAngVel() const
 {
 	if(mLinkIndex == PxSolverConstraintDesc::NO_LINK)
 		return mBodyData->angularVelocity;
 	else
 	{
-
-		Vec3V angular = mArticulation->getLinkVelocity(mLinkIndex).angular;
+		const Vec3V angular = mArticulation->getLinkVelocity(mLinkIndex).angular;
 		
 		PxVec3 result;
 		V3StoreU(angular, result);
@@ -123,13 +135,51 @@ PxVec3 SolverExtBody::getAngVel() const
 	}
 }
 
+Ps::aos::Vec3V SolverExtBody::getLinVelV() const
+{
+	if (mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+		return V3LoadA(mBodyData->linearVelocity);
+	else
+	{
+		return mArticulation->getLinkVelocity(mLinkIndex).linear;
+	}
+}
+
+
+Vec3V SolverExtBody::getAngVelV() const
+{
+	if (mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+		return V3LoadA(mBodyData->angularVelocity);
+	else
+	{
+
+		return mArticulation->getLinkVelocity(mLinkIndex).angular;
+	}
+}
+
+Cm::SpatialVectorV SolverExtBody::getVelocity() const
+{
+	if(mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+		return Cm::SpatialVectorV(V3LoadA(mBodyData->linearVelocity), V3LoadA(mBodyData->angularVelocity));
+	else
+		return mArticulation->getLinkVelocity(mLinkIndex);
+}
+
 Cm::SpatialVector createImpulseResponseVector(const PxVec3& linear, const PxVec3& angular, const SolverExtBody& body)
 {
 	if(body.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-	{
 		return Cm::SpatialVector(linear, body.mBodyData->sqrtInvInertia * angular);
-	}
+
 	return Cm::SpatialVector(linear, angular);
+}
+
+Cm::SpatialVectorV createImpulseResponseVector(const Ps::aos::Vec3V& linear, const Ps::aos::Vec3V& angular, const SolverExtBody& body)
+{
+	if (body.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+	{
+		return Cm::SpatialVectorV(linear, M33MulV3(M33Load(body.mBodyData->sqrtInvInertia), angular));
+	}
+	return Cm::SpatialVectorV(linear, angular);
 }
 
 PxReal getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVector& impulse0, Cm::SpatialVector& deltaV0, PxReal dom0, PxReal angDom0, 
@@ -137,7 +187,7 @@ PxReal getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVector& impu
 	Cm::SpatialVectorF* Z, bool allowSelfCollision)
 {
 	PxReal response;
-	allowSelfCollision = true;
+	allowSelfCollision = false;
 	// right now self-collision with contacts crashes the solver
 	
 	//KS - knocked this out to save some space on SPU
@@ -150,11 +200,9 @@ PxReal getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVector& impu
 			deltaV0, deltaV1);
 		
 		response = impulse0.dot(deltaV0) + impulse1.dot(deltaV1);
-
 	}
 	else 
 	{
-		
 		if(b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
 		{
 			deltaV0.linear = impulse0.linear * b0.mBodyData->invMass * dom0;
@@ -180,6 +228,40 @@ PxReal getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVector& impu
 
 	return response;
 }
+
+FloatV getImpulseResponse(const SolverExtBody& b0, const Cm::SpatialVectorV& impulse0, Cm::SpatialVectorV& deltaV0, const FloatV& dom0, const FloatV& angDom0,
+	const SolverExtBody& b1, const Cm::SpatialVectorV& impulse1, Cm::SpatialVectorV& deltaV1, const FloatV& dom1, const FloatV& angDom1,
+	Cm::SpatialVectorV* Z, bool /*allowSelfCollision*/)
+{
+	Vec3V response;
+	{
+
+		if (b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+		{
+			deltaV0.linear = V3Scale(impulse0.linear,  FMul(FLoad(b0.mBodyData->invMass), dom0));
+			deltaV0.angular = V3Scale(impulse0.angular, angDom0);
+		}
+		else
+		{
+			b0.mArticulation->getImpulseResponse(b0.mLinkIndex, Z, impulse0.scale(dom0, angDom0), deltaV0);
+		}
+
+		response = V3Add(V3Mul(impulse0.linear, deltaV0.linear), V3Mul(impulse0.angular, deltaV0.angular));
+		if (b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
+		{
+			deltaV1.linear = V3Scale(impulse1.linear, FMul(FLoad(b1.mBodyData->invMass), dom1));
+			deltaV1.angular = V3Scale(impulse1.angular, angDom1);
+		}
+		else
+		{
+			b1.mArticulation->getImpulseResponse(b1.mLinkIndex, Z, impulse1.scale(dom1, angDom1), deltaV1);
+		}
+		response = V3Add(response, V3Add(V3Mul(impulse1.linear, deltaV1.linear), V3Mul(impulse1.angular, deltaV1.angular)));
+	}
+
+	return V3SumElems(response);
+}
+
 
 
 void setupFinalizeExtSolverContacts(
@@ -211,35 +293,27 @@ void setupFinalizeExtSolverContacts(
 
 	const FloatV zero = FZero();
 
-	//KS - TODO - this should all be done in SIMD to avoid LHS
-	//const PxF32 maxPenBias0 = b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b0.mBodyData->penBiasClamp : getMaxPenBias(*b0.mFsData)[b0.mLinkIndex];
-	//const PxF32 maxPenBias1 = b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b1.mBodyData->penBiasClamp : getMaxPenBias(*b1.mFsData)[b1.mLinkIndex];
-
-	PxF32 maxPenBias0 = b0.mBodyData->penBiasClamp;
-	PxF32 maxPenBias1 = b1.mBodyData->penBiasClamp;
-
-	if (b0.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-	{
-		maxPenBias0 = b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
-	}
-
-	if (b1.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-	{
-		maxPenBias1 = b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
-	}
+	const PxF32 maxPenBias0 = b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b0.mBodyData->penBiasClamp : b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
+	const PxF32 maxPenBias1 = b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b1.mBodyData->penBiasClamp : b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
 
 	const FloatV maxPenBias = FLoad(PxMax(maxPenBias0, maxPenBias1));
 
+	const Vec3V frame0p = V3LoadU(bodyFrame0.p);
+	const Vec3V frame1p = V3LoadU(bodyFrame1.p);
 
-	const PxReal d0 = invMassScale0;
-	const PxReal d1 = invMassScale1;
+	const Cm::SpatialVectorV vel0 = b0.getVelocity();
+	const Cm::SpatialVectorV vel1 = b1.getVelocity();
 
-	const PxReal angD0 = invInertiaScale0;
-	const PxReal angD1 = invInertiaScale1;
+
+	const FloatV d0 = FLoad(invMassScale0);
+	const FloatV d1 = FLoad(invMassScale1);
+
+	const FloatV angD0 = FLoad(invInertiaScale0);
+	const FloatV angD1 = FLoad(invInertiaScale1);
 
 	Vec4V staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W = V4Zero();
-	staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W=V4SetZ(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, FLoad(d0));
-	staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W=V4SetW(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, FLoad(d1));
+	staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W=V4SetZ(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, d0);
+	staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W=V4SetW(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, d1);
 
 	const FloatV restDistance = FLoad(restDist); 
 
@@ -269,7 +343,7 @@ void setupFinalizeExtSolverContacts(
 		const Gu::ContactPoint* contactBase0 = buffer + c.contactPatches[c.correlationListHeads[i]].start;
 		const PxReal combinedRestitution = contactBase0->restitution;
 
-		PxReal coefficient = (contactBase0->materialFlags & PxMaterialFlag::eIMPROVED_PATCH_FRICTION && frictionPatch.anchorCount == 2) ? 0.5f : 1.f;
+		const PxReal coefficient = (contactBase0->materialFlags & PxMaterialFlag::eIMPROVED_PATCH_FRICTION && frictionPatch.anchorCount == 2) ? 0.5f : 1.f;
 
 		const PxReal staticFriction = contactBase0->staticFriction * coefficient;
 		const PxReal dynamicFriction = contactBase0->dynamicFriction * coefficient;
@@ -279,7 +353,6 @@ void setupFinalizeExtSolverContacts(
 	
 		SolverContactHeader* PX_RESTRICT header = reinterpret_cast<SolverContactHeader*>(ptr);
 		ptr += sizeof(SolverContactHeader);		
-
 
 		Ps::prefetchLine(ptr + 128);
 		Ps::prefetchLine(ptr + 256);
@@ -297,8 +370,8 @@ void setupFinalizeExtSolverContacts(
 	
 		header->staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W = staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W;
 
-		header->angDom0 = angD0;
-		header->angDom1 = angD1;
+		header->angDom0 = invInertiaScale0;
+		header->angDom1 = invInertiaScale1;
 	
 		const PxU32 pointStride = sizeof(SolverContactPointExt);
 		const PxU32 frictionStride = sizeof(SolverContactFrictionExt);
@@ -316,8 +389,6 @@ void setupFinalizeExtSolverContacts(
 				
 			PxU8* p = ptr;
 
-			
-
 			for(PxU32 j=0;j<count;j++)
 			{
 				const Gu::ContactPoint& contact = contactBase[j];
@@ -325,8 +396,8 @@ void setupFinalizeExtSolverContacts(
 				SolverContactPointExt* PX_RESTRICT solverContact = reinterpret_cast<SolverContactPointExt*>(p);
 				p += pointStride;
 
-				accumImpulse = FAdd(accumImpulse, setupExtSolverContact(b0, b1, d0, d1, angD0, angD1, bodyFrame0, bodyFrame1, normal, invDt, invDtp8, restDistance, maxPenBias, restitution,
-					bounceThreshold, contact, *solverContact, ccdMaxSeparation, Z));
+				accumImpulse = FAdd(accumImpulse, setupExtSolverContact(b0, b1, d0, d1, angD0, angD1, frame0p, frame1p, normal, invDt, invDtp8, restDistance, maxPenBias, restitution,
+					bounceThreshold, contact, *solverContact, ccdMaxSeparation, Z, vel0, vel1));
 			
 			}
 
@@ -347,13 +418,31 @@ void setupFinalizeExtSolverContacts(
 		if(haveFriction)
 		{
 			//const Vec3V normal = Vec3V_From_PxVec3(buffer.contacts[c.contactPatches[c.correlationListHeads[i]].start].normal);
-			PxVec3 normalS = buffer[c.contactPatches[c.correlationListHeads[i]].start].normal;
+			//Vec3V normalS = V3LoadA(buffer[c.contactPatches[c.correlationListHeads[i]].start].normal);
 
-			PxVec3 t0, t1;
-			computeFrictionTangents(b0.getLinVel() - b1.getLinVel(), normalS, t0, t1);
 
-			Vec3V vT0 = V3LoadU(t0);
-			Vec3V vT1 = V3LoadU(t1);
+			const Vec3V linVrel = V3Sub(vel0.linear, vel1.linear);
+			//const Vec3V normal = Vec3V_From_PxVec3_Aligned(buffer.contacts[c.contactPatches[c.correlationListHeads[i]].start].normal);
+
+			const FloatV orthoThreshold = FLoad(0.70710678f);
+			const FloatV p1 = FLoad(0.0001f);
+			// fallback: normal.cross((1,0,0)) or normal.cross((0,0,1))
+			const FloatV normalX = V3GetX(normal);
+			const FloatV normalY = V3GetY(normal);
+			const FloatV normalZ = V3GetZ(normal);
+
+			Vec3V t0Fallback1 = V3Merge(zero, FNeg(normalZ), normalY);
+			Vec3V t0Fallback2 = V3Merge(FNeg(normalY), normalX, zero);
+			Vec3V t0Fallback = V3Sel(FIsGrtr(orthoThreshold, FAbs(normalX)), t0Fallback1, t0Fallback2);
+
+			Vec3V t0 = V3Sub(linVrel, V3Scale(normal, V3Dot(normal, linVrel)));
+			t0 = V3Sel(FIsGrtr(V3LengthSq(t0), p1), t0, t0Fallback);
+			t0 = V3Normalize(t0);
+
+			const VecCrossV t0Cross = V3PrepareCross(t0);
+
+			const Vec3V t1 = V3Cross(normal, t0Cross);
+			const VecCrossV t1Cross = V3PrepareCross(t1);
 			
 			//We want to set the writeBack ptr to point to the broken flag of the friction patch.
 			//On spu we have a slight problem here because the friction patch array is 
@@ -372,75 +461,73 @@ void setupFinalizeExtSolverContacts(
 				SolverContactFrictionExt* PX_RESTRICT f1 = reinterpret_cast<SolverContactFrictionExt*>(ptr);
 				ptr += frictionStride;
 
-				PxVec3 ra = bodyFrame0.q.rotate(frictionPatch.body0Anchors[j]);
-				PxVec3 rb = bodyFrame1.q.rotate(frictionPatch.body1Anchors[j]);
-				PxVec3 error = (ra + bodyFrame0.p) - (rb + bodyFrame1.p);
+				Vec3V ra = V3LoadU(bodyFrame0.q.rotate(frictionPatch.body0Anchors[j]));
+				Vec3V rb = V3LoadU(bodyFrame1.q.rotate(frictionPatch.body1Anchors[j]));
+				Vec3V error = V3Sub(V3Add(ra, frame0p), V3Add(rb, frame1p));
 
 				{
-					const PxVec3 raXn = ra.cross(t0);
-					const PxVec3 rbXn = rb.cross(t0);
+					const Vec3V raXn = V3Cross(ra, t0Cross);
+					const Vec3V rbXn = V3Cross(rb, t0Cross);
 
-					Cm::SpatialVector deltaV0, deltaV1;
+					Cm::SpatialVectorV deltaV0, deltaV1;
 
-					const Cm::SpatialVector resp0 = createImpulseResponseVector(t0, raXn, b0);
-					const Cm::SpatialVector resp1 = createImpulseResponseVector(-t0, -rbXn, b1);
-					FloatV resp = FLoad(getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
-															 b1, resp1, deltaV1, d1, angD1, Z));
+					const Cm::SpatialVectorV resp0 = createImpulseResponseVector(t0, raXn, b0);
+					const Cm::SpatialVectorV resp1 = createImpulseResponseVector(V3Neg(t0), V3Neg(rbXn), b1);
+					FloatV resp = getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
+															 b1, resp1, deltaV1, d1, angD1, reinterpret_cast<Cm::SpatialVectorV*>(Z));
 
 					const FloatV velMultiplier = FSel(FIsGrtr(resp, FLoad(DY_ARTICULATION_MIN_RESPONSE)), FDiv(p8, resp), zero);
 
-					PxU32 index = c.contactPatches[c.correlationListHeads[i]].start;
-					PxF32 targetVel = buffer[index].targetVel.dot(t0);
+					const PxU32 index = c.contactPatches[c.correlationListHeads[i]].start;
+					FloatV targetVel = V3Dot(V3LoadA(buffer[index].targetVel), t0);
 
 					if(b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-						targetVel -= b0.projectVelocity(t0, raXn);
+						targetVel = FSub(targetVel, b0.projectVelocity(t0, raXn));
 					else if(b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-						targetVel += b1.projectVelocity(t0, rbXn);
+						targetVel = FAdd(targetVel, b1.projectVelocity(t0, rbXn));
 
-					f0->normalXYZ_appliedForceW = V4SetW(vT0, zero);
-					f0->raXnXYZ_velMultiplierW = V4SetW(V4LoadA(&resp0.angular.x), velMultiplier);
-					f0->rbXnXYZ_biasW = V4SetW(V4Neg(V4LoadA(&resp1.angular.x)), FLoad(t0.dot(error) * invDtF32));
-					f0->linDeltaVA = V3LoadA(deltaV0.linear);
-					f0->angDeltaVA = V3LoadA(deltaV0.angular);
-					f0->linDeltaVB = V3LoadA(deltaV1.linear);
-					f0->angDeltaVB = V3LoadA(deltaV1.angular);
-					f0->targetVel = targetVel;
+					f0->normalXYZ_appliedForceW = V4SetW(t0, zero);
+					f0->raXnXYZ_velMultiplierW = V4SetW(Vec4V_From_Vec3V(resp0.angular), velMultiplier);
+					f0->rbXnXYZ_biasW = V4SetW(V4Neg(Vec4V_From_Vec3V(resp1.angular)), FMul(V3Dot(t0, error), invDt));
+					f0->linDeltaVA = deltaV0.linear;
+					f0->angDeltaVA = deltaV0.angular;
+					f0->linDeltaVB = deltaV1.linear;
+					f0->angDeltaVB = deltaV1.angular;
+					FStore(targetVel, &f0->targetVel);
 				}
 
 				{
+					const Vec3V raXn = V3Cross(ra, t1Cross);
+					const Vec3V rbXn = V3Cross(rb, t1Cross);
 
-					const PxVec3 raXn = ra.cross(t1);
-					const PxVec3 rbXn = rb.cross(t1);
+					Cm::SpatialVectorV deltaV0, deltaV1;
 
-					Cm::SpatialVector deltaV0, deltaV1;
+					const Cm::SpatialVectorV resp0 = createImpulseResponseVector(t1, raXn, b0);
+					const Cm::SpatialVectorV resp1 = createImpulseResponseVector(V3Neg(t1), V3Neg(rbXn), b1);
 
-
-					const Cm::SpatialVector resp0 = createImpulseResponseVector(t1, raXn, b0);
-					const Cm::SpatialVector resp1 = createImpulseResponseVector(-t1, -rbXn, b1);
-
-					FloatV resp = FLoad(getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
-														   b1, resp1, deltaV1, d1, angD1, Z));
+					FloatV resp = getImpulseResponse(b0, resp0, deltaV0, d0, angD0,
+														   b1, resp1, deltaV1, d1, angD1, reinterpret_cast<Cm::SpatialVectorV*>(Z));
 
 					//const FloatV velMultiplier = FSel(FIsGrtr(resp, FLoad(DY_ARTICULATION_MIN_RESPONSE)), FMul(p8, FRecip(resp)), zero);
 
 					const FloatV velMultiplier = FSel(FIsGrtr(resp, FLoad(DY_ARTICULATION_MIN_RESPONSE)), FDiv(p8, resp), zero);
 
-					PxU32 index = c.contactPatches[c.correlationListHeads[i]].start;
-					PxF32 targetVel = buffer[index].targetVel.dot(t1);
+					const PxU32 index = c.contactPatches[c.correlationListHeads[i]].start;
+					FloatV targetVel = V3Dot(V3LoadA(buffer[index].targetVel), t1);
 
 					if(b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-						targetVel -= b0.projectVelocity(t1, raXn);
+						targetVel = FSub(targetVel, b0.projectVelocity(t1, raXn));
 					else if(b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-						targetVel += b1.projectVelocity(t1, rbXn);
+						targetVel = FAdd(targetVel, b1.projectVelocity(t1, rbXn));
 
-					f1->normalXYZ_appliedForceW = V4SetW(vT1, zero);
-					f1->raXnXYZ_velMultiplierW = V4SetW(V4LoadA(&resp0.angular.x), velMultiplier);
-					f1->rbXnXYZ_biasW = V4SetW(V4Neg(V4LoadA(&resp1.angular.x)), FLoad(t1.dot(error) * invDtF32));
-					f1->linDeltaVA = V3LoadA(deltaV0.linear);
-					f1->angDeltaVA = V3LoadA(deltaV0.angular);
-					f1->linDeltaVB = V3LoadA(deltaV1.linear);
-					f1->angDeltaVB = V3LoadA(deltaV1.angular);
-					f1->targetVel = targetVel;
+					f1->normalXYZ_appliedForceW = V4SetW(t1, zero);
+					f1->raXnXYZ_velMultiplierW = V4SetW(Vec4V_From_Vec3V(resp0.angular), velMultiplier);
+					f1->rbXnXYZ_biasW = V4SetW(V4Neg(Vec4V_From_Vec3V(resp1.angular)), FMul(V3Dot(t1, error), invDt));
+					f1->linDeltaVA = deltaV0.linear;
+					f1->angDeltaVA = deltaV0.angular;
+					f1->linDeltaVB = deltaV1.linear;
+					f1->angDeltaVB = deltaV1.angular;
+					FStore(targetVel, &f1->targetVel);
 				}
 			}
 		}

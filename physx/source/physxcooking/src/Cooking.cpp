@@ -29,27 +29,28 @@
 
 
 #include "foundation/PxErrorCallback.h"
+#include "common/PxPhysicsInsertionCallback.h"
+#include "geometry/PxSimpleTriangleMesh.h"
+#include "geometry/PxHeightFieldDesc.h"
+#include "cooking/PxTriangleMeshDesc.h"
+#include "cooking/PxConvexMeshDesc.h"
+#include "cooking/PxCooking.h"
+#include "PxPhysXConfig.h"
+
 #include "PsFoundation.h"
 #include "PsUtilities.h"
 #include "PsFPU.h"
 #include "CmPhysXCommon.h"
-#include "PxPhysXConfig.h"
-#include "PxSimpleTriangleMesh.h"
-#include "PxTriangleMeshDesc.h"
-#include "PxConvexMeshDesc.h"
-#include "PxCooking.h"
+#include "CmIO.h"
+#include "CmUtils.h"
 #include "Cooking.h"
 #include "mesh/TriangleMeshBuilder.h"
 #include "GuConvexMesh.h"
+#include "GuHeightField.h"
 #include "ConvexMeshBuilder.h"
 #include "BVHStructureBuilder.h"
 #include "QuickHullConvexHullLib.h"
-#include "CmIO.h"
-#include "PxHeightFieldDesc.h"
-#include "GuHeightField.h"
 #include "HeightFieldCooking.h"
-#include "common/PxPhysicsInsertionCallback.h"
-#include "CmUtils.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

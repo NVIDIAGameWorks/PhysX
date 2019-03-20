@@ -27,11 +27,12 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxVehicleDriveTank.h"
-#include "PxVehicleWheels.h"
-#include "PxVehicleSDK.h"
-#include "PxVehicleDefaults.h"
+#include "vehicle/PxVehicleDriveTank.h"
+#include "vehicle/PxVehicleWheels.h"
+#include "vehicle/PxVehicleSDK.h"
 #include "PxRigidDynamic.h"
+
+#include "PxVehicleDefaults.h"
 #include "CmPhysXCommon.h"
 #include "CmUtils.h"
 #include "PsFoundation.h"

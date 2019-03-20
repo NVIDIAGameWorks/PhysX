@@ -32,9 +32,9 @@
 
 #include "foundation/PxBounds3.h"
 #include "foundation/PxFlags.h"
+#include "geometry/PxGeometry.h"
 #include "GuSIMDHelpers.h"
 #include <stddef.h>
-#include "PxGeometry.h"
 #include "GuBox.h"
 #include "GuCenterExtents.h"
 #include "GuSphere.h"

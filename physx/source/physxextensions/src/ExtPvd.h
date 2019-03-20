@@ -33,12 +33,13 @@
 
 #if PX_SUPPORT_PVD
 
+#include "extensions/PxJoint.h"
+
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
-#include "PxJoint.h"
 #include "PxPvdDataStream.h"
-#include "PxExtensionMetaDataObjects.h"
 #include "PvdTypeNames.h"
+#include "PxExtensionMetaDataObjects.h"
 #include "PxPvdObjectModelBaseTypes.h"
 
 namespace physx

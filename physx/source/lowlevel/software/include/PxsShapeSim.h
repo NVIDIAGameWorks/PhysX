@@ -35,6 +35,8 @@
 
 namespace physx
 {
+struct PxsShapeCore;
+
 //PxsBodySim is 12 or 16 bytes
 struct PxsShapeSim// : public PxsBodySim
 {	

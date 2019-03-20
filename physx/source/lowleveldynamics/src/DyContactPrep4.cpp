@@ -1306,10 +1306,10 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(
 	{
 		PxSolverContactDesc& blockDesc = blockDescs[a];
 
-		invMassScale0[a] = blockDesc.mInvMassScales.linear0;
-		invMassScale1[a] = blockDesc.mInvMassScales.linear1;
-		invInertiaScale0[a] = blockDesc.mInvMassScales.angular0;
-		invInertiaScale1[a] = blockDesc.mInvMassScales.angular1;
+		invMassScale0[a] = blockDesc.invMassScales.linear0;
+		invMassScale1[a] = blockDesc.invMassScales.linear1;
+		invInertiaScale0[a] = blockDesc.invMassScales.angular0;
+		invInertiaScale1[a] = blockDesc.invMassScales.angular1;
 
 		blockDesc.startFrictionPatchIndex = c.frictionPatchCount;
 		if (!(blockDesc.disableStrongFriction))
@@ -1519,17 +1519,17 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(
 		blockDesc.hasMaxImpulse = hasMaxImpulse;
 		blockDesc.disableStrongFriction = blockDesc.disableStrongFriction || hasTargetVelocity;
 
-		blockDesc.mInvMassScales.linear0 *= invMassScale0;
-		blockDesc.mInvMassScales.linear1 *= invMassScale1;
-		blockDesc.mInvMassScales.angular0 *= invInertiaScale0;
-		blockDesc.mInvMassScales.angular1 *= invInertiaScale1;
+		blockDesc.invMassScales.linear0 *= invMassScale0;
+		blockDesc.invMassScales.linear1 *= invMassScale1;
+		blockDesc.invMassScales.angular0 *= invInertiaScale0;
+		blockDesc.invMassScales.angular1 *= invInertiaScale1;
 
 		//blockDesc.frictionPtr = &blockDescs[a].frictionPtr;
 		//blockDesc.frictionCount = blockDescs[a].frictionCount;
 
 	}
 	return createFinalizeSolverContacts4(c, blockDescs,
-		invDtF32, bounceThresholdF32,	frictionOffsetThreshold,
+		invDtF32, bounceThresholdF32, frictionOffsetThreshold,
 		correlationDistance, solverOffsetSlop, constraintAllocator);
 }
 

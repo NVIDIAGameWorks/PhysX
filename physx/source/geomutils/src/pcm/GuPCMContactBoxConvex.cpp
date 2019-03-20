@@ -27,18 +27,17 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuGJKPenetration.h"
 #include "GuEPA.h"
 #include "GuVecBox.h"
 #include "GuVecConvexHull.h"
 #include "GuVecConvexHullNoScale.h"
 #include "GuGeometryUnion.h"
-
 #include "GuContactMethodImpl.h"
 #include "GuPCMContactGen.h"
 #include "GuPCMShapeConvex.h"
-#include "GuContactBuffer.h"
-
 
 
 #define PCM_BOX_HULL_DEBUG 0
@@ -212,14 +211,18 @@ bool pcmContactBoxConvex(GU_CONTACT_METHOD_ARGS)
 	const PxU32 initialContacts = manifold.mNumContacts;
 
 	manifold.refreshContactPoints(aToB, projectBreakingThreshold, contactDist);  
+
+	const Vec3V extents = V3Mul(V3LoadU(hullData->mInternal.mExtents), vScale);
+	const FloatV radiusA = V3Length(boxExtents);
+	const FloatV radiusB = V3Length(extents);
 	
 	//After the refresh contact points, the numcontacts in the manifold will be changed
 	const bool bLostContacts = (manifold.mNumContacts != initialContacts);
 
-	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))	
+	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, transf0.q, transf1.q, minMargin, radiusA, radiusB))
 	{
 		
-		manifold.setRelativeTransform(curRTrans);
+		manifold.setRelativeTransform(curRTrans, transf0.q, transf1.q);
 	
 		GjkStatus status = manifold.mNumContacts > 0 ? GJK_UNDEFINED : GJK_NON_INTERSECT;
 

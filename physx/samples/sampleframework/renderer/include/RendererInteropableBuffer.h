@@ -29,9 +29,13 @@
 #define RENDERER_INTEROPABLE_BUFFER_H
 
 #include <RendererConfig.h>
-#include "cudamanager/PxCudaContextManager.h"
 
 typedef struct CUgraphicsResource_st *CUgraphicsResource;
+
+namespace physx
+{
+	class PxCudaContextManager;
+}
 
 namespace SampleRenderer
 {

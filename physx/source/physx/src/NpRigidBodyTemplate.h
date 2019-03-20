@@ -487,6 +487,7 @@ PX_FORCE_INLINE void NpRigidBodyTemplate<APIClass>::setRigidBodyFlagsInternal(co
 
 	Scb::Body& body = getScbBodyFast();
 	NpScene* scene = NpActor::getAPIScene(*this);
+	Sc::Scene* scScene = scene ? &scene->getScene().getScScene() : NULL;
 
 	const bool isKinematic = currentFlags & PxRigidBodyFlag::eKINEMATIC;
 	const bool willBeKinematic = filteredNewFlags & PxRigidBodyFlag::eKINEMATIC;
@@ -519,6 +520,12 @@ PX_FORCE_INLINE void NpRigidBodyTemplate<APIClass>::setRigidBodyFlagsInternal(co
 			updateDynamicSceneQueryShapes(shapeManager, scene->getSceneQueryManagerFast(), *this);
 		}
 
+		if(scScene)
+		{
+			scScene->decreaseNumKinematicsCounter();
+			scScene->increaseNumDynamicsCounter();
+		}
+
 		body.clearSimStateDataForPendingInsert();
 	}
 	else if (dynamicSwitchingToKinematic)
@@ -532,6 +539,12 @@ PX_FORCE_INLINE void NpRigidBodyTemplate<APIClass>::setRigidBodyFlagsInternal(co
 			//We're an articulation, raise an issue
 			physx::shdfnd::getFoundation().error(physx::PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "RigidBody::setRigidBodyFlag: kinematic articulation links are not supported!");
 			return;
+		}
+
+		if(scScene)
+		{
+			scScene->decreaseNumDynamicsCounter();
+			scScene->increaseNumKinematicsCounter();
 		}
 	}
 

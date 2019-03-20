@@ -53,7 +53,8 @@ public:
 // PX_SERIALIZATION
 											NpRigidActorTemplate(PxBaseFlags baseFlags) : ActorTemplateClass(baseFlags), mShapeManager(PxEmpty), mIndex(0xFFFFFFFF)	{}
 	virtual			void					requiresObjects(PxProcessPxBaseCallback& c);
-	virtual			void					exportExtraData(PxSerializationContext& stream);
+					void					preExportDataReset();
+	virtual			void					exportExtraData(PxSerializationContext& context);
 					void					importExtraData(PxDeserializationContext& context);
 					void					resolveReferences(PxDeserializationContext& context);
 //~PX_SERIALIZATION
@@ -135,10 +136,22 @@ void NpRigidActorTemplate<APIClass>::requiresObjects(PxProcessPxBaseCallback& c)
 }
 
 template<class APIClass>
-void NpRigidActorTemplate<APIClass>::exportExtraData(PxSerializationContext& stream)
+void NpRigidActorTemplate<APIClass>::preExportDataReset() 
 {
-	mShapeManager.exportExtraData(stream);
-	ActorTemplateClass::exportExtraData(stream);
+	//Clearing the aggregate ID for serialization so we avoid having a stale 
+	//reference after deserialization. The aggregate ID get's reset on readding to the 
+	//scene anyway.
+	Sc::ActorCore& actorCore = NpActor::getScbFromPxActor(*this).getActorCore();
+	actorCore.setAggregateID(PX_INVALID_U32);
+	mShapeManager.preExportDataReset();
+	mIndex = 0xFFFFFFFF;
+}
+
+template<class APIClass>
+void NpRigidActorTemplate<APIClass>::exportExtraData(PxSerializationContext& context)
+{
+	mShapeManager.exportExtraData(context);
+	ActorTemplateClass::exportExtraData(context);
 }
 
 template<class APIClass>

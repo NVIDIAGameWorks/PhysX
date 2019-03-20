@@ -33,12 +33,14 @@
 #include "foundation/PxProfiler.h"
 #include "foundation/PxIO.h"
 #include "foundation/PxErrorCallback.h"
+#include "common/PxTolerancesScale.h"
 #include "PxPhysicsVersion.h"
 #include "CmCollection.h"
 #include "CmUtils.h"
 #include "NpRigidStatic.h"
 #include "NpRigidDynamic.h"
 #include "NpArticulation.h"
+#include "NpArticulationReducedCoordinate.h"
 #include "NpArticulationLink.h"
 #include "NpArticulationJoint.h"
 #include "NpMaterial.h"
@@ -47,7 +49,6 @@
 #include "GuConvexMesh.h"
 #include "GuTriangleMesh.h"
 #include "PsIntrinsics.h"
-#include "PxTolerancesScale.h"
 #include "PxvGlobals.h"		// dynamic registration of HFs & articulations in LL
 #include "GuOverlapTests.h" // dynamic registration of HFs in Gu
 #include "PxDeletionListener.h"
@@ -153,7 +154,10 @@ void NpPhysics::initOffsetTables(PxvOffsetTable& pxvOffsetTable)
 		offsetTable.scRigidStatic2PxActor				= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpRigidStatic*>(0)->getScbRigidStaticFast())) - static_cast<ptrdiff_t>(Scb::RigidStatic::getScOffset());
 		offsetTable.scRigidDynamic2PxActor				= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpRigidDynamic*>(0)->getScbBodyFast()))		- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
 		offsetTable.scArticulationLink2PxActor			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationLink*>(0)->getScbBodyFast()))	- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
-		offsetTable.scArticulation2Px					= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulation*>(0)->mImpl.getScbArticulation()))	- static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
+		offsetTable.scArticulationMC2Px					= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulation*>(0)->mImpl.getScbArticulation()))	- static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
+		offsetTable.scArticulationRC2Px					= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationReducedCoordinate*>(0)->mImpl.getScbArticulation())) - static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
+		offsetTable.scArticulationJointMC2Px			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationJoint*>(0)->mImpl.getScbArticulationJoint()))	- static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
+		offsetTable.scArticulationJointRC2Px			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationJointReducedCoordinate*>(0)->mImpl.getScbArticulationJoint())) - static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
 		offsetTable.scConstraint2Px						= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpConstraint*>(0)->getScbConstraint()))		- static_cast<ptrdiff_t>(Scb::Constraint::getScOffset());
 		offsetTable.scShape2Px							= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpShape*>(0)->getScbShape()))					- static_cast<ptrdiff_t>(Scb::Shape::getScOffset());
 
@@ -406,6 +410,8 @@ NpMaterial* NpPhysics::addMaterial(NpMaterial* m)
 	}
 	else
 	{
+		physx::shdfnd::getFoundation().error(physx::PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, 
+			"PxPhysics::createMaterial: limit of 64K materials reached.");
 		m->release();
 		return NULL;
 	}

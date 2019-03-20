@@ -178,6 +178,8 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			PxSimulationFilterCallback*		getFilterCallback() const;
 	virtual			void							resetFiltering(PxActor& actor);
 	virtual			void							resetFiltering(PxRigidActor& actor, PxShape*const* shapes, PxU32 shapeCount);
+	virtual			PxPairFilteringMode::Enum		getKinematicKinematicFilteringMode()	const;
+	virtual			PxPairFilteringMode::Enum		getStaticKinematicFilteringMode()		const;
 
 	// Get Physics SDK
 	virtual			PxPhysics&						getPhysics();
@@ -213,6 +215,9 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			void							setSolverBatchSize(PxU32 solverBatchSize);
 	virtual			PxU32							getSolverBatchSize(void) const;
 
+	virtual			void							setSolverArticulationBatchSize(PxU32 solverBatchSize);
+	virtual			PxU32							getSolverArticulationBatchSize(void) const;
+
 	virtual			bool							setVisualizationParameter(PxVisualizationParameter::Enum param, PxReal value);
 	virtual			PxReal							getVisualizationParameter(PxVisualizationParameter::Enum param) const;
 
@@ -221,6 +226,8 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 
 	virtual			PxTaskManager*					getTaskManager()	{ return mTaskManager; }
 					void							checkBeginWrite() const {}
+
+	virtual			PxCudaContextManager*			getCudaContextManager() { return mCudaContextManager; }
 					
 	virtual         void							setNbContactDataBlocks(PxU32 numBlocks);
 	virtual         PxU32							getNbContactDataBlocksUsed() const;
@@ -232,7 +239,7 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			PxU32							getSceneQueryStaticTimestamp()	const;
 
 	virtual			PxCpuDispatcher*				getCpuDispatcher() const;
-	virtual			PxGpuDispatcher*				getGpuDispatcher() const;
+	virtual			PxCudaContextManager*			getCudaContextManager() const;
 
 	virtual			PxPruningStructureType::Enum	getStaticStructure() const;
 	virtual			PxPruningStructureType::Enum	getDynamicStructure() const;
@@ -415,6 +422,7 @@ private:
 					typedef Cm::DelegateTask<NpScene, &NpScene::executeAdvance> SceneAdvance;
 					
 					PxTaskManager*					mTaskManager;
+					PxCudaContextManager*			mCudaContextManager;
 					SceneCompletion					mSceneCompletion;
 					SceneCompletion					mCollisionCompletion;
 					SceneCompletion					mSceneQueriesCompletion;

@@ -1,0 +1,8 @@
+<map id="PxFeatherstoneArticulationJointData" name="PxFeatherstoneArticulationJointData">
+<area shape="rect" id="node2" href="$structPxArticulationJointData.html" title="PxArticulationJointData" alt="" coords="6,199,163,225"/>
+<area shape="rect" id="node3" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="37,95,132,121"/>
+<area shape="rect" id="node4" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="5,5,73,32"/>
+<area shape="rect" id="node5" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="98,5,165,32"/>
+<area shape="rect" id="node6" href="$structPxArticulationDrive.html" title="PxArticulationDrive" alt="" coords="187,199,318,225"/>
+<area shape="rect" id="node7" href="$structPxArticulationLimit.html" title="PxArticulationLimit" alt="" coords="342,199,473,225"/>
+</map>

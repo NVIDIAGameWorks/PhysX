@@ -27,18 +27,17 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #include "ScArticulationJointCore.h"
 #include "ScArticulationCore.h"
 #include "ScArticulationJointSim.h"
 #include "ScBodyCore.h"
-
+#include "ScPhysics.h"
 
 using namespace physx;
 
 Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 												 const PxTransform& childFrame,
-												 PxArticulationBase::Enum type) :
+												 bool isReducedCoordinate) :
 	mSim	(NULL)
 {
 	PX_ASSERT(parentFrame.isValid());
@@ -58,7 +57,7 @@ Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 	mCore.internalCompliance = 1.0f;
 	mCore.externalCompliance = 1.0f;
 
-	if (type == PxArticulationBase::eMaximumCoordinate)
+	if (!isReducedCoordinate)
 	{
 		PxReal swingYLimit = PxPi / 4;
 		PxReal swingZLimit = PxPi / 4;
@@ -84,7 +83,6 @@ Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 	}
 	else
 	{
-
 		for (PxU32 i = 0; i < 6; ++i)
 		{
 			mCore.limits[i].low = 0.f;
@@ -118,22 +116,18 @@ Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 
 	for(PxU32 i = 0; i < PxArticulationAxis::eCOUNT; ++i)
 		mCore.motion[i] = PxArticulationMotion::eLOCKED;
-
 }
-
 
 Sc::ArticulationJointCore::~ArticulationJointCore()
 {
 	PX_ASSERT(getSim() == 0);
 }
 
-
 //--------------------------------------------------------------
 //
 // ArticulationJointCore interface implementation
 //
 //--------------------------------------------------------------
-
 
 void Sc::ArticulationJointCore::setParentPose(const PxTransform& t)
 {
@@ -142,14 +136,12 @@ void Sc::ArticulationJointCore::setParentPose(const PxTransform& t)
 	mArticulation->setDirty(true);
 }
 
-
 void Sc::ArticulationJointCore::setChildPose(const PxTransform& t)
 {
 	mCore.childPose = t;
 	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::ePOSE;
 	mArticulation->setDirty(true);
 }
-
 
 void Sc::ArticulationJointCore::setTargetOrientation(const PxQuat& p)
 {
@@ -169,6 +161,7 @@ void Sc::ArticulationJointCore::setDriveType(PxArticulationJointDriveType::Enum 
 void Sc::ArticulationJointCore::setJointType(PxArticulationJointType::Enum type)
 {
 	mCore.jointType = PxU8(type);
+	mArticulation->setDirty(true);
 }
 
 PxArticulationJointType::Enum Sc::ArticulationJointCore::getJointType() const 
@@ -178,14 +171,14 @@ PxArticulationJointType::Enum Sc::ArticulationJointCore::getJointType() const
 
 void Sc::ArticulationJointCore::setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion)
 {
-	mCore.motion[axis] = motion;
+	mCore.motion[axis] = PxU8(motion);
 	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::eMOTION;
 	mArticulation->setDirty(true);
 }
 
 PxArticulationMotion::Enum Sc::ArticulationJointCore::getMotion(PxArticulationAxis::Enum axis) const
 {
-	return PxArticulationMotion::Enum(PxU8(mCore.motion[axis]));
+	return PxArticulationMotion::Enum(mCore.motion[axis]);
 }
 
 void Sc::ArticulationJointCore::setFrictionCoefficient(const PxReal coefficient)
@@ -213,12 +206,10 @@ void Sc::ArticulationJointCore::setStiffness(PxReal s)
 	mCore.spring = s;
 }
 
-
 void Sc::ArticulationJointCore::setDamping(PxReal d)
 {
 	mCore.damping = d;
 }
-
 
 void Sc::ArticulationJointCore::setInternalCompliance(PxReal r)
 {
@@ -230,28 +221,24 @@ void Sc::ArticulationJointCore::setExternalCompliance(PxReal r)
 	mCore.externalCompliance = r;
 }
 
-
 void Sc::ArticulationJointCore::setSwingLimit(PxReal yLimit, PxReal zLimit)
 {
 	mCore.limits[PxArticulationAxis::eSWING1].low = yLimit;
 	mCore.limits[PxArticulationAxis::eSWING2].low = zLimit;
 
-	mCore.tanQSwingY			= PxTan(yLimit/4);
-	mCore.tanQSwingZ			= PxTan(zLimit/4);
+	mCore.tanQSwingY	= PxTan(yLimit/4);
+	mCore.tanQSwingZ	= PxTan(zLimit/4);
 }
-
 
 void Sc::ArticulationJointCore::setTangentialStiffness(PxReal s)
 {
 	mCore.tangentialStiffness = s;
 }
 
-
 void Sc::ArticulationJointCore::setTangentialDamping(PxReal d)
 {
 	mCore.tangentialDamping = d;
 }
-
 
 void Sc::ArticulationJointCore::setSwingLimitEnabled(bool e)
 {
@@ -264,14 +251,13 @@ void Sc::ArticulationJointCore::setSwingLimitContactDistance(PxReal e)
 	mCore.tanQSwingPad = PxTan(e/4);
 }
 
-
 void Sc::ArticulationJointCore::setTwistLimit(PxReal lower, PxReal upper)
 {
 	mCore.limits[PxArticulationAxis::eTWIST].low = lower;
 	mCore.limits[PxArticulationAxis::eTWIST].high = upper;
 
-	mCore.tanQTwistHigh			= PxTan(upper/4);
-	mCore.tanQTwistLow			= PxTan(lower/4);
+	mCore.tanQTwistHigh	= PxTan(upper/4);
+	mCore.tanQTwistLow	= PxTan(lower/4);
 }
 
 void Sc::ArticulationJointCore::setTwistLimitEnabled(bool e)
@@ -297,4 +283,14 @@ void Sc::ArticulationJointCore::setTargetV(PxArticulationAxis::Enum axis, PxReal
 	mCore.targetV[axis] = targetV;
 	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::eTARGETVELOCITY;
 	mArticulation->setDirty(true);
+}
+
+PxArticulationJointBase* Sc::ArticulationJointCore::getPxArticulationJointBase()
+{
+	return gOffsetTable.convertScArticulationJoint2Px(this, getArticulation()->isReducedCoordinate());
+}
+
+const PxArticulationJointBase* Sc::ArticulationJointCore::getPxArticulationJointBase() const
+{
+	return gOffsetTable.convertScArticulationJoint2Px(this, getArticulation()->isReducedCoordinate());
 }

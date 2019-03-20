@@ -27,10 +27,11 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.     
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuVecCapsule.h"
 #include "GuGeometryUnion.h"
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuDistanceSegmentSegmentSIMD.h"
 
 using namespace physx;
@@ -77,7 +78,6 @@ namespace physx
 {
 namespace Gu
 {
-
 	static void storeContact(const Vec3VArg contact, const Vec3VArg normal, const FloatVArg separation, Gu::ContactBuffer& buffer)
 	{
 		Gu::ContactPoint& point = buffer.contacts[buffer.count++];
@@ -87,7 +87,6 @@ namespace Gu
 		V4StoreA(normalSep, &point.normal.x);
 		V3StoreA(contact, point.point);
 		point.internalFaceIndex1 = PXC_CONTACT_NO_FACE_INDEX;
-
 	}
 
 bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
@@ -110,7 +109,6 @@ bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
 
 	/*PsTransformV transf0(p0, q0);
 	PsTransformV transf1(p1, q1);*/
-
 	
 	const FloatV r0 = FLoad(shapeCapsule0.radius);
 	const FloatV halfHeight0 = FLoad(shapeCapsule0.halfHeight);
@@ -127,7 +125,6 @@ bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
 	const FloatV zero = FZero();
 	//const FloatV one = FOne();
 	const Vec3V zeroV = V3Zero();
-	
 
 	/*const Vec3V positionOffset = V3Scale(V3Add(transf0.p, transf1.p), FloatV_From_F32(0.5f));
 	transf0.p = V3Sub(transf0.p, positionOffset);
@@ -163,7 +160,6 @@ bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
 		//check to see whether these two capsule are paralle
 		const FloatV parallelTolerance  = FLoad(0.9998f);
 		
-		
 		const BoolV con0 = FIsGrtr(eps, a);
 		const BoolV con1 = FIsGrtr(eps, e);
 		const Vec3V dir0 = V3Sel(con0, zeroV, V3ScaleInv(d0, FSqrt(a)));
@@ -184,8 +180,7 @@ bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
 
 		/*	PX_ALIGN(16, PxU32 conditions[4]);
 			F32Array_Aligned_From_Vec4V(con, (PxF32*)conditions);*/
-
-			
+		
 			PxU32 numContact=0;
 
 			if(BAllEqTTTT(con00))
@@ -272,7 +267,6 @@ bool pcmContactCapsuleCapsule(GU_CONTACT_METHOD_ARGS)
 
 			if(numContact)
 				return true;
-
 		}  
 
 		const Vec3V closestA = V3ScaleAdd(d0, t0, s0);

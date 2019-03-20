@@ -54,23 +54,18 @@ namespace physx
 			}
 
 			Cm::SpatialVectorF				Is[6];//stI is the transpose of Is
-			Cm::SpatialVectorF				IsInvD[6];
-			SpatialMatrix					spatialInertia;
-			SpatialMatrix					spatialArticulatedInertia;
-			SpatialTransform				childToParent;
 			SpatialTransform				childToBase;
 			PxVec3							r; //vector from parent com to child com
 			PxVec3							rw; //vector from parent com to child com
 			PxReal							qstZIc[6];//jointForce - stZIc
-			PxReal							invStIs[6][6];
 			PxReal							maxPenBias;
 
 		};
 
 		struct ArticSolverData
 		{
-			SpatialTransform				childToParent;
-			PxReal							invStIs[6][6];
+			SpatialTransform		childToParent;
+			PxReal					invStIs[6][6];
 		};
 
 	}//namespace Dy

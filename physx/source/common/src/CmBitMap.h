@@ -34,15 +34,14 @@
 #include "foundation/PxAssert.h"
 #include "foundation/PxMath.h"
 #include "foundation/PxMemory.h"
+#include "common/PxSerialFramework.h"
+
 #include "PsAllocator.h"
 #include "PsUserAllocated.h"
 #include "PsIntrinsics.h"
 #include "PsMathUtils.h"
-#include "CmPhysXCommon.h"
 #include "PsBitUtils.h"
-// PX_SERIALIZATION
-#include "PxSerialFramework.h"
-//~PX_SERIALIZATION
+#include "CmPhysXCommon.h"
 
 namespace physx
 {

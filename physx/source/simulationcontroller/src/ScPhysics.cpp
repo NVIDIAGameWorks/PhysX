@@ -28,10 +28,11 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
+#include "common/PxTolerancesScale.h"
+
 #include "ScPhysics.h"
 #include "ScScene.h"
 #include "PxvGlobals.h"
-#include "PxTolerancesScale.h"
 
 using namespace physx;
 

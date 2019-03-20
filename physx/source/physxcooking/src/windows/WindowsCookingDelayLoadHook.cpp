@@ -28,26 +28,30 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "windows/PxWindowsDelayLoadHook.h"
+#include "common/windows/PxWindowsDelayLoadHook.h"
+
 #include "windows/PsWindowsInclude.h"
 #include "windows/CmWindowsLoadLibrary.h"
+
+static const physx::PxDelayLoadHook* gCookingDelayLoadHook = NULL;
+
+void physx::PxSetPhysXCookingDelayLoadHook(const physx::PxDelayLoadHook* hook)
+{
+	gCookingDelayLoadHook = hook;
+}
+
+// delay loading is enabled only for non static configuration
+#if !defined PX_PHYSX_STATIC_LIB 
 
 // Prior to Visual Studio 2015 Update 3, these hooks were non-const.
 #define DELAYIMP_INSECURE_WRITABLE_HOOKS
 #include <delayimp.h>
 
-static const physx::PxDelayLoadHook* gDelayLoadHook = NULL;
-
-void physx::PxSetPhysXCookingDelayLoadHook(const physx::PxDelayLoadHook* hook)
-{
-	gDelayLoadHook = hook;
-}
-
 using namespace physx;
 
 #pragma comment(lib, "delayimp")
 
-FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo pdli)
+FARPROC WINAPI cookingDelayHook(unsigned dliNotify, PDelayLoadInfo pdli)
 {
 	switch (dliNotify) {
 	case dliStartProcessing :
@@ -55,7 +59,7 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo pdli)
 
 	case dliNotePreLoadLibrary :
 		{
-			return Cm::physXCommonDliNotePreLoadLibrary(pdli->szDll,gDelayLoadHook);
+			return Cm::physXCommonDliNotePreLoadLibrary(pdli->szDll,gCookingDelayLoadHook);
 		}
 		break;
 
@@ -79,4 +83,6 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo pdli)
 	return NULL;
 }
 
-PfnDliHook __pfnDliNotifyHook2 = delayHook;
+PfnDliHook __pfnDliNotifyHook2 = cookingDelayHook;
+
+#endif

@@ -177,9 +177,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6329c94cc092aff2193c1307e033f6bf"><td class="memItemLeft" align="right" valign="top">virtual PxCpuDispatcher *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a6329c94cc092aff2193c1307e033f6bf">getCpuDispatcher</a> () const =0</td></tr>
 <tr class="memdesc:a6329c94cc092aff2193c1307e033f6bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the cpu dispatcher that was set in <a class="el" href="classPxSceneDesc.html#ac74f5f6c12d72b873716f82c2225b725" title="The CPU task dispatcher for the scene. ">PxSceneDesc::cpuDispatcher</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#a6329c94cc092aff2193c1307e033f6bf">More...</a><br /></td></tr>
 <tr class="separator:a6329c94cc092aff2193c1307e033f6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a256ac6d74578418c446fc5fe1fe95170"><td class="memItemLeft" align="right" valign="top">virtual PxGpuDispatcher *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a256ac6d74578418c446fc5fe1fe95170">getGpuDispatcher</a> () const =0</td></tr>
-<tr class="memdesc:a256ac6d74578418c446fc5fe1fe95170"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the gpu dispatcher that was set in <a class="el" href="classPxSceneDesc.html#ae3e78a948f61b9b2d3cd47c62205bccc" title="The GPU task dispatcher for the scene. ">PxSceneDesc::gpuDispatcher</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#a256ac6d74578418c446fc5fe1fe95170">More...</a><br /></td></tr>
-<tr class="separator:a256ac6d74578418c446fc5fe1fe95170"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac74778bafc058fbd4e8abd8006c323e8"><td class="memItemLeft" align="right" valign="top">virtual PxCudaContextManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#ac74778bafc058fbd4e8abd8006c323e8">getCudaContextManager</a> () const =0</td></tr>
+<tr class="memdesc:ac74778bafc058fbd4e8abd8006c323e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the CUDA context manager that was set in <a class="el" href="classPxSceneDesc.html#ad55a6e9d290779839659bb2763db2e2a" title="The CUDA context manager for the scene. ">PxSceneDesc::cudaContextManager</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#ac74778bafc058fbd4e8abd8006c323e8">More...</a><br /></td></tr>
+<tr class="separator:ac74778bafc058fbd4e8abd8006c323e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Multiclient</div></td></tr>
 <tr class="memitem:a285849425521dd0344f55b4a7c0a834a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="PxClient_8h.html#acb0e5a85de6c250f2a54db46e3aa0a12">PxClientID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a285849425521dd0344f55b4a7c0a834a">createClient</a> ()=0</td></tr>
 <tr class="memdesc:a285849425521dd0344f55b4a7c0a834a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves a new client ID.  <a href="#a285849425521dd0344f55b4a7c0a834a">More...</a><br /></td></tr>
@@ -231,6 +231,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae469799c2e23d06ce5c1079e36df953"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#aae469799c2e23d06ce5c1079e36df953">resetFiltering</a> (<a class="el" href="classPxRigidActor.html">PxRigidActor</a> &amp;actor, <a class="el" href="classPxShape.html">PxShape</a> *const *shapes, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> shapeCount)=0</td></tr>
 <tr class="memdesc:aae469799c2e23d06ce5c1079e36df953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the object to reset interactions and re-run collision filters for specified shapes in the next simulation step.  <a href="#aae469799c2e23d06ce5c1079e36df953">More...</a><br /></td></tr>
 <tr class="separator:aae469799c2e23d06ce5c1079e36df953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33763d5f9ee70bf79608d07594ead11"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615">PxPairFilteringMode::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#ad33763d5f9ee70bf79608d07594ead11">getKinematicKinematicFilteringMode</a> () const =0</td></tr>
+<tr class="memdesc:ad33763d5f9ee70bf79608d07594ead11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pair filtering mode for kinematic-kinematic pairs.  <a href="#ad33763d5f9ee70bf79608d07594ead11">More...</a><br /></td></tr>
+<tr class="separator:ad33763d5f9ee70bf79608d07594ead11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fd01bd95bb91adf32f2020a51230cb6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615">PxPairFilteringMode::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a9fd01bd95bb91adf32f2020a51230cb6">getStaticKinematicFilteringMode</a> () const =0</td></tr>
+<tr class="memdesc:a9fd01bd95bb91adf32f2020a51230cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the pair filtering mode for static-kinematic pairs.  <a href="#a9fd01bd95bb91adf32f2020a51230cb6">More...</a><br /></td></tr>
+<tr class="separator:a9fd01bd95bb91adf32f2020a51230cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Simulation</div></td></tr>
 <tr class="memitem:a9a9cacecc3b0f6adaf2f3d2168c2aff5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a9a9cacecc3b0f6adaf2f3d2168c2aff5">simulate</a> (PxReal elapsedTime, <a class="el" href="classphysx_1_1PxBaseTask.html">physx::PxBaseTask</a> *completionTask=NULL, void *scratchMemBlock=0, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> scratchMemBlockSize=0, bool controlSimulation=true)=0</td></tr>
 <tr class="memdesc:a9a9cacecc3b0f6adaf2f3d2168c2aff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advances the simulation by an elapsedTime time.  <a href="#a9a9cacecc3b0f6adaf2f3d2168c2aff5">More...</a><br /></td></tr>
@@ -311,7 +317,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0c756c7ad50f94675d3d8ff9ac12289b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the value of <a class="el" href="classPxSceneDesc.html#a038ba820b16315ea55c6e12a3cbe2b7f" title="Defines the structure used to store dynamic objects. ">PxSceneDesc::dynamicStructure</a> that was set when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#a0c756c7ad50f94675d3d8ff9ac12289b">More...</a><br /></td></tr>
 <tr class="separator:a0c756c7ad50f94675d3d8ff9ac12289b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#ab5b6fb6168a5fb8aa34299cbe73747ed">flushQueryUpdates</a> ()=0</td></tr>
-<tr class="memdesc:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes any changes in the simulation to the scene query representation.  <a href="#ab5b6fb6168a5fb8aa34299cbe73747ed">More...</a><br /></td></tr>
+<tr class="memdesc:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes any changes to the scene query representation.  <a href="#ab5b6fb6168a5fb8aa34299cbe73747ed">More...</a><br /></td></tr>
 <tr class="separator:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a080866698f34876134941cf42949592b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gafd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="el" href="classPxBatchQuery.html">PxBatchQuery</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a080866698f34876134941cf42949592b">createBatchQuery</a> (const <a class="el" href="classPxBatchQueryDesc.html">PxBatchQueryDesc</a> &amp;desc)=0</td></tr>
 <tr class="memdesc:a080866698f34876134941cf42949592b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a BatchQuery object.  <a href="#a080866698f34876134941cf42949592b">More...</a><br /></td></tr>
@@ -404,6 +410,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:add966317a1feb083e273fd8c12f454b5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#add966317a1feb083e273fd8c12f454b5">getSolverBatchSize</a> () const =0</td></tr>
 <tr class="memdesc:add966317a1feb083e273fd8c12f454b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of actors required to spawn a separate rigid body solver thread.  <a href="#add966317a1feb083e273fd8c12f454b5">More...</a><br /></td></tr>
 <tr class="separator:add966317a1feb083e273fd8c12f454b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db918a532ef4d36474bf3f46cfad5a8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a0db918a532ef4d36474bf3f46cfad5a8">setSolverArticulationBatchSize</a> (<a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> solverBatchSize)=0</td></tr>
+<tr class="memdesc:a0db918a532ef4d36474bf3f46cfad5a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the number of articulations required to spawn a separate rigid body solver thread.  <a href="#a0db918a532ef4d36474bf3f46cfad5a8">More...</a><br /></td></tr>
+<tr class="separator:a0db918a532ef4d36474bf3f46cfad5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af11e6f5eedaa53bb4a1e3420e1c2c531"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#af11e6f5eedaa53bb4a1e3420e1c2c531">getSolverArticulationBatchSize</a> () const =0</td></tr>
+<tr class="memdesc:af11e6f5eedaa53bb4a1e3420e1c2c531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of articulations required to spawn a separate rigid body solver thread.  <a href="#af11e6f5eedaa53bb4a1e3420e1c2c531">More...</a><br /></td></tr>
+<tr class="separator:af11e6f5eedaa53bb4a1e3420e1c2c531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -1276,11 +1288,10 @@ If the aggregate already contains actors, those actors are added to the scene as
 </table>
 </div><div class="memdoc">
 
-<p>Flushes any changes in the simulation to the scene query representation. </p>
+<p>Flushes any changes to the scene query representation. </p>
 <p>This method updates the state of the scene query representation to match changes in the scene state.</p>
 <p>By default, these changes are buffered until the next query is submitted. Calling this function will not change the results from scene queries, but can be used to ensure that a query will not perform update work in the course of its execution.</p>
-<p>A thread performing updates will hold a write lock on the query structure, and thus stall other querying threads. In multithread scenarios it can be useful to explicitly schedule the period where this lock may be held for a significant period, so that subsequent queries issued from multiple threads will not block.</p>
-<p>Note that while queries will block during the execution of this method, other read operations on the scene will not. </p>
+<p>A thread performing updates will hold a write lock on the query structure, and thus stall other querying threads. In multithread scenarios it can be useful to explicitly schedule the period where this lock may be held for a significant period, so that subsequent queries issued from multiple threads will not block. </p>
 
 </div>
 </div>
@@ -1944,6 +1955,35 @@ Do not use this method while the simulation is running. Calls to this method whi
 
 </div>
 </div>
+<a id="ac74778bafc058fbd4e8abd8006c323e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac74778bafc058fbd4e8abd8006c323e8">&#9670;&nbsp;</a></span>getCudaContextManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PxCudaContextManager* PxScene::getCudaContextManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the CUDA context manager that was set in <a class="el" href="classPxSceneDesc.html#ad55a6e9d290779839659bb2763db2e2a" title="The CUDA context manager for the scene. ">PxSceneDesc::cudaContextManager</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>. </p>
+<p><b>Platform specific:</b> Applies to PC GPU only.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSceneDesc.html#ad55a6e9d290779839659bb2763db2e2a" title="The CUDA context manager for the scene. ">PxSceneDesc::cudaContextManager</a>, <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a> </dd></dl>
+
+</div>
+</div>
 <a id="a951ada59fff16e5c860ccdd5f6d5a1f3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a951ada59fff16e5c860ccdd5f6d5a1f3">&#9670;&nbsp;</a></span>getDominanceGroupPair()</h2>
 
@@ -2242,35 +2282,6 @@ Do not use this method while the simulation is running. Calls to this method whi
 
 </div>
 </div>
-<a id="a256ac6d74578418c446fc5fe1fe95170"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a256ac6d74578418c446fc5fe1fe95170">&#9670;&nbsp;</a></span>getGpuDispatcher()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual PxGpuDispatcher* PxScene::getGpuDispatcher </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return the gpu dispatcher that was set in <a class="el" href="classPxSceneDesc.html#ae3e78a948f61b9b2d3cd47c62205bccc" title="The GPU task dispatcher for the scene. ">PxSceneDesc::gpuDispatcher</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>. </p>
-<p><b>Platform specific:</b> Applies to PC GPU only.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSceneDesc.html#ae3e78a948f61b9b2d3cd47c62205bccc" title="The GPU task dispatcher for the scene. ">PxSceneDesc::gpuDispatcher</a>, <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a> </dd></dl>
-
-</div>
-</div>
 <a id="a6fe48dbf9144be415d63f1d2f3ce0b16"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6fe48dbf9144be415d63f1d2f3ce0b16">&#9670;&nbsp;</a></span>getGravity()</h2>
 
@@ -2297,6 +2308,35 @@ Do not use this method while the simulation is running. Calls to this method whi
 <p>Retrieves the current gravity setting. </p>
 <dl class="section return"><dt>Returns</dt><dd>The current gravity for the scene.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxScene.html#a575ed34c73adbd61892d728a688479f3" title="Sets a constant gravity for the entire scene. ">setGravity()</a> <a class="el" href="classPxSceneDesc.html#a9b0de35c38c43b8aeff6e6f29bf0db20" title="Gravity vector. ">PxSceneDesc.gravity</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad33763d5f9ee70bf79608d07594ead11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33763d5f9ee70bf79608d07594ead11">&#9670;&nbsp;</a></span>getKinematicKinematicFilteringMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615">PxPairFilteringMode::Enum</a> PxScene::getKinematicKinematicFilteringMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the pair filtering mode for kinematic-kinematic pairs. </p>
+<dl class="section return"><dt>Returns</dt><dd>Filtering mode for kinematic-kinematic pairs.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxPairFilteringMode.html">PxPairFilteringMode</a> <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a> </dd></dl>
 
 </div>
 </div>
@@ -2750,6 +2790,35 @@ Do not use this method while the simulation is running. Calls to this method whi
 
 </div>
 </div>
+<a id="af11e6f5eedaa53bb4a1e3420e1c2c531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af11e6f5eedaa53bb4a1e3420e1c2c531">&#9670;&nbsp;</a></span>getSolverArticulationBatchSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxScene::getSolverArticulationBatchSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the number of articulations required to spawn a separate rigid body solver thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>Current number of articulations required to spawn a separate rigid body solver thread.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSceneDesc.html#a26b321b928708c10a047b38ec9127797" title="Defines the number of actors required to spawn a separate rigid body solver island task chain...">PxSceneDesc.solverBatchSize</a> <a class="el" href="classPxScene.html#a0db918a532ef4d36474bf3f46cfad5a8" title="Sets the number of articulations required to spawn a separate rigid body solver thread. ">setSolverArticulationBatchSize()</a> </dd></dl>
+
+</div>
+</div>
 <a id="add966317a1feb083e273fd8c12f454b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add966317a1feb083e273fd8c12f454b5">&#9670;&nbsp;</a></span>getSolverBatchSize()</h2>
 
@@ -2776,6 +2845,35 @@ Do not use this method while the simulation is running. Calls to this method whi
 <p>Retrieves the number of actors required to spawn a separate rigid body solver thread. </p>
 <dl class="section return"><dt>Returns</dt><dd>Current number of actors required to spawn a separate rigid body solver thread.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSceneDesc.html#a26b321b928708c10a047b38ec9127797" title="Defines the number of actors required to spawn a separate rigid body solver island task chain...">PxSceneDesc.solverBatchSize</a> <a class="el" href="classPxScene.html#aad9cc8bf329f4de4b407436f5cd38c98" title="Sets the number of actors required to spawn a separate rigid body solver thread. ">setSolverBatchSize()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a9fd01bd95bb91adf32f2020a51230cb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fd01bd95bb91adf32f2020a51230cb6">&#9670;&nbsp;</a></span>getStaticKinematicFilteringMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615">PxPairFilteringMode::Enum</a> PxScene::getStaticKinematicFilteringMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the pair filtering mode for static-kinematic pairs. </p>
+<dl class="section return"><dt>Returns</dt><dd>Filtering mode for static-kinematic pairs.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxPairFilteringMode.html">PxPairFilteringMode</a> <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a> </dd></dl>
 
 </div>
 </div>
@@ -4247,6 +4345,41 @@ Do not use this method while the simulation is running. Calls to this method whi
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSimulationEventCallback.html" title="An interface class that the user can implement in order to receive simulation events. ">PxSimulationEventCallback</a> <a class="el" href="classPxScene.html#a8951e43f8e23c320c1c90dd552135171" title="Retrieves the simulationEventCallback pointer set with setSimulationEventCallback(). ">getSimulationEventCallback</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0db918a532ef4d36474bf3f46cfad5a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0db918a532ef4d36474bf3f46cfad5a8">&#9670;&nbsp;</a></span>setSolverArticulationBatchSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void PxScene::setSolverArticulationBatchSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>solverBatchSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the number of articulations required to spawn a separate rigid body solver thread. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">solverBatchSize</td><td>Number of articulations required to spawn a separate rigid body solver thread.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSceneDesc.html#a26b321b928708c10a047b38ec9127797" title="Defines the number of actors required to spawn a separate rigid body solver island task chain...">PxSceneDesc.solverBatchSize</a> <a class="el" href="classPxScene.html#af11e6f5eedaa53bb4a1e3420e1c2c531" title="Retrieves the number of articulations required to spawn a separate rigid body solver thread...">getSolverArticulationBatchSize()</a> </dd></dl>
 
 </div>
 </div>

@@ -31,15 +31,12 @@
 #ifndef PX_PHYSICS_NP_MATERIAL
 #define PX_PHYSICS_NP_MATERIAL
 
+#include "common/PxSerialFramework.h"
 #include "PxMaterial.h"
 #include "ScMaterialCore.h"
 #include "PsUserAllocated.h"
-#include "CmRefCountable.h"
 #include "PsUtilities.h"
-
-// PX_SERIALIZATION
-#include "PxSerialFramework.h"
-//~PX_SERIALIZATION
+#include "CmRefCountable.h"
 
 namespace physx
 {
@@ -65,7 +62,8 @@ public:
 	virtual		void				resolveReferences(PxDeserializationContext& context);
 	static		NpMaterial*			createObject(PxU8*& address, PxDeserializationContext& context);
 	static		void				getBinaryMetaData(PxOutputStream& stream);
-				void				exportExtraData(PxSerializationContext&)	{}
+				void				preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+				void				exportExtraData(PxSerializationContext&) {}
 				void				importExtraData(PxDeserializationContext&) {}
 	virtual		void				requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
@@ -93,8 +91,8 @@ public:
 
 	PX_INLINE	const Sc::MaterialCore&	getScMaterial()	const	{ return mMaterial;			}
 	PX_INLINE	Sc::MaterialCore&	getScMaterial()				{ return mMaterial;			}
-	PX_INLINE	PxU32				getHandle()			const	{ return mMaterial.getMaterialIndex();}
-	PX_INLINE	void				setHandle(PxU32 handle)		{ return mMaterial.setMaterialIndex(handle);}
+	PX_INLINE	PxU16				getHandle()			const	{ return mMaterial.getMaterialIndex();}
+	PX_INLINE	void				setHandle(PxU16 handle)		{ return mMaterial.setMaterialIndex(handle);}
 
 	PX_FORCE_INLINE static void		getMaterialIndices(PxMaterial*const* materials, PxU16* materialIndices, PxU32 materialCount);
 
@@ -112,7 +110,7 @@ PX_FORCE_INLINE void NpMaterial::getMaterialIndices(PxMaterial*const* materials,
 {
 	for(PxU32 i=0; i < materialCount; i++)
 	{
-		materialIndices[i] = Ps::to16((static_cast<NpMaterial*>(materials[i]))->getHandle());
+		materialIndices[i] = static_cast<NpMaterial*>(materials[i])->getHandle();
 	}
 }
 

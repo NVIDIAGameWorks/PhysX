@@ -1,6 +1,6 @@
-# NVIDIA PhysX SDK 4
+# NVIDIA PhysX SDK 4.1
 
-Copyright (c) 2018 NVIDIA Corporation. All rights reserved.
+Copyright (c) 2019 NVIDIA Corporation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -34,16 +34,16 @@ The NVIDIA PhysX SDK is a scalable multi-platform physics solution supporting a 
 
 ## Documentation
 
-Please see [Release Notes](http://gameworksdocs.nvidia.com/PhysX/4.0/release_notes.html) for updates pertaining to the latest version.
+Please see [Release Notes](http://gameworksdocs.nvidia.com/PhysX/4.1/release_notes.html) for updates pertaining to the latest version.
 
 The full set of documentation can also be found in the repository under physx/documentation or online at http://gameworksdocs.nvidia.com/simulation.html 
 
 Platform specific information can be found here:
-* [Microsoft Windows](http://gameworksdocs.nvidia.com/PhysX/4.0/documentation/platformreadme/windows/readme_windows.html)
-* [Linux](http://gameworksdocs.nvidia.com/PhysX/4.0/documentation/platformreadme/linux/readme_linux.html)
-* [Google Android ARM](http://gameworksdocs.nvidia.com/PhysX/4.0/documentation/platformreadme/android/readme_android.html)
-* [Apple macOS](http://gameworksdocs.nvidia.com/PhysX/4.0/documentation/platformreadme/mac/readme_mac.html)
-* [Apple iOS](http://gameworksdocs.nvidia.com/PhysX/4.0/documentation/platformreadme/ios/readme_ios.html)
+* [Microsoft Windows](http://gameworksdocs.nvidia.com/PhysX/4.1/documentation/platformreadme/windows/readme_windows.html)
+* [Linux](http://gameworksdocs.nvidia.com/PhysX/4.1/documentation/platformreadme/linux/readme_linux.html)
+* [Google Android ARM](http://gameworksdocs.nvidia.com/PhysX/4.1/documentation/platformreadme/android/readme_android.html)
+* [Apple macOS](http://gameworksdocs.nvidia.com/PhysX/4.1/documentation/platformreadme/mac/readme_mac.html)
+* [Apple iOS](http://gameworksdocs.nvidia.com/PhysX/4.1/documentation/platformreadme/ios/readme_ios.html)
  
 
 ## Quick Start Instructions

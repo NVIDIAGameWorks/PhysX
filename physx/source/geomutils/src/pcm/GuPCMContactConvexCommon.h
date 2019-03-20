@@ -32,11 +32,11 @@
 
 #define	PCM_MAX_CONTACTPATCH_SIZE	32
 
-#include "GuContactBuffer.h"
+#include "geomutils/GuContactBuffer.h"
 #include "GuVecCapsule.h"
 #include "GuPCMTriangleContactGen.h"
-#include "PsInlineArray.h"
 #include "GuTriangleCache.h"
+#include "PsInlineArray.h"
 
 namespace physx
 {

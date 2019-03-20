@@ -382,12 +382,12 @@ void ABP_MM::frameFree(void* address)
 }
 
 template<class T>
-static T* resizeBoxesT(PxU32 oldNbBoxes, PxU32 newNbBoxes, const T* boxes)
+static T* resizeBoxesT(PxU32 oldNbBoxes, PxU32 newNbBoxes, T* boxes)
 {
-	T* newBoxes = PX_NEW(T)[newNbBoxes];
+	T* newBoxes = reinterpret_cast<T*>(MBP_ALLOC(sizeof(T)*newNbBoxes));	
 	if(oldNbBoxes)
 		PxMemCopy(newBoxes, boxes, oldNbBoxes*sizeof(T));
-	DELETEARRAY(boxes);
+	MBP_FREE(boxes);
 	return newBoxes;
 }
 
@@ -577,8 +577,8 @@ void SplitBoxes::reset(bool freeMemory)
 {
 	if(freeMemory)
 	{
-		DELETEARRAY(mBoxes_YZ);
-		DELETEARRAY(mBoxes_X);
+		MBP_FREE(mBoxes_YZ);
+		MBP_FREE(mBoxes_X);
 	}
 	mBoxes_X = NULL;
 	mBoxes_YZ = NULL;
@@ -638,10 +638,10 @@ bool SplitBoxes::allocate(PxU32 nb)
 {
 	if(nb<=mSize)
 		return false;
-	DELETEARRAY(mBoxes_YZ);
-	DELETEARRAY(mBoxes_X);
-	mBoxes_X = PX_NEW_TEMP(SIMD_AABB_X4)[nb+NB_SENTINELS];
-	mBoxes_YZ = PX_NEW_TEMP(SIMD_AABB_YZ4)[nb];
+	MBP_FREE(mBoxes_YZ);
+	MBP_FREE(mBoxes_X);
+	mBoxes_X = reinterpret_cast<SIMD_AABB_X4*>(MBP_ALLOC(sizeof(SIMD_AABB_X4)*(nb+NB_SENTINELS)));
+	mBoxes_YZ = reinterpret_cast<SIMD_AABB_YZ4*>(MBP_ALLOC(sizeof(SIMD_AABB_YZ4)*nb));
 	PX_ASSERT(!(reinterpret_cast<size_t>(mBoxes_YZ) & 15));
 	mSize = mCapacity = nb;
 	return true;
@@ -1279,8 +1279,8 @@ void BoxManager::purgeRemovedFromSleeping(ABP_Object* PX_RESTRICT objects, PxU32
 	else
 	{
 		// PT: remove holes, get fresh memory buffers
-		SIMD_AABB_X4* dstBoxesX = PX_NEW(SIMD_AABB_X4)[expectedTotal+NB_SENTINELS];
-		SIMD_AABB_YZ4* dstBoxesYZ = PX_NEW(SIMD_AABB_YZ4)[expectedTotal+NB_SENTINELS];
+		SIMD_AABB_X4* dstBoxesX = reinterpret_cast<SIMD_AABB_X4*>(MBP_ALLOC(sizeof(SIMD_AABB_X4)*(expectedTotal+NB_SENTINELS)));
+		SIMD_AABB_YZ4* dstBoxesYZ = reinterpret_cast<SIMD_AABB_YZ4*>(MBP_ALLOC(sizeof(SIMD_AABB_YZ4)*(expectedTotal+NB_SENTINELS)));
 		initSentinels(dstBoxesX, expectedTotal);
 		BpHandle* PX_RESTRICT dstRemap = reinterpret_cast<BpHandle*>(PX_ALLOC(expectedTotal*sizeof(BpHandle), PX_DEBUG_EXP("tmp")));
 
@@ -1518,8 +1518,9 @@ void BoxManager::prepareData(RadixSortBuffered& /*rs*/, ABP_Object* PX_RESTRICT 
 
 			const PxU32 nbTotal = nbSorted + nbToSort - mNbRemovedSleeping;
 
-			SIMD_AABB_X4* dstBoxesX = PX_NEW(SIMD_AABB_X4)[nbTotal+NB_SENTINELS];
-			SIMD_AABB_YZ4* dstBoxesYZ = PX_NEW(SIMD_AABB_YZ4)[nbTotal+NB_SENTINELS];
+			SIMD_AABB_X4* dstBoxesX = reinterpret_cast<SIMD_AABB_X4*>(MBP_ALLOC(sizeof(SIMD_AABB_X4)*(nbTotal+NB_SENTINELS)));
+			SIMD_AABB_YZ4* dstBoxesYZ = reinterpret_cast<SIMD_AABB_YZ4*>(MBP_ALLOC(sizeof(SIMD_AABB_YZ4)*(nbTotal+NB_SENTINELS)));
+
 			initSentinels(dstBoxesX, nbTotal);
 			BpHandle* PX_RESTRICT dstRemap = reinterpret_cast<BpHandle*>(PX_ALLOC(nbTotal*sizeof(BpHandle), PX_DEBUG_EXP("tmp")));
 

@@ -49,12 +49,6 @@ namespace Gu
 	struct NarrowPhaseParams;
 }
 
-struct PxcNpCache;
-class PxcNpThreadContext;
-class PxsContext;
-class PxsRigidBody;
-struct PxsCCDShape;
-
 namespace Cm
 {
 	class FastVertex2ShapeScaling;
@@ -67,22 +61,20 @@ This file contains forward declarations of all implemented contact methods.
 
 /*! Parameter list without names to avoid unused parameter warnings 
 */
-#define CONTACT_METHOD_ARGS_UNUSED			\
-	const Gu::GeometryUnion&,				\
-	const Gu::GeometryUnion&,				\
-	const PxTransform&,						\
-	const PxTransform&,						\
-	const Gu::NarrowPhaseParams&,			\
-	Gu::Cache&,								\
-	Gu::ContactBuffer&,						\
+#define CONTACT_METHOD_ARGS_UNUSED	\
+	const Gu::GeometryUnion&,		\
+	const Gu::GeometryUnion&,		\
+	const PxTransform&,				\
+	const PxTransform&,				\
+	const Gu::NarrowPhaseParams&,	\
+	Gu::Cache&,						\
+	Gu::ContactBuffer&,				\
 	Cm::RenderOutput*
-
 
 /*!
 Method prototype for contact generation routines
 */
 typedef bool (*PxcContactMethod) (GU_CONTACT_METHOD_ARGS);
-
 
 // Matrix of types
 extern PxcContactMethod g_ContactMethodTable[][PxGeometryType::eGEOMETRY_COUNT];

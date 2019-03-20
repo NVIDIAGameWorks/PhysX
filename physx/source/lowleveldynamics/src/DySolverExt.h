@@ -35,6 +35,7 @@
 #include "foundation/PxTransform.h"
 #include "CmPhysXCommon.h"
 #include "CmSpatialVector.h"
+#include "PsVecMath.h"
 
 namespace physx
 {
@@ -73,9 +74,18 @@ public:
 	  void getResponse(const PxVec3& linImpulse, const PxVec3& angImpulse,
 					   PxVec3& linDeltaV, PxVec3& angDeltaV, PxReal dominance) const;
 
+	  void getResponse(const Ps::aos::Vec3V& linImpulse, const Ps::aos::Vec3V& angImpulse,
+		  Ps::aos::Vec3V& linDeltaV, Ps::aos::Vec3V& angDeltaV, Ps::aos::FloatV dominance) const;
+
 	  PxReal projectVelocity(const PxVec3& linear, const PxVec3& angular) const;
+	  Ps::aos::FloatV projectVelocity(const Ps::aos::Vec3V& linear, const Ps::aos::Vec3V& angular) const;
 	  PxVec3 getLinVel() const;
 	  PxVec3 getAngVel() const;
+
+	  Ps::aos::Vec3V getLinVelV() const;
+	  Ps::aos::Vec3V getAngVelV() const;
+
+	  Cm::SpatialVectorV getVelocity() const;
 };
 
 }

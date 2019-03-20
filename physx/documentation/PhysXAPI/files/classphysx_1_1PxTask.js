@@ -8,12 +8,8 @@ var classphysx_1_1PxTask =
     [ "getTaskID", "classphysx_1_1PxTask.html#af4d14c61a128bf98957331c04472a4df", null ],
     [ "release", "classphysx_1_1PxTask.html#acedcca7b8305c3ad519e537ab307c39a", null ],
     [ "removeReference", "classphysx_1_1PxTask.html#a097c70f1419ad4991ef876ddd9a74d48", null ],
-    [ "requestSyncPoint", "classphysx_1_1PxTask.html#a2506a8dacc91048a7baafba5187d787a", null ],
     [ "startAfter", "classphysx_1_1PxTask.html#a5ea294d819b903a507efe1358f86b8cd", null ],
     [ "submitted", "classphysx_1_1PxTask.html#a2a0a6f83fcd05069f594631272faa8ae", null ],
-    [ "PxGpuWorkerThread", "classphysx_1_1PxTask.html#a7f49a59cfb28fd74ba8601e2d0d2d35a", null ],
     [ "PxTaskMgr", "classphysx_1_1PxTask.html#ac4a43ca8ae513a20c1d61bc9aecfce89", null ],
-    [ "mPreSyncRequired", "classphysx_1_1PxTask.html#addde0e4cc4291d493d0025682f767606", null ],
-    [ "mStreamIndex", "classphysx_1_1PxTask.html#a5c506b76e0ce7380e77a384837fbbcc5", null ],
     [ "mTaskID", "classphysx_1_1PxTask.html#aa67264a3a16ca138fd854539bf52ac06", null ]
 ];

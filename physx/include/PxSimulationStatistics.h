@@ -34,8 +34,8 @@
 @{
 */
 
-#include "PxPhysXConfig.h"
 #include "foundation/PxAssert.h"
+#include "PxPhysXConfig.h"
 #include "geometry/PxGeometry.h"
 
 #if !PX_DOXYGEN
@@ -118,9 +118,17 @@ public:
 	/**
 	\brief Number of dynamic bodies for the current simulation step.
 
-	\note Includes inactive and kinematic bodies, and articulation links
+	\note Includes inactive bodies and articulation links
+	\note Does not include kinematic bodies
 	*/
 	PxU32   nbDynamicBodies;
+
+	/**
+	\brief Number of kinematic bodies for the current simulation step.
+
+	\note Includes inactive bodies
+	*/
+	PxU32   nbKinematicBodies;
 
 	/**
 	\brief Number of shapes of each geometry type.
@@ -272,6 +280,7 @@ public:
 		nbActiveKinematicBodies				(0),
 		nbStaticBodies						(0),
 		nbDynamicBodies						(0),
+		nbKinematicBodies					(0),
 		nbAggregates						(0),
 		nbArticulations						(0),
 		nbAxisSolverConstraints				(0),

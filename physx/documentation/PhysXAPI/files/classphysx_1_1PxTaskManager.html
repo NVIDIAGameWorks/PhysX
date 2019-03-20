@@ -103,15 +103,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac391319b63678f793dc6800b5ecda801"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#ac391319b63678f793dc6800b5ecda801">setCpuDispatcher</a> (<a class="el" href="classphysx_1_1PxCpuDispatcher.html">PxCpuDispatcher</a> &amp;ref)=0</td></tr>
 <tr class="memdesc:ac391319b63678f793dc6800b5ecda801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the user-provided dispatcher object for CPU tasks.  <a href="#ac391319b63678f793dc6800b5ecda801">More...</a><br /></td></tr>
 <tr class="separator:ac391319b63678f793dc6800b5ecda801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2222879a9e1f258c3d46579f56d65275"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a2222879a9e1f258c3d46579f56d65275">setGpuDispatcher</a> (<a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a> &amp;ref)=0</td></tr>
-<tr class="memdesc:a2222879a9e1f258c3d46579f56d65275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the user-provided dispatcher object for GPU tasks.  <a href="#a2222879a9e1f258c3d46579f56d65275">More...</a><br /></td></tr>
-<tr class="separator:a2222879a9e1f258c3d46579f56d65275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d68c14745bfd85c745b58528b39db26"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classphysx_1_1PxCpuDispatcher.html">PxCpuDispatcher</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a4d68c14745bfd85c745b58528b39db26">getCpuDispatcher</a> () const =0</td></tr>
 <tr class="memdesc:a4d68c14745bfd85c745b58528b39db26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the user-provided dispatcher object for CPU tasks.  <a href="#a4d68c14745bfd85c745b58528b39db26">More...</a><br /></td></tr>
 <tr class="separator:a4d68c14745bfd85c745b58528b39db26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b8273fb73c75e7425fd5a0687055641"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a3b8273fb73c75e7425fd5a0687055641">getGpuDispatcher</a> () const =0</td></tr>
-<tr class="memdesc:a3b8273fb73c75e7425fd5a0687055641"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the user-provided dispatcher object for GPU tasks.  <a href="#a3b8273fb73c75e7425fd5a0687055641">More...</a><br /></td></tr>
-<tr class="separator:a3b8273fb73c75e7425fd5a0687055641"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79606deb50e9eb500c5febb44ba1e764"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a79606deb50e9eb500c5febb44ba1e764">resetDependencies</a> ()=0</td></tr>
 <tr class="memdesc:a79606deb50e9eb500c5febb44ba1e764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset any dependencies between Tasks.  <a href="#a79606deb50e9eb500c5febb44ba1e764">More...</a><br /></td></tr>
 <tr class="separator:a79606deb50e9eb500c5febb44ba1e764"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,7 +113,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aab9b613b731eb4cc5007db33fc801017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the owning scene to start the task graph.  <a href="#aab9b613b731eb4cc5007db33fc801017">More...</a><br /></td></tr>
 <tr class="separator:aab9b613b731eb4cc5007db33fc801017"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6008ca7efcd7fa4a77d10f0606e3f17a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a6008ca7efcd7fa4a77d10f0606e3f17a">stopSimulation</a> ()=0</td></tr>
-<tr class="memdesc:a6008ca7efcd7fa4a77d10f0606e3f17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the owning scene at the end of a simulation step to synchronize the <a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a>.  <a href="#a6008ca7efcd7fa4a77d10f0606e3f17a">More...</a><br /></td></tr>
+<tr class="memdesc:a6008ca7efcd7fa4a77d10f0606e3f17a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the owning scene at the end of a simulation step.  <a href="#a6008ca7efcd7fa4a77d10f0606e3f17a">More...</a><br /></td></tr>
 <tr class="separator:a6008ca7efcd7fa4a77d10f0606e3f17a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36a746ff81e26d57195ebfdd0141e912"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a36a746ff81e26d57195ebfdd0141e912">taskCompleted</a> (<a class="el" href="classphysx_1_1PxTask.html">PxTask</a> &amp;task)=0</td></tr>
 <tr class="memdesc:a36a746ff81e26d57195ebfdd0141e912"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the worker threads to inform the <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> that a task has completed processing.  <a href="#a36a746ff81e26d57195ebfdd0141e912">More...</a><br /></td></tr>
@@ -142,9 +136,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a940fded6abf31baf0dd31b01b2b86c36"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a940fded6abf31baf0dd31b01b2b86c36">createTaskManager</a> (<a class="el" href="classPxErrorCallback.html">PxErrorCallback</a> &amp;errorCallback, <a class="el" href="classphysx_1_1PxCpuDispatcher.html">PxCpuDispatcher</a> *=0, <a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a> *=0)</td></tr>
-<tr class="memdesc:a940fded6abf31baf0dd31b01b2b86c36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> instance with the given [optional] dispatchers.  <a href="#a940fded6abf31baf0dd31b01b2b86c36">More...</a><br /></td></tr>
-<tr class="separator:a940fded6abf31baf0dd31b01b2b86c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f3449671ec8b26f1ae587844b678fa7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classphysx_1_1PxTaskManager.html">PxTaskManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a4f3449671ec8b26f1ae587844b678fa7">createTaskManager</a> (<a class="el" href="classPxErrorCallback.html">PxErrorCallback</a> &amp;errorCallback, <a class="el" href="classphysx_1_1PxCpuDispatcher.html">PxCpuDispatcher</a> *=0)</td></tr>
+<tr class="memdesc:a4f3449671ec8b26f1ae587844b678fa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> instance with the given [optional] dispatchers.  <a href="#a4f3449671ec8b26f1ae587844b678fa7">More...</a><br /></td></tr>
+<tr class="separator:a4f3449671ec8b26f1ae587844b678fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -159,15 +153,11 @@ Friends</h2></td></tr>
 <tr class="separator:a09f24c51c8921a6866cfb6dd214e1282"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4635f476e861159685a7a960660a5842"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a4635f476e861159685a7a960660a5842">PxLightCpuTask</a></td></tr>
 <tr class="separator:a4635f476e861159685a7a960660a5842"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f49a59cfb28fd74ba8601e2d0d2d35a"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classphysx_1_1PxTaskManager.html#a7f49a59cfb28fd74ba8601e2d0d2d35a">PxGpuWorkerThread</a></td></tr>
-<tr class="separator:a7f49a59cfb28fd74ba8601e2d0d2d35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> interface. </p>
 <p>A <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> instance holds references to user-provided dispatcher objects, when tasks are submitted the <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> routes them to the appropriate dispatcher and handles task profiling if enabled. Users should not implement the <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> interface, the SDK creates its own concrete <a class="el" href="classphysx_1_1PxTaskManager.html" title="The PxTaskManager interface. ">PxTaskManager</a> object per-scene which users can configure by passing dispatcher objects into the <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a>.</p>
-<dl class="section see"><dt>See also</dt><dd>CpuDispatcher </dd>
-<dd>
-<a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>CpuDispatcher </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acc2dfad2e3256187f977095071f9be30"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc2dfad2e3256187f977095071f9be30">&#9670;&nbsp;</a></span>~PxTaskManager()</h2>
@@ -195,8 +185,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a940fded6abf31baf0dd31b01b2b86c36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a940fded6abf31baf0dd31b01b2b86c36">&#9670;&nbsp;</a></span>createTaskManager()</h2>
+<a id="a4f3449671ec8b26f1ae587844b678fa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f3449671ec8b26f1ae587844b678fa7">&#9670;&nbsp;</a></span>createTaskManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,12 +204,6 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classphysx_1_1PxCpuDispatcher.html">PxCpuDispatcher</a> *&#160;</td>
-          <td class="paramname"> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a> *&#160;</td>
           <td class="paramname"> = <code>0</code>&#160;</td>
         </tr>
         <tr>
@@ -265,35 +249,6 @@ Friends</h2></td></tr>
 <p>Get the user-provided dispatcher object for CPU tasks. </p>
 <dl class="section return"><dt>Returns</dt><dd>The CPU dispatcher object.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd>CpuDispatcher </dd></dl>
-
-</div>
-</div>
-<a id="a3b8273fb73c75e7425fd5a0687055641"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b8273fb73c75e7425fd5a0687055641">&#9670;&nbsp;</a></span>getGpuDispatcher()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a>* physx::PxTaskManager::getGpuDispatcher </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the user-provided dispatcher object for GPU tasks. </p>
-<dl class="section return"><dt>Returns</dt><dd>The GPU dispatcher object.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a> </dd></dl>
 
 </div>
 </div>
@@ -458,41 +413,6 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a2222879a9e1f258c3d46579f56d65275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2222879a9e1f258c3d46579f56d65275">&#9670;&nbsp;</a></span>setGpuDispatcher()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void physx::PxTaskManager::setGpuDispatcher </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classphysx_1_1PxGpuDispatcher.html">PxGpuDispatcher</a> &amp;&#160;</td>
-          <td class="paramname"><em>ref</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Set the user-provided dispatcher object for GPU tasks. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">ref</td><td>The dispatcher object.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a> </dd></dl>
-
-</div>
-</div>
 <a id="aab9b613b731eb4cc5007db33fc801017"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aab9b613b731eb4cc5007db33fc801017">&#9670;&nbsp;</a></span>startSimulation()</h2>
 
@@ -545,8 +465,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Called by the owning scene at the end of a simulation step to synchronize the <a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a>. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classphysx_1_1PxGpuDispatcher.html" title="A GpuTask dispatcher. ">PxGpuDispatcher</a> </dd></dl>
+<p>Called by the owning scene at the end of a simulation step. </p>
 
 </div>
 </div>
@@ -697,28 +616,6 @@ Friends</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">friend class <a class="el" href="classphysx_1_1PxBaseTask.html">PxBaseTask</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7f49a59cfb28fd74ba8601e2d0d2d35a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f49a59cfb28fd74ba8601e2d0d2d35a">&#9670;&nbsp;</a></span>PxGpuWorkerThread</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class PxGpuWorkerThread</td>
         </tr>
       </table>
   </td>

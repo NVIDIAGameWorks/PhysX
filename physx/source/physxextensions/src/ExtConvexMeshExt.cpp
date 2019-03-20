@@ -28,10 +28,10 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "PxConvexMeshExt.h"
-#include "PxConvexMeshGeometry.h"
-#include "PxConvexMesh.h"
 #include "foundation/PxTransform.h"
+#include "geometry/PxConvexMeshGeometry.h"
+#include "geometry/PxConvexMesh.h"
+#include "extensions/PxConvexMeshExt.h"
 
 using namespace physx;
 

@@ -27,8 +27,8 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geometry/PxGeometry.h"
 #include "Ps.h"
-#include "PxGeometry.h"
 #include "GuCCDSweepConvexMesh.h"
 #include "PsHashMap.h"
 #include "PxsIslandSim.h"

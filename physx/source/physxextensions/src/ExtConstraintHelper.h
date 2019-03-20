@@ -33,8 +33,8 @@
 #include "foundation/PxAssert.h"
 #include "foundation/PxTransform.h"
 #include "foundation/PxMat33.h"
-#include "PxJointLimit.h"
-#include "ExtJoint.h"
+#include "extensions/PxD6Joint.h"
+#include "ExtJointData.h"
 
 namespace physx
 {
@@ -191,8 +191,7 @@ namespace Ext
 				: mConstraints(c), mCurrent(c), mRa(ra), mRb(rb)	{}
 
 			ConstraintHelper(Px1DConstraint* c, PxConstraintInvMassScale& invMassScale,
-					PxTransform& cA2w, PxTransform& cB2w,
-					PxVec3& body0WorldOffset,
+					PxTransform& cA2w, PxTransform& cB2w, PxVec3& body0WorldOffset,
 					const JointData& data, const PxTransform& bA2w, const PxTransform& bB2w)
 				: mConstraints(c), mCurrent(c)
 			{
@@ -274,8 +273,7 @@ namespace Ext
 
 			PX_FORCE_INLINE PxU32 getCount()	const	{ return PxU32(mCurrent - mConstraints); }
 
-			void prepareLockedAxes(const PxQuat& qA, const PxQuat& qB, const PxVec3& cB2cAp, PxU32 lin, PxU32 ang,
-				PxVec3& raOut, PxVec3& rbOut)
+			void prepareLockedAxes(const PxQuat& qA, const PxQuat& qB, const PxVec3& cB2cAp, PxU32 lin, PxU32 ang, PxVec3& raOut, PxVec3& rbOut)
 			{
 				Px1DConstraint* current = mCurrent;
 				
@@ -296,8 +294,6 @@ namespace Ext
 					if(lin&1) _linear(axes.column0, ra, rb, -cB2cAp.x, PxConstraintSolveHint::eEQUALITY, current++);
 					if(lin&2) _linear(axes.column1, ra, rb, -cB2cAp.y, PxConstraintSolveHint::eEQUALITY, current++);
 					if(lin&4) _linear(axes.column2, ra, rb, -cB2cAp.z, PxConstraintSolveHint::eEQUALITY, current++);
-
-					
 				}
 
 				if (ang)

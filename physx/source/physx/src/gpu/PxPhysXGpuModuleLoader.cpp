@@ -30,15 +30,15 @@
 #if PX_SUPPORT_GPU_PHYSX
 
 #include "foundation/Px.h"
-#include "PsFoundation.h"
-#include "PxPhysics.h"
-#include "PxGpu.h"
-
+#include "gpu/PxGpu.h"
 #include "cudamanager/PxCudaContextManager.h"
+#include "PxPhysics.h"
+
+#include "PsFoundation.h"
 
 #if PX_WINDOWS
+#include "common/windows/PxWindowsDelayLoadHook.h"
 #include "windows/PsWindowsInclude.h"
-#include "windows/PxWindowsDelayLoadHook.h"
 #include "windows/CmWindowsModuleUpdateLoader.h"
 #elif PX_LINUX
 #include <dlfcn.h>
@@ -58,13 +58,6 @@ static const char*	gPhysXGpuLibraryName = PHYSX_GPU_SHARED_LIB_NAME;
 
 #undef GETSTRING
 #undef STRINGIFY
-
-#if PX_WINDOWS
-namespace physx
-{
-	const PxDelayLoadHook* PxGetPhysXDelayLoadHook();
-}
-#endif
 
 void PxSetPhysXGpuLoadHook(const PxGpuLoadHook* hook)
 {
@@ -87,7 +80,7 @@ namespace physx
 	class PxPhysXGpu;
 
 	typedef physx::PxPhysXGpu* (PxCreatePhysXGpu_FUNC)();
-	typedef physx::PxCudaContextManager* (PxCreateCudaContextManager_FUNC)(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc);
+	typedef physx::PxCudaContextManager* (PxCreateCudaContextManager_FUNC)(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc, physx::PxProfilerCallback* profilerCallback);
 	typedef int (PxGetSuggestedCudaDeviceOrdinal_FUNC)(physx::PxErrorCallback& errc);
 	typedef grid::ClientContextPredictionManager* (PxCreateClientContextManager_FUNC)(grid::Server* server,  physx::PxU32 maxNbSleepMsg);
 
@@ -99,8 +92,7 @@ namespace physx
 
 #if PX_WINDOWS
 
-	typedef void (PxSetPhysXGpuDelayLoadHook_FUNC)(const PxDelayLoadHook* delayLoadHook);
-	PxSetPhysXGpuDelayLoadHook_FUNC* g_PxSetPhysXGpuDelayLoadHook_Func = NULL;
+	typedef void (PxSetPhysXGpuDelayLoadHook_FUNC)(const PxDelayLoadHook* delayLoadHook);	
 
 #define DEFAULT_PHYSX_GPU_GUID    "D79FA4BF-177C-4841-8091-4375D311D6A3"
 
@@ -118,8 +110,7 @@ namespace physx
 		}
 
 		if (s_library)
-		{
-			g_PxSetPhysXGpuDelayLoadHook_Func = (PxSetPhysXGpuDelayLoadHook_FUNC*)GetProcAddress(s_library, "PxSetPhysXGpuDelayLoadHook");
+		{			
 			g_PxCreatePhysXGpu_Func = (PxCreatePhysXGpu_FUNC*)GetProcAddress(s_library, "PxCreatePhysXGpu");
 			g_PxCreateCudaContextManager_Func = (PxCreateCudaContextManager_FUNC*)GetProcAddress(s_library, "PxCreateCudaContextManager");
 			g_PxGetSuggestedCudaDeviceOrdinal_Func = (PxGetSuggestedCudaDeviceOrdinal_FUNC*)GetProcAddress(s_library, "PxGetSuggestedCudaDeviceOrdinal");
@@ -133,14 +124,11 @@ namespace physx
 			return;
 		}
 
-		if (g_PxSetPhysXGpuDelayLoadHook_Func == NULL || g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
+		if (g_PxCreatePhysXGpu_Func == NULL || g_PxCreateCudaContextManager_Func == NULL || g_PxGetSuggestedCudaDeviceOrdinal_Func == NULL)
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "PhysXGpu dll is incompatible with this version of PhysX!");
 			return;
 		}
-
-		g_PxSetPhysXGpuDelayLoadHook_Func(PxGetPhysXDelayLoadHook());
-
 	}
 
 #elif PX_LINUX

@@ -97,7 +97,7 @@ Public Types</h2></td></tr>
 <tr class="memitem:aeaa62ad327b874e4b199022401bf7615"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615">Enum</a> { <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615a15ecf48d452c22f6fb755df16919eca4">eKEEP</a>, 
 <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615a90ed10dc7c31e894ffc5cff471c91537">eSUPPRESS</a>, 
 <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615ad053cb78e88913567e0cb208ea2c458c">eKILL</a>, 
-<a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615a464ca27835cd3bfe25854b99b6940c71">eDEFAULT</a>
+<a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615a464ca27835cd3bfe25854b99b6940c71">eDEFAULT</a> = eSUPPRESS
  }</td></tr>
 <tr class="separator:aeaa62ad327b874e4b199022401bf7615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -114,13 +114,16 @@ Public Types</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a15ecf48d452c22f6fb755df16919eca4"></a>eKEEP&#160;</td><td class="fielddoc"><p>Output pair from BP, potentially send to user callbacks, create regular interaction object. Similar to enabling PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS / PxSceneFlag::eENABLE_KINEMATIC_PAIRS. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a15ecf48d452c22f6fb755df16919eca4"></a>eKEEP&#160;</td><td class="fielddoc"><p>Output pair from BP, potentially send to user callbacks, create regular interaction object.</p>
+<p>Enable contact pair filtering between kinematic/static or kinematic/kinematic rigid bodies.</p>
+<p>By default contacts between these are suppressed (see <a class="el" href="structPxFilterFlag.html#a8de424e04d86b5772436423b0dc58083a823b175755a63b3e8ad474528f5e1bf6" title="Ignore the collision pair as long as the bounding volumes of the pair objects overlap or until filter...">PxFilterFlag::eSUPPRESS</a>) and don't get reported to the filter mechanism. Use this mode if these pairs should go through the filtering pipeline nonetheless.</p>
+<dl class="section note"><dt>Note</dt><dd>This mode is not mutable, and must be set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a> at scene creation. </dd></dl>
 </td></tr>
-<tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a90ed10dc7c31e894ffc5cff471c91537"></a>eSUPPRESS&#160;</td><td class="fielddoc"><p>Output pair from BP, create interaction marker. Can be later switched to regular interaction. Similar to disabling PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS / PxSceneFlag::eENABLE_KINEMATIC_PAIRS. </p>
+<tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a90ed10dc7c31e894ffc5cff471c91537"></a>eSUPPRESS&#160;</td><td class="fielddoc"><p>Output pair from BP, create interaction marker. Can be later switched to regular interaction. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615ad053cb78e88913567e0cb208ea2c458c"></a>eKILL&#160;</td><td class="fielddoc"><p>Don't output pair from BP. Cannot be later switched to regular interaction, needs "resetFiltering" call. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a464ca27835cd3bfe25854b99b6940c71"></a>eDEFAULT&#160;</td><td class="fielddoc"><p>Default is to ignore the mode and use PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS and PxSceneFlag::eENABLE_KINEMATIC_PAIRS instead (compatibility). </p>
+<tr><td class="fieldname"><a id="aeaa62ad327b874e4b199022401bf7615a464ca27835cd3bfe25854b99b6940c71"></a>eDEFAULT&#160;</td><td class="fielddoc"><p>Default is eSUPPRESS for compatibility with previous PhysX versions. </p>
 </td></tr>
 </table>
 

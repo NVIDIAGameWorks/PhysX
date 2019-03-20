@@ -11,7 +11,7 @@ var files_dup =
     [ "PxAllocatorCallback.h", "PxAllocatorCallback_8h.html", null ],
     [ "PxArticulation.h", "PxArticulation_8h.html", null ],
     [ "PxArticulationBase.h", "PxArticulationBase_8h.html", null ],
-    [ "PxArticulationJoint.h", "PxArticulationJoint_8h.html", "PxArticulationJoint_8h" ],
+    [ "PxArticulationJoint.h", "PxArticulationJoint_8h.html", null ],
     [ "PxArticulationJointReducedCoordinate.h", "PxArticulationJointReducedCoordinate_8h.html", null ],
     [ "PxArticulationLink.h", "PxArticulationLink_8h.html", null ],
     [ "PxArticulationReducedCoordinate.h", "PxArticulationReducedCoordinate_8h.html", "PxArticulationReducedCoordinate_8h" ],
@@ -87,13 +87,6 @@ var files_dup =
     [ "PxGeometryHelpers.h", "PxGeometryHelpers_8h.html", "PxGeometryHelpers_8h" ],
     [ "PxGeometryQuery.h", "PxGeometryQuery_8h.html", "PxGeometryQuery_8h" ],
     [ "PxGpu.h", "PxGpu_8h.html", null ],
-    [ "PxGpuCopyDesc.h", "PxGpuCopyDesc_8h.html", null ],
-    [ "PxGpuCopyDescQueue.h", "PxGpuCopyDescQueue_8h.html", null ],
-    [ "PxGpuDispatcher.h", "PxGpuDispatcher_8h.html", "PxGpuDispatcher_8h" ],
-    [ "PxGpuTask.h", "PxGpuTask_8h.html", [
-      [ "PxGpuTaskHint", "structphysx_1_1PxGpuTaskHint.html", "structphysx_1_1PxGpuTaskHint" ],
-      [ "PxGpuTask", "classphysx_1_1PxGpuTask.html", "classphysx_1_1PxGpuTask" ]
-    ] ],
     [ "PxHeightField.h", "PxHeightField_8h.html", null ],
     [ "PxHeightFieldDesc.h", "PxHeightFieldDesc_8h.html", null ],
     [ "PxHeightFieldFlag.h", "PxHeightFieldFlag_8h.html", "PxHeightFieldFlag_8h" ],

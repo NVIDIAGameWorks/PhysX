@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['targetpos',['targetPos',['../structPxFeatherstoneArticulationJointData.html#ad058bfd9b4c4db944855d5fbc5ffb061',1,'PxFeatherstoneArticulationJointData']]],
+  ['targetvel',['targetVel',['../structPxFeatherstoneArticulationJointData.html#a78ce6be4a5f5312fe52fa297d65116ad',1,'PxFeatherstoneArticulationJointData']]],
   ['targetwheelids',['targetWheelIds',['../classPxVehicleCopyDynamicsMap.html#a202a481ce5d1ce5dc79f951935ad34ce',1,'PxVehicleCopyDynamicsMap']]],
   ['taskcompleted',['taskCompleted',['../classphysx_1_1PxTaskManager.html#a36a746ff81e26d57195ebfdd0141e912',1,'physx::PxTaskManager']]],
   ['teleportrootlink',['teleportRootLink',['../classPxArticulationReducedCoordinate.html#a2d067a41dc5bcbbdbf9a298d9064b310',1,'PxArticulationReducedCoordinate']]],
@@ -8,6 +10,8 @@ var searchData=
   ['tellwrite',['tellWrite',['../classPxFileBuf.html#a986d2a728e77c789dd2edb58bc965963',1,'PxFileBuf']]],
   ['tempbuffercapacity',['tempBufferCapacity',['../structPxgDynamicsMemoryConfig.html#a2d76891f7a9eb8f30f03430d9c80d7a0',1,'PxgDynamicsMemoryConfig']]],
   ['tessflag',['tessFlag',['../structPxHeightFieldSample.html#adb2f7899e79e9776965fe75cb5992bdc',1,'PxHeightFieldSample']]],
+  ['tgsbodya',['tgsBodyA',['../structPxSolverConstraintDesc.html#a4e75c52e5f71af359af9b62c3f709564',1,'PxSolverConstraintDesc']]],
+  ['tgsbodyb',['tgsBodyB',['../structPxSolverConstraintDesc.html#a25fc01cac6b0554cac348a5c47430dc0',1,'PxSolverConstraintDesc']]],
   ['tirecontactactor',['tireContactActor',['../structPxWheelQueryResult.html#ac728726399b7e23755086c0a512c308b',1,'PxWheelQueryResult']]],
   ['tirecontactnormal',['tireContactNormal',['../structPxWheelQueryResult.html#a8d048db9af70ed06e0575d979093f538',1,'PxWheelQueryResult']]],
   ['tirecontactpoint',['tireContactPoint',['../structPxWheelQueryResult.html#a265780749830b4cd7b7895eed6133f8a',1,'PxWheelQueryResult']]],
@@ -20,6 +24,8 @@ var searchData=
   ['toggleautogears',['toggleAutoGears',['../classPxVehicleDriveDynData.html#aca4e7fb32e89d14f1f10dd0f42f3b9f3',1,'PxVehicleDriveDynData']]],
   ['tomat33',['toMat33',['../classPxMeshScale.html#a48e9448ac3a1b20f16b23d226286930b',1,'PxMeshScale']]],
   ['toradiansandunitaxis',['toRadiansAndUnitAxis',['../classPxQuat.html#a89bd359f188b7d164be0d5f1caf0745f',1,'PxQuat']]],
+  ['torque',['torque',['../structPxSpatialForce.html#a0c350e4c06721f54057740e212d5c0e3',1,'PxSpatialForce::torque()'],['../PxArticulationReducedCoordinate_8h.html#abdcc8bb9f78d81acf11aabbf3367d09d',1,'torque():&#160;PxArticulationReducedCoordinate.h']]],
+  ['torsionalpatchradius',['torsionalPatchRadius',['../structPxTGSSolverContactDesc.html#a9925f638d123b5636e4b3ab9d58966ff',1,'PxTGSSolverContactDesc']]],
   ['totalcontacts',['totalContacts',['../structPxContactStreamIterator.html#a6c42c3dc1df41933cc6fe03155d1915f',1,'PxContactStreamIterator']]],
   ['totalpatches',['totalPatches',['../structPxContactStreamIterator.html#a4545778a99dad1fdc84ba545866f1ea1',1,'PxContactStreamIterator']]],
   ['touchedactor',['touchedActor',['../structPxControllerState.html#a85a7ade51c86a3fbe7582c95473c0e13',1,'PxControllerState']]],
@@ -42,9 +48,8 @@ var searchData=
   ['triggershape',['triggerShape',['../structPxTriggerPair.html#ad9010d4ddceacd431e8733a010dee664',1,'PxTriggerPair']]],
   ['tt_5fcompleted',['TT_COMPLETED',['../structphysx_1_1PxTaskType.html#ae5545e371cf86793e4a0d395e4ebdb6ba25bbc57d255402b6790c14eb8347f4e5',1,'physx::PxTaskType']]],
   ['tt_5fcpu',['TT_CPU',['../structphysx_1_1PxTaskType.html#ae5545e371cf86793e4a0d395e4ebdb6ba27553f47b12c277e0cb685240cb8b9b3',1,'physx::PxTaskType']]],
-  ['tt_5fgpu',['TT_GPU',['../structphysx_1_1PxTaskType.html#ae5545e371cf86793e4a0d395e4ebdb6ba4f4e2d64ede267a5b1afcbe74c35c3f7',1,'physx::PxTaskType']]],
   ['tt_5fnot_5fpresent',['TT_NOT_PRESENT',['../structphysx_1_1PxTaskType.html#ae5545e371cf86793e4a0d395e4ebdb6bac5b78680f329287a850b9f852c80acd2',1,'physx::PxTaskType']]],
-  ['type',['type',['../structPxMetaDataEntry.html#af798a0e7beeb8caf4ddbd713fc0994c6',1,'PxMetaDataEntry::type()'],['../structPxContactPairExtraDataItem.html#a18e83c33b02a0a57f0daf818379e06d6',1,'PxContactPairExtraDataItem::type()'],['../structPxConstraintInfo.html#a324fadc19904fff635aa9d16da7a21f9',1,'PxConstraintInfo::type()'],['../structPx1DConstraintFlag.html#a0d9f59379f0d8eba3bace01f8bb88b76',1,'Px1DConstraintFlag::Type()']]],
+  ['type',['type',['../structPxMetaDataEntry.html#af798a0e7beeb8caf4ddbd713fc0994c6',1,'PxMetaDataEntry::type()'],['../structPxFeatherstoneArticulationJointData.html#a4af74cf4f2211f48e01fea26c1e7caed',1,'PxFeatherstoneArticulationJointData::type()'],['../structPxContactPairExtraDataItem.html#a18e83c33b02a0a57f0daf818379e06d6',1,'PxContactPairExtraDataItem::type()'],['../structPxConstraintInfo.html#a324fadc19904fff635aa9d16da7a21f9',1,'PxConstraintInfo::type()'],['../structPx1DConstraintFlag.html#a0d9f59379f0d8eba3bace01f8bb88b76',1,'Px1DConstraintFlag::Type()']]],
   ['typematch',['typeMatch',['../classPxBase.html#a3782ca64c8f12c41443f604e300fc207',1,'PxBase']]],
   ['typename',['typeName',['../structPxRepXObject.html#a0c78e70aff2c5ede506a1279562e494a',1,'PxRepXObject']]]
 ];

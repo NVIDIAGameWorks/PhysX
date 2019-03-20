@@ -83,7 +83,7 @@ SET(SOURCE_DISTRO_FILE_LIST "")
 
 # Include all of the projects
 SET(SNIPPETS_LIST Articulation BVHStructure ContactModification ContactReport ContactReportCCD ConvexMeshCreate
-	CustomJoint CustomProfiler DeformableMesh HelloWorld ImmediateMode Joint MBP MultiThreading
+	CustomJoint CustomProfiler DeformableMesh HelloWorld ImmediateArticulation ImmediateMode Joint MBP MultiThreading
 	PrunerSerialization RaycastCCD Serialization SplitFetchResults 
 	SplitSim Stepper ToleranceScale TriangleMeshCreate)
 	

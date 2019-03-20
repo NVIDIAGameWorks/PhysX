@@ -31,7 +31,7 @@
 #ifndef PX_PHYSICS_COMMON_PTR_TABLE
 #define PX_PHYSICS_COMMON_PTR_TABLE
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 
 namespace physx

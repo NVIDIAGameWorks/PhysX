@@ -28,14 +28,15 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 
-#include "PxDefaultSimulationFilterShader.h"
-#include "PsIntrinsics.h"
+#include "extensions/PxDefaultSimulationFilterShader.h"
 #include "PxRigidActor.h"
 #include "PxShape.h"
+
+#include "PsIntrinsics.h"
 #include "PsAllocator.h"
-#include "CmPhysXCommon.h"
 #include "PsInlineArray.h"
 #include "PsFoundation.h"
+#include "CmPhysXCommon.h"
 
 using namespace physx;
 

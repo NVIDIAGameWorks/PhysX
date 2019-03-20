@@ -31,8 +31,8 @@
 #define GU_CONTACTPOLYGONPOLYGON_H
 
 #include "foundation/PxVec3.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
-#include "PxPhysXCommonConfig.h"
 
 namespace physx
 {

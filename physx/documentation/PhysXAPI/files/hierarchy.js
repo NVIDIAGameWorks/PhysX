@@ -22,10 +22,16 @@ var hierarchy =
     ] ],
     [ "PxArticulationAxis", "structPxArticulationAxis.html", null ],
     [ "PxArticulationCache", "classPxArticulationCache.html", null ],
+    [ "PxArticulationDrive", "structPxArticulationDrive.html", null ],
     [ "PxArticulationDriveCache", "classPxArticulationDriveCache.html", null ],
+    [ "PxArticulationDriveType", "structPxArticulationDriveType.html", null ],
     [ "PxArticulationFlag", "structPxArticulationFlag.html", null ],
+    [ "PxArticulationJointData", "structPxArticulationJointData.html", [
+      [ "PxFeatherstoneArticulationJointData", "structPxFeatherstoneArticulationJointData.html", null ]
+    ] ],
     [ "PxArticulationJointDriveType", "structPxArticulationJointDriveType.html", null ],
     [ "PxArticulationJointType", "structPxArticulationJointType.html", null ],
+    [ "PxArticulationLimit", "structPxArticulationLimit.html", null ],
     [ "PxArticulationMotion", "structPxArticulationMotion.html", null ],
     [ "PxArticulationRootLinkData", "structPxArticulationRootLinkData.html", null ],
     [ "PxAssertHandler", "classPxAssertHandler.html", null ],
@@ -80,9 +86,7 @@ var hierarchy =
     [ "PxBaseFlag", "structPxBaseFlag.html", null ],
     [ "physx::PxBaseTask", "classphysx_1_1PxBaseTask.html", [
       [ "physx::PxLightCpuTask", "classphysx_1_1PxLightCpuTask.html", null ],
-      [ "physx::PxTask", "classphysx_1_1PxTask.html", [
-        [ "physx::PxGpuTask", "classphysx_1_1PxGpuTask.html", null ]
-      ] ]
+      [ "physx::PxTask", "classphysx_1_1PxTask.html", null ]
     ] ],
     [ "PxBatchQuery", "classPxBatchQuery.html", null ],
     [ "PxBatchQueryDesc", "classPxBatchQueryDesc.html", null ],
@@ -201,6 +205,7 @@ var hierarchy =
     ] ],
     [ "PxErrorCode", "structPxErrorCode.html", null ],
     [ "PxExtendedVec3", "structPxExtendedVec3.html", null ],
+    [ "PxFeatherstoneArticulationData", "structPxFeatherstoneArticulationData.html", null ],
     [ "PxFileBuf", "classPxFileBuf.html", null ],
     [ "PxFilterData", "structPxFilterData.html", null ],
     [ "PxFilterFlag", "structPxFilterFlag.html", null ],
@@ -210,6 +215,7 @@ var hierarchy =
     [ "PxFixedSizeLookupTable< NB_ELEMENTS >", "classPxFixedSizeLookupTable.html", null ],
     [ "PxFixedSizeLookupTable< eMAX_NB_ENGINE_TORQUE_CURVE_ENTRIES >", "classPxFixedSizeLookupTable.html", null ],
     [ "PxFlags< enumtype, storagetype >", "classPxFlags.html", null ],
+    [ "PxFlags< PxArticulationFlag::Enum, PxU8 >", "classPxFlags.html", null ],
     [ "PxFlags< PxBaseFlag::Enum, PxU16 >", "classPxFlags.html", null ],
     [ "PxFlags< PxContactPairFlag::Enum, PxU16 >", "classPxFlags.html", null ],
     [ "PxFlags< PxContactPairHeaderFlag::Enum, PxU16 >", "classPxFlags.html", null ],
@@ -240,8 +246,6 @@ var hierarchy =
     [ "PxGeometryHolder", "classPxGeometryHolder.html", null ],
     [ "PxGeometryQuery", "classPxGeometryQuery.html", null ],
     [ "PxGeometryType", "structPxGeometryType.html", null ],
-    [ "physx::PxGpuDispatcher", "classphysx_1_1PxGpuDispatcher.html", null ],
-    [ "physx::PxGpuTaskHint", "structphysx_1_1PxGpuTaskHint.html", null ],
     [ "PxGroupsMask", "classPxGroupsMask.html", null ],
     [ "PxHeightFieldDesc", "classPxHeightFieldDesc.html", null ],
     [ "PxHeightFieldFlag", "structPxHeightFieldFlag.html", null ],
@@ -269,6 +273,7 @@ var hierarchy =
     ] ],
     [ "PxHitFlag", "structPxHitFlag.html", null ],
     [ "PxHullPolygon", "structPxHullPolygon.html", null ],
+    [ "PxImmediateConstraint", "structPxImmediateConstraint.html", null ],
     [ "PxInputStream", "classPxInputStream.html", [
       [ "PxInputData", "classPxInputData.html", [
         [ "PxDefaultFileInputData", "classPxDefaultFileInputData.html", null ],
@@ -285,7 +290,7 @@ var hierarchy =
       [ "PxJointLinearLimit", "classPxJointLinearLimit.html", null ],
       [ "PxJointLinearLimitPair", "classPxJointLinearLimitPair.html", null ]
     ] ],
-    [ "PxKinematicJacobian", "classPxKinematicJacobian.html", null ],
+    [ "PxLinkData", "structPxLinkData.html", null ],
     [ "PxLockedData", "classPxLockedData.html", null ],
     [ "PxMassModificationProps", "structPxMassModificationProps.html", null ],
     [ "PxMassProperties", "classPxMassProperties.html", null ],
@@ -303,6 +308,9 @@ var hierarchy =
     [ "PxMetaDataEntry", "structPxMetaDataEntry.html", null ],
     [ "PxMetaDataFlag", "structPxMetaDataFlag.html", null ],
     [ "PxMidphaseDesc", "classPxMidphaseDesc.html", null ],
+    [ "PxMutableLinkData", "structPxMutableLinkData.html", [
+      [ "PxFeatherstoneArticulationLinkData", "structPxFeatherstoneArticulationLinkData.html", null ]
+    ] ],
     [ "PxObstacle", "classPxObstacle.html", [
       [ "PxBoxObstacle", "classPxBoxObstacle.html", null ],
       [ "PxCapsuleObstacle", "classPxCapsuleObstacle.html", null ]
@@ -378,6 +386,7 @@ var hierarchy =
       [ "PxSolverContactDesc", "structPxSolverContactDesc.html", null ]
     ] ],
     [ "PxSolverType", "structPxSolverType.html", null ],
+    [ "PxSpatialForce", "structPxSpatialForce.html", null ],
     [ "PxSphericalJointFlag", "structPxSphericalJointFlag.html", null ],
     [ "PxSpring", "classPxSpring.html", [
       [ "PxD6JointDrive", "classPxD6JointDrive.html", null ]
@@ -390,6 +399,13 @@ var hierarchy =
     [ "PxStringTableExt", "classPxStringTableExt.html", null ],
     [ "physx::PxTaskManager", "classphysx_1_1PxTaskManager.html", null ],
     [ "physx::PxTaskType", "structphysx_1_1PxTaskType.html", null ],
+    [ "PxTGSSolverBodyData", "structPxTGSSolverBodyData.html", null ],
+    [ "PxTGSSolverBodyTxInertia", "structPxTGSSolverBodyTxInertia.html", null ],
+    [ "PxTGSSolverBodyVel", "structPxTGSSolverBodyVel.html", null ],
+    [ "PxTGSSolverConstraintPrepDescBase", "structPxTGSSolverConstraintPrepDescBase.html", [
+      [ "PxTGSSolverConstraintPrepDesc", "structPxTGSSolverConstraintPrepDesc.html", null ],
+      [ "PxTGSSolverContactDesc", "structPxTGSSolverContactDesc.html", null ]
+    ] ],
     [ "PxTolerancesScale", "classPxTolerancesScale.html", null ],
     [ "PxTransform", "classPxTransform.html", null ],
     [ "PxTriangle", "classPxTriangle.html", null ],

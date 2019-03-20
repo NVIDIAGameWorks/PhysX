@@ -435,13 +435,13 @@ Cm::SpatialVectorF* Z)
 
 	SolverConstraint1DHeader* header = reinterpret_cast<SolverConstraint1DHeader*>(desc.constraint);
 	PxU8* constraints = desc.constraint + sizeof(SolverConstraint1DHeader);
-	init(*header, Ps::to8(prepDesc.numRows), isExtended, prepDesc.mInvMassScales);
+	init(*header, Ps::to8(prepDesc.numRows), isExtended, prepDesc.invMassScales);
 	header->body0WorldOffset = prepDesc.body0WorldOffset;
 	header->linBreakImpulse = prepDesc.linBreakForce * dt;
 	header->angBreakImpulse = prepDesc.angBreakForce * dt;
 	header->breakable = PxU8((prepDesc.linBreakForce != PX_MAX_F32) || (prepDesc.angBreakForce != PX_MAX_F32));
-	header->invMass0D0 = prepDesc.data0->invMass * prepDesc.mInvMassScales.linear0;
-	header->invMass1D1 = prepDesc.data1->invMass * prepDesc.mInvMassScales.linear1;
+	header->invMass0D0 = prepDesc.data0->invMass * prepDesc.invMassScales.linear0;
+	header->invMass1D1 = prepDesc.data1->invMass * prepDesc.invMassScales.linear1;
 
 
 	PX_ALIGN(16, PxVec4) angSqrtInvInertia0[MAX_CONSTRAINT_ROWS];
@@ -451,7 +451,7 @@ Cm::SpatialVectorF* Z)
 
 	preprocessRows(sorted, prepDesc.rows, angSqrtInvInertia0, angSqrtInvInertia1, prepDesc.numRows, 
 		prepDesc.data0->sqrtInvInertia, prepDesc.data1->sqrtInvInertia, prepDesc.data0->invMass, prepDesc.data1->invMass, 
-		prepDesc.mInvMassScales, isExtended || prepDesc.disablePreprocessing, prepDesc.improvedSlerp, true);
+		prepDesc.invMassScales, isExtended || prepDesc.disablePreprocessing, prepDesc.improvedSlerp, true);
 
 	const PxReal erp = 1.0f;
 	for (PxU32 i = 0; i<prepDesc.numRows; i++)
@@ -473,8 +473,8 @@ Cm::SpatialVectorF* Z)
 			init(s, c.linear0, c.linear1, PxVec3(angSqrtInvInertia0[i].x, angSqrtInvInertia0[i].y, angSqrtInvInertia0[i].z),
 				PxVec3(angSqrtInvInertia1[i].x, angSqrtInvInertia1[i].y, angSqrtInvInertia1[i].z), c.minImpulse * driveScale, c.maxImpulse * driveScale);
 			s.ang0Writeback = c.angular0;
-			PxReal resp0 = s.lin0.magnitudeSquared() * prepDesc.data0->invMass * prepDesc.mInvMassScales.linear0 + s.ang0.magnitudeSquared() * prepDesc.mInvMassScales.angular0;
-			PxReal resp1 = s.lin1.magnitudeSquared() * prepDesc.data1->invMass * prepDesc.mInvMassScales.linear1 + s.ang1.magnitudeSquared() * prepDesc.mInvMassScales.angular1;
+			PxReal resp0 = s.lin0.magnitudeSquared() * prepDesc.data0->invMass * prepDesc.invMassScales.linear0 + s.ang0.magnitudeSquared() * prepDesc.invMassScales.angular0;
+			PxReal resp1 = s.lin1.magnitudeSquared() * prepDesc.data1->invMass * prepDesc.invMassScales.linear1 + s.ang1.magnitudeSquared() * prepDesc.invMassScales.angular1;
 			unitResponse = resp0 + resp1;
 			initVel = normalVel = prepDesc.data0->projectVelocity(c.linear0, c.angular0) - prepDesc.data1->projectVelocity(c.linear1, c.angular1);
 		}
@@ -488,8 +488,8 @@ Cm::SpatialVectorF* Z)
 
 			const Cm::SpatialVector resp0 = createImpulseResponseVector(e.lin0, e.ang0, eb0);
 			const Cm::SpatialVector resp1 = createImpulseResponseVector(-e.lin1, -e.ang1, eb1);
-			unitResponse = getImpulseResponse(eb0, resp0, unsimdRef(e.deltaVA), prepDesc.mInvMassScales.linear0, prepDesc.mInvMassScales.angular0,
-				eb1, resp1, unsimdRef(e.deltaVB), prepDesc.mInvMassScales.linear1, prepDesc.mInvMassScales.angular1, Z, false);
+			unitResponse = getImpulseResponse(eb0, resp0, unsimdRef(e.deltaVA), prepDesc.invMassScales.linear0, prepDesc.invMassScales.angular0,
+				eb1, resp1, unsimdRef(e.deltaVB), prepDesc.invMassScales.linear1, prepDesc.invMassScales.angular1, Z, false);
 
 			if(!(c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT))
 			{
@@ -581,14 +581,14 @@ PxU32 SetupSolverConstraint(SolverConstraintShaderPrepDesc& shaderDesc,
 		c.maxImpulse = PX_MAX_REAL;
 	}
 
-	prepDesc.mInvMassScales.linear0 = prepDesc.mInvMassScales.linear1 = prepDesc.mInvMassScales.angular0 = prepDesc.mInvMassScales.angular1 = 1.f;
+	prepDesc.invMassScales.linear0 = prepDesc.invMassScales.linear1 = prepDesc.invMassScales.angular0 = prepDesc.invMassScales.angular1 = 1.f;
 
 	PxVec3 body0WorldOffset(0.f);
 	PxVec3 ra, rb;
 	PxU32 constraintCount = (*shaderDesc.solverPrep)(rows,
 		body0WorldOffset,
 		MAX_CONSTRAINT_ROWS,
-		prepDesc.mInvMassScales,
+		prepDesc.invMassScales,
 		shaderDesc.constantBlock,
 		prepDesc.bodyFrame0, prepDesc.bodyFrame1, prepDesc.extendedLimits, ra, rb);
 

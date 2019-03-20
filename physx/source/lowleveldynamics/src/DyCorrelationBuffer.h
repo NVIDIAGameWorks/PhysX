@@ -32,13 +32,14 @@
 #ifndef DY_CORRELATIONBUFFER_H
 #define DY_CORRELATIONBUFFER_H
 
-#include "PxvConfig.h"
 #include "foundation/PxSimpleTypes.h"
 #include "foundation/PxVec3.h"
 #include "foundation/PxTransform.h"
-#include "DyFrictionPatch.h"
-#include "GuContactBuffer.h"
 #include "foundation/PxBounds3.h"
+#include "geomutils/GuContactBuffer.h"
+
+#include "PxvConfig.h"
+#include "DyFrictionPatch.h"
 
 namespace physx
 {

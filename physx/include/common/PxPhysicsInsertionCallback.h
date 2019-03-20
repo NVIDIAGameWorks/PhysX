@@ -31,7 +31,7 @@
 #ifndef PX_PHYSICS_PX_PHYSICS_INSERTION_CALLBACK
 #define PX_PHYSICS_PX_PHYSICS_INSERTION_CALLBACK
 
-#include "PxBase.h"
+#include "common/PxBase.h"
 
 /** \addtogroup common
 @{

@@ -28,9 +28,10 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxBounds3.h"
+#include "geometry/PxTriangle.h"
+
 #include "GuSweepBoxTriangle_FeatureBased.h"
 #include "GuIntersectionRayBox.h"
-#include "PxTriangle.h"
 #include "GuSweepTriangleUtils.h"
 #include "GuInternal.h"
 

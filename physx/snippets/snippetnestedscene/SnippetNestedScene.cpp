@@ -423,10 +423,8 @@ void releaseAllControls()
 	}
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	
 	gPvd = PxCreatePvd(*gFoundation);
@@ -543,10 +541,8 @@ void incrementDrivingMode(const PxF32 timestep)
 	}
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	const PxF32 timestep = 1.0f/60.0f;
 
 	//Cycle through the driving modes.
@@ -586,22 +582,23 @@ void renderPhysics()
 	tankEntity.render();
 }
 
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
 	gVehicleSceneQueryData->free(gAllocator);
-	gFrictionPairs->release();
+	PX_RELEASE(gFrictionPairs);
 	PxCloseVehicleSDK();
 
-	PX_UNUSED(interactive);
-	gCooking->release();
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-
-	gFoundation->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	PX_RELEASE(gCooking);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 
 	printf("SnippetNestedScene done.\n");
 }

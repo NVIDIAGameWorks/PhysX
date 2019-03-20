@@ -31,11 +31,10 @@
 #ifndef PX_PHYSICS_NP_RIGIDSTATIC
 #define PX_PHYSICS_NP_RIGIDSTATIC
 
-#include "NpRigidActorTemplate.h"
+#include "common/PxMetaData.h"
 #include "PxRigidStatic.h"
+#include "NpRigidActorTemplate.h"
 #include "ScbRigidStatic.h"
-
-#include "PxMetaData.h"
 
 namespace physx
 {
@@ -59,7 +58,7 @@ class NpRigidStatic : public NpRigidStaticT
 public:
 // PX_SERIALIZATION
 											NpRigidStatic(PxBaseFlags baseFlags) : NpRigidStaticT(baseFlags), mRigidStatic(PxEmpty) {}
-	virtual			void					exportData(PxSerializationContext& context) const;
+					void					preExportDataReset() { NpRigidStaticT::preExportDataReset(); }
 	virtual			void					requiresObjects(PxProcessPxBaseCallback& c);
 	static			NpRigidStatic*			createObject(PxU8*& address, PxDeserializationContext& context);
 	static			void					getBinaryMetaData(PxOutputStream& stream);

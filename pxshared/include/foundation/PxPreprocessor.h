@@ -70,6 +70,13 @@ Compiler defines, see http://sourceforge.net/p/predef/wiki/Compilers/
 #endif
 #elif defined(__clang__)
 #define PX_CLANG 1
+	#if defined (__clang_major__) 
+		#define PX_CLANG_MAJOR __clang_major__
+	#elif defined (_clang_major)
+		#define PX_CLANG_MAJOR _clang_major
+	#else
+		#define PX_CLANG_MAJOR 0
+	#endif	
 #elif defined(__GNUC__) // note: __clang__ implies __GNUC__
 #define PX_GCC 1
 #else
@@ -110,7 +117,7 @@ Architecture defines, see http://sourceforge.net/p/predef/wiki/Architectures/
 #define PX_X64 1
 #elif defined(__i386__) || defined(_M_IX86) || defined (__EMSCRIPTEN__)
 #define PX_X86 1
-#elif defined(__arm64__) || defined(__aarch64__)
+#elif defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM64)
 #define PX_A64 1
 #elif defined(__arm__) || defined(_M_ARM)
 #define PX_ARM 1

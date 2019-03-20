@@ -31,7 +31,7 @@
 #define GU_INTERSECTION_RAY_BOX_SIMD_H
 
 #include "foundation/PxIntrinsics.h"
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "PsVecMath.h"
 

@@ -27,13 +27,14 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "SnSerializationRegistry.h"
+#include "common/PxSerializer.h"
 #include "PxPhysics.h"
 #include "PxPhysicsSerialization.h"
-#include "ExtSerialization.h"
-#include "PxSerializer.h"
-#include "CmCollection.h"
 #include "PxArticulationLink.h"
+
+#include "SnSerializationRegistry.h"
+#include "ExtSerialization.h"
+#include "CmCollection.h"
 #include "PsFoundation.h"
 #include "PsString.h"
 

@@ -30,7 +30,7 @@
 #define PX_REPXCOLLECTION_H
 
 #include "common/PxTolerancesScale.h"
-#include "PxRepXSerializer.h"
+#include "extensions/PxRepXSerializer.h"
 
 namespace physx { namespace Sn {
 	

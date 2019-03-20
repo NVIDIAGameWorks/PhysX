@@ -27,6 +27,8 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuIntersectionEdgeEdge.h"
 #include "GuDistanceSegmentTriangle.h"
 #include "GuIntersectionRayTriangle.h"
@@ -34,7 +36,6 @@
 #include "GuInternal.h"
 #include "GuContactMethodImpl.h"
 #include "GuFeatureCode.h"
-#include "GuContactBuffer.h"
 #include "GuMidphaseInterface.h"
 #include "GuEntityReport.h"
 #include "GuHeightFieldUtil.h"

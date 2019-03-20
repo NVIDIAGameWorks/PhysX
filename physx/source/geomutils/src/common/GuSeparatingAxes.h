@@ -31,7 +31,7 @@
 #define GU_SEPARATINGAXES_H
 
 #include "foundation/PxVec3.h"
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 
 namespace physx
 {

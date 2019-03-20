@@ -27,13 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-
-#include "foundation/PxMat33.h"
-#include "PxConstraint.h"
-#include "PxJoint.h"
 #include "ExtJoint.h"
 
 using namespace physx;
@@ -50,7 +43,6 @@ PxConstraint* physx::resolveConstraintPtr(PxDeserializationContext& v,
 	return new_nx;
 }
 //~PX_SERIALIZATION
-
 
 static void normalToTangents(const PxVec3& n, PxVec3& t1, PxVec3& t2)
 {

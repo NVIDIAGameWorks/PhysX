@@ -27,18 +27,19 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxVehicleDrive4W.h"
-#include "PxVehicleDrive.h"
-#include "PxVehicleSDK.h"
+#include "vehicle/PxVehicleDrive4W.h"
+#include "vehicle/PxVehicleDrive.h"
+#include "vehicle/PxVehicleSDK.h"
+#include "PxRigidDynamic.h"
+#include "PxShape.h"
+#include "PxScene.h"
+
 #include "PxVehicleSuspWheelTire4.h"
 #include "PxVehicleSuspLimitConstraintShader.h"
 #include "PxVehicleDefaults.h"
-#include "PxRigidDynamic.h"
-#include "PxShape.h"
 #include "PsFoundation.h"
 #include "PsUtilities.h"
 #include "CmPhysXCommon.h"
-#include "PxScene.h"
 #include "CmUtils.h"
 
 namespace physx

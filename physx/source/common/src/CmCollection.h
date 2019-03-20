@@ -31,8 +31,9 @@
 #ifndef PX_PHYSICS_CM_COLLECTION
 #define PX_PHYSICS_CM_COLLECTION
 
+#include "common/PxCollection.h"
+
 #include "CmPhysXCommon.h"
-#include "PxCollection.h"
 #include "PsHashMap.h"
 #include "PsUserAllocated.h"
 #include "PsAllocator.h"

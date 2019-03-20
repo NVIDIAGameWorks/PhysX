@@ -35,7 +35,7 @@
 // physx/PhysXMetaDataGenerator/llvm/tools/clang/lib/Frontend/PhysXMetaDataAction.cpp
 #include "PxExtensionMetaDataObjects.h"
 #include "PxMetaDataCppPrefix.h"
-#include "PxExtensionsAPI.h"
+#include "extensions/PxExtensionsAPI.h"
 using namespace physx;
 void setPxJoint_Actors( PxJoint* inObj, PxRigidActor * inArg0, PxRigidActor * inArg1 ) { inObj->setActors( inArg0, inArg1 ); }
 void getPxJoint_Actors( const PxJoint* inObj, PxRigidActor *& inArg0, PxRigidActor *& inArg1 ) { inObj->getActors( inArg0, inArg1 ); }
@@ -98,36 +98,6 @@ inline void setPxJointUserData( PxJoint* inOwner, void * inData) { inOwner->user
 		for ( PxU32 idx = 0; idx < static_cast<PxU32>( physx::PxJointActorIndex::COUNT ); ++idx )
 		LocalPose[idx] = getPxJoint_LocalPose( inSource, static_cast< PxJointActorIndex::Enum >( idx ) );
 	getPxJoint_BreakForce( inSource, BreakForce[0], BreakForce[1] );
-}
-void setPxContactJoint_Contact( PxContactJoint* inObj, const PxVec3 & inArg){ inObj->setContact( inArg ); }
-PxVec3 getPxContactJoint_Contact( const PxContactJoint* inObj ) { return inObj->getContact(); }
-void setPxContactJoint_ContactNormal( PxContactJoint* inObj, const PxVec3 & inArg){ inObj->setContactNormal( inArg ); }
-PxVec3 getPxContactJoint_ContactNormal( const PxContactJoint* inObj ) { return inObj->getContactNormal(); }
-void setPxContactJoint_Penetration( PxContactJoint* inObj, const PxReal inArg){ inObj->setPenetration( inArg ); }
-PxReal getPxContactJoint_Penetration( const PxContactJoint* inObj ) { return inObj->getPenetration(); }
-void setPxContactJoint_Resititution( PxContactJoint* inObj, const PxReal inArg){ inObj->setResititution( inArg ); }
-PxReal getPxContactJoint_Resititution( const PxContactJoint* inObj ) { return inObj->getResititution(); }
-void setPxContactJoint_BounceThreshold( PxContactJoint* inObj, const PxReal inArg){ inObj->setBounceThreshold( inArg ); }
-PxReal getPxContactJoint_BounceThreshold( const PxContactJoint* inObj ) { return inObj->getBounceThreshold(); }
-const char * getPxContactJoint_ConcreteTypeName( const PxContactJoint* inObj ) { return inObj->getConcreteTypeName(); }
- PxContactJointGeneratedInfo::PxContactJointGeneratedInfo()
-	: Contact( "Contact", setPxContactJoint_Contact, getPxContactJoint_Contact)
-	, ContactNormal( "ContactNormal", setPxContactJoint_ContactNormal, getPxContactJoint_ContactNormal)
-	, Penetration( "Penetration", setPxContactJoint_Penetration, getPxContactJoint_Penetration)
-	, Resititution( "Resititution", setPxContactJoint_Resititution, getPxContactJoint_Resititution)
-	, BounceThreshold( "BounceThreshold", setPxContactJoint_BounceThreshold, getPxContactJoint_BounceThreshold)
-	, ConcreteTypeName( "ConcreteTypeName", getPxContactJoint_ConcreteTypeName)
-{}
- PxContactJointGeneratedValues::PxContactJointGeneratedValues( const PxContactJoint* inSource )
-		:PxJointGeneratedValues( inSource )
-		,Contact( getPxContactJoint_Contact( inSource ) )
-		,ContactNormal( getPxContactJoint_ContactNormal( inSource ) )
-		,Penetration( getPxContactJoint_Penetration( inSource ) )
-		,Resititution( getPxContactJoint_Resititution( inSource ) )
-		,BounceThreshold( getPxContactJoint_BounceThreshold( inSource ) )
-		,ConcreteTypeName( getPxContactJoint_ConcreteTypeName( inSource ) )
-{
-	PX_UNUSED(inSource);
 }
 void setPxD6Joint_Motion( PxD6Joint* inObj, PxD6Axis::Enum inIndex, PxD6Motion::Enum inArg ){ inObj->setMotion( inIndex, inArg ); }
 PxD6Motion::Enum getPxD6Joint_Motion( const PxD6Joint* inObj, PxD6Axis::Enum inIndex ) { return inObj->getMotion( inIndex ); }
@@ -227,6 +197,36 @@ const char * getPxDistanceJoint_ConcreteTypeName( const PxDistanceJoint* inObj )
 		,Damping( getPxDistanceJoint_Damping( inSource ) )
 		,DistanceJointFlags( getPxDistanceJoint_DistanceJointFlags( inSource ) )
 		,ConcreteTypeName( getPxDistanceJoint_ConcreteTypeName( inSource ) )
+{
+	PX_UNUSED(inSource);
+}
+void setPxContactJoint_Contact( PxContactJoint* inObj, const PxVec3 & inArg){ inObj->setContact( inArg ); }
+PxVec3 getPxContactJoint_Contact( const PxContactJoint* inObj ) { return inObj->getContact(); }
+void setPxContactJoint_ContactNormal( PxContactJoint* inObj, const PxVec3 & inArg){ inObj->setContactNormal( inArg ); }
+PxVec3 getPxContactJoint_ContactNormal( const PxContactJoint* inObj ) { return inObj->getContactNormal(); }
+void setPxContactJoint_Penetration( PxContactJoint* inObj, const PxReal inArg){ inObj->setPenetration( inArg ); }
+PxReal getPxContactJoint_Penetration( const PxContactJoint* inObj ) { return inObj->getPenetration(); }
+void setPxContactJoint_Resititution( PxContactJoint* inObj, const PxReal inArg){ inObj->setResititution( inArg ); }
+PxReal getPxContactJoint_Resititution( const PxContactJoint* inObj ) { return inObj->getResititution(); }
+void setPxContactJoint_BounceThreshold( PxContactJoint* inObj, const PxReal inArg){ inObj->setBounceThreshold( inArg ); }
+PxReal getPxContactJoint_BounceThreshold( const PxContactJoint* inObj ) { return inObj->getBounceThreshold(); }
+const char * getPxContactJoint_ConcreteTypeName( const PxContactJoint* inObj ) { return inObj->getConcreteTypeName(); }
+ PxContactJointGeneratedInfo::PxContactJointGeneratedInfo()
+	: Contact( "Contact", setPxContactJoint_Contact, getPxContactJoint_Contact)
+	, ContactNormal( "ContactNormal", setPxContactJoint_ContactNormal, getPxContactJoint_ContactNormal)
+	, Penetration( "Penetration", setPxContactJoint_Penetration, getPxContactJoint_Penetration)
+	, Resititution( "Resititution", setPxContactJoint_Resititution, getPxContactJoint_Resititution)
+	, BounceThreshold( "BounceThreshold", setPxContactJoint_BounceThreshold, getPxContactJoint_BounceThreshold)
+	, ConcreteTypeName( "ConcreteTypeName", getPxContactJoint_ConcreteTypeName)
+{}
+ PxContactJointGeneratedValues::PxContactJointGeneratedValues( const PxContactJoint* inSource )
+		:PxJointGeneratedValues( inSource )
+		,Contact( getPxContactJoint_Contact( inSource ) )
+		,ContactNormal( getPxContactJoint_ContactNormal( inSource ) )
+		,Penetration( getPxContactJoint_Penetration( inSource ) )
+		,Resititution( getPxContactJoint_Resititution( inSource ) )
+		,BounceThreshold( getPxContactJoint_BounceThreshold( inSource ) )
+		,ConcreteTypeName( getPxContactJoint_ConcreteTypeName( inSource ) )
 {
 	PX_UNUSED(inSource);
 }

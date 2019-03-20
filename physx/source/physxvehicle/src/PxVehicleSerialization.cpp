@@ -27,14 +27,15 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-#include "PxRepXSimpleType.h"
-#include "PxBase.h"
-#include "PxCollection.h"
+#include "common/PxBase.h"
+#include "common/PxCollection.h"
+#include "extensions/PxRepXSimpleType.h"
+
 #include "PxVehicleMetaDataObjects.h"
-#include "SnRepXSerializerImpl.h"
 #include "PxVehicleSerialization.h"
 #include "PxVehicleSuspWheelTire4.h"
 #include "PxVehicleSuspLimitConstraintShader.h"
+#include "SnRepXSerializerImpl.h"
 #include "PsFPU.h"
 
 

@@ -27,13 +27,14 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
             
+#include "geomutils/GuContactBuffer.h"
+
 #include "GuConvexUtilsInternal.h"
 #include "GuInternal.h"
 #include "GuContactPolygonPolygon.h"
 #include "GuConvexEdgeFlags.h"
 #include "GuSeparatingAxes.h"
 #include "GuContactMethodImpl.h"
-#include "GuContactBuffer.h"
 #include "GuMidphaseInterface.h"
 #include "GuConvexHelper.h"
 #include "GuTriangleCache.h"
@@ -41,9 +42,10 @@
 #include "GuEntityReport.h"
 #include "GuGeometryUnion.h"
 #include "GuIntersectionTriangleBox.h"
+#include "GuBox.h"
+
 #include "CmUtils.h"
 #include "PsAllocator.h"
-#include "GuBox.h"
 #include "PsFPU.h"
 
 using namespace physx;

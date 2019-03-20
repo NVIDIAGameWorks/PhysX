@@ -41,8 +41,6 @@
 namespace physx
 {
 
-class PxvContact;
-
 /*!
 \file
 Manager interface
@@ -53,12 +51,10 @@ Manager interface
 /************************************************************************/
 
 class PxsContactManager;
-class PxsContext;
 
 struct PxsRigidCore;
 struct PxsShapeCore;
-
-
+class PxsRigidBody;
 
 /*!
 Type of PXD_MANAGER_CCD_MODE property
@@ -68,7 +64,6 @@ enum PxvContactManagerCCDMode
 	PXD_MANAGER_CCD_NONE,
 	PXD_MANAGER_CCD_LINEAR
 };
-
 
 /*!
 Manager descriptor
@@ -107,68 +102,57 @@ struct PxvManagerDescRigidRigid
 	/*!
 	Shape Core structures
 	*/
-
 	const PxsShapeCore*	shapeCore0;
 	const PxsShapeCore*	shapeCore1;
 
 	/*!
 	Body Core structures
 	*/
-
 	PxsRigidCore*	rigidCore0;
 	PxsRigidCore*	rigidCore1;
 
 	/*!
 	Enable contact information reporting.
-
 	*/
 	int		reportContactInfo;
 
 	/*!
 	Enable contact impulse threshold reporting.
-
 	*/
 	int		hasForceThreshold;
 
 	/*!
 	Enable generated contacts to be changeable
-
 	*/
 	int		contactChangeable;
 
 	/*!
 	Disable strong friction
-
 	*/
 	//int		disableStrongFriction;
 
 	/*!
 	Contact resolution rest distance.
-
 	*/
 	PxReal		restDistance;
 
 	/*!
 	Disable contact response
-
 	*/
 	int		disableResponse;
 
 	/*!
 	Disable discrete contact generation
-
 	*/
 	int		disableDiscreteContact;
 
 	/*!
 	Disable CCD contact generation
-
 	*/
 	int		disableCCDContact;
 
 	/*!
 	Is connected to an articulation (1 - first body, 2 - second body)
-
 	*/
 	int		hasArticulations;
 
@@ -197,15 +181,12 @@ struct PxvManagerDescRigidRigid
 	/*
 	Index entries into the transform cache for shape 0
 	*/
-
 	PxU32 transformCache0;
 
 	/*
 	Index entries into the transform cache for shape 1
 	*/
-
 	PxU32 transformCache1;
-
 
 	PxvManagerDescRigidRigid()
 	{
@@ -222,15 +203,8 @@ Report struct for contact manager touch reports
 */
 struct PxvContactManagerTouchEvent
 {
-	/*!
-	Manager handle
-	*/
-	PxsContactManager* manager;
-
-	/*!
-	Manager userdata
-	*/
-	void* userData;
+	PxsContactManager*	manager;	// Manager handle
+	void*				userData;	// Manager userdata
 };
 
 }

@@ -966,10 +966,10 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4Coulomb(
 		blockDesc.numContactPatches = PxU16(c.contactPatchCount - blockDesc.startContactPatchIndex);
 		blockDesc.numFrictionPatches = c.frictionPatchCount - blockDesc.startFrictionPatchIndex;
 
-		invMassScale0[a] *= blockDesc.mInvMassScales.linear0;
-		invMassScale1[a] *= blockDesc.mInvMassScales.linear1;
-		invInertiaScale0[a] *= blockDesc.mInvMassScales.angular0;
-		invInertiaScale1[a] *= blockDesc.mInvMassScales.angular1;
+		invMassScale0[a] *= blockDesc.invMassScales.linear0;
+		invMassScale1[a] *= blockDesc.invMassScales.linear1;
+		invInertiaScale0[a] *= blockDesc.invMassScales.angular0;
+		invInertiaScale1[a] *= blockDesc.invMassScales.angular1;
 
 	}
 

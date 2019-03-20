@@ -47,28 +47,20 @@ using namespace Sc;
 #define PX_FREEZE_SCALE		0.9f
 
 BodySim::BodySim(Scene& scene, BodyCore& core, bool compound) :
-	RigidSim			(scene, core),
-	mLLBody				(&core.getCore()),
-	mNodeIndex			(IG_INVALID_NODE),
-	mInternalFlags		(0),
-	mVelModState		(VMF_GRAVITY_DIRTY),
-	mActiveListIndex	(SC_NOT_IN_SCENE_INDEX),
-	mActiveCompoundListIndex	(SC_NOT_IN_SCENE_INDEX),
-	mArticulation		(NULL),
-	mConstraintGroup	(NULL)
+	RigidSim				(scene, core),
+	mLLBody					(&core.getCore(), PX_FREEZE_INTERVAL),
+	mNodeIndex				(IG_INVALID_NODE),
+	mInternalFlags			(0),
+	mVelModState			(VMF_GRAVITY_DIRTY),
+	mActiveListIndex		(SC_NOT_IN_SCENE_INDEX),
+	mActiveCompoundListIndex(SC_NOT_IN_SCENE_INDEX),
+	mArticulation			(NULL),
+	mConstraintGroup		(NULL)
 {
-	// For 32-bit, sizeof(BodyCore) = 160 bytes, sizeof(BodySim) = 192 bytes
-	mLLBody.sleepLinVelAcc = PxVec3(0);
-	mLLBody.sleepAngVelAcc = PxVec3(0);
-	mLLBody.freezeCount = PX_FREEZE_INTERVAL;
-	mLLBody.accelScale = 1.f;
-	mLLBody.solverIterationCounts = core.getCore().solverIterationCounts;
 	core.getCore().numCountedInteractions = 0;
 	core.getCore().numBodyInteractions = 0;
-	mLLBody.mInternalFlags = 0;
-	if (core.getActorFlags()&PxActorFlag::eDISABLE_GRAVITY)
-		mLLBody.mInternalFlags |= PxsRigidBody::eDISABLE_GRAVITY;
-	if (core.getFlags() & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
+	core.getCore().disableGravity = core.getActorFlags() & PxActorFlag::eDISABLE_GRAVITY;
+	if(core.getFlags() & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
 		mLLBody.mInternalFlags |= PxsRigidBody::eSPECULATIVE_CCD;
 
 	//If a body pending insertion was given a force/torque then it will have 
@@ -217,7 +209,7 @@ void BodySim::updateCached(PxsTransformCache& transformCache, Bp::BoundsArray& b
 void BodySim::updateContactDistance(PxReal* contactDistance, const PxReal dt, Bp::BoundsArray& boundsArray)
 {
 	if (getLowLevelBody().getCore().mFlags & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD
-		&& !(getLowLevelBody().mInternalFlags & PxcRigidBody::eFROZEN))
+		&& !(getLowLevelBody().mInternalFlags & PxsRigidBody::eFROZEN))
 	{
 		const PxVec3 linVel = getLowLevelBody().getLinearVelocity();
 		const PxVec3 aVel = getLowLevelBody().getAngularVelocity();
@@ -283,12 +275,10 @@ void BodySim::postActorFlagChange(PxU32 oldFlags, PxU32 newFlags)
 
 	if (isWeightless != wasWeightless)
 	{
-		if (mVelModState == 0) raiseVelocityModFlag(VMF_GRAVITY_DIRTY);
+		if (mVelModState == 0)
+			raiseVelocityModFlag(VMF_GRAVITY_DIRTY);
 
-		if (isWeightless)
-			mLLBody.mInternalFlags |= PxsRigidBody::eDISABLE_GRAVITY;
-		else
-			mLLBody.mInternalFlags &= (~PxsRigidBody::eDISABLE_GRAVITY);
+		getBodyCore().getCore().disableGravity = isWeightless!=0;
 	}
 }
 
@@ -432,6 +422,21 @@ void BodySim::activate()
 			}
 		}
 	}
+
+	//set speculative CCD bit map if speculative CCD flag is on
+	{
+		BodyCore& core = getBodyCore();
+		if (core.getFlags() & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
+		{
+			if (isArticulationLink())
+			{
+				if (getNodeIndex().isValid())
+					getScene().setSpeculativeCCDArticulationLink(getNodeIndex().index());
+			}
+			else
+				getScene().setSpeculativeCCDRigidBody(getNodeIndex().index());
+		}
+	}
 }
 
 void BodySim::deactivate()
@@ -471,7 +476,7 @@ void BodySim::deactivate()
 			core.setLinearVelocityInternal(zero);
 			core.setAngularVelocityInternal(zero);
 	
-			setForcesToDefaults(!(mLLBody.mInternalFlags & PxsRigidBody::eDISABLE_GRAVITY));
+			setForcesToDefaults(!core.getCore().disableGravity);
 		}
 
 		if(!isArticulationLink())  // Articulations have their own sleep logic.
@@ -483,6 +488,21 @@ void BodySim::deactivate()
 			getScene().removeFromPosePreviewList(*this);
 		}
 		destroySqBounds();
+	}
+
+	// reset speculative CCD bit map if speculative CCD flag is on
+	{
+		BodyCore& core = getBodyCore();
+		if (core.getFlags() & PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD)
+		{
+			if (isArticulationLink())
+			{
+				if (getNodeIndex().isValid())
+					getScene().resetSpeculativeCCDArticulationLink(getNodeIndex().index());
+			}
+			else
+				getScene().resetSpeculativeCCDRigidBody(getNodeIndex().index());
+		}
 	}
 }
 

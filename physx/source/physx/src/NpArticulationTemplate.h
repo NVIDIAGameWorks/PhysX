@@ -61,11 +61,13 @@ public:
 	{
 	}
 
-	PxArticulationImpl() : 
-		mAggregate(NULL), mName(NULL), mCacheVersion(0) {}
+	PxArticulationImpl(bool reducedCoordinate) : 
+		mArticulation(reducedCoordinate), mAggregate(NULL), mName(NULL), mCacheVersion(0) {}
 
 	// PX_SERIALIZATION
 	PxArticulationImpl(const PxEMPTY) : mArticulation(PxEmpty), mArticulationLinks(PxEmpty) {}
+
+	static	void							getBinaryMetaData(PxOutputStream& stream);
 	//~PX_SERIALIZATION
 
 
@@ -105,12 +107,9 @@ public:
 
 	PX_INLINE		void						addToLinkList(NpArticulationLink& link) { mArticulationLinks.pushBack(&link); }
 	PX_INLINE bool								removeLinkFromList(NpArticulationLink& link) { PX_ASSERT(mArticulationLinks.find(&link) != mArticulationLinks.end()); return mArticulationLinks.findAndReplaceWithLast(&link); }
-	PX_FORCE_INLINE	NpArticulationLink* const*	getLinks() { return &mArticulationLinks.front(); }
+	PX_FORCE_INLINE	NpArticulationLink* const*	getLinks() { return mArticulationLinks.begin(); }
 
 	PX_INLINE NpArticulationLink*				getRoot();
-
-	PX_FORCE_INLINE	const Scb::Articulation&	getArticulation()							const { return mArticulation; }
-	PX_FORCE_INLINE	Scb::Articulation&			getArticulation() { return mArticulation; }
 
 	PX_INLINE NpScene*							getAPIScene() const;
 	PX_INLINE NpScene*							getOwnerScene() const;		// the scene the user thinks the actor is in, or from which the actor is pending removal
@@ -125,6 +124,8 @@ public:
 	PX_FORCE_INLINE	const Scb::Articulation&	getScbArticulation() const { return mArticulation; }
 
 	PX_FORCE_INLINE	void						increaseCacheVersion()	{ mCacheVersion++; }
+
+	void										recomputeLinkIDs();
 
 #if PX_ENABLE_DEBUG_VISUALIZATION
 public:
@@ -150,10 +151,20 @@ class NpArticulationTemplate : public APIClass, public Ps::UserAllocated
 public:
 
 	virtual										~NpArticulationTemplate();
-	NpArticulationTemplate(PxType concreteType, PxBaseFlags baseFlags) : APIClass(concreteType, baseFlags) {}
+	NpArticulationTemplate(PxType concreteType, PxBaseFlags baseFlags)
+		: APIClass(concreteType, baseFlags)
+		, mImpl(concreteType == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
+	{}
 
 	// PX_SERIALIZATION
 	NpArticulationTemplate(PxBaseFlags baseFlags) : APIClass(baseFlags), mImpl(PxEmpty) {}
+					void						preExportDataReset() {}
+
+	virtual			void						exportExtraData(PxSerializationContext& stream);
+					void						importExtraData(PxDeserializationContext& context);
+					void						resolveReferences(PxDeserializationContext& context);
+	virtual			void						requiresObjects(PxProcessPxBaseCallback& c);
+
 	//~PX_SERIALIZATION
 
 	virtual			void						release();
@@ -201,23 +212,68 @@ public:
 
 	virtual PxArticulationImpl* getImpl() { return &mImpl; }
 
-	virtual PxArticulationBase::Enum getType() const { return PxArticulationBase::Enum(mType); }
-
 #if PX_ENABLE_DEBUG_VISUALIZATION
 public:
 	void						visualize(Cm::RenderOutput& out, NpScene* scene) { mImpl.visualize(out, scene); }
 #endif
 
 public:
-	PxU32						mType;
 	PxArticulationImpl			mImpl;
 };
+
+// PX_SERIALIZATION
+template<typename APIClass>
+void NpArticulationTemplate<APIClass>::requiresObjects(PxProcessPxBaseCallback& c)
+{
+	// Collect articulation links
+	const PxU32 nbLinks = mImpl.mArticulationLinks.size();
+	for (PxU32 i = 0; i < nbLinks; i++)
+		c.process(*mImpl.mArticulationLinks[i]);
+}
+
+template<typename APIClass>
+void NpArticulationTemplate<APIClass>::exportExtraData(PxSerializationContext& stream)
+{
+	Cm::exportInlineArray(mImpl.mArticulationLinks, stream);
+	stream.writeName(mImpl.mName);
+}
+
+template<typename APIClass>
+void NpArticulationTemplate<APIClass>::importExtraData(PxDeserializationContext& context)
+{
+	Cm::importInlineArray(mImpl.mArticulationLinks, context);
+	context.readName(mImpl.mName);
+}
+
+void NpSetArticulationOnJoint(PxArticulationJointBase& jointBase, PxArticulationImpl& articulation);
+
+template<typename APIClass>
+void NpArticulationTemplate<APIClass>::resolveReferences(PxDeserializationContext& context)
+{
+	const PxU32 nbLinks = mImpl.mArticulationLinks.size();
+	for (PxU32 i = 0; i < nbLinks; i++)
+	{
+		NpArticulationLink*& link = mImpl.mArticulationLinks[i];
+		context.translatePxBase(link);
+
+		PxArticulationJointBase* pxJointBase = link->getInboundJoint();
+		if (pxJointBase)
+		{
+			//KS - introduced C function to do this to avoid undefined types and circular dependency problems
+			//backlinks to articulation impl can only be initialized
+			//after articulation object has been constructed.
+			NpSetArticulationOnJoint(*pxJointBase, mImpl);
+		}
+	}
+
+	mImpl.mAggregate = NULL;
+}
+// ~PX_SERIALIZATION
 
 template<typename APIClass>
 NpArticulationTemplate<APIClass>::NpArticulationTemplate()
 	: APIClass(PxConcreteType::eARTICULATION, PxBaseFlag::eOWNS_MEMORY | PxBaseFlag::eIS_RELEASABLE)
 {
-	mType = PxArticulationBase::eMaximumCoordinate;
 }
 
 template<typename APIClass>
@@ -253,7 +309,7 @@ void NpArticulationTemplate<APIClass>::release()
 	NpScene* npScene = mImpl.getAPIScene();
 	if (npScene)
 	{
-		npScene->getScene().removeArticulation(mImpl.getArticulation());
+		npScene->getScene().removeArticulation(mImpl.getScbArticulation());
 
 		npScene->removeFromArticulationList(*this);
 	}
@@ -314,13 +370,13 @@ void PxArticulationImpl::setSolverIterationCounts(PxU32 positionIters, PxU32 vel
 	PX_CHECK_AND_RETURN(velocityIters > 0, "Articulation::setSolverIterationCount: velocityIters must be more than zero!");
 	PX_CHECK_AND_RETURN(velocityIters <= 255, "Articulation::setSolverIterationCount: velocityIters must be no greater than 255!");
 
-	getArticulation().setSolverIterationCounts((velocityIters & 0xff) << 8 | (positionIters & 0xff));
+	getScbArticulation().setSolverIterationCounts((velocityIters & 0xff) << 8 | (positionIters & 0xff));
 }
 
 void PxArticulationImpl::getSolverIterationCounts(PxU32 & positionIters, PxU32 & velocityIters) const
 {
 	NP_READ_CHECK(getOwnerScene());
-	PxU16 x = getArticulation().getSolverIterationCounts();
+	PxU16 x = getScbArticulation().getSolverIterationCounts();
 	velocityIters = PxU32(x >> 8);
 	positionIters = PxU32(x & 0xff);
 }
@@ -328,7 +384,7 @@ void PxArticulationImpl::getSolverIterationCounts(PxU32 & positionIters, PxU32 &
 void PxArticulationImpl::setGlobalPose()
 {
 	PX_CHECK_AND_RETURN(getAPIScene(), "PxArticulation::setGlobalPose: object must be in a scene");
-	NP_READ_CHECK(getOwnerScene());
+	NP_WRITE_CHECK(getOwnerScene());
 
 	mArticulation.setGlobalPose();
 
@@ -353,31 +409,31 @@ bool PxArticulationImpl::isSleeping() const
 	NP_READ_CHECK(getOwnerScene());
 	PX_CHECK_AND_RETURN_VAL(getAPIScene(), "Articulation::isSleeping: articulation must be in a scene.", true);
 
-	return getArticulation().isSleeping();
+	return getScbArticulation().isSleeping();
 }
 
 void PxArticulationImpl::setSleepThreshold(PxReal threshold)
 {
 	NP_WRITE_CHECK(getOwnerScene());
-	getArticulation().setSleepThreshold(threshold);
+	getScbArticulation().setSleepThreshold(threshold);
 }
 
 PxReal PxArticulationImpl::getSleepThreshold() const
 {
 	NP_READ_CHECK(getOwnerScene());
-	return getArticulation().getSleepThreshold();
+	return getScbArticulation().getSleepThreshold();
 }
 
 void PxArticulationImpl::setStabilizationThreshold(PxReal threshold)
 {
 	NP_WRITE_CHECK(getOwnerScene());
-	getArticulation().setFreezeThreshold(threshold);
+	getScbArticulation().setFreezeThreshold(threshold);
 }
 
 PxReal PxArticulationImpl::getStabilizationThreshold() const
 {
 	NP_READ_CHECK(getOwnerScene());
-	return getArticulation().getFreezeThreshold();
+	return getScbArticulation().getFreezeThreshold();
 }
 
 void PxArticulationImpl::setWakeCounter(PxReal wakeCounterValue)
@@ -389,13 +445,13 @@ void PxArticulationImpl::setWakeCounter(PxReal wakeCounterValue)
 		mArticulationLinks[i]->getScbBodyFast().setWakeCounter(wakeCounterValue);
 	}
 
-	getArticulation().setWakeCounter(wakeCounterValue);
+	getScbArticulation().setWakeCounter(wakeCounterValue);
 }
 
 PxReal PxArticulationImpl::getWakeCounter() const
 {
 	NP_READ_CHECK(getOwnerScene());
-	return getArticulation().getWakeCounter();
+	return getScbArticulation().getWakeCounter();
 }
 
 void PxArticulationImpl::wakeUpInternal(bool forceWakeUp, bool autowake)
@@ -404,7 +460,7 @@ void PxArticulationImpl::wakeUpInternal(bool forceWakeUp, bool autowake)
 	PX_ASSERT(scene);
 	PxReal wakeCounterResetValue = scene->getWakeCounterResetValueInteral();
 
-	Scb::Articulation& a = getArticulation();
+	Scb::Articulation& a = getScbArticulation();
 	PxReal wakeCounter = a.getWakeCounter();
 
 	bool needsWakingUp = isSleeping() && (autowake || forceWakeUp);
@@ -437,7 +493,7 @@ void PxArticulationImpl::wakeUp()
 		mArticulationLinks[i]->getScbBodyFast().wakeUpInternal(scene->getWakeCounterResetValueInteral());
 	}
 
-	getArticulation().wakeUp();
+	getScbArticulation().wakeUp();
 }
 
 void PxArticulationImpl::putToSleep()
@@ -450,7 +506,7 @@ void PxArticulationImpl::putToSleep()
 		mArticulationLinks[i]->getScbBodyFast().putToSleepInternal();
 	}
 
-	getArticulation().putToSleep();
+	getScbArticulation().putToSleep();
 }
 
 PxU32 PxArticulationImpl::getNbLinks() const

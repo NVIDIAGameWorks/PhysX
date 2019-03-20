@@ -52,7 +52,8 @@ namespace Cm
 	//==================================================================================================
 	public:
 // PX_SERIALIZATION
-		RefCountable(const PxEMPTY) : mRefCount(1)	{}
+		RefCountable(const PxEMPTY) { PX_ASSERT(mRefCount == 1); }
+				void	preExportDataReset() { mRefCount = 1; }
 		static	void	getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 		explicit RefCountable(PxU32 initialCount = 1)

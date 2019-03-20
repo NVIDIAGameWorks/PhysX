@@ -1,6 +1,5 @@
 var group__physics =
 [
-    [ "Cm", "namespaceCm.html", null ],
     [ "PxMetaDataEntry", "structPxMetaDataEntry.html", [
       [ "alignment", "structPxMetaDataEntry.html#a638dd4ae7cf2bff56370ea132e5f4455", null ],
       [ "count", "structPxMetaDataEntry.html#a1efc5f7a629ef2f730fec6ec9d99a28f", null ],
@@ -94,10 +93,6 @@ var group__physics =
       [ "updateDriveCache", "classPxArticulation.html#a65811cf8f73da01a8cea28d2dfebe290", null ]
     ] ],
     [ "PxArticulationBase", "classPxArticulationBase.html", [
-      [ "Enum", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4", [
-        [ "eReducedCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad", null ],
-        [ "eMaximumCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf", null ]
-      ] ],
       [ "~PxArticulationBase", "classPxArticulationBase.html#a6fe7170f2077b283b7da5dfb23b25ba0", null ],
       [ "PxArticulationBase", "classPxArticulationBase.html#abdd331a2b48fd30ad35af280772996d9", null ],
       [ "PxArticulationBase", "classPxArticulationBase.html#a07f4354244d4d6dbc0adec96ccf2ab85", null ],
@@ -113,7 +108,6 @@ var group__physics =
       [ "getSleepThreshold", "classPxArticulationBase.html#a27983cb67e45e167edc2c698a2c125a5", null ],
       [ "getSolverIterationCounts", "classPxArticulationBase.html#ae292db93f6052f91036b3bbf56286739", null ],
       [ "getStabilizationThreshold", "classPxArticulationBase.html#a3c460c0dc44c8170b0b494c38c13d1dc", null ],
-      [ "getType", "classPxArticulationBase.html#acb9a9c0e3cb4b16a63b828f89067a733", null ],
       [ "getWakeCounter", "classPxArticulationBase.html#afb872fa8ecea5c1bc226a8e4ba0b2256", null ],
       [ "getWorldBounds", "classPxArticulationBase.html#a77173436aa4210cfa9f29e33dce66d1b", null ],
       [ "isSleeping", "classPxArticulationBase.html#aa4689e7adf28a83f73301ea4eec0ca98", null ],
@@ -131,33 +125,6 @@ var group__physics =
       [ "Enum", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2", [
         [ "eTARGET", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a6efbffee5445ed12550a3cb4f1e1cd9e", null ],
         [ "eERROR", "structPxArticulationJointDriveType.html#ac6be2c7afe87dd7755dae4aa7a0fdfe2a178e00c7f3fa1771a6d607235ebb3372", null ]
-      ] ]
-    ] ],
-    [ "PxArticulationAxis", "structPxArticulationAxis.html", [
-      [ "Enum", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395", [
-        [ "eTWIST", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a380a97841323f13390ef6cdc57f6265d", null ],
-        [ "eSWING1", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a2e1a274c036f8b7846476dbfe2015fec", null ],
-        [ "eSWING2", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a33f154c8d454ab3f08f03f512cc03972", null ],
-        [ "eX", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a83f4dcfb4a4a87644225475a9e16c67e", null ],
-        [ "eY", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a582892dc65379497febf0d6c08dddc02", null ],
-        [ "eZ", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a70a41042911d91bf76f507000adc09a4", null ],
-        [ "eCOUNT", "structPxArticulationAxis.html#a5c835f1d727bfc738d1fc7a7595d7395a09384f4a095731741d93530048614de7", null ]
-      ] ]
-    ] ],
-    [ "PxArticulationMotion", "structPxArticulationMotion.html", [
-      [ "Enum", "structPxArticulationMotion.html#af04dcaf188047e88858bb7352bdfe879", [
-        [ "eLOCKED", "structPxArticulationMotion.html#af04dcaf188047e88858bb7352bdfe879af640457f343a3cd57412d5aedf2b6808", null ],
-        [ "eLIMITED", "structPxArticulationMotion.html#af04dcaf188047e88858bb7352bdfe879a93e73f43c42672207a2abf9904d47a50", null ],
-        [ "eFREE", "structPxArticulationMotion.html#af04dcaf188047e88858bb7352bdfe879aa856908c1ad1720774753eee4ef7acae", null ]
-      ] ]
-    ] ],
-    [ "PxArticulationJointType", "structPxArticulationJointType.html", [
-      [ "Enum", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0b", [
-        [ "ePRISMATIC", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0ba20eb6c657a0b29898c2ab308b2e68ba3", null ],
-        [ "eREVOLUTE", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0ba9bb388357d6c57179a26508f00e7d2c7", null ],
-        [ "eSPHERICAL", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0ba6e0b21355b6023f41e8e5be799feee91", null ],
-        [ "eFIX", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0ba3a5aad862ed0a4ad0ce289d55ce08531", null ],
-        [ "eUNDEFINED", "structPxArticulationJointType.html#a0df5bb8217acae97e63421bedbfe0a0baa3b41bcb6b6b318f64d2dfb3073f277e", null ]
       ] ]
     ] ],
     [ "PxArticulationJointBase", "classPxArticulationJointBase.html", [
@@ -216,7 +183,7 @@ var group__physics =
       [ "PxArticulationJointReducedCoordinate", "classPxArticulationJointReducedCoordinate.html#a5b2618395498d66a0edaf9324a1ae5cb", null ],
       [ "~PxArticulationJointReducedCoordinate", "classPxArticulationJointReducedCoordinate.html#aaa894898e551037b25cc61eb93010911", null ],
       [ "getConcreteTypeName", "classPxArticulationJointReducedCoordinate.html#afc9d85e1c2b87d813794023714aa1218", null ],
-      [ "getDrive", "classPxArticulationJointReducedCoordinate.html#a84ba7ab89774175aeca2868b3125d9da", null ],
+      [ "getDrive", "classPxArticulationJointReducedCoordinate.html#a7e2179ada55e1a5fc5adb52ab5f3831a", null ],
       [ "getDriveTarget", "classPxArticulationJointReducedCoordinate.html#a4d044102c6b7cd413372b8d095b096b4", null ],
       [ "getDriveVelocity", "classPxArticulationJointReducedCoordinate.html#a1fba7525337a697b986edcbe1e42a9e5", null ],
       [ "getFrictionCoefficient", "classPxArticulationJointReducedCoordinate.html#acedef2c2b635221b631f562c7f78c2c3", null ],
@@ -225,7 +192,7 @@ var group__physics =
       [ "getMaxJointVelocity", "classPxArticulationJointReducedCoordinate.html#a546ae3a42a00cc93311747ea4f038a0e", null ],
       [ "getMotion", "classPxArticulationJointReducedCoordinate.html#a0e3b3ed78472cb69ebb180b66aadeacf", null ],
       [ "isKindOf", "classPxArticulationJointReducedCoordinate.html#ad8629c21cd4bf0ff7ccbb906fa443cd1", null ],
-      [ "setDrive", "classPxArticulationJointReducedCoordinate.html#a95b2eca4dc04091587b99486b972901a", null ],
+      [ "setDrive", "classPxArticulationJointReducedCoordinate.html#ad87777bdb8ca5431c23fd1fce9bb0228", null ],
       [ "setDriveTarget", "classPxArticulationJointReducedCoordinate.html#a3451c31139609af6bddb1a165a47ef39", null ],
       [ "setDriveVelocity", "classPxArticulationJointReducedCoordinate.html#a4e3d2c224555b8accef2b447b4790577", null ],
       [ "setFrictionCoefficient", "classPxArticulationJointReducedCoordinate.html#abeba41ebc0abfe5beafb20f0396ad4a2", null ],
@@ -248,21 +215,18 @@ var group__physics =
       [ "isKindOf", "classPxArticulationLink.html#a6e3fa396e7207fa370644a23db1467ab", null ],
       [ "release", "classPxArticulationLink.html#aec08ba9942f441a813bdd07547d9b695", null ]
     ] ],
-    [ "PxArticulationFlag", "structPxArticulationFlag.html", [
-      [ "Enum", "structPxArticulationFlag.html#a89b0e25f041302ae04e5cc0b509a7609", [
-        [ "eFIX_BASE", "structPxArticulationFlag.html#a89b0e25f041302ae04e5cc0b509a7609a625f41920c4a20ea5317fdc939a74674", null ]
-      ] ]
-    ] ],
-    [ "PxKinematicJacobian", "classPxKinematicJacobian.html", [
-      [ "j", "classPxKinematicJacobian.html#a95c56e4e2501e4ad795b03930cf37aa9", null ],
-      [ "nbColumns", "classPxKinematicJacobian.html#aaf6d1dd5689d3f82863a1fac901392f7", null ]
+    [ "PxSpatialForce", "structPxSpatialForce.html", [
+      [ "force", "structPxSpatialForce.html#ae286b879840cc34b800fb254b824bbe6", null ],
+      [ "pad0", "structPxSpatialForce.html#a2cdc903082cac57c5458f24dbfa2e1e3", null ],
+      [ "pad1", "structPxSpatialForce.html#aee182664c6f1807eb945d3c83ac746b3", null ],
+      [ "torque", "structPxSpatialForce.html#a0c350e4c06721f54057740e212d5c0e3", null ]
     ] ],
     [ "PxArticulationRootLinkData", "structPxArticulationRootLinkData.html", [
-      [ "angAcel", "structPxArticulationRootLinkData.html#a6611210de5054a8eb06745b914fb08db", null ],
-      [ "angVel", "structPxArticulationRootLinkData.html#aceaca88516b5febd8efc9f8086b2508d", null ],
-      [ "linAcel", "structPxArticulationRootLinkData.html#a71f06d5b88b0dbf4b0cde1afc4e3dca7", null ],
-      [ "linVel", "structPxArticulationRootLinkData.html#abfaab0cef7e149ebcc4b89c774885339", null ],
-      [ "transform", "structPxArticulationRootLinkData.html#af0dcfa25c769c89fd405eeaed52b3c1f", null ]
+      [ "transform", "structPxArticulationRootLinkData.html#af0dcfa25c769c89fd405eeaed52b3c1f", null ],
+      [ "worldAngAccel", "structPxArticulationRootLinkData.html#ab1502e0364f2784bb5465415256ac778", null ],
+      [ "worldAngVel", "structPxArticulationRootLinkData.html#a31a1563d7d322c9a8898b3ed278e08c1", null ],
+      [ "worldLinAccel", "structPxArticulationRootLinkData.html#a7486a9d76ac13182f58f5a1876b919a2", null ],
+      [ "worldLinVel", "structPxArticulationRootLinkData.html#ae3563e988889f47d88af9c041409a5c3", null ]
     ] ],
     [ "PxArticulationCache", "classPxArticulationCache.html", [
       [ "Enum", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14e", [
@@ -274,16 +238,16 @@ var group__physics =
         [ "eALL", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea86872df915168195ac00a5cb1033ee29", null ]
       ] ],
       [ "PxArticulationCache", "classPxArticulationCache.html#a750cf6f5d426723b6d6cf731bd290ea5", null ],
-      [ "coefficentMatrix", "classPxArticulationCache.html#aded15e3e603ff12901cf4fe27a7eddea", null ],
-      [ "externalForces", "classPxArticulationCache.html#a429f0639ad5e54c1f9fd365485d6a140", null ],
-      [ "jacobian", "classPxArticulationCache.html#a3f61b7c67e854c7191de844a89bb863d", null ],
+      [ "coefficientMatrix", "classPxArticulationCache.html#a9df694963228f4ae0c9e58ca9d6bff02", null ],
+      [ "denseJacobian", "classPxArticulationCache.html#a215d7bc2b910aef6ba6e594843d136bc", null ],
+      [ "externalForces", "classPxArticulationCache.html#a6bcc917d32fa1a60a671283e0a907e5c", null ],
       [ "jointAcceleration", "classPxArticulationCache.html#a515142b078989bf5034c5a97b6978c1b", null ],
       [ "jointForce", "classPxArticulationCache.html#a952f509c174636c1c11e8c61bda30eaa", null ],
       [ "jointPosition", "classPxArticulationCache.html#a64e8f0b09d6860f91d7a830c11bdddc9", null ],
       [ "jointVelocity", "classPxArticulationCache.html#aab37dabd7db43ef927337da7f6ea9f5a", null ],
       [ "lambda", "classPxArticulationCache.html#aa90b660a293d6ce7984d49e8be270465", null ],
       [ "massMatrix", "classPxArticulationCache.html#a40849b1b079c9b0e517fb7eaea488ccf", null ],
-      [ "rootLinkData", "classPxArticulationCache.html#aaf42183cc319e011cd7e2dce9bc6a1ec", null ],
+      [ "rootLinkData", "classPxArticulationCache.html#ae0431d9e6e127c49cf7cc53532b4b393", null ],
       [ "scratchAllocator", "classPxArticulationCache.html#ac5356bfc4c7b57dec9bdd33c698ae96c", null ],
       [ "scratchMemory", "classPxArticulationCache.html#a237505e945f16c9afddb3c431f9d6a7b", null ],
       [ "version", "classPxArticulationCache.html#af8becefcb89c7a26df4372809e31b343", null ]
@@ -295,20 +259,20 @@ var group__physics =
       [ "addLoopJoint", "classPxArticulationReducedCoordinate.html#a0d9eeb50991fab399d0d7dbe756c1106", null ],
       [ "applyCache", "classPxArticulationReducedCoordinate.html#ab14e3d8440c6dc754fa3318a7c91991d", null ],
       [ "commonInit", "classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25", null ],
-      [ "computeCoefficentMatrix", "classPxArticulationReducedCoordinate.html#a0a5026aa7fa58fd96a3feb3808427b71", null ],
+      [ "computeCoefficientMatrix", "classPxArticulationReducedCoordinate.html#a0eb36b4e092c322893c811f1e7c85b4d", null ],
       [ "computeCoriolisAndCentrifugalForce", "classPxArticulationReducedCoordinate.html#af1947172f99feef066872b12d675d046", null ],
+      [ "computeDenseJacobian", "classPxArticulationReducedCoordinate.html#a08a58ac2a98d339c0fcab0e69f6761e0", null ],
       [ "computeGeneralizedExternalForce", "classPxArticulationReducedCoordinate.html#a95e6f19bc92d7003e4d735a26b6ebb46", null ],
       [ "computeGeneralizedGravityForce", "classPxArticulationReducedCoordinate.html#af8b5217bd48e6d1ccc8ba3e495c66df7", null ],
       [ "computeGeneralizedMassMatrix", "classPxArticulationReducedCoordinate.html#a92e7a37bc7b058364398265b80996607", null ],
       [ "computeJointAcceleration", "classPxArticulationReducedCoordinate.html#afc82b045f2afb76484ea967515c01067", null ],
       [ "computeJointForce", "classPxArticulationReducedCoordinate.html#a408e219bfac920e7cf527c6a7c972674", null ],
-      [ "computeKinematicJacobian", "classPxArticulationReducedCoordinate.html#ad6baf5f760905b778c6d5478b9c63302", null ],
       [ "computeLambda", "classPxArticulationReducedCoordinate.html#a06a554a20844b28a9251e60ca69ebac5", null ],
       [ "copyInternalStateToCache", "classPxArticulationReducedCoordinate.html#a10773e54bc023d0a4c6627c363fe1b23", null ],
       [ "createCache", "classPxArticulationReducedCoordinate.html#a99f7f83876a3414eb386c83e173f9364", null ],
       [ "getArticulationFlags", "classPxArticulationReducedCoordinate.html#a3e8a26a6e87d34c31441d766b0d6a153", null ],
       [ "getCacheDataSize", "classPxArticulationReducedCoordinate.html#a86107c6d84d3132b6a46bb9b2b48666e", null ],
-      [ "getCoefficentMatrixSize", "classPxArticulationReducedCoordinate.html#a96a853b57a61275d4c67828f34e3321d", null ],
+      [ "getCoefficientMatrixSize", "classPxArticulationReducedCoordinate.html#a54da9e7775e8b619d5172039213beaff", null ],
       [ "getDofs", "classPxArticulationReducedCoordinate.html#a4d0ed61a1f9a2b2cd18ced0cf9122355", null ],
       [ "getLoopJoints", "classPxArticulationReducedCoordinate.html#a5a611783b278756d562f4dfe0626af18", null ],
       [ "getNbLoopJoints", "classPxArticulationReducedCoordinate.html#aa89014cf296753fd9ddffbd62ef46c4c", null ],
@@ -941,6 +905,7 @@ var group__physics =
       [ "getContactModifyCallback", "classPxScene.html#a1978693b355df49712d7e59c10c4115d", null ],
       [ "getContactReportStreamBufferSize", "classPxScene.html#ac7b1dccad5d20304653f21c91b09258a", null ],
       [ "getCpuDispatcher", "classPxScene.html#a6329c94cc092aff2193c1307e033f6bf", null ],
+      [ "getCudaContextManager", "classPxScene.html#ac74778bafc058fbd4e8abd8006c323e8", null ],
       [ "getDominanceGroupPair", "classPxScene.html#a951ada59fff16e5c860ccdd5f6d5a1f3", null ],
       [ "getDynamicStructure", "classPxScene.html#a0c756c7ad50f94675d3d8ff9ac12289b", null ],
       [ "getDynamicTreeRebuildRateHint", "classPxScene.html#ae220420fdd08f0dabee8b30f5ef2de68", null ],
@@ -951,8 +916,8 @@ var group__physics =
       [ "getFlags", "classPxScene.html#a0acbc97457d54775b6402f3790c3513b", null ],
       [ "getFrictionOffsetThreshold", "classPxScene.html#ac02554e87f89db490aca6803056db522", null ],
       [ "getFrictionType", "classPxScene.html#aaca4a2838bc3bf7ffece380c8c7f0f4e", null ],
-      [ "getGpuDispatcher", "classPxScene.html#a256ac6d74578418c446fc5fe1fe95170", null ],
       [ "getGravity", "classPxScene.html#a6fe48dbf9144be415d63f1d2f3ce0b16", null ],
+      [ "getKinematicKinematicFilteringMode", "classPxScene.html#ad33763d5f9ee70bf79608d07594ead11", null ],
       [ "getLimits", "classPxScene.html#a76d9b31b013e4d666e3b5fdea3448887", null ],
       [ "getMaxNbContactDataBlocksUsed", "classPxScene.html#aa3c625507d5cfaf0f1cb9d26f66be329", null ],
       [ "getNbActors", "classPxScene.html#af44b7f47e3d9332a2fcade3e3f766a5d", null ],
@@ -968,7 +933,9 @@ var group__physics =
       [ "getSceneQueryUpdateMode", "classPxScene.html#a1fd7e1e617aa9359b56e91e060ad9f90", null ],
       [ "getSimulationEventCallback", "classPxScene.html#a8951e43f8e23c320c1c90dd552135171", null ],
       [ "getSimulationStatistics", "classPxScene.html#a7abb1e1354ae3258b91fc097e9d682b8", null ],
+      [ "getSolverArticulationBatchSize", "classPxScene.html#af11e6f5eedaa53bb4a1e3420e1c2c531", null ],
       [ "getSolverBatchSize", "classPxScene.html#add966317a1feb083e273fd8c12f454b5", null ],
+      [ "getStaticKinematicFilteringMode", "classPxScene.html#a9fd01bd95bb91adf32f2020a51230cb6", null ],
       [ "getStaticStructure", "classPxScene.html#ad285bee8674cc03378588a32c4f85dda", null ],
       [ "getTaskManager", "classPxScene.html#abe1495d04a1852030c0dec380999525a", null ],
       [ "getTimestamp", "classPxScene.html#a6003ed1a202d434ef64439741e3f2de2", null ],
@@ -1004,6 +971,7 @@ var group__physics =
       [ "setNbContactDataBlocks", "classPxScene.html#a148be23880c4e2d67f9f772066a9f966", null ],
       [ "setSceneQueryUpdateMode", "classPxScene.html#a8b689efc2353e9c57abf0182cb3f7dfd", null ],
       [ "setSimulationEventCallback", "classPxScene.html#a0cfa2d3835ea936ecd6ff94fbcefd689", null ],
+      [ "setSolverArticulationBatchSize", "classPxScene.html#a0db918a532ef4d36474bf3f46cfad5a8", null ],
       [ "setSolverBatchSize", "classPxScene.html#aad9cc8bf329f4de4b407436f5cd38c98", null ],
       [ "setVisualizationCullingBox", "classPxScene.html#ab562ba2df953188a7e2b99f7ddcda5dc", null ],
       [ "setVisualizationParameter", "classPxScene.html#a4055d302466a1f5cd9d481028b66b20a", null ],
@@ -1049,8 +1017,6 @@ var group__physics =
         [ "eENABLE_CCD", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a05d1e69880f10fb3de7d26c2e2e7eca3", null ],
         [ "eDISABLE_CCD_RESWEEP", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53ae5e231832542525c2c1faedcc4a49d11", null ],
         [ "eADAPTIVE_FORCE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53af41a174026200b36d385fbe91a67eac0", null ],
-        [ "PX_DEPRECATED", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a38481fa715039972c2047d15094a1060", null ],
-        [ "PX_DEPRECATED", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a38481fa715039972c2047d15094a1060", null ],
         [ "eENABLE_PCM", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a29717fa631812cc31261d73055762e03", null ],
         [ "eDISABLE_CONTACT_REPORT_BUFFER_RESIZE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a8644817a9a2916453433702614672565", null ],
         [ "eDISABLE_CONTACT_CACHE", "structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a9f72bafbe1387992429615ab5842b07a", null ],
@@ -1102,6 +1068,7 @@ var group__physics =
       [ "contactModifyCallback", "classPxSceneDesc.html#a2000ccfa6287d160b88967769de34b90", null ],
       [ "contactReportStreamBufferSize", "classPxSceneDesc.html#a02d696140e9828477c8aa493a048f48a", null ],
       [ "cpuDispatcher", "classPxSceneDesc.html#ac74f5f6c12d72b873716f82c2225b725", null ],
+      [ "cudaContextManager", "classPxSceneDesc.html#ad55a6e9d290779839659bb2763db2e2a", null ],
       [ "dynamicStructure", "classPxSceneDesc.html#a038ba820b16315ea55c6e12a3cbe2b7f", null ],
       [ "dynamicTreeRebuildRateHint", "classPxSceneDesc.html#ac3270ea72968fc446cacb81a7ce683d3", null ],
       [ "filterCallback", "classPxSceneDesc.html#af7b94475075eb9b43ca32650cd169cc1", null ],
@@ -1112,7 +1079,6 @@ var group__physics =
       [ "frictionOffsetThreshold", "classPxSceneDesc.html#af707e0c97624aaf6fa9ab2e82aadbecf", null ],
       [ "frictionType", "classPxSceneDesc.html#ab1f18b0666adb645d92fc2f53373b1e9", null ],
       [ "gpuComputeVersion", "classPxSceneDesc.html#ac02177181688e06f18f504e3ba6327a7", null ],
-      [ "gpuDispatcher", "classPxSceneDesc.html#ae3e78a948f61b9b2d3cd47c62205bccc", null ],
       [ "gpuDynamicsConfig", "classPxSceneDesc.html#ab90ebca71afa21639bd99693df30e197", null ],
       [ "gpuMaxNumPartitions", "classPxSceneDesc.html#a3673610cdfbcb84103e2c3840754ecac", null ],
       [ "gravity", "classPxSceneDesc.html#a9b0de35c38c43b8aeff6e6f29bf0db20", null ],
@@ -1124,6 +1090,7 @@ var group__physics =
       [ "sanityBounds", "classPxSceneDesc.html#a8d6ba51fe74a6c5ea4a46709abb89168", null ],
       [ "sceneQueryUpdateMode", "classPxSceneDesc.html#a466c85f090678a01f2c6ee85b9584e7a", null ],
       [ "simulationEventCallback", "classPxSceneDesc.html#a71a00536a56d40fe031de2ced1834941", null ],
+      [ "solverArticulationBatchSize", "classPxSceneDesc.html#a57fd72417c89bd73fc398678ae153c52", null ],
       [ "solverBatchSize", "classPxSceneDesc.html#a26b321b928708c10a047b38ec9127797", null ],
       [ "solverOffsetSlop", "classPxSceneDesc.html#a91b6c205bf684c0f41432a23c1323ee2", null ],
       [ "solverType", "classPxSceneDesc.html#a166d622a6ea49c6e58be0b1d123f03ab", null ],
@@ -1344,6 +1311,7 @@ var group__physics =
       [ "nbDiscreteContactPairsWithCacheHits", "classPxSimulationStatistics.html#afc4203ee9a309b63e0a9638595d28867", null ],
       [ "nbDiscreteContactPairsWithContacts", "classPxSimulationStatistics.html#a897bc3a4b6dc809b1f04059fe4b4a2af", null ],
       [ "nbDynamicBodies", "classPxSimulationStatistics.html#a1d5feb904597a5a98d02f39707e6c349", null ],
+      [ "nbKinematicBodies", "classPxSimulationStatistics.html#a38012209b56e1e6993e0955f3a5606d2", null ],
       [ "nbLostPairs", "classPxSimulationStatistics.html#a84b14e904af17d9c86d158ecea5fb9d1", null ],
       [ "nbLostTouches", "classPxSimulationStatistics.html#ae20e0fabfd1e8dfdec622a496bfbaf83", null ],
       [ "nbModifiedContactPairs", "classPxSimulationStatistics.html#aade3e5f9699bfd0858786f9ed6b7d1c9", null ],
@@ -1407,8 +1375,6 @@ var group__physics =
     [ "PxActorFlags", "group__physics.html#ga468ad85db838378f0c58cfd02a96949b", null ],
     [ "PxActorTypeFlags", "group__physics.html#gae76639de8e4ab9d5e155f72b394812d2", null ],
     [ "PxArticulationCacheFlags", "group__physics.html#ga1619e335e650ffbd52cd4961bc0dea9a", null ],
-    [ "PxArticulationFlags", "group__physics.html#ga40a321fce7bcb9669d32fca769d2958a", null ],
-    [ "PxArticulationMotions", "group__physics.html#ga4d2907efdef5e5b7b1becd1ab59c2405", null ],
     [ "PxConstraintFlags", "group__physics.html#gaf2b7f07d3fa7fafaf3d85114fbb120ee", null ],
     [ "PxConstraintProject", "group__physics.html#ga355f2bbe3ef578293e64865eb7986752", null ],
     [ "PxConstraintSolverPrep", "group__physics.html#ga4d1a71cd5d63cff2bbd97d8bc8899708", null ],
@@ -1438,7 +1404,7 @@ var group__physics =
     [ "isValid", "group__physics.html#ga90b8a1ec43be7a15eb0efd30404a8f72", null ],
     [ "isValid", "group__physics.html#ga622bf3792efe0007282d836719e80093", null ],
     [ "isValid", "group__physics.html#ga7faafa414d3b4a468091cdaf785a931e", null ],
-    [ "PX_ALIGN_SUFFIX", "group__physics.html#ga7f1b415cf346b53f1eb533e68f22ddb0", null ],
+    [ "PX_ALIGN_SUFFIX", "group__physics.html#ga78dbfa89bc15b58e317e12f676c309f6", null ],
     [ "PxBatchQueryDesc", "group__physics.html#ga7c50eeff3e586897d4441a18e43b7237", null ],
     [ "PxCreateBasePhysics", "group__physics.html#gad63c429157f9c8c87fcd0ea2f9b79f66", null ],
     [ "PxCreatePhysics", "group__physics.html#ga8039bfec65da68b2294a97175ddb2c66", null ],
@@ -1454,5 +1420,6 @@ var group__physics =
     [ "setToDefault", "group__physics.html#gae673c050f15b0fc912860adbb3394e34", null ],
     [ "setToDefault", "group__physics.html#gaa7375184ba494172fa7677dae44bd9a8", null ],
     [ "INVALID_FILTER_PAIR_INDEX", "group__physics.html#gaec480d86354043f6c7cb13b237914e7f", null ],
-    [ "PX_ALIGN_SUFFIX", "group__physics.html#gad00ce21229da4335d2cbdee921317aa6", null ]
+    [ "PX_ALIGN_SUFFIX", "group__physics.html#gad00ce21229da4335d2cbdee921317aa6", null ],
+    [ "PX_ALIGN_SUFFIX", "group__physics.html#ga954670d5fc7724d1a5a20f39e72e301b", null ]
 ];

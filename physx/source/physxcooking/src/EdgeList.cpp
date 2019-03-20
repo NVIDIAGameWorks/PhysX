@@ -29,11 +29,11 @@
 
 
 #include "foundation/PxMemory.h"
+#include "geometry/PxTriangle.h"
 #include "EdgeList.h"
-#include "PxTriangle.h"
-#include "PsMathUtils.h"
 #include "CmRadixSortBuffered.h"
 #include "GuSerialize.h"
+#include "PsMathUtils.h"
 #include "PsFoundation.h"
 
 using namespace physx;

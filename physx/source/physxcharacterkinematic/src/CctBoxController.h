@@ -33,8 +33,9 @@
 /* Exclude from documentation */
 /** \cond */
 
+#include "characterkinematic/PxBoxController.h"
+
 #include "CctController.h"
-#include "PxBoxController.h"
 
 namespace physx
 {

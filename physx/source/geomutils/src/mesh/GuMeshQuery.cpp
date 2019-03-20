@@ -28,10 +28,11 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "common/PxProfileZone.h"
-#include "PxMeshQuery.h"
+#include "geometry/PxMeshQuery.h"
+#include "geometry/PxSphereGeometry.h"
+#include "geometry/PxGeometryQuery.h"
+
 #include "GuInternal.h"
-#include "PxSphereGeometry.h"
-#include "PxGeometryQuery.h"
 #include "GuEntityReport.h"
 #include "GuHeightFieldUtil.h"
 #include "GuBoxConversion.h"

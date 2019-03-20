@@ -31,10 +31,11 @@
 #ifndef NP_CONTACTJOINTCONSTRAINT_H
 #define NP_CONTACTJOINTCONSTRAINT_H
 
-#include "PsUserAllocated.h"
+#include "common/PxTolerancesScale.h"
+#include "extensions/PxContactJoint.h"
+
 #include "ExtJoint.h"
-#include "PxContactJoint.h"
-#include "PxTolerancesScale.h"
+#include "PsUserAllocated.h"
 #include "CmUtils.h"
 
 namespace physx

@@ -31,16 +31,17 @@
 #define GU_TRIANGLEMESH_H
 
 #include "foundation/PxIO.h"
-#include "PxSimpleTriangleMesh.h"
-#include "PxTriangleMeshGeometry.h"
-#include "CmScaling.h"
+#include "geometry/PxTriangle.h"
+#include "geometry/PxTriangleMeshGeometry.h"
+#include "geometry/PxSimpleTriangleMesh.h"
+#include "geometry/PxTriangleMesh.h"
+
 #include "GuTriangle32.h"
-#include "CmRefCountable.h"
-#include "PxTriangle.h"
-#include "PxTriangleMesh.h"
-#include "CmRenderOutput.h"
 #include "GuMeshData.h"
 #include "GuCenterExtents.h"
+#include "CmScaling.h"
+#include "CmRefCountable.h"
+#include "CmRenderOutput.h"
 
 namespace physx
 {
@@ -69,12 +70,11 @@ public:
 
 // PX_SERIALIZATION
 														TriangleMesh(PxBaseFlags baseFlags)	: PxTriangleMesh(baseFlags), Cm::RefCountable(PxEmpty) {}
-						virtual void					exportExtraData(PxSerializationContext& ctx);
-								void					importExtraData(PxDeserializationContext&);
+								void					preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+						virtual void					exportExtraData(PxSerializationContext& context);
+								void					importExtraData(PxDeserializationContext& context);
 	PX_PHYSX_COMMON_API	static	void					getBinaryMetaData(PxOutputStream& stream);
 						virtual	void					release();
-
-								void					resolveReferences(PxDeserializationContext& ) {}
 						virtual	void					requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
 

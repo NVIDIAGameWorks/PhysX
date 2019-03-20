@@ -30,7 +30,7 @@
 #ifndef GU_GJK_TEST_H
 #define GU_GJK_TEST_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "GuGJKUtil.h"
 

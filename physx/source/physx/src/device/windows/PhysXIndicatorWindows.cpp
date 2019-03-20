@@ -74,7 +74,7 @@ physx::PhysXIndicator::PhysXIndicator(bool isGpu)
 	else
 		NvPhysXToDrv_Build_SectionName(GetCurrentProcessId(), configName);
 	
-	mFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE, NULL,
+	mFileHandle = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL,
 		PAGE_READWRITE, 0, sizeof(NvPhysXToDrv_Data_V1), configName);
 
 	if (!mFileHandle || mFileHandle == INVALID_HANDLE_VALUE)

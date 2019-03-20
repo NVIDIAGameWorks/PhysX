@@ -261,13 +261,6 @@ public:
 		mExtraDataAddress = reinterpret_cast<PxU8*>(addr);
 	}
 
-
-	/**
-	\brief Function to return the PX_PHYSX_VERSION value with which the data was originally serialized
-	*/
-
-	virtual		PxU32			getPhysXVersion() const = 0;
-
 protected:
 
 								PxDeserializationContext() {}

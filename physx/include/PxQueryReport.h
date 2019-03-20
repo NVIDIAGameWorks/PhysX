@@ -33,9 +33,10 @@
 /** \addtogroup scenequery
 @{
 */
-#include "PxPhysXConfig.h"
 #include "foundation/PxVec3.h"
 #include "foundation/PxFlags.h"
+#include "foundation/PxAssert.h"
+#include "PxPhysXConfig.h"
 
 #if !PX_DOXYGEN
 namespace physx

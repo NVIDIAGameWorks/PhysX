@@ -31,10 +31,11 @@
 #ifndef NP_DISTANCEJOINTCONSTRAINT_H
 #define NP_DISTANCEJOINTCONSTRAINT_H
 
-#include "PsUserAllocated.h"
+#include "common/PxTolerancesScale.h"
+#include "extensions/PxDistanceJoint.h"
+
 #include "ExtJoint.h"
-#include "PxDistanceJoint.h"
-#include "PxTolerancesScale.h"
+#include "PsUserAllocated.h"
 #include "CmUtils.h"
 
 namespace physx

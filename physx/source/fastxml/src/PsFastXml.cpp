@@ -29,6 +29,7 @@
 
 #include "foundation/PxAssert.h"
 #include "foundation/PxMemory.h"
+#include "foundation/PxFoundationConfig.h"
 #include "Ps.h"
 #include "PsFastXml.h"
 #include <stdio.h>

@@ -28,7 +28,8 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "foundation/PxAssert.h"
-#include "PxDefaultErrorCallback.h"
+#include "extensions/PxDefaultErrorCallback.h"
+
 #include "PsString.h"
 #include "PsThread.h"
 #include <stdio.h>

@@ -77,7 +77,7 @@ public:
 	PX_FORCE_INLINE const PxConstraintBatchHeader& GetCurrentHeader(const PxU32 constraintIndex)
 	{
 		PxU32 currentIndex = mCurrentIndex;
-		while((constraintIndex - constraintBatchHeaders[currentIndex].mStartIndex) >= constraintBatchHeaders[currentIndex].mStride)
+		while((constraintIndex - constraintBatchHeaders[currentIndex].startIndex) >= constraintBatchHeaders[currentIndex].stride)
 			currentIndex = (currentIndex + 1)%mSize;
 		Ps::prefetchLine(&constraintBatchHeaders[currentIndex], 128);
 		mCurrentIndex = currentIndex;
@@ -103,8 +103,8 @@ inline void SolveBlockParallel	(PxSolverConstraintDesc* PX_RESTRICT constraintLi
 	{
 		const PxConstraintBatchHeader& header = headers[i];
 
-		const PxI32 numToGrab = header.mStride;
-		PxSolverConstraintDesc* PX_RESTRICT block = &constraintList[header.mStartIndex];
+		const PxI32 numToGrab = header.stride;
+		PxSolverConstraintDesc* PX_RESTRICT block = &constraintList[header.startIndex];
 
 		Ps::prefetch(block[0].constraint, 384);
 
@@ -115,12 +115,9 @@ inline void SolveBlockParallel	(PxSolverConstraintDesc* PX_RESTRICT constraintLi
 		}
 
 		//OK. We have a number of constraints to run...
-		solveTable[header.mConstraintType](block, PxU32(numToGrab), cache);
+		solveTable[header.constraintType](block, PxU32(numToGrab), cache);
 	}
 }
-
-
-
 
 class SolverCoreGeneral : public SolverCore
 {
@@ -147,9 +144,7 @@ private:
 	//~Implements SolverCore
 };
 
-#define SOLVEV_BLOCK_METHOD_ARGS											\
-	SolverCore*	solverCore,												\
-	SolverIslandParams& params
+#define SOLVEV_BLOCK_METHOD_ARGS	SolverCore*	solverCore, SolverIslandParams& params
 
 void solveVBlock(SOLVEV_BLOCK_METHOD_ARGS);
 
@@ -158,7 +153,6 @@ SolveBlockMethod* getSolveBlockTable();
 SolveBlockMethod* getSolverConcludeBlockTable();
 
 SolveWriteBackBlockMethod* getSolveWritebackBlockTable();
-
 
 }
 

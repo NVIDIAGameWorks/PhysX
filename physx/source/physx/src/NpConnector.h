@@ -31,11 +31,11 @@
 #ifndef PX_PHYSICS_NP_CONNECTOR
 #define PX_PHYSICS_NP_CONNECTOR
 
-#include "CmPhysXCommon.h"
+#include "common/PxSerialFramework.h"
 #include "PsInlineArray.h"
-#include "PxSerialFramework.h"
-#include "CmUtils.h"
 #include "PsUtilities.h"
+#include "CmPhysXCommon.h"
+#include "CmUtils.h"
 
 namespace physx
 {

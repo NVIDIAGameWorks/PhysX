@@ -31,11 +31,11 @@
 #ifndef PX_PHYSICS_SCP_SIM_STATS
 #define PX_PHYSICS_SCP_SIM_STATS
 
+#include "geometry/PxGeometry.h"
+#include "PxSimulationStatistics.h"
 #include "PsAtomic.h"
 #include "PsUserAllocated.h"
 #include "CmPhysXCommon.h"
-#include "PxGeometry.h"
-#include "PxSimulationStatistics.h"
 
 namespace physx
 {

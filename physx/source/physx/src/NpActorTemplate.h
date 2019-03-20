@@ -66,13 +66,12 @@ public:
 // PX_SERIALIZATION
 											NpActorTemplate(PxBaseFlags baseFlags) : APIClass(baseFlags), NpActor(PxEmpty) {}
 
-	virtual void							exportData(PxSerializationContext& context) const = 0;
 	virtual	void							exportExtraData(PxSerializationContext& context) { NpActor::exportExtraData(context); }
 	virtual	void							importExtraData(PxDeserializationContext& context) { NpActor::importExtraData(context); }
 	virtual void							resolveReferences(PxDeserializationContext& context) { NpActor::resolveReferences(context); }
 //~PX_SERIALIZATION
 
-											NpActorTemplate(PxType concreteType, PxBaseFlags baseFlags, const char* name, void* userData);
+											NpActorTemplate(PxType concreteType, PxBaseFlags baseFlags, const char* name, void* inUserData);
 	virtual									~NpActorTemplate();
 
 	//---------------------------------------------------------------------------------

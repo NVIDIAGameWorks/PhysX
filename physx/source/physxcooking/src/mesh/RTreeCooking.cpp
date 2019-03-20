@@ -29,16 +29,17 @@
 
 #include "foundation/PxBounds3.h"
 #include "foundation/PxMemory.h"
+#include "common/PxTolerancesScale.h"
+
 #include "CmPhysXCommon.h"
-#include "RTreeCooking.h"
 #include "PsSort.h"
 #include "PsMathUtils.h"
 #include "PsAllocator.h"
 #include "PsVecMath.h"
-#include "PxTolerancesScale.h"
-#include "QuickSelect.h"
 #include "PsInlineArray.h"
 #include "GuRTree.h"
+#include "RTreeCooking.h"
+#include "QuickSelect.h"
 
 #define PRINT_RTREE_COOKING_STATS 0 // AP: keeping this frequently used macro for diagnostics/benchmarking
 

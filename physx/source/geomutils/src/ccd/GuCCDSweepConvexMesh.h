@@ -31,7 +31,7 @@
 #ifndef GU_CCD_SWEEP_H
 #define GU_CCD_SWEEP_H
 
-#include "PxPhysXCommonConfig.h"
+#include "common/PxPhysXCommonConfig.h"
 #include "CmPhysXCommon.h"
 #include "PsVecTransform.h"
 #include "GuGeometryUnion.h"

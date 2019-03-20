@@ -28,25 +28,24 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #if PX_SUPPORT_PVD
+#include "common/PxProfileZone.h"
+#include "common/PxRenderBuffer.h"
+#include "PxActor.h"
+#include "PxPhysics.h"
+#include "PxConstraintDesc.h"
+
 #include "NpCast.h"
 #include "ScbScenePvdClient.h"
-#include "PxActor.h"
-#include "PxRenderBuffer.h"
 #include "ScbScene.h"
 #include "ScbNpDeps.h"
-#include "PxPhysics.h"
 #include "ScMaterialCore.h"
-#include "PxsMaterialManager.h"
 #include "ScBodySim.h"
 #include "ScConstraintSim.h"
-
-#include "PxConstraintDesc.h"
 #include "ScConstraintCore.h"
+#include "PxsMaterialManager.h"
 #include "PvdTypeNames.h"
-
 #include "PxPvdUserRenderer.h"
 #include "PxvNphaseImplementationContext.h"
-#include "common/PxProfileZone.h"
 
 using namespace physx;
 using namespace physx::Vd;
@@ -539,23 +538,27 @@ void ScbScenePvdClient::createPvdInstance(const Scb::Articulation* articulation)
 {
 	if (checkPvdDebugFlag())
 	{
-		if(articulation->getArticulationType() == PxArticulationBase::eMaximumCoordinate)
-			mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
-		else
-			mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulationRC(articulation), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.createInstance(*mPvdDataStream, *base, *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
 	}
 }
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::Articulation* articulation)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *getNpArticulation(articulation));
+	if(checkPvdDebugFlag())
+	{
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *base);
+	}
 }
 
 void ScbScenePvdClient::releasePvdInstance(const Scb::Articulation* articulation)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.destroyInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene());
+	if (checkPvdDebugFlag())
+	{
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.destroyInstance(*mPvdDataStream, *base, *mScbScene.getPxScene());
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -567,8 +570,11 @@ void ScbScenePvdClient::createPvdInstance(const Scb::ArticulationJoint* articula
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::ArticulationJoint* articulationJoint)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *getNpArticulationJoint(articulationJoint));
+	if (checkPvdDebugFlag())
+	{
+		const PxArticulationJointBase* base = articulationJoint->getScArticulationJoint().getPxArticulationJointBase();
+		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *base);
+	}
 }
 
 void ScbScenePvdClient::releasePvdInstance(const Scb::ArticulationJoint* articulationJoint)

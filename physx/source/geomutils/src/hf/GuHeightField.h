@@ -30,14 +30,15 @@
 #ifndef GU_HEIGHTFIELD_H
 #define GU_HEIGHTFIELD_H
 
+#include "geometry/PxHeightFieldSample.h"
+#include "geometry/PxHeightFieldDesc.h"
+#include "geometry/PxHeightField.h"
+
 #include "PsUserAllocated.h"
-#include "CmRefCountable.h"
 #include "PsMathUtils.h"
+#include "CmRefCountable.h"
 #include "GuSphere.h"
-#include "PxHeightFieldSample.h"
-#include "PxHeightFieldDesc.h"
 #include "GuHeightFieldData.h"
-#include "PxHeightField.h"
 
 //#define PX_HEIGHTFIELD_VERSION 0
 #define PX_HEIGHTFIELD_VERSION 1  // tiled version that was needed for PS3 only has been removed
@@ -64,7 +65,8 @@ public:
 // PX_SERIALIZATION
 		HeightField(PxBaseFlags baseFlags) : PxHeightField(baseFlags), Cm::RefCountable(PxEmpty), mData(PxEmpty), mModifyCount(0) {}
 
-		PX_PHYSX_COMMON_API virtual		void						exportExtraData(PxSerializationContext&);
+		PX_PHYSX_COMMON_API				void						preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+		PX_PHYSX_COMMON_API virtual		void						exportExtraData(PxSerializationContext& context);
 		PX_PHYSX_COMMON_API				void						importExtraData(PxDeserializationContext& context);
 		PX_FORCE_INLINE					void						setMeshFactory(GuMeshFactory* f)		{ mMeshFactory = f;					}
 		PX_PHYSX_COMMON_API	static		HeightField*				createObject(PxU8*& address, PxDeserializationContext& context);

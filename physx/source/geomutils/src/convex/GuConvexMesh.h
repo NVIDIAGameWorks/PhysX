@@ -31,16 +31,14 @@
 #define GU_COLLISION_CONVEXMESH_H
 
 #include "foundation/PxBitAndData.h"
-#include "PxConvexMesh.h"
-#include "CmPhysXCommon.h"
+#include "common/PxMetaData.h"
+#include "geometry/PxConvexMesh.h"
 #include "PsUserAllocated.h"
+#include "CmPhysXCommon.h"
 #include "CmRefCountable.h"
+#include "CmRenderOutput.h"
 #include "GuConvexMeshData.h"
 
-// PX_SERIALIZATION
-#include "PxMetaData.h"
-#include "CmRenderOutput.h"
-//~PX_SERIALIZATION
 
 namespace physx
 {
@@ -102,6 +100,7 @@ namespace Gu
 														mNb.setBit();
 													}									
 
+		PX_PHYSX_COMMON_API			void			preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
 		PX_PHYSX_COMMON_API virtual	void			exportExtraData(PxSerializationContext& stream);
 		PX_PHYSX_COMMON_API			void			importExtraData(PxDeserializationContext& context);
 		PX_PHYSX_COMMON_API virtual	void			onRefCountZero();

@@ -42,26 +42,22 @@ namespace Dy
 {
 struct ConstraintPartitionArgs
 {
-	enum
-	{
-		eMAX_NUM_BODIES = 8192
-	};   
 
 	//Input
-	PxSolverBody*							mBodies;
+	PxU8*									mBodies;
 	PxU32									mNumBodies;
-	ArticulationSolverDesc*				mArticulationPtrs;
+	PxU32									mStride;
+	ArticulationSolverDesc*					mArticulationPtrs;
 	PxU32									mNumArticulationPtrs;
-	PxSolverConstraintDesc*				mContactConstraintDescriptors;
+	PxSolverConstraintDesc*					mContactConstraintDescriptors;
 	PxU32									mNumContactConstraintDescriptors;
 	//output
-	PxSolverConstraintDesc*				mOrderedContactConstraintDescriptors;
-	PxSolverConstraintDesc*				mTempContactConstraintDescriptors;
-	PxU32									mNumSelfConstraintBlocks;
+	PxSolverConstraintDesc*					mOrderedContactConstraintDescriptors;
+	PxSolverConstraintDesc*					mTempContactConstraintDescriptors;
 	PxU32									mNumDifferentBodyConstraints;
 	PxU32									mNumSelfConstraints;
+	PxU32									mNumStaticConstraints;
 	Ps::Array<PxU32>*						mConstraintsPerPartition;
-	//Ps::Array<PxU32>*						mStartIndices;
 	Ps::Array<PxU32>*						mBitField;
 
 	bool									enhancedDeterminism;

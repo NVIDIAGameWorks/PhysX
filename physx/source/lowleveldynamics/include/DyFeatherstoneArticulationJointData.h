@@ -61,7 +61,8 @@ namespace physx
 			}
 
 
-			PX_CUDA_CALLABLE PX_FORCE_INLINE void computeMotionMatrix(ArticulationJointCoreBase* joint)
+			PX_CUDA_CALLABLE PX_FORCE_INLINE void computeMotionMatrix(ArticulationJointCoreBase* joint,
+				SpatialSubspaceMatrix& motionMatrix)
 			{
 				const PxVec3 childOffset = -joint->childPose.p;
 
@@ -174,6 +175,7 @@ namespace physx
 
 					lockedAxes = 0;
 
+#if 1
 					//Spherical joints treat locked axes as free axes with a constraint. This produces better
 					//results for spherical joints with 2 dofs free, where keeping the 3rd axis locked can lead to
 					//an over-consrtained behaviour that is undesirable. However, the drawback is that there will be
@@ -191,6 +193,7 @@ namespace physx
 							}
 						}
 					}
+#endif
 
 					joint->dirtyFlag &= (~ArticulationJointCoreDirtyFlag::eMOTION);
 				}
@@ -236,22 +239,17 @@ namespace physx
 			//in the joint space
 			PxReal								jointAxis[6][6];				//144		144
 
-			//this is in child body space(S)
-			SpatialSubspaceMatrix				motionMatrix;					//196		340
-			PxReal								targetJointVelocity[6];			//24		364
-			PxReal								targetJointPosition[6];			//24		388
-			PxReal								maxDriveForce[6];				//24		412
+			PxReal								targetJointVelocity[6];			//24		168
+			PxReal								targetJointPosition[6];			//24		192
+			PxReal								maxDriveForce[6];				//24		216
 
 			//this is the dof offset for the joint in the cache
-			PxU32								jointOffset;					//4			416
+			PxU32								jointOffset;					//4			220
 			//degree of freedom
-			PxU8								dof;							//1			417
-			PxU8								limitedAxes;					//1			418
-			PxU8								dofInternalConstraintMask;		//1			419
-			PxU8								lockedAxes;						//1			420
-			PxU8								padding[12];					//12		432
-
-			
+			PxU8								dof;							//1			221
+			PxU8								limitedAxes;					//1			222
+			PxU8								dofInternalConstraintMask;		//1			223
+			PxU8								lockedAxes;						//1			224		
 
 		};
 

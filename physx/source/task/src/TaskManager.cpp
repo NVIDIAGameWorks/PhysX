@@ -89,7 +89,7 @@ class PxTaskMgr : public PxTaskManager, public shdfnd::UserAllocated
 {
 	PX_NOCOPY(PxTaskMgr)
 public:
-	PxTaskMgr(PxErrorCallback& , PxCpuDispatcher*, PxGpuDispatcher*);
+	PxTaskMgr(PxErrorCallback& , PxCpuDispatcher*);
 	~PxTaskMgr();
 
 	void     setCpuDispatcher( PxCpuDispatcher& ref )
@@ -97,19 +97,9 @@ public:
 		mCpuDispatcher = &ref;
 	}
 
-	void     setGpuDispatcher( PxGpuDispatcher& ref )
-	{
-		mGpuDispatcher = &ref;
-	}
-
 	PxCpuDispatcher* getCpuDispatcher() const
 	{
 		return mCpuDispatcher;
-	}
-
-	PxGpuDispatcher* getGpuDispatcher() const
-	{
-		return mGpuDispatcher;
 	}
 
 	void	resetDependencies();
@@ -122,8 +112,8 @@ public:
 	PxTaskID  submitUnnamedTask( PxTask& task, PxTaskType::Enum type = PxTaskType::TT_CPU );
 	PxTask*   getTaskFromID( PxTaskID );
 
-	bool    dispatchTask( PxTaskID taskID, bool gpuGroupStart );
-	bool    resolveRow( PxTaskID taskID, bool gpuGroupStart );
+	void    dispatchTask( PxTaskID taskID );
+	void    resolveRow( PxTaskID taskID );
 
 	void    release();
 
@@ -139,7 +129,6 @@ public:
 
 	PxErrorCallback&			mErrorCallback;
 	PxCpuDispatcher           *mCpuDispatcher;
-	PxGpuDispatcher           *mGpuDispatcher;		
 	PxTaskNameToIDMap          mName2IDmap;
 	volatile int			 mPendingTasks;
     shdfnd::Mutex            mMutex;
@@ -150,15 +139,14 @@ public:
 	shdfnd::Array<PxTaskID>	 mStartDispatch;
 	};
 
-PxTaskManager* PxTaskManager::createTaskManager(PxErrorCallback& errorCallback, PxCpuDispatcher* cpuDispatcher, PxGpuDispatcher* gpuDispatcher)
+PxTaskManager* PxTaskManager::createTaskManager(PxErrorCallback& errorCallback, PxCpuDispatcher* cpuDispatcher)
 {
-	return PX_NEW(PxTaskMgr)(errorCallback, cpuDispatcher, gpuDispatcher);
+	return PX_NEW(PxTaskMgr)(errorCallback, cpuDispatcher);
 }
 
-PxTaskMgr::PxTaskMgr(PxErrorCallback& errorCallback, PxCpuDispatcher* cpuDispatcher, PxGpuDispatcher* gpuDispatcher)
+PxTaskMgr::PxTaskMgr(PxErrorCallback& errorCallback, PxCpuDispatcher* cpuDispatcher)
 	: mErrorCallback (errorCallback)
 	, mCpuDispatcher( cpuDispatcher )
-    , mGpuDispatcher( gpuDispatcher )	
 	, mPendingTasks( 0 )
 	, mDepTable(PX_DEBUG_EXP("PxTaskDepTable"))
 	, mTaskTable(PX_DEBUG_EXP("PxTaskTable"))	
@@ -220,11 +208,6 @@ void PxTaskMgr::startSimulation()
 {
     PX_ASSERT( mCpuDispatcher );
 
-	if( mGpuDispatcher )
-	{
-		mGpuDispatcher->startSimulation();
-	}
-
 	/* Handle empty task graph */
 	if( mPendingTasks == 0 )
     {
@@ -232,7 +215,6 @@ void PxTaskMgr::startSimulation()
 		return;
     }
 
-    bool gpuDispatch = false;
     for( PxTaskID i = 0 ; i < mTaskTable.size() ; i++ )
     {
 		if(	mTaskTable[ i ].mType == PxTaskType::TT_COMPLETED )
@@ -246,23 +228,14 @@ void PxTaskMgr::startSimulation()
 	}
 	for( uint32_t i=0; i<mStartDispatch.size(); ++i)
 	{
-		gpuDispatch |= dispatchTask( mStartDispatch[i], gpuDispatch );
+		dispatchTask( mStartDispatch[i] );
 	}
 	//mStartDispatch.resize(0);
 	mStartDispatch.forceSize_Unsafe(0);
-
-    if( mGpuDispatcher && gpuDispatch )
-	{
-        mGpuDispatcher->finishGroup();
-	}
 }
 
 void PxTaskMgr::stopSimulation()
 {
-	if( mGpuDispatcher )
-	{
-		mGpuDispatcher->stopSimulation();
-	}
 }
 
 PxTaskID PxTaskMgr::getNamedTask( const char *name )
@@ -361,10 +334,7 @@ PxTaskID PxTaskMgr::submitUnnamedTask( PxTask& task, PxTaskType::Enum type )
 void PxTaskMgr::taskCompleted( PxTask& task )
 {
     LOCK();
-    if( resolveRow( task.mTaskID, false ) )
-	{
-        mGpuDispatcher->finishGroup();
-	}
+	resolveRow(task.mTaskID);
 }
 
 /* ================== Private Functions ======================= */
@@ -404,9 +374,7 @@ void PxTaskMgr::addReference( PxTaskID taskID )
 }
 
 /*
- * Remove one reference count from a task.  Intended for use by the
- * GPU dispatcher, to remove reference counts when CUDA events are
- * resolved.  Must be done here to make it thread safe.
+ * Remove one reference count from a task. Must be done here to make it thread safe.
  */
 void PxTaskMgr::decrReference( PxTaskID taskID )
 {
@@ -414,10 +382,7 @@ void PxTaskMgr::decrReference( PxTaskID taskID )
 
     if( !shdfnd::atomicDecrement( &mTaskTable[ taskID ].mRefCount ) )
     {
-        if( dispatchTask( taskID, false ) )
-        {
-            mGpuDispatcher->finishGroup();
-        }
+		dispatchTask(taskID);
     }
 }
 
@@ -431,58 +396,31 @@ int32_t PxTaskMgr::getReference(PxTaskID taskID) const
  * that are ready to run.  Signal simulation end if ther are no more
  * pending tasks.
  */
-bool PxTaskMgr::resolveRow( PxTaskID taskID, bool gpuGroupStart )
+void PxTaskMgr::resolveRow( PxTaskID taskID )
 {
     int depRow = mTaskTable[ taskID ].mStartDep;
 
-	uint32_t streamIndex = 0;
-	bool syncRequired = false;
-	if( mTaskTable[ taskID ].mTask )
-	{
-		streamIndex = mTaskTable[ taskID ].mTask->mStreamIndex;
-	}
 
     while( depRow != EOL )
     {
         PxTaskDepTableRow& row = mDepTable[ uint32_t(depRow) ];
         PxTaskTableRow& dtt = mTaskTable[ row.mTaskID ];
 
-		// pass stream index to (up to one) dependent GPU task
-		if( dtt.mTask && dtt.mType == PxTaskType::TT_GPU && streamIndex )
-		{
-			if( dtt.mTask->mStreamIndex )
-			{
-				PX_ASSERT( dtt.mTask->mStreamIndex != streamIndex );
-				dtt.mTask->mPreSyncRequired = true;
-			}
-			else if( syncRequired )
-			{
-				dtt.mTask->mPreSyncRequired = true;
-			}
-			else
-			{
-				dtt.mTask->mStreamIndex = streamIndex;
-				/* only one forward task gets to use this stream */
-				syncRequired = true;
-			}
-		}
-
         if( !shdfnd::atomicDecrement( &dtt.mRefCount ) )
 		{
-			gpuGroupStart |= dispatchTask( row.mTaskID, gpuGroupStart );
+			dispatchTask( row.mTaskID );
 		}
 
         depRow = row.mNextDep;
     }
 
     shdfnd::atomicDecrement( &mPendingTasks );
-    return gpuGroupStart;
 }
 
 /*
  * Submit a ready task to its appropriate dispatcher.
  */
-bool PxTaskMgr::dispatchTask( PxTaskID taskID, bool gpuGroupStart )
+void PxTaskMgr::dispatchTask( PxTaskID taskID )
 {
 	LOCK(); // todo: reader lock necessary?
     PxTaskTableRow& tt = mTaskTable[ taskID ];
@@ -491,7 +429,7 @@ bool PxTaskMgr::dispatchTask( PxTaskID taskID, bool gpuGroupStart )
     if( tt.mType == PxTaskType::TT_COMPLETED )
     {		
 		mErrorCallback.reportError(PxErrorCode::eDEBUG_WARNING, "PxTask dispatched twice", __FILE__, __LINE__);
-        return false;
+		return;
     }
 
     switch ( tt.mType )
@@ -499,40 +437,20 @@ bool PxTaskMgr::dispatchTask( PxTaskID taskID, bool gpuGroupStart )
     case PxTaskType::TT_CPU:
         mCpuDispatcher->submitTask( *tt.mTask );
         break;
-
-	case PxTaskType::TT_GPU:
-#if PX_WINDOWS_FAMILY
-        if( mGpuDispatcher )
-        {
-			if( !gpuGroupStart )
-			{
-				mGpuDispatcher->startGroup();
-			}
-			mGpuDispatcher->submitTask( *tt.mTask );
-			gpuGroupStart = true;
-		}
-		else
-#endif
-		{
-			mErrorCallback.reportError(PxErrorCode::eDEBUG_WARNING, "No GPU dispatcher", __FILE__, __LINE__);
-		}
-		break;
-
     case PxTaskType::TT_NOT_PRESENT:
 		/* No task registered with this taskID, resolve its dependencies */
 		PX_ASSERT(!tt.mTask);
 		//shdfnd::getFoundation().error(PX_INFO, "unregistered task resolved");
-        gpuGroupStart |= resolveRow( taskID, gpuGroupStart );
+        resolveRow( taskID );
 		break;
 	case PxTaskType::TT_COMPLETED:
     default:
         mErrorCallback.reportError(PxErrorCode::eDEBUG_WARNING, "Unknown task type", __FILE__, __LINE__);
-        gpuGroupStart |= resolveRow( taskID, gpuGroupStart );
+        resolveRow( taskID );
         break;
     }
 
     tt.mType = PxTaskType::TT_COMPLETED;
-    return gpuGroupStart;
 }
 
 }// end physx namespace

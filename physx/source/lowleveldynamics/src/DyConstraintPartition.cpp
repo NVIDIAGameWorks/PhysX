@@ -58,26 +58,17 @@ PX_FORCE_INLINE PxU32 getArticulationIndex(const uintptr_t eaArticulation, const
 
 #define MAX_NUM_PARTITIONS 32
 
-static PxU32 bitTable[32] = 
-{
-	1u<<0, 1u<<1, 1u<<2, 1u<<3, 1u<<4, 1u<<5, 1u<<6, 1u<<7, 1u<<8, 1u<<9, 1u<<10, 1u<<11, 1u<<12, 1u<<13, 1u<<14, 1u<<15, 1u<<16, 1u<<17,
-	1u<<18, 1u<<19, 1u<<20, 1u<<21, 1u<<22, 1u<<23, 1u<<24, 1u<<25, 1u<<26, 1u<<27, 1u<<28, 1u<<29, 1u<<30, 1u<<31
-};
-
-PxU32 getBit(const PxU32 index)
-{
-	PX_ASSERT(index < 32);
-	return bitTable[index];
-}
-
 
 class RigidBodyClassification
 {
-	PxSolverBody* PX_RESTRICT mBodies;
-	PxU32 mNumBodies;
+	PxU8* PX_RESTRICT mBodies;
+	PxU32 mBodySize;
+	PxU32 mBodyStride;
+	PxU32 mBodyCount;
 
 public:
-	RigidBodyClassification(PxSolverBody* PX_RESTRICT bodies, PxU32 numBodies) : mBodies(bodies), mNumBodies(numBodies)
+	RigidBodyClassification(PxU8* PX_RESTRICT bodies, PxU32 bodyCount, PxU32 bodyStride) : mBodies(bodies), mBodySize(bodyCount*bodyStride), mBodyStride(bodyStride),
+		mBodyCount(bodyCount)
 	{
 	}
 
@@ -85,10 +76,10 @@ public:
 	PX_FORCE_INLINE bool classifyConstraint(const PxSolverConstraintDesc& desc, uintptr_t& indexA, uintptr_t& indexB, 
 		bool& activeA, bool& activeB, PxU32& bodyAProgress, PxU32& bodyBProgress) const
 	{
-		indexA=uintptr_t(desc.bodyA - mBodies);
-		indexB=uintptr_t(desc.bodyB - mBodies);
-		activeA = indexA < mNumBodies;
-		activeB = indexB < mNumBodies;
+		indexA=uintptr_t(reinterpret_cast<PxU8*>(desc.bodyA) - mBodies)/mBodyStride;
+		indexB=uintptr_t(reinterpret_cast<PxU8*>(desc.bodyB) - mBodies)/mBodyStride;
+		activeA = indexA < mBodyCount;
+		activeB = indexB < mBodyCount;
 		bodyAProgress = desc.bodyA->solverProgress;
 		bodyBProgress = desc.bodyB->solverProgress;
 		return activeA && activeB;
@@ -143,25 +134,26 @@ public:
 
 	PX_FORCE_INLINE void clearState()
 	{
-		for(PxU32 a = 0; a < mNumBodies; ++a)
-			mBodies[a].solverProgress = 0;
+		for(PxU32 a = 0; a < mBodySize; a+= mBodyStride)
+			reinterpret_cast<PxSolverBody*>(mBodies+a)->solverProgress = 0;
 	}
 
 	PX_FORCE_INLINE void reserveSpaceForStaticConstraints(Ps::Array<PxU32>& numConstraintsPerPartition)
 	{
-		for(PxU32 a = 0; a < mNumBodies; ++a)
+		for(PxU32 a = 0; a < mBodySize; a += mBodyStride)
 		{
-			mBodies[a].solverProgress = 0;
+			PxSolverBody& body = *reinterpret_cast<PxSolverBody*>(mBodies+a);
+			body.solverProgress = 0;
 
-			PxU32 requiredSize = PxU32(mBodies[a].maxSolverNormalProgress + mBodies[a].maxSolverFrictionProgress);
+			PxU32 requiredSize = PxU32(body.maxSolverNormalProgress + body.maxSolverFrictionProgress);
 			if(requiredSize > numConstraintsPerPartition.size())
 			{
 				numConstraintsPerPartition.resize(requiredSize);
 			}
 
-			for(PxU32 b = 0; b < mBodies[a].maxSolverFrictionProgress; ++b)
+			for(PxU32 b = 0; b < body.maxSolverFrictionProgress; ++b)
 			{
-				numConstraintsPerPartition[mBodies[a].maxSolverNormalProgress + b]++;
+				numConstraintsPerPartition[body.maxSolverNormalProgress + b]++;
 			}
 		}
 	}
@@ -169,17 +161,18 @@ public:
 
 class ExtendedRigidBodyClassification
 {
-
-	PxSolverBody* PX_RESTRICT mBodies;
-	PxU32 mNumBodies;
+	PxU8* PX_RESTRICT mBodies;
+	PxU32 mBodyCount;
+	PxU32 mBodySize;
+	PxU32 mStride;
 	//uintptr_t* PX_RESTRICT mFsDatas;
 	uintptr_t* PX_RESTRICT mArticulations;
 	PxU32 mNumArticulations;
 
 public:
 
-	ExtendedRigidBodyClassification(PxSolverBody* PX_RESTRICT bodies, PxU32 numBodies, uintptr_t* articulations, PxU32 numArticulations)
-		: mBodies(bodies), mNumBodies(numBodies), mArticulations(articulations), mNumArticulations(numArticulations)
+	ExtendedRigidBodyClassification(PxU8* PX_RESTRICT bodies, PxU32 numBodies, PxU32 stride, uintptr_t* articulations, PxU32 numArticulations)
+		: mBodies(bodies), mBodyCount(numBodies), mBodySize(numBodies*stride), mStride(stride), mArticulations(articulations), mNumArticulations(numArticulations)
 	{
 	}
 
@@ -190,31 +183,31 @@ public:
 		bool hasStatic = false;
 		if(PxSolverConstraintDesc::NO_LINK == desc.linkIndexA)
 		{
-			indexA=uintptr_t(desc.bodyA - mBodies);
-			activeA = indexA < mNumBodies;
-			hasStatic = desc.bodyADataIndex == 0;
+			indexA=uintptr_t(reinterpret_cast<PxU8*>(desc.bodyA) - mBodies)/mStride;
+			activeA = indexA < mBodyCount;
+			hasStatic = !activeA;//desc.bodyADataIndex == 0;
 			bodyAProgress = activeA ? desc.bodyA->solverProgress: 0;
 		}
 		else
 		{
 			
 			ArticulationV* articulationA = desc.articulationA;
-			indexA=mNumBodies+getArticulationIndex(uintptr_t(articulationA), mArticulations ,mNumArticulations);
+			indexA=mBodyCount+getArticulationIndex(uintptr_t(articulationA), mArticulations ,mNumArticulations);
 			//bodyAProgress = articulationA->getFsDataPtr()->solverProgress;
 			bodyAProgress = articulationA->solverProgress;
 			activeA = true;
 		}
 		if(PxSolverConstraintDesc::NO_LINK == desc.linkIndexB)
 		{
-			indexB=uintptr_t(desc.bodyB - mBodies);
-			activeB = indexB < mNumBodies;
-			hasStatic = hasStatic || desc.bodyBDataIndex == 0;
+			indexB=uintptr_t(reinterpret_cast<PxU8*>(desc.bodyB) - mBodies)/mStride;
+			activeB = indexB < mBodyCount;
+			hasStatic = hasStatic || !activeB;
 			bodyBProgress = activeB ? desc.bodyB->solverProgress : 0;
 		}
 		else
 		{
-			Articulation* articulationB = static_cast<Articulation*>(desc.articulationB);
-			indexB=mNumBodies+getArticulationIndex(uintptr_t(articulationB), mArticulations, mNumArticulations);
+			ArticulationV* articulationB = desc.articulationB;
+			indexB=mBodyCount+getArticulationIndex(uintptr_t(articulationB), mArticulations, mNumArticulations);
 			activeB = true;
 			bodyBProgress = articulationB->solverProgress;
 		}
@@ -308,7 +301,8 @@ public:
 			else
 			{
 				ArticulationV* articulationA = desc.articulationA;
-				articulationA->maxSolverFrictionProgress++;
+				if(!articulationA->willStoreStaticConstraint())
+					articulationA->maxSolverFrictionProgress++;
 			}
 		}
 
@@ -319,7 +313,8 @@ public:
 			else
 			{
 				ArticulationV* articulationB = desc.articulationB;
-				articulationB->maxSolverFrictionProgress++;
+				if (!articulationB->willStoreStaticConstraint())
+					articulationB->maxSolverFrictionProgress++;
 			}
 		}
 	}
@@ -336,6 +331,10 @@ public:
 			else
 			{
 				ArticulationV* articulationA = desc.articulationA;
+				//Attempt to store static constraints on the articulation (only supported with the reduced coordinate articulations).
+				//This acts as an optimization
+				if(articulationA->storeStaticConstraint(desc))
+					return 0xffffffff;
 				return PxU32(articulationA->maxSolverNormalProgress + articulationA->maxSolverFrictionProgress++);
 			}
 		}
@@ -348,6 +347,10 @@ public:
 			else
 			{
 				ArticulationV* articulationB = desc.articulationB;
+				//Attempt to store static constraints on the articulation (only supported with the reduced coordinate articulations).
+				//This acts as an optimization
+				if (articulationB->storeStaticConstraint(desc))
+					return 0xffffffff;
 				return PxU32(articulationB->maxSolverNormalProgress + articulationB->maxSolverFrictionProgress++);
 			}
 		}
@@ -357,8 +360,8 @@ public:
 
 	PX_FORCE_INLINE void clearState()
 	{
-		for(PxU32 a = 0; a < mNumBodies; ++a)
-			mBodies[a].solverProgress = 0;
+		for(PxU32 a = 0; a < mBodySize; a+= mStride)
+			reinterpret_cast<PxSolverBody*>(mBodies+a)->solverProgress = 0;
 
 		for(PxU32 a = 0; a < mNumArticulations; ++a)
 			(reinterpret_cast<ArticulationV*>(mArticulations[a]))->solverProgress = 0;
@@ -366,19 +369,20 @@ public:
 
 	PX_FORCE_INLINE void reserveSpaceForStaticConstraints(Ps::Array<PxU32>& numConstraintsPerPartition)
 	{
-		for(PxU32 a = 0; a < mNumBodies; ++a)
+		for(PxU32 a = 0; a < mBodySize; a+= mStride)
 		{
-			mBodies[a].solverProgress = 0;
+			PxSolverBody& body = *reinterpret_cast<PxSolverBody*>(mBodies+a);
+			body.solverProgress = 0;
 
-			PxU32 requiredSize = PxU32(mBodies[a].maxSolverNormalProgress + mBodies[a].maxSolverFrictionProgress);
+			PxU32 requiredSize = PxU32(body.maxSolverNormalProgress + body.maxSolverFrictionProgress);
 			if(requiredSize > numConstraintsPerPartition.size())
 			{
 				numConstraintsPerPartition.resize(requiredSize);
 			}
 
-			for(PxU32 b = 0; b < mBodies[a].maxSolverFrictionProgress; ++b)
+			for(PxU32 b = 0; b < body.maxSolverFrictionProgress; ++b)
 			{
-				numConstraintsPerPartition[mBodies[a].maxSolverNormalProgress + b]++;
+				numConstraintsPerPartition[body.maxSolverNormalProgress + b]++;
 			}
 		}
 
@@ -442,7 +446,7 @@ void classifyConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, con
 					continue;
 				}
 
-				const PxU32 partitionBit = getBit(availablePartition);
+				const PxU32 partitionBit = (1u << availablePartition);
 				if (activeA)
 					partitionsA |= partitionBit;
 				if(activeB)
@@ -493,7 +497,7 @@ void classifyConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, con
 					continue;
 				}
 
-				const PxU32 partitionBit = getBit(availablePartition);
+				const PxU32 partitionBit = (1u << availablePartition);
 				if(activeA)
 					partitionsA |= partitionBit;
 				if(activeB)
@@ -521,7 +525,7 @@ void classifyConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, con
 }
 
 template <typename Classification>
-void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const PxU32 numConstraints, Classification& classification,
+PxU32 writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const PxU32 numConstraints, Classification& classification,
 						 Ps::Array<PxU32>& accumulatedConstraintsPerPartition, PxSolverConstraintDesc* eaTempConstraintDescriptors,
 							PxSolverConstraintDesc* PX_RESTRICT eaOrderedConstraintDesc)
 {
@@ -530,6 +534,7 @@ void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const 
 	const PxU32 numConstraintsMin1 = numConstraints - 1;
 
 	PxU32 numUnpartitionedConstraints = 0;
+	PxU32 numStaticConstraints = 0;
 
 	for(PxU32 i = 0; i < numConstraints; ++i, _desc++)
 	{
@@ -556,7 +561,7 @@ void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const 
 					continue;
 				}
 
-				const PxU32 partitionBit = getBit(availablePartition);
+				const PxU32 partitionBit = (1u << availablePartition);
 				if(activeA)
 					partitionsA |= partitionBit;
 				if(activeB)
@@ -571,8 +576,12 @@ void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const 
 		{
 			//Just count the number of static constraints and store in maxSolverFrictionProgress...
 			PxU32 index = classification.getStaticContactWriteIndex(*_desc, activeA, activeB);
-			
-			eaOrderedConstraintDesc[accumulatedConstraintsPerPartition[index]++] = *_desc;
+			if (index != 0xffffffff)
+			{
+				eaOrderedConstraintDesc[accumulatedConstraintsPerPartition[index]++] = *_desc;
+			}
+			else
+				numStaticConstraints++;
 		}
 	}
 
@@ -609,7 +618,7 @@ void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const 
 					continue;
 				}
 
-				const PxU32 partitionBit = getBit(availablePartition);
+				const PxU32 partitionBit = (1u << availablePartition);
 
 				if(activeA)
 					partitionsA |= partitionBit;
@@ -627,6 +636,8 @@ void writeConstraintDesc(const PxSolverConstraintDesc* PX_RESTRICT descs, const 
 
 		numUnpartitionedConstraints = newNumUnpartitionedConstraints;
 	}
+
+	return numStaticConstraints;
 }
 
 }
@@ -676,10 +687,10 @@ PxU32 normalizePartitions(Ps::Array<PxU32>& accumulatedConstraintsPerPartition, 
 
 			classification.classifyConstraint(desc, indexA, indexB, activeA, activeB, partitionsA, partitionsB);
 
-			if(activeA)
-				bitField[PxU32(indexA)/32] |= getBit(indexA & 31);
+			if (activeA)
+				bitField[PxU32(indexA) / 32] |= (1u << (indexA & 31)); 
 			if(activeB)
-				bitField[PxU32(indexB)/32] |= getBit(indexB & 31);
+				bitField[PxU32(indexB)/32] |= (1u << (indexB & 31));
 		}
 
 		bool bTerm = false;
@@ -703,9 +714,9 @@ PxU32 normalizePartitions(Ps::Array<PxU32>& accumulatedConstraintsPerPartition, 
 
 				bool canAdd = true;
 
-				if(activeA && (bitField[PxU32(indexA)/32] & (getBit(indexA & 31))))
+				if(activeA && (bitField[PxU32(indexA)/32] & (1u << (indexA & 31))))
 					canAdd = false;
-				if(activeB && (bitField[PxU32(indexB)/32] & (getBit(indexB & 31))))
+				if(activeB && (bitField[PxU32(indexB)/32] & (1u << (indexB & 31))))
 					canAdd = false;
 
 				if(canAdd)
@@ -713,9 +724,9 @@ PxU32 normalizePartitions(Ps::Array<PxU32>& accumulatedConstraintsPerPartition, 
 					PxSolverConstraintDesc tmp = eaOrderedConstraintDescriptors[ind];
 
 					if(activeA)
-						bitField[PxU32(indexA)/32] |= (getBit(indexA & 31));
+						bitField[PxU32(indexA)/32] |= (1u << (indexA & 31));
 					if(activeB)
-						bitField[PxU32(indexB)/32] |= (getBit(indexB & 31));
+						bitField[PxU32(indexB)/32] |= (1u << (indexB & 31));
 
 					PxU32 index = ind;
 					for(PxU32 c = pInd; c < partitionIndex; ++c)
@@ -764,7 +775,6 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 	PxU32 maxPartition = 0;
 	//Unpack the input data.
 	const PxU32 numBodies=args.mNumBodies;
-	PxSolverBody* PX_RESTRICT eaAtoms=args.mBodies;
 	const PxU32	numArticulations=args.mNumArticulationPtrs;
 	
 	const PxU32 numConstraintDescriptors=args.mNumContactConstraintDescriptors;
@@ -776,10 +786,11 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 	Ps::Array<PxU32>& constraintsPerPartition = *args.mConstraintsPerPartition;
 	constraintsPerPartition.forceSize_Unsafe(0);
 
-	for(PxU32 a = 0; a < numBodies; ++a)
+	const PxU32 stride = args.mStride;
+
+	for(PxU32 a = 0, offset = 0; a < numBodies; ++a, offset += stride)
 	{
-		PxSolverBody& body = args.mBodies[a];
-		Ps::prefetchLine(&args.mBodies[a], 256);
+		PxSolverBody& body = *reinterpret_cast<PxSolverBody*>(args.mBodies + offset);
 		body.solverProgress = 0;
 		//We re-use maxSolverFrictionProgress and maxSolverNormalProgress to record the
 		//maximum partition used by dynamic constraints and the number of static constraints affecting
@@ -789,12 +800,11 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 	}
 
 	PxU32 numOrderedConstraints=0;	
-
-	PxU32 numSelfConstraintBlocks=0;
+	PxU32 numStaticConstraints = 0;
 
 	if(numArticulations == 0)
 	{
-		RigidBodyClassification classification(eaAtoms, numBodies);
+		RigidBodyClassification classification(args.mBodies, numBodies, stride);
 		classifyConstraintDesc(eaConstraintDescriptors, numConstraintDescriptors, classification, constraintsPerPartition,
 			eaTempConstraintDescriptors);
 		
@@ -806,9 +816,9 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 			accumulation += count;
 		}
 
-		for(PxU32 a = 0; a < numBodies; ++a)
+		for(PxU32 a = 0, offset = 0; a < numBodies; ++a, offset += stride)
 		{
-			PxSolverBody& body = args.mBodies[a];
+			PxSolverBody& body = *reinterpret_cast<PxSolverBody*>(args.mBodies + offset);
 			Ps::prefetchLine(&args.mBodies[a], 256);
 			body.solverProgress = 0;
 			//Keep the dynamic constraint count but bump the static constraint count back to 0.
@@ -822,9 +832,9 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 
 		numOrderedConstraints = numConstraintDescriptors;
 
-		if(!args.enhancedDeterminism)
+		/*if(!args.enhancedDeterminism)
 			maxPartition = normalizePartitions(constraintsPerPartition, eaOrderedConstraintDescriptors, numConstraintDescriptors, *args.mBitField,
-				classification, numBodies, 0);
+				classification, numBodies, 0);*/
 
 	}
 	else
@@ -841,7 +851,7 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 			articulation->maxSolverFrictionProgress = 0;
 			articulation->maxSolverNormalProgress = 0;
 		}
-		ExtendedRigidBodyClassification classification(eaAtoms, numBodies, eaArticulations, numArticulations);
+		ExtendedRigidBodyClassification classification(args.mBodies, numBodies, stride, eaArticulations, numArticulations);
 
 		classifyConstraintDesc(eaConstraintDescriptors, numConstraintDescriptors, classification, 
 			constraintsPerPartition, eaTempConstraintDescriptors);
@@ -854,10 +864,9 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 			accumulation += count;
 		}
 
-		for(PxU32 a = 0; a < numBodies; ++a)
+		for(PxU32 a = 0, offset = 0; a < numBodies; ++a, offset += stride)
 		{
-			PxSolverBody& body = args.mBodies[a];
-			Ps::prefetchLine(&args.mBodies[a], 256);
+			PxSolverBody& body = *reinterpret_cast<PxSolverBody*>(args.mBodies+offset);
 			body.solverProgress = 0;
 			//Keep the dynamic constraint count but bump the static constraint count back to 0.
 			//This allows us to place the static constraints in the appropriate place when we see them
@@ -872,14 +881,14 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 			articulation->maxSolverFrictionProgress = 0;
 		}
 
-		writeConstraintDesc(eaConstraintDescriptors, numConstraintDescriptors, classification, constraintsPerPartition, 
+		numStaticConstraints = writeConstraintDesc(eaConstraintDescriptors, numConstraintDescriptors, classification, constraintsPerPartition, 
 			eaTempConstraintDescriptors, eaOrderedConstraintDescriptors);
 
-		numOrderedConstraints = numConstraintDescriptors;
+		numOrderedConstraints = numConstraintDescriptors - numStaticConstraints;
 
-		if (!args.enhancedDeterminism)
+		/*if (!args.enhancedDeterminism)
 			maxPartition = normalizePartitions(constraintsPerPartition, eaOrderedConstraintDescriptors,  
-				numConstraintDescriptors, *args.mBitField, classification, numBodies, numArticulations);
+				numOrderedConstraints, *args.mBitField, classification, numBodies, numArticulations);*/
 
 	}
 
@@ -887,17 +896,17 @@ PxU32 partitionContactConstraints(ConstraintPartitionArgs& args)
 
 	const PxU32 numConstraintsDifferentBodies=numOrderedConstraints;
 
-	PX_ASSERT(numConstraintsDifferentBodies == numConstraintDescriptors);
+	//PX_ASSERT(numConstraintsDifferentBodies == numConstraintDescriptors);
 
 	//Now handle the articulated self-constraints.
 	PxU32 totalConstraintCount = numConstraintsDifferentBodies;	
 
-	args.mNumSelfConstraintBlocks=numSelfConstraintBlocks;
-
 	args.mNumDifferentBodyConstraints=numConstraintsDifferentBodies;
 	args.mNumSelfConstraints=totalConstraintCount-numConstraintsDifferentBodies;
 
-	if (args.enhancedDeterminism)
+	args.mNumStaticConstraints = numStaticConstraints;
+
+	//if (args.enhancedDeterminism)
 	{
 		PxU32 prevPartitionSize = 0;
 		maxPartition = 0;

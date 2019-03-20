@@ -33,7 +33,7 @@
   @{
 */
 
-#include "PxVehicleSDK.h"
+#include "vehicle/PxVehicleSDK.h"
 
 #if !PX_DOXYGEN
 namespace physx
