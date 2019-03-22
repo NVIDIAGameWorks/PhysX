@@ -42,7 +42,6 @@
 #include "DySolverConstraintDesc.h"
 #include "PxvDynamics.h"
 #include "DyArticulation.h"
-#include "PxcRigidBody.h"
 #include "CmConeLimitHelper.h"
 #include "DySolverConstraint1D.h"
 #include "PxcConstraintBlockStream.h"
@@ -56,14 +55,9 @@ namespace physx
 namespace Dy
 {
 
-
 void getImpulseResponseSlow(const FsData& matrix, 
-							PxU32 linkID0, 
-							const Cm::SpatialVectorV& impulse0,
-							Cm::SpatialVectorV& deltaV0,
-							PxU32 linkID1,
-							const Cm::SpatialVectorV& impulse1,
-							Cm::SpatialVectorV& deltaV1)
+							PxU32 linkID0, const Cm::SpatialVectorV& impulse0, Cm::SpatialVectorV& deltaV0,
+							PxU32 linkID1, const Cm::SpatialVectorV& impulse1, Cm::SpatialVectorV& deltaV1)
 {
 	typedef ArticulationFnsSimd<ArticulationFnsSimdBase> Fns;
 
@@ -122,9 +116,7 @@ void getImpulseResponseSlow(const FsData& matrix,
 }
 
 void PxcFsGetImpulseResponse(const FsData& matrix,
-							 PxU32 linkID,
-							 const Cm::SpatialVectorV& impulse,
-							 Cm::SpatialVectorV& deltaV)
+							 PxU32 linkID, const Cm::SpatialVectorV& impulse, Cm::SpatialVectorV& deltaV)
 {
 	typedef ArticulationFnsSimd<ArticulationFnsSimdBase> Fns;
 
@@ -152,12 +144,8 @@ void PxcFsGetImpulseResponse(const FsData& matrix,
 }
 
 void PxcFsGetImpulseSelfResponse(const FsData& matrix, 
-								 PxU32 linkID0, 
-								 const Cm::SpatialVectorV& impulse0,
-								 Cm::SpatialVectorV& deltaV0,
-								 PxU32 linkID1,
-								 const Cm::SpatialVectorV& impulse1,
-								 Cm::SpatialVectorV& deltaV1)
+								 PxU32 linkID0, const Cm::SpatialVectorV& impulse0, Cm::SpatialVectorV& deltaV0,
+								 PxU32 linkID1, const Cm::SpatialVectorV& impulse1, Cm::SpatialVectorV& deltaV1)
 {
 	typedef ArticulationFnsSimd<ArticulationFnsSimdBase> Fns;
 
@@ -191,7 +179,6 @@ void PxcFsGetImpulseSelfResponse(const FsData& matrix,
 
 namespace
 {
-
 	PX_FORCE_INLINE Cm::SpatialVectorV getImpulseResponseSimd(const FsData& matrix, PxU32 linkID, Vec3V lZ, Vec3V aZ)
 	{
 		PX_ASSERT(matrix.linkCount<=DY_ARTICULATION_MAX_SIZE);
@@ -249,9 +236,7 @@ namespace
 }
 					
 void ArticulationHelper::getImpulseResponse(const FsData& matrix,
-											PxU32 linkID,
-											const Cm::SpatialVectorV& impulse,
-											Cm::SpatialVectorV& deltaV)
+											PxU32 linkID, const Cm::SpatialVectorV& impulse, Cm::SpatialVectorV& deltaV)
 {
 	PX_ASSERT(matrix.linkCount<=DY_ARTICULATION_MAX_SIZE);
 
@@ -265,12 +250,8 @@ void ArticulationHelper::getImpulseResponse(const FsData& matrix,
 }
 
 void ArticulationHelper::getImpulseSelfResponse(const FsData& matrix,
-												PxU32 linkID0,
-												const Cm::SpatialVectorV& impulse0,
-												Cm::SpatialVectorV& deltaV0,
-												PxU32 linkID1,
-												const Cm::SpatialVectorV& impulse1,
-												Cm::SpatialVectorV& deltaV1)
+												PxU32 linkID0, const Cm::SpatialVectorV& impulse0, Cm::SpatialVectorV& deltaV0,
+												PxU32 linkID1, const Cm::SpatialVectorV& impulse1, Cm::SpatialVectorV& deltaV1)
 {
 	PX_ASSERT(linkID0 != linkID1);
 
@@ -344,7 +325,6 @@ PxU32 ArticulationHelper::getLtbDataSize(PxU32 linkCount)
 {
 	return sizeof(LtbRow) * linkCount;
 }
-
 
 void ArticulationHelper::createHardLimit(	const FsData& fsData,
 											const ArticulationLink* links,
@@ -507,7 +487,6 @@ PxU32 ArticulationHelper::setupSolverConstraints(	Articulation& articulation, Px
 	return descCount;
 }
 
-
 ArticulationPImpl::ComputeUnconstrainedVelocitiesFn ArticulationPImpl::sComputeUnconstrainedVelocities[2] = { NULL, NULL };
 ArticulationPImpl::UpdateBodiesFn ArticulationPImpl::sUpdateBodies[2] = { NULL, NULL };
 ArticulationPImpl::UpdateBodiesFn ArticulationPImpl::sUpdateBodiesTGS[2] = { NULL, NULL };
@@ -519,6 +498,5 @@ ArticulationPImpl::DeltaMotionToMotionVelFn ArticulationPImpl::sDeltaMotionToMot
 ArticulationPImpl::ComputeUnconstrainedVelocitiesTGSFn ArticulationPImpl::sComputeUnconstrainedVelocitiesTGS[2] = { NULL, NULL };
 
 ArticulationPImpl::SetupInternalConstraintsTGSFn ArticulationPImpl::sSetupInternalConstraintsTGS[2] = { NULL, NULL };
-
 }
 }

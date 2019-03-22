@@ -60,6 +60,7 @@
 
 #include "../snippetcommon/SnippetPrint.h"
 #include "../snippetcommon/SnippetPVD.h"
+#include "../snippetutils/SnippetUtils.h"
 
 //This will allow the split sim to overlap collision and render and game logic.
 #define OVERLAP_COLLISION_AND_RENDER_WITH_NO_LAG  1
@@ -251,9 +252,8 @@ void updateKinematics(PxReal timeStep)
 	}
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
@@ -285,10 +285,9 @@ void initPhysics(bool interactive)
 }
 
 #if OVERLAP_COLLISION_AND_RENDER_WITH_NO_LAG
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	PxReal timeStep = 1.0f/60.0f;
+	const PxReal timeStep = 1.0f/60.0f;
 
 	if(isFirstFrame)
 	{
@@ -307,9 +306,8 @@ void stepPhysics(bool interactive)
 }
 #elif OVERLAP_COLLISION_AND_RENDER_WITH_ONE_FRAME_LAG
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	PxReal timeStep = 1.0/60.0f;
 
 	//update the kinematice target pose in parallel with collision running
@@ -328,9 +326,8 @@ void stepPhysics(bool interactive)
 
 #else
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	PxReal timeStep = 1.0/60.0f;
 	//update the kinematice target pose in parallel with collision running
 	gScene->collide(timeStep);
@@ -341,8 +338,7 @@ void stepPhysics(bool interactive)
 }
 #endif
 
-	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
 #if OVERLAP_COLLISION_AND_RENDER_WITH_NO_LAG || OVERLAP_COLLISION_AND_RENDER_WITH_ONE_FRAME_LAG
 	//Close out remainder of previously running scene. If we don't do this, it will be implicitly done
@@ -351,15 +347,17 @@ void cleanupPhysics(bool interactive)
 	gScene->advance();
 	gScene->fetchResults(true);
 #endif
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();	
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-    
-	gFoundation->release();
+
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetSplitSim done.\n");
 }

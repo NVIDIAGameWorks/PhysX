@@ -52,7 +52,7 @@ PX_FORCE_INLINE A PxUnionCast(B b)
 		 B _b;
 		 A _a;
 // needed for clang 7
-#if PX_LINUX && PX_CLANG 
+#if (PX_LINUX && PX_CLANG) || PX_PS4
 	} volatile u(b);
 #else
 	} u(b);

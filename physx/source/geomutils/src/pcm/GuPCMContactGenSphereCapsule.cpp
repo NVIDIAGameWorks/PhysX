@@ -306,9 +306,10 @@ namespace Gu
 
 
 	bool generateCapsuleBoxFullContactManifold(const CapsuleV& capsule, PolygonalData& polyData, SupportLocal* map, const PsMatTransformV& aToB, PersistentContact* manifoldContacts, PxU32& numContacts,
-		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const PxReal margin, const bool doOverlapTest, const PxReal toleranceScale)
+		const FloatVArg contactDist, Vec3V& normal, const Vec3VArg closest, const PxReal margin, const bool doOverlapTest, const PxReal toleranceScale, Cm::RenderOutput* renderOutput)
 	{
 		
+		PX_UNUSED(renderOutput);
 		const PxU32 originalContacts = numContacts;
 
 		const Gu::HullPolygonData* referencePolygon = NULL;
@@ -333,6 +334,12 @@ namespace Gu
 			
 		}
 
+#if PCM_LOW_LEVEL_DEBUG
+		const PxU8* inds = polyData.mPolygonVertexRefs + referencePolygon->mVRef8;
+		Vec3V* pointsInRef = reinterpret_cast<Vec3V*>(PxAllocaAligned(sizeof(Vec3V)*referencePolygon->mNbVerts, 16));
+		map->populateVerts(inds, referencePolygon->mNbVerts, polyData.mVerts, pointsInRef);
+		Gu::PersistentContactManifold::drawPolygon(*renderOutput, map->transform, pointsInRef, referencePolygon->mNbVerts, 0x00ff0000);
+#endif
 		generatedCapsuleBoxFaceContacts(capsule, polyData, *referencePolygon, map, aToB, manifoldContacts, numContacts, contactDist, normal);
 		const PxU32 faceContacts = numContacts - originalContacts;
 		if(faceContacts < 2)

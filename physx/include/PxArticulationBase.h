@@ -57,12 +57,6 @@ namespace physx
 	{
 	public:
 
-		enum Enum
-		{
-			eReducedCoordinate = 0,
-			eMaximumCoordinate = 1
-		};
-
 		/**
 		\brief Retrieves the scene which this articulation belongs to.
 
@@ -304,7 +298,6 @@ namespace physx
 
 		virtual		PxArticulationImpl*		getImpl() = 0;
 		virtual const PxArticulationImpl*	getImpl() const = 0;
-		virtual		PxArticulationBase::Enum getType() const = 0;
 
 		void*						userData;	//!< user can assign this to whatever, usually to create a 1:1 relationship with a user object.
 
@@ -313,7 +306,8 @@ namespace physx
 	protected:
 		PX_INLINE					PxArticulationBase(PxType concreteType, PxBaseFlags baseFlags) : PxBase(concreteType, baseFlags), userData(NULL) {}
 		PX_INLINE					PxArticulationBase(PxBaseFlags baseFlags) : PxBase(baseFlags) {}
-public:
+	
+	public:
 		virtual PxArticulationJointBase* createArticulationJoint(PxArticulationLink& parent, const PxTransform& parentFrame, PxArticulationLink& child, const PxTransform& childFrame) = 0;
 		virtual void					 releaseArticulationJoint(PxArticulationJointBase* joint) = 0;
 	};

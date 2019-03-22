@@ -65,19 +65,23 @@ namespace
 		return value;
 	}
 
-	bool readHeader(PxU8*& address, PxU32& version)
+	bool readHeader(PxU8*& address)
 	{
 		const PxU32 header = read32(address);
 		PX_UNUSED(header);
 		
-		version = read32(address);
+		const PxU32 version = read32(address);
+		PX_UNUSED(version);
 
-		const PxU32 binaryVersion = read32(address);
-		PX_UNUSED(binaryVersion);		
-		const PxU32 buildNumber = read32(address);
-		PX_UNUSED(buildNumber);
+		char binaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS + 1];
+		PxMemCopy(binaryVersionGuid, address, SN_BINARY_VERSION_GUID_NUM_CHARS);
+		binaryVersionGuid[SN_BINARY_VERSION_GUID_NUM_CHARS] = 0;
+		address += SN_BINARY_VERSION_GUID_NUM_CHARS;
+		PX_UNUSED(binaryVersionGuid);
+
 		const PxU32 platformTag = read32(address);
 		PX_UNUSED(platformTag);
+
 		const PxU32 markedPadding = read32(address);
 		PX_UNUSED(markedPadding);
 
@@ -89,14 +93,11 @@ namespace
 			return false;
 		}
 
-		if (!checkCompatibility(version, binaryVersion))
+		if (!checkCompatibility(binaryVersionGuid))
 		{
-			char buffer[512];
-		    getCompatibilityVersionsStr(buffer, 512);
-
 			Ps::getFoundation().error(physx::PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, 
-				"Buffer contains data version (%x-%d) is incompatible with this PhysX sdk.\n These versions would be compatible: %s",
-				version, binaryVersion, buffer);
+				"Buffer contains binary data version 0x%s and is incompatible with this PhysX sdk (0x%s).\n", 
+				binaryVersionGuid, getBinaryVersionGuid());
 			return false;
 		}
 
@@ -159,8 +160,7 @@ PxCollection* PxSerialization::createCollectionFromBinary(void* memBlock, PxSeri
 	PxU8* address = reinterpret_cast<PxU8*>(memBlock);
 	const Cm::Collection* externalRefs = static_cast<const Cm::Collection*>(pxExternalRefs);
 			
-	PxU32 version;
-	if (!readHeader(address, version))
+	if (!readHeader(address))
 	{
 		return NULL;
 	}
@@ -210,9 +210,9 @@ PxCollection* PxSerialization::createCollectionFromBinary(void* memBlock, PxSeri
 
 	// read internal references arrays
 	PxU32 nbInternalPtrReferences = 0;
-	PxU32 nbInternalIdxReferences = 0;
+	PxU32 nbInternalHandle16References = 0;
 	InternalReferencePtr* internalPtrReferences = NULL;
-	InternalReferenceIdx* internalIdxReferences = NULL;
+	InternalReferenceHandle16* internalHandle16References = NULL;
 	{
 		address = alignPtr(address);
 
@@ -220,41 +220,41 @@ PxCollection* PxSerialization::createCollectionFromBinary(void* memBlock, PxSeri
 		internalPtrReferences = (nbInternalPtrReferences > 0) ? reinterpret_cast<InternalReferencePtr*>(address) : NULL;
 		address += nbInternalPtrReferences*sizeof(InternalReferencePtr);
 
-		nbInternalIdxReferences = read32(address);
-		internalIdxReferences = (nbInternalIdxReferences > 0) ? reinterpret_cast<InternalReferenceIdx*>(address) : NULL;
-		address += nbInternalIdxReferences*sizeof(InternalReferenceIdx);
+		nbInternalHandle16References = read32(address);
+		internalHandle16References = (nbInternalHandle16References > 0) ? reinterpret_cast<InternalReferenceHandle16*>(address) : NULL;
+		address += nbInternalHandle16References*sizeof(InternalReferenceHandle16);
 	}
 
 	// create internal references map
-	PxF32 loadFactor = 0.75f;
-	PxF32 _loadFactor = 1.0f / loadFactor;
-	PxU32 hashSize = PxU32((nbInternalPtrReferences + nbInternalIdxReferences + 1)*_loadFactor);
-	InternalRefMap internalReferencesMap(hashSize, loadFactor);
+	InternalPtrRefMap internalPtrReferencesMap(nbInternalPtrReferences*2);
 	{
 		//create hash (we should load the hashes directly from memory)
-		for (PxU32 i=0;i<nbInternalPtrReferences;i++)
+		for (PxU32 i = 0; i < nbInternalPtrReferences; i++)
 		{
 			const InternalReferencePtr& ref = internalPtrReferences[i];
-			internalReferencesMap.insertUnique( InternalRefKey(ref.reference, ref.kind), SerialObjectIndex(ref.objIndex));
+			internalPtrReferencesMap.insertUnique(ref.reference, SerialObjectIndex(ref.objIndex));
 		}
-		for (PxU32 i=0;i<nbInternalIdxReferences;i++)
+	}
+	InternalHandle16RefMap internalHandle16ReferencesMap(nbInternalHandle16References*2);
+	{
+		for (PxU32 i=0;i<nbInternalHandle16References;i++)
 		{
-			const InternalReferenceIdx& ref = internalIdxReferences[i];
-			internalReferencesMap.insertUnique(InternalRefKey(ref.reference, ref.kind), SerialObjectIndex(ref.objIndex));
+			const InternalReferenceHandle16& ref = internalHandle16References[i];
+			internalHandle16ReferencesMap.insertUnique(ref.reference, SerialObjectIndex(ref.objIndex));
 		}
 	}
 
 	SerializationRegistry& sn = static_cast<SerializationRegistry&>(sr);
 	Cm::Collection* collection = static_cast<Cm::Collection*>(PxCreateCollection());
 	PX_ASSERT(collection);
-	collection->mObjects.reserve(PxU32(nbObjectsInCollection*_loadFactor) + 1);
+	collection->mObjects.reserve(nbObjectsInCollection*2);
 	if(nbExportReferences > 0)
-	    collection->mIds.reserve(PxU32(nbExportReferences*_loadFactor) + 1);
+	    collection->mIds.reserve(nbExportReferences*2);
 
 	PxU8* addressObjectData = alignPtr(address);
 	PxU8* addressExtraData = alignPtr(addressObjectData + objectDataEndOffset);
 
-	DeserializationContext context(manifestTable, importReferences, addressObjectData, internalReferencesMap, externalRefs, addressExtraData, version);
+	DeserializationContext context(manifestTable, importReferences, addressObjectData, internalPtrReferencesMap, internalHandle16ReferencesMap, externalRefs, addressExtraData);
 	
 	// iterate over memory containing PxBase objects, create the instances, resolve the addresses, import the external data, add to collection.
 	{

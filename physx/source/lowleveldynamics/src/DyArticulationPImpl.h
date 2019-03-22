@@ -60,8 +60,7 @@ public:
 													 const PxVec3& gravity, PxU64 contextID,
 													 Cm::SpatialVectorF* Z, Cm::SpatialVectorF* DeltaV);
 
-	typedef void (*UpdateBodiesFn)(const ArticulationSolverDesc& desc,
-								   PxReal dt);
+	typedef void (*UpdateBodiesFn)(const ArticulationSolverDesc& desc, PxReal dt);
 
 	typedef void (*SaveVelocityFn)(const ArticulationSolverDesc &m, Cm::SpatialVectorF* deltaV);
 

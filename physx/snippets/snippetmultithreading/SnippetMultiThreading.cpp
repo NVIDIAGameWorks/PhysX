@@ -233,16 +233,19 @@ void cleanupPhysics()
 	// Clean up the sync for the main thread.
 	SnippetUtils::syncRelease(gWorkDoneSyncHandle);
 
-	gScene->release();
+	PX_RELEASE(gScene);
 
-	gDispatcher->release();
+	PX_RELEASE(gDispatcher);
 
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
 
-  	gFoundation->release();
+  	PX_RELEASE(gFoundation);
 	
 	printf("SnippetMultiThreading done.\n");
 }

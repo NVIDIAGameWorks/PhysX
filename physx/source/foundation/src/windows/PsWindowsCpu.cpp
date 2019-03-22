@@ -42,7 +42,7 @@ namespace physx
 namespace shdfnd
 {
 
-#if PX_ARM
+#if PX_ARM || PX_A64
 #define cpuid(reg) reg[0] = reg[1] = reg[2] = reg[3] = 0;
 
 uint8_t Cpu::getCpuId()

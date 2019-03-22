@@ -102,6 +102,7 @@ namespace Gu
 														mNb.setBit();
 													}									
 
+		PX_PHYSX_COMMON_API			void			preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
 		PX_PHYSX_COMMON_API virtual	void			exportExtraData(PxSerializationContext& stream);
 		PX_PHYSX_COMMON_API			void			importExtraData(PxDeserializationContext& context);
 		PX_PHYSX_COMMON_API virtual	void			onRefCountZero();

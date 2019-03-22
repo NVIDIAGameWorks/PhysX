@@ -657,11 +657,10 @@ bool createFinalizeSolverContacts(
 		//Initialise solverConstraint buffer.
 		if (solverConstraint)
 		{
+			const PxSolverBodyData& data0 = *contactDesc.data0;
+			const PxSolverBodyData& data1 = *contactDesc.data1;
 			if (useExtContacts)
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
-
 				const SolverExtBody b0(reinterpret_cast<const void*>(contactDesc.body0), reinterpret_cast<const void*>(&data0), desc.linkIndexA);
 				const SolverExtBody b1(reinterpret_cast<const void*>(contactDesc.body1), reinterpret_cast<const void*>(&data1), desc.linkIndexB);
 
@@ -672,8 +671,6 @@ bool createFinalizeSolverContacts(
 			}
 			else
 			{
-				const PxSolverBodyData& data0 = *contactDesc.data0;
-				const PxSolverBodyData& data1 = *contactDesc.data1;
 				setupFinalizeSolverConstraints(contactDesc.shapeInteraction, contactDesc.contacts, c, contactDesc.bodyFrame0, contactDesc.bodyFrame1, solverConstraint,
 					data0, data1, invDtF32, bounceThresholdF32,
 					contactDesc.mInvMassScales.linear0, contactDesc.mInvMassScales.angular0, contactDesc.mInvMassScales.linear1, contactDesc.mInvMassScales.angular1, 

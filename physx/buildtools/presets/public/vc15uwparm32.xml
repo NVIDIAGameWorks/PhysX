@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="vc15uwparm32" comment="VC15 UWP 32bit PhysX general settings">
+  <platform targetPlatform="uwparm32" compiler="vc15" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="False" comment="Generate static libraries" />
+    <cmakeSwitch name="PX_FLOAT_POINT_PRECISE_MATH" value="False" comment="Float point precise math" />
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/vc15uwparm32/PhysX" comment="Install path relative to PhysX SDK root" />
+  </CMakeParams>
+</preset>

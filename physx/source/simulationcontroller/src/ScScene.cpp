@@ -94,6 +94,12 @@ using namespace physx::shdfnd;
 using namespace physx::Cm;
 using namespace physx::Dy;
 
+static PX_FORCE_INLINE Sc::ArticulationSim* getSim(const IG::IslandSim& islandSim, IG::NodeIndex nodeIndex)
+{
+	void* userData = islandSim.getLLArticulation(nodeIndex)->getUserData();
+	return reinterpret_cast<Sc::ArticulationSim*>(userData);
+}
+
 // slightly ugly, but we don't want a compile-time dependency on DY_ARTICULATION_MAX_SIZE in the ScScene.h header
 namespace physx { 
 #if PX_SUPPORT_GPU_PHYSX
@@ -2186,8 +2192,8 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	Cm::BitMap::Iterator articulateCCDIter(mSpeculativeCDDArticulationBitMap);
 	while ((index = articulateCCDIter.getNext()) != Cm::BitMap::Iterator::DONE)
 	{
-		Sc::ArticulationSim* articulationSim = islandSim.getLLArticulation(IG::NodeIndex(index))->getArticulationSim();
-		if (articulationSim)
+		Sc::ArticulationSim* articulationSim = getSim(islandSim, IG::NodeIndex(index));
+		if(articulationSim)
 		{
 			hasContactDistanceChanged = true;
 			articulationUpdateTask = PX_PLACEMENT_NEW(pool.allocate(sizeof(SpeculativeCCDContactDistanceArticulationUpdateTask)), SpeculativeCCDContactDistanceArticulationUpdateTask)(getContextId(), mContactDistance->begin(), mDt, *mBoundsArray);
@@ -2546,8 +2552,8 @@ PX_FORCE_INLINE void Sc::Scene::putObjectsToSleep(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToSleep;i++)
 	{
-		Sc::ArticulationSim* articSim = islandSim.getLLArticulation(articIndices[i])->getArticulationSim();
-		if (articSim && !islandSim.getNode(articIndices[i]).isActive())
+		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
+		if(articSim && !islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(false, infoFlag);
 	}
 }
@@ -2605,7 +2611,7 @@ PX_FORCE_INLINE void Sc::Scene::wakeObjectsUp(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToWake;i++)
 	{
-		Sc::ArticulationSim* articSim = islandSim.getLLArticulation(articIndices[i])->getArticulationSim();
+		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
 		if (articSim && islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(true, infoFlag);
 	}
@@ -2975,7 +2981,7 @@ public:
 				Sc::ShapeSim* sim = static_cast<Sc::ShapeSim*>(current);
 				if(sim->getFlags()&PxU32(PxShapeFlag::eSIMULATION_SHAPE | PxShapeFlag::eTRIGGER_SHAPE))
 				{
-					Ps::IntBool fastMovingShape = sim->updateSweptBounds();
+					const Ps::IntBool fastMovingShape = sim->updateSweptBounds();
 					activeShapes += fastMovingShape;
 
 					isFastMoving = isFastMoving | fastMovingShape;
@@ -2983,7 +2989,7 @@ public:
 				current = current->mNextInActor;
 			}
 
-			bodySim.getLowLevelBody().getCore().isFastMoving = PxU16(isFastMoving);
+			bodySim.getLowLevelBody().getCore().isFastMoving = isFastMoving!=0;
 		}
 
 		Ps::atomicAdd(mNumFastMovingShapes, PxI32(activeShapes));
@@ -3834,7 +3840,7 @@ public:
 
 		for (PxU32 a = 0; a < mNumArticulations; ++a)
 		{
-			Sc::ArticulationSim* PX_RESTRICT articSim = islandSim.getLLArticulation(mArticIndices[a])->getArticulationSim();
+			Sc::ArticulationSim* PX_RESTRICT articSim = getSim(islandSim, mArticIndices[a]);
 			articSim->checkResize();
 			articSim->updateForces(mDt, mSimUsesAdaptiveForce);
 			articSim->saveLastCCDTransform();
@@ -5446,13 +5452,12 @@ ArticulationV* Sc::Scene::createLLArticulation(Sc::ArticulationSim* sim)
 {
 	ArticulationV* articulation = NULL;
 	
-	if (sim->getCore().getArticulationType() == PxArticulationBase::eMaximumCoordinate)
+	if (!sim->getCore().isReducedCoordinate())
 	{
 		articulation =  mLLArticulationPool->construct(sim);
 	}
 	else 
 	{
-		PX_ASSERT(sim->getCore().getArticulationType() == PxArticulationBase::eReducedCoordinate);
 		articulation = mLLArticulationRCPool->construct(sim);
 	}
 
@@ -5461,11 +5466,11 @@ ArticulationV* Sc::Scene::createLLArticulation(Sc::ArticulationSim* sim)
 
 void Sc::Scene::destroyLLArticulation(ArticulationV& articulation)
 {
-	if (articulation.getType() == PxArticulationBase::eMaximumCoordinate)
+	if (articulation.getType() == Articulation::eMaximumCoordinate)
 		mLLArticulationPool->destroy(static_cast<Dy::Articulation*>(&articulation));
 	else
 	{
-		PX_ASSERT(articulation.getType() == PxArticulationBase::eReducedCoordinate);
+		PX_ASSERT(articulation.getType() == Articulation::eReducedCoordinate);
 		mLLArticulationRCPool->destroy(static_cast<Dy::FeatherstoneArticulation*>(&articulation));
 	}
 }

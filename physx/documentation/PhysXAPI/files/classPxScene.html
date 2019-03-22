@@ -311,7 +311,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0c756c7ad50f94675d3d8ff9ac12289b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the value of <a class="el" href="classPxSceneDesc.html#a038ba820b16315ea55c6e12a3cbe2b7f" title="Defines the structure used to store dynamic objects. ">PxSceneDesc::dynamicStructure</a> that was set when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#a0c756c7ad50f94675d3d8ff9ac12289b">More...</a><br /></td></tr>
 <tr class="separator:a0c756c7ad50f94675d3d8ff9ac12289b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#ab5b6fb6168a5fb8aa34299cbe73747ed">flushQueryUpdates</a> ()=0</td></tr>
-<tr class="memdesc:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes any changes in the simulation to the scene query representation.  <a href="#ab5b6fb6168a5fb8aa34299cbe73747ed">More...</a><br /></td></tr>
+<tr class="memdesc:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes any changes to the scene query representation.  <a href="#ab5b6fb6168a5fb8aa34299cbe73747ed">More...</a><br /></td></tr>
 <tr class="separator:ab5b6fb6168a5fb8aa34299cbe73747ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a080866698f34876134941cf42949592b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gafd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> <a class="el" href="classPxBatchQuery.html">PxBatchQuery</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a080866698f34876134941cf42949592b">createBatchQuery</a> (const <a class="el" href="classPxBatchQueryDesc.html">PxBatchQueryDesc</a> &amp;desc)=0</td></tr>
 <tr class="memdesc:a080866698f34876134941cf42949592b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a BatchQuery object.  <a href="#a080866698f34876134941cf42949592b">More...</a><br /></td></tr>
@@ -1276,11 +1276,10 @@ If the aggregate already contains actors, those actors are added to the scene as
 </table>
 </div><div class="memdoc">
 
-<p>Flushes any changes in the simulation to the scene query representation. </p>
+<p>Flushes any changes to the scene query representation. </p>
 <p>This method updates the state of the scene query representation to match changes in the scene state.</p>
 <p>By default, these changes are buffered until the next query is submitted. Calling this function will not change the results from scene queries, but can be used to ensure that a query will not perform update work in the course of its execution.</p>
-<p>A thread performing updates will hold a write lock on the query structure, and thus stall other querying threads. In multithread scenarios it can be useful to explicitly schedule the period where this lock may be held for a significant period, so that subsequent queries issued from multiple threads will not block.</p>
-<p>Note that while queries will block during the execution of this method, other read operations on the scene will not. </p>
+<p>A thread performing updates will hold a write lock on the query structure, and thus stall other querying threads. In multithread scenarios it can be useful to explicitly schedule the period where this lock may be held for a significant period, so that subsequent queries issued from multiple threads will not block. </p>
 
 </div>
 </div>

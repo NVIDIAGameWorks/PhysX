@@ -61,21 +61,17 @@ namespace physx
 		// accordingly.
 		//==================================================================================================
 	public:
-		virtual										~NpArticulationReducedCoordinate();
+		virtual											~NpArticulationReducedCoordinate();
 
-		//KS - todo - re-enable serialization later...
 		// PX_SERIALIZATION
-		NpArticulationReducedCoordinate(PxBaseFlags baseFlags) : NpArticulationTemplate(baseFlags)
-		{
-			mType = PxArticulationBase::eReducedCoordinate;
-		}
-
-		/*virtual			void						exportExtraData(PxSerializationContext& stream);
-		void						importExtraData(PxDeserializationContext& context);
-		void						resolveReferences(PxDeserializationContext& context);
-		virtual	        void						requires(PxProcessPxBaseCallback& c);
-		static			NpArticulation*				createObject(PxU8*& address, PxDeserializationContext& context);
-		static			void						getBinaryMetaData(PxOutputStream& stream);*/
+														NpArticulationReducedCoordinate(PxBaseFlags baseFlags)
+														:	NpArticulationTemplate(baseFlags) 
+														,	mLoopJoints(PxEmpty)
+														{}
+		
+					void								preExportDataReset();
+		static		NpArticulationReducedCoordinate*	createObject(PxU8*& address, PxDeserializationContext& context);
+		static		void								getBinaryMetaData(PxOutputStream& stream);
 		//~PX_SERIALIZATION
 
 		//---------------------------------------------------------------------------------
@@ -123,7 +119,9 @@ namespace physx
 
 		virtual		void						computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache) const;
 
-		virtual		void						computeCoefficentMatrix(PxArticulationCache& cache) const;
+		virtual		void						computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const;
+
+		virtual		void						computeCoefficientMatrix(PxArticulationCache& cache) const;
 
 		virtual		bool						computeLambda(PxArticulationCache& cache, PxArticulationCache& rollBackCache, const PxReal* const jointTorque, const PxU32 maxIter) const;
 
@@ -137,18 +135,18 @@ namespace physx
 
 		virtual		PxU32						getLoopJoints(PxJoint** userBuffer, PxU32 bufferSize, PxU32 startIndex = 0) const;
 
-		virtual		PxU32						getCoefficentMatrixSize() const;
+		virtual		PxU32						getCoefficientMatrixSize() const;
 
 		virtual		void						teleportRootLink(const PxTransform& pose, bool autowake);
 
-		virtual		const char*					getConcreteTypeName() const { return "PxArticulation"; }
+		virtual		const char*					getConcreteTypeName() const { return "PxArticulationReducedCoordinate"; }
 
 		//---------------------------------------------------------------------------------
 		// Miscellaneous
 		//---------------------------------------------------------------------------------
 		NpArticulationReducedCoordinate();
 
-		virtual		bool			isKindOf(const char* name) const { return !::strcmp("PxArticulation", name) || PxBase::isKindOf(name); }
+		virtual		bool			isKindOf(const char* name) const { return !::strcmp("PxArticulationReducedCoordinate", name) || PxBase::isKindOf(name); }
 
 		virtual PxArticulationJointBase* createArticulationJoint(PxArticulationLink& parent,
 			const PxTransform& parentFrame,

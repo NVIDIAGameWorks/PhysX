@@ -860,7 +860,7 @@
 </div>
 <div class="section" id="versioning">
 <span id="retargeting"></span><h4>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h4>
-<p>The binary serialized data is typically specific to the version of the SDK it was produced with. However, a SDK version can load the data of older SDK versions if the binary format didn't change. This is usually the case with bugfix releases. The compatible SDK versions are listed in the code documentation of <em>PX_BINARY_SERIAL_VERSION</em> in <em>PxSerialization.h</em>.</p>
+<p>The binary serialized data is typically specific to the version of the SDK it was produced with. However, a SDK version can load the data of older SDK versions if the binary format didn't change. This is usually the case with bugfix releases. The global unique identifier PX_BINARY_SERIAL_VERSION is used to version the binary data and is updated for every release with changed format.</p>
 </div>
 <div class="section" id="retargeting-to-other-platforms">
 <h4>Retargeting to other Platforms<a class="headerlink" href="#retargeting-to-other-platforms" title="Permalink to this headline">¶</a></h4>

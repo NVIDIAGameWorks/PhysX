@@ -52,7 +52,8 @@ class NpAggregate : public PxAggregate, public Ps::UserAllocated
 public:
 // PX_SERIALIZATION
 										NpAggregate(PxBaseFlags baseFlags) : PxAggregate(baseFlags), mAggregate(PxEmpty) {}
-	    virtual	        void	     	exportExtraData(PxSerializationContext& stream);
+						void			preExportDataReset();
+	    virtual	        void	     	exportExtraData(PxSerializationContext& context);
 						void			importExtraData(PxDeserializationContext& context);
 						void			resolveReferences(PxDeserializationContext& context);
 	    virtual	        void			requiresObjects(PxProcessPxBaseCallback& c);

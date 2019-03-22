@@ -41,7 +41,6 @@ namespace physx
 {
 namespace Sc
 {
-
 	class BodyCore;
 	class ArticulationJointSim;
 	class ArticulationCore;
@@ -49,10 +48,10 @@ namespace Sc
 	class ArticulationJointDesc
 	{
 	public:
-		BodyCore*			parent;
-		BodyCore*			child;
-		PxTransform			parentPose;
-		PxTransform			childPose;
+		BodyCore*	parent;
+		BodyCore*	child;
+		PxTransform	parentPose;
+		PxTransform	childPose;
 	};
 
 	class ArticulationJointCore : public Ps::UserAllocated
@@ -69,154 +68,141 @@ namespace Sc
 		//---------------------------------------------------------------------------------
 	public:
 // PX_SERIALIZATION
-							ArticulationJointCore(const PxEMPTY) : mSim(NULL), mCore(PxEmpty)	{}
-		static	void		getBinaryMetaData(PxOutputStream& stream);
+															ArticulationJointCore(const PxEMPTY) : mSim(NULL), mCore(PxEmpty)	{}
+						void								preExportDataReset() { mCore.dirtyFlag = Dy::ArticulationJointCoreDirtyFlag::eALL; }
+		static			void								getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
-							ArticulationJointCore( const PxTransform& parentFrame,
-												   const PxTransform& childFrame,
-													PxArticulationBase::Enum type);
-
-							~ArticulationJointCore();
+															ArticulationJointCore( const PxTransform& parentFrame, const PxTransform& childFrame, bool reducedCoordinate);
+															~ArticulationJointCore();
 
 		//---------------------------------------------------------------------------------
 		// External API
 		//---------------------------------------------------------------------------------
 
-		const PxTransform&	getParentPose() const { return mCore.parentPose; }
-		void				setParentPose(const PxTransform&);
+		PX_FORCE_INLINE	const PxTransform&					getParentPose() const { return mCore.parentPose; }
+						void								setParentPose(const PxTransform&);
 
-		const PxTransform&	getChildPose() const { return mCore.childPose; }
-		void				setChildPose(const PxTransform&);
+		PX_FORCE_INLINE	const PxTransform&					getChildPose() const { return mCore.childPose; }
+						void								setChildPose(const PxTransform&);
 
-		const PxQuat&		getTargetOrientation() const { return mCore.targetPosition; }
-		void				setTargetOrientation(const PxQuat&);
+		PX_FORCE_INLINE	const PxQuat&						getTargetOrientation() const { return mCore.targetPosition; }
+						void								setTargetOrientation(const PxQuat&);
 
+		PX_FORCE_INLINE	const PxVec3&						getTargetVelocity() const { return mCore.targetVelocity; }
+						void								setTargetVelocity(const PxVec3&);
 
-		const PxVec3&		getTargetVelocity() const { return mCore.targetVelocity; }
-		void				setTargetVelocity(const PxVec3&);
+		PX_FORCE_INLINE	PxReal								getStiffness() const { return mCore.spring; }
+						void								setStiffness(PxReal);
 
-		PxReal				getStiffness() const { return mCore.spring; }
-		void				setStiffness(PxReal);
+		PX_FORCE_INLINE	PxReal								getDamping() const { return mCore.damping; }
+						void								setDamping(PxReal);
 
-		PxReal				getDamping() const { return mCore.damping; }
-		void				setDamping(PxReal);
+		PX_FORCE_INLINE	PxReal								getInternalCompliance() const { return mCore.internalCompliance; }
+						void								setInternalCompliance(PxReal);
 
-		PxReal				getInternalCompliance() const { return mCore.internalCompliance; }
-		void				setInternalCompliance(PxReal);
+		PX_FORCE_INLINE	PxReal								getExternalCompliance() const { return mCore.externalCompliance; }
+						void								setExternalCompliance(PxReal);
 
-		PxReal				getExternalCompliance() const { return mCore.externalCompliance; }
-		void				setExternalCompliance(PxReal);
+		PX_FORCE_INLINE	void								getSwingLimit(PxReal& yLimit, PxReal& zLimit) const { yLimit = mCore.limits[PxArticulationAxis::eSWING1].low; zLimit = mCore.limits[PxArticulationAxis::eSWING2].low; }
+						void								setSwingLimit(PxReal yLimit, PxReal zLimit);
 
-		void				getSwingLimit(PxReal& yLimit, PxReal& zLimit) const { yLimit = mCore.limits[PxArticulationAxis::eSWING1].low; zLimit = mCore.limits[PxArticulationAxis::eSWING2].low; }
-		void				setSwingLimit(PxReal yLimit, PxReal zLimit);
+		PX_FORCE_INLINE	PxReal								getTangentialStiffness() const { return mCore.tangentialStiffness; }
+						void								setTangentialStiffness(PxReal);
 
-		PxReal				getTangentialStiffness() const { return mCore.tangentialStiffness; }
-		void				setTangentialStiffness(PxReal);
+		PX_FORCE_INLINE	PxReal								getTangentialDamping() const { return mCore.tangentialDamping; }
+						void								setTangentialDamping(PxReal);
 
-		PxReal				getTangentialDamping() const { return mCore.tangentialDamping; }
-		void				setTangentialDamping(PxReal);
+		PX_FORCE_INLINE	bool								getSwingLimitEnabled() const { return mCore.swingLimited; }
+						void								setSwingLimitEnabled(bool);
 
-		bool				getSwingLimitEnabled() const { return mCore.swingLimited; }
-		void				setSwingLimitEnabled(bool);
+		PX_FORCE_INLINE	PxReal								getSwingLimitContactDistance() const { return mCore.swingLimitContactDistance; }
+						void								setSwingLimitContactDistance(PxReal);
 
-		PxReal				getSwingLimitContactDistance() const { return mCore.swingLimitContactDistance; }
-		void				setSwingLimitContactDistance(PxReal);
+		PX_FORCE_INLINE	void								getTwistLimit(PxReal& lower, PxReal& upper) const { lower = mCore.limits[PxArticulationAxis::eTWIST].low; upper = mCore.limits[PxArticulationAxis::eTWIST].high; }
+						void								setTwistLimit(PxReal lower, PxReal upper);
 
-		void				getTwistLimit(PxReal& lower, PxReal& upper) const { lower = mCore.limits[PxArticulationAxis::eTWIST].low; upper = mCore.limits[PxArticulationAxis::eTWIST].high; }
-		void				setTwistLimit(PxReal lower, PxReal upper);
+						void								getLimit(PxArticulationAxis::Enum axis, PxReal& lower, PxReal& upper) const
+															{
+																lower = mCore.limits[axis].low;
+																upper = mCore.limits[axis].high;
+															}
 
-		void				getLimit(PxArticulationAxis::Enum axis, PxReal& lower, PxReal& upper) const
-		{
-			lower = mCore.limits[axis].low;
-			upper = mCore.limits[axis].high;
-		}
+						void								setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper)
+															{
+																mCore.limits[axis].low = lower;
+																mCore.limits[axis].high = upper;
+															}
 
-		void				setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper)
-		{
-			mCore.limits[axis].low = lower;
-			mCore.limits[axis].high = upper;
-		}
+						void								getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration) const
+															{
+																stiffness = mCore.drives[axis].stiffness;
+																damping = mCore.drives[axis].damping;
+																maxForce = mCore.drives[axis].maxForce;
+																isAcceleration = mCore.drives[axis].isAcceleration;
+															}
 
-		void				getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration) const
-		{
-			stiffness = mCore.drives[axis].stiffness;
-			damping = mCore.drives[axis].damping;
-			maxForce = mCore.drives[axis].maxForce;
-			isAcceleration = mCore.drives[axis].isAcceleration;
-		}
+						void								setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, bool isAcceleration)
+															{
+																mCore.drives[axis].stiffness = stiffness;
+																mCore.drives[axis].damping = damping;
+																mCore.drives[axis].maxForce = maxForce;
+																mCore.drives[axis].isAcceleration = isAcceleration;
+															}
 
-		void				setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, bool isAcceleration)
-		{
-			mCore.drives[axis].stiffness = stiffness;
-			mCore.drives[axis].damping = damping;
-			mCore.drives[axis].maxForce = maxForce;
-			mCore.drives[axis].isAcceleration = isAcceleration;
-		}
+						void								setTargetP(PxArticulationAxis::Enum axis, PxReal targetP);
+		PX_FORCE_INLINE	PxReal								getTargetP(PxArticulationAxis::Enum axis)	const	{ return mCore.targetP[axis];	}
 
-		void				setTargetP(PxArticulationAxis::Enum axis, PxReal targetP);
+						void								setTargetV(PxArticulationAxis::Enum axis, PxReal targetV);
+		PX_FORCE_INLINE	PxReal								getTargetV(PxArticulationAxis::Enum axis)	const	{ return mCore.targetV[axis];	}
 
-		PxReal				getTargetP(PxArticulationAxis::Enum axis) const
-		{
-			return mCore.targetP[axis];
-		}
+		PX_FORCE_INLINE	bool								getTwistLimitEnabled()						const	{ return mCore.twistLimited; }
+						void								setTwistLimitEnabled(bool);
 
-		void				setTargetV(PxArticulationAxis::Enum axis, PxReal targetV);
+		PX_FORCE_INLINE	PxReal								getTwistLimitContactDistance()				const	{ return mCore.twistLimitContactDistance; }
+						void								setTwistLimitContactDistance(PxReal);
 
-		PxReal				getTargetV(PxArticulationAxis::Enum axis) const
-		{
-			return mCore.targetV[axis];
-		}
+						void								setDriveType(PxArticulationJointDriveType::Enum type);
+						PxArticulationJointDriveType::Enum	getDriveType()								const	{ return PxArticulationJointDriveType::Enum(mCore.driveType); }
 
-		bool				getTwistLimitEnabled() const { return mCore.twistLimited; }
-		void				setTwistLimitEnabled(bool);
+						void								setJointType(PxArticulationJointType::Enum type);
+						PxArticulationJointType::Enum		getJointType()								const;
 
-		PxReal				getTwistLimitContactDistance() const { return mCore.twistLimitContactDistance; }
-		void				setTwistLimitContactDistance(PxReal);
+						void								setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
+						PxArticulationMotion::Enum			getMotion(PxArticulationAxis::Enum axis)	const;
 
-		void				setDriveType(PxArticulationJointDriveType::Enum type);
-		PxArticulationJointDriveType::Enum 
-							getDriveType() const					{ return PxArticulationJointDriveType::Enum(mCore.driveType); }
+						void								setFrictionCoefficient(const PxReal coefficient);
+						PxReal								getFrictionCoefficient()					const;
 
-		void				setJointType(PxArticulationJointType::Enum type);
-		PxArticulationJointType::Enum getJointType() const;
+						void								setMaxJointVelocity(const PxReal maxJointV);
+						PxReal								getMaxJointVelocity()						const;
 
+						PxArticulationJointBase*			getPxArticulationJointBase();
+						const PxArticulationJointBase*		getPxArticulationJointBase()				const;
 
-		void				setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
-		PxArticulationMotion::Enum		
-							getMotion(PxArticulationAxis::Enum axis) const;
-
-		void				setFrictionCoefficient(const PxReal coefficient);
-		PxReal				getFrictionCoefficient() const;
-
-		void				setMaxJointVelocity(const PxReal maxJointV);
-		PxReal				getMaxJointVelocity() const;
 		//---------------------------------------------------------------------------------
 		// Low Level data access - some wouldn't be needed if the interface wasn't virtual
 		//---------------------------------------------------------------------------------
 
-		PX_FORCE_INLINE	ArticulationJointSim*	getSim() const	{ return mSim;	}
-		PX_FORCE_INLINE	void					setSim(ArticulationJointSim* sim)
-												{
-													PX_ASSERT((sim==0) ^ (mSim == 0));
-													mSim = sim;
-												}
+		PX_FORCE_INLINE	ArticulationJointSim*				getSim()									const	{ return mSim;	}
+		PX_FORCE_INLINE	void								setSim(ArticulationJointSim* sim)
+															{
+																PX_ASSERT((sim==0) ^ (mSim == 0));
+																mSim = sim;
+															}
 
-		PX_FORCE_INLINE	Dy::ArticulationJointCore&	getCore() { return mCore; }
+		PX_FORCE_INLINE	Dy::ArticulationJointCore&			getCore()											{ return mCore; }
 
-		PX_FORCE_INLINE void setArticulation(ArticulationCore* articulation) 
-		{
-			mArticulation = articulation;
-		}
+		PX_FORCE_INLINE void								setArticulation(ArticulationCore* articulation)		{ mArticulation = articulation;	}
+		PX_FORCE_INLINE	const ArticulationCore*				getArticulation()							const	{ return mArticulation; }
 
-		PX_FORCE_INLINE void setRoot(PxArticulationJointBase* base) { mRootType = base; }
-		PX_FORCE_INLINE PxArticulationJointBase* getRoot() const { return mRootType; }
+		PX_FORCE_INLINE void								setRoot(PxArticulationJointBase* base)				{ mRootType = base; }
+		PX_FORCE_INLINE PxArticulationJointBase*			getRoot()									const	{ return mRootType; }
 
 	private:
-		ArticulationJointSim*		mSim;
-		Dy::ArticulationJointCore	mCore;
-		ArticulationCore*			mArticulation;
-		PxArticulationJointBase*	mRootType;
-
+						ArticulationJointSim*				mSim;
+						Dy::ArticulationJointCore			mCore;
+						ArticulationCore*					mArticulation;
+						PxArticulationJointBase*			mRootType;
 	};
 
 } // namespace Sc

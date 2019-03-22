@@ -386,50 +386,33 @@ PxF32 Gu::computeBoundsWithCCDThreshold(Vec3p& origin, Vec3p& extent, const PxGe
 	//The decision to enter CCD depends on the sum of the shapes' CCD thresholds. One of the 2 shapes must be a 
 	//sphere/capsule/box/convex so the sum of the CCD thresholds will be non-zero.
 
+	PxBounds3 bounds;
+
+	computeBounds(bounds, geometry, pose, 0.f, localSpaceBounds, 1.f);
+
+	origin = bounds.getCenter();
+	extent = bounds.getExtents();
+
 	switch (geometry.getType())
 	{
 		case PxGeometryType::eSPHERE:
 		{
-			PX_ASSERT(!localSpaceBounds);
-
 			const PxSphereGeometry& shape = static_cast<const PxSphereGeometry&>(geometry);
-			origin = pose.p;
-			extent = PxVec3(shape.radius, shape.radius, shape.radius);
 			return shape.radius*inSphereRatio;
 		}
 		case PxGeometryType::ePLANE:
 		{
-			PX_ASSERT(!localSpaceBounds);
-
-			PxBounds3 bounds;
-			computePlaneBounds(bounds, pose, 0.0f, 1.0f);
-			origin = bounds.getCenter();
-			extent = bounds.getExtents();
 			return PX_MAX_REAL;
 		}
 		case PxGeometryType::eCAPSULE:
 		{
-			PX_ASSERT(!localSpaceBounds);
-
 			const PxCapsuleGeometry& shape = static_cast<const PxCapsuleGeometry&>(geometry);
-			origin = pose.p;
-			const PxVec3 d = pose.q.getBasisVector0();
-			for(PxU32 ax = 0; ax<3; ax++)
-				extent[ax] = PxAbs(d[ax]) * shape.halfHeight + shape.radius;
 			return shape.radius * inSphereRatio;
 		}
 
 		case PxGeometryType::eBOX:
 		{
-			PX_ASSERT(!localSpaceBounds);
-
 			const PxBoxGeometry& shape = static_cast<const PxBoxGeometry&>(geometry);
-
-			const PxMat33 rot(pose.q);
-			extent = Cm::basisExtent(rot.column0, rot.column1, rot.column2, shape.halfExtents);
-
-			origin = pose.p;
-
 			return PxMin(PxMin(shape.halfExtents.x, shape.halfExtents.y), shape.halfExtents.z)*inSphereRatio;
 		}
 
@@ -437,23 +420,16 @@ PxF32 Gu::computeBoundsWithCCDThreshold(Vec3p& origin, Vec3p& extent, const PxGe
 		{
 			const PxConvexMeshGeometry& shape = static_cast<const PxConvexMeshGeometry&>(geometry);
 			const Gu::ConvexHullData& hullData = static_cast<const Gu::ConvexMesh*>(shape.convexMesh)->getHull();
-			computeMeshBounds(pose, localSpaceBounds ? localSpaceBounds : &hullData.getPaddedBounds(), shape.scale, origin, extent);
 			return PxMin(shape.scale.scale.z, PxMin(shape.scale.scale.x, shape.scale.scale.y)) * hullData.mInternal.mRadius * inSphereRatio;
 		}
 
 		case PxGeometryType::eTRIANGLEMESH:
 		{
-			const PxTriangleMeshGeometry& shape = static_cast<const PxTriangleMeshGeometry&>(geometry);
-			computeMeshBounds(pose, localSpaceBounds ? localSpaceBounds : &static_cast<const Gu::TriangleMesh*>(shape.triangleMesh)->getPaddedBounds(), shape.scale, origin, extent);
 			return 0.0f;
 		}
 
 		case PxGeometryType::eHEIGHTFIELD:
 		{
-			const PxHeightFieldGeometry& shape = static_cast<const PxHeightFieldGeometry&>(geometry);
-			const PxMeshScale scale(PxVec3(shape.rowScale, shape.heightScale, shape.columnScale), PxQuat(PxIdentity));
-			const Gu::HeightFieldData& data = static_cast<const Gu::HeightField*>(shape.heightField)->getData();
-			computeMeshBounds(pose, localSpaceBounds ? localSpaceBounds : &data.getPaddedBounds(), scale, origin, extent);
 			return 0.f;
 		}
 

@@ -56,6 +56,7 @@ namespace Sc
 	class RigidCore;
 	class BodyCore;
 	class ArticulationCore;
+	class ArticulationJointCore;
 	class ConstraintCore;
 	class ShapeCore;
 
@@ -63,24 +64,47 @@ namespace Sc
 	{
 		PX_FORCE_INLINE OffsetTable() {}
 
-		PX_FORCE_INLINE PxActor*				convertScRigidStatic2PxActor(StaticCore* sc)					const	{ return Ps::pointerOffset<PxActor*>(sc, scRigidStatic2PxActor);					}
-		PX_FORCE_INLINE PxActor*				convertScRigidDynamic2PxActor(BodyCore* sc)						const	{ return Ps::pointerOffset<PxActor*>(sc, scRigidDynamic2PxActor);					}
-		PX_FORCE_INLINE PxActor*				convertScArticulationLink2PxActor(BodyCore* sc)					const	{ return Ps::pointerOffset<PxActor*>(sc, scArticulationLink2PxActor);				}
+		PX_FORCE_INLINE PxActor*					convertScRigidStatic2PxActor(StaticCore* sc)			const	{ return Ps::pointerOffset<PxActor*>(sc, scRigidStatic2PxActor);				}
+		PX_FORCE_INLINE PxActor*					convertScRigidDynamic2PxActor(BodyCore* sc)				const	{ return Ps::pointerOffset<PxActor*>(sc, scRigidDynamic2PxActor);				}
+		PX_FORCE_INLINE PxActor*					convertScArticulationLink2PxActor(BodyCore* sc)			const	{ return Ps::pointerOffset<PxActor*>(sc, scArticulationLink2PxActor);			}
 
-		PX_FORCE_INLINE PxShape*				convertScShape2Px(ShapeCore* sc)								const	{ return Ps::pointerOffset<PxShape*>(sc, scShape2Px);								}
-		PX_FORCE_INLINE const PxShape*			convertScShape2Px(const ShapeCore* sc)							const	{ return Ps::pointerOffset<const PxShape*>(sc, scShape2Px);							}
+		PX_FORCE_INLINE PxShape*					convertScShape2Px(ShapeCore* sc)						const	{ return Ps::pointerOffset<PxShape*>(sc, scShape2Px);							}
+		PX_FORCE_INLINE const PxShape*				convertScShape2Px(const ShapeCore* sc)					const	{ return Ps::pointerOffset<const PxShape*>(sc, scShape2Px);						}
 
-		PX_FORCE_INLINE PxArticulation*			convertScArticulation2Px(ArticulationCore* sc)					const	{ return Ps::pointerOffset<PxArticulation*>(sc, scArticulation2Px);					}
-		PX_FORCE_INLINE const PxArticulation*	convertScArticulation2Px(const ArticulationCore* sc)			const	{ return Ps::pointerOffset<const PxArticulation*>(sc, scArticulation2Px);			}
+		PX_FORCE_INLINE PxConstraint*				convertScConstraint2Px(ConstraintCore* sc)				const	{ return Ps::pointerOffset<PxConstraint*>(sc, scConstraint2Px);					}
+		PX_FORCE_INLINE const PxConstraint*			convertScConstraint2Px(const ConstraintCore* sc)		const	{ return Ps::pointerOffset<const PxConstraint*>(sc, scConstraint2Px);			}
 
-		PX_FORCE_INLINE PxConstraint*			convertScConstraint2Px(ConstraintCore* sc)						const	{ return Ps::pointerOffset<PxConstraint*>(sc, scConstraint2Px);						}
-		PX_FORCE_INLINE const PxConstraint*		convertScConstraint2Px(const ConstraintCore* sc)				const	{ return Ps::pointerOffset<const PxConstraint*>(sc, scConstraint2Px);				}
+		PX_FORCE_INLINE PxArticulationBase*			convertScArticulation2Px(ArticulationCore* sc, bool isRC) const	
+		{
+			ptrdiff_t sc2Px = isRC ? scArticulationRC2Px : scArticulationMC2Px;
+			return Ps::pointerOffset<PxArticulationBase*>(sc, sc2Px);
+		}
+		PX_FORCE_INLINE const PxArticulationBase*	convertScArticulation2Px(const ArticulationCore* sc, bool isRC)	const
+		{
+			ptrdiff_t sc2Px = isRC ? scArticulationRC2Px : scArticulationMC2Px;
+			return Ps::pointerOffset<const PxArticulationBase*>(sc, sc2Px);
+		}
+
+		PX_FORCE_INLINE PxArticulationJointBase*	convertScArticulationJoint2Px(ArticulationJointCore* sc, bool isRC) const	
+		{
+			ptrdiff_t sc2Px = isRC ? scArticulationJointRC2Px : scArticulationJointMC2Px;
+			return Ps::pointerOffset<PxArticulationJointBase*>(sc, sc2Px);
+		}
+		PX_FORCE_INLINE const PxArticulationJointBase* convertScArticulationJoint2Px(const ArticulationJointCore* sc, bool isRC)	const
+		{
+			ptrdiff_t sc2Px = isRC ? scArticulationJointRC2Px : scArticulationJointMC2Px;
+			return Ps::pointerOffset<const PxArticulationJointBase*>(sc, sc2Px);
+		}
+
 
 		ptrdiff_t	scRigidStatic2PxActor;
 		ptrdiff_t 	scRigidDynamic2PxActor;
 		ptrdiff_t 	scArticulationLink2PxActor;
 		ptrdiff_t 	scShape2Px;
-		ptrdiff_t 	scArticulation2Px;
+		ptrdiff_t 	scArticulationMC2Px;
+		ptrdiff_t 	scArticulationRC2Px;
+		ptrdiff_t 	scArticulationJointMC2Px;
+		ptrdiff_t 	scArticulationJointRC2Px;
 		ptrdiff_t 	scSoftBody2Px;
 		ptrdiff_t 	scConstraint2Px;
 

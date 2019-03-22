@@ -29,10 +29,7 @@
 
 #include "ExtPrismaticJoint.h"
 #include "ExtConstraintHelper.h"
-#include "CmRenderOutput.h"
-#include "CmVisualization.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;

@@ -57,41 +57,40 @@ public:
 	Scb::ArticulationJoint			mJoint;
 	NpArticulationLink*				mParent;
 	NpArticulationLink*				mChild;
-	PxArticulationBase::Enum		mType;
 
 	PX_INLINE PxArticulationJointImpl(NpArticulationLink& parent,
 		const PxTransform& parentFrame,
 		NpArticulationLink& child,
-		const PxTransform& childFrame,
-		PxArticulationBase::Enum type);
+		const PxTransform& childFrame, 
+		bool reducedCoordinate);
 
 // PX_SERIALIZATION
-	PX_INLINE PxArticulationJointImpl(const PxEMPTY) : mJoint(PxEmpty) {}
+	PX_INLINE									PxArticulationJointImpl(const PxEMPTY) : mJoint(PxEmpty) {}
+	PX_INLINE	void							resolveReferences(PxDeserializationContext& context, PxArticulationJointBase& pxArticulationJoint);
+	static		void							getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
-	PX_INLINE NpScene*						getOwnerScene() const; // the scene the user thinks the actor is in, or from which the actor is pending removal
+	PX_INLINE	NpScene*						getOwnerScene() const; // the scene the user thinks the actor is in, or from which the actor is pending removal
 
-	PX_INLINE void							release();
+	PX_INLINE	void							release();
 
 	PX_INLINE	const Scb::ArticulationJoint&	getScbArticulationJoint() const { return mJoint; }
-	PX_INLINE	Scb::ArticulationJoint&			getScbArticulationJoint() { return mJoint; }
+	PX_INLINE	Scb::ArticulationJoint&			getScbArticulationJoint()		{ return mJoint; }
 
-	PX_INLINE PxArticulationLink&	getParentArticulationLink() const;
-	PX_INLINE PxArticulationLink&	getChildArticulationLink() const;
+	PX_INLINE	PxArticulationLink&				getParentArticulationLink() const;
+	PX_INLINE	PxArticulationLink&				getChildArticulationLink() const;
 
-	PX_INLINE PxTransform			getParentPose() const;
-	PX_INLINE void				setParentPose(const PxTransform&);
+	PX_INLINE	PxTransform						getParentPose() const;
+	PX_INLINE	void							setParentPose(const PxTransform&);
 
-	PX_INLINE PxTransform			getChildPose() const;
-	PX_INLINE void				setChildPose(const PxTransform&);
+	PX_INLINE	PxTransform						getChildPose() const;
+	PX_INLINE	void							setChildPose(const PxTransform&);
 
-	PX_INLINE	const NpArticulationLink&		getParent() const { return *mParent; }
-	PX_INLINE	NpArticulationLink&				getParent() { return *mParent; }
+	PX_INLINE	const NpArticulationLink&		getParent() const	{ return *mParent; }
+	PX_INLINE	NpArticulationLink&				getParent()			{ return *mParent; }
 
-	PX_INLINE	const NpArticulationLink&		getChild() const { return *mChild; }
-	PX_INLINE	NpArticulationLink&				getChild() { return *mChild; }
-
-	PX_INLINE void resolveReferences(PxDeserializationContext& context);
+	PX_INLINE	const NpArticulationLink&		getChild() const	{ return *mChild; }
+	PX_INLINE	NpArticulationLink&				getChild()			{ return *mChild; }
 };
 
 template <typename APIClass>
@@ -106,37 +105,30 @@ class NpArticulationJointTemplate : public APIClass, public Ps::UserAllocated
 public:
 
 // PX_SERIALIZATION
-	NpArticulationJointTemplate(PxBaseFlags baseFlags) : APIClass(baseFlags), mImpl(PxEmpty)
-	{
-		mImpl.getScbArticulationJoint().getScArticulationJoint().setRoot(this);
-	}
+												NpArticulationJointTemplate(PxBaseFlags baseFlags) : APIClass(baseFlags), mImpl(PxEmpty) {}
+				void							preExportDataReset() { mImpl.mJoint.preExportDataReset(); }
 //~PX_SERIALIZATION
 
-	NpArticulationJointTemplate(NpArticulationLink& parent,
-		const PxTransform& parentFrame,
-		NpArticulationLink& child,
-		const PxTransform& childFrame,
-		PxArticulationBase::Enum type = PxArticulationBase::eMaximumCoordinate);
-
-	virtual							~NpArticulationJointTemplate() {}
+												NpArticulationJointTemplate(PxType concreteType, NpArticulationLink& parent, const PxTransform& parentFrame, NpArticulationLink& child, const PxTransform& childFrame);
+	virtual										~NpArticulationJointTemplate() {}
 
 	//---------------------------------------------------------------------------------
 	// Miscellaneous
 	//---------------------------------------------------------------------------------
 public:
-	void				release();
+				void							release();
 
 	PX_INLINE	const Scb::ArticulationJoint&	getScbArticulationJoint() const { return mImpl.getScbArticulationJoint(); }
 	PX_INLINE	Scb::ArticulationJoint&			getScbArticulationJoint() { return mImpl.getScbArticulationJoint(); }
 
-	virtual     PxArticulationLink&	getParentArticulationLink() const { return mImpl.getParentArticulationLink(); }
-	virtual     PxArticulationLink&	getChildArticulationLink() const { return mImpl.getChildArticulationLink(); }
+	virtual     PxArticulationLink&				getParentArticulationLink() const { return mImpl.getParentArticulationLink(); }
+	virtual     PxArticulationLink&				getChildArticulationLink() const { return mImpl.getChildArticulationLink(); }
 
-	virtual		PxTransform			getParentPose() const { return mImpl.getParentPose(); }
-	virtual		void				setParentPose(const PxTransform& t) { mImpl.setParentPose(t); }
+	virtual		PxTransform						getParentPose() const { return mImpl.getParentPose(); }
+	virtual		void							setParentPose(const PxTransform& t) { mImpl.setParentPose(t); }
 
-	virtual		PxTransform			getChildPose() const { return mImpl.getChildPose(); }
-	virtual		void				setChildPose(const PxTransform& t) { mImpl.setChildPose(t); }
+	virtual		PxTransform						getChildPose() const { return mImpl.getChildPose(); }
+	virtual		void							setChildPose(const PxTransform& t) { mImpl.setChildPose(t); }
 
 	PX_INLINE	const NpArticulationLink&		getParent() const { return mImpl.getParent(); }
 	PX_INLINE	NpArticulationLink&				getParent() { return mImpl.getParent(); }
@@ -144,14 +136,13 @@ public:
 	PX_INLINE	const NpArticulationLink&		getChild() const { return mImpl.getChild(); }
 	PX_INLINE	NpArticulationLink&				getChild() { return mImpl.getChild(); }
 
-	virtual		PxArticulationJointImpl* getImpl() { return &mImpl; }
-	virtual		const PxArticulationJointImpl* getImpl() const { return &mImpl; }
+	virtual		PxArticulationJointImpl*		getImpl() { return &mImpl; }
+	virtual		const PxArticulationJointImpl*	getImpl() const { return &mImpl; }
 
-protected:
+public:
+				NpScene*						getOwnerScene() const { return mImpl.getOwnerScene(); }
 
-	NpScene*						getOwnerScene() const { return mImpl.getOwnerScene(); }
-
-	PxArticulationJointImpl			mImpl;
+				PxArticulationJointImpl			mImpl;
 };
 
 class NpArticulationJoint : public NpArticulationJointTemplate<PxArticulationJoint>
@@ -164,87 +155,75 @@ class NpArticulationJoint : public NpArticulationJointTemplate<PxArticulationJoi
 //==================================================================================================
 public:
 // PX_SERIALIZATION
-									NpArticulationJoint(PxBaseFlags baseFlags) : NpArticulationJointTemplate(baseFlags)	{}
-	virtual		void				resolveReferences(PxDeserializationContext& context);
-	static		NpArticulationJoint* createObject(PxU8*& address, PxDeserializationContext& context);
-	static		void				getBinaryMetaData(PxOutputStream& stream);
-				void				exportExtraData(PxSerializationContext&)	{}
-				void				importExtraData(PxDeserializationContext&)	{}
-	virtual		void				requiresObjects(PxProcessPxBaseCallback&){}	
-	virtual		bool			    isSubordinate()  const	 { return true; }           
+													NpArticulationJoint(PxBaseFlags baseFlags) : NpArticulationJointTemplate(baseFlags)	{}
+	virtual		void								resolveReferences(PxDeserializationContext& context);
+	static		NpArticulationJoint* 				createObject(PxU8*& address, PxDeserializationContext& context);
+	static		void								getBinaryMetaData(PxOutputStream& stream);
+				void								exportExtraData(PxSerializationContext&)	{}
+				void								importExtraData(PxDeserializationContext&)	{}
+	virtual		void								requiresObjects(PxProcessPxBaseCallback&){}	
+	virtual		bool			  					  isSubordinate()  const	 { return true; }           
 //~PX_SERIALIZATION
-									NpArticulationJoint(NpArticulationLink& parent, 
-														const PxTransform& parentFrame,
-														NpArticulationLink& child,
-														const PxTransform& childFrame);
-
-	virtual							~NpArticulationJoint();
+													NpArticulationJoint(NpArticulationLink& parent, const PxTransform& parentFrame, NpArticulationLink& child, const PxTransform& childFrame);
+	virtual											~NpArticulationJoint();
 
 	//---------------------------------------------------------------------------------
 	// PxArticulationJoint implementation
 	//---------------------------------------------------------------------------------
-	// Save
-	
 
-	virtual		void				setTargetOrientation(const PxQuat&);
-	virtual		PxQuat				getTargetOrientation() const;
+	virtual		void								setTargetOrientation(const PxQuat&);
+	virtual		PxQuat								getTargetOrientation() const;
 
+	virtual		void								setTargetVelocity(const PxVec3&);
+	virtual		PxVec3								getTargetVelocity() const;
 
-	virtual		void				setTargetVelocity(const PxVec3&);
-	virtual		PxVec3				getTargetVelocity() const;
+	virtual		void								setDriveType(PxArticulationJointDriveType::Enum driveType);
+	virtual		PxArticulationJointDriveType::Enum	getDriveType() const;
 
-	virtual		void				setDriveType(PxArticulationJointDriveType::Enum driveType);
-	virtual		PxArticulationJointDriveType::Enum
-									getDriveType() const;
+	virtual		void								setStiffness(PxReal);
+	virtual		PxReal								getStiffness() const;
 
+	virtual		void								setDamping(PxReal);
+	virtual		PxReal								getDamping() const;
 
-	virtual		void				setStiffness(PxReal);
-	virtual		PxReal				getStiffness() const;
+	virtual		void								setInternalCompliance(PxReal);
+	virtual		PxReal								getInternalCompliance() const;
 
-	virtual		void				setDamping(PxReal);
-	virtual		PxReal				getDamping() const;
+	virtual		void								setExternalCompliance(PxReal);
+	virtual		PxReal								getExternalCompliance() const;
 
-	virtual		void				setInternalCompliance(PxReal);
-	virtual		PxReal				getInternalCompliance() const;
+	virtual		void								setSwingLimit(PxReal yLimit, PxReal zLimit);
+	virtual		void								getSwingLimit(PxReal &yLimit, PxReal &zLimit) const;
 
-	virtual		void				setExternalCompliance(PxReal);
-	virtual		PxReal				getExternalCompliance() const;
+	virtual		void								setTangentialStiffness(PxReal spring);
+	virtual		PxReal								getTangentialStiffness() const;
 
-	virtual		void				setSwingLimit(PxReal yLimit, PxReal zLimit);
-	virtual		void				getSwingLimit(PxReal &yLimit, PxReal &zLimit) const;
+	virtual		void								setTangentialDamping(PxReal damping);
+	virtual		PxReal								getTangentialDamping() const;
 
-	virtual		void				setTangentialStiffness(PxReal spring);
-	virtual		PxReal				getTangentialStiffness() const;
+	virtual		void								setSwingLimitEnabled(bool);
+	virtual		bool								getSwingLimitEnabled() const;
 
-	virtual		void				setTangentialDamping(PxReal damping);
-	virtual		PxReal				getTangentialDamping() const;
+	virtual		void								setSwingLimitContactDistance(PxReal contactDistance);
+	virtual		PxReal								getSwingLimitContactDistance() const;
 
-	virtual		void				setSwingLimitEnabled(bool);
-	virtual		bool				getSwingLimitEnabled() const;
+	virtual		void								setTwistLimit(PxReal lower, PxReal upper);
+	virtual		void								getTwistLimit(PxReal &lower, PxReal &upper) const;
 
-	virtual		void				setSwingLimitContactDistance(PxReal contactDistance);
-	virtual		PxReal				getSwingLimitContactDistance() const;
+	virtual		void								setTwistLimitEnabled(bool);
+	virtual		bool								getTwistLimitEnabled() const;
 
-	virtual		void				setTwistLimit(PxReal lower, PxReal upper);
-	virtual		void				getTwistLimit(PxReal &lower, PxReal &upper) const;
+	virtual		void								setTwistLimitContactDistance(PxReal contactDistance);
+	virtual		PxReal								getTwistLimitContactDistance() const;
 
-	virtual		void				setTwistLimitEnabled(bool);
-	virtual		bool				getTwistLimitEnabled() const;
+	virtual		void								setJointType(PxArticulationJointType::Enum jointType);
+	virtual		PxArticulationJointType::Enum		getJointType() const;
 
-	virtual		void				setTwistLimitContactDistance(PxReal contactDistance);
-	virtual		PxReal				getTwistLimitContactDistance() const;
+	virtual		void								setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
+	virtual		PxArticulationMotion::Enum			getMotion(PxArticulationAxis::Enum axis) const;
 
-	virtual		void				setJointType(PxArticulationJointType::Enum jointType);
-	virtual		PxArticulationJointType::Enum
-									getJointType() const;
-
-	virtual		void				setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
-	virtual		PxArticulationMotion::Enum		
-									getMotion(PxArticulationAxis::Enum axis) const;
-
-	virtual		void				setFrictionCoefficient(const PxReal coefficient);
-
-	virtual		PxReal				getFrictionCoefficient() const ;
+	virtual		void								setFrictionCoefficient(const PxReal coefficient);
+	virtual		PxReal								getFrictionCoefficient() const ;
 };
 
 PX_INLINE PxArticulationLink&	PxArticulationJointImpl::getParentArticulationLink() const
@@ -252,19 +231,16 @@ PX_INLINE PxArticulationLink&	PxArticulationJointImpl::getParentArticulationLink
 	return *mParent;
 }
 
-
 PX_INLINE PxArticulationLink&	PxArticulationJointImpl::getChildArticulationLink() const
 {
 	return *mChild;
 }
 
-
 PX_INLINE PxTransform	PxArticulationJointImpl::getParentPose() const
 {
 	NP_READ_CHECK(getOwnerScene());
-	return mJoint.getParentPose();
+	return mParent->getCMassLocalPose().transform(mJoint.getParentPose());
 }
-
 
 PX_INLINE void PxArticulationJointImpl::setParentPose(const PxTransform& t)
 {
@@ -277,14 +253,12 @@ PX_INLINE void PxArticulationJointImpl::setParentPose(const PxTransform& t)
 	mJoint.setParentPose(mParent->getCMassLocalPose().transformInv(t.getNormalized()));
 }
 
-
 PX_INLINE PxTransform PxArticulationJointImpl::getChildPose() const
 {
 	NP_READ_CHECK(getOwnerScene());
 
 	return mChild->getCMassLocalPose().transform(mJoint.getChildPose());
 }
-
 
 PX_INLINE void PxArticulationJointImpl::setChildPose(const PxTransform& t)
 {
@@ -295,26 +269,22 @@ PX_INLINE void PxArticulationJointImpl::setChildPose(const PxTransform& t)
 	mJoint.setChildPose(mChild->getCMassLocalPose().transformInv(t.getNormalized()));
 }
 
-
 PX_INLINE NpScene* PxArticulationJointImpl::getOwnerScene() const
 {
 	return mJoint.getScbScene() ? static_cast<NpScene *>(mJoint.getScbScene()->getPxScene()) : NULL;
 }
 
-
 PX_INLINE PxArticulationJointImpl::PxArticulationJointImpl(NpArticulationLink& parent,
 	const PxTransform& parentFrame,
 	NpArticulationLink& child,
 	const PxTransform& childFrame,
-	PxArticulationBase::Enum type)
-	: mJoint(parentFrame, childFrame, type)
+	bool reducedCoordinate)
+	: mJoint(parentFrame, childFrame, reducedCoordinate)
 	, mParent(&parent)
 	, mChild(&child)
-	, mType(type)
 {
 	PxArticulationImpl* impl = parent.getRoot().getImpl();
-	Scb::Articulation& scbArti = impl->getArticulation();
-	mJoint.setScArticulation(&scbArti);
+	mJoint.setScArticulation(&impl->getScbArticulation());
 }
 
 PX_INLINE void PxArticulationJointImpl::release()
@@ -325,10 +295,13 @@ PX_INLINE void PxArticulationJointImpl::release()
 	mJoint.destroy();
 }
 
-PX_INLINE void PxArticulationJointImpl::resolveReferences(PxDeserializationContext& context)
+PX_INLINE void PxArticulationJointImpl::resolveReferences(PxDeserializationContext& context, PxArticulationJointBase& pxArticulationJoint)
 {
 	context.translatePxBase(mParent);
 	context.translatePxBase(mChild);
+	getScbArticulationJoint().getScArticulationJoint().setRoot(&pxArticulationJoint);
+	//articulation backlink can't be set yet, because articulation wasn't constructed yet
+	//see NpArticulationTemplate<APIClass>::resolveReferences
 }
 
 template <typename APIClass>
@@ -338,17 +311,16 @@ void NpArticulationJointTemplate<APIClass>::release()
 	mImpl.release();
 }
 
-
 template <typename APIClass>
-NpArticulationJointTemplate<APIClass>::NpArticulationJointTemplate(NpArticulationLink& parent,
+NpArticulationJointTemplate<APIClass>::NpArticulationJointTemplate(
+	PxType concreteType,
+	NpArticulationLink& parent,
 	const PxTransform& parentFrame,
 	NpArticulationLink& child,
-	const PxTransform& childFrame,
-	PxArticulationBase::Enum type)
-	: APIClass(PxConcreteType::eARTICULATION_JOINT, PxBaseFlag::eOWNS_MEMORY),
-	  mImpl(parent, parentFrame, child, childFrame, type)
+	const PxTransform& childFrame)
+	: APIClass(concreteType, PxBaseFlag::eOWNS_MEMORY),
+	  mImpl(parent, parentFrame, child, childFrame, concreteType == PxConcreteType::eARTICULATION_JOINT_REDUCED_COORDINATE)
 {
-	PX_UNUSED(type);
 	mImpl.getScbArticulationJoint().getScArticulationJoint().setRoot(this);
 }
 

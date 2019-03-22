@@ -150,6 +150,13 @@ namespace physx {
 			mFilter.mOperator.popName();
 		}
 
+		void operator()( const PxRigidActorGlobalPosePropertyInfo& inProp, PxU32 ) 
+		{
+			mFilter.mOperator.pushName( inProp.mName );
+			mFilter.mOperator.handleRigidActorGlobalPose( inProp );
+			mFilter.mOperator.popName();
+		}
+
 		void operator()( const PxRigidActorShapeCollection& inProp, PxU32 )
 		{
 			mFilter.mOperator.pushName( "Shapes" );
@@ -203,6 +210,7 @@ namespace physx {
 		DEFINE_REPX_PROPERTY_NOP( PxScene* )
 		DEFINE_REPX_PROPERTY_NOP( PxAggregate * )
 		DEFINE_REPX_PROPERTY_NOP( PxArticulation& )
+		DEFINE_REPX_PROPERTY_NOP( PxArticulationReducedCoordinate& )
 		DEFINE_REPX_PROPERTY_NOP( const PxArticulationLink * )
 		DEFINE_REPX_PROPERTY_NOP( const PxRigidDynamic * )
 		DEFINE_REPX_PROPERTY_NOP( const PxRigidStatic * )

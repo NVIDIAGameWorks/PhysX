@@ -213,7 +213,7 @@ namespace Dy
 
 		PX_FORCE_INLINE PxTransform&				getPreTransform(const PxU32 index)						{ return mPreTransform[index];				}
 		PX_FORCE_INLINE const PxTransform&			getPreTransform(const PxU32 index)				const	{ return mPreTransform[index];				}
-		PX_FORCE_INLINE void						setPreTransform(const PxU32 index, const PxTransform& t){ mPreTransform[index] = t;					}
+//		PX_FORCE_INLINE void						setPreTransform(const PxU32 index, const PxTransform& t){ mPreTransform[index] = t;					}
 		PX_FORCE_INLINE PxTransform*				getPreTransform()										{ return mPreTransform.begin();				}
 
 		PX_FORCE_INLINE const Cm::SpatialVectorF&	getDeltaMotionVector(const PxU32 index) const			{ return mDeltaMotionVector[index];			}
@@ -230,8 +230,9 @@ namespace Dy
 
 		PX_FORCE_INLINE ArticulationJointCoreData*	getJointData()									const	{ return mJointData;						}
 						ArticulationJointCoreData&	getJointData(PxU32 index)						const	{ return mJointData[index];					}
+		// PT: PX-1399
+		PX_FORCE_INLINE PxArticulationFlags			getArticulationFlags()							const	{ return *mFlags;							}
 
-		PX_FORCE_INLINE const ArticulationCore*		getCore()										const	{ return mCore;								}
 		PX_FORCE_INLINE Cm::SpatialVector*			getExternalAccelerations()								{ return mExternalAcceleration;				}
 
 		PX_FORCE_INLINE PxU32						getSolverDataSize()								const	{ return mSolverDataSize;					}
@@ -287,7 +288,7 @@ namespace Dy
 		PxReal										mDt;
 		PxU32										mDofs;
 		PxU32										mLocks;
-		const ArticulationCore*						mCore;
+		const PxArticulationFlags*					mFlags;	// PT: PX-1399
 		Cm::SpatialVector*							mExternalAcceleration;
 		PxU32										mSolverDataSize;
 		bool										mDataDirty; //this means we need to call commonInit()
@@ -358,7 +359,7 @@ namespace Dy
 	public:
 		// public interface
 
-		FeatherstoneArticulation(Sc::ArticulationSim*);
+		FeatherstoneArticulation(void*);
 		~FeatherstoneArticulation();
 
 		// get data sizes for allocation at higher levels
@@ -399,12 +400,14 @@ namespace Dy
 
 		virtual void		getKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache);
 
+		virtual void		getDenseJacobian(PxArticulationCache& cache, PxU32 & nRows, PxU32 & nCols);
+
 		//These two functions are for closed loop system
 		void				getKMatrix(ArticulationJointCore* loopJoint, const PxU32 parentIndex, const PxU32 childIndex, PxArticulationCache& cache);
 
-		virtual void		getCoefficentMatrix(const PxReal dt, const PxU32 linkID, const PxContactJoint* contactJoints, const PxU32 nbContacts, PxArticulationCache& cache);
+		virtual void		getCoefficientMatrix(const PxReal dt, const PxU32 linkID, const PxContactJoint* contactJoints, const PxU32 nbContacts, PxArticulationCache& cache);
 
-		virtual void		getCoefficentMatrixWithLoopJoints(ArticulationLoopConstraint* lConstraints, const PxU32 nbJoints, PxArticulationCache& cache);
+		virtual void		getCoefficientMatrixWithLoopJoints(ArticulationLoopConstraint* lConstraints, const PxU32 nbJoints, PxArticulationCache& cache);
 
 		virtual bool		getLambda(ArticulationLoopConstraint* lConstraints, const PxU32 nbJoints, PxArticulationCache& cache, PxArticulationCache& rollBackCache, 
 			const PxReal* jointTorque, const PxVec3& gravity, const PxU32 maxIter);
@@ -471,7 +474,7 @@ namespace Dy
 
 		static void updateBodiesTGS(const ArticulationSolverDesc& desc, PxReal dt);
 
-		static void updateBodies(const ArticulationSolverDesc& desc, PxReal dt, bool integrateJointPosition);
+		static void updateBodies(FeatherstoneArticulation* articulation, PxReal dt, bool integrateJointPosition);
 
 		static void recordDeltaMotion(const ArticulationSolverDesc& desc, const PxReal dt, Cm::SpatialVectorF* deltaV);
 
@@ -515,12 +518,13 @@ namespace Dy
 			PxReal* jVelocities, PxReal* jAcceleration, PxReal* jPosition, PxReal* jointForce,
 			const PxArticulationCacheFlags flag);
 
-		PX_FORCE_INLINE	ArticulationData&	getArticulationData()			{ return mArticulationData;	}
+		PX_FORCE_INLINE	ArticulationData&		getArticulationData()			{ return mArticulationData;	}
+		PX_FORCE_INLINE	const ArticulationData&	getArticulationData()	const	{ return mArticulationData;	}
 
 		PX_FORCE_INLINE	void				setGpuRemapId(const PxU32 id)	{ mGpuRemapId = id;			}
 		PX_FORCE_INLINE	PxU32				getGpuRemapId()		const		{ return mGpuRemapId;		}
 
-	private:
+	protected:
 		void constraintPrep(ArticulationLoopConstraint* lConstraints, const PxU32 nbJoints,
 			Cm::SpatialVectorF* Z, PxSolverConstraintPrepDesc& prepDesc, PxSolverBody& sBody,
 			PxSolverBodyData& sBodyData, PxSolverConstraintDesc* desc, PxConstraintAllocator& allocator);
@@ -558,8 +562,7 @@ namespace Dy
 		void computeD(ArticulationData& data, ScratchData& scratchData,
 			Cm::SpatialVectorF* tZ, Cm::SpatialVectorF* tDeltaV);
 
-		void solveInternalConstraints(const PxReal dt, const PxReal invDt, Cm::SpatialVectorF* impulses, Cm::SpatialVectorF* DeltaV,
-			bool velocityIteration);
+		void solveInternalConstraints(const PxReal dt, const PxReal invDt, Cm::SpatialVectorF* impulses, Cm::SpatialVectorF* DeltaV, bool velocityIteration);
 
 		//compute coriolis force
 		void computeC(ArticulationData& data, ScratchData& scratchData);
@@ -664,10 +667,10 @@ namespace Dy
 			PxReal* jointVelocites);
 
 		void inverseDynamic(ArticulationData& data, const PxVec3& gravity,
-			ScratchData& scratchData);
+			ScratchData& scratchData, bool computeCoriolis);
 
 		void inverseDynamicFloatingBase(ArticulationData& data, const PxVec3& gravity,
-			ScratchData& scratchData);
+			ScratchData& scratchData, bool computeCoriolis);
 
 		//compute link body force with motion velocity and acceleration
 		void computeZAForceInv(ArticulationData& data, ScratchData& scratchData);

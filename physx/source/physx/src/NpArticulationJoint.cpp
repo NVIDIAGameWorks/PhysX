@@ -35,10 +35,6 @@
 namespace physx
 {
 // PX_SERIALIZATION
-void NpArticulationJoint::resolveReferences(PxDeserializationContext& context)
-{
-	mImpl.resolveReferences(context);
-}
 
 NpArticulationJoint* NpArticulationJoint::createObject(PxU8*& address, PxDeserializationContext& context)
 {
@@ -48,13 +44,19 @@ NpArticulationJoint* NpArticulationJoint::createObject(PxU8*& address, PxDeseria
 	obj->resolveReferences(context);
 	return obj;
 }
+
+void NpArticulationJoint::resolveReferences(PxDeserializationContext& context)
+{
+	mImpl.resolveReferences(context, *this);
+}
+
 // ~PX_SERIALIZATION
 
 NpArticulationJoint::NpArticulationJoint(NpArticulationLink& parent, 
 										 const PxTransform& parentFrame,
 										 NpArticulationLink& child, 
 										 const PxTransform& childFrame) 
-: NpArticulationJointTemplate(parent, parentFrame, child, childFrame)
+: NpArticulationJointTemplate(PxConcreteType::eARTICULATION_JOINT, parent, parentFrame, child, childFrame)
 {
 }
 

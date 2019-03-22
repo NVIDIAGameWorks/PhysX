@@ -70,7 +70,6 @@ SET(LL_COMMON_PIPELINE_HEADERS
 	${LL_COMMON_DIR}/include/pipeline/PxcNpMemBlockPool.h
 	${LL_COMMON_DIR}/include/pipeline/PxcNpThreadContext.h
 	${LL_COMMON_DIR}/include/pipeline/PxcNpWorkUnit.h
-	${LL_COMMON_DIR}/include/pipeline/PxcRigidBody.h
 )
 SOURCE_GROUP("Common Includes\\pipeline" FILES ${LL_COMMON_PIPELINE_HEADERS})
 SET(LL_COMMON_UTILS_HEADERS	

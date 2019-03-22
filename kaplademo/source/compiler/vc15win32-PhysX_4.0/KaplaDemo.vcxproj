@@ -206,7 +206,7 @@
 			<AdditionalLibraryDirectories>./../../../../physx/bin/win.x86_32.vc141.mt/$(ConfigurationName);./../../../externals/glew-1.13.0/lib/WIN32;./../../../externals/glut-3.7.6/lib/WIN32;./../../../externals/hbao+3.0/lib/WIN32;./../../../externals/cg/2.2/lib;./../../../lib/VC15WIN32;./../../../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<ProgramDatabaseFile>$(OutDir)/$(ProjectName)PROFILE.exe.pdb</ProgramDatabaseFile>
 			<SubSystem>Console</SubSystem>
-			<ImportLibrary>./../../../lib/VC15WIN32/CHECKED/$(TargetName).lib</ImportLibrary>
+			<ImportLibrary>./../../../lib/VC15WIN32/PROFILE/$(TargetName).lib</ImportLibrary>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<TargetMachine>MachineX86</TargetMachine>
 		</Link>

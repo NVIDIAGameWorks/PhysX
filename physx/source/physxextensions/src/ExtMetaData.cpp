@@ -40,6 +40,7 @@
 #include "ExtPrismaticJoint.h"
 #include "serialization/SnSerializationRegistry.h"
 #include "serialization/Binary/SnSerializationContext.h"
+#include "PxMetaData.h"
 
 using namespace physx;
 using namespace Cm;
@@ -402,13 +403,12 @@ void getBinaryMetaData_SerializationContext(PxOutputStream& stream)
 	
 	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferencePtr)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	void,		            reference,  PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	PxU32,		            kind,   	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	SerialObjectIndex,	    objIndex,  	0)
 
-	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferenceIdx)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	PxU32,		            reference,  0)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	PxU32,		            kind,   	0)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	SerialObjectIndex,	    objIndex,  	0)
+	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferenceHandle16)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	PxU16,		            reference,  PxMetaDataFlag::eHANDLE)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	PxU16,		            pad,		PxMetaDataFlag::ePADDING)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	SerialObjectIndex,	    objIndex,  	0)
 }
 
 namespace physx

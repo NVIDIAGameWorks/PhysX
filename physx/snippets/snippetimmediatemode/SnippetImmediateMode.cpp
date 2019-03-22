@@ -208,8 +208,8 @@ public:
 	virtual ~TestConstraintAllocator() {}
 };
 
-TestCacheAllocator* gCacheAllocator;
-TestConstraintAllocator* gConstraintAllocator;
+static TestCacheAllocator* gCacheAllocator = NULL;
+static TestConstraintAllocator* gConstraintAllocator = NULL;
 
 struct ContactPair
 {
@@ -241,45 +241,44 @@ public:
 	virtual bool recordContacts(const Gu::ContactPoint* contactPoints, const PxU32 nbContacts, const PxU32 index)
 	{
 		PX_UNUSED(index);
-		ContactPair pair;
-		pair.actor0 = &mActor0;
-		pair.actor1 = &mActor1;
-		pair.nbContacts = nbContacts;
-		pair.startContactIndex = mContactPoints.size();
-		pair.idx0 = mIdx0;
-		pair.idx1 = mIdx1;
+		{
+			ContactPair pair;
+			pair.actor0				= &mActor0;
+			pair.actor1				= &mActor1;
+			pair.nbContacts			= nbContacts;
+			pair.startContactIndex	= mContactPoints.size();
+			pair.idx0				= mIdx0;
+			pair.idx1				= mIdx1;
+			mContactPairs.pushBack(pair);
+			mHasContacts = true;
+		}
 
 		for (PxU32 c = 0; c < nbContacts; ++c)
 		{
 			//Fill in solver-specific data that our contact gen does not produce...
 
 			Gu::ContactPoint point = contactPoints[c];
-			point.maxImpulse = PX_MAX_F32;
-			point.targetVel = PxVec3(0.f);
-			point.staticFriction = 0.5f;
-			point.dynamicFriction = 0.5f;
-			point.restitution = 0.6f;
-			point.materialFlags = 0;
+			point.maxImpulse		= PX_MAX_F32;
+			point.targetVel			= PxVec3(0.f);
+			point.staticFriction	= 0.5f;
+			point.dynamicFriction	= 0.5f;
+			point.restitution		= 0.6f;
+			point.materialFlags		= 0;
 			mContactPoints.pushBack(point);
 		}
-
-		mContactPairs.pushBack(pair);
-		mHasContacts = true;
 		return true;
 	}
 
-	PX_FORCE_INLINE bool hasContacts() { return mHasContacts; }
+	PX_FORCE_INLINE bool hasContacts() const	{ return mHasContacts; }
 private:
 	PX_NOCOPY(TestContactRecorder)
 };
 
-static bool generateContacts(PxGeometryHolder& geom0, PxGeometryHolder& geom1, PxRigidDynamic& actor0, PxRigidActor& actor1, PxCacheAllocator& cacheAllocator, Array<Gu::ContactPoint>& contactPoints,
-	Array<ContactPair>& contactPairs, PxU32 idx0, PxU32 idx1, PxCache& cache)
+static bool generateContacts(	const PxGeometryHolder& geom0, const PxGeometryHolder& geom1, PxRigidDynamic& actor0, PxRigidActor& actor1, PxCacheAllocator& cacheAllocator,
+								Array<Gu::ContactPoint>& contactPoints, Array<ContactPair>& contactPairs, PxU32 idx0, PxU32 idx1, PxCache& cache)
 {
-	Gu::ContactBuffer buffer;
-
-	PxTransform tr0 = actor0.getGlobalPose();
-	PxTransform tr1 = actor1.getGlobalPose();
+	const PxTransform tr0 = actor0.getGlobalPose();
+	const PxTransform tr1 = actor1.getGlobalPose();
 
 	TestContactRecorder recorder(contactPairs, contactPoints, actor0, actor1, idx0, idx1);
 
@@ -418,7 +417,6 @@ static PxTriangleMesh* createMeshGround()
 static void updateContactPairs()
 {
 #if WITH_PERSISTENCY
-	
 	allContactCache->clear();
 
 	const PxU32 nbDynamic = gScene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC);
@@ -511,10 +509,8 @@ void initPhysics(bool /*interactive*/)
 	updateContactPairs();
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gCacheAllocator->reset();
 	gConstraintAllocator->release();
 
@@ -600,10 +596,10 @@ void stepPhysics(bool interactive)
 		const ContactPair& pair = activePairs[a];
 
 		PxRigidDynamic* dyn0 = pair.actor0;
-		PxGeometryHolder& holder0 = mGeometries[pair.idx0];
+		const PxGeometryHolder& holder0 = mGeometries[pair.idx0];
 
 		PxRigidActor* actor1 = pair.actor1;
-		PxGeometryHolder& holder1 = mGeometries[pair.idx1];
+		const PxGeometryHolder& holder1 = mGeometries[pair.idx1];
 
 #if WITH_PERSISTENCY
 		const PxU32 startIndex = pair.idx0 == 0 ? 0 : (pair.idx0 * totalActors) - (pair.idx0 * (pair.idx0 + 1)) / 2;
@@ -633,17 +629,17 @@ void stepPhysics(bool interactive)
 		PxRigidDynamic* dyn = actors[a]->is<PxRigidDynamic>();
 
 		immediate::PxRigidBodyData data;
-		data.linearVelocity = dyn->getLinearVelocity();
-		data.angularVelocity = dyn->getAngularVelocity();
-		data.invMass = dyn->getInvMass();
-		data.invInertia = dyn->getMassSpaceInvInertiaTensor();		
-		data.body2World = dyn->getGlobalPose();
-		data.maxDepenetrationVelocity = dyn->getMaxDepenetrationVelocity();
-		data.maxContactImpulse = dyn->getMaxContactImpulse();
-		data.linearDamping = dyn->getLinearDamping();
-		data.angularDamping = dyn->getAngularDamping();
-		data.maxLinearVelocitySq = 100.f*100.f*gUnitScale*gUnitScale;
-		data.maxAngularVelocitySq = 7.f*7.f;
+		data.linearVelocity				= dyn->getLinearVelocity();
+		data.angularVelocity			= dyn->getAngularVelocity();
+		data.invMass					= dyn->getInvMass();
+		data.invInertia					= dyn->getMassSpaceInvInertiaTensor();		
+		data.body2World					= dyn->getGlobalPose();
+		data.maxDepenetrationVelocity	= dyn->getMaxDepenetrationVelocity();
+		data.maxContactImpulse			= dyn->getMaxContactImpulse();
+		data.linearDamping				= dyn->getLinearDamping();
+		data.angularDamping				= dyn->getAngularDamping();
+		data.maxLinearVelocitySq		= 100.f*100.f*gUnitScale*gUnitScale;
+		data.maxAngularVelocitySq		= 7.f*7.f;
 
 		physx::immediate::PxConstructSolverBodies(&data, &bodyData[a], 1, gravity, dt);
 
@@ -759,17 +755,19 @@ void stepPhysics(bool interactive)
 		PX_ASSERT(header.mConstraintType == PxSolverConstraintDesc::eCONTACT_CONSTRAINT);
 		PxSolverContactDesc contactDescs[4];
 
-		ContactPair* pairs[4];
-
+#if WITH_PERSISTENCY
+		const ContactPair* pairs[4];
+#endif
 		for (PxU32 a = 0; a < header.mStride; ++a)
 		{
 			PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
 			PxSolverContactDesc& contactDesc = contactDescs[a];
 			//Extract the contact pair that we saved in this structure earlier.
-			ContactPair& pair = *reinterpret_cast<ContactPair*>(constraintDesc.constraint);
+			const ContactPair& pair = *reinterpret_cast<const ContactPair*>(constraintDesc.constraint);
 
+#if WITH_PERSISTENCY
 			pairs[a] = &pair;
-
+#endif
 			contactDesc.body0 = constraintDesc.bodyA;
 			contactDesc.body1 = constraintDesc.bodyB;
 			contactDesc.data0 = &bodyData[constraintDesc.bodyADataIndex];
@@ -813,7 +811,7 @@ void stepPhysics(bool interactive)
 			//Cache friction information...
 			PxSolverContactDesc& contactDesc = contactDescs[a];
 			//PxSolverConstraintDesc& constraintDesc = orderedDescs[header.mStartIndex + a];
-			ContactPair& pair = *pairs[a];
+			const ContactPair& pair = *pairs[a];
 
 			const PxU32 startIndex = pair.idx0 == 0 ? 0 : (pair.idx0 * totalActors) - (pair.idx0 * (pair.idx0 + 1)) / 2;
 
@@ -901,38 +899,20 @@ void stepPhysics(bool interactive)
 	}
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
 
-	if (gScene)
-	{
-		gScene->release();
-		gScene = NULL;
-	}
-	if (gDispatcher)
-	{
-		gDispatcher->release();
-		gDispatcher = NULL;
-	}
-	
-	if (gPhysics)
-	{
-		gPhysics->release();
-		gPhysics = NULL;
-
-	}
-	if (gPvd)
+	if(gPvd)
 	{
 		PxPvdTransport* transport = gPvd->getTransport();
-		gPvd->release();
-		transport->release();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
 	}
-	if (gCooking)
-	{
-		gCooking->release();
-		gCooking = NULL;
-	}
+
+	PX_RELEASE(gCooking);
 
 	delete gCacheAllocator;
 	delete gConstraintAllocator;
@@ -941,11 +921,7 @@ void cleanupPhysics(bool interactive)
 	delete allContactCache;
 #endif
 
-	if (gFoundation)
-	{
-		gFoundation->release();
-		gFoundation = NULL;
-	}
+	PX_RELEASE(gFoundation);
 
 	printf("SnippetImmediateMode done.\n");
 }

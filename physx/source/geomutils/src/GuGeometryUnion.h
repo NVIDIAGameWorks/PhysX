@@ -90,7 +90,13 @@ struct PX_PHYSX_COMMON_API MaterialIndicesStruct
 	static void getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
-	MaterialIndicesStruct() : indices(NULL), numIndices(0)
+	MaterialIndicesStruct()
+	:	indices(NULL)
+	,	numIndices(0)
+	,	pad(PX_PADDING_16)
+#if PX_P64_FAMILY
+	,	pad64(PX_PADDING_32)
+#endif
 	{
 	}
 

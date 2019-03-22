@@ -35,7 +35,7 @@
 // physx/PhysXMetaDataGenerator/llvm/tools/clang/lib/Frontend/PhysXMetaDataAction.cpp
 #include "PxExtensionMetaDataObjects.h"
 #include "PxMetaDataCppPrefix.h"
-#include "PxExtensionsAPI.h"
+#include "extensions/PxExtensionsAPI.h"
 using namespace physx;
 void setPxJoint_Actors( PxJoint* inObj, PxRigidActor * inArg0, PxRigidActor * inArg1 ) { inObj->setActors( inArg0, inArg1 ); }
 void getPxJoint_Actors( const PxJoint* inObj, PxRigidActor *& inArg0, PxRigidActor *& inArg1 ) { inObj->getActors( inArg0, inArg1 ); }

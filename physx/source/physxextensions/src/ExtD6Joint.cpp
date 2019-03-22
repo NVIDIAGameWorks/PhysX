@@ -29,16 +29,13 @@
 
 #include "ExtD6Joint.h"
 #include "ExtConstraintHelper.h"
-#include "CmRenderOutput.h"
 #include "CmConeLimitHelper.h"
-#include "PxTolerancesScale.h"
-#include "CmUtils.h"
-#include "PxConstraint.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
+#include "PxRenderBuffer.h"
 
 using namespace physx;
 using namespace Ext;
+using namespace shdfnd;
 
 PxD6Joint* physx::PxD6JointCreate(PxPhysics& physics, PxRigidActor* actor0, const PxTransform& localFrame0, PxRigidActor* actor1, const PxTransform& localFrame1)
 {

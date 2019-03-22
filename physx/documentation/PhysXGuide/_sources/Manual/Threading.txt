@@ -205,7 +205,7 @@ The PxExtensions library has default implementations for all dispatcher types, t
     #if PX_WINDOWS
         // create GPU dispatcher
         PxCudaContextManagerDesc cudaContextManagerDesc;
-        mCudaContextManager = PxCreateCudaContextManager(cudaContextManagerDesc);
+        mCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
         sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
     #endif
         [...]

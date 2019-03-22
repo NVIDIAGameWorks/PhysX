@@ -58,7 +58,6 @@ public:
 
 void Sc::ActorCore::getBinaryMetaData(PxOutputStream& stream)
 {
-	// 16 bytes
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxActorFlags,     PxU8)
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxDominanceGroup, PxU8)
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxClientID,       PxU8)
@@ -113,7 +112,8 @@ namespace
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxReal,		solverWakeCounter,		0)
 			PX_DEF_BIN_METADATA_ITEM(stream, 		ShadowPxsBodyCore, PxU32,		numCountedInteractions,	0)
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU32,		numBodyInteractions,	0)
-			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU16,		isFastMoving,			0)
+			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		isFastMoving,			0)
+			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		disableGravity,			0)
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU16,		lockFlags,				0)
 		}
 	};
@@ -164,7 +164,6 @@ void Sc::BodyCore::getBinaryMetaData(PxOutputStream& stream)
 	getBinaryMetaData_PxsBodyCore(stream);
 	PX_DEF_BIN_METADATA_TYPEDEF(stream, PxRigidBodyFlags, PxU8)
 
-// 176 => 144 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		Sc::BodyCore)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	Sc::BodyCore, Sc::RigidCore)
 
@@ -216,7 +215,8 @@ void Sc::MaterialCore::getBinaryMetaData(PxOutputStream& stream)
 
 	// MaterialCore
 	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxMaterial,		mNxMaterial,			PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU32,			mMaterialIndex,			0)
+	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU16,			mMaterialIndex,			PxMetaDataFlag::eHANDLE)
+	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU16,			mPadding,				PxMetaDataFlag::ePADDING)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -260,7 +260,7 @@ static void getBinaryMetaData_PxsShapeCore(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxReal,				contactOffset,	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxShapeFlags,		mShapeFlags,	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU8,				mOwnsMaterialIdxMemory,	0)
-	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU16,				materialIndex,	0)
+	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU16,				materialIndex,	PxMetaDataFlag::eHANDLE)
 }
 
 void Sc::ShapeCore::getBinaryMetaData(PxOutputStream& stream)
@@ -270,7 +270,6 @@ void Sc::ShapeCore::getBinaryMetaData(PxOutputStream& stream)
 
 	PX_DEF_BIN_METADATA_TYPEDEF(stream, PxShapeFlags, PxU8)
 
-// 144 => 128 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	ShapeCore)
 
 	PX_DEF_BIN_METADATA_ITEM(stream,	ShapeCore, PxFilterData,	mQueryFilterData,		0)
@@ -306,9 +305,9 @@ void Sc::ArticulationCore::getBinaryMetaData(PxOutputStream& stream)
 
 	PX_DEF_BIN_METADATA_CLASS(stream,	ArticulationCore)
 
-	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, ArticulationSim,		mSim,		PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, Dy::ArticulationCore,	mCore,		0)
-	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, PxU32,				mType,		0)
+	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, ArticulationSim,		mSim,					PxMetaDataFlag::ePTR)
+	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, Dy::ArticulationCore,	mCore,					0)
+	PX_DEF_BIN_METADATA_ITEM(stream,	ArticulationCore, bool,					mIsReducedCoordinate,	0)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -337,7 +336,6 @@ static void getBinaryMetaData_ArticulationJointCoreBase(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_CLASS(stream, Dy::ArticulationJointCoreBase)	
 
 	PX_DEF_BIN_METADATA_TYPEDEF(stream, ArticulationJointCoreDirtyFlags, PxU8)
-	PX_DEF_BIN_METADATA_TYPEDEF(stream, PxArticulationMotions, PxU8)
 
 	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxTransform, parentPose, 0)
 	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxTransform, childPose, 0)
@@ -355,7 +353,7 @@ static void getBinaryMetaData_ArticulationJointCoreBase(PxOutputStream& stream)
 
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxU8, dofIds, 0)
 
-	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxArticulationMotions, motion, 0)
+	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxU8, motion, 0)
 
 	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxReal, maxJointVelocity, 0)
 

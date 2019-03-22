@@ -203,9 +203,9 @@ static bool checkFile(bool& isBinary, const char* filename)
 		return false;
 	}
 
-	char testString[512];
-	fileStream.read(testString, 18);
-	testString[18] = 0;
+	char testString[17];
+	fileStream.read(testString, 16);
+	testString[16] = 0;
 
 	if (strcmp("SEBD", testString) == 0)
 	{
@@ -213,7 +213,7 @@ static bool checkFile(bool& isBinary, const char* filename)
 		return true;
 	}
 
-	if (strcmp("<PhysX", testString) == 0)
+	if (strcmp("<PhysXCollection", testString) == 0)
 	{
 		isBinary = false;
 		return true;
@@ -277,22 +277,25 @@ void initPhysics()
 
 void cleanupPhysics()
 {	
-	gSerializationRegistry->release();
-	gScene->release();
-	gDispatcher->release();
+	PX_RELEASE(gSerializationRegistry);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
 		
-	gPhysics->release();	// releases of all objects	
-	gCooking->release();
+	PX_RELEASE(gPhysics);	// releases of all objects	
+	PX_RELEASE(gCooking);
 
 	for(PxU32 i=0; i<gNbMemBlocks; i++)
 		free(gMemBlocks[i]); // now that the objects have been released, it's safe to release the space they occupy
 
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
 
-	gFoundation->release();
+	PX_RELEASE(gFoundation);
 
 	printf("SnippetLoadCollection done.\n");
 }
@@ -418,8 +421,11 @@ int snippetMain(int argc, const char *const* argv)
 	if (firstCollection)
 		firstCollection->release();
 
+	for (unsigned i = 0; i < 20; i++)
+	{
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
+	}
 
 	cleanupPhysics();	
 

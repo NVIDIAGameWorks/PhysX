@@ -651,6 +651,17 @@ namespace physx { namespace Sn {
 		{
 			physx::Sn::readShapesProperty( *this, mObj, &inProp );		
 		}
+
+		void handleRigidActorGlobalPose(const PxRigidActorGlobalPosePropertyInfo& inProp)
+		{
+			PxArticulationLink* link = mObj->template is<PxArticulationLink>();
+			bool isReducedCoordinateLink = (link != NULL) && link->getArticulation().getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE;
+			if (!isReducedCoordinateLink)
+			{
+				PxRepXPropertyAccessor<PxPropertyInfoName::PxRigidActor_GlobalPose, PxRigidActor, const PxTransform &, PxTransform> theAccessor( inProp );
+				simpleProperty(PxPropertyInfoName::PxRigidActor_GlobalPose, theAccessor);
+			}
+		}
 	};
 	
 	template<typename TObjType>
@@ -760,37 +771,33 @@ namespace physx { namespace Sn {
 			pushName( "Joint" );
 			if ( gotoTopName() )
 			{
-				PxArticulationBase::Enum type = mObj->getArticulation().getType();
-				if (type == PxArticulationBase::eMaximumCoordinate)
+				PxArticulationBase& articulationBase = mObj->getArticulation();
+
+				if (articulationBase.getConcreteType() == PxConcreteType::eARTICULATION)
 				{
 					PxArticulationJoint* theJoint = static_cast<PxArticulationJoint*>((prop.get(mObj)));
-
 					readComplexObj(*this, theJoint);
-
 					//Add joint to PxCollection, since PxArticulation requires PxArticulationLink and joint.
 					mCollection.add(*theJoint);
-
 				}
 				else
 				{
+					PX_ASSERT(articulationBase.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE);
 					PxArticulationJointReducedCoordinate* theJoint = static_cast<PxArticulationJointReducedCoordinate*>((prop.get(mObj)));
-
 					readComplexObj(*this, theJoint);
-
 					//Add joint to PxCollection, since PxArticulation requires PxArticulationLink and joint.
 					mCollection.add(*theJoint);
 				}
-
-
-				
 			}
 			popName();
 		}
+
 	private:
 		RepXVisitorReader<PxArticulationLink>& operator=(const RepXVisitorReader<PxArticulationLink>&);
 	};
 	
-	inline void readProperty( RepXVisitorReaderBase<PxArticulation>& inSerializer, PxArticulation* inObj, const PxArticulationLinkCollectionProp& /*inProp*/)
+	template<typename ArticulationType>
+	inline void readProperty( RepXVisitorReaderBase<ArticulationType>& inSerializer, ArticulationType* inObj, const PxArticulationLinkCollectionProp&)
 	{
 		PxProfileAllocatorWrapper theWrapper( inSerializer.mAllocator.getAllocator() );
 		PxCollection& collection( inSerializer.mCollection );
@@ -843,6 +850,23 @@ namespace physx { namespace Sn {
 		void handleArticulationLinks( const PxArticulationLinkCollectionProp& inProp )
 		{
 			physx::Sn::readProperty( *this, mObj, inProp );
+		}
+	};
+
+	template<>
+	struct RepXVisitorReader<PxArticulationReducedCoordinate> : public RepXVisitorReaderBase<PxArticulationReducedCoordinate>
+	{
+		RepXVisitorReader(TReaderNameStack& names, PxProfileArray<PxU32>& contexts, const PxRepXInstantiationArgs& args, XmlReader& reader, PxArticulationReducedCoordinate* obj
+			, XmlMemoryAllocator&	alloc, PxCollection& collection, bool& ret)
+			: RepXVisitorReaderBase<PxArticulationReducedCoordinate>(names, contexts, args, reader, obj, alloc, collection, ret)
+		{}
+		RepXVisitorReader(const RepXVisitorReader<PxArticulationReducedCoordinate>& other)
+			: RepXVisitorReaderBase<PxArticulationReducedCoordinate>(other)
+		{}
+
+		void handleArticulationLinks(const PxArticulationLinkCollectionProp& inProp)
+		{
+			physx::Sn::readProperty(*this, mObj, inProp);
 		}
 	};
 

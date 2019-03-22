@@ -253,20 +253,17 @@ namespace Dy
 		PxVec3 getAngVel() const;
 		bool isKinematic() const 
 		{ 
-			return (mLinkIndex == PxSolverConstraintDesc::NO_LINK) && 
-				mBody->isKinematic;
+			return (mLinkIndex == PxSolverConstraintDesc::NO_LINK) && mBody->isKinematic;
 		}
 	};
 
 	Cm::SpatialVector createImpulseResponseVector(const PxVec3& linear, const PxVec3& angular, const SolverExtBodyStep& body)
 	{
 		if (body.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-		{
 			return Cm::SpatialVector(linear, body.mTxI->sqrtInvInertia * angular);
-		}
+
 		return Cm::SpatialVector(linear, angular);
 	}
-
 
 	PxReal getImpulseResponse(const SolverExtBodyStep& b0, const Cm::SpatialVector& impulse0, Cm::SpatialVector& deltaV0, PxReal dom0, PxReal angDom0,
 		const SolverExtBodyStep& b1, const Cm::SpatialVector& impulse1, Cm::SpatialVector& deltaV1, PxReal dom1, PxReal angDom1,
@@ -283,7 +280,6 @@ namespace Dy
 		}
 		else
 		{
-
 			if (b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK)
 			{
 				deltaV0.linear = impulse0.linear * b0.mData->invMass * dom0;
@@ -321,9 +317,7 @@ namespace Dy
 	PxReal SolverExtBodyStep::projectVelocity(const PxVec3& linear, const PxVec3& angular) const
 	{
 		if (mLinkIndex == PxSolverConstraintDesc::NO_LINK)
-		{
 			return mData->projectVelocity(linear, angular);
-		}
 		else
 		{
 			Cm::SpatialVectorV velocities = mArticulation->getLinkVelocity(mLinkIndex);
@@ -978,25 +972,10 @@ namespace Dy
 
 		const FloatV zero = FZero();
 
-		//KS - TODO - this should all be done in SIMD to avoid LHS
-		/*const PxF32 maxPenBias0 = b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b0.mData->penBiasClamp : getMaxPenBias(*b0.mFsData)[b0.mLinkIndex];
-		const PxF32 maxPenBias1 = b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b1.mData->penBiasClamp : getMaxPenBias(*b1.mFsData)[b1.mLinkIndex];*/
-
-		PxF32 maxPenBias0 = b0.mData->penBiasClamp;
-		PxF32 maxPenBias1 = b1.mData->penBiasClamp;
-
-		if (b0.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-		{
-			maxPenBias0 = b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
-		}
-
-		if (b1.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-		{
-			maxPenBias1 = b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
-		}
+		const PxF32 maxPenBias0 = b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b0.mData->penBiasClamp : b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
+		const PxF32 maxPenBias1 = b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b1.mData->penBiasClamp : b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
 
 		const PxReal maxPenBias = PxMax(maxPenBias0, maxPenBias1);
-
 
 		const PxReal d0 = invMassScale0;
 		const PxReal d1 = invMassScale1;
@@ -1928,7 +1907,7 @@ void setSolverConstantsStep(PxReal& error,
 	PX_UNUSED(totalDt);
 	PX_ASSERT(PxIsFinite(unitResponse));
 	PxReal recipResponse = unitResponse <= minRowResponse ? 0 : 1.0f / unitResponse;
-	PX_ASSERT(recipResponse < 1e5f);
+	//PX_ASSERT(recipResponse < 1e5f);  
 	PxReal geomError = c.geometricError;
 
 	rcpResponse = recipResponse;

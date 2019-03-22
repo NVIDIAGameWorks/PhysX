@@ -47,7 +47,7 @@ https://developercommunity.visualstudio.com/content/problem/66047/possible-compi
 #if defined PX_PHYSX_STATIC_LIB
 	#define PX_PHYSX_CORE_API
 #else
-	#if PX_WINDOWS
+	#if PX_WINDOWS_FAMILY
 		#if defined PX_PHYSX_CORE_EXPORTS
 			#define PX_PHYSX_CORE_API __declspec(dllexport)
 		#else
@@ -85,7 +85,7 @@ https://developercommunity.visualstudio.com/content/problem/66047/possible-compi
 #if defined PX_PHYSX_STATIC_LIB
 	#define PX_PHYSX_COMMON_API
 #else
-	#if PX_WINDOWS && !defined(__CUDACC__)
+	#if PX_WINDOWS_FAMILY && !defined(__CUDACC__)
 		#if defined PX_PHYSX_COMMON_EXPORTS
 			#define PX_PHYSX_COMMON_API __declspec(dllexport)
 		#else

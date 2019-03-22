@@ -49,7 +49,6 @@ using namespace Gu;
 
 static void getBinaryMetaData_Valency(PxOutputStream& stream)
 {
-// 4 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	Valency)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Valency, PxU16,	mCount,		0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Valency, PxU16,	mOffset,	0)
@@ -57,7 +56,6 @@ static void getBinaryMetaData_Valency(PxOutputStream& stream)
 
 static void getBinaryMetaData_BigConvexRawData(PxOutputStream& stream)
 {
-// 24 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	BigConvexRawData)
 	PX_DEF_BIN_METADATA_ITEM(stream,	BigConvexRawData, PxU16,	mSubdiv,		0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	BigConvexRawData, PxU16,	mNbSamples,		0)
@@ -73,7 +71,6 @@ void BigConvexData::getBinaryMetaData(PxOutputStream& stream)
 	getBinaryMetaData_Valency(stream);
 	getBinaryMetaData_BigConvexRawData(stream);
 
-// 28 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	BigConvexData)
 	PX_DEF_BIN_METADATA_ITEM(stream,	BigConvexData, BigConvexRawData,	mData,		0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	BigConvexData, void,				mVBuffer,	PxMetaDataFlag::ePTR)
@@ -96,7 +93,6 @@ void BigConvexData::getBinaryMetaData(PxOutputStream& stream)
 
 static void getBinaryMetaData_InternalObjectsData(PxOutputStream& stream)
 {
-// 16 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		InternalObjectsData)
 	PX_DEF_BIN_METADATA_ITEM(stream,		InternalObjectsData,	PxReal,	mRadius,	0)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	InternalObjectsData,	PxReal,	mExtents,	0)
@@ -104,7 +100,6 @@ static void getBinaryMetaData_InternalObjectsData(PxOutputStream& stream)
 
 static void getBinaryMetaData_HullPolygonData(PxOutputStream& stream)
 {
-// 20 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		HullPolygonData)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	HullPolygonData,	PxReal,	mPlane,		0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		HullPolygonData,	PxU16,	mVRef8,		0)
@@ -114,7 +109,6 @@ static void getBinaryMetaData_HullPolygonData(PxOutputStream& stream)
 
 static void getBinaryMetaData_ConvexHullData(PxOutputStream& stream)
 {
-// 64 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	ConvexHullData)
 	PX_DEF_BIN_METADATA_ITEM(stream,	ConvexHullData, PxBounds3,				mAABB,				0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	ConvexHullData, PxVec3,					mCenterOfMass,		0)
@@ -135,7 +129,6 @@ void Gu::ConvexMesh::getBinaryMetaData(PxOutputStream& stream)
 	getBinaryMetaData_ConvexHullData(stream);
 	BigConvexData::getBinaryMetaData(stream);
 
-// 136 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,ConvexMesh)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,ConvexMesh, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,ConvexMesh, RefCountable)
@@ -243,7 +236,6 @@ void RTree::getBinaryMetaData(PxOutputStream& stream)
 {
 	getBinaryMetaData_RTreePage(stream);
 
-// 96 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream, RTree)
 
 	PX_DEF_BIN_METADATA_ITEM(stream,	RTree, PxVec4,		mBoundsMin,			0)
@@ -315,7 +307,6 @@ void BV4Tree::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,	LocalBounds, PxVec3,	mCenter,			0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	LocalBounds, float,		mExtentsMagnitude,	0)
 
-// 96 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream, BV4Tree)
 
 	PX_DEF_BIN_METADATA_ITEM(stream,	BV4Tree, void,			mMeshInterface,		PxMetaDataFlag::ePTR)
@@ -340,12 +331,10 @@ void BV4Tree::getBinaryMetaData(PxOutputStream& stream)
 
 void Gu::TriangleMesh::getBinaryMetaData(PxOutputStream& stream)
 {
-// 320 => 304 => 272 => 256 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		TriangleMesh)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	TriangleMesh, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	TriangleMesh, RefCountable)
 
-// 224 => 208 => 192 bytes
 	PX_DEF_BIN_METADATA_ITEM(stream,	TriangleMesh, PxU32,			mNbVertices,			0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	TriangleMesh, PxU32,			mNbTriangles,			0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	TriangleMesh, PxVec3,			mVertices,				PxMetaDataFlag::ePTR)
@@ -442,7 +431,7 @@ void MaterialIndicesStruct::getBinaryMetaData(PxOutputStream& stream)
 
 	//------ Extra-data ------
 	// indices
-	PX_DEF_BIN_METADATA_EXTRA_ITEMS(stream, MaterialIndicesStruct, PxU16, indices, numIndices, 0, PX_SERIAL_ALIGN)
+	PX_DEF_BIN_METADATA_EXTRA_ITEMS(stream, MaterialIndicesStruct, PxU16, indices, numIndices, PxMetaDataFlag::eHANDLE, PX_SERIAL_ALIGN)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -584,7 +573,6 @@ void Gu::GeometryUnion::getBinaryMetaData(PxOutputStream& stream)
 	- type-to-class mapping
 	*/
 
-// 44 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream, Gu::GeometryUnion)
 
 	PX_DEF_BIN_METADATA_UNION(stream,		Gu::GeometryUnion, mGeometry)

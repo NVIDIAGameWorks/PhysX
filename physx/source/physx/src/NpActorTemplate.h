@@ -66,7 +66,6 @@ public:
 // PX_SERIALIZATION
 											NpActorTemplate(PxBaseFlags baseFlags) : APIClass(baseFlags), NpActor(PxEmpty) {}
 
-	virtual void							exportData(PxSerializationContext& context) const = 0;
 	virtual	void							exportExtraData(PxSerializationContext& context) { NpActor::exportExtraData(context); }
 	virtual	void							importExtraData(PxDeserializationContext& context) { NpActor::importExtraData(context); }
 	virtual void							resolveReferences(PxDeserializationContext& context) { NpActor::resolveReferences(context); }

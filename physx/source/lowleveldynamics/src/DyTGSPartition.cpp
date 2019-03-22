@@ -59,19 +59,6 @@ namespace physx
 
 #define MAX_NUM_PARTITIONS 32
 
-			static PxU32 bitTable[32] =
-			{
-				1u << 0, 1u << 1, 1u << 2, 1u << 3, 1u << 4, 1u << 5, 1u << 6, 1u << 7, 1u << 8, 1u << 9, 1u << 10, 1u << 11, 1u << 12, 1u << 13, 1u << 14, 1u << 15, 1u << 16, 1u << 17,
-				1u << 18, 1u << 19, 1u << 20, 1u << 21, 1u << 22, 1u << 23, 1u << 24, 1u << 25, 1u << 26, 1u << 27, 1u << 28, 1u << 29, 1u << 30, 1u << 31
-			};
-
-			PxU32 getBit(const PxU32 index)
-			{
-				PX_ASSERT(index < 32);
-				return bitTable[index];
-			}
-
-
 			class RigidBodyClassification
 			{
 				PxTGSSolverBodyVel* PX_RESTRICT mBodies;
@@ -465,7 +452,7 @@ namespace physx
 								continue;
 							}
 
-							const PxU32 partitionBit = getBit(availablePartition);
+							const PxU32 partitionBit = (1u << availablePartition);
 							PX_ASSERT((partitionBit & partitionsA) == 0);
 							PX_ASSERT((partitionBit & partitionsB) == 0);
 							if(activeA)
@@ -526,7 +513,7 @@ namespace physx
 								continue;
 							}
 
-							const PxU32 partitionBit = getBit(availablePartition);
+							const PxU32 partitionBit = (1u << availablePartition);
 							if(activeA)
 								partitionsA |= partitionBit;
 							if(activeB)
@@ -587,7 +574,7 @@ namespace physx
 								continue;
 							}
 
-							const PxU32 partitionBit = getBit(availablePartition);
+							const PxU32 partitionBit = (1u << availablePartition);
 
 							if(activeA)
 								partitionsA |= partitionBit;
@@ -652,7 +639,7 @@ namespace physx
 								continue;
 							}
 
-							const PxU32 partitionBit = getBit(availablePartition);
+							const PxU32 partitionBit = (1u << availablePartition);
 
 							partitionsA |= partitionBit;
 							partitionsB |= partitionBit;
@@ -719,9 +706,9 @@ namespace physx
 						activeA, activeB, partitionsA, partitionsB);
 
 					if (activeA)
-						bitField[PxU32(indexA) / 32] |= getBit(indexA & 31);
+						bitField[PxU32(indexA) / 32] |= (1u << (indexA & 31));
 					if (activeB)
-						bitField[PxU32(indexB) / 32] |= getBit(indexB & 31);
+						bitField[PxU32(indexB) / 32] |= (1u << (indexB & 31));
 				}
 
 				bool bTerm = false;
@@ -745,9 +732,9 @@ namespace physx
 
 						bool canAdd = true;
 
-						if (activeA && (bitField[PxU32(indexA) / 32] & (getBit(indexA & 31))))
+						if (activeA && (bitField[PxU32(indexA) / 32] & (1u << (indexA & 31))))
 							canAdd = false;
-						if (activeB && (bitField[PxU32(indexB) / 32] & (getBit(indexB & 31))))
+						if (activeB && (bitField[PxU32(indexB) / 32] & (1u << (indexB & 31))))
 							canAdd = false;
 
 						if (canAdd)
@@ -755,9 +742,9 @@ namespace physx
 							PxTGSSolverConstraintDesc tmp = eaOrderedConstraintDescriptors[ind];
 
 							if (activeA)
-								bitField[PxU32(indexA) / 32] |= (getBit(indexA & 31));
+								bitField[PxU32(indexA) / 32] |= (1u << (indexA & 31));
 							if (activeB)
-								bitField[PxU32(indexB) / 32] |= (getBit(indexB & 31));
+								bitField[PxU32(indexB) / 32] |= (1u << (indexB & 31));
 
 							PxU32 index = ind;
 							for (PxU32 c = pInd; c < partitionIndex; ++c)

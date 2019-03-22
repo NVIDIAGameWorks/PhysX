@@ -378,6 +378,33 @@ PX_PHYSX_CORE_API PxArticulationJointGeneratedValues::PxArticulationJointGenerat
 	getPxArticulationJoint_SwingLimit( inSource, SwingLimit[0], SwingLimit[1] );
 	getPxArticulationJoint_TwistLimit( inSource, TwistLimit[0], TwistLimit[1] );
 }
+void setPxArticulationJointReducedCoordinate_JointType( PxArticulationJointReducedCoordinate* inObj, PxArticulationJointType::Enum inArg){ inObj->setJointType( inArg ); }
+PxArticulationJointType::Enum getPxArticulationJointReducedCoordinate_JointType( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getJointType(); }
+void setPxArticulationJointReducedCoordinate_Motion( PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex, PxArticulationMotion::Enum inArg ){ inObj->setMotion( inIndex, inArg ); }
+PxArticulationMotion::Enum getPxArticulationJointReducedCoordinate_Motion( const PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex ) { return inObj->getMotion( inIndex ); }
+void setPxArticulationJointReducedCoordinate_FrictionCoefficient( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setFrictionCoefficient( inArg ); }
+PxReal getPxArticulationJointReducedCoordinate_FrictionCoefficient( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getFrictionCoefficient(); }
+const char * getPxArticulationJointReducedCoordinate_ConcreteTypeName( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getConcreteTypeName(); }
+void setPxArticulationJointReducedCoordinate_MaxJointVelocity( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setMaxJointVelocity( inArg ); }
+PxReal getPxArticulationJointReducedCoordinate_MaxJointVelocity( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getMaxJointVelocity(); }
+PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedInfo::PxArticulationJointReducedCoordinateGeneratedInfo()
+	: JointType( "JointType", setPxArticulationJointReducedCoordinate_JointType, getPxArticulationJointReducedCoordinate_JointType)
+	, Motion( "Motion", setPxArticulationJointReducedCoordinate_Motion, getPxArticulationJointReducedCoordinate_Motion)
+	, FrictionCoefficient( "FrictionCoefficient", setPxArticulationJointReducedCoordinate_FrictionCoefficient, getPxArticulationJointReducedCoordinate_FrictionCoefficient)
+	, ConcreteTypeName( "ConcreteTypeName", getPxArticulationJointReducedCoordinate_ConcreteTypeName)
+	, MaxJointVelocity( "MaxJointVelocity", setPxArticulationJointReducedCoordinate_MaxJointVelocity, getPxArticulationJointReducedCoordinate_MaxJointVelocity)
+{}
+PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedValues::PxArticulationJointReducedCoordinateGeneratedValues( const PxArticulationJointReducedCoordinate* inSource )
+		:PxArticulationJointBaseGeneratedValues( inSource )
+		,JointType( getPxArticulationJointReducedCoordinate_JointType( inSource ) )
+		,FrictionCoefficient( getPxArticulationJointReducedCoordinate_FrictionCoefficient( inSource ) )
+		,ConcreteTypeName( getPxArticulationJointReducedCoordinate_ConcreteTypeName( inSource ) )
+		,MaxJointVelocity( getPxArticulationJointReducedCoordinate_MaxJointVelocity( inSource ) )
+{
+	PX_UNUSED(inSource);
+		for ( PxU32 idx = 0; idx < static_cast<PxU32>( physx::PxArticulationAxis::eCOUNT ); ++idx )
+		Motion[idx] = getPxArticulationJointReducedCoordinate_Motion( inSource, static_cast< PxArticulationAxis::Enum >( idx ) );
+}
 PxScene * getPxArticulationBase_Scene( const PxArticulationBase* inObj ) { return inObj->getScene(); }
 void setPxArticulationBase_SolverIterationCounts( PxArticulationBase* inObj, PxU32 inArg0, PxU32 inArg1 ) { inObj->setSolverIterationCounts( inArg0, inArg1 ); }
 void getPxArticulationBase_SolverIterationCounts( const PxArticulationBase* inObj, PxU32& inArg0, PxU32& inArg1 ) { inObj->getSolverIterationCounts( inArg0, inArg1 ); }
@@ -393,7 +420,6 @@ PxU32 getNbPxArticulationBase_Links( const PxArticulationBase* inObj ) { return 
 void setPxArticulationBase_Name( PxArticulationBase* inObj, const char * inArg){ inObj->setName( inArg ); }
 const char * getPxArticulationBase_Name( const PxArticulationBase* inObj ) { return inObj->getName(); }
 PxAggregate * getPxArticulationBase_Aggregate( const PxArticulationBase* inObj ) { return inObj->getAggregate(); }
-PxArticulationBase::Enum getPxArticulationBase_Type( const PxArticulationBase* inObj ) { return inObj->getType(); }
 inline void * getPxArticulationBaseUserData( const PxArticulationBase* inOwner ) { return inOwner->userData; }
 inline void setPxArticulationBaseUserData( PxArticulationBase* inOwner, void * inData) { inOwner->userData = inData; }
 PX_PHYSX_CORE_API PxArticulationBaseGeneratedInfo::PxArticulationBaseGeneratedInfo()
@@ -406,7 +432,6 @@ PX_PHYSX_CORE_API PxArticulationBaseGeneratedInfo::PxArticulationBaseGeneratedIn
 	, Links( "Links", getPxArticulationBase_Links, getNbPxArticulationBase_Links )
 	, Name( "Name", setPxArticulationBase_Name, getPxArticulationBase_Name)
 	, Aggregate( "Aggregate", getPxArticulationBase_Aggregate)
-	, Type( "Type", getPxArticulationBase_Type)
 	, UserData( "UserData", setPxArticulationBaseUserData, getPxArticulationBaseUserData )
 {}
 PX_PHYSX_CORE_API PxArticulationBaseGeneratedValues::PxArticulationBaseGeneratedValues( const PxArticulationBase* inSource )
@@ -417,7 +442,6 @@ PX_PHYSX_CORE_API PxArticulationBaseGeneratedValues::PxArticulationBaseGenerated
 		,WakeCounter( getPxArticulationBase_WakeCounter( inSource ) )
 		,Name( getPxArticulationBase_Name( inSource ) )
 		,Aggregate( getPxArticulationBase_Aggregate( inSource ) )
-		,Type( getPxArticulationBase_Type( inSource ) )
 		,UserData( inSource->userData )
 {
 	PX_UNUSED(inSource);
@@ -443,6 +467,26 @@ PX_PHYSX_CORE_API PxArticulationGeneratedValues::PxArticulationGeneratedValues( 
 		,SeparationTolerance( getPxArticulation_SeparationTolerance( inSource ) )
 		,InternalDriveIterations( getPxArticulation_InternalDriveIterations( inSource ) )
 		,ExternalDriveIterations( getPxArticulation_ExternalDriveIterations( inSource ) )
+{
+	PX_UNUSED(inSource);
+}
+void setPxArticulationReducedCoordinate_ArticulationFlags( PxArticulationReducedCoordinate* inObj, PxArticulationFlags inArg){ inObj->setArticulationFlags( inArg ); }
+PxArticulationFlags getPxArticulationReducedCoordinate_ArticulationFlags( const PxArticulationReducedCoordinate* inObj ) { return inObj->getArticulationFlags(); }
+PxU32 getPxArticulationReducedCoordinate_Dofs( const PxArticulationReducedCoordinate* inObj ) { return inObj->getDofs(); }
+PxU32 getPxArticulationReducedCoordinate_CacheDataSize( const PxArticulationReducedCoordinate* inObj ) { return inObj->getCacheDataSize(); }
+PxU32 getPxArticulationReducedCoordinate_CoefficientMatrixSize( const PxArticulationReducedCoordinate* inObj ) { return inObj->getCoefficientMatrixSize(); }
+PX_PHYSX_CORE_API PxArticulationReducedCoordinateGeneratedInfo::PxArticulationReducedCoordinateGeneratedInfo()
+	: ArticulationFlags( "ArticulationFlags", setPxArticulationReducedCoordinate_ArticulationFlags, getPxArticulationReducedCoordinate_ArticulationFlags)
+	, Dofs( "Dofs", getPxArticulationReducedCoordinate_Dofs)
+	, CacheDataSize( "CacheDataSize", getPxArticulationReducedCoordinate_CacheDataSize)
+	, CoefficientMatrixSize( "CoefficientMatrixSize", getPxArticulationReducedCoordinate_CoefficientMatrixSize)
+{}
+PX_PHYSX_CORE_API PxArticulationReducedCoordinateGeneratedValues::PxArticulationReducedCoordinateGeneratedValues( const PxArticulationReducedCoordinate* inSource )
+		:PxArticulationBaseGeneratedValues( inSource )
+		,ArticulationFlags( getPxArticulationReducedCoordinate_ArticulationFlags( inSource ) )
+		,Dofs( getPxArticulationReducedCoordinate_Dofs( inSource ) )
+		,CacheDataSize( getPxArticulationReducedCoordinate_CacheDataSize( inSource ) )
+		,CoefficientMatrixSize( getPxArticulationReducedCoordinate_CoefficientMatrixSize( inSource ) )
 {
 	PX_UNUSED(inSource);
 }
@@ -747,33 +791,6 @@ PX_PHYSX_CORE_API PxHeightFieldDescGeneratedValues::PxHeightFieldDescGeneratedVa
 		,Flags( inSource->flags )
 {
 	PX_UNUSED(inSource);
-}
-void setPxArticulationJointReducedCoordinate_JointType( PxArticulationJointReducedCoordinate* inObj, PxArticulationJointType::Enum inArg){ inObj->setJointType( inArg ); }
-PxArticulationJointType::Enum getPxArticulationJointReducedCoordinate_JointType( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getJointType(); }
-void setPxArticulationJointReducedCoordinate_Motion( PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex, PxArticulationMotion::Enum inArg ){ inObj->setMotion( inIndex, inArg ); }
-PxArticulationMotion::Enum getPxArticulationJointReducedCoordinate_Motion( const PxArticulationJointReducedCoordinate* inObj, PxArticulationAxis::Enum inIndex ) { return inObj->getMotion( inIndex ); }
-void setPxArticulationJointReducedCoordinate_FrictionCoefficient( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setFrictionCoefficient( inArg ); }
-PxReal getPxArticulationJointReducedCoordinate_FrictionCoefficient( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getFrictionCoefficient(); }
-const char * getPxArticulationJointReducedCoordinate_ConcreteTypeName( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getConcreteTypeName(); }
-void setPxArticulationJointReducedCoordinate_MaxJointVelocity( PxArticulationJointReducedCoordinate* inObj, const PxReal inArg){ inObj->setMaxJointVelocity( inArg ); }
-PxReal getPxArticulationJointReducedCoordinate_MaxJointVelocity( const PxArticulationJointReducedCoordinate* inObj ) { return inObj->getMaxJointVelocity(); }
-PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedInfo::PxArticulationJointReducedCoordinateGeneratedInfo()
-	: JointType( "JointType", setPxArticulationJointReducedCoordinate_JointType, getPxArticulationJointReducedCoordinate_JointType)
-	, Motion( "Motion", setPxArticulationJointReducedCoordinate_Motion, getPxArticulationJointReducedCoordinate_Motion)
-	, FrictionCoefficient( "FrictionCoefficient", setPxArticulationJointReducedCoordinate_FrictionCoefficient, getPxArticulationJointReducedCoordinate_FrictionCoefficient)
-	, ConcreteTypeName( "ConcreteTypeName", getPxArticulationJointReducedCoordinate_ConcreteTypeName)
-	, MaxJointVelocity( "MaxJointVelocity", setPxArticulationJointReducedCoordinate_MaxJointVelocity, getPxArticulationJointReducedCoordinate_MaxJointVelocity)
-{}
-PX_PHYSX_CORE_API PxArticulationJointReducedCoordinateGeneratedValues::PxArticulationJointReducedCoordinateGeneratedValues( const PxArticulationJointReducedCoordinate* inSource )
-		:PxArticulationJointBaseGeneratedValues( inSource )
-		,JointType( getPxArticulationJointReducedCoordinate_JointType( inSource ) )
-		,FrictionCoefficient( getPxArticulationJointReducedCoordinate_FrictionCoefficient( inSource ) )
-		,ConcreteTypeName( getPxArticulationJointReducedCoordinate_ConcreteTypeName( inSource ) )
-		,MaxJointVelocity( getPxArticulationJointReducedCoordinate_MaxJointVelocity( inSource ) )
-{
-	PX_UNUSED(inSource);
-		for ( PxU32 idx = 0; idx < static_cast<PxU32>( physx::PxArticulationAxis::eCOUNT ); ++idx )
-		Motion[idx] = getPxArticulationJointReducedCoordinate_Motion( inSource, static_cast< PxArticulationAxis::Enum >( idx ) );
 }
 PxSceneFlags getPxScene_Flags( const PxScene* inObj ) { return inObj->getFlags(); }
 void setPxScene_Limits( PxScene* inObj, const PxSceneLimits & inArg){ inObj->setLimits( inArg ); }

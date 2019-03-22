@@ -83,7 +83,6 @@ $(document).ready(function(){initNavTree('classPxArticulationBase.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
@@ -117,13 +116,6 @@ Collaboration diagram for PxArticulationBase:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:ae2b9b5940ae8198a64f4cb86d61fdab4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">Enum</a> { <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad">eReducedCoordinate</a> = 0, 
-<a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf">eMaximumCoordinate</a> = 1
- }</td></tr>
-<tr class="separator:ae2b9b5940ae8198a64f4cb86d61fdab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af760fbc18ace5571c97b7da64c5fbe7c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classPxScene.html">PxScene</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#af760fbc18ace5571c97b7da64c5fbe7c">getScene</a> () const =0</td></tr>
@@ -187,8 +179,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5dfdf6a47b558607d7f2a3d008de34fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92f5205563e2476ace6f1c0eff22de51"><td class="memItemLeft" align="right" valign="top">virtual const PxArticulationImpl *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a92f5205563e2476ace6f1c0eff22de51">getImpl</a> () const =0</td></tr>
 <tr class="separator:a92f5205563e2476ace6f1c0eff22de51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb9a9c0e3cb4b16a63b828f89067a733"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">PxArticulationBase::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#acb9a9c0e3cb4b16a63b828f89067a733">getType</a> () const =0</td></tr>
-<tr class="separator:acb9a9c0e3cb4b16a63b828f89067a733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe7170f2077b283b7da5dfb23b25ba0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a6fe7170f2077b283b7da5dfb23b25ba0">~PxArticulationBase</a> ()</td></tr>
 <tr class="separator:a6fe7170f2077b283b7da5dfb23b25ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5778c701bdf495e8563828927a68aa05"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classPxArticulationJointBase.html">PxArticulationJointBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a5778c701bdf495e8563828927a68aa05">createArticulationJoint</a> (<a class="el" href="classPxArticulationLink.html">PxArticulationLink</a> &amp;parent, const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;parentFrame, <a class="el" href="classPxArticulationLink.html">PxArticulationLink</a> &amp;child, const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;childFrame)=0</td></tr>
@@ -265,26 +255,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>a tree structure of bodies connected by joints that is treated as a unit by the dynamics solver </p>
 <p>Articulations are more expensive to simulate than the equivalent collection of <a class="el" href="classPxRigidDynamic.html" title="PxRigidDynamic represents a dynamic rigid simulation object in the physics SDK. ">PxRigidDynamic</a> and <a class="el" href="classPxJoint.html" title="a base interface providing common functionality for PhysX joints ">PxJoint</a> structures, but because the dynamics solver treats each articulation as a single object, they are much less prone to separation and have better support for actuation. An articulation may have at most 64 links.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationJoint.html" title="a joint between two links in an articulation. ">PxArticulationJoint</a> <a class="el" href="classPxArticulationLink.html" title="a component of an articulation that represents a rigid body ">PxArticulationLink</a> <a class="el" href="classPxPhysics.html#aa65bf245c40886f007b7cda86dee9f3f" title="Creates an articulation with all fields initialized to their default values. ">PxPhysics.createArticulation</a> </dd></dl>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="ae2b9b5940ae8198a64f4cb86d61fdab4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2b9b5940ae8198a64f4cb86d61fdab4">&#9670;&nbsp;</a></span>Enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">PxArticulationBase::Enum</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad"></a>eReducedCoordinate&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf"></a>eMaximumCoordinate&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6fe7170f2077b283b7da5dfb23b25ba0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6fe7170f2077b283b7da5dfb23b25ba0">&#9670;&nbsp;</a></span>~PxArticulationBase()</h2>
 
@@ -781,31 +752,6 @@ Additional Inherited Members</h2></td></tr>
 <p>Articulations whose kinetic energy divided by their mass is above this threshold will not participate in stabilization.</p>
 <dl class="section return"><dt>Returns</dt><dd>The energy threshold for participating in stabilization.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationBase.html#a1cf09f7f818b312205a29fb8e7f39f7f" title="Sets the mass-normalized kinetic energy threshold below which an articulation may participate in stab...">setStabilizationThreshold()</a> <a class="el" href="structPxSceneFlag.html#ab4c347372b4433d34d983da780916c53a909e1cb63ea9c0394e2c2b3a526f47fe" title="Enables additional stabilization pass in solver. ">PxSceneFlag::eENABLE_STABILIZATION</a> </dd></dl>
-
-</div>
-</div>
-<a id="acb9a9c0e3cb4b16a63b828f89067a733"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb9a9c0e3cb4b16a63b828f89067a733">&#9670;&nbsp;</a></span>getType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">PxArticulationBase::Enum</a> PxArticulationBase::getType </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

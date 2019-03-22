@@ -293,7 +293,7 @@ namespace Gu
 
 		PxPlane plane = polyData.mPolygons[0].mPlane;
 		PxReal dist = plane.distance(closestP);
-		PxReal minDist = dist >= eps ? dist : PX_MAX_F32;
+		PxReal minDist = dist >= eps ? PxAbs(dist) : PX_MAX_F32;
 		pd[0] = minDist;
 		PxReal maxDist = dist;
 		PxU32 maxFaceIndex = 0;
@@ -302,7 +302,7 @@ namespace Gu
 		{
 			plane = polyData.mPolygons[i].mPlane;
 			dist = plane.distance(closestP);
-			pd[i] = dist >= eps ? dist : PX_MAX_F32;
+			pd[i] = dist >= eps ? PxAbs(dist) : PX_MAX_F32;
 			if (minDist > pd[i])
 			{
 				minDist = pd[i];

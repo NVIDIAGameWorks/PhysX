@@ -31,31 +31,26 @@
 #define NP_JOINTCONSTRAINT_H
 
 #include "PsAllocator.h"
-#include "PsUtilities.h"
 #include "PsMathUtils.h"
-#include "PxConstraint.h"
-#include "PxConstraintExt.h"
-#include "PxJoint.h"
-#include "PxD6Joint.h"
-#include "PxRigidDynamic.h"
-#include "PxRigidStatic.h"
-#include "PxScene.h"
-#include "ExtPvd.h"
-#include "PxMetaData.h"
-#include "CmRenderOutput.h"
-#include "PxPhysics.h"
+#include "CmUtils.h"
 #include "PsFoundation.h"
+#include "ExtJointData.h"
+#include "PxRigidStatic.h"
+#include "PxRigidDynamic.h"
+#include "PxConstraintExt.h"
+#include "PxScene.h"
 
 #if PX_SUPPORT_PVD
-#include "PxScene.h"
-#include "PxPvdClient.h"
-#include "PxPvdSceneClient.h"
+	#include "ExtPvd.h"
+	#include "PxPvdClient.h"
+	#include "PxPvdSceneClient.h"
 #endif
 
 // PX_SERIALIZATION
 
 namespace physx
 {
+	class PxDeserializationContext;
 
 PxConstraint* resolveConstraintPtr(PxDeserializationContext& v, PxConstraint* old, PxConstraintConnector* connector, PxConstraintShaderTable& shaders);
 
@@ -63,35 +58,17 @@ PxConstraint* resolveConstraintPtr(PxDeserializationContext& v, PxConstraint* ol
 
 namespace Ext
 {
-	PX_FORCE_INLINE float	computeSwingAngle(float swingYZ, float swingW)
-	{
-		return 4.0f * PxAtan2(swingYZ, 1.0f + swingW);	// tan (t/2) = sin(t)/(1+cos t), so this is the quarter angle
-	}
-
-	struct JointData
-	{
-	//= ATTENTION! =====================================================================================
-	// Changing the data layout of this class breaks the binary serialization format.  See comments for 
-	// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData 
-	// function.  If the modification is made on a custom branch, please change PX_BINARY_SERIAL_VERSION
-	// accordingly.
-	//==================================================================================================
-							PxConstraintInvMassScale	invMassScale;		//16
-							PxTransform					c2b[2];				//72
-							PxU32						pading[2];			//80
-	protected:
-		                    ~JointData(){}
-	};
-
 	template <class Base, class ValueStruct>
 	class Joint : public Base, 
 				  public PxConstraintConnector, 
-				  public Ps::UserAllocated
+				  public shdfnd::UserAllocated
 	{
   
     public:
 // PX_SERIALIZATION
 						Joint(PxBaseFlags baseFlags) : Base(baseFlags) {}
+
+		virtual void	preExportDataReset(){}
 		virtual	void	requiresObjects(PxProcessPxBaseCallback& c)
 		{			
 			c.process(*mPxConstraint);
@@ -597,7 +574,7 @@ namespace Ext
 			if(swing.w < 0.0f)		// choose the shortest rotation
 				swing = -swing;
 
-			const PxReal angle = computeSwingAngle(swing.y, swing.w);
+			const PxReal angle = Ps::computeSwingAngle(swing.y, swing.w);
 			PX_ASSERT(angle>-PxPi && angle<=PxPi);				// since |y| < w+1, the atan magnitude is < PI/4
 			return angle;
 		}
@@ -609,7 +586,7 @@ namespace Ext
 			if(swing.w < 0.0f)		// choose the shortest rotation
 				swing = -swing;
 
-			const PxReal angle = computeSwingAngle(swing.z, swing.w);
+			const PxReal angle = Ps::computeSwingAngle(swing.z, swing.w);
 			PX_ASSERT(angle>-PxPi && angle <= PxPi);			// since |y| < w+1, the atan magnitude is < PI/4
 			return angle;
 		}

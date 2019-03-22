@@ -609,6 +609,8 @@ PX_INLINE bool PxControllerDesc::isValid() const
 	if(stepOffset<0.0f)		return false;
 	if(contactOffset<=0.0f)	return false;
 	if(!material)			return false;
+	if (!toVec3(position).isFinite())return false;   //the float version needs to be finite otherwise actor creation will fail.
+
 
 	return true;
 }

@@ -119,18 +119,19 @@ bool Gu::ConvexMesh::isGpuCompatible() const
 }
 
 // PX_SERIALIZATION
-void Gu::ConvexMesh::exportExtraData(PxSerializationContext& stream)
+
+void Gu::ConvexMesh::exportExtraData(PxSerializationContext& context)
 {
-	stream.alignData(PX_SERIAL_ALIGN);
+	context.alignData(PX_SERIAL_ALIGN);
 	const PxU32 bufferSize = computeBufferSize(mHullData, getNb());
-	stream.writeData(mHullData.mPolygons, bufferSize);
+	context.writeData(mHullData.mPolygons, bufferSize);
 
 	if(mBigConvexData)
 	{
-		stream.alignData(PX_SERIAL_ALIGN);
-		stream.writeData(mBigConvexData, sizeof(BigConvexData));
+		context.alignData(PX_SERIAL_ALIGN);
+		context.writeData(mBigConvexData, sizeof(BigConvexData));
 
-		mBigConvexData->exportExtraData(stream);
+		mBigConvexData->exportExtraData(context);
 	}
 }
 

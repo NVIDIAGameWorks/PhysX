@@ -68,10 +68,32 @@ NpShapeManager::~NpShapeManager()
 	mSceneQueryData.clear(sm);
 }
 
+void NpShapeManager::preExportDataReset()
+{
+	//Clearing SceneQueryPruner handles to avoid stale references after deserialization and for deterministic serialization output.
+	//Multi shape cases handled in exportExtraData
+	if (getNbShapes() == 1)
+	{
+		setPrunerData(0, Sq::PrunerData(SQ_INVALID_PRUNER_DATA));
+	}
+}
+
 void NpShapeManager::exportExtraData(PxSerializationContext& stream)
 { 
-	mShapes.exportExtraData(stream);							
-	mSceneQueryData.exportExtraData(stream);
+	mShapes.exportExtraData(stream);
+
+	//Clearing SceneQueryPruner handles to avoid stale references after deserialization and for deterministic serialization output.
+	//For single shape, it's handled on exportData.
+	PxU32 numShapes = getNbShapes();
+	if (numShapes > 1)
+	{
+		stream.alignData(PX_SERIAL_ALIGN);
+		for (PxU32 i = 0; i < numShapes; i++)
+		{
+			void* data = reinterpret_cast<void*>(Sq::PrunerData(SQ_INVALID_PRUNER_DATA));
+			stream.writeData(&data, sizeof(void*));
+		}
+	}
 }
 
 void NpShapeManager::importExtraData(PxDeserializationContext& context)

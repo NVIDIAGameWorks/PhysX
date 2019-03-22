@@ -7,7 +7,7 @@ var searchData=
   ['ccdthreshold',['ccdThreshold',['../classPxSceneDesc.html#a5b8bb05a5b151da44d30986e729172c7',1,'PxSceneDesc']]],
   ['centerofmass',['centerOfMass',['../classPxMassProperties.html#a8f4e5b19248941b3ee2369afadb20e96',1,'PxMassProperties']]],
   ['climbingmode',['climbingMode',['../classPxCapsuleControllerDesc.html#a89888e84bf3091c6c3e7818732864674',1,'PxCapsuleControllerDesc']]],
-  ['coefficentmatrix',['coefficentMatrix',['../classPxArticulationCache.html#aded15e3e603ff12901cf4fe27a7eddea',1,'PxArticulationCache']]],
+  ['coefficientmatrix',['coefficientMatrix',['../classPxArticulationCache.html#a9df694963228f4ae0c9e58ca9d6bff02',1,'PxArticulationCache']]],
   ['collisionflags',['collisionFlags',['../structPxControllerState.html#a05501d379de1bdca0d0f7820e8a9db86',1,'PxControllerState']]],
   ['color',['color',['../structPxDebugPoint.html#af675d73fa342d67d973b532950401b62',1,'PxDebugPoint::color()'],['../structPxDebugText.html#ab6729c85aac23411b99259a18d9e2dc0',1,'PxDebugText::color()']]],
   ['color0',['color0',['../structPxDebugLine.html#a32f832e125b4e64656707b86e4133ba7',1,'PxDebugLine::color0()'],['../structPxDebugTriangle.html#aa8c19d7489972ea160a04f5c10799169',1,'PxDebugTriangle::color0()']]],

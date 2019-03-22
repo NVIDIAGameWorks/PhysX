@@ -30,13 +30,11 @@
 #include "ExtSphericalJoint.h"
 #include "ExtConstraintHelper.h"
 #include "CmConeLimitHelper.h"
-#include "CmRenderOutput.h"
-#include "CmVisualization.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;
+using namespace shdfnd;
 
 PxSphericalJoint* physx::PxSphericalJointCreate(PxPhysics& physics, PxRigidActor* actor0, const PxTransform& localFrame0, PxRigidActor* actor1, const PxTransform& localFrame1)
 {

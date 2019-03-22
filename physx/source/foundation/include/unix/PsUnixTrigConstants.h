@@ -30,6 +30,8 @@
 #ifndef PSFOUNDATION_PSUNIXTRIGCONSTANTS_H
 #define PSFOUNDATION_PSUNIXTRIGCONSTANTS_H
 
+#include "foundation/PxPreprocessor.h"
+
 namespace physx
 {
 namespace shdfnd
@@ -37,8 +39,11 @@ namespace shdfnd
 namespace aos
 {
 
-//#define PX_GLOBALCONST extern const __declspec(selectany)
+#if PX_UWP
+#define PX_GLOBALCONST extern const __declspec(selectany)
+#else
 #define PX_GLOBALCONST extern const __attribute__((weak))
+#endif
 
 PX_ALIGN_PREFIX(16)
 struct PX_VECTORF32

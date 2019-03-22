@@ -819,7 +819,7 @@ void NpScene::addArticulation(PxArticulationBase& articulation)
 		return;
 	}
 
-	if (getSimulationStage() != Sc::SimulationStage::eCOMPLETE && articulation.getType() == PxArticulationBase::eReducedCoordinate)
+	if (getSimulationStage() != Sc::SimulationStage::eCOMPLETE && articulation.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
 	{
 		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, "PxScene::addArticulation(): this call is not allowed while the simulation is running. Call will be ignored!");
 		return;
@@ -827,7 +827,7 @@ void NpScene::addArticulation(PxArticulationBase& articulation)
 
 	PxArticulationImpl& npa = *reinterpret_cast<PxArticulationImpl*>(articulation.getImpl());
 
-	Scb::Articulation& art = npa.getArticulation();
+	Scb::Articulation& art = npa.getScbArticulation();
 	const Scb::ControlState::Enum cs = art.getControlState();
 	if ((cs == Scb::ControlState::eNOT_IN_SCENE) || ((cs == Scb::ControlState::eREMOVE_PENDING) && (art.getScbScene()->getPxScene() == this)))
 		addArticulationInternal(articulation);
@@ -871,9 +871,8 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 	addArticulationLinkBody(*rootLink);
 
 	// Add articulation
-	PxArticulationImpl* npaImpl = reinterpret_cast<PxArticulationImpl*>(npa.getImpl());
-	Scb::Articulation& scbArt = npaImpl->getArticulation();
-	scbArt.setArticulationType(npa.getType());
+	PxArticulationImpl* npaImpl = npa.getImpl();
+	Scb::Articulation& scbArt = npaImpl->getScbArticulation();
 	mScene.addArticulation(scbArt);
 
 	Sc::ArticulationCore& scArtCore = scbArt.getScArticulation();
@@ -908,11 +907,7 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 			linkTriggersWakeUp = linkTriggersWakeUp || (!child->getScbBodyFast().checkSleepReadinessBesidesWakeCounter());
 
 			addArticulationLink(*child);  // Adds joint too
-			if (scArtSim)
-			{
-				PxU32 cHandle = scArtSim->findBodyIndex(*child->getScbBodyFast().getScBody().getSim());
-				child->setLLIndex(cHandle);
-			}
+			
 			//child->setInboundJointDof(scArtSim->getDof(cHandle));
 
 			linkStack[stackSize] = child;
@@ -950,7 +945,7 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 
 				child->setInboundJointDof(scArtSim->getDof(child->getLinkIndex()));
 
-				if (npa.getType() == PxArticulationBase::eReducedCoordinate)
+				if (npa.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
 				{
 					PxArticulationJointReducedCoordinate* joint = static_cast<PxArticulationJointReducedCoordinate*>(child->getInboundJoint());
 					PxArticulationJointType::Enum jointType = joint->getJointType();
@@ -994,7 +989,7 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 	}
 
 	//add loop joints
-	if (npa.getType() == PxArticulationBase::eReducedCoordinate)
+	if (npa.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
 	{
 		//This method will prepare link data for the gpu 
 		mScene.getScScene().addArticulationSimControl(scbArt.getScArticulation());
@@ -1073,7 +1068,7 @@ void NpScene::removeArticulationInternal(PxArticulationBase& npa, bool wakeOnLos
 			mScene.getScScene().resetSpeculativeCCDArticulationLink(index.index());
 	}
 	// Remove articulation
-	mScene.removeArticulation(reinterpret_cast<PxArticulationImpl*>(npa.getImpl())->getArticulation());
+	mScene.removeArticulation(reinterpret_cast<PxArticulationImpl*>(npa.getImpl())->getScbArticulation());
 
 
 	removeFromArticulationList(npa);
@@ -1103,6 +1098,15 @@ void NpScene::addArticulationLink(NpArticulationLink& link)
 {
 	addArticulationLinkBody(link);
 	addArticulationLinkConstraint(link);
+
+	Sc::ArticulationCore& scArtCore = link.getArticulation().getImpl()->getScbArticulation().getScArticulation();
+	Sc::ArticulationSim* scArtSim = scArtCore.getSim();
+
+	if (scArtSim)
+	{
+		PxU32 cHandle = scArtSim->findBodyIndex(*link.getScbBodyFast().getScBody().getSim());
+		link.setLLIndex(cHandle);
+	}
 }
 
 void NpScene::removeArticulationLink(NpArticulationLink& link, bool wakeOnLostTouch)
@@ -1295,10 +1299,15 @@ void NpScene::addCollection(const PxCollection& collection)
 			NpArticulation* np = static_cast<NpArticulation*>(s);
 			if (!np->getAggregate()) // The actor will be added when the aggregate is added
 			{
-				if (np->mType == PxArticulationBase::eMaximumCoordinate)
-					addArticulation(static_cast<PxArticulation&>(*np));
-				/*else
-					addArticulation(static_cast<PxArticulationReducedCoordinate&>(*np));*/
+				addArticulation(static_cast<PxArticulationBase&>(*np));
+			}
+		}
+		else if (serialType == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
+		{
+			NpArticulationReducedCoordinate* np = static_cast<NpArticulationReducedCoordinate*>(s);
+			if (!np->getAggregate()) // The actor will be added when the aggregate is added
+			{
+				addArticulation(static_cast<PxArticulationBase&>(*np));
 			}
 		}
 		else if(serialType==PxConcreteType::eAGGREGATE)
@@ -2299,15 +2308,8 @@ void NpScene::flushQueryUpdates()
 {
 	// DS: how do we profile const methods??????
 	PX_PROFILE_ZONE("API.flushQueryUpdates", getContextId());
-	NP_READ_CHECK(this);
+	NP_WRITE_CHECK(this);
 	PX_SIMD_GUARD;
-
-	if (getSimulationStage() != Sc::SimulationStage::eCOMPLETE)
-	{
-		Ps::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__, 
-			"PxScene::flushQueryUpdates(): This call is not allowed while the simulation is running. Call will be ignored");
-		return;
-	}
 
 	mSQManager.flushUpdates();
 }

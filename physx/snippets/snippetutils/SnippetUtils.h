@@ -27,11 +27,12 @@
 
 #include "foundation/PxSimpleTypes.h"
 
+#define PX_RELEASE(x)	if(x)	{ x->release(); x = NULL;	}
+
 namespace physx
 {
 	namespace SnippetUtils
 	{
-
 		/* Increment the specified location. Return the incremented value. */
 		PxI32 atomicIncrement(volatile PxI32* val);
 
@@ -78,7 +79,6 @@ namespace physx
 		/* Release the specified sync object so that it may be reused with syncCreate. */
 		void syncRelease(Sync* sync);
 
-
 		//******************************************************************************//
 
 		struct Thread;
@@ -123,6 +123,5 @@ namespace physx
 
 		/* Release the specified mutex so that it may be reused with mutexCreate. */
 		void mutexRelease(Mutex* mutex);
-
 	}
 }

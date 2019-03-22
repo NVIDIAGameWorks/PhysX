@@ -42,7 +42,6 @@
 
 namespace physx
 {
-
 	class NpArticulationJointReducedCoordinate : public NpArticulationJointTemplate<PxArticulationJointReducedCoordinate>
 	{
 		//= ATTENTION! =====================================================================================
@@ -53,53 +52,50 @@ namespace physx
 		//==================================================================================================
 	public:
 		// PX_SERIALIZATION
-		NpArticulationJointReducedCoordinate(PxBaseFlags baseFlags) : NpArticulationJointTemplate(baseFlags) {}
-		virtual		void				resolveReferences(PxDeserializationContext& context) { mImpl.resolveReferences(context); }
-		static		NpArticulationJointReducedCoordinate* createObject(PxU8*& address, PxDeserializationContext& context);
-		static		void				getBinaryMetaData(PxOutputStream& stream);
-		void				exportExtraData(PxSerializationContext&) {}
-		void				importExtraData(PxDeserializationContext&) {}
-		virtual		void				requiresObjects(PxProcessPxBaseCallback&) {}
-		virtual		bool			    isSubordinate()  const { return true; }
-		//~PX_SERIALIZATION
-		NpArticulationJointReducedCoordinate(NpArticulationLink& parent,
-			const PxTransform& parentFrame,
-			NpArticulationLink& child,
-			const PxTransform& childFrame);
+													NpArticulationJointReducedCoordinate(PxBaseFlags baseFlags)
+														: NpArticulationJointTemplate(baseFlags) {}
 
-		virtual							~NpArticulationJointReducedCoordinate();
+		virtual		void							resolveReferences(PxDeserializationContext& context);
+		static		NpArticulationJointReducedCoordinate* createObject(PxU8*& address, PxDeserializationContext& context);
+		static		void							getBinaryMetaData(PxOutputStream& stream);
+					void							exportExtraData(PxSerializationContext&) {}
+					void							importExtraData(PxDeserializationContext&) {}
+		virtual		void							requiresObjects(PxProcessPxBaseCallback&) {}
+		virtual		bool							isSubordinate()  const { return true; }
+		//~PX_SERIALIZATION
+													NpArticulationJointReducedCoordinate(NpArticulationLink& parent, const PxTransform& parentFrame, NpArticulationLink& child, const PxTransform& childFrame);
+		virtual										~NpArticulationJointReducedCoordinate();
 
 		//---------------------------------------------------------------------------------
 		// PxArticulationJoint implementation
 		//---------------------------------------------------------------------------------
-		// Save
 
+		virtual		void							setJointType(PxArticulationJointType::Enum jointType);
+		virtual		PxArticulationJointType::Enum	getJointType() const;
 
-		virtual		void				setJointType(PxArticulationJointType::Enum jointType);
-		virtual		PxArticulationJointType::Enum
-			getJointType() const;
+		virtual		void							setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
+		virtual		PxArticulationMotion::Enum		getMotion(PxArticulationAxis::Enum axis) const;
 
-		virtual		void				setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
-		virtual		PxArticulationMotion::Enum
-			getMotion(PxArticulationAxis::Enum axis) const;
+		virtual		void							setFrictionCoefficient(const PxReal coefficient);
+		virtual		PxReal							getFrictionCoefficient() const;
 
-		virtual		void				setFrictionCoefficient(const PxReal coefficient);
-		virtual		PxReal				getFrictionCoefficient() const;
+		virtual		void							setMaxJointVelocity(const PxReal maxJointV);
+		virtual		PxReal							getMaxJointVelocity() const;
 
-		virtual		void				setMaxJointVelocity(const PxReal maxJointV);
-		virtual		PxReal				getMaxJointVelocity() const;
+		virtual		void							setLimit(PxArticulationAxis::Enum axis, const PxReal lowLimit, const PxReal highLimit);
+		virtual		void							getLimit(PxArticulationAxis::Enum axis, PxReal& lowLimit, PxReal& highLimit);
 
-		virtual void setLimit(PxArticulationAxis::Enum axis, const PxReal lowLimit, const PxReal highLimit);
-		virtual void getLimit(PxArticulationAxis::Enum axis, PxReal& lowLimit, PxReal& highLimit);
-		virtual void setDrive(PxArticulationAxis::Enum axis, const PxReal stiffness, const PxReal damping, const PxReal maxForce, bool isAccelerationDrive);
-		virtual void getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration);
-		virtual void setDriveTarget(PxArticulationAxis::Enum axis, const PxReal target);
-		virtual void setDriveVelocity(PxArticulationAxis::Enum axis, const PxReal targetVel);
-		virtual PxReal getDriveTarget(PxArticulationAxis::Enum axis);
-		virtual PxReal getDriveVelocity(PxArticulationAxis::Enum axis);
+		virtual		void							setDrive(PxArticulationAxis::Enum axis, const PxReal stiffness, const PxReal damping, const PxReal maxForce, bool isAccelerationDrive);
+		virtual		void							getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, bool& isAcceleration);
+
+		virtual		void							setDriveTarget(PxArticulationAxis::Enum axis, const PxReal target);
+		virtual		PxReal							getDriveTarget(PxArticulationAxis::Enum axis);
+
+		virtual		void							setDriveVelocity(PxArticulationAxis::Enum axis, const PxReal targetVel);
+		virtual		PxReal							getDriveVelocity(PxArticulationAxis::Enum axis);
 #if PX_CHECKED
 	private:
-		bool isValidMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
+					bool							isValidMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion);
 #endif
 	};
 

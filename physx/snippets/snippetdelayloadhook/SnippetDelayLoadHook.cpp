@@ -102,7 +102,7 @@ typedef void (PxSetPhysXDelayLoadHook_FUNC)(const PxDelayLoadHook* hook);
 typedef void (PxSetPhysXCommonDelayLoadHook_FUNC)(const PxDelayLoadHook* hook);
 typedef void (PxSetPhysXGpuLoadHook_FUNC)(const PxGpuLoadHook* hook);
 typedef int (PxGetSuggestedCudaDeviceOrdinal_FUNC)(PxErrorCallback& errc);
-typedef PxCudaContextManager* (PxCreateCudaContextManager_FUNC)(PxFoundation& foundation, const PxCudaContextManagerDesc& desc);
+typedef PxCudaContextManager* (PxCreateCudaContextManager_FUNC)(PxFoundation& foundation, const PxCudaContextManagerDesc& desc, physx::PxProfilerCallback* profilerCallback);
 
 // set the function pointers to NULL
 PxCreateFoundation_FUNC* s_PxCreateFoundation_Func = NULL;
@@ -266,9 +266,8 @@ void initPhysics(bool interactive)
 		createDynamic(PxTransform(PxVec3(0,40,100)), PxSphereGeometry(10), PxVec3(0,-50,-100));
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	if (gScene)
 	{
 		gScene->simulate(1.0f/60.0f);
@@ -276,27 +275,20 @@ void stepPhysics(bool interactive)
 	}
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	if (gScene)
-		gScene->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
 	
-	if (gDispatcher)
-		gDispatcher->release();
-	
-	if (gPhysics)
-		gPhysics->release();	
-	
-	if (gPvd)
+	if(gPvd)
 	{
 		PxPvdTransport* transport = gPvd->getTransport();
-		gPvd->release();
-		transport->release();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
 	}
 	
-	if (gFoundation)
-		gFoundation->release();
+	PX_RELEASE(gFoundation);
 
 	unloadPhysicsExplicitely();
 	

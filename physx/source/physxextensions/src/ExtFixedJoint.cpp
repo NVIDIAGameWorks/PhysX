@@ -29,9 +29,7 @@
 
 #include "ExtFixedJoint.h"
 #include "ExtConstraintHelper.h"
-#include "CmVisualization.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;

@@ -1177,7 +1177,7 @@ class PxScene
 	virtual PxPruningStructureType::Enum getDynamicStructure() const = 0;
 
 	/**
-	\brief Flushes any changes in the simulation to the scene query representation.
+	\brief Flushes any changes to the scene query representation.
 
 	This method updates the state of the scene query representation to match changes in the scene state.
 
@@ -1188,8 +1188,7 @@ class PxScene
 	A thread performing updates will hold a write lock on the query structure, and thus stall other querying threads. In multithread
 	scenarios it can be useful to explicitly schedule the period where this lock may be held for a significant period, so that
 	subsequent queries issued from multiple threads will not block.
-
-	Note that while queries will block during the execution of this method, other read operations on the scene will not.
+	
 	*/
 	virtual	void				flushQueryUpdates() = 0;
 

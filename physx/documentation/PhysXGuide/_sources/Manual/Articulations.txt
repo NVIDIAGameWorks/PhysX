@@ -271,9 +271,17 @@ The location of the entries corresponding to a given link can be found by summin
 Setting a particular joint position for a given link's inbound joint can be done using the snippet below::
 
 	cache->jointPosition[dofStarts[link->getLinkIndex()]] = newJointPosition;
-
+	
+	
 In addition, it contains several fields related to inverse dynamics, which will be described later in this document.
 
+The Jacobian matrix is an important concept to roboticists.  Multiplication with the Jacobian matrix maps the joint space velocities of the robot to world space velocities.  The Jacobian matrix of an articulation can be computed using::
+
+	PxU32 nRows;
+	PxU32 nCols;
+	articulation->computeDenseJacobian(*cache, nRows, nCols);
+
+This will write the Jacobian matrix to PxArticulationCache::denseJacobian;  the dimensions of the matrix are written to the two unsigned integers.  Note how the Jacobian matrix is a sparse triangular matrix so such explicit dense representation is in general not an optimal use of memory.  PhysX does not use this representation internally.
 
 Inverse Dynamics
 ================

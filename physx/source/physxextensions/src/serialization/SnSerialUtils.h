@@ -33,6 +33,8 @@
 
 #include "CmPhysXCommon.h"
 
+#define SN_BINARY_VERSION_GUID_NUM_CHARS 32
+
 namespace physx
 {
 
@@ -41,8 +43,8 @@ namespace Sn
 	PxU32 getBinaryPlatformTag();
 	bool isBinaryPlatformTagValid(PxU32 platformTag);
 	const char* getBinaryPlatformName(PxU32 platformTag);
-	bool checkCompatibility(const PxU32 version, const PxU32 binaryVersion);
-	void getCompatibilityVersionsStr(char* buffer, PxU32 lenght);
+	const char* getBinaryVersionGuid();
+	bool checkCompatibility(const char* binaryVersionGuidCandidate);
 }
 
 }

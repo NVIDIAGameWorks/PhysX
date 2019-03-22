@@ -27,6 +27,7 @@ var searchData=
   ['separation',['separation',['../structphysx_1_1Gu_1_1ContactPoint.html#a195379a6d1770fc7b4a12216edf1d8c1',1,'physx::Gu::ContactPoint::separation()'],['../structPxContact.html#a1d45531c43034871f7c302e9f7c0a13f',1,'PxContact::separation()'],['../structPxContactPairPoint.html#af259733d066c5295cea7423a4f9b59fd',1,'PxContactPairPoint::separation()'],['../PxContact_8h.html#a09ca687555b77d7197a860cbfc3d9547',1,'separation():&#160;PxContact.h']]],
   ['serializable',['serializable',['../structPxRepXObject.html#a1c3113d49e20e25408c2bfd80fdb16f8',1,'PxRepXObject']]],
   ['serializecollectiontobinary',['serializeCollectionToBinary',['../classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03',1,'PxSerialization']]],
+  ['serializecollectiontobinarydeterministic',['serializeCollectionToBinaryDeterministic',['../classPxSerialization.html#a159728a265b7ed81cd5cf329f8cad30e',1,'PxSerialization']]],
   ['serializecollectiontoxml',['serializeCollectionToXml',['../classPxSerialization.html#acbb99dac3e71e78338ab3eec4ab0ab75',1,'PxSerialization']]],
   ['serializers',['Serializers',['../group__Serializers.html',1,'']]],
   ['set',['set',['../structPxExtendedVec3.html#a16e7d8daf70ae2dc2c9553f92e1e74e3',1,'PxExtendedVec3::set()'],['../classPxFlags.html#a4bee6f1b422796fdfd6b939bf82a0e8c',1,'PxFlags::set()']]],

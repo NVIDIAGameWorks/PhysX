@@ -860,7 +860,7 @@ void PhysXSample::onInit()
 			cudaContextManagerDesc.graphicsDevice = getRenderer()->getDevice();
 		}
 #endif 
-		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc);
+		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, PxGetProfilerCallback());
 		if( mCudaContextManager )
 		{
 			if( !mCudaContextManager->contextIsValid() )

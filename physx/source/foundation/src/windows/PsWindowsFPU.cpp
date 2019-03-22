@@ -30,7 +30,7 @@
 #include "float.h"
 #include "PsIntrinsics.h"
 
-#if PX_X64 || PX_ARM
+#if PX_X64 || PX_ARM || PX_A64
 #define _MCW_ALL _MCW_DN | _MCW_EM | _MCW_RC
 #else
 #define _MCW_ALL _MCW_DN | _MCW_EM | _MCW_IC | _MCW_RC | _MCW_PC
@@ -39,7 +39,7 @@
 physx::shdfnd::FPUGuard::FPUGuard()
 {
 // default plus FTZ and DAZ
-#if PX_X64 || PX_ARM
+#if PX_X64 || PX_ARM || PX_A64
 	// query current control word state
 	_controlfp_s(mControlWords, 0, 0);
 
@@ -60,7 +60,7 @@ physx::shdfnd::FPUGuard::~FPUGuard()
 {
 	_clearfp();
 
-#if PX_X64 || PX_ARM
+#if PX_X64 || PX_ARM || PX_A64
 	// reset FP state
 	unsigned int cw;
 	_controlfp_s(&cw, *mControlWords, _MCW_ALL);

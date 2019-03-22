@@ -141,8 +141,11 @@ PxController* CharacterControllerManager::getController(PxU32 index)
 
 PxController* CharacterControllerManager::createController(const PxControllerDesc& desc)
 {
-	if(!desc.isValid())
+	if (!desc.isValid())
+		{
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, "PxControllerManager::createController(): desc.isValid() fails.");
 		return NULL;
+		}
 
 	Controller* newController = NULL;
 

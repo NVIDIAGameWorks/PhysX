@@ -142,10 +142,10 @@ namespace Scb
 	class MaterialEvent
 	{
 	public:
-		PX_FORCE_INLINE	MaterialEvent(PxU32 handle, MATERIAL_EVENT type) : mHandle(handle), mType(type)	{}
+		PX_FORCE_INLINE	MaterialEvent(PxU16 handle, MATERIAL_EVENT type) : mHandle(handle), mType(type)	{}
 		PX_FORCE_INLINE	MaterialEvent()																	{}
 
-		PxU32			mHandle;//handle to the master material table
+		PxU16			mHandle;//handle to the master material table
 		MATERIAL_EVENT	mType;
 	};
 

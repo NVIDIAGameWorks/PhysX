@@ -35,6 +35,8 @@
 
 namespace physx
 {
+	//PX_SERIALIZATION
+
 	NpArticulationJointReducedCoordinate* NpArticulationJointReducedCoordinate::createObject(PxU8*& address, PxDeserializationContext& context)
 	{
 		NpArticulationJointReducedCoordinate* obj = new (address) NpArticulationJointReducedCoordinate(PxBaseFlags(0));
@@ -44,23 +46,17 @@ namespace physx
 		return obj;
 	}
 
-	void NpArticulationJointReducedCoordinate::getBinaryMetaData(PxOutputStream& stream)
+	void NpArticulationJointReducedCoordinate::resolveReferences(PxDeserializationContext& context)
 	{
-		// 184 => 200 => 192 => 224 => 208 bytes
-		PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulationJointReducedCoordinate)
-		PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulationJointReducedCoordinate, PxBase)
-
-		PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJointReducedCoordinate, PxArticulationJointImpl, mImpl, 0)
-
+		mImpl.resolveReferences(context, *this); 
 	}
-	//~PX_SERIALIZATION
-	NpArticulationJointReducedCoordinate::NpArticulationJointReducedCoordinate(NpArticulationLink& parent,
-		const PxTransform& parentFrame,
-		NpArticulationLink& child,
-		const PxTransform& childFrame) :
-		NpArticulationJointTemplate(parent, parentFrame, child, childFrame, PxArticulationBase::eReducedCoordinate)
-	{
 
+	//~PX_SERIALIZATION
+
+	NpArticulationJointReducedCoordinate::NpArticulationJointReducedCoordinate(NpArticulationLink& parent, const PxTransform& parentFrame,
+		NpArticulationLink& child, const PxTransform& childFrame) 
+	: NpArticulationJointTemplate(PxConcreteType::eARTICULATION_JOINT_REDUCED_COORDINATE, parent, parentFrame, child, childFrame)
+	{
 	}
 
 	NpArticulationJointReducedCoordinate::~NpArticulationJointReducedCoordinate()

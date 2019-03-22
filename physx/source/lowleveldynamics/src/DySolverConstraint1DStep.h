@@ -69,7 +69,9 @@ namespace physx
 			PxU32 broken;															//64
 			PxU8* frictionBrokenWritebackByte;										//68	72
 			Sc::ShapeInteraction* shapeInteraction;									//72	80
-
+#if !PX_P64_FAMILY
+			PxU32 pad[2];															//80
+#endif		
 
 			PX_FORCE_INLINE FloatV getStaticFriction() const { return V4GetX(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W); }
 			PX_FORCE_INLINE FloatV getDynamicFriction() const { return V4GetY(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W); }

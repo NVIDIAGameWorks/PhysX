@@ -28,21 +28,18 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "PxImmediateMode.h"
-#include "CmUtils.h"
-#include "PsMathUtils.h"
 #include "../../lowleveldynamics/src/DyBodyCoreIntegrator.h"
-#include "../../lowleveldynamics/src/DySolverBody.h"
 #include "../../lowleveldynamics/src/DyContactPrep.h"
 #include "../../lowleveldynamics/src/DyCorrelationBuffer.h"
 #include "../../lowleveldynamics/src/DyConstraintPrep.h"
 #include "../../lowleveldynamics/src/DySolverControl.h"
 #include "../../lowleveldynamics/src/DySolverContext.h"
-#include "PxGeometry.h"
-#include "GuGeometryUnion.h"
-#include "GuContactMethodImpl.h"
 #include "../../lowlevel/common/include/collision/PxcContactMethodImpl.h"
 #include "GuPersistentContactManifold.h"
 #include "NpConstraint.h"
+
+// PT: just for Dy::DY_ARTICULATION_MAX_SIZE
+#include "../../lowleveldynamics/include/DyFeatherstoneArticulation.h"
 
 using namespace physx;
 
@@ -50,29 +47,18 @@ namespace
 {
 #define MAX_NUM_PARTITIONS 32u
 
-	static PxU32 bitTable[32] =
-	{
-		1u << 0, 1u << 1, 1u << 2, 1u << 3, 1u << 4, 1u << 5, 1u << 6, 1u << 7, 1u << 8, 1u << 9, 1u << 10, 1u << 11, 1u << 12, 1u << 13, 1u << 14, 1u << 15, 1u << 16, 1u << 17,
-		1u << 18, 1u << 19, 1u << 20, 1u << 21, 1u << 22, 1u << 23, 1u << 24, 1u << 25, 1u << 26, 1u << 27, 1u << 28, 1u << 29, 1u << 30, 1u << 31
-	};
-
-	PxU32 getBit(const PxU32 index)
-	{
-		PX_ASSERT(index < 32);
-		return bitTable[index];
-	}
-
 	class RigidBodyClassification
 	{
+		PX_NOCOPY(RigidBodyClassification)
 		PxSolverBody* PX_RESTRICT mBodies;
-		PxU32 mNumBodies;
+		const PxU32 mNumBodies;
 
 	public:
 		RigidBodyClassification(PxSolverBody* PX_RESTRICT bodies, PxU32 numBodies) : mBodies(bodies), mNumBodies(numBodies)
 		{
 		}
 
-		//Returns true if it is a dynamic-dynamic constriant; false if it is a dynamic-static or dynamic-kinematic constraint
+		//Returns true if it is a dynamic-dynamic constraint; false if it is a dynamic-static or dynamic-kinematic constraint
 		PX_FORCE_INLINE bool classifyConstraint(const PxSolverConstraintDesc& desc, uintptr_t& indexA, uintptr_t& indexB, bool& activeA, bool& activeB) const
 		{
 			indexA = uintptr_t(desc.bodyA - mBodies);
@@ -104,7 +90,7 @@ namespace
 		const PxSolverConstraintDesc* _desc = descs;
 		const PxU32 numConstraintsMin1 = numConstraints - 1;
 
-		PxMemZero(numConstraintsPerPartition, sizeof(PxU32) * 33);
+		PxMemZero(numConstraintsPerPartition, sizeof(PxU32) * (MAX_NUM_PARTITIONS+1));
 
 		for (PxU32 i = 0; i < numConstraints; ++i, _desc++)
 		{
@@ -137,7 +123,7 @@ namespace
 						continue;
 					}
 
-					const PxU32 partitionBit = getBit(availablePartition);
+					const PxU32 partitionBit = (1u << availablePartition);
 					partitionsA |= partitionBit;
 					partitionsB |= partitionBit;
 				}
@@ -195,7 +181,7 @@ namespace
 						continue;
 					}
 
-					const PxU32 partitionBit = getBit(availablePartition);
+					const PxU32 partitionBit = (1u << availablePartition);
 
 					partitionsA |= partitionBit;
 					partitionsB |= partitionBit;
@@ -223,18 +209,18 @@ namespace
 
 void immediate::PxConstructSolverBodies(const PxRigidBodyData* inRigidData, PxSolverBodyData* outSolverBodyData, const PxU32 nbBodies, const PxVec3& gravity, const PxReal dt)
 {
-	for (PxU32 a = 0; a < nbBodies; ++a)
+	for(PxU32 a=0; a<nbBodies; a++)
 	{
 		const PxRigidBodyData& rigidData = inRigidData[a];
 		PxVec3 lv = rigidData.linearVelocity, av = rigidData.angularVelocity;
-		Dy::bodyCoreComputeUnconstrainedVelocity(gravity, dt, rigidData.linearDamping, rigidData.angularDamping, 1.f, rigidData.maxLinearVelocitySq, rigidData.maxAngularVelocitySq, lv, av, false);
+		Dy::bodyCoreComputeUnconstrainedVelocity(gravity, dt, rigidData.linearDamping, rigidData.angularDamping, 1.0f, rigidData.maxLinearVelocitySq, rigidData.maxAngularVelocitySq, lv, av, false);
 		Dy::copyToSolverBodyData(lv, av, rigidData.invMass, rigidData.invInertia, rigidData.body2World, -rigidData.maxDepenetrationVelocity, rigidData.maxContactImpulse, IG_INVALID_NODE, PX_MAX_F32, outSolverBodyData[a], 0);
 	}
 }
 
 void immediate::PxConstructStaticSolverBody(const PxTransform& globalPose, PxSolverBodyData& solverBodyData)
 {
-	PxVec3 zero(0.f);
+	const PxVec3 zero(0.0f);
 	Dy::copyToSolverBodyData(zero, zero, 0.f, zero, globalPose, -PX_MAX_F32, PX_MAX_F32, IG_INVALID_NODE, PX_MAX_F32, solverBodyData, 0);
 }
 
@@ -248,7 +234,7 @@ void immediate::PxIntegrateSolverBodies(PxSolverBodyData* solverBodyData, PxSolv
 	}
 }
 
-PxU32 immediate::PxBatchConstraints(PxSolverConstraintDesc* solverConstraintDescs, const PxU32 nbConstraints, PxSolverBody* solverBodies, PxU32 numBodies, PxConstraintBatchHeader* outBatchHeaders,
+PxU32 immediate::PxBatchConstraints(const PxSolverConstraintDesc* solverConstraintDescs, const PxU32 nbConstraints, PxSolverBody* solverBodies, PxU32 numBodies, PxConstraintBatchHeader* outBatchHeaders,
 	PxSolverConstraintDesc* outOrderedConstraintDescs)
 {
 	PxU32 constraintsPerPartition[MAX_NUM_PARTITIONS + 1];
@@ -259,7 +245,8 @@ PxU32 immediate::PxBatchConstraints(PxSolverConstraintDesc* solverConstraintDesc
 		body.solverProgress = 0;
 		//We re-use maxSolverFrictionProgress and maxSolverNormalProgress to record the
 		//maximum partition used by dynamic constraints and the number of static constraints affecting
-		//a body. We use this to make partitioning much cheaper and be able to support 
+		//a body. We use this to make partitioning much cheaper and be able to support
+		// an arbitrary number of constraints/bodies being solved in parallel in a given island.
 		body.maxSolverFrictionProgress = 0;
 		body.maxSolverNormalProgress = 0;
 	}
@@ -359,10 +346,11 @@ bool immediate::PxCreateContactConstraints(PxConstraintBatchHeader* batchHeaders
 
 		if (state == Dy::SolverConstraintPrepState::eUNBATCHABLE)
 		{
+			Cm::SpatialVectorF Z[Dy::DY_ARTICULATION_MAX_SIZE];
 			for (PxU32 a = 0; a < batchHeader.mStride; ++a)
 			{
 				Dy::createFinalizeSolverContacts(contactDescs[currentContactDescIdx + a], cb, invDt, bounceThreshold, 
-					frictionOffsetThreshold, correlationDistance, 0.f, allocator, NULL);
+					frictionOffsetThreshold, correlationDistance, 0.f, allocator, Z);
 			}
 		}
 		PxU8 type = *contactDescs[currentContactDescIdx].desc->constraint;
@@ -430,10 +418,16 @@ bool immediate::PxCreateJointConstraints(PxConstraintBatchHeader* batchHeaders, 
 		if (state == Dy::SolverConstraintPrepState::eUNBATCHABLE)
 		{
 			type = DY_SC_TYPE_RB_1D;
+			Cm::SpatialVectorF Z[Dy::DY_ARTICULATION_MAX_SIZE];
 			for (PxU32 a = 0; a < batchHeader.mStride; ++a)
 			{
-				Dy::ConstraintHelper::setupSolverConstraint(jointDescs[currentDescIdx + a], 
-					allocator, dt, invDt, NULL);
+				// PT: TODO: And "isExtended" is already computed in Dy::ConstraintHelper::setupSolverConstraint
+				PxSolverConstraintDesc& desc = *jointDescs[currentDescIdx + a].desc;
+				const bool isExtended = desc.linkIndexA != PxSolverConstraintDesc::NO_LINK || desc.linkIndexB != PxSolverConstraintDesc::NO_LINK;
+				if(isExtended)
+					type = DY_SC_TYPE_EXT_1D;
+
+				Dy::ConstraintHelper::setupSolverConstraint(jointDescs[currentDescIdx + a], allocator, dt, invDt, Z);
 			}
 		}
 
@@ -455,7 +449,6 @@ bool immediate::PxCreateJointConstraintsWithShaders(PxConstraintBatchHeader* bat
 
 	for (PxU32 i = 0; i < nbHeaders; ++i)
 	{
-
 		PxU32 numRows = 0;
 		PxU32 preppedIndex = 0;
 		PxU32 maxRows = 0;
@@ -517,7 +510,7 @@ bool immediate::PxCreateJointConstraintsWithShaders(PxConstraintBatchHeader* bat
 	return true; //KS - TODO - do some error reporting/management...
 }
 
-PX_FORCE_INLINE bool PxIsZero(PxSolverBody* bodies, PxU32 nbBodies)
+/*static*/ PX_FORCE_INLINE bool PxIsZero(const PxSolverBody* bodies, PxU32 nbBodies)
 {
 	for (PxU32 i = 0; i < nbBodies; ++i)
 	{
@@ -528,7 +521,7 @@ PX_FORCE_INLINE bool PxIsZero(PxSolverBody* bodies, PxU32 nbBodies)
 	return true;
 }
 
-void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, PxSolverConstraintDesc* solverConstraintDescs, PxSolverBody* solverBodies,
+void immediate::PxSolveConstraints(const PxConstraintBatchHeader* batchHeaders, const PxU32 nbBatchHeaders, const PxSolverConstraintDesc* solverConstraintDescs, PxSolverBody* solverBodies,
 	PxVec3* linearMotionVelocity, PxVec3* angularMotionVelocity, const PxU32 nbSolverBodies, const PxU32 nbPositionIterations, const PxU32 nbVelocityIterations)
 {
 	PX_ASSERT(nbPositionIterations > 0);
@@ -536,7 +529,7 @@ void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const 
 	PX_ASSERT(PxIsZero(solverBodies, nbSolverBodies)); //Ensure that solver body velocities have been zeroed before solving
 
 	//Stage 1: solve the position iterations...
-	Dy::SolveBlockMethod*  solveTable = Dy::getSolveBlockTable();
+	Dy::SolveBlockMethod* solveTable = Dy::getSolveBlockTable();
 
 	Dy::SolveBlockMethod* solveConcludeTable = Dy::getSolverConcludeBlockTable();
 
@@ -554,7 +547,7 @@ void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const 
 		cache.doFriction = i <= 3;
 		for (PxU32 a = 0; a < nbBatchHeaders; ++a)
 		{
-			PxConstraintBatchHeader& batch = batchHeaders[a];
+			const PxConstraintBatchHeader& batch = batchHeaders[a];
 			solveTable[batch.mConstraintType](solverConstraintDescs + batch.mStartIndex, batch.mStride, cache);
 		}
 	}
@@ -562,7 +555,7 @@ void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const 
 	cache.doFriction = true;
 	for (PxU32 a = 0; a < nbBatchHeaders; ++a)
 	{
-		PxConstraintBatchHeader& batch = batchHeaders[a];
+		const PxConstraintBatchHeader& batch = batchHeaders[a];
 		solveConcludeTable[batch.mConstraintType](solverConstraintDescs + batch.mStartIndex, batch.mStride, cache);
 	}
 
@@ -578,19 +571,19 @@ void immediate::PxSolveConstraints(PxConstraintBatchHeader* batchHeaders, const 
 	{
 		for (PxU32 a = 0; a < nbBatchHeaders; ++a)
 		{
-			PxConstraintBatchHeader& batch = batchHeaders[a];
+			const PxConstraintBatchHeader& batch = batchHeaders[a];
 			solveTable[batch.mConstraintType](solverConstraintDescs + batch.mStartIndex, batch.mStride, cache);
 		}
 	}
 
 	for (PxU32 a = 0; a < nbBatchHeaders; ++a)
 	{
-		PxConstraintBatchHeader& batch = batchHeaders[a];
+		const PxConstraintBatchHeader& batch = batchHeaders[a];
 		solveWritebackTable[batch.mConstraintType](solverConstraintDescs + batch.mStartIndex, batch.mStride, cache);
 	}
 }
 
-void createCache(Gu::Cache& cache, PxGeometryType::Enum geomType0, PxGeometryType::Enum geomType1, PxCacheAllocator& allocator)
+static void createCache(Gu::Cache& cache, PxGeometryType::Enum geomType0, PxGeometryType::Enum geomType1, PxCacheAllocator& allocator)
 {	
 	if (gEnablePCMCaching[geomType0][geomType1])
 	{
@@ -740,5 +733,3 @@ bool immediate::PxGenerateContacts(const PxGeometry* const * geom0, const PxGeom
 	}
 	return true;
 }
-
-

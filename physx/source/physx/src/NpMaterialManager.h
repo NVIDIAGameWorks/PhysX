@@ -56,7 +56,7 @@ namespace physx
 			{
 				if(mMaterials[i])
 				{
-					const PxU32 handle = mMaterials[i]->getHandle();
+					const PxU32 handle(mMaterials[i]->getHandle());
 					mHandleManager.freeID(handle);
 					mMaterials[i]->release();
 					mMaterials[i] = NULL;
@@ -67,7 +67,11 @@ namespace physx
 
 		bool setMaterial(NpMaterial& mat)
 		{
-			const PxU32 materialIndex = mHandleManager.getNewID();
+			const PxU32 poolID = mHandleManager.getNewID();
+			if (poolID >= MATERIAL_INVALID_HANDLE)
+				return false;
+
+			const PxU16 materialIndex = Ps::to16(poolID);
 
 			if(materialIndex >= mMaxMaterials)
 				resize();
@@ -89,11 +93,11 @@ namespace physx
 
 		void removeMaterial(NpMaterial& mat)
 		{
-			const PxU32 handle = mat.getHandle();
+			const PxU16 handle = mat.getHandle();
 			if(handle != MATERIAL_INVALID_HANDLE)
 			{
 				mMaterials[handle] = NULL;
-				mHandleManager.freeID(handle);
+				mHandleManager.freeID(PxU32(handle));
 			}
 		}
 
@@ -117,7 +121,7 @@ namespace physx
 		void resize()
 		{
 			const PxU32 numMaterials = mMaxMaterials;
-			mMaxMaterials = mMaxMaterials*2;
+			mMaxMaterials = PxMin(mMaxMaterials*2, PxU32(MATERIAL_INVALID_HANDLE));
 
 			NpMaterial** mat = reinterpret_cast<NpMaterial**>(PX_ALLOC(sizeof(NpMaterial*)*mMaxMaterials,  "NpMaterialManager::resize"));
 			PxMemZero(mat, sizeof(NpMaterial*)*mMaxMaterials);

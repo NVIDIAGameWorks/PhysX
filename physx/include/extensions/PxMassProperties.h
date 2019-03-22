@@ -305,7 +305,8 @@ public:
 			combinedCoM += comTm * props[i].mass;
 		}
 
-		combinedCoM /= combinedMass;
+		if(combinedMass > 0.f)
+			combinedCoM /= combinedMass;
 
 		for(PxU32 i = 0; i < count; i++)
 		{

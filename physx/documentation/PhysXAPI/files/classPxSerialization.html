@@ -125,6 +125,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a1d6242bea0c7513bfbfb24670e5cfb03"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03">serializeCollectionToBinary</a> (<a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;outputStream, <a class="el" href="classPxCollection.html">PxCollection</a> &amp;collection, <a class="el" href="classPxSerializationRegistry.html">PxSerializationRegistry</a> &amp;sr, const <a class="el" href="classPxCollection.html">PxCollection</a> *externalRefs=NULL, bool exportNames=false)</td></tr>
 <tr class="memdesc:a1d6242bea0c7513bfbfb24670e5cfb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a collection to a binary stream.  <a href="#a1d6242bea0c7513bfbfb24670e5cfb03">More...</a><br /></td></tr>
 <tr class="separator:a1d6242bea0c7513bfbfb24670e5cfb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a159728a265b7ed81cd5cf329f8cad30e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSerialization.html#a159728a265b7ed81cd5cf329f8cad30e">serializeCollectionToBinaryDeterministic</a> (<a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;outputStream, <a class="el" href="classPxCollection.html">PxCollection</a> &amp;collection, <a class="el" href="classPxSerializationRegistry.html">PxSerializationRegistry</a> &amp;sr, const <a class="el" href="classPxCollection.html">PxCollection</a> *externalRefs=NULL, bool exportNames=false)</td></tr>
+<tr class="memdesc:a159728a265b7ed81cd5cf329f8cad30e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serializes a collection to a binary stream.  <a href="#a159728a265b7ed81cd5cf329f8cad30e">More...</a><br /></td></tr>
+<tr class="separator:a159728a265b7ed81cd5cf329f8cad30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86026f68eb651de87e4a7720bc708893"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxSerialization.html#a86026f68eb651de87e4a7720bc708893">dumpBinaryMetaData</a> (<a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;outputStream, <a class="el" href="classPxSerializationRegistry.html">PxSerializationRegistry</a> &amp;sr)</td></tr>
 <tr class="memdesc:a86026f68eb651de87e4a7720bc708893"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the binary meta-data to a stream.  <a href="#a86026f68eb651de87e4a7720bc708893">More...</a><br /></td></tr>
 <tr class="separator:a86026f68eb651de87e4a7720bc708893"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -635,6 +638,69 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Whether serialization was successful</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxCollection.html" title="Collection class for serialization. ">PxCollection</a>, <a class="el" href="classPxOutputStream.html" title="Output stream class for I/O. ">PxOutputStream</a>, <a class="el" href="classPxSerialization.html#a0cf59eda36c56e9e66bac0c2b5168094" title="Adds to a collection all objects such that it can be successfully serialized. ">PxSerialization::complete</a>, <a class="el" href="classPxSerialization.html#a6c64dc9a55f7ae9ffc8c1802855134ed" title="Deserializes a PxCollection from memory. ">PxSerialization::createCollectionFromBinary</a>, <a class="el" href="classPxSerializationRegistry.html" title="Class serving as a registry for XML (RepX) and binary serializable types. ">PxSerializationRegistry</a> </dd></dl>
+
+</div>
+</div>
+<a id="a159728a265b7ed81cd5cf329f8cad30e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a159728a265b7ed81cd5cf329f8cad30e">&#9670;&nbsp;</a></span>serializeCollectionToBinaryDeterministic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool PxSerialization::serializeCollectionToBinaryDeterministic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classPxOutputStream.html">PxOutputStream</a> &amp;&#160;</td>
+          <td class="paramname"><em>outputStream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxCollection.html">PxCollection</a> &amp;&#160;</td>
+          <td class="paramname"><em>collection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classPxSerializationRegistry.html">PxSerializationRegistry</a> &amp;&#160;</td>
+          <td class="paramname"><em>sr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classPxCollection.html">PxCollection</a> *&#160;</td>
+          <td class="paramname"><em>externalRefs</em> = <code>NULL</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>exportNames</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Serializes a collection to a binary stream. </p>
+<p>Convenience function that serializes a collection to a stream while rebasing memory addresses and handles to achieve a deterministic output, independent of the PhysX runtime environment the objects have been created in.</p>
+<p>The same functionality can be achieved by manually</p><ul>
+<li>creating a binary data stream with <a class="el" href="classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03" title="Serializes a collection to a binary stream. ">PxSerialization::serializeCollectionToBinary</a></li>
+<li>producing the binary meta data of the current runtime platform with <a class="el" href="classPxSerialization.html#a86026f68eb651de87e4a7720bc708893" title="Dumps the binary meta-data to a stream. ">PxSerialization::dumpBinaryMetaData</a></li>
+<li>converting the binary data stream with the <a class="el" href="classPxBinaryConverter.html" title="Binary converter for serialized streams. ">PxBinaryConverter</a>, using the binary meta for both source and destination</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03" title="Serializes a collection to a binary stream. ">PxSerialization::serializeCollectionToBinary</a>, <a class="el" href="classPxSerialization.html#a86026f68eb651de87e4a7720bc708893" title="Dumps the binary meta-data to a stream. ">PxSerialization::dumpBinaryMetaData</a>, <a class="el" href="classPxBinaryConverter.html" title="Binary converter for serialized streams. ">PxBinaryConverter</a> </dd></dl>
 
 </div>
 </div>

@@ -49,36 +49,53 @@ public:
 	LLReducedArticulationPool() {}
 };
 
-NpArticulationReducedCoordinate::NpArticulationReducedCoordinate()
-	: NpArticulationTemplate(PxConcreteType::eARTICULATION, PxBaseFlag::eOWNS_MEMORY | PxBaseFlag::eIS_RELEASABLE)
+// PX_SERIALIZATION
+NpArticulationReducedCoordinate* NpArticulationReducedCoordinate::createObject(PxU8*& address, PxDeserializationContext& context)
 {
-	mType = PxArticulationBase::eReducedCoordinate;
-	mImpl.mArticulation.setArticulationType(PxArticulationBase::eReducedCoordinate);
+	NpArticulationReducedCoordinate* obj = new (address) NpArticulationReducedCoordinate(PxBaseFlag::eIS_RELEASABLE);
+	address += sizeof(NpArticulationReducedCoordinate);
+	obj->importExtraData(context);
+	obj->resolveReferences(context);
+	return obj;
+}
+
+void NpArticulationReducedCoordinate::preExportDataReset()
+{
+	//for now, no support for loop joint serialization
+	Ps::Array<PxJoint*> emptyLoopJoints;
+	PxMemCopy(&mLoopJoints, &emptyLoopJoints, sizeof(Ps::Array<PxJoint*>));
+}
+
+//~PX_SERIALIZATION
+
+NpArticulationReducedCoordinate::NpArticulationReducedCoordinate()
+	: NpArticulationTemplate(PxConcreteType::eARTICULATION_REDUCED_COORDINATE, PxBaseFlag::eOWNS_MEMORY | PxBaseFlag::eIS_RELEASABLE)
+{
 }
 
 void NpArticulationReducedCoordinate::setArticulationFlags(PxArticulationFlags flags)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	mImpl.getArticulation().setArticulationFlags(flags);
+	mImpl.getScbArticulation().setArticulationFlags(flags);
 }
 
 void NpArticulationReducedCoordinate::setArticulationFlag(PxArticulationFlag::Enum flag, bool value)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	PxArticulationFlags flags = mImpl.getArticulation().getArticulationFlags();
+	PxArticulationFlags flags = mImpl.getScbArticulation().getArticulationFlags();
 
 	if(value)
 		flags |= flag;
 	else
 		flags &= (~flag);
 
-	mImpl.getArticulation().setArticulationFlags(flags);
+	mImpl.getScbArticulation().setArticulationFlags(flags);
 }
 
 PxArticulationFlags	NpArticulationReducedCoordinate::getArticulationFlags() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
-	return mImpl.getArticulation().getArticulationFlags();
+	return mImpl.getScbArticulation().getArticulationFlags();
 }
 
 PxU32 NpArticulationReducedCoordinate::getDofs() const
@@ -237,27 +254,37 @@ void NpArticulationReducedCoordinate::computeJointForce(PxArticulationCache& cac
 
 void NpArticulationReducedCoordinate::computeKinematicJacobian(const PxU32 linkID, PxArticulationCache& cache) const
 {
-	PX_CHECK_AND_RETURN(mImpl.getAPIScene(), "PxArticulation::computeKenematicJacobian: object must be in a scene");
+	PX_CHECK_AND_RETURN(mImpl.getAPIScene(), "PxArticulation::computeKinematicJacobian: object must be in a scene");
 	NP_READ_CHECK(mImpl.getOwnerScene());
 
-	PX_CHECK_AND_RETURN(cache.version == mImpl.mCacheVersion, "PxArticulation::computeKenematicJacobian : cache is invalid, articulation configuration has changed! ");
+	PX_CHECK_AND_RETURN(cache.version == mImpl.mCacheVersion, "PxArticulation::computeKinematicJacobian : cache is invalid, articulation configuration has changed! ");
 
 	mImpl.mArticulation.getScArticulation().computeKinematicJacobian(linkID, cache);
 }
 
-void NpArticulationReducedCoordinate::computeCoefficentMatrix(PxArticulationCache& cache) const
+void NpArticulationReducedCoordinate::computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const
 {
-	PX_CHECK_AND_RETURN(mImpl.getAPIScene(), "PxArticulation::computeCoefficentMatrix: object must be in a scene");
+	PX_CHECK_AND_RETURN(mImpl.getAPIScene(), "PxArticulation::computeDenseJacobian: object must be in a scene");
 	NP_READ_CHECK(mImpl.getOwnerScene());
 
-	PX_CHECK_AND_RETURN(cache.version == mImpl.mCacheVersion, "PxArticulation::computeCoefficentMatrix : cache is invalid, articulation configuration has changed! ");
+	PX_CHECK_AND_RETURN(cache.version == mImpl.mCacheVersion, "PxArticulation::computeDenseJacobian : cache is invalid, articulation configuration has changed! ");
+
+	mImpl.mArticulation.getScArticulation().computeDenseJacobian(cache, nRows, nCols);
+}
+
+void NpArticulationReducedCoordinate::computeCoefficientMatrix(PxArticulationCache& cache) const
+{
+	PX_CHECK_AND_RETURN(mImpl.getAPIScene(), "PxArticulation::computeCoefficientMatrix: object must be in a scene");
+	NP_READ_CHECK(mImpl.getOwnerScene());
+
+	PX_CHECK_AND_RETURN(cache.version == mImpl.mCacheVersion, "PxArticulation::computeCoefficientMatrix : cache is invalid, articulation configuration has changed! ");
 
 	for (PxU32 i = 0; i < mLoopJoints.size(); ++i)
 	{
 		static_cast<NpConstraint*>(mLoopJoints[i]->getConstraint())->updateConstants();
 	}
 
-	mImpl.mArticulation.getScArticulation().computeCoefficentMatrix(cache);
+	mImpl.mArticulation.getScArticulation().computeCoefficientMatrix(cache);
 }
 
 bool NpArticulationReducedCoordinate::computeLambda(PxArticulationCache& cache, PxArticulationCache& initialState, const PxReal* const jointTorque, const PxU32 maxIter) const
@@ -331,7 +358,7 @@ void NpArticulationReducedCoordinate::addLoopJoint(PxJoint* joint)
 
 	mLoopJoints.pushBack(joint);
 
-	Scb::Articulation& scbArt = mImpl.getArticulation();
+	Scb::Articulation& scbArt = mImpl.getScbArticulation();
 	Sc::ArticulationSim* scArtSim = scbArt.getScArticulation().getSim();
 
 	NpConstraint* constraint = static_cast<NpConstraint*>(joint->getConstraint());
@@ -346,7 +373,7 @@ void NpArticulationReducedCoordinate::removeLoopJoint(PxJoint* joint)
 
 	mLoopJoints.findAndReplaceWithLast(joint);
 
-	Scb::Articulation& scbArt = mImpl.getArticulation();
+	Scb::Articulation& scbArt = mImpl.getScbArticulation();
 	Sc::ArticulationSim* scArtSim = scbArt.getScArticulation().getSim();
 
 	NpConstraint* constraint = static_cast<NpConstraint*>(joint->getConstraint());
@@ -368,11 +395,11 @@ PxU32 NpArticulationReducedCoordinate::getLoopJoints(PxJoint** userBuffer, PxU32
 	return Cm::getArrayOfPointers(userBuffer, bufferSize, startIndex, mLoopJoints.begin(), mLoopJoints.size());
 }
 
-PxU32 NpArticulationReducedCoordinate::getCoefficentMatrixSize() const
+PxU32 NpArticulationReducedCoordinate::getCoefficientMatrixSize() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
 	
-	return mImpl.mArticulation.getScArticulation().getCoefficentMatrixSize();
+	return mImpl.mArticulation.getScArticulation().getCoefficientMatrixSize();
 }
 
 void NpArticulationReducedCoordinate::teleportRootLink(const PxTransform& pose, bool autowake)
@@ -404,6 +431,32 @@ PxArticulationJointBase* NpArticulationReducedCoordinate::createArticulationJoin
 void NpArticulationReducedCoordinate::releaseArticulationJoint(PxArticulationJointBase* joint)
 {
 	NpFactory::getInstance().releaseArticulationJointRCToPool(*static_cast<NpArticulationJointReducedCoordinate*>(joint));
+}
+
+void PxArticulationImpl::recomputeLinkIDs()
+{
+	PX_CHECK_AND_RETURN(getAPIScene(), "PxArticulation::recomputeLinkIDs: object must be in a scene");
+	NP_WRITE_CHECK(getOwnerScene());
+
+	if (!mArticulation.isBuffering())
+	{
+		Sc::ArticulationCore& scArtCore = getScbArticulation().getScArticulation();
+		Sc::ArticulationSim* scArtSim = scArtCore.getSim();
+
+		if (scArtSim)
+		{
+
+			physx::NpArticulationLink*const* links = getLinks();
+
+			const PxU32 nbLinks = getNbLinks();
+			for (PxU32 i = 1; i < nbLinks; ++i)
+			{
+				physx::NpArticulationLink* link = links[i];
+				PxU32 cHandle = scArtSim->findBodyIndex(*link->getScbBodyFast().getScBody().getSim());
+				link->setLLIndex(cHandle);
+			}
+		}
+	}
 }
 
 

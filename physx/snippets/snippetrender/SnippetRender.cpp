@@ -29,6 +29,8 @@
 
 #include "SnippetRender.h"
 
+#define MAX_NUM_ACTOR_SHAPES 128
+
 using namespace physx;
 
 static float gCylinderData[]={
@@ -50,26 +52,30 @@ static float gCylinderData[]={
 #define MAX_NUM_MESH_VEC3S  1024
 static PxVec3 gVertexBuffer[MAX_NUM_MESH_VEC3S];
 
-void renderGeometry(const PxGeometryHolder& h)
+static void renderGeometry(const PxGeometry& geom)
 {
-	switch(h.getType())
+	switch(geom.getType())
 	{
-	case PxGeometryType::eBOX:			
+		case PxGeometryType::eBOX:
 		{
-			glScalef(h.box().halfExtents.x, h.box().halfExtents.y, h.box().halfExtents.z);
-			glutSolidCube(2.0);
+			const PxBoxGeometry& boxGeom = static_cast<const PxBoxGeometry&>(geom);
+			glScalef(boxGeom.halfExtents.x, boxGeom.halfExtents.y, boxGeom.halfExtents.z);
+			glutSolidCube(2);
 		}
 		break;
-	case PxGeometryType::eSPHERE:		
-		{
-			glutSolidSphere(GLdouble(h.sphere().radius), 10, 10);
-		}
-		break;
-	case PxGeometryType::eCAPSULE:
-		{
 
-			const PxF32 radius = h.capsule().radius;
-			const PxF32 halfHeight = h.capsule().halfHeight;
+		case PxGeometryType::eSPHERE:
+		{
+			const PxSphereGeometry& sphereGeom = static_cast<const PxSphereGeometry&>(geom);
+			glutSolidSphere(GLdouble(sphereGeom.radius), 10, 10);
+		}
+		break;
+
+		case PxGeometryType::eCAPSULE:
+		{
+			const PxCapsuleGeometry& capsuleGeom = static_cast<const PxCapsuleGeometry&>(geom);
+			const PxF32 radius = capsuleGeom.radius;
+			const PxF32 halfHeight = capsuleGeom.halfHeight;
 
 			//Sphere
 			glPushMatrix();
@@ -100,12 +106,14 @@ void renderGeometry(const PxGeometryHolder& h)
 			glPopMatrix();
 		}
 		break;
-	case PxGeometryType::eCONVEXMESH:
+
+		case PxGeometryType::eCONVEXMESH:
 		{
+			const PxConvexMeshGeometry& convexGeom = static_cast<const PxConvexMeshGeometry&>(geom);
 
 			//Compute triangles for each polygon.
-			const PxVec3 scale = h.convexMesh().scale.scale;
-			PxConvexMesh* mesh = h.convexMesh().convexMesh;
+			const PxVec3& scale = convexGeom.scale.scale;
+			PxConvexMesh* mesh = convexGeom.convexMesh;
 			const PxU32 nbPolys = mesh->getNbPolygons();
 			const PxU8* polygons = mesh->getIndexBuffer();
 			const PxVec3* verts = mesh->getVertices();
@@ -158,9 +166,11 @@ void renderGeometry(const PxGeometryHolder& h)
 			glPopMatrix();
 		}
 		break;
-	case PxGeometryType::eTRIANGLEMESH:
+
+		case PxGeometryType::eTRIANGLEMESH:
 		{
-			const PxTriangleMeshGeometry& triGeom = h.triangleMesh();
+			const PxTriangleMeshGeometry& triGeom = static_cast<const PxTriangleMeshGeometry&>(geom);
+
 			const PxTriangleMesh& mesh = *triGeom.triangleMesh;
 			const PxVec3 scale = triGeom.scale.scale;
 
@@ -216,23 +226,25 @@ void renderGeometry(const PxGeometryHolder& h)
 			glPopMatrix();
 		}
 		break;
-	case PxGeometryType::eINVALID:
-	case PxGeometryType::eHEIGHTFIELD:
-	case PxGeometryType::eGEOMETRY_COUNT:	
-	case PxGeometryType::ePLANE:
+
+		case PxGeometryType::eINVALID:
+		case PxGeometryType::eHEIGHTFIELD:
+		case PxGeometryType::eGEOMETRY_COUNT:	
+		case PxGeometryType::ePLANE:
 		break;
 	}
 }
 
+static PX_FORCE_INLINE void renderGeometryHolder(const PxGeometryHolder& h)
+{
+	renderGeometry(h.any());
+}
+
 namespace Snippets
 {
-
-namespace
-{
-void reshapeCallback(int width, int height)
+static void reshapeCallback(int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
 }
 
 void setupDefaultWindow(const char *name)
@@ -273,7 +285,6 @@ void setupDefaultRenderState()
 	glEnable(GL_LIGHT0);
 }
 
-
 void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNear, PxReal clipFar)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -290,15 +301,23 @@ void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNe
 	glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
 }
 
-void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, const PxVec3 & color)
+void finishRender()
 {
+	glutSwapBuffers();
+}
+
+void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, const PxVec3& color)
+{
+	const PxVec3 shadowDir(0.0f, -0.7071067f, -0.7071067f);
+	const PxReal shadowMat[]={ 1,0,0,0, -shadowDir.x/shadowDir.y,0,-shadowDir.z/shadowDir.y,0, 0,0,1,0, 0,0,0,1 };
+
 	PxShape* shapes[MAX_NUM_ACTOR_SHAPES];
 	for(PxU32 i=0;i<numActors;i++)
 	{
 		const PxU32 nbShapes = actors[i]->getNbShapes();
 		PX_ASSERT(nbShapes <= MAX_NUM_ACTOR_SHAPES);
 		actors[i]->getShapes(shapes, nbShapes);
-		bool sleeping = actors[i]->is<PxRigidDynamic>() ? actors[i]->is<PxRigidDynamic>()->isSleeping() : false; 
+		const bool sleeping = actors[i]->is<PxRigidDynamic>() ? actors[i]->is<PxRigidDynamic>()->isSleeping() : false; 
 
 		for(PxU32 j=0;j<nbShapes;j++)
 		{
@@ -318,21 +337,19 @@ void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, co
 			}
 			else
 				glColor4f(color.x, color.y, color.z, 1.0f);
-			renderGeometry(h);
+			renderGeometryHolder(h);
 			glPopMatrix();
 
 			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
 			if(shadows)
 			{
-				const PxVec3 shadowDir(0.0f, -0.7071067f, -0.7071067f);
-				const PxReal shadowMat[]={ 1,0,0,0, -shadowDir.x/shadowDir.y,0,-shadowDir.z/shadowDir.y,0, 0,0,1,0, 0,0,0,1 };
 				glPushMatrix();						
 				glMultMatrixf(shadowMat);
 				glMultMatrixf(reinterpret_cast<const float*>(&shapePose));
 				glDisable(GL_LIGHTING);
 				glColor4f(0.1f, 0.2f, 0.3f, 1.0f);
-				renderGeometry(h);
+				renderGeometryHolder(h);
 				glEnable(GL_LIGHTING);
 				glPopMatrix();
 			}
@@ -340,11 +357,37 @@ void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, co
 	}
 }
 
-void finishRender()
+void renderGeoms(const PxU32 nbGeoms, const PxGeometry* geoms, const PxTransform* poses, bool shadows, const PxVec3& color)
 {
-	glutSwapBuffers();
-}
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	const PxVec3 shadowDir(0.0f, -0.7071067f, -0.7071067f);
+	const PxReal shadowMat[]={ 1,0,0,0, -shadowDir.x/shadowDir.y,0,-shadowDir.z/shadowDir.y,0, 0,0,1,0, 0,0,0,1 };
 
+	for(PxU32 j=0;j<nbGeoms;j++)
+	{
+		const PxMat44 shapePose(poses[j]);
+		const PxGeometry& geom = geoms[j];
+
+		// render object
+		glPushMatrix();						
+		glMultMatrixf(reinterpret_cast<const float*>(&shapePose));
+		glColor4f(color.x, color.y, color.z, 1.0f);
+		renderGeometry(geom);
+		glPopMatrix();
+
+		if(shadows)
+		{
+			glPushMatrix();						
+			glMultMatrixf(shadowMat);
+			glMultMatrixf(reinterpret_cast<const float*>(&shapePose));
+			glDisable(GL_LIGHTING);
+			glColor4f(0.1f, 0.2f, 0.3f, 1.0f);
+			renderGeometry(geom);
+			glEnable(GL_LIGHTING);
+			glPopMatrix();
+		}
+	}
+}
 
 } //namespace Snippets
 

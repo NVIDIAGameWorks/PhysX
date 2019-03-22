@@ -157,7 +157,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a10d36a5ac6bb414b2240774cabdc4695"><td class="mdescLeft">&#160;</td><td class="mdescRight">turn the reduced internal data to maximum joint data format  <a href="#a10d36a5ac6bb414b2240774cabdc4695">More...</a><br /></td></tr>
 <tr class="separator:a10d36a5ac6bb414b2240774cabdc4695"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5b98d8b80aa4781ad1d5e9baffad25"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25">commonInit</a> () const =0</td></tr>
-<tr class="memdesc:abe5b98d8b80aa4781ad1d5e9baffad25"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialize all the common data for inverse dynamic  <a href="#abe5b98d8b80aa4781ad1d5e9baffad25">More...</a><br /></td></tr>
+<tr class="memdesc:abe5b98d8b80aa4781ad1d5e9baffad25"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialize all the common data for inverse dynamics  <a href="#abe5b98d8b80aa4781ad1d5e9baffad25">More...</a><br /></td></tr>
 <tr class="separator:abe5b98d8b80aa4781ad1d5e9baffad25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8b5217bd48e6d1ccc8ba3e495c66df7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#af8b5217bd48e6d1ccc8ba3e495c66df7">computeGeneralizedGravityForce</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache) const =0</td></tr>
 <tr class="memdesc:af8b5217bd48e6d1ccc8ba3e495c66df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine the statically balance of the joint force of gravity for entire articulation. External force, joint velocity and joint acceleration are set to zero, the joint force returned will be purely determined by gravity.  <a href="#af8b5217bd48e6d1ccc8ba3e495c66df7">More...</a><br /></td></tr>
@@ -175,11 +175,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a408e219bfac920e7cf527c6a7c972674"><td class="mdescLeft">&#160;</td><td class="mdescRight">determine the joint force This is purely calculates the change in joint force due to change in the joint acceleration This means gravity and joint velocity will be zero  <a href="#a408e219bfac920e7cf527c6a7c972674">More...</a><br /></td></tr>
 <tr class="separator:a408e219bfac920e7cf527c6a7c972674"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6baf5f760905b778c6d5478b9c63302"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#ad6baf5f760905b778c6d5478b9c63302">computeKinematicJacobian</a> (const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> linkID, <a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache) const =0</td></tr>
-<tr class="memdesc:ad6baf5f760905b778c6d5478b9c63302"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the kinematic jacobian for each joint from end effector to the root in world space  <a href="#ad6baf5f760905b778c6d5478b9c63302">More...</a><br /></td></tr>
+<tr class="memdesc:ad6baf5f760905b778c6d5478b9c63302"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the kinematic Jacobian for each joint from end effector to the root in world space  <a href="#ad6baf5f760905b778c6d5478b9c63302">More...</a><br /></td></tr>
 <tr class="separator:ad6baf5f760905b778c6d5478b9c63302"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a5026aa7fa58fd96a3feb3808427b71"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a0a5026aa7fa58fd96a3feb3808427b71">computeCoefficentMatrix</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache) const =0</td></tr>
-<tr class="memdesc:a0a5026aa7fa58fd96a3feb3808427b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the coefficent matrix for contact force. <a class="el" href="classPxContactJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ...">PxContactJoint</a> is the contact point  <a href="#a0a5026aa7fa58fd96a3feb3808427b71">More...</a><br /></td></tr>
-<tr class="separator:a0a5026aa7fa58fd96a3feb3808427b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08a58ac2a98d339c0fcab0e69f6761e0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a08a58ac2a98d339c0fcab0e69f6761e0">computeDenseJacobian</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nRows, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;nCols) const =0</td></tr>
+<tr class="memdesc:a08a58ac2a98d339c0fcab0e69f6761e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the dense Jacobian for the entire articulation in world space  <a href="#a08a58ac2a98d339c0fcab0e69f6761e0">More...</a><br /></td></tr>
+<tr class="separator:a08a58ac2a98d339c0fcab0e69f6761e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eb36b4e092c322893c811f1e7c85b4d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a0eb36b4e092c322893c811f1e7c85b4d">computeCoefficientMatrix</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache) const =0</td></tr>
+<tr class="memdesc:a0eb36b4e092c322893c811f1e7c85b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the coefficient matrix for contact force. <a class="el" href="classPxContactJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ...">PxContactJoint</a> is the contact point  <a href="#a0eb36b4e092c322893c811f1e7c85b4d">More...</a><br /></td></tr>
+<tr class="separator:a0eb36b4e092c322893c811f1e7c85b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06a554a20844b28a9251e60ca69ebac5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a06a554a20844b28a9251e60ca69ebac5">computeLambda</a> (<a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;cache, <a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;initialState, const PxReal *const jointTorque, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> maxIter) const =0</td></tr>
 <tr class="memdesc:a06a554a20844b28a9251e60ca69ebac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the lambda value when the test impulse is 1  <a href="#a06a554a20844b28a9251e60ca69ebac5">More...</a><br /></td></tr>
 <tr class="separator:a06a554a20844b28a9251e60ca69ebac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -198,9 +201,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5a611783b278756d562f4dfe0626af18"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a5a611783b278756d562f4dfe0626af18">getLoopJoints</a> (<a class="el" href="classPxJoint.html">PxJoint</a> **userBuffer, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> bufferSize, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> startIndex=0) const =0</td></tr>
 <tr class="memdesc:a5a611783b278756d562f4dfe0626af18"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the set of loop constraints in the articulation  <a href="#a5a611783b278756d562f4dfe0626af18">More...</a><br /></td></tr>
 <tr class="separator:a5a611783b278756d562f4dfe0626af18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96a853b57a61275d4c67828f34e3321d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a96a853b57a61275d4c67828f34e3321d">getCoefficentMatrixSize</a> () const =0</td></tr>
-<tr class="memdesc:a96a853b57a61275d4c67828f34e3321d"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the required size of coeffient matrix in the articulation. The coefficient matrix is number of constraint(loop joints) by total dofs. Constraint Torque = transpose(K) * lambda(). Lambda is a vector of number of constraints  <a href="#a96a853b57a61275d4c67828f34e3321d">More...</a><br /></td></tr>
-<tr class="separator:a96a853b57a61275d4c67828f34e3321d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54da9e7775e8b619d5172039213beaff"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a54da9e7775e8b619d5172039213beaff">getCoefficientMatrixSize</a> () const =0</td></tr>
+<tr class="memdesc:a54da9e7775e8b619d5172039213beaff"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the required size of coeffient matrix in the articulation. The coefficient matrix is number of constraint(loop joints) by total dofs. Constraint Torque = transpose(K) * lambda(). Lambda is a vector of number of constraints  <a href="#a54da9e7775e8b619d5172039213beaff">More...</a><br /></td></tr>
+<tr class="separator:a54da9e7775e8b619d5172039213beaff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d067a41dc5bcbbdbf9a298d9064b310"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationReducedCoordinate.html#a2d067a41dc5bcbbdbf9a298d9064b310">teleportRootLink</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;pose, bool autowake)=0</td></tr>
 <tr class="memdesc:a2d067a41dc5bcbbdbf9a298d9064b310"><td class="mdescLeft">&#160;</td><td class="mdescRight">teleport root link to a new location  <a href="#a2d067a41dc5bcbbdbf9a298d9064b310">More...</a><br /></td></tr>
 <tr class="separator:a2d067a41dc5bcbbdbf9a298d9064b310"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,8 +269,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5dfdf6a47b558607d7f2a3d008de34fa inherit pub_methods_classPxArticulationBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92f5205563e2476ace6f1c0eff22de51 inherit pub_methods_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">virtual const PxArticulationImpl *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a92f5205563e2476ace6f1c0eff22de51">getImpl</a> () const =0</td></tr>
 <tr class="separator:a92f5205563e2476ace6f1c0eff22de51 inherit pub_methods_classPxArticulationBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb9a9c0e3cb4b16a63b828f89067a733 inherit pub_methods_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">PxArticulationBase::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#acb9a9c0e3cb4b16a63b828f89067a733">getType</a> () const =0</td></tr>
-<tr class="separator:acb9a9c0e3cb4b16a63b828f89067a733 inherit pub_methods_classPxArticulationBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe7170f2077b283b7da5dfb23b25ba0 inherit pub_methods_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a6fe7170f2077b283b7da5dfb23b25ba0">~PxArticulationBase</a> ()</td></tr>
 <tr class="separator:a6fe7170f2077b283b7da5dfb23b25ba0 inherit pub_methods_classPxArticulationBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5778c701bdf495e8563828927a68aa05 inherit pub_methods_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classPxArticulationJointBase.html">PxArticulationJointBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#a5778c701bdf495e8563828927a68aa05">createArticulationJoint</a> (<a class="el" href="classPxArticulationLink.html">PxArticulationLink</a> &amp;parent, const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;parentFrame, <a class="el" href="classPxArticulationLink.html">PxArticulationLink</a> &amp;child, const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;childFrame)=0</td></tr>
@@ -332,11 +333,6 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_types_classPxArticulationBase"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classPxArticulationBase')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classPxArticulationBase.html">PxArticulationBase</a></td></tr>
-<tr class="memitem:ae2b9b5940ae8198a64f4cb86d61fdab4 inherit pub_types_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4">Enum</a> { <a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad">eReducedCoordinate</a> = 0, 
-<a class="el" href="classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf">eMaximumCoordinate</a> = 1
- }</td></tr>
-<tr class="separator:ae2b9b5940ae8198a64f4cb86d61fdab4 inherit pub_types_classPxArticulationBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classPxArticulationBase"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classPxArticulationBase')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classPxArticulationBase.html">PxArticulationBase</a></td></tr>
 <tr class="memitem:ae8ee210b8b3867a8a0803875c6e53014 inherit pub_attribs_classPxArticulationBase"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxArticulationBase.html#ae8ee210b8b3867a8a0803875c6e53014">userData</a></td></tr>
 <tr class="memdesc:ae8ee210b8b3867a8a0803875c6e53014 inherit pub_attribs_classPxArticulationBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">user can assign this to whatever, usually to create a 1:1 relationship with a user object.  <a href="classPxArticulationBase.html#ae8ee210b8b3867a8a0803875c6e53014">More...</a><br /></td></tr>
@@ -471,7 +467,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -551,12 +547,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>initialize all the common data for inverse dynamic </p>
+<p>initialize all the common data for inverse dynamics </p>
 
 </div>
 </div>
-<a id="a0a5026aa7fa58fd96a3feb3808427b71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a5026aa7fa58fd96a3feb3808427b71">&#9670;&nbsp;</a></span>computeCoefficentMatrix()</h2>
+<a id="a0eb36b4e092c322893c811f1e7c85b4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eb36b4e092c322893c811f1e7c85b4d">&#9670;&nbsp;</a></span>computeCoefficientMatrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -565,7 +561,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void PxArticulationReducedCoordinate::computeCoefficentMatrix </td>
+          <td class="memname">virtual void PxArticulationReducedCoordinate::computeCoefficientMatrix </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;&#160;</td>
           <td class="paramname"><em>cache</em></td><td>)</td>
@@ -579,14 +575,14 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>compute the coefficent matrix for contact force. <a class="el" href="classPxContactJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ...">PxContactJoint</a> is the contact point </p>
+<p>compute the coefficient matrix for contact force. <a class="el" href="classPxContactJoint.html" title="a joint that maintains an upper or lower bound (or both) on the distance between two points on differ...">PxContactJoint</a> is the contact point </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">cache</td><td>returs the coefficent matrix. Each column is the joint force effected by a contact based on impulse strength 1 </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cache</td><td>returs the coefficient matrix. Each column is the joint force effected by a contact based on impulse strength 1 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -621,7 +617,60 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
+
+</div>
+</div>
+<a id="a08a58ac2a98d339c0fcab0e69f6761e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08a58ac2a98d339c0fcab0e69f6761e0">&#9670;&nbsp;</a></span>computeDenseJacobian()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void PxArticulationReducedCoordinate::computeDenseJacobian </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classPxArticulationCache.html">PxArticulationCache</a> &amp;&#160;</td>
+          <td class="paramname"><em>cache</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;&#160;</td>
+          <td class="paramname"><em>nRows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> &amp;&#160;</td>
+          <td class="paramname"><em>nCols</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>compute the dense Jacobian for the entire articulation in world space </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">cache</td><td>sets cache.denseJacobian matrix. The matrix is indexed [nCols * row + column]. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">nRows</td><td>set to number of rows in matrix, which corresponds to the number of articulation links times 6. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">nCols</td><td>set to number of columns in matrix, which corresponds to the number of joint DOFs, plus 6 in the case eFIX_BASE is false.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Note that this computes the dense representation of an inherently sparse matrix. Multiplication with this matrix maps joint space velocities to 6DOF world space linear and angular velocities. </p>
 
 </div>
 </div>
@@ -656,7 +705,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -691,7 +740,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -726,7 +775,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -761,7 +810,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -796,7 +845,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -834,15 +883,15 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>compute the kinematic jacobian for each joint from end effector to the root in world space </p>
+<p>compute the kinematic Jacobian for each joint from end effector to the root in world space </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">linkID</td><td>is the end effector id </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cache</td><td>return jacobian matrix</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cache</td><td>return Jacobian matrix</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -898,11 +947,11 @@ Additional Inherited Members</h2></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">initialState</td><td>the initial state of the articulation system </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">jointTorque</td><td>M(q)*qddot + C(q,qdot) + g(q) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxIter</td><td>maximum number of solver iterations to run. If the system converges, fewer iterations may be used. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">cache</td><td>returns the coefficent matrix. Each column is the joint force effected by a contact based on impulse strength 1 </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">cache</td><td>returns the coefficient matrix. Each column is the joint force effected by a contact based on impulse strength 1 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -1035,8 +1084,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a96a853b57a61275d4c67828f34e3321d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96a853b57a61275d4c67828f34e3321d">&#9670;&nbsp;</a></span>getCoefficentMatrixSize()</h2>
+<a id="a54da9e7775e8b619d5172039213beaff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54da9e7775e8b619d5172039213beaff">&#9670;&nbsp;</a></span>getCoefficientMatrixSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1045,7 +1094,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxArticulationReducedCoordinate::getCoefficentMatrixSize </td>
+          <td class="memname">virtual <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxArticulationReducedCoordinate::getCoefficientMatrixSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1312,7 +1361,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>
@@ -1437,7 +1486,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamic ">commonInit</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25" title="initialize all the common data for inverse dynamics ">commonInit</a> </dd></dl>
 
 </div>
 </div>

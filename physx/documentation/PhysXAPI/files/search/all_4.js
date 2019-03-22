@@ -8,6 +8,7 @@ var searchData=
   ['deallocate',['deallocate',['../classPxDefaultAllocator.html#a73221f0158b7740403cd922dca5408fd',1,'PxDefaultAllocator::deallocate()'],['../classPxAllocatorCallback.html#a6af8b56b5a786150796b9854d16fde38',1,'PxAllocatorCallback::deallocate()']]],
   ['deltaxp',['deltaXP',['../structPxControllerState.html#ab29dba2a8c3b33fb25b9d460ebf0fee8',1,'PxControllerState']]],
   ['denormalizednormal',['denormalizedNormal',['../classPxTriangle.html#a340ffef85ce83892864bba3e392b44d1',1,'PxTriangle']]],
+  ['densejacobian',['denseJacobian',['../classPxArticulationCache.html#a215d7bc2b910aef6ba6e594843d136bc',1,'PxArticulationCache']]],
   ['density',['density',['../classPxControllerDesc.html#a6da1c7c40072c2419015dc40e754ab66',1,'PxControllerDesc']]],
   ['deprecated_20list',['Deprecated List',['../deprecated.html',1,'']]],
   ['desc',['desc',['../structPxSolverConstraintPrepDescBase.html#ae6a7c6dbbf6ade521ca9f485fa70ecab',1,'PxSolverConstraintPrepDescBase']]],

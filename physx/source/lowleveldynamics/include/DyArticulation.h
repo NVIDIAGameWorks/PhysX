@@ -68,7 +68,7 @@ class Articulation : public ArticulationV
 public:
 	// public interface
 
-	Articulation(Sc::ArticulationSim*);
+	Articulation(void*);
 	~Articulation();
 
 	virtual bool resize(const PxU32 linkCount);

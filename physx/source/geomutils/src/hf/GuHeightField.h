@@ -64,7 +64,8 @@ public:
 // PX_SERIALIZATION
 		HeightField(PxBaseFlags baseFlags) : PxHeightField(baseFlags), Cm::RefCountable(PxEmpty), mData(PxEmpty), mModifyCount(0) {}
 
-		PX_PHYSX_COMMON_API virtual		void						exportExtraData(PxSerializationContext&);
+		PX_PHYSX_COMMON_API				void						preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+		PX_PHYSX_COMMON_API virtual		void						exportExtraData(PxSerializationContext& context);
 		PX_PHYSX_COMMON_API				void						importExtraData(PxDeserializationContext& context);
 		PX_FORCE_INLINE					void						setMeshFactory(GuMeshFactory* f)		{ mMeshFactory = f;					}
 		PX_PHYSX_COMMON_API	static		HeightField*				createObject(PxU8*& address, PxDeserializationContext& context);

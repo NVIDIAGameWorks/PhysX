@@ -42,37 +42,6 @@ namespace physx
 {
 
 // PX_SERIALIZATION
-void NpArticulation::requiresObjects(PxProcessPxBaseCallback& c)
-{
-	// Collect articulation links
-	const PxU32 nbLinks = mImpl.mArticulationLinks.size();
-	for(PxU32 i=0; i<nbLinks; i++)
-		c.process(*mImpl.mArticulationLinks[i]);
-}
-
-void NpArticulation::exportExtraData(PxSerializationContext& stream)
-{
-	Cm::exportInlineArray(mImpl.mArticulationLinks, stream);
-	stream.writeName(mImpl.mName);
-}
-
-void NpArticulation::importExtraData(PxDeserializationContext& context)
-{	
-	Cm::importInlineArray(mImpl.mArticulationLinks, context);
-	context.readName(mImpl.mName);
-}
-
-void NpArticulation::resolveReferences(PxDeserializationContext& context)
-{
-	const PxU32 nbLinks = mImpl.mArticulationLinks.size();
-	for(PxU32 i=0;i<nbLinks;i++)
-	{
-		context.translatePxBase(mImpl.mArticulationLinks[i]);
-	}
-	
-	mImpl.mAggregate = NULL;
-}
-
 NpArticulation* NpArticulation::createObject(PxU8*& address, PxDeserializationContext& context)
 {
 	NpArticulation* obj = new (address) NpArticulation(PxBaseFlag::eIS_RELEASABLE);
@@ -83,11 +52,10 @@ NpArticulation* NpArticulation::createObject(PxU8*& address, PxDeserializationCo
 }
 //~PX_SERIALIZATION
 
+
 NpArticulation::NpArticulation()
 	: NpArticulationTemplate(PxConcreteType::eARTICULATION, PxBaseFlag::eOWNS_MEMORY | PxBaseFlag::eIS_RELEASABLE)
 {
-	mType = PxArticulationBase::eMaximumCoordinate;
-	mImpl.mArticulation.setArticulationType(PxArticulationBase::eMaximumCoordinate);
 }
 
 
@@ -100,49 +68,49 @@ NpArticulation::~NpArticulation()
 PxU32 NpArticulation::getInternalDriveIterations() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
-	return mImpl.getArticulation().getInternalDriveIterations();
+	return mImpl.getScbArticulation().getInternalDriveIterations();
 }
 
 void NpArticulation::setInternalDriveIterations(PxU32 iterations)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	mImpl.getArticulation().setInternalDriveIterations(iterations);
+	mImpl.getScbArticulation().setInternalDriveIterations(iterations);
 }
 
 PxU32 NpArticulation::getExternalDriveIterations() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
-	return mImpl.getArticulation().getExternalDriveIterations();
+	return mImpl.getScbArticulation().getExternalDriveIterations();
 }
 
 void NpArticulation::setExternalDriveIterations(PxU32 iterations)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	mImpl.getArticulation().setExternalDriveIterations(iterations);
+	mImpl.getScbArticulation().setExternalDriveIterations(iterations);
 }
 
 PxU32 NpArticulation::getMaxProjectionIterations() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
-	return mImpl.getArticulation().getMaxProjectionIterations();
+	return mImpl.getScbArticulation().getMaxProjectionIterations();
 }
 
 void NpArticulation::setMaxProjectionIterations(PxU32 iterations)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	mImpl.getArticulation().setMaxProjectionIterations(iterations);
+	mImpl.getScbArticulation().setMaxProjectionIterations(iterations);
 }
 
 PxReal NpArticulation::getSeparationTolerance() const
 {
 	NP_READ_CHECK(mImpl.getOwnerScene());
-	return mImpl.getArticulation().getSeparationTolerance();
+	return mImpl.getScbArticulation().getSeparationTolerance();
 }
 
 void NpArticulation::setSeparationTolerance(PxReal tolerance)
 {
 	NP_WRITE_CHECK(mImpl.getOwnerScene());
-	mImpl.getArticulation().setSeparationTolerance(tolerance);
+	mImpl.getScbArticulation().setSeparationTolerance(tolerance);
 }
 
 
@@ -241,6 +209,12 @@ PxArticulationJointBase* NpArticulation::createArticulationJoint(PxArticulationL
 void NpArticulation::releaseArticulationJoint(PxArticulationJointBase* joint)
 {
 	NpFactory::getInstance().releaseArticulationJointToPool(*static_cast<NpArticulationJoint*>(joint));
+}
+
+void NpSetArticulationOnJoint(PxArticulationJointBase& jointBase, PxArticulationImpl& articulation)
+{
+	PxArticulationJointImpl* jointImpl = jointBase.getImpl();
+	jointImpl->getScbArticulationJoint().setScArticulation(&articulation.getScbArticulation());
 }
 
 }

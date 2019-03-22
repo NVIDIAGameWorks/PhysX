@@ -28,14 +28,8 @@
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
 #include "ExtRevoluteJoint.h"
-#include "PsUtilities.h"
 #include "ExtConstraintHelper.h"
-#include "CmRenderOutput.h"
-#include "PsMathUtils.h"
-#include "CmVisualization.h"
-#include "CmUtils.h"
-
-#include "common/PxSerialFramework.h"
+#include "PxPhysics.h"
 
 using namespace physx;
 using namespace Ext;

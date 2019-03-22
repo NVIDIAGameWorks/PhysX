@@ -87,15 +87,15 @@ namespace physx
 
 PX_COMPILE_TIME_ASSERT((sizeof(Articulation)&(DY_ARTICULATION_MAX_SIZE-1))==0);
 
-Articulation::Articulation(Sc::ArticulationSim* sim)
-:	ArticulationV(sim, PxArticulationBase::eMaximumCoordinate)
-,	mFsDataBytes(PX_DEBUG_EXP("Articulation::fsData"))
-,	mInternalLoads(PX_DEBUG_EXP("ScArticulationSim::internalLoads"))
-,	mExternalLoads(PX_DEBUG_EXP("ScArticulationSim::externalLoads"))
-,	mScratchMemory(PX_DEBUG_EXP("ScArticulationSim::scratchMemory"))
-,	mPose(PX_DEBUG_EXP("ScArticulationSim::poses"))
-,	mDeltaQ(PX_DEBUG_EXP("ScArticulationSim::poses"))
-,	mMotionVelocity(PX_DEBUG_EXP("ScArticulationSim::motion velocity"))
+Articulation::Articulation(void* userData) :
+	ArticulationV	(userData, eMaximumCoordinate),
+	mFsDataBytes	(PX_DEBUG_EXP("Articulation::fsData")),
+	mInternalLoads	(PX_DEBUG_EXP("ScArticulationSim::internalLoads")),
+	mExternalLoads	(PX_DEBUG_EXP("ScArticulationSim::externalLoads")),
+	mScratchMemory	(PX_DEBUG_EXP("ScArticulationSim::scratchMemory")),
+	mPose			(PX_DEBUG_EXP("ScArticulationSim::poses")),
+	mDeltaQ			(PX_DEBUG_EXP("ScArticulationSim::poses")),
+	mMotionVelocity	(PX_DEBUG_EXP("ScArticulationSim::motion velocity"))
 {
 	PX_ASSERT((reinterpret_cast<size_t>(this) & (DY_ARTICULATION_MAX_SIZE-1))==0);
 }
@@ -250,7 +250,6 @@ bool Dy::ArticulationV::resize(const PxU32 linkCount)
 	{
 		mSolverDesc.acceleration = mAcceleration.begin();
 		mSolverDesc.articulation = this;
-
 	}
 	mUpdateSolverData = false;
 	return true;
@@ -258,7 +257,7 @@ bool Dy::ArticulationV::resize(const PxU32 linkCount)
 
 void PxvRegisterArticulations()
 {
-	const PxU32 type = PxU32(PxArticulationBase::eMaximumCoordinate);
+	const PxU32 type = PxU32(Articulation::eMaximumCoordinate);
 	ArticulationPImpl::sComputeUnconstrainedVelocities[type] = &Articulation::computeUnconstrainedVelocities;
 	ArticulationPImpl::sUpdateBodies[type] = &Articulation::updateBodies;
 	ArticulationPImpl::sUpdateBodiesTGS[type] = &Articulation::updateBodies;
@@ -917,12 +916,12 @@ void Articulation::computeUnconstrainedVelocitiesInternal(const ArticulationSolv
 		{
 			Vec3V linearAccel = V3LoadA(acceleration[i].linear);
 
-			if (!(desc.links[i].body->mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY))
+			if (!desc.links[i].bodyCore->disableGravity)
 				linearAccel = V3Add(linearAccel, vGravity);
 			Cm::SpatialVectorV a(linearAccel, V3LoadA(acceleration[i].angular));
 			Z[i] = -ArticulationFnsSimd<ArticulationFnsSimdBase>::multiply(baseInertia[i], a) * h;
 			//KS - zero accelerations to ensure they don't get re-applied next frame if nothing touches them again.
-			acceleration[i].linear = PxVec3(0.f); acceleration[i].angular = PxVec3(0.f);
+			acceleration[i].linear = acceleration[i].angular = PxVec3(0.0f);
 		}
 
 		applyImpulses(fsData, Z, getVelocity(fsData));

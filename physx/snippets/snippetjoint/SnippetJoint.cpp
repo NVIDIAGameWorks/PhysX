@@ -121,9 +121,8 @@ void createChain(const PxTransform& t, PxU32 length, const PxGeometry& g, PxReal
 	}
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
@@ -157,24 +156,25 @@ void initPhysics(bool interactive)
 	createChain(PxTransform(PxVec3(0.0f, 20.0f, -20.0f)), 5, PxBoxGeometry(2.0f, 0.5f, 0.5f), 4.0f, createDampedD6);
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
-	gFoundation->release();
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetJoint done.\n");
 }

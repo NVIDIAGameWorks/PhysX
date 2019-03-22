@@ -46,17 +46,6 @@ namespace physx
 Dynamics interface.
 */
 
-/************************************************************************/
-/* Atoms                                                                */
-/************************************************************************/
-
-class PxsContext;
-class PxsRigidBody;
-class PxShape;
-class PxGeometry;
-struct PxsShapeCore;
-
-
 struct PxsRigidCore
 {
 //= ATTENTION! =====================================================================================
@@ -92,7 +81,6 @@ struct PxsRigidCore
 };
 PX_COMPILE_TIME_ASSERT(sizeof(PxsRigidCore) == 32);
 
-
 struct PxsBodyCore: public PxsRigidCore
 {
 //= ATTENTION! =====================================================================================
@@ -115,42 +103,87 @@ struct PxsBodyCore: public PxsRigidCore
 	protected:
 	PxTransform				body2Actor;
 	public:
-	PxReal					ccdAdvanceCoefficient;		//64
+	PxReal					ccdAdvanceCoefficient;	//64
 
 	PxVec3					linearVelocity;
 	PxReal					maxPenBias;
 
 	PxVec3					angularVelocity;
-	PxReal					contactReportThreshold;		//96
+	PxReal					contactReportThreshold;	//96
     
 	PxReal					maxAngularVelocitySq;
 	PxReal					maxLinearVelocitySq;
 	PxReal					linearDamping;
-	PxReal					angularDamping;				//112
+	PxReal					angularDamping;			//112
 
 	PxVec3					inverseInertia;
-	PxReal					inverseMass;				//128
+	PxReal					inverseMass;			//128
 	
 	PxReal					maxContactImpulse;			
 	PxReal					sleepThreshold;				   
 	PxReal					freezeThreshold;			
-	PxReal					wakeCounter;				//144 this is authoritative wakeCounter
+	PxReal					wakeCounter;			//144 this is authoritative wakeCounter
 
-	PxReal					solverWakeCounter;			//this is calculated by the solver when it performs sleepCheck. It is committed to wakeCounter in ScAfterIntegrationTask if the body is still awake.
+	PxReal					solverWakeCounter;		//this is calculated by the solver when it performs sleepCheck. It is committed to wakeCounter in ScAfterIntegrationTask if the body is still awake.
 	PxU32					numCountedInteractions;
-	PxU32					numBodyInteractions;		//Used by adaptive force to keep track of the total number of body interactions
-	PxU16					isFastMoving;				//This could be a single bit but it's a u16 at the moment for simplicity's sake
-	PxRigidDynamicLockFlags	lockFlags;					//160 This could be a u8 but it is a u16 for simplicity's sake. All fits into 16 byte alignment
+	PxU32					numBodyInteractions;	//Used by adaptive force to keep track of the total number of body interactions
+	PxU8					isFastMoving;			//This could be a single bit but it's a u8 at the moment for simplicity's sake
+	PxU8					disableGravity;			//This could be a single bit but it's a u8 at the moment for simplicity's sake
+	PxRigidDynamicLockFlags	lockFlags;				//160 This could be a u8 but it is a u16 for simplicity's sake. All fits into 16 byte alignment
 
+	// PT: TODO: revisit this / move to PxsCCD.cpp
 	PX_FORCE_INLINE	bool	shouldCreateContactReports()	const
 	{
 		const PxU32* binary = reinterpret_cast<const PxU32*>(&contactReportThreshold);
 		return *binary != 0x7f7fffff;	// PX_MAX_REAL
 	}
+
+	// PT: moved from Sc::BodyCore ctor - we don't want to duplicate all this in immediate mode
+	PX_FORCE_INLINE	void	init(	const PxTransform& bodyPose,
+									const PxVec3& inverseInertia_, PxReal inverseMass_,
+									PxReal wakeCounter_, PxReal scaleSpeed,
+									PxReal linearDamping_, PxReal angularDamping_,
+									PxReal maxLinearVelocitySq_, PxReal maxAngularVelocitySq_)
+	{
+		PX_ASSERT(bodyPose.p.isFinite());
+		PX_ASSERT(bodyPose.q.isFinite());
+
+		// PT: TODO: unify naming convention
+
+		// From PxsRigidCore
+		body2World				= bodyPose;
+		mFlags					= PxRigidBodyFlags();
+		solverIterationCounts	= (1 << 8) | 4;
+
+		setBody2Actor(PxTransform(PxIdentity));
+
+		ccdAdvanceCoefficient	= 0.15f;
+		linearVelocity			= PxVec3(0.0f);
+		maxPenBias				= -1e32f;//-PX_MAX_F32;
+		angularVelocity			= PxVec3(0.0f);
+		contactReportThreshold	= PX_MAX_F32;	
+		maxAngularVelocitySq	= maxAngularVelocitySq_;
+		maxLinearVelocitySq		= maxLinearVelocitySq_;
+		linearDamping			= linearDamping_;
+		angularDamping			= angularDamping_;
+		inverseInertia			= inverseInertia_;
+		inverseMass				= inverseMass_;
+		maxContactImpulse		= 1e32f;// PX_MAX_F32;
+		sleepThreshold			= 5e-5f * scaleSpeed * scaleSpeed;
+		freezeThreshold			= 2.5e-5f * scaleSpeed * scaleSpeed;
+		wakeCounter				= wakeCounter_;
+		// PT: this one is not initialized?
+		//solverWakeCounter
+		// PT: these are initialized in BodySim ctor
+		//numCountedInteractions;
+		//numBodyInteractions;
+		isFastMoving			= false;
+		disableGravity			= false;
+		lockFlags				= PxRigidDynamicLockFlags(0);
+	}
 };
 
 PX_COMPILE_TIME_ASSERT(sizeof(PxsBodyCore) == 160);
-
 
 }
 

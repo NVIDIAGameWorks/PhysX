@@ -26,11 +26,11 @@
 ## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
 
 IF(NOT DEFINED PHYSX_WINDOWS_COMPILE_DEFS)
-	MESSAGE(FATAL ERROR "Cloud uses the PhysX compile defs, and they're not defined when they need to be.")
+	MESSAGE(FATAL ERROR "Snippets uses the PhysX compile defs, and they're not defined when they need to be.")
 ENDIF()
 
 IF (NOT DEFINED PHYSX_CXX_FLAGS)
-	MESSAGE(FATAL ERROR "Cloud uses the PhysX CXX flags, and they're not defined when they need to be.")
+	MESSAGE(FATAL ERROR "Snippets uses the PhysX CXX flags, and they're not defined when they need to be.")
 ENDIF()
 
 IF(NOT DEFINED TINYXML2_PATH)

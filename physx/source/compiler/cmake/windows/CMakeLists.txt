@@ -55,11 +55,6 @@ SET(PHYSX_CXX_FLAGS_RELEASE "/Ox ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Rel
 IF(PX_GENERATE_STATIC_LIBRARIES)	
 	SET(PHYSX_LIBTYPE_DEFS "PX_PHYSX_STATIC_LIB;" CACHE INTERNAL "PhysX lib type defs")
 ENDIF()
-IF(PX_GENERATE_GPU_STATIC_LIBRARIES)
-	SET(PHYSXGPU_LIBTYPE_DEFS "PX_PHYSX_GPU_STATIC;" CACHE INTERNAL "PhysX GPU lib type defs")	
-ENDIF()
-
-SET(CUDA_SUPPRESS_WARNINGS "-Xptxas -w -Wno-deprecated-declarations -ftemplate-backtrace-limit=2")
 
 # These flags are local to the directory the CMakeLists.txt is in, so don't get carried over to OTHER CMakeLists.txt (thus the CACHE variables above)
 SET(CMAKE_CXX_FLAGS ${PHYSX_CXX_FLAGS})
@@ -91,7 +86,7 @@ ELSE()
 	SET(NVTX_FLAG "PX_NVTX=0")
 ENDIF()
 
-SET(PHYSX_WINDOWS_COMPILE_DEFS "WIN32;${WIN64_FLAG};${SCALAR_MATH_FLAG};${CUDA_FLAG};_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;${PHYSX_AUTOBUILD};${PHYSX_AUTOBUILDNUMBER}" CACHE INTERNAL "Base PhysX preprocessor definitions")
+SET(PHYSX_WINDOWS_COMPILE_DEFS "WIN32;${WIN64_FLAG};${SCALAR_MATH_FLAG};${CUDA_FLAG};_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WINSOCK_DEPRECATED_NO_WARNINGS;${PHYSX_AUTOBUILD}" CACHE INTERNAL "Base PhysX preprocessor definitions")
 
 SET(PHYSX_WINDOWS_DEBUG_COMPILE_DEFS   "PX_DEBUG=1;PX_CHECKED=1;${NVTX_FLAG};PX_SUPPORT_PVD=1" CACHE INTERNAL "Debug PhysX preprocessor definitions")
 SET(PHYSX_WINDOWS_CHECKED_COMPILE_DEFS "PX_CHECKED=1;${NVTX_FLAG};PX_SUPPORT_PVD=1" CACHE INTERNAL "Checked PhysX preprocessor definitions")
@@ -148,40 +143,13 @@ IF(PUBLIC_RELEASE)
 	ENDIF()
 ENDIF()
 
-SET(GENERATED_GPU_CUDA_FILES "")
-
 # Include all of the projects
 IF(PX_GENERATE_GPU_PROJECTS_ONLY)
 	INCLUDE(PhysXFoundation.cmake)
 	INCLUDE(PhysXCommon.cmake)
-	INCLUDE(PhysXBroadphaseGpu.cmake)
-	INCLUDE(PhysXCommonGpu.cmake)
-	INCLUDE(PhysXNarrowphaseGpu.cmake)
-	INCLUDE(PhysXSimulationControllerGpu.cmake)
-	INCLUDE(PhysXSolverGpu.cmake)
-	INCLUDE(CloudGpu.cmake)
-	INCLUDE(PhysXCudaContextManager.cmake)
-	INCLUDE(PhysXArticulationGpu.cmake)
-	INCLUDE(PhysXGpu.cmake) # must be the last PhysXGPU
 
 	SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")	
 	SET_PROPERTY(TARGET PhysXCommon PROPERTY FOLDER "PhysX SDK")	
-	SET_PROPERTY(TARGET PhysXBroadphaseGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXCommonGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXNarrowphaseGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXSimulationControllerGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXArticulationGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXSolverGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET CloudGpu PROPERTY FOLDER "PhysX SDK/GPU")
-	SET_PROPERTY(TARGET PhysXCudaContextManager PROPERTY FOLDER "PhysX SDK/GPU")	
-	
-	SET(PHYSXDISTRO_LIBS PhysXGpu)
-	INSTALL(
-		TARGETS ${PHYSXDISTRO_LIBS}
-		EXPORT PhysXSDK
-		DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
-		)	
 ELSE()
 	INCLUDE(PhysXFoundation.cmake)
 	INCLUDE(LowLevel.cmake)
@@ -220,31 +188,7 @@ ELSE()
 		SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle)
 	ELSE()
 		SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle PhysXTask)
-	ENDIF()
-	
-	IF(PX_GENERATE_GPU_PROJECTS)		
-		INCLUDE(PhysXBroadphaseGpu.cmake)
-		INCLUDE(PhysXCommonGpu.cmake)
-		INCLUDE(PhysXNarrowphaseGpu.cmake)
-		INCLUDE(PhysXSimulationControllerGpu.cmake)
-		INCLUDE(PhysXSolverGpu.cmake)
-		INCLUDE(CloudGpu.cmake)
-		INCLUDE(PhysXCudaContextManager.cmake)
-		INCLUDE(PhysXArticulationGpu.cmake)
-		INCLUDE(PhysXGpu.cmake) # must be the last PhysXGPU
-		
-		SET_PROPERTY(TARGET PhysXBroadphaseGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXCommonGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXNarrowphaseGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXSimulationControllerGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXArticulationGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXSolverGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET CloudGpu PROPERTY FOLDER "PhysX SDK/GPU")
-		SET_PROPERTY(TARGET PhysXCudaContextManager PROPERTY FOLDER "PhysX SDK/GPU")
-				
-		LIST(APPEND PHYSXDISTRO_LIBS PhysXGpu)
-	ENDIF()
+	ENDIF()	
 	
 	INSTALL(
 		TARGETS ${PHYSXDISTRO_LIBS}

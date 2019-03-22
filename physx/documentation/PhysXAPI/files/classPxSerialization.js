@@ -10,5 +10,6 @@ var classPxSerialization =
     [ "dumpBinaryMetaData", "classPxSerialization.html#a86026f68eb651de87e4a7720bc708893", null ],
     [ "isSerializable", "classPxSerialization.html#ad9f930bc95e3372c46bac3347742068f", null ],
     [ "serializeCollectionToBinary", "classPxSerialization.html#a1d6242bea0c7513bfbfb24670e5cfb03", null ],
+    [ "serializeCollectionToBinaryDeterministic", "classPxSerialization.html#a159728a265b7ed81cd5cf329f8cad30e", null ],
     [ "serializeCollectionToXml", "classPxSerialization.html#acbb99dac3e71e78338ab3eec4ab0ab75", null ]
 ];

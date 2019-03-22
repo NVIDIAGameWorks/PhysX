@@ -69,6 +69,7 @@ struct PxFilterInfo
 
 struct PxTriggerPair;
 
+class PxsContext;
 class PxsIslandManager;
 class PxsSimulationController;
 class PxsSimulationControllerCallback;
@@ -88,7 +89,6 @@ class PxsCCDContext;
 
 namespace Cm
 {
-	class DeferredIDPool;
 	class IDPool;
 }
 
@@ -110,11 +110,6 @@ namespace Dy
 	class Context;
 }
 
-namespace Pt
-{
-	class Context;
-}
-
 namespace Sc
 {
 	class ActorSim;
@@ -133,7 +128,6 @@ namespace Sc
 	class BodyCore;
 
 	class NPhaseCore;
-	class LowLevelThreadingThunk;
 	class Client;
 	class ConstraintInteraction;
 

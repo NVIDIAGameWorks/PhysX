@@ -134,10 +134,8 @@ void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
 	shape->release();
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
@@ -165,9 +163,8 @@ void initPhysics(bool interactive)
 	createStack(PxTransform(PxVec3(0,3.0f,10.0f)), 5, 2.0f);
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gContactPositions.clear();
 	gContactImpulses.clear();
 
@@ -176,19 +173,19 @@ void stepPhysics(bool interactive)
 	printf("%d contact reports\n", PxU32(gContactPositions.size()));
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
-	
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	
-   	gFoundation->release();
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetContactReport done.\n");
 }

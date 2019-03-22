@@ -405,9 +405,9 @@ static PX_FORCE_INLINE void discreteNarrowPhase(PxcNpThreadContext& context, con
 	}
 
 	const PxcGetMaterialMethod materialMethod = g_GetMaterialMethodTable[type0][type1];
-	PX_ASSERT(materialMethod);
-
-	materialMethod(shape0, shape1, context,  materialInfo);
+//	PX_ASSERT(materialMethod);
+	if(materialMethod)
+		materialMethod(shape0, shape1, context,  materialInfo);
 
 	if(flip)
 		flipContacts(context, materialInfo);

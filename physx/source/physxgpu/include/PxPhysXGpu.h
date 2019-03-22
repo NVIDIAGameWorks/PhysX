@@ -156,13 +156,6 @@ public:
 
 }
 
-#if PX_WINDOWS
-/**
-Sets delay load hook instance for PhysXGpu dll.
-*/
-PX_C_EXPORT PX_PHYSX_GPU_API void PX_CALL_CONV PxSetPhysXGpuDelayLoadHook(const physx::PxDelayLoadHook* hook);
-#endif
-
 /**
 Create PxPhysXGpu interface class.
 */
@@ -171,7 +164,7 @@ PX_C_EXPORT PX_PHYSX_GPU_API physx::PxPhysXGpu* PX_CALL_CONV PxCreatePhysXGpu();
 /**
 Create a cuda context manager.
 */
-PX_C_EXPORT PX_PHYSX_GPU_API physx::PxCudaContextManager* PX_CALL_CONV PxCreateCudaContextManager(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc);
+PX_C_EXPORT PX_PHYSX_GPU_API physx::PxCudaContextManager* PX_CALL_CONV PxCreateCudaContextManager(physx::PxFoundation& foundation, const physx::PxCudaContextManagerDesc& desc, physx::PxProfilerCallback* profilerCallback = NULL);
 
 /**
 Query the device ordinal - depends on control panel settings.

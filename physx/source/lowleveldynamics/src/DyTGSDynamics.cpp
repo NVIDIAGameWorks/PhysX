@@ -328,7 +328,7 @@ void DynamicsTGSContext::setDescFromIndices(PxTGSSolverConstraintDesc& desc,
 		desc.articulationA = a;
 		desc.articulationALength = Ps::to16(a->getSolverDataSize());
 		PX_ASSERT(0 == (desc.articulationALength & 0x0f));
-		desc.linkIndexA = Ps::to16(a->getLinkIndex(constraint.articulation0));
+		desc.linkIndexA = Ps::to16(getLinkIndex(constraint.articulation0));
 		desc.bodyAIdx = 0;
 	}
 	else
@@ -348,7 +348,7 @@ void DynamicsTGSContext::setDescFromIndices(PxTGSSolverConstraintDesc& desc,
 		desc.articulationB = b;
 		desc.articulationBLength = Ps::to16(b->getSolverDataSize());
 		PX_ASSERT(0 == (desc.articulationBLength & 0x0f));
-		desc.linkIndexB = Ps::to16(b->getLinkIndex(constraint.articulation1));
+		desc.linkIndexB = Ps::to16(getLinkIndex(constraint.articulation1));
 		desc.bodyBIdx = 0;
 	}
 	else
@@ -1056,7 +1056,7 @@ void DynamicsTGSContext::preIntegrateBodies(PxsBodyCore** bodyArray, PxsRigidBod
 
 		//const Cm::SpatialVector& accel = originalBodyArray[i]->getAccelerationV();
 		bodyCoreComputeUnconstrainedVelocity(gravity, dt, core.linearDamping, core.angularDamping, rBody.accelScale, core.maxLinearVelocitySq, core.maxAngularVelocitySq,
-			core.linearVelocity, core.angularVelocity, !!(rBody.mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY));
+			core.linearVelocity, core.angularVelocity, core.disableGravity!=0);
 
 		copyToSolverBodyDataStep(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias, core.maxContactImpulse, nodeIndexArray[i],
 			core.contactReportThreshold, core.maxAngularVelocitySq, core.lockFlags, false,
@@ -2609,7 +2609,7 @@ void DynamicsTGSContext::iterativeSolveIsland(const SolverIslandObjectsStep& obj
 		for (PxU32 i = 0; i < counts.articulations; ++i)
 		{
 			ArticulationSolverDesc& d = mThreadContext.getArticulations()[i];
-			for (PxU32 a = 1; a < posIters; a++)
+			for (PxU32 a = 0; a < posIters; a++)
 			{
 				d.articulation->solveInternalConstraints(stepDt, recipStepDt, mThreadContext.mZVector.begin(), mThreadContext.mDeltaV.begin(), false);
 				stepArticulations(mThreadContext, counts, stepDt);

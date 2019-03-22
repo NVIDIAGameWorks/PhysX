@@ -69,12 +69,11 @@ public:
 
 // PX_SERIALIZATION
 														TriangleMesh(PxBaseFlags baseFlags)	: PxTriangleMesh(baseFlags), Cm::RefCountable(PxEmpty) {}
-						virtual void					exportExtraData(PxSerializationContext& ctx);
-								void					importExtraData(PxDeserializationContext&);
+								void					preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+						virtual void					exportExtraData(PxSerializationContext& context);
+								void					importExtraData(PxDeserializationContext& context);
 	PX_PHYSX_COMMON_API	static	void					getBinaryMetaData(PxOutputStream& stream);
 						virtual	void					release();
-
-								void					resolveReferences(PxDeserializationContext& ) {}
 						virtual	void					requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
 

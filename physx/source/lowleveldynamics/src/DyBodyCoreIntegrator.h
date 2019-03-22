@@ -253,28 +253,23 @@ PX_FORCE_INLINE PxReal updateWakeCounter(PxsRigidBody* originalBody, PxReal dt, 
 
 			originalBody->accelScale = accelScale;
 
-			if (freeze)
+			const PxU32 wasFrozen = originalBody->mInternalFlags & PxsRigidBody::eFROZEN;
+			PxU16 flags;
+			if(freeze)
 			{
 				//current flag isn't frozen but freeze flag raise so we need to raise the frozen flag in this frame
-				bool wasNotFrozen = (originalBody->mInternalFlags & PxsRigidBody::eFROZEN) == 0;
-				PxU16 flags = PxU16((originalBody->mInternalFlags & PxsRigidBody::eDISABLE_GRAVITY) | PxsRigidBody::eFROZEN);
-				if (wasNotFrozen)
-				{
+				flags = PxU16(PxsRigidBody::eFROZEN);
+				if(!wasFrozen)
 					flags |= PxsRigidBody::eFREEZE_THIS_FRAME;
-				}
-				originalBody->mInternalFlags = flags;
 				bodyCore.body2World = originalBody->getLastCCDTransform();
 			}
 			else
 			{
-				PxU16 flags = PxU16(originalBody->mInternalFlags & PxsRigidBody::eDISABLE_GRAVITY);
-				bool wasFrozen = (originalBody->mInternalFlags & PxsRigidBody::eFROZEN) != 0;
-				if (wasFrozen)
-				{
+				flags = 0;
+				if(wasFrozen)
 					flags |= PxsRigidBody::eUNFREEZE_THIS_FRAME;
-				}
-				originalBody->mInternalFlags = flags;
 			}
+			originalBody->mInternalFlags = flags;
 
 			/*KS: New algorithm for sleeping when using stabilization:
 			* Energy *this frame* must be higher than sleep threshold and accumulated energy over previous frames
@@ -365,7 +360,7 @@ PX_FORCE_INLINE PxReal updateWakeCounter(PxsRigidBody* originalBody, PxReal dt, 
 					PxReal oldWc = wc;
 					wc = factor * 0.5f * wakeCounterResetTime + dt * (clusterFactor - 1.0f);
 					bodyCore.solverWakeCounter = wc;
-					PxU16 flags = PxU16(originalBody->mInternalFlags & PxsRigidBody::eDISABLE_GRAVITY);
+					PxU16 flags = 0;
 					if (oldWc == 0.0f)  // for the case where a sleeping body got activated by the system (not the user) AND got processed by the solver as well
 					{
 						flags |= PxsRigidBody::eACTIVATE_THIS_FRAME;

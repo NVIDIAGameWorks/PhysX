@@ -485,6 +485,11 @@ PX_FORCE_INLINE void separateSwingTwist(const PxQuat& q, PxQuat& swing, PxQuat& 
 	swing = q * twist.getConjugate();
 }
 
+PX_FORCE_INLINE float computeSwingAngle(float swingYZ, float swingW)
+{
+	return 4.0f * PxAtan2(swingYZ, 1.0f + swingW);	// tan (t/2) = sin(t)/(1+cos t), so this is the quarter angle
+}
+
 // generate two tangent vectors to a given normal
 PX_FORCE_INLINE void normalToTangents(const PxVec3& normal, PxVec3& tangent0, PxVec3& tangent1)
 {

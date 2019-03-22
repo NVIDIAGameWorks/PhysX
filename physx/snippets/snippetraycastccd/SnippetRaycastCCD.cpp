@@ -151,14 +151,16 @@ void cleanupPhysics(bool /*interactive*/)
 	if(gRaycastCCD)
 		delete gRaycastCCD;
 
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();	
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	
-	gFoundation->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetRaycastCCD done.\n");
 }

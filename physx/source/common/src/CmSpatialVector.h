@@ -27,7 +27,6 @@
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
-
 #ifndef PX_PHYSICS_COMMON_VECTOR
 #define PX_PHYSICS_COMMON_VECTOR
 
@@ -61,8 +60,6 @@ public:
 	PX_CUDA_CALLABLE PX_FORCE_INLINE ~SpatialVector()
 	{}
 
-
-
 	// PT: this one is very important. Without it, the Xbox compiler generates weird "float-to-int" and "int-to-float" LHS
 	// each time we copy a SpatialVector (see for example PIX on "solveSimpleGroupA" without this operator).
 	PX_CUDA_CALLABLE PX_FORCE_INLINE	void	operator = (const SpatialVector& v)
@@ -72,7 +69,6 @@ public:
 		angular = v.angular;
 		pad1 = 0.0f;
 	}
-
 
 	static PX_CUDA_CALLABLE  PX_FORCE_INLINE SpatialVector zero() {	return SpatialVector(PxVec3(0),PxVec3(0)); }
 
@@ -90,7 +86,6 @@ public:
 	{
 		return SpatialVector(-linear,-angular);
 	}
-
 
 	PX_CUDA_CALLABLE PX_FORCE_INLINE SpatialVector operator *(PxReal s) const
 	{	
@@ -159,8 +154,6 @@ public:
 	PX_CUDA_CALLABLE PX_FORCE_INLINE ~SpatialVectorF()
 	{}
 
-
-
 	// PT: this one is very important. Without it, the Xbox compiler generates weird "float-to-int" and "int-to-float" LHS
 	// each time we copy a SpatialVector (see for example PIX on "solveSimpleGroupA" without this operator).
 	PX_CUDA_CALLABLE PX_FORCE_INLINE	void	operator = (const SpatialVectorF& v)
@@ -170,7 +163,6 @@ public:
 		bottom = v.bottom;
 		pad1 = 0.0f;
 	}
-
 
 	static PX_CUDA_CALLABLE PX_FORCE_INLINE SpatialVectorF Zero() { return SpatialVectorF(PxVec3(0), PxVec3(0)); }
 
@@ -212,7 +204,6 @@ public:
 		bottom -= v.bottom;
 	}
 
-
 	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal magnitude()	const
 	{
 		return top.magnitude() + bottom.magnitude();
@@ -223,7 +214,6 @@ public:
 		return top.magnitudeSquared() + bottom.magnitudeSquared();
 	}
 
-	//This is inner product 
 	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal innerProduct(const SpatialVectorF& v) const
 	{
 		return bottom.dot(v.top) + top.dot(v.bottom);
@@ -257,7 +247,6 @@ public:
 		return SpatialVectorF(top.abs(), bottom.abs());
 	}
 
-
 	PX_CUDA_CALLABLE PX_FORCE_INLINE SpatialVectorF rotate(const PxTransform& rot) const
 	{
 		return SpatialVectorF(rot.rotate(top), rot.rotate(bottom));
@@ -267,8 +256,6 @@ public:
 	{
 		return SpatialVectorF(rot.rotateInv(top), rot.rotateInv(bottom));
 	}
-
-
 
 	PX_CUDA_CALLABLE PX_FORCE_INLINE bool isFinite() const
 	{
@@ -300,7 +287,6 @@ public:
 	PxReal pad1;
 } PX_ALIGN_SUFFIX(16);
 
-
 struct UnAlignedSpatialVector
 {
 public:
@@ -322,15 +308,11 @@ public:
 	PX_CUDA_CALLABLE PX_FORCE_INLINE ~UnAlignedSpatialVector()
 	{}
 
-
-
-	
 	PX_CUDA_CALLABLE PX_FORCE_INLINE	void	operator = (const SpatialVectorF& v)
 	{
 		top = v.top;
 		bottom = v.bottom;
 	}
-
 
 	static PX_CUDA_CALLABLE PX_FORCE_INLINE UnAlignedSpatialVector Zero() { return UnAlignedSpatialVector(PxVec3(0), PxVec3(0)); }
 
@@ -384,7 +366,6 @@ public:
 		bottom -= v.bottom;
 	}
 
-
 	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal magnitude()	const
 	{
 		return top.magnitude() + bottom.magnitude();
@@ -395,7 +376,6 @@ public:
 		return top.magnitudeSquared() + bottom.magnitudeSquared();
 	}
 
-	//This is inner product 
 	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal innerProduct(const UnAlignedSpatialVector& v) const
 	{
 		return bottom.dot(v.top) + top.dot(v.bottom);
@@ -411,7 +391,6 @@ public:
 		return top.dot(v.top) + bottom.dot(v.bottom);
 	}
 
-
 	PX_CUDA_CALLABLE PX_FORCE_INLINE UnAlignedSpatialVector cross(const UnAlignedSpatialVector& v) const
 	{
 		UnAlignedSpatialVector a;
@@ -424,7 +403,6 @@ public:
 	{
 		return UnAlignedSpatialVector(top.abs(), bottom.abs());
 	}
-
 
 	PX_CUDA_CALLABLE PX_FORCE_INLINE UnAlignedSpatialVector rotate(const PxTransform& rot) const
 	{
@@ -464,7 +442,6 @@ public:
 	PxVec3 bottom;				//12		24
 };
 
-
 PX_ALIGN_PREFIX(16)
 struct SpatialVectorV
 {
@@ -500,7 +477,6 @@ struct SpatialVectorV
 
 	PX_FORCE_INLINE Ps::aos::FloatV dot(const SpatialVectorV& other) const { return Ps::aos::FAdd(Ps::aos::V3Dot(linear, other.linear), Ps::aos::V3Dot(angular, other.angular)); }
 
-	
 }PX_ALIGN_SUFFIX(16);
 
 } // namespace Cm

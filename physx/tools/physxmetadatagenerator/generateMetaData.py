@@ -125,15 +125,15 @@ except:
 sdkRoot = utils.find_root_path(scriptDir, "source")
 
 if os.path.isdir(os.path.join(sdkRoot, "../physx")):
-	externalsRoot = os.path.join(sdkRoot, "../externals")
+	clangRoot = os.path.join(sdkRoot, "../externals/clang-physxmetadata/4.0.0")
 	pxSharedRoot = os.path.join(sdkRoot, "../pxshared")
 else:
-	externalsRoot = os.path.join(utils.find_root_path(scriptDir, os.path.normpath("externals/clang")), "externals")
+	clangRoot = os.path.normpath(os.environ['PM_clangMetadata_PATH'])
 	pxSharedRoot = os.path.normpath(os.environ['PM_PxShared_PATH'])
 
 print("testmode:", args.test)
 print("root sdk:", sdkRoot)
-print("root externals:", externalsRoot)
+print("root clang:", clangRoot)
 print("root shared:", pxSharedRoot)
 
 boilerPlateFile = os.path.join(sdkRoot, os.path.normpath("tools/physxmetadatagenerator/PxBoilerPlate.h"))
@@ -175,20 +175,20 @@ if platform.system() == "Windows":
 	# for some reason -cc1 needs to go first in commonFlags
 	commonFlags = '-cc1 ' + commonFlags
 	platformFlags = '-DPX_VC=14 -D_WIN32 ' + sysIncludeFlags
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/win32/bin/clang.exe'))
+	clangExe = os.path.join(clangRoot, os.path.normpath('win32/bin/clang.exe'))
 	
 	
 elif platform.system() == "Linux":
 	debugFile = open("temp/clangCommandLine_linux.txt", "a")
 	
 	platformFlags = ''
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/linux32/bin/clang'))
+	clangExe = os.path.join(clangRoot, os.path.normpath('linux32/bin/clang'))
 	
 elif platform.system() == "Darwin":
 	debugFile = open("temp/clangCommandLine_osx.txt", "a")
 
 	platformFlags = ' -isysroot' + get_osx_platform_path()
-	clangExe = os.path.join(externalsRoot, os.path.normpath('clang/4.0.0/osx/bin/clang'))
+	clangExe = os.path.join(clangRoot, os.path.normpath('osx/bin/clang'))
 else:
 	print("unsupported platform, aborting!")
 	sys.exit(1)

@@ -231,14 +231,17 @@ void stepPhysics(bool /*interactive*/)
 	
 void cleanupPhysics(bool /*interactive*/)
 {
-	gScene->release();
-	gDispatcher->release();
-	gPhysics->release();	
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	gCooking->release();
-	gFoundation->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
+	PX_RELEASE(gCooking);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetDeformableMesh done.\n");
 }

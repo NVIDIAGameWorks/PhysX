@@ -237,13 +237,14 @@ void NpFactory::releaseArticulationToPool(PxArticulationBase& articulation)
 {
 	
 	PX_ASSERT(articulation.getBaseFlags() & PxBaseFlag::eOWNS_MEMORY);
-	if (articulation.getType() == PxArticulationBase::eMaximumCoordinate)
+	if (articulation.getConcreteType() == PxConcreteType::eARTICULATION)
 	{
 		Ps::Mutex::ScopedLock lock(mArticulationPoolLock);
 		mArticulationPool.destroy(static_cast<NpArticulation*>(&articulation));
 	}
 	else
 	{
+		PX_ASSERT(articulation.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE);
 		Ps::Mutex::ScopedLock lock(mArticulationRCPoolLock);
 		mArticulationRCPool.destroy(static_cast<NpArticulationReducedCoordinate*>(&articulation));
 	}
@@ -434,16 +435,16 @@ PxMaterial* NpFactory::createMaterial(PxReal staticFriction, PxReal dynamicFrict
 	PX_CHECK_AND_RETURN_NULL(dynamicFriction >= 0.0f, "createMaterial: dynamicFriction must be >= 0.");
 	PX_CHECK_AND_RETURN_NULL(staticFriction >= 0.0f, "createMaterial: staticFriction must be >= 0.");
 	PX_CHECK_AND_RETURN_NULL(restitution >= 0.0f || restitution <= 1.0f, "createMaterial: restitution must be between 0 and 1.");
-	
-	Sc::MaterialData data;
-	data.staticFriction = staticFriction;
-	data.dynamicFriction = dynamicFriction;
-	data.restitution = restitution;
+
+	Sc::MaterialData materialData;
+	materialData.staticFriction = staticFriction;
+	materialData.dynamicFriction = dynamicFriction;
+	materialData.restitution = restitution;
 
 	NpMaterial* npMaterial;
 	{
 		Ps::Mutex::ScopedLock lock(mMaterialPoolLock);		
-		npMaterial = mMaterialPool.construct(data);
+		npMaterial = mMaterialPool.construct(materialData);
 	}
 	return npMaterial;	
 }
@@ -517,7 +518,7 @@ NpShape* NpFactory::createShape(const PxGeometry& geometry,
 	Ps::InlineArray<PxU16, 4> materialIndices("NpFactory::TmpMaterialIndexBuffer");
 	materialIndices.resize(materialCount);
 	if(materialCount == 1)
-		materialIndices[0] = Ps::to16((static_cast<NpMaterial*>(materials[0]))->getHandle());
+		materialIndices[0] = static_cast<NpMaterial*>(materials[0])->getHandle();
 	else
 		NpMaterial::getMaterialIndices(materials, materialIndices.begin(), materialCount);
 
@@ -686,6 +687,11 @@ void NpFactory::addCollection(const Cm::Collection& collection)
 			NpArticulation* np = static_cast<NpArticulation*>(s);
 			addArticulation(np, false);
 		}
+		else if (serialType == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
+		{
+			NpArticulationReducedCoordinate* np = static_cast<NpArticulationReducedCoordinate*>(s);
+			addArticulation(np, false);
+		}
 		else if(serialType==PxConcreteType::eARTICULATION_LINK)
 		{
 //			NpArticulationLink* np = static_cast<NpArticulationLink*>(s);
@@ -761,13 +767,13 @@ static void NpDestroyArticulationJoint(Scb::ArticulationJoint& scb)
 
 	if (np->getBaseFlags() & PxBaseFlag::eOWNS_MEMORY)
 	{
-		PxArticulationJointImpl* impl = np->getImpl();
-		if (impl->mType == PxArticulationBase::eMaximumCoordinate)
+		if (np->getConcreteType() == PxConcreteType::eARTICULATION_JOINT)
 		{
 			NpFactory::getInstance().releaseArticulationJointToPool(*static_cast<NpArticulationJoint*>(np));
 		}
 		else
 		{
+			PX_ASSERT(np->getConcreteType() == PxConcreteType::eARTICULATION_JOINT_REDUCED_COORDINATE);
 			NpFactory::getInstance().releaseArticulationJointRCToPool(*static_cast<NpArticulationJointReducedCoordinate*>(np));
 		}
 	}

@@ -385,16 +385,10 @@ void PxSerialization::dumpBinaryMetaData(PxOutputStream& outputStream, PxSeriali
 
 	const PxU32 header = PX_MAKE_FOURCC('M','E','T','A');
 	const PxU32 version = PX_PHYSICS_VERSION;
-	const PxU32 binaryVersion = PX_BINARY_SERIAL_VERSION;
 	const PxU32 ptrSize = sizeof(void*);
-	PxU32 buildNumber = 0;
-#if defined(PX_BUILD_NUMBER)
-	buildNumber =  PX_BUILD_NUMBER;
-#endif
 	outputStream.write(&header, 4);
 	outputStream.write(&version, 4);
-	outputStream.write(&binaryVersion, 4);
-	outputStream.write(&buildNumber, 4);
+	outputStream.write(PX_BINARY_SERIAL_VERSION, SN_BINARY_VERSION_GUID_NUM_CHARS);
 	outputStream.write(&ptrSize, 4);
 	outputStream.write(&platformTag, 4);
 	outputStream.write(&gaussMapLimit, 4);

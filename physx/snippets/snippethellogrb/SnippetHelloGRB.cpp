@@ -107,7 +107,7 @@ void initPhysics(bool /*interactive*/)
 #endif
 	
 
-	gCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc);	//Create the CUDA context manager, required for GRB to dispatch CUDA kernels.
+	gCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc, PxGetProfilerCallback());	//Create the CUDA context manager, required for GRB to dispatch CUDA kernels.
 	if( gCudaContextManager )
 	{
 		if( !gCudaContextManager->contextIsValid() )
@@ -159,52 +159,27 @@ void initPhysics(bool /*interactive*/)
 		PxRigidBodyExt::updateMassAndInertia(*ball, 1000.f);
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
 }
 	
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
+	PX_RELEASE(gPhysics);
 
-	if (gScene)
-	{
-		gScene->release();
-		gScene = NULL;
-	}
-	if (gDispatcher)
-	{
-		gDispatcher->release();
-		gDispatcher = NULL;
-	}
-	
-	if (gPhysics)
-	{
-		gPhysics->release();
-		gPhysics = NULL;
-
-	}
-	if (gPvd)
+	if(gPvd)
 	{
 		PxPvdTransport* transport = gPvd->getTransport();
-		gPvd->release();
-		transport->release();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
 	}
 
-	if (gCudaContextManager)
-	{
-		gCudaContextManager->release();
-		gCudaContextManager = NULL;
-	}
-
-	if (gFoundation)
-	{
-		gFoundation->release();
-		gFoundation = NULL;
-	}
+	PX_RELEASE(gCudaContextManager);
+	PX_RELEASE(gFoundation);
 	
 	printf("SnippetHelloWorld done.\n");
 }

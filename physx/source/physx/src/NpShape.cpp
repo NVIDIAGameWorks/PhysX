@@ -82,15 +82,18 @@ void NpShape::onRefCountZero()
 
 // PX_SERIALIZATION
 
-NpShape::NpShape(PxBaseFlags baseFlags) : PxShape(baseFlags), mShape(PxEmpty) 
+NpShape::NpShape(PxBaseFlags baseFlags) : PxShape(baseFlags), mShape(PxEmpty) {}
+
+void NpShape::preExportDataReset()
 {
+	Cm::RefCountable::preExportDataReset();
 	mExclusiveAndActorCount &= EXCLUSIVE_MASK;
 }
 
-void NpShape::exportExtraData(PxSerializationContext& stream)
+void NpShape::exportExtraData(PxSerializationContext& context)
 {	
-	getScbShape().getScShape().exportExtraData(stream);
-	stream.writeName(mName);
+	getScbShape().getScShape().exportExtraData(context);
+	context.writeName(mName);
 }
 
 void NpShape::importExtraData(PxDeserializationContext& context)
@@ -150,7 +153,7 @@ void NpShape::resolveReferences(PxDeserializationContext& context)
 			PX_ASSERT(base && base->is<PxMaterial>());
 
 			NpMaterial& material = *static_cast<NpMaterial*>(base);
-			getScbShape().getScShape().resolveMaterialReference(i, PxU16(material.getHandle()));
+			getScbShape().getScShape().resolveMaterialReference(i, material.getHandle());
 		}
 	}
 

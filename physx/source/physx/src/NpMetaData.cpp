@@ -38,6 +38,7 @@
 #include "NpArticulationReducedCoordinate.h"
 #include "NpArticulationLink.h"
 #include "NpArticulationJoint.h"
+#include "NpArticulationJointReducedCoordinate.h"
 #include "NpAggregate.h"
 #include "GuConvexMesh.h"
 #include "GuTriangleMesh.h"
@@ -55,12 +56,19 @@ using namespace Cm;
 #define DefineMetaData_PxActor(x) \
 	PX_DEF_BIN_METADATA_ITEM(stream,	x, void,			userData,		PxMetaDataFlag::ePTR)
 
+#define DefineMetaData_PxArticulationBase(x) \
+	PX_DEF_BIN_METADATA_ITEM(stream,	x, void,			userData,		PxMetaDataFlag::ePTR)
+
 #define DefineMetaData_NpRigidActorTemplate(x) \
 	PX_DEF_BIN_METADATA_ITEM(stream,	x, NpShapeManager,	mShapeManager,	0) \
 	PX_DEF_BIN_METADATA_ITEM(stream,	x, PxU32,			mIndex,			0) \
 
 #define DefineMetaData_NpRigidBodyTemplate(x) \
 	PX_DEF_BIN_METADATA_ITEM(stream,	x, Scb::Body,		mBody,			0)
+
+
+#define DefineMetaData_NpArticulationTemplate(x) \
+	PX_DEF_BIN_METADATA_ITEM(stream,	x, PxArticulationImpl, mImpl, 0)
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -170,7 +178,6 @@ static void getBinaryMetaData_PxConstraintInvMassScale(PxOutputStream& stream)
 
 void NpActor::getBinaryMetaData(PxOutputStream& stream)
 {
-	// 12 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		NpActor)
 
 	PX_DEF_BIN_METADATA_ITEM(stream,		NpActor, char,				mName,				PxMetaDataFlag::ePTR)
@@ -182,7 +189,6 @@ void NpActor::getBinaryMetaData(PxOutputStream& stream)
 
 void NpMaterial::getBinaryMetaData(PxOutputStream& stream)
 {
-// 76 => 72 => 64 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpMaterial)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpMaterial, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpMaterial, RefCountable)
@@ -195,7 +201,6 @@ void NpMaterial::getBinaryMetaData(PxOutputStream& stream)
 
 void NpConstraint::getBinaryMetaData(PxOutputStream& stream)
 {
-// 136 => 140 => 144 => 128 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpConstraint)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpConstraint, PxBase)
 
@@ -210,7 +215,6 @@ void NpConstraint::getBinaryMetaData(PxOutputStream& stream)
 
 void NpShapeManager::getBinaryMetaData(PxOutputStream& stream)
 {
-// 8 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,	NpShapeManager)
 	PX_DEF_BIN_METADATA_ITEM(stream,	NpShapeManager, PtrTable,	mShapes,			0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	NpShapeManager, PtrTable,	mSceneQueryData,	0)
@@ -224,7 +228,6 @@ void NpShape::getBinaryMetaData(PxOutputStream& stream)
 {
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	NpInternalShapeFlags, PxU8)
 
-// 208 => 224 => 208 => 192 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpShape)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpShape, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpShape, RefCountable)
@@ -246,7 +249,6 @@ void NpShape::getBinaryMetaData(PxOutputStream& stream)
 
 void NpRigidStatic::getBinaryMetaData(PxOutputStream& stream)
 {
-// 124 => 128 => 124 => 108 => 96 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpRigidStatic)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpRigidStatic, PxBase)
 //	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpRigidStatic, NpRigidStaticT)	// ### ???
@@ -268,7 +270,6 @@ void NpRigidStatic::getBinaryMetaData(PxOutputStream& stream)
 
 void NpConnector::getBinaryMetaData(PxOutputStream& stream)
 {
-// 8 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		NpConnector)
 	PX_DEF_BIN_METADATA_ITEM(stream,		NpConnector, PxU8,		mType,		0)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	NpConnector, PxU8,		mPadding,	PxMetaDataFlag::ePADDING)
@@ -277,7 +278,6 @@ void NpConnector::getBinaryMetaData(PxOutputStream& stream)
 
 void NpConnectorArray::getBinaryMetaData(PxOutputStream& stream)
 {
-// 48 bytes
 	PX_DEF_BIN_METADATA_CLASS(stream,		NpConnectorArray)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream,	NpConnectorArray, NpConnector,	mBuffer,		0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		NpConnectorArray, bool,			mBufferUsed,	0)
@@ -296,7 +296,6 @@ void NpConnectorArray::getBinaryMetaData(PxOutputStream& stream)
 
 void NpRigidDynamic::getBinaryMetaData(PxOutputStream& stream)
 {
-// 368 => 352 => 304 => 288 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpRigidDynamic)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpRigidDynamic, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpRigidDynamic, NpActor)
@@ -361,31 +360,66 @@ void NpArticulationLinkArray::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_EXTRA_ITEMS(stream,	NpArticulationLinkArray, NpArticulationLink, mBufferUsed, mCapacity, PxMetaDataFlag::eCONTROL_FLIP|PxMetaDataFlag::eCOUNT_MASK_MSB|PxMetaDataFlag::ePTR, 0)
 }
 
+void PxArticulationImpl::getBinaryMetaData(PxOutputStream& stream)
+{
+	PX_DEF_BIN_METADATA_CLASS(stream,	PxArticulationImpl)
+
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationImpl, Scb::Articulation, mArticulation, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationImpl, NpArticulationLinkArray, mArticulationLinks, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationImpl, NpAggregate, mAggregate, PxMetaDataFlag::ePTR)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationImpl, char, mName, PxMetaDataFlag::ePTR)
+	PX_DEF_BIN_METADATA_EXTRA_NAME(stream, PxArticulationImpl, mName, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationImpl, PxU32, mCacheVersion, 0)
+}
+
+void PxArticulationJointImpl::getBinaryMetaData(PxOutputStream& stream)
+{
+	PX_DEF_BIN_METADATA_CLASS(stream, PxArticulationJointImpl)
+
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationJointImpl, Scb::ArticulationJoint, mJoint, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationJointImpl, NpArticulationLink, mParent, PxMetaDataFlag::ePTR)
+	PX_DEF_BIN_METADATA_ITEM(stream, PxArticulationJointImpl, NpArticulationLink, mChild, PxMetaDataFlag::ePTR)
+}
+
 void NpArticulation::getBinaryMetaData(PxOutputStream& stream)
 {
-// 92 => 108 => 104 => 116 => 120 => 104 bytes
-	PX_DEF_BIN_METADATA_VCLASS(stream,		NpArticulation)
-	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpArticulation, PxBase)
+	PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulation)
+	PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulation, PxBase)
 
-	// PxArticulation
-	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxArticulationBase::Enum, PxU32)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, void,						userData,					PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, PxArticulationBase::Enum,	mType,						0)
+	DefineMetaData_PxArticulationBase(NpArticulation)
+	DefineMetaData_NpArticulationTemplate(NpArticulation)
+}
 
-	// NpArticulation
-	//PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, PxArticulationImpl, mImpl, 0)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, Scb::Articulation,			mImpl.mArticulation,		0)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, NpArticulationLinkArray,	mImpl.mArticulationLinks,	0)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, NpAggregate,				mImpl.mAggregate,			PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, char,						mImpl.mName,				PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_EXTRA_NAME(stream, NpArticulation,						mImpl.mName,				0)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulation, PxU32,						mImpl.mCacheVersion,		0)
-		
+namespace
+{
+	struct ShadowLoopJointArray : public Ps::Array<PxJoint*>
+	{
+		static void getBinaryMetaData(PxOutputStream& stream)
+		{
+			PX_DEF_BIN_METADATA_CLASS(stream, ShadowLoopJointArray)
+
+			PX_DEF_BIN_METADATA_ITEM(stream, ShadowLoopJointArray, PxJoint, mData, PxMetaDataFlag::ePTR)
+			PX_DEF_BIN_METADATA_ITEM(stream, ShadowLoopJointArray, PxU32, mSize, 0)
+			PX_DEF_BIN_METADATA_ITEM(stream, ShadowLoopJointArray, PxU32, mCapacity, 0)
+		}
+	};
+}
+
+void NpArticulationReducedCoordinate::getBinaryMetaData(PxOutputStream& stream)
+{
+	ShadowLoopJointArray::getBinaryMetaData(stream);
+
+	PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulationReducedCoordinate)
+	PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulationReducedCoordinate, PxBase)
+
+	DefineMetaData_PxArticulationBase(NpArticulationReducedCoordinate)
+	DefineMetaData_NpArticulationTemplate(NpArticulationReducedCoordinate)
+
+	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationReducedCoordinate, ShadowLoopJointArray, mLoopJoints, 0)
 }
 
 void NpArticulationLink::getBinaryMetaData(PxOutputStream& stream)
 {
-// 400 (!) => 352 => 336 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpArticulationLink)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpArticulationLink, PxBase)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpArticulationLink, NpActor)
@@ -410,21 +444,24 @@ void NpArticulationLink::getBinaryMetaData(PxOutputStream& stream)
 
 void NpArticulationJoint::getBinaryMetaData(PxOutputStream& stream)
 {
-// 184 => 200 => 192 => 224 => 208 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulationJoint)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulationJoint, PxBase)
 
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJoint, Scb::ArticulationJoint, mImpl.mJoint, 0)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJoint, NpArticulationLink, mImpl.mParent, PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJoint, NpArticulationLink, mImpl.mChild, PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJoint, PxArticulationBase::Enum, mImpl.mType, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJoint, PxArticulationJointImpl, mImpl, 0)
+}
+
+void NpArticulationJointReducedCoordinate::getBinaryMetaData(PxOutputStream& stream)
+{
+	PX_DEF_BIN_METADATA_VCLASS(stream, NpArticulationJointReducedCoordinate)
+	PX_DEF_BIN_METADATA_BASE_CLASS(stream, NpArticulationJointReducedCoordinate, PxBase)
+
+	PX_DEF_BIN_METADATA_ITEM(stream, NpArticulationJointReducedCoordinate, PxArticulationJointImpl, mImpl, 0)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void NpAggregate::getBinaryMetaData(PxOutputStream& stream)
 {
-// 36 => 56 => 40 bytes
 	PX_DEF_BIN_METADATA_VCLASS(stream,		NpAggregate)
 	PX_DEF_BIN_METADATA_BASE_CLASS(stream,	NpAggregate, PxBase)
 
@@ -452,7 +489,6 @@ namespace physx
 {
 void getBinaryMetaData_PxBase(PxOutputStream& stream)
 {
-	// 8 bytes
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxBaseFlags,	PxU16)
 	PX_DEF_BIN_METADATA_TYPEDEF(stream,	PxType,			PxU16)
 	PX_DEF_BIN_METADATA_VCLASS(stream,	PxBase)
@@ -537,9 +573,13 @@ void PxGetPhysicsBinaryMetaData(PxOutputStream& stream)
 	NpRigidStatic::getBinaryMetaData(stream);			// NP_RIGID_STATIC
 	NpShape::getBinaryMetaData(stream);				// NP_SHAPE
 	NpConstraint::getBinaryMetaData(stream);			// NP_CONSTRAINT
+	PxArticulationJointImpl::getBinaryMetaData(stream);
+	PxArticulationImpl::getBinaryMetaData(stream);
 	NpArticulation::getBinaryMetaData(stream);		// NP_ARTICULATION
+	NpArticulationReducedCoordinate::getBinaryMetaData(stream);		// NP_ARTICULATION_REDUCED_COORDINATE
 	NpArticulationLink::getBinaryMetaData(stream);	// NP_ARTICULATION_LINK
 	NpArticulationJoint::getBinaryMetaData(stream);	// NP_ARTICULATION_JOINT
+	NpArticulationJointReducedCoordinate::getBinaryMetaData(stream);	// NP_ARTICULATION_JOINT_REDUCED_COORDINATE
 	NpArticulationLinkArray::getBinaryMetaData(stream);
 	NpShapeManager::getBinaryMetaData(stream);
 	NpAggregate::getBinaryMetaData(stream);			// NP_AGGREGATE	

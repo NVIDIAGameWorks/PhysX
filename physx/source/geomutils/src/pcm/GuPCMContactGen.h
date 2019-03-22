@@ -56,7 +56,7 @@ namespace Gu
 
 	//full contact gen code for capsule vs box
 	bool generateCapsuleBoxFullContactManifold(const Gu::CapsuleV& capsule, Gu::PolygonalData& polyData, Gu::SupportLocal* map, const Ps::aos::PsMatTransformV& aToB, Gu::PersistentContact* manifoldContacts, PxU32& numContacts,
-		const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const PxReal boxMargin, const bool doOverlapTest, const PxReal toeranceScale);
+		const Ps::aos::FloatVArg contactDist, Ps::aos::Vec3V& normal, const Ps::aos::Vec3VArg closest, const PxReal boxMargin, const bool doOverlapTest, const PxReal toeranceScale, Cm::RenderOutput* renderOutput);
 
 	//based on the gjk status to decide whether we should do full contact gen with GJK/EPA normal. Also, this method store
 	//GJK/EPA point to the manifold in case full contact gen doesn't generate any contact

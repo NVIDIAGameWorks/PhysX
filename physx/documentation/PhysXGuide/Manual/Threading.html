@@ -366,7 +366,7 @@ tasks, so the function must be thread-safe.</p>
 <span class="cp">#if PX_WINDOWS</span>
     <span class="c1">// create GPU dispatcher</span>
     <span class="n">PxCudaContextManagerDesc</span> <span class="n">cudaContextManagerDesc</span><span class="p">;</span>
-    <span class="n">mCudaContextManager</span> <span class="o">=</span> <span class="n">PxCreateCudaContextManager</span><span class="p">(</span><span class="n">cudaContextManagerDesc</span><span class="p">);</span>
+    <span class="n">mCudaContextManager</span> <span class="o">=</span> <span class="n">PxCreateCudaContextManager</span><span class="p">(</span><span class="o">*</span><span class="n">gFoundation</span><span class="p">,</span> <span class="n">cudaContextManagerDesc</span><span class="p">,</span> <span class="n">PxGetProfilerCallback</span><span class="p">());</span>
     <span class="n">sceneDesc</span><span class="p">.</span><span class="n">gpuDispatcher</span> <span class="o">=</span> <span class="n">mCudaContextManager</span><span class="o">-&gt;</span><span class="n">getGpuDispatcher</span><span class="p">();</span>
 <span class="cp">#endif</span>
     <span class="p">[...]</span>

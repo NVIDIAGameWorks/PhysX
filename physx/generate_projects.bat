@@ -12,8 +12,8 @@ SET PM_PXSHARED_PATH=%PHYSX_ROOT_DIR%/../pxshared
 SET PM_TARGA_PATH=%PHYSX_ROOT_DIR%/../externals/targa
 SET PM_PATHS=%PM_CMAKEMODULES_PATH%;%PM_TARGA_PATH%
 
-if exist %PHYSX_ROOT_DIR%/../externals/cmake/x64/bin/cmake.exe (
-    SET PM_CMAKE_PATH=%PHYSX_ROOT_DIR%/../externals/cmake/x64
+if exist "%PHYSX_ROOT_DIR%/../externals/cmake/x64/bin/cmake.exe" (
+    SET "PM_CMAKE_PATH=%PHYSX_ROOT_DIR%/../externals/cmake/x64"
     GOTO CMAKE_EXTERNAL    
 )
 
@@ -43,14 +43,14 @@ if "%PM_python_PATH%" == "" (
 
 IF %1.==. GOTO ADDITIONAL_PARAMS_MISSING
 
-for /f "usebackq tokens=*" %%i in (`%PM_vswhere_PATH%\VsWhere.exe -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+for /f "usebackq tokens=*" %%i in (`"%PM_vswhere_PATH%\VsWhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
 	set InstallDir=%%i
 	set VS150PATH="%%i"		
 )	
 
 :ADDITIONAL_PARAMS_MISSING
 pushd %~dp0
-%PM_PYTHON% %PHYSX_ROOT_DIR%/buildtools/cmake_generate_projects.py %1
+%PM_PYTHON% "%PHYSX_ROOT_DIR%/buildtools/cmake_generate_projects.py" %1
 popd
 if %ERRORLEVEL% neq 0 (
     set /p DUMMY=Hit ENTER to continue...

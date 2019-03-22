@@ -539,23 +539,27 @@ void ScbScenePvdClient::createPvdInstance(const Scb::Articulation* articulation)
 {
 	if (checkPvdDebugFlag())
 	{
-		if(articulation->getArticulationType() == PxArticulationBase::eMaximumCoordinate)
-			mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
-		else
-			mMetaDataBinding.createInstance(*mPvdDataStream, *getNpArticulationRC(articulation), *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.createInstance(*mPvdDataStream, *base, *mScbScene.getPxScene(), PxGetPhysics(), mPvd);
 	}
 }
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::Articulation* articulation)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *getNpArticulation(articulation));
+	if(checkPvdDebugFlag())
+	{
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *base);
+	}
 }
 
 void ScbScenePvdClient::releasePvdInstance(const Scb::Articulation* articulation)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.destroyInstance(*mPvdDataStream, *getNpArticulation(articulation), *mScbScene.getPxScene());
+	if (checkPvdDebugFlag())
+	{
+		const PxArticulationBase* base = articulation->getScArticulation().getPxArticulationBase();
+		mMetaDataBinding.destroyInstance(*mPvdDataStream, *base, *mScbScene.getPxScene());
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -567,8 +571,11 @@ void ScbScenePvdClient::createPvdInstance(const Scb::ArticulationJoint* articula
 
 void ScbScenePvdClient::updatePvdProperties(const Scb::ArticulationJoint* articulationJoint)
 {
-	if(checkPvdDebugFlag())	
-		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *getNpArticulationJoint(articulationJoint));
+	if (checkPvdDebugFlag())
+	{
+		const PxArticulationJointBase* base = articulationJoint->getScArticulationJoint().getPxArticulationJointBase();
+		mMetaDataBinding.sendAllProperties(*mPvdDataStream, *base);
+	}
 }
 
 void ScbScenePvdClient::releasePvdInstance(const Scb::ArticulationJoint* articulationJoint)

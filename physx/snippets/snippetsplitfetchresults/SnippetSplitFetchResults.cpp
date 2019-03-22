@@ -168,10 +168,8 @@ void createStack(const PxTransform& t, PxU32 size, PxReal halfExtent)
 	shape->release();
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gContactPositions = new PxVec3[maxCount];
 	gContactImpulses = new PxVec3[maxCount];
 	gContactVertices = new PxVec3[2*maxCount];
@@ -209,9 +207,8 @@ void initPhysics(bool interactive)
 	}
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
 	gSharedIndex = 0;
 
 	gScene->simulate(1.0f / 60.0f);
@@ -241,19 +238,19 @@ void stepPhysics(bool interactive)
 	printf("%d contact reports\n", PxU32(gSharedIndex));
 }
 
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
-
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-
-	gFoundation->release();
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
 
 	delete gContactPositions;
 	delete gContactImpulses;

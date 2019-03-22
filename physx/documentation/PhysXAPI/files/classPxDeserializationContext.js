@@ -3,7 +3,6 @@ var classPxDeserializationContext =
     [ "PxDeserializationContext", "classPxDeserializationContext.html#a18007433a2cc90ef8ccf4353fb8b123d", null ],
     [ "~PxDeserializationContext", "classPxDeserializationContext.html#a2299e472c6c4dc486cbd08385efd31d9", null ],
     [ "alignExtraData", "classPxDeserializationContext.html#af6b8fa92c606bc4641ef3e06750b4a37", null ],
-    [ "getPhysXVersion", "classPxDeserializationContext.html#abe1146f20c2d30d916e0afc0f22cba53", null ],
     [ "readExtraData", "classPxDeserializationContext.html#aec988e991d65c299c9f4742c0ada3ccc", null ],
     [ "readExtraData", "classPxDeserializationContext.html#a5c9fff58c41cd679b10359b836851263", null ],
     [ "readName", "classPxDeserializationContext.html#a393b7ca347c967d330791d19b2e37006", null ],

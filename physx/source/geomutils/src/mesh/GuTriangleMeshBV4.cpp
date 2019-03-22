@@ -51,7 +51,6 @@ Gu::TriangleMesh* Gu::BV4TriangleMesh::createObject(PxU8*& address, PxDeserializ
 	BV4TriangleMesh* obj = new (address) BV4TriangleMesh(PxBaseFlag::eIS_RELEASABLE);
 	address += sizeof(BV4TriangleMesh);	
 	obj->importExtraData(context);
-	obj->resolveReferences(context);
 	return obj;
 }
 

@@ -484,22 +484,25 @@ void cleanupPhysics()
 {
 	gTank->getRigidDynamicActor()->release();
 	gTank->free();
-	gGroundPlane->release();
-	gBatchQuery->release();
+	PX_RELEASE(gGroundPlane);
+	PX_RELEASE(gBatchQuery);
 	gVehicleSceneQueryData->free(gAllocator);
-	gFrictionPairs->release();
+	PX_RELEASE(gFrictionPairs);
 	PxCloseVehicleSDK();
 
-	gMaterial->release();
-	gCooking->release();
-	gScene->release();
-	gDispatcher->release();
+	PX_RELEASE(gMaterial);
+	PX_RELEASE(gCooking);
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
- 	gFoundation->release();
+	PX_RELEASE(gPhysics);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+ 	PX_RELEASE(gFoundation);
 
 	printf("SnippetVehicleTank done.\n");
 }

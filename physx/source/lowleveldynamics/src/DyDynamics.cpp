@@ -259,7 +259,7 @@ void DynamicsContext::setDescFromIndices(PxSolverConstraintDesc& desc, const Pxs
 		desc.articulationA = a;
 		desc.articulationALength = Ps::to16(a->getSolverDataSize());
 		PX_ASSERT(0==(desc.articulationALength & 0x0f));
-		desc.linkIndexA = Ps::to16(a->getLinkIndex(constraint.articulation0));
+		desc.linkIndexA = Ps::to16(getLinkIndex(constraint.articulation0));
 	}
 	else
 	{
@@ -282,7 +282,7 @@ void DynamicsContext::setDescFromIndices(PxSolverConstraintDesc& desc, const Pxs
 		desc.articulationB = b;
 		desc.articulationBLength = Ps::to16(b->getSolverDataSize());
 		PX_ASSERT(0==(desc.articulationBLength & 0x0f));
-		desc.linkIndexB = Ps::to16(b->getLinkIndex(constraint.articulation1));
+		desc.linkIndexB = Ps::to16(getLinkIndex(constraint.articulation1));
 	}
 	else
 	{
@@ -2561,7 +2561,7 @@ static void preIntegrationParallel(
 
 		//const Cm::SpatialVector& accel = originalBodyArray[i]->getAccelerationV();
 		bodyCoreComputeUnconstrainedVelocity(gravity, dt, core.linearDamping, core.angularDamping, rBody.accelScale, core.maxLinearVelocitySq, core.maxAngularVelocitySq, 
-			core.linearVelocity, core.angularVelocity, !!(rBody.mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY));
+			core.linearVelocity, core.angularVelocity, core.disableGravity!=0);
 
 		copyToSolverBodyData(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias, core.maxContactImpulse, nodeIndexArray[i], 
 			core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags);
@@ -2578,7 +2578,7 @@ static void preIntegrationParallel(
 	localMaxVelIter = PxMax<PxU32>(PxU32(iterWord >> 8), localMaxVelIter);
 
 	bodyCoreComputeUnconstrainedVelocity(gravity, dt, core.linearDamping, core.angularDamping, rBody.accelScale, core.maxLinearVelocitySq, core.maxAngularVelocitySq,
-		core.linearVelocity, core.angularVelocity, !!(rBody.mInternalFlags & PxcRigidBody::eDISABLE_GRAVITY));
+		core.linearVelocity, core.angularVelocity, core.disableGravity!=0);
 
 	copyToSolverBodyData(core.linearVelocity, core.angularVelocity, core.inverseMass, core.inverseInertia, core.body2World, core.maxPenBias, core.maxContactImpulse, nodeIndexArray[i], 
 		core.contactReportThreshold, solverBodyDataPool[i + 1], core.lockFlags);

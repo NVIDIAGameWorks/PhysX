@@ -36,47 +36,47 @@
 #include "Ps.h"
 
 #if(PX_WINDOWS_FAMILY || PX_XBOXONE)
-#include <exception>
-#include <typeinfo.h>
+	#include <exception>
+	#include <typeinfo.h>
 #endif
 #if(PX_APPLE_FAMILY)
-#include <typeinfo>
+	#include <typeinfo>
 #endif
 
 #include <new>
 
 // Allocation macros going through user allocator
 #if PX_CHECKED
-#define PX_ALLOC(n, name) physx::shdfnd::NamedAllocator(name).allocate(n, __FILE__, __LINE__)
+	#define PX_ALLOC(n, name) physx::shdfnd::NamedAllocator(name).allocate(n, __FILE__, __LINE__)
 #else
-#define PX_ALLOC(n, name) physx::shdfnd::NonTrackingAllocator().allocate(n, __FILE__, __LINE__)
+	#define PX_ALLOC(n, name) physx::shdfnd::NonTrackingAllocator().allocate(n, __FILE__, __LINE__)
 #endif
 #define PX_ALLOC_TEMP(n, name) PX_ALLOC(n, name)
 #define PX_FREE(x) physx::shdfnd::NonTrackingAllocator().deallocate(x)
-#define PX_FREE_AND_RESET(x)                                                                                           \
-	{                                                                                                                  \
-		PX_FREE(x);                                                                                                    \
-		x = 0;                                                                                                         \
+#define PX_FREE_AND_RESET(x)	\
+	{                           \
+		PX_FREE(x);             \
+		x = 0;                  \
 	}
 
 // The following macros support plain-old-types and classes derived from UserAllocated.
 #define PX_NEW(T) new (physx::shdfnd::ReflectionAllocator<T>(), __FILE__, __LINE__) T
 #define PX_NEW_TEMP(T) PX_NEW(T)
 #define PX_DELETE(x) delete x
-#define PX_DELETE_AND_RESET(x)                                                                                         \
-	{                                                                                                                  \
-		PX_DELETE(x);                                                                                                  \
-		x = 0;                                                                                                         \
+#define PX_DELETE_AND_RESET(x)	\
+	{                           \
+		PX_DELETE(x);           \
+		x = 0;                  \
 	}
-#define PX_DELETE_POD(x)                                                                                               \
-	{                                                                                                                  \
-		PX_FREE(x);                                                                                                    \
-		x = 0;                                                                                                         \
+#define PX_DELETE_POD(x)        \
+	{                           \
+		PX_FREE(x);             \
+		x = 0;                  \
 	}
-#define PX_DELETE_ARRAY(x)                                                                                             \
-	{                                                                                                                  \
-		PX_DELETE([] x);                                                                                               \
-		x = 0;                                                                                                         \
+#define PX_DELETE_ARRAY(x)      \
+	{                           \
+		PX_DELETE([] x);        \
+		x = 0;                  \
 	}
 
 // aligned allocation
@@ -87,30 +87,30 @@
 #define PX_PLACEMENT_NEW(p, T) new (p) T
 
 #if PX_DEBUG || PX_CHECKED
-#define PX_USE_NAMED_ALLOCATOR 1
+	#define PX_USE_NAMED_ALLOCATOR 1
 #else
-#define PX_USE_NAMED_ALLOCATOR 0
+	#define PX_USE_NAMED_ALLOCATOR 0
 #endif
 
 // Don't use inline for alloca !!!
 #if PX_WINDOWS_FAMILY
-#include <malloc.h>
-#define PxAlloca(x) _alloca(x)
+	#include <malloc.h>
+	#define PxAlloca(x) _alloca(x)
 #elif PX_LINUX || PX_ANDROID
-#include <malloc.h>
-#define PxAlloca(x) alloca(x)
+	#include <malloc.h>
+	#define PxAlloca(x) alloca(x)
 #elif PX_APPLE_FAMILY
-#include <alloca.h>
-#define PxAlloca(x) alloca(x)
+	#include <alloca.h>
+	#define PxAlloca(x) alloca(x)
 #elif PX_PS4
-#include <memory.h>
-#define PxAlloca(x) alloca(x)
+	#include <memory.h>
+	#define PxAlloca(x) alloca(x)
 #elif PX_XBOXONE
-#include <malloc.h>
-#define PxAlloca(x) alloca(x)
+	#include <malloc.h>
+	#define PxAlloca(x) alloca(x)
 #elif PX_SWITCH
-#include <malloc.h>
-#define PxAlloca(x) alloca(x)
+	#include <malloc.h>
+	#define PxAlloca(x) alloca(x)
 #endif
 
 #define PxAllocaAligned(x, alignment) ((size_t(PxAlloca(x + alignment)) + (alignment - 1)) & ~size_t(alignment - 1))

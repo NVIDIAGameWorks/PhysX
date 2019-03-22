@@ -80,19 +80,8 @@ bool setupFinalizeExtSolverContactsCoulomb(
 
 	PxU8* PX_RESTRICT ptr = workspace;
 
-	//KS - TODO - this should all be done in SIMD to avoid LHS
-	PxF32 maxPenBias0 = b0.mBodyData->penBiasClamp;
-	PxF32 maxPenBias1 = b1.mBodyData->penBiasClamp;
-
-	if (b0.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-	{
-		maxPenBias0 = b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
-	}
-
-	if (b1.mLinkIndex != PxSolverConstraintDesc::NO_LINK)
-	{
-		maxPenBias1 = b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
-	}
+	const PxF32 maxPenBias0 = b0.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b0.mBodyData->penBiasClamp : b0.mArticulation->getLinkMaxPenBias(b0.mLinkIndex);
+	const PxF32 maxPenBias1 = b1.mLinkIndex == PxSolverConstraintDesc::NO_LINK ? b1.mBodyData->penBiasClamp : b1.mArticulation->getLinkMaxPenBias(b1.mLinkIndex);
 
 	const FloatV maxPenBias = FLoad(PxMax(maxPenBias0, maxPenBias1)/invDt);
 

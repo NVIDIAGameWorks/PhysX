@@ -151,7 +151,7 @@ namespace Bp
 						void			removePair(PxU32 id0, PxU32 id1, PxU32 hashValue, PxU32 pairIndex);
 	};
 
-	struct AABB_Xi : public Ps::UserAllocated
+	struct AABB_Xi
 	{
 		PX_FORCE_INLINE	AABB_Xi()	{}
 		PX_FORCE_INLINE	~AABB_Xi()	{}
@@ -187,7 +187,7 @@ namespace Bp
 		PxU32 mMaxX;
 	};
 
-	struct AABB_YZn : public Ps::UserAllocated
+	struct AABB_YZn
 	{
 		PX_FORCE_INLINE	AABB_YZn()	{}
 		PX_FORCE_INLINE	~AABB_YZn()	{}
@@ -212,7 +212,7 @@ namespace Bp
 		float mMaxZ;
 	};
 
-	struct AABB_YZr : public Ps::UserAllocated
+	struct AABB_YZr
 	{
 		PX_FORCE_INLINE	AABB_YZr()	{}
 		PX_FORCE_INLINE	~AABB_YZr()	{}

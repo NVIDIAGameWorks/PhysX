@@ -37,7 +37,7 @@ bool Scb::Shape::setMaterialsHelper(PxMaterial* const* materials, PxU16 material
 
 	if(materialCount == 1)
 	{
-		const PxU16 materialIndex = Ps::to16((static_cast<NpMaterial*>(materials[0]))->getHandle());
+		const PxU16 materialIndex = static_cast<NpMaterial*>(materials[0])->getHandle();
 
 		mShape.setMaterialIndices(&materialIndex, 1);
 	}

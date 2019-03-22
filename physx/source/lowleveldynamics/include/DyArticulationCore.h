@@ -65,7 +65,8 @@ namespace physx
 				eMOTION = 1 << 0,
 				ePOSE = 1 << 1,
 				eTARGETPOSE = 1 << 2,
-				eTARGETVELOCITY = 1 << 3
+				eTARGETVELOCITY = 1 << 3,
+				eALL = eMOTION | ePOSE | eTARGETPOSE | eTARGETVELOCITY
 			};
 		};
 

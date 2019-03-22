@@ -94,10 +94,6 @@ var group__physics =
       [ "updateDriveCache", "classPxArticulation.html#a65811cf8f73da01a8cea28d2dfebe290", null ]
     ] ],
     [ "PxArticulationBase", "classPxArticulationBase.html", [
-      [ "Enum", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4", [
-        [ "eReducedCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a27557a297fbdce10f40a1965c08323ad", null ],
-        [ "eMaximumCoordinate", "classPxArticulationBase.html#ae2b9b5940ae8198a64f4cb86d61fdab4a6946aa2445bf482f1381e4a2a4d37ddf", null ]
-      ] ],
       [ "~PxArticulationBase", "classPxArticulationBase.html#a6fe7170f2077b283b7da5dfb23b25ba0", null ],
       [ "PxArticulationBase", "classPxArticulationBase.html#abdd331a2b48fd30ad35af280772996d9", null ],
       [ "PxArticulationBase", "classPxArticulationBase.html#a07f4354244d4d6dbc0adec96ccf2ab85", null ],
@@ -113,7 +109,6 @@ var group__physics =
       [ "getSleepThreshold", "classPxArticulationBase.html#a27983cb67e45e167edc2c698a2c125a5", null ],
       [ "getSolverIterationCounts", "classPxArticulationBase.html#ae292db93f6052f91036b3bbf56286739", null ],
       [ "getStabilizationThreshold", "classPxArticulationBase.html#a3c460c0dc44c8170b0b494c38c13d1dc", null ],
-      [ "getType", "classPxArticulationBase.html#acb9a9c0e3cb4b16a63b828f89067a733", null ],
       [ "getWakeCounter", "classPxArticulationBase.html#afb872fa8ecea5c1bc226a8e4ba0b2256", null ],
       [ "getWorldBounds", "classPxArticulationBase.html#a77173436aa4210cfa9f29e33dce66d1b", null ],
       [ "isSleeping", "classPxArticulationBase.html#aa4689e7adf28a83f73301ea4eec0ca98", null ],
@@ -258,11 +253,11 @@ var group__physics =
       [ "nbColumns", "classPxKinematicJacobian.html#aaf6d1dd5689d3f82863a1fac901392f7", null ]
     ] ],
     [ "PxArticulationRootLinkData", "structPxArticulationRootLinkData.html", [
-      [ "angAcel", "structPxArticulationRootLinkData.html#a6611210de5054a8eb06745b914fb08db", null ],
-      [ "angVel", "structPxArticulationRootLinkData.html#aceaca88516b5febd8efc9f8086b2508d", null ],
-      [ "linAcel", "structPxArticulationRootLinkData.html#a71f06d5b88b0dbf4b0cde1afc4e3dca7", null ],
-      [ "linVel", "structPxArticulationRootLinkData.html#abfaab0cef7e149ebcc4b89c774885339", null ],
-      [ "transform", "structPxArticulationRootLinkData.html#af0dcfa25c769c89fd405eeaed52b3c1f", null ]
+      [ "transform", "structPxArticulationRootLinkData.html#af0dcfa25c769c89fd405eeaed52b3c1f", null ],
+      [ "worldAngAccel", "structPxArticulationRootLinkData.html#ab1502e0364f2784bb5465415256ac778", null ],
+      [ "worldAngVel", "structPxArticulationRootLinkData.html#a31a1563d7d322c9a8898b3ed278e08c1", null ],
+      [ "worldLinAccel", "structPxArticulationRootLinkData.html#a7486a9d76ac13182f58f5a1876b919a2", null ],
+      [ "worldLinVel", "structPxArticulationRootLinkData.html#ae3563e988889f47d88af9c041409a5c3", null ]
     ] ],
     [ "PxArticulationCache", "classPxArticulationCache.html", [
       [ "Enum", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14e", [
@@ -274,7 +269,8 @@ var group__physics =
         [ "eALL", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea86872df915168195ac00a5cb1033ee29", null ]
       ] ],
       [ "PxArticulationCache", "classPxArticulationCache.html#a750cf6f5d426723b6d6cf731bd290ea5", null ],
-      [ "coefficentMatrix", "classPxArticulationCache.html#aded15e3e603ff12901cf4fe27a7eddea", null ],
+      [ "coefficientMatrix", "classPxArticulationCache.html#a9df694963228f4ae0c9e58ca9d6bff02", null ],
+      [ "denseJacobian", "classPxArticulationCache.html#a215d7bc2b910aef6ba6e594843d136bc", null ],
       [ "externalForces", "classPxArticulationCache.html#a429f0639ad5e54c1f9fd365485d6a140", null ],
       [ "jacobian", "classPxArticulationCache.html#a3f61b7c67e854c7191de844a89bb863d", null ],
       [ "jointAcceleration", "classPxArticulationCache.html#a515142b078989bf5034c5a97b6978c1b", null ],
@@ -283,7 +279,7 @@ var group__physics =
       [ "jointVelocity", "classPxArticulationCache.html#aab37dabd7db43ef927337da7f6ea9f5a", null ],
       [ "lambda", "classPxArticulationCache.html#aa90b660a293d6ce7984d49e8be270465", null ],
       [ "massMatrix", "classPxArticulationCache.html#a40849b1b079c9b0e517fb7eaea488ccf", null ],
-      [ "rootLinkData", "classPxArticulationCache.html#aaf42183cc319e011cd7e2dce9bc6a1ec", null ],
+      [ "rootLinkData", "classPxArticulationCache.html#ae0431d9e6e127c49cf7cc53532b4b393", null ],
       [ "scratchAllocator", "classPxArticulationCache.html#ac5356bfc4c7b57dec9bdd33c698ae96c", null ],
       [ "scratchMemory", "classPxArticulationCache.html#a237505e945f16c9afddb3c431f9d6a7b", null ],
       [ "version", "classPxArticulationCache.html#af8becefcb89c7a26df4372809e31b343", null ]
@@ -295,8 +291,9 @@ var group__physics =
       [ "addLoopJoint", "classPxArticulationReducedCoordinate.html#a0d9eeb50991fab399d0d7dbe756c1106", null ],
       [ "applyCache", "classPxArticulationReducedCoordinate.html#ab14e3d8440c6dc754fa3318a7c91991d", null ],
       [ "commonInit", "classPxArticulationReducedCoordinate.html#abe5b98d8b80aa4781ad1d5e9baffad25", null ],
-      [ "computeCoefficentMatrix", "classPxArticulationReducedCoordinate.html#a0a5026aa7fa58fd96a3feb3808427b71", null ],
+      [ "computeCoefficientMatrix", "classPxArticulationReducedCoordinate.html#a0eb36b4e092c322893c811f1e7c85b4d", null ],
       [ "computeCoriolisAndCentrifugalForce", "classPxArticulationReducedCoordinate.html#af1947172f99feef066872b12d675d046", null ],
+      [ "computeDenseJacobian", "classPxArticulationReducedCoordinate.html#a08a58ac2a98d339c0fcab0e69f6761e0", null ],
       [ "computeGeneralizedExternalForce", "classPxArticulationReducedCoordinate.html#a95e6f19bc92d7003e4d735a26b6ebb46", null ],
       [ "computeGeneralizedGravityForce", "classPxArticulationReducedCoordinate.html#af8b5217bd48e6d1ccc8ba3e495c66df7", null ],
       [ "computeGeneralizedMassMatrix", "classPxArticulationReducedCoordinate.html#a92e7a37bc7b058364398265b80996607", null ],
@@ -308,7 +305,7 @@ var group__physics =
       [ "createCache", "classPxArticulationReducedCoordinate.html#a99f7f83876a3414eb386c83e173f9364", null ],
       [ "getArticulationFlags", "classPxArticulationReducedCoordinate.html#a3e8a26a6e87d34c31441d766b0d6a153", null ],
       [ "getCacheDataSize", "classPxArticulationReducedCoordinate.html#a86107c6d84d3132b6a46bb9b2b48666e", null ],
-      [ "getCoefficentMatrixSize", "classPxArticulationReducedCoordinate.html#a96a853b57a61275d4c67828f34e3321d", null ],
+      [ "getCoefficientMatrixSize", "classPxArticulationReducedCoordinate.html#a54da9e7775e8b619d5172039213beaff", null ],
       [ "getDofs", "classPxArticulationReducedCoordinate.html#a4d0ed61a1f9a2b2cd18ced0cf9122355", null ],
       [ "getLoopJoints", "classPxArticulationReducedCoordinate.html#a5a611783b278756d562f4dfe0626af18", null ],
       [ "getNbLoopJoints", "classPxArticulationReducedCoordinate.html#aa89014cf296753fd9ddffbd62ef46c4c", null ],

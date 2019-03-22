@@ -75,6 +75,7 @@ SET(PHYSX_EXTENSIONS_SOURCE
 	${LL_SOURCE_DIR}/ExtFixedJoint.h
 	${LL_SOURCE_DIR}/ExtInertiaTensor.h
 	${LL_SOURCE_DIR}/ExtJoint.h
+	${LL_SOURCE_DIR}/ExtJointData.h
 	${LL_SOURCE_DIR}/ExtJointMetaDataExtensions.h
 	${LL_SOURCE_DIR}/ExtPlatform.h
 	${LL_SOURCE_DIR}/ExtPrismaticJoint.h

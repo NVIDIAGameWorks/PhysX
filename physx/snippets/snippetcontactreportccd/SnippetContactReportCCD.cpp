@@ -247,10 +247,8 @@ void initScene()
 	gScene->addActor(*gSphereActor);
 }
 
-void initPhysics(bool interactive)
+void initPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
@@ -281,10 +279,8 @@ void initPhysics(bool interactive)
 	initScene();
 }
 
-void stepPhysics(bool interactive)
+void stepPhysics(bool /*interactive*/)
 {
-	PX_UNUSED(interactive);
-
 	if (!gSimStepCount)
 	{
 		gScene->simulate(1.0f/60.0f);
@@ -298,28 +294,25 @@ void stepPhysics(bool interactive)
 	}
 }
 
-void cleanupPhysics(bool interactive)
+void cleanupPhysics(bool /*interactive*/)
 {
-	if (gSphereActor)
-		gSphereActor->release();
+	PX_RELEASE(gSphereActor);
+	PX_RELEASE(gTriangleMeshActor);
+	PX_RELEASE(gTriangleMesh);
 
-	if (gTriangleMeshActor)
-		gTriangleMeshActor->release();
-
-	if (gTriangleMesh)
-		gTriangleMesh->release();
-
-	PX_UNUSED(interactive);
-	gScene->release();
-	gDispatcher->release();
+	PX_RELEASE(gScene);
+	PX_RELEASE(gDispatcher);
 	PxCloseExtensions();
-	gCooking->release();
-	gPhysics->release();
-	PxPvdTransport* transport = gPvd->getTransport();
-	gPvd->release();
-	transport->release();
-	gFoundation->release();
-	
+	PX_RELEASE(gPhysics);
+	PX_RELEASE(gCooking);
+	if(gPvd)
+	{
+		PxPvdTransport* transport = gPvd->getTransport();
+		gPvd->release();	gPvd = NULL;
+		PX_RELEASE(transport);
+	}
+	PX_RELEASE(gFoundation);
+
 	printf("SnippetContactReportCCD done.\n");
 }
 
