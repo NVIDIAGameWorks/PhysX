@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -108,7 +108,7 @@ namespace Gu
 		// we calculate the eps based on 10% of the minimum margin of two shapes
 		const FloatV tenPerc = FLoad(0.1f);
 		const FloatV minMargin = FMin(a.getMinMargin(), b.getMinMargin());
-		const FloatV eps = FMul(minMargin, tenPerc);
+		const FloatV eps = FMax(FLoad(1e-6f), FMul(minMargin, tenPerc));
 		
 		// ML:epsRel is square value of 1.5% which applied to the distance of a closest point(v) to the origin.
 		// If |v|- v/|v|.dot(w) < epsRel*|v|,
@@ -183,7 +183,7 @@ namespace Gu
 
 			//calculate the closest point between two convex hull
 			closest = GJKCPairDoSimplex(Q, A, B, support, size);
-			
+
 			dist = V3Length(closest);
 			v = V3ScaleInv(closest, dist);
 			bNotDegenerated = FIsGrtr(prevDist, dist);
@@ -206,7 +206,7 @@ namespace Gu
 		getClosestPoint(Q, A, B, prevClos, closA, closB, size);
 		closestA = V3Sel(aQuadratic, V3ScaleAdd(n, a.getMargin(), closA), closA);
 		closestB = V3Sel(bQuadratic, V3NegScaleSub(n, b.getMargin(), closB), closB);
-		normal =  n;
+		normal = n;
 		dist = FMax(zero, FSub(prevDist, sumMargin));
 		distance = dist;
 	

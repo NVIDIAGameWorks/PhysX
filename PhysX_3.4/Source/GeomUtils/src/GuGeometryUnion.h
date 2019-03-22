@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -90,7 +90,13 @@ struct PX_PHYSX_COMMON_API MaterialIndicesStruct
 	static void getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 
-	MaterialIndicesStruct() : indices(NULL), numIndices(0)
+	MaterialIndicesStruct() : 
+		indices(NULL), 
+		numIndices(0), 
+		pad(PX_PADDING_16)
+#if PX_P64_FAMILY
+		, pad64(PX_PADDING_32)
+#endif
 	{
 	}
 

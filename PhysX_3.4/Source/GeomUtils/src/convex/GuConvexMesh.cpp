@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -119,18 +119,19 @@ bool Gu::ConvexMesh::isGpuCompatible() const
 }
 
 // PX_SERIALIZATION
-void Gu::ConvexMesh::exportExtraData(PxSerializationContext& stream)
+
+void Gu::ConvexMesh::exportExtraData(PxSerializationContext& context)
 {
-	stream.alignData(PX_SERIAL_ALIGN);
+	context.alignData(PX_SERIAL_ALIGN);
 	const PxU32 bufferSize = computeBufferSize(mHullData, getNb());
-	stream.writeData(mHullData.mPolygons, bufferSize);
+	context.writeData(mHullData.mPolygons, bufferSize);
 
 	if(mBigConvexData)
 	{
-		stream.alignData(PX_SERIAL_ALIGN);
-		stream.writeData(mBigConvexData, sizeof(BigConvexData));
+		context.alignData(PX_SERIAL_ALIGN);
+		context.writeData(mBigConvexData, sizeof(BigConvexData));
 
-		mBigConvexData->exportExtraData(stream);
+		mBigConvexData->exportExtraData(context);
 	}
 }
 

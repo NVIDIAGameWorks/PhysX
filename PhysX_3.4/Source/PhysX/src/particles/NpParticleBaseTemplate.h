@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -56,6 +56,7 @@ class NpParticleBaseTemplate : public NpActorTemplate<APIClass>
 public:
 // PX_SERIALIZATION
 										NpParticleBaseTemplate(PxBaseFlags baseFlags) : NpActorTemplate<APIClass>(baseFlags), mParticleSystem(PxEmpty)	{}
+	virtual		void					preExportDataReset() {}
 //~PX_SERIALIZATION
 										NpParticleBaseTemplate<APIClass, LeafClass>(PxType, PxBaseFlags, const PxActorType::Enum&, PxU32, bool);
 	virtual								~NpParticleBaseTemplate();
@@ -178,9 +179,7 @@ void NpParticleBaseTemplate<APIClass, LeafClass>::release()
 
 	NpPhysics::getInstance().notifyDeletionListenersUserRelease(this, this->userData);
 
-// PX_AGGREGATE
 	ActorTemplateClass::release();	// PT: added for PxAggregate
-//~PX_AGGREGATE
 
 	NpScene* npScene = NpActor::getAPIScene(*this);
 	if (npScene)

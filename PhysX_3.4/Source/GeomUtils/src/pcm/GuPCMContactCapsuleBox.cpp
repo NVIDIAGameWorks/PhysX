@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -48,7 +48,7 @@ namespace Gu
 
 static bool fullContactsGenerationCapsuleBox(const CapsuleV& capsule, const BoxV& box, const PxVec3 halfExtents,  const PsMatTransformV& aToB, const PsTransformV& transf0, const PsTransformV& transf1,
 								PersistentContact* manifoldContacts, PxU32& numContacts, ContactBuffer& contactBuffer, PersistentContactManifold& manifold, Vec3V& normal, const Vec3VArg closest,
-								const PxReal boxMargin, const FloatVArg contactDist, const bool doOverlapTest, const PxReal toleranceScale)
+								const PxReal boxMargin, const FloatVArg contactDist, const bool doOverlapTest, const PxReal toleranceScale, Cm::RenderOutput* renderOutput)
 {
 
 	PolygonalData polyData;
@@ -59,7 +59,7 @@ static bool fullContactsGenerationCapsuleBox(const CapsuleV& capsule, const BoxV
 	SupportLocalImpl<BoxV> map(box, transf1, identity, identity);
 
 	PxU32 origContacts = numContacts;
-	if (generateCapsuleBoxFullContactManifold(capsule, polyData, &map, aToB, manifoldContacts, numContacts, contactDist, normal, closest, boxMargin, doOverlapTest, toleranceScale))
+	if (generateCapsuleBoxFullContactManifold(capsule, polyData, &map, aToB, manifoldContacts, numContacts, contactDist, normal, closest, boxMargin, doOverlapTest, toleranceScale, renderOutput))
 	{
 		//EPA has contacts and we have new contacts, we discard the EPA contacts
 		if(origContacts != 0 && numContacts != origContacts)
@@ -157,7 +157,7 @@ bool pcmContactCapsuleBox(GU_CONTACT_METHOD_ARGS)
 		else if(status == GJK_DEGENERATE)
 		{
 			return fullContactsGenerationCapsuleBox(capsule, box, shapeBox.halfExtents,  aToB, transf0, transf1, manifoldContacts, numContacts, contactBuffer,
-				manifold, normal, closestB, box.getMarginF(), contactDist, true, params.mToleranceLength);
+				manifold, normal, closestB, box.getMarginF(), contactDist, true, params.mToleranceLength, renderOutput);
 		}
 		else 
 		{
@@ -197,7 +197,7 @@ bool pcmContactCapsuleBox(GU_CONTACT_METHOD_ARGS)
 			if(initialContacts == 0 || bLostContacts || doOverlapTest)
 			{
 				return fullContactsGenerationCapsuleBox(capsule, box, shapeBox.halfExtents,  aToB, transf0, transf1, manifoldContacts, numContacts, contactBuffer, manifold, normal, 
-					closestB, box.getMarginF(), contactDist, doOverlapTest, params.mToleranceLength);
+					closestB, box.getMarginF(), contactDist, doOverlapTest, params.mToleranceLength, renderOutput);
 			}
 			else
 			{

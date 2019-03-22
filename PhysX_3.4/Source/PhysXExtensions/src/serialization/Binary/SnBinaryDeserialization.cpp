@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -210,9 +210,9 @@ PxCollection* PxSerialization::createCollectionFromBinary(void* memBlock, PxSeri
 
 	// read internal references arrays
 	PxU32 nbInternalPtrReferences = 0;
-	PxU32 nbInternalIdxReferences = 0;
+	PxU32 nbInternalHandle16References = 0;
 	InternalReferencePtr* internalPtrReferences = NULL;
-	InternalReferenceIdx* internalIdxReferences = NULL;
+	InternalReferenceHandle16* internalHandle16References = NULL;
 	{
 		address = alignPtr(address);
 
@@ -220,41 +220,41 @@ PxCollection* PxSerialization::createCollectionFromBinary(void* memBlock, PxSeri
 		internalPtrReferences = (nbInternalPtrReferences > 0) ? reinterpret_cast<InternalReferencePtr*>(address) : NULL;
 		address += nbInternalPtrReferences*sizeof(InternalReferencePtr);
 
-		nbInternalIdxReferences = read32(address);
-		internalIdxReferences = (nbInternalIdxReferences > 0) ? reinterpret_cast<InternalReferenceIdx*>(address) : NULL;
-		address += nbInternalIdxReferences*sizeof(InternalReferenceIdx);
+		nbInternalHandle16References = read32(address);
+		internalHandle16References = (nbInternalHandle16References > 0) ? reinterpret_cast<InternalReferenceHandle16*>(address) : NULL;
+		address += nbInternalHandle16References*sizeof(InternalReferenceHandle16);
 	}
 
 	// create internal references map
-	PxF32 loadFactor = 0.75f;
-	PxF32 _loadFactor = 1.0f / loadFactor;
-	PxU32 hashSize = PxU32((nbInternalPtrReferences + nbInternalIdxReferences + 1)*_loadFactor);
-	InternalRefMap internalReferencesMap(hashSize, loadFactor);
+	InternalPtrRefMap internalPtrReferencesMap(nbInternalPtrReferences*2);
 	{
 		//create hash (we should load the hashes directly from memory)
-		for (PxU32 i=0;i<nbInternalPtrReferences;i++)
+		for (PxU32 i = 0; i < nbInternalPtrReferences; i++)
 		{
 			const InternalReferencePtr& ref = internalPtrReferences[i];
-			internalReferencesMap.insertUnique( InternalRefKey(ref.reference, ref.kind), SerialObjectIndex(ref.objIndex));
+			internalPtrReferencesMap.insertUnique(ref.reference, SerialObjectIndex(ref.objIndex));
 		}
-		for (PxU32 i=0;i<nbInternalIdxReferences;i++)
+	}
+	InternalHandle16RefMap internalHandle16ReferencesMap(nbInternalHandle16References*2);
+	{
+		for (PxU32 i=0;i<nbInternalHandle16References;i++)
 		{
-			const InternalReferenceIdx& ref = internalIdxReferences[i];
-			internalReferencesMap.insertUnique(InternalRefKey(ref.reference, ref.kind), SerialObjectIndex(ref.objIndex));
+			const InternalReferenceHandle16& ref = internalHandle16References[i];
+			internalHandle16ReferencesMap.insertUnique(ref.reference, SerialObjectIndex(ref.objIndex));
 		}
 	}
 
 	SerializationRegistry& sn = static_cast<SerializationRegistry&>(sr);
 	Cm::Collection* collection = static_cast<Cm::Collection*>(PxCreateCollection());
 	PX_ASSERT(collection);
-	collection->mObjects.reserve(PxU32(nbObjectsInCollection*_loadFactor) + 1);
+	collection->mObjects.reserve(nbObjectsInCollection*2);
 	if(nbExportReferences > 0)
-	    collection->mIds.reserve(PxU32(nbExportReferences*_loadFactor) + 1);
+	    collection->mIds.reserve(nbExportReferences*2);
 
 	PxU8* addressObjectData = alignPtr(address);
 	PxU8* addressExtraData = alignPtr(addressObjectData + objectDataEndOffset);
 
-	DeserializationContext context(manifestTable, importReferences, addressObjectData, internalReferencesMap, externalRefs, addressExtraData, version);
+	DeserializationContext context(manifestTable, importReferences, addressObjectData, internalPtrReferencesMap, internalHandle16ReferencesMap, externalRefs, addressExtraData, version);
 	
 	// iterate over memory containing PxBase objects, create the instances, resolve the addresses, import the external data, add to collection.
 	{

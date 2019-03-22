@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -333,6 +333,12 @@ bool NpAggregate::getSelfCollision() const
 }
 
 // PX_SERIALIZATION
+
+void NpAggregate::preExportDataReset()
+{
+	mAggregate.setAggregateID(PX_INVALID_U32);
+}
+
 void NpAggregate::exportExtraData(PxSerializationContext& stream)
 {
 	if(mActors)

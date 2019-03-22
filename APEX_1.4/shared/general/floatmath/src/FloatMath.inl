@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
 
 
 // a set of routines that let you do common 3d math

@@ -1,93 +1,140 @@
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Release Notes - NVIDIA PhysX SDK 3.4.2</title>
-<style type="text/css">
-	body
-	{
-		font-family: 'Trebuchet MS', 'DIN Pro', sans-serif;
-		font-size:90%;
-	}
-	h1
-	{
-		color: #000000;
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Release Notes - NVIDIA PhysX SDK 3.4.3</title>
+	<style type="text/css">
+		body {
+			font-family: 'Trebuchet MS', 'DIN Pro', sans-serif;
+			font-size: 90%;
+		}
 
-	}
-	h2, h3, h4, h5
-	{
-		color: #76b900;
-		margin-bottom: 0px;
-	}
-	ul
-	{
-		margin-top: 5px;
-	}
-</style>
+		h1 {
+			color: #000000;
+		}
+
+		h2, h3, h4, h5 {
+			color: #76b900;
+			margin-bottom: 0px;
+		}
+
+		ul {
+			margin-top: 5px;
+		}
+	</style>
 </head>
 
 <body>
 
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.3.????????</h1>
+    <h2 style="TEXT-ALIGN: center">February 2019</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed issue in PxBinaryConverter::convert that could corrupt platform re-targeting of convex meshes with more than 127 vertices.</li>
+            <li>Fixed binary serialization of actors in aggregates without serialization of the containing aggregate.</li>
+            <li>PxBinaryConverter can now produce deterministic output, independent of the runtime environment the objects have been serialized in. For achieving determinism, the checked build needs to be used for serializing collections.</li>
+        </ul>
+		<li>Added:</li>
+        <ul>
+            <li>PxSerialization::serializeCollectionToBinaryDeterministic, convenience function to post-process binary output with PxBinaryConverter for determinism. For achieving determinism, the checked build needs to be used.</li>
+        </ul>
+        <li>Removed:</li>
+        <ul>
+            <li>macOS 32 bit support.</li>
+        </ul>
+    </ul>
+
+    <h3>Rigid Bodies</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Fixed the overlap termination condition in the GJK code for sphere primitive. </li>
+            <li>Fixed a bug in the face selection algorithm for paper thin box overlapped with capsule. </li>
+            <li>Fixed a contact recycling issue with PCM contact gen. </li>
+            <li>Fixed an issue with articulation when removing and adding links to the articulation. </li>
+        </ul>
+    </ul>
+
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.25354359</h1>
     <h2 style="TEXT-ALIGN: center">December 2018</h2>
 
-    <h2>General</h2>
+    <h3>General</h3>
     <ul>
         <li>Changed:</li>
         <ul>
-		<li>Changed GitHub distribution to BSD license.</li>
-		</ul>
-	</ul>
+            <li>Changed GitHub distribution to BSD license.</li>
+        </ul>
+    </ul>
 
-    <h2>Supported Platforms</h2>
-	
-	<table cellspacing=3>
-		<tr>
-			<th width="24" />
-			<th align="left">Runtime</th>
-			<th width="18" />
-			<th align="left">Development</th> 
-		</tr>
-		<tr>
-			<td /><td>Apple iOS (tested on 12.1)</td>			
-			<td /><td>Xcode (tested with 10.1)</td> 
-		</tr>
-		<tr>
-			<td /><td>Apple macOS (tested on 10.13)</td>			
-			<td /><td>Xcode (tested with 10.1)</td> 
-		</tr>
-		<tr>
-			<td /><td>Google Android ARM (tested with API Level 16, Android 4.1 - JELLY_BEAN)</td>
-			<td /><td>NDK r13b-win32</td> 
-		</tr>
-		<tr>
-			<td /><td>Linux (tested on Ubuntu 16.04, GPU acceleration: NVIDIA Driver version R361+ and CUDA ARCH 3.0)</td>
-			<td /><td>GCC (tested with 4.8)</td> 
-		</tr>
-		<tr>
-			<td /><td>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</td>
-			<td /><td>Microsoft Visual Studio 2012, 2013, 2015</td> 
-		</tr>
-		<tr>
-			<td /><td>Microsoft XBox One*</td>
-			<td /><td></td> 
-		</tr>
-		<tr>
-			<td /><td>Nintendo Switch*</td>
-			<td /><td></td> 
-		</tr>
-		<tr>
-			<td /><td>Sony Playstation 4*</td>
-			<td /><td></td> 
-		</tr>
-	</table>
-	
-	* Console code subject to platform NDA not available on GitHub.  Developers licensed by respective platform owners please contact NVIDIA for access. 
-	
-   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <h3>Supported Platforms</h3>
+
+    <table cellspacing=3>
+        <tr>
+            <th width="24" />
+            <th align="left">Runtime</th>
+            <th width="18" />
+            <th align="left">Development</th>
+        </tr>
+        <tr>
+            <td />
+            <td>Apple iOS (tested on 12.1)</td>
+            <td />
+            <td>Xcode (tested with 10.1)</td>
+        </tr>
+        <tr>
+            <td />
+            <td>Apple macOS (tested on 10.13)</td>
+            <td />
+            <td>Xcode (tested with 10.1)</td>
+        </tr>
+        <tr>
+            <td />
+            <td>Google Android ARM (tested with API Level 16, Android 4.1 - JELLY_BEAN)</td>
+            <td />
+            <td>NDK r13b-win32</td>
+        </tr>
+        <tr>
+            <td />
+            <td>Linux (tested on Ubuntu 16.04, GPU acceleration: NVIDIA Driver version R361+ and CUDA ARCH 3.0)</td>
+            <td />
+            <td>GCC (tested with 4.8)</td>
+        </tr>
+        <tr>
+            <td />
+            <td>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</td>
+            <td />
+            <td>Microsoft Visual Studio 2012, 2013, 2015</td>
+        </tr>
+        <tr>
+            <td />
+            <td>Microsoft XBox One*</td>
+            <td />
+            <td></td>
+        </tr>
+        <tr>
+            <td />
+            <td>Nintendo Switch*</td>
+            <td />
+            <td></td>
+        </tr>
+        <tr>
+            <td />
+            <td>Sony Playstation 4*</td>
+            <td />
+            <td></td>
+        </tr>
+    </table>
+
+    * Console code subject to platform NDA not available on GitHub.  Developers licensed by respective platform owners please contact NVIDIA for access.
+
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.25256367</h1>
     <h2 style="TEXT-ALIGN: center">November 2018</h2>
@@ -101,15 +148,15 @@
             <li>Renamed PxSerializer::requires to PxSerializer::requiresObjects due to an erroneous clash with C++20 keyword with apple-clang.</li>
         </ul>
         <li>Fixed:</li>
-        	<li>Moved external vector math includes out of PhysX namespaces.</li>
-        </ul>
+        <li>Moved external vector math includes out of PhysX namespaces.</li>
+    </ul>
     </ul>
 
     <h3>Rigid Bodies</h3>
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Fixed an incorrect trigger behavior when a trigger was removed and inserted within the same frame.</li>
+            <li>Fixed an incorrect trigger behavior when a trigger was removed and inserted within the same frame.</li>
         </ul>
     </ul>
 
@@ -117,11 +164,11 @@
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Fixed a bug in BVH34. Raycasts could fail on binary deserialized BVH34 triangle meshes.</li>
+            <li>Fixed a bug in BVH34. Raycasts could fail on binary deserialized BVH34 triangle meshes.</li>
         </ul>
     </ul>
 
-   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24990349</h1>
     <h2 style="TEXT-ALIGN: center">September 2018</h2>
@@ -145,7 +192,7 @@
         </ul>
     </ul>
 
-   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24698370</h1>
     <h2 style="TEXT-ALIGN: center">August 2018</h2>
@@ -166,35 +213,34 @@
     <h3>Cooking</h3>
     <ul>
         <li>Fixed:</li>
-        <ul>
-        </ul>
+        <ul></ul>
         <li>Added:</li>
         <ul>
-        	<li>PxHeightField::getSample has been added.</li>
+            <li>PxHeightField::getSample has been added.</li>
         </ul>
     </ul>
 
-	<h3>Character controller</h3>
-	<ul>
-		<li>Fixed:</li>
-		<ul>
-			<li>Capsule controller with a very small height could degenerate to spheres (with a height of exactly zero) far away from the origin, which would then triggers errors in Debug/Checked builds. This has been fixed.</li>
-			<li>The triangle array growing strategy has been changed again to prevent performance issues when tessellation is used. Memory usage may increase in these cases.</li>
-			<li>Some internal debug visualization code has been disabled and a crash in it has been fixed.</li>
-		</ul>
-	</ul>
+    <h3>Character controller</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Capsule controller with a very small height could degenerate to spheres (with a height of exactly zero) far away from the origin, which would then triggers errors in Debug/Checked builds. This has been fixed.</li>
+            <li>The triangle array growing strategy has been changed again to prevent performance issues when tessellation is used. Memory usage may increase in these cases.</li>
+            <li>Some internal debug visualization code has been disabled and a crash in it has been fixed.</li>
+        </ul>
+    </ul>
 
     <h3>Scene query</h3>
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Fixed possible buffer overrun when PxPruningStructure was used.</li>
-        	<li>Raycasts against a heightfield may have missed if a large distance was used.</li>
-         	<li>Sq raycasts against heightfield or triangle mesh could return a mildly negative values, this has been fixed.</li>
-       </ul>
+            <li>Fixed possible buffer overrun when PxPruningStructure was used.</li>
+            <li>Raycasts against a heightfield may have missed if a large distance was used.</li>
+            <li>Sq raycasts against heightfield or triangle mesh could return a mildly negative values, this has been fixed.</li>
+        </ul>
     </ul>
 
-   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.4.2.24214033</h1>
     <h2 style="TEXT-ALIGN: center">May 2018</h2>
@@ -203,8 +249,8 @@
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Fixed clang 7 unionCast issues.</li>
-			<li>Fixed the binary meta data in PhysX_3.4/Tools/BinaryMetaData for conversion of vehicles.</li>
+            <li>Fixed clang 7 unionCast issues.</li>
+            <li>Fixed the binary meta data in PhysX_3.4/Tools/BinaryMetaData for conversion of vehicles.</li>
         </ul>
     </ul>
 
@@ -215,10 +261,10 @@
             <li>PxSceneFlag::eENABLE_KINEMATIC_STATIC_PAIRS and PxSceneDesc::eENABLE_KINEMATIC_PAIRS have been deprecated. Use the new PxPairFilteringMode parameters in PxSceneDesc instead.</li>
         </ul>
         <li>Fixed:</li>
-		<ul>
+        <ul>
             <li>A sequence of shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false) / shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true) without simulation calls inbetween could produce errors in the broadphase. This has been fixed.</li>
             <li>Fixed a bug in the broadphase (SAP) that got recently introduced in SDK 3.4.1.23933511. It should only have generated a few false positives (more overlaps than stricly necessary).</li>
-        	<li>Fixed a bug in PxShape::checkMaterialSetup.</li>
+            <li>Fixed a bug in PxShape::checkMaterialSetup.</li>
             <li>Fixed intermittent crash with GPU rigid bodies when materials were destroyed.</li>
             <li>Fixed bug where setting maxImpulse to 0 on CCD contact modification meant contact was not reported in the frame's contact reports.</li>
         </ul>
@@ -228,7 +274,7 @@
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Big convex mesh serialization used together with insertion callback stored incorrect memory for big convex data. This has been fixed.</li>
+            <li>Big convex mesh serialization used together with insertion callback stored incorrect memory for big convex data. This has been fixed.</li>
         </ul>
     </ul>
 
@@ -236,7 +282,7 @@
     <ul>
         <li>Fixed:</li>
         <ul>
-        	<li>Fixed a bug in extended bucket pruner, when a pruning structure was added and immediatelly released.</li>
+            <li>Fixed a bug in extended bucket pruner, when a pruning structure was added and immediatelly released.</li>
         </ul>
     </ul>
 
@@ -331,7 +377,7 @@
             <li>Visual Studio 2017 15.5.1 and newer is now supported. Samples are currently not supported with Visual Studio 2017.</li>
         </ul>
 
-		<li>Removed:</li>
+        <li>Removed:</li>
         <ul>
             <li>Visual Studio 2012 support is discontinued.</li>
         </ul>
@@ -669,6 +715,14 @@
             <li>A crash happening with more than 64K interactions has been fixed.</li>
             <li>Fixed an island management issue in CCD when using multiple CCD passes.</li>
             <li>Fixed a bug with GPU rigid bodies with non-simulation scene query-only shapes.</li>
+            <li>Fixed a bug in convex vs convex PCM contact gen code. There were cases in which full contact gen should have been triggered but was not. </li>
+            <li>Fixed a jittering bug on both GPU/CPU codepath in PCM contact gen code. This is due to the contact recycling condition not considering the toleranceLength. </li>
+        </ul>
+        <li>Added:</li>
+        <ul>
+            <li>getFrozenActors has been added to allow application queries the frozen actors</li>
+            <li>PxRigidDynamic::setKinematicSurfaceVelocity has been added, permitting the user to set a persistent velocity on a kinematic actor which behaves like a conveyor belt</li>
+            <li>PxSceneDesc::solverOffsetSlop added. This defines a threshold distance from a body's COM under which a contact will be snapped to the COM of the body inside the solver along any principal component axis</li>
         </ul>
     </ul>
 
@@ -843,7 +897,7 @@
             <li>Added:</li>
             <ul>
                 <li>An alternative simulation API has been introduced. This makes use of the following new functions: PsScene:collide(), PxScene::fetchCollision() and PxScene::advance(). Expected usage of these functions is illustrated in a new snippet SnippetSplitSim. This feature is also described in the manual in Section Simulation->SplitSim.</li>
-                <li>PxSceneFlag::eDEPRECATED_TRIGGER_TRIGGER_REPORTS has been introduced to re-enable the legacy behavior of trigger shape pairs sending reports. This flag and the corresponding legacy behavior will be removed in version 3.5.</li>
+                <li>PxSceneFlag::eDEPRECATED_TRIGGER_TRIGGER_REPORTS has been introduced to re-enable the legacy behavior of trigger shape pairs sending reports. This flag and the corresponding legacy behavior will be removed in version 4.</li>
                 <li>The active actors feature has been added. See PxSceneFlag::eENABLE_ACTIVE_ACTORS.</li>
                 <li>Functionality to compute and manipulate mass, inertia tensor and center of mass of objects has been exposed in the new class PxMassProperties.</li>
                 <li>The option to exclude kinematics from the active actors/transforms list has been added. See PxSceneFlag::eEXCLUDE_KINEMATICS_FROM_ACTIVE_ACTORS for details.</li>
@@ -896,6 +950,8 @@
                 <li>Fixed a bug in PCM mesh edge-edge check for the parallel case. </li>
                 <li>Fixed a bug in CCD where contact modify callbacks could be called when the CCD did not detect a contact.</li>
                 <li>Fixed a bug with applying external force/torque to a body in buffered insertion stage.</li>
+                <li>A rare capsule-vs-mesh contact generation bug has been fixed.</li>
+                <li>A rare crash due to an invalid assert in the MBP broad-phase has been fixed. This error only affected debug & checked builds; release & profile builds were unaffected.</li>
             </ul>
         </ul>
 
@@ -903,6 +959,7 @@
         <ul>
             <li>Gpu: Maxwell Optimizations</li>
             <li>The PhysX particle feature has been deprecated.</li>
+            <li>Fixed particle collision issue with PxParticleBaseFlag::ePER_PARTICLE_COLLISION_CACHE_HINT (on by default). When particles collided against very dense triangle mesh areas an assert would be triggered or particles would leak through the triangle mesh. A workaround was to disable PxParticleBaseFlag::ePER_PARTICLE_COLLISION_CACHE_HINT.</li>
         </ul>
 
         <h3>Cloth</h3>
@@ -924,11 +981,14 @@
             <li>Added:</li>
             <ul>
                 <li>Profile zones have been added for the character controller.</li>
+                <li>Added PxControllerDesc::registerDeletionListener boolean defining if deletion listener for CCT should be registered.</li>
             </ul>
             <li>Fixed:</li>
             <ul>
                 <li>Character controllers cannot stand on dynamic triggers anymore.</li>
                 <li>Fixed: the capsule-vs-sphere sweep now returns a normal in the correct direction.</li>
+                <li>Fixed a bug where CCT shapes initially overlapping static geometry would be moved down by an incorrect amount (the length of the step offset).</li>
+                <li>The overlap recovery module now works against kinematic objects.</li>
             </ul>
         </ul>
 
@@ -997,9 +1057,10 @@
                 <li>Convex vs convex sweeps in PxGeometryQuery::sweep() do now correctly return the face index of the convex mesh that gets passed in as parameter geom1 (and not the one from geom0).</li>
                 <li>PxMeshQuery::sweep now supports PxHitFlag::eMESH_ANY.</li>
                 <li>Deprecated definition PxSceneQueryHit has been removed. Please use PxQueryHit instead.</li>
+                <li>PxGeometryQuery::computePenetration with convex geometries.</li>
+                <li>On Android platforms, the eDYNAMIC_AABB_TREE pruning structure could pass already released objects into the scene query filter callback.</li>
             </ul>
         </ul>
-
 
         <h3>Cooking</h3>
         <ul>
@@ -1030,6 +1091,7 @@
             <li>Fixed:</li>
             <ul>
                 <li>Mesh cooking was sometimes crashing for meshes with less than 4 triangles. This has been fixed.</li>
+                <li>Cooking convex mesh from a flat input mesh produced incorrect large mesh.</li>
             </ul>
         </ul>
 
@@ -1071,93 +1133,6 @@
         <ul>
             <li>Snippet profile zone has been removed.</li>
         </ul>
-    </blockquote>
-
-    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <br>
-    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 3.3.5</h1>
-    <h2 style="TEXT-ALIGN: center">??????</h2>
-
-    <h2>Supported Platforms</h2>
-    <blockquote>
-        <h3>Runtime</h3>
-        <ul>
-            <li>Apple iOS</li>
-            <li>Apple Mac OS X</li>
-            <li>Google Android ARM & x86 (version 2.2 or later required for SDK, 2.3 or later required for samples)</li>
-            <li>Linux (tested on Ubuntu)</li>
-            <li>Microsoft Windows XP or later (NVIDIA Driver version R304 or later is required for GPU acceleration)</li>
-            <li>Microsoft Windows RT (formerly known as Windows on ARM) (SDK only, no samples yet)</li>
-            <li>Microsoft XBox One (SDK only, no samples)</li>
-            <li>Microsoft XBox 360</li>
-            <li>Nintendo Wii U</li>
-            <li>Sony Playstation 3</li>
-            <li>Sony Playstation 4 (SDK only, no samples)</li>
-            <li>Sony Playstation Vita</li>
-        </ul>
-        <h3>Development</h3>
-        <ul>
-            <li>Microsoft Windows XP or later</li>
-            <li>Microsoft Visual Studio 2012, 2013 and 2015</li>
-            <li>Xcode 6.3</li>
-        </ul>
-    </blockquote>
-    <h2>Changes and Resolved Issues</h2>
-    <blockquote>
-
-        <i>Note: Platform specific issues and changes can be found in the readme file of the corresponding platform.</i>
-
-        <h3>Rigid Bodies</h3>
-        <ul>
-            <li>Fixed:</li>
-            <ul>
-                <li>A rare capsule-vs-mesh contact generation bug has been fixed.</li>
-                <li>Calls to PxScene::shiftOrigin() can crash when PxRigidDynamic actors with PxActorFlag::eDISABLE_SIMULATION are present.</li>
-                <li>A rare crash due to an invalid assert in the MBP broad-phase has been fixed. This error only affected debug & checked builds; release & profile builds were unaffected.</li>
-            </ul>
-        </ul>
-
-        <h3>Particles</h3>
-        <ul>
-            <li>Fixed:</li>
-            <ul>
-                <li>Fixed particle collision issue with PxParticleBaseFlag::ePER_PARTICLE_COLLISION_CACHE_HINT (on by default). When particles collided against very dense triangle mesh areas an assert would be triggered or particles would leak through the triangle mesh. A workaround was to disable PxParticleBaseFlag::ePER_PARTICLE_COLLISION_CACHE_HINT.</li>
-            </ul>
-        </ul>
-
-        <h3>Character controller</h3>
-        <ul>
-            <li>Added:</li>
-            <ul>
-                <li>Added PxControllerDesc::registerDeletionListener boolean defining if deletion listener for CCT should be registered.</li>
-            </ul>
-            <li>Fixed:</li>
-            <ul>
-                <li>Fixed a bug where CCT shapes initially overlapping static geometry would be moved down by an incorrect amount (the length of the step offset).</li>
-                <li>The overlap recovery module now works against kinematic objects.</li>
-            </ul>
-        </ul>
-
-        <h3>Scene Queries</h3>
-        <ul>
-            <li>Fixed:</li>
-            <ul>
-                <li>PxGeometryQuery::computePenetration with convex geometries.</li>
-                <li>On Android platforms, the eDYNAMIC_AABB_TREE pruning structure could pass already released objects into the scene query filter callback.</li>
-            </ul>
-        </ul>
-
-
-        <h3>Cooking</h3>
-        <ul>
-            <li>Fixed:</li>
-            <ul>
-                <li>Cooking convex mesh from a flat input mesh produced incorrect large mesh.</li>
-            </ul>
-        </ul>
-
     </blockquote>
 
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -2449,10 +2424,7 @@
                 </ul>
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues324">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues324">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 Unchanged from <a href="#knownissues323"> from 3.2.3</a>.
@@ -2570,10 +2542,7 @@
                 </ul>
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues323">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues323">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 Unchanged from <a href="#knownissues322"> from 3.2.2</a>.
@@ -2758,10 +2727,7 @@
 
 
 
-            <h2>
-                <br>
-                <a name="knownissues322">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues322">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 <h4>General</h4>
@@ -2900,10 +2866,7 @@
                 Unchanged from <a href="#platforms320"> from 3.2</a>.
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues321">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues321">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 Unchanged from <a href="#knownissues320"> from 3.2</a>.
@@ -3087,10 +3050,7 @@
                 </ul>
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues320">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues320">Known Issues And Limitations</a></h2>
 
             <blockquote>
 
@@ -3372,10 +3332,7 @@
                 </ul>
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues310">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues310">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 <h4>General</h4>
@@ -3525,10 +3482,7 @@
                 </ul>
             </blockquote>
 
-            <h2>
-                <br>
-                <a name="knownissues300">Known Issues And Limitations</a>
-            </h2>
+            <h2><br><a name="knownissues300">Known Issues And Limitations</a></h2>
 
             <blockquote>
                 <h4>Rigid Bodies</h4>
@@ -3548,14 +3502,9 @@
                 </ul>
             </blockquote>
 
-
-
-
-
-
             <p>
                 <br>
-                Copyright (C) 2008-2018 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+                Copyright (C) 2008-2019 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
             </p>
 </body>
 </html>

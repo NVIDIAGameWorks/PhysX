@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -943,10 +943,13 @@ bool pcmContactBoxBox(GU_CONTACT_METHOD_ARGS)
   
 	PX_UNUSED(bLostContacts);
 
-	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, minMargin))	
+	const FloatV radiusA = V3Length(boxExtents0);
+	const FloatV radiusB = V3Length(boxExtents1);
+
+	if(bLostContacts || manifold.invalidate_BoxConvex(curRTrans, transf0.q, transf1.q, minMargin, radiusA, radiusB))
 	{
 		
-		manifold.setRelativeTransform(curRTrans);
+		manifold.setRelativeTransform(curRTrans, transf0.q, transf1.q);
 		
 		const PsMatTransformV transfV0(transf0);
 		const PsMatTransformV transfV1(transf1);

@@ -72,12 +72,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NVIDIA Corporation"
             VALUE "FileDescription", "PhysX3Common 32bit Dynamic Link Library"
-            VALUE "FileVersion", "3.4.2.0"
+            VALUE "FileVersion", "3.4.3.0"
             VALUE "InternalName", "PhysX3Common_x86"
-            VALUE "LegalCopyright", "Copyright (C) 2018 NVIDIA Corporation"
+            VALUE "LegalCopyright", "Copyright (C) 2019 NVIDIA Corporation"
             VALUE "OriginalFilename", "PhysX3Common_x86.dll"
             VALUE "ProductName", "PhysX"
-            VALUE "ProductVersion", "3.4.2.0"
+            VALUE "ProductVersion", "3.4.3.0"
         END
     END
     BLOCK "VarFileInfo"

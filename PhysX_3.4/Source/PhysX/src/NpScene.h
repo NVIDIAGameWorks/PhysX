@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -144,12 +144,11 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			PxU32							getNbArticulations() const;
 	virtual			PxU32							getArticulations(PxArticulation** userBuffer, PxU32 bufferSize, PxU32 startIndex=0) const;
 
-// PX_AGGREGATE
+	// Aggregates
     virtual			void							addAggregate(PxAggregate&);
 	virtual			void							removeAggregate(PxAggregate&, bool wakeOnLostTouch);
 	virtual			PxU32							getNbAggregates()	const;
 	virtual			PxU32							getAggregates(PxAggregate** userBuffer, PxU32 bufferSize, PxU32 startIndex=0)	const;
-//~PX_AGGREGATE
 	
 	virtual			void							addCollection(const PxCollection& collection);
 

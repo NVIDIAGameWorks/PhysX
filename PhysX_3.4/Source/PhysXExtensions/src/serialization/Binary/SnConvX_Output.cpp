@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 
 #include "foundation/PxIO.h"
 #include "foundation/PxErrorCallback.h"
@@ -306,34 +306,31 @@ void Sn::ConvX::convertPtr(const char* src, const PxMetaDataEntry& entry, const 
 			PxU32 value = *data++;
 			src = reinterpret_cast<const char*>(data);
 
-			if(mActiveRemap)
+			if(mPointerActiveRemap)
 			{
 				PxU32 ref;
-				if(mActiveRemap->getObjectRef(value, ref))
+				if(mPointerActiveRemap->getObjectRef(value, ref))
 				{
 					value = ref;
 				}
 				else if(value)
 				{
-	//				value = 0;
-					//We use the pointer of mName for its length
-					// PT: on serialization mName is transformed to an index by the name manager, so we should not modify its value.
-					if(!entry.mName || strcmp(entry.mName, "mName"))
-						value=0x12345678;
+					// all pointers not in the pointer remap table get set as 0x12345678, this also applies to PhysX name properties (mName)
+					value=0x12345678;
 				}
 			}
 			else
 			{
 				//we should only get here during convertReferenceTables to build up the pointer map
 				PxU32 ref;
-				if (mRemap.getObjectRef(value, ref))
+				if (mPointerRemap.getObjectRef(value, ref))
 				{
 					value = ref;
 				}
 				else if(value)
 				{
 					const PxU32 remappedRef = 0x80000000 | (mPointerRemapCounter++ +1);
-					mRemap.setObjectRef(value, remappedRef);
+					mPointerRemap.setObjectRef(value, remappedRef);
 					value = remappedRef;
 				}
 			}
@@ -354,41 +351,34 @@ void Sn::ConvX::convertPtr(const char* src, const PxMetaDataEntry& entry, const 
 			PxU64 value = *data++;
 			src = reinterpret_cast<const char*>(data);
 
-			if(mActiveRemap)
+			if(mPointerActiveRemap)
 			{
 				PxU32 ref;
-				if(mActiveRemap->getObjectRef(value, ref))
+				if(mPointerActiveRemap->getObjectRef(value, ref))
 				{
 					value = ref;
 				}
 				else if(value)
 				{
-	//				value = 0;
-					//We use the pointer of mName for its length
-					// PT: on serialization mName is transformed to an index by the name manager, so we should not modify its value.
-					if(!entry.mName || strcmp(entry.mName, "mName"))
-						value=0x12345678;
+					// all pointers not in the pointer remap table get set as 0x12345678, this also applies to PhysX name properties (mName)
+					value=0x12345678;
 				}
 			}
 			else
 			{
 				//we should only get here during convertReferenceTables to build up the pointer map
 				PxU32 ref;
-				if (mRemap.getObjectRef(value, ref))
+				if (mPointerRemap.getObjectRef(value, ref))
 				{
 					value = ref;
 				}
 				else if(value)
 				{
 					const PxU32 remappedRef = 0x80000000 | (mPointerRemapCounter++ +1);
-					mRemap.setObjectRef(value, remappedRef);
+					mPointerRemap.setObjectRef(value, remappedRef);
 					value = remappedRef;
 				}
 			}
-
-//			PX_ASSERT(!mMustFlip);
-//			if(mMustFlip)
-//				flip(value);
 
 			if(mNullPtr)
 				value = 0;
@@ -449,3 +439,54 @@ void Sn::ConvX::convertPtr(const char* src, const PxMetaDataEntry& entry, const 
 		}
 	}
 }
+
+void Sn::ConvX::convertHandle16(const char* src, const PxMetaDataEntry& entry, const PxMetaDataEntry& dstEntry)
+{
+	(void)dstEntry;
+	if(mNoOutput)
+		return;
+
+	PX_ASSERT(strcmp(entry.mType, "PxU16") == 0);
+	PX_ASSERT(entry.mSize==dstEntry.mSize);
+	PX_ASSERT(mOutStream);
+
+	const PxU16* handles = reinterpret_cast<const PxU16*>(src);
+
+	for(int i=0;i<entry.mCount;i++)
+	{
+		PxU16 value = handles[i];
+
+		if (mHandle16ActiveRemap)
+		{
+			PxU16 ref;
+			bool isMapped = mHandle16ActiveRemap->getObjectRef(value, ref);
+			PX_UNUSED(isMapped);
+			PX_ASSERT(isMapped);
+			value = ref;
+		}
+		else
+		{
+			//we should only get here during convertReferenceTables to build up the pointer map
+			PxU16 ref;
+			if (mHandle16Remap.getObjectRef(value, ref))
+			{
+				value = ref;
+			}
+			else
+			{
+				const PxU16 remappedRef = mHandle16RemapCounter++;
+				mHandle16Remap.setObjectRef(value, remappedRef);
+				value = remappedRef;
+			}
+		}
+		
+		if(mMustFlip)
+			flip(value);
+
+		const size_t size = mOutStream->write(&value, sizeof(PxU16));
+		PX_UNUSED(size);
+		PX_ASSERT(size==sizeof(PxU16));
+		mOutputSize += sizeof(PxU16);
+	}
+}
+

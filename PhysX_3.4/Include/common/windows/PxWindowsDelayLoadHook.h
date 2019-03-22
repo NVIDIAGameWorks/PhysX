@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -55,6 +55,9 @@ namespace physx
 
 	\note Foundation names are set through the base class PxFoundationDelayLoadHook.
 
+	\note Configuration specific functions have been marked as deprecated. They will be removed in the next release. 
+	Configuration specific names are now expected to be set in the implementation of the general callback.
+
 	@see PxSetPhysXDelayLoadHook(), PxSetPhysXCookingDelayLoadHook(), PxSetPhysXCommonDelayLoadHook()
 	@see PxFoundationDelayLoadHook
  	*/
@@ -64,14 +67,14 @@ namespace physx
 		PxDelayLoadHook() {}
 		virtual ~PxDelayLoadHook() {}
 
-		virtual const char* getPhysXCommonDEBUGDllName() const = 0;
-		virtual const char* getPhysXCommonCHECKEDDllName() const = 0;
-		virtual const char* getPhysXCommonPROFILEDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPhysXCommonDEBUGDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPhysXCommonCHECKEDDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPhysXCommonPROFILEDllName() const = 0;
 		virtual const char* getPhysXCommonDllName() const = 0;
 
-		virtual const char* getPxPvdSDKDEBUGDllName() const = 0;
-		virtual const char* getPxPvdSDKCHECKEDDllName() const = 0;
-		virtual const char* getPxPvdSDKPROFILEDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPxPvdSDKDEBUGDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPxPvdSDKCHECKEDDllName() const = 0;
+		PX_DEPRECATED virtual const char* getPxPvdSDKPROFILEDllName() const = 0;
 		virtual const char* getPxPvdSDKDllName() const = 0;
 
 	protected:

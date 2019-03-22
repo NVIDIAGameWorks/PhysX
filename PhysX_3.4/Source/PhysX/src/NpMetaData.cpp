@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -451,6 +451,11 @@ void NpCloth::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		NpCloth, Scb::Cloth,	mCloth, 0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		NpCloth, NpClothFabric, mClothFabric,	PxMetaDataFlag::ePTR)
 	PX_DEF_BIN_METADATA_ITEMS(stream,		NpCloth, PxU8,			mParticleData,	PxMetaDataFlag::ePADDING, sizeof(NpClothParticleData))
+
+	//------ Extra-data ------
+
+	PX_DEF_BIN_METADATA_EXTRA_ITEM(stream,	NpCloth, NpConnectorArray,	mConnectorArray, PX_SERIAL_ALIGN)
+	PX_DEF_BIN_METADATA_EXTRA_NAME(stream,	NpCloth, mName, 0)
 }
 
 #endif // PX_USE_CLOTH_API
@@ -467,7 +472,12 @@ void NpParticleSystem::getBinaryMetaData(PxOutputStream& stream)
 
 	DefineMetaData_PxActor(NpParticleSystem)
 
-	PX_DEF_BIN_METADATA_ITEM(stream,		NpParticleFluid, Scb::ParticleSystem, mParticleSystem, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream,		NpParticleSystem, Scb::ParticleSystem, mParticleSystem, 0)
+
+	//------ Extra-data ------
+
+	PX_DEF_BIN_METADATA_EXTRA_ITEM(stream,	NpParticleSystem, NpConnectorArray,	mConnectorArray, PX_SERIAL_ALIGN)
+	PX_DEF_BIN_METADATA_EXTRA_NAME(stream,	NpParticleSystem, mName, 0)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -480,7 +490,12 @@ void NpParticleFluid::getBinaryMetaData(PxOutputStream& stream)
 
 	DefineMetaData_PxActor(NpParticleFluid)
 
-	PX_DEF_BIN_METADATA_ITEM(stream,		NpParticleFluid, Scb::ParticleSystem, mParticleSystem, 0)	
+	PX_DEF_BIN_METADATA_ITEM(stream,		NpParticleFluid, Scb::ParticleSystem, mParticleSystem, 0)
+
+	//------ Extra-data ------
+
+	PX_DEF_BIN_METADATA_EXTRA_ITEM(stream,	NpParticleFluid, NpConnectorArray,	mConnectorArray, PX_SERIAL_ALIGN)
+	PX_DEF_BIN_METADATA_EXTRA_NAME(stream,	NpParticleFluid, mName, 0)
 }
 
 #endif // PX_USE_PARTICLE_SYSTEM_API

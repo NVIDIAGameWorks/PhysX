@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2009-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2009-2019 NVIDIA Corporation. All rights reserved.
 
 
 #ifndef PROCESS_RENDER_DEBUG_H

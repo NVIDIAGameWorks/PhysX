@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -124,6 +124,11 @@ namespace physx
 				return mObjIndex & ~SERIAL_OBJECT_INDEX_TYPE_BIT;
 			}
 
+			PX_FORCE_INLINE bool operator < (const SerialObjectIndex& so) const
+			{
+				return mObjIndex < so.mObjIndex;
+			}
+
 		private:
 			PxU32 mObjIndex;
 		};
@@ -152,8 +157,34 @@ namespace physx
 			SerialObjectIndex objIndex;
 		};
 
-		template<class ReferenceType>
-		struct InternalReference
+		struct InternalReferencePtr
+		{
+		//= ATTENTION! =====================================================================================
+		// Changing the data layout of this class breaks the binary serialization format.  See comments for 
+		// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData 
+		// function.  If the modification is made on a custom branch, please change PX_BINARY_SERIAL_VERSION
+		// accordingly.
+		//==================================================================================================
+			
+			PX_FORCE_INLINE	InternalReferencePtr() {}
+			
+			PX_FORCE_INLINE	InternalReferencePtr(size_t _reference, SerialObjectIndex _objIndex) :
+				reference(_reference),
+				objIndex(_objIndex)
+#if PX_P64_FAMILY
+				,pad(PX_PADDING_32)
+#endif
+			{
+			}
+
+			size_t reference;
+			SerialObjectIndex objIndex;
+#if PX_P64_FAMILY
+			PxU32 pad;
+#endif
+		};
+
+		struct InternalReferenceHandle16
 		{
 		//= ATTENTION! =====================================================================================
 		// Changing the data layout of this class breaks the binary serialization format.  See comments for 
@@ -162,28 +193,22 @@ namespace physx
 		// accordingly.
 		//==================================================================================================
 
-			PX_FORCE_INLINE	InternalReference(ReferenceType _reference, PxU32 _kind, SerialObjectIndex _objIndex)
+			PX_FORCE_INLINE	InternalReferenceHandle16() {}
+
+			PX_FORCE_INLINE	InternalReferenceHandle16(PxU16 _reference, SerialObjectIndex _objIndex) :
+				reference(_reference),
+				pad(PX_PADDING_16),
+				objIndex(_objIndex)
 			{
-				Cm::markSerializedMem(this, sizeof(InternalReference));
-				reference = _reference;
-				kind = _kind;
-				objIndex = _objIndex;
 			}
-			PX_FORCE_INLINE	InternalReference() { Cm::markSerializedMem(this, sizeof(InternalReference)); }
-			PX_FORCE_INLINE void operator =(const InternalReference& m)
-			{
-				PxMemCopy(this, &m, sizeof(InternalReference));				
-			}
-			ReferenceType reference;
-			PxU32 kind;
+
+			PxU16 reference;
+			PxU16 pad;
 			SerialObjectIndex objIndex;
 		};
 
-		typedef InternalReference<size_t> InternalReferencePtr;
-		typedef InternalReference<PxU32> InternalReferenceIdx;
-
-		typedef shdfnd::Pair<size_t, PxU32> InternalRefKey;
-		typedef Cm::CollectionHashMap<InternalRefKey, SerialObjectIndex> InternalRefMap;
+		typedef Cm::CollectionHashMap<size_t, SerialObjectIndex> InternalPtrRefMap;
+		typedef Cm::CollectionHashMap<PxU16, SerialObjectIndex> InternalHandle16RefMap;
 
 		class DeserializationContext : public PxDeserializationContext, public Ps::UserAllocated
 		{
@@ -193,14 +218,16 @@ namespace physx
 			DeserializationContext(const ManifestEntry* manifestTable, 
 								   const ImportReference* importReferences,
 								   PxU8* objectDataAddress, 
-								   const InternalRefMap& internalReferencesMap, 
+								   const InternalPtrRefMap& internalPtrReferencesMap, 
+								   const InternalHandle16RefMap& internalHandle16ReferencesMap, 
 								   const Cm::Collection* externalRefs,
 								   PxU8* extraData,
 								   PxU32 physxVersion)
 			: mManifestTable(manifestTable)
 			, mImportReferences(importReferences)
 			, mObjectDataAddress(objectDataAddress)
-			, mInternalReferencesMap(internalReferencesMap)
+			, mInternalPtrReferencesMap(internalPtrReferencesMap)
+			, mInternalHandle16ReferencesMap(internalHandle16ReferencesMap)
 			, mExternalRefs(externalRefs)
 			, mPhysXVersion(physxVersion)
 			{
@@ -216,8 +243,9 @@ namespace physx
 			const ImportReference* mImportReferences;
 			PxU8* mObjectDataAddress;
 
-			//internal references map for resolving references.
-			const InternalRefMap& mInternalReferencesMap;
+			//internal references maps for resolving references.
+			const InternalPtrRefMap& mInternalPtrReferencesMap;
+			const InternalHandle16RefMap& mInternalHandle16ReferencesMap;
 
 			//external collection for resolving import references.
 			const Cm::Collection* mExternalRefs;
@@ -269,8 +297,8 @@ namespace physx
 			virtual void registerReference(PxBase& serializable, PxU32 kind, size_t reference);
 
 			const Ps::Array<ImportReference>& getImportReferences() { return mImportReferences; }
-			InternalRefMap& getInternalReferencesPtrMap() { return mInternalReferencesPtrMap; }
-			InternalRefMap& getInternalReferencesIdxMap() { return mInternalReferencesIdxMap; }
+			InternalPtrRefMap& getInternalPtrReferencesMap() { return mInternalPtrReferencesMap; }
+			InternalHandle16RefMap& getInternalHandle16ReferencesMap() { return mInternalHandle16ReferencesMap; }
 
 			PxU32		getSize()	const	{	return mMemStream.getSize(); }
 			PxU8*		getData()	const	{	return mMemStream.getData(); }
@@ -283,8 +311,8 @@ namespace physx
 			Ps::Array<ImportReference> mImportReferences;
 			
 			//maps for unique registration of internal references
-			InternalRefMap mInternalReferencesPtrMap;
-			InternalRefMap mInternalReferencesIdxMap;
+			InternalPtrRefMap mInternalPtrReferencesMap;
+			InternalHandle16RefMap mInternalHandle16ReferencesMap;
 
 			//map for quick lookup of manifest index. 
 			Ps::HashMap<const PxBase*, PxU32> mObjToCollectionIndexMap;

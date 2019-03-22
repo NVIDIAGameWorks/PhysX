@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -104,15 +104,16 @@ namespace Bp
 
 	struct BpCacheData : public Ps::SListEntry
 	{
-		Ps::Array<AABBOverlap> mCreatedPairs[2];
-		Ps::Array<AABBOverlap> mDeletedPairs[2];
+		Ps::Array<AABBOverlap> mCreatedPairs[VolumeBuckets::eCOUNT];
+		Ps::Array<AABBOverlap> mDeletedPairs[VolumeBuckets::eCOUNT];
 
 		void reset()
 		{
-			mCreatedPairs[0].resizeUninitialized(0);
-			mCreatedPairs[1].resizeUninitialized(0);
-			mDeletedPairs[0].resizeUninitialized(0);
-			mDeletedPairs[1].resizeUninitialized(0);
+			for (PxU32 i = 0; i < VolumeBuckets::eCOUNT; ++i)
+			{
+				mCreatedPairs[i].resizeUninitialized(0);
+				mDeletedPairs[i].resizeUninitialized(0);
+			}
 		}
 	};
 

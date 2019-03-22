@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -405,13 +405,12 @@ void getBinaryMetaData_SerializationContext(PxOutputStream& stream)
 	
 	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferencePtr)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	void,		            reference,  PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	PxU32,		            kind,   	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferencePtr,	SerialObjectIndex,	    objIndex,  	0)
 
-	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferenceIdx)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	PxU32,		            reference,  0)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	PxU32,		            kind,   	0)
-	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceIdx,	SerialObjectIndex,	    objIndex,  	0)
+	PX_DEF_BIN_METADATA_CLASS(stream,	Sn::InternalReferenceHandle16)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	PxU16,		            reference,  PxMetaDataFlag::eHANDLE)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	PxU16,		            pad,		PxMetaDataFlag::ePADDING)
+	PX_DEF_BIN_METADATA_ITEM(stream,	Sn::InternalReferenceHandle16,	SerialObjectIndex,	    objIndex,  	0)
 }
 
 namespace physx

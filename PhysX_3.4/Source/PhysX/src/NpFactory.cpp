@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -698,7 +698,6 @@ void NpFactory::onConstraintRelease(PxConstraint* c)
 
 /////////////////////////////////////////////////////////////////////////////// aggregate
 
-// PX_AGGREGATE
 void NpFactory::addAggregate(PxAggregate* npAggregate, bool lock)
 {
 	addToTracking<PxAggregate>(mAggregateTracking, npAggregate, mTrackingMutex, lock);
@@ -731,8 +730,6 @@ void NpFactory::onAggregateRelease(PxAggregate* a)
 	Ps::Mutex::ScopedLock lock(mTrackingMutex);
 	mAggregateTracking.erase(a);
 }
-//~PX_AGGREGATE
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -741,16 +738,16 @@ PxMaterial* NpFactory::createMaterial(PxReal staticFriction, PxReal dynamicFrict
 	PX_CHECK_AND_RETURN_NULL(dynamicFriction >= 0.0f, "createMaterial: dynamicFriction must be >= 0.");
 	PX_CHECK_AND_RETURN_NULL(staticFriction >= 0.0f, "createMaterial: staticFriction must be >= 0.");
 	PX_CHECK_AND_RETURN_NULL(restitution >= 0.0f || restitution <= 1.0f, "createMaterial: restitution must be between 0 and 1.");
-	
-	Sc::MaterialData data;
-	data.staticFriction = staticFriction;
-	data.dynamicFriction = dynamicFriction;
-	data.restitution = restitution;
+
+	Sc::MaterialData materialData;
+	materialData.staticFriction = staticFriction;
+	materialData.dynamicFriction = dynamicFriction;
+	materialData.restitution = restitution;
 
 	NpMaterial* npMaterial;
 	{
 		Ps::Mutex::ScopedLock lock(mMaterialPoolLock);		
-		npMaterial = mMaterialPool.construct(data);
+		npMaterial = mMaterialPool.construct(materialData);
 	}
 	return npMaterial;	
 }
@@ -829,7 +826,7 @@ NpShape* NpFactory::createShape(const PxGeometry& geometry,
 	materialIndices.resize(materialCount);
 	if (materialCount == 1)
 	{
-		materialIndices[0] = Ps::to16((static_cast<NpMaterial*>(materials[0]))->getHandle());
+		materialIndices[0] = static_cast<NpMaterial*>(materials[0])->getHandle();
 	}
 	else
 	{

@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -36,9 +36,7 @@
 #include "NpArticulation.h"
 #include "NpArticulationLink.h"
 #include "NpArticulationJoint.h"
-// PX_AGGREGATE
 #include "NpAggregate.h"
-//~PX_AGGREGATE
 #include "NpVolumeCache.h"
 #include "NpBatchQuery.h"
 #include "SqPruner.h"
@@ -1118,8 +1116,6 @@ void NpScene::removeArticulationLink(NpArticulationLink& link, bool wakeOnLostTo
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// PX_AGGREGATE
-
 void NpScene::addAggregate(PxAggregate& aggregate)
 {
 	PX_PROFILE_ZONE("API.addAggregate", getContextId());
@@ -1215,7 +1211,7 @@ PxU32 NpScene::getAggregates(PxAggregate** userBuffer, PxU32 bufferSize, PxU32 s
 	return Cm::getArrayOfPointers(userBuffer, bufferSize, startIndex, mAggregates.getEntries(), mAggregates.size());
 }
 
-//~PX_AGGREGATE
+///////////////////////////////////////////////////////////////////////////////
 
 void NpScene::addCollection(const PxCollection& collection)
 {

@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -220,7 +220,8 @@ void Sc::MaterialCore::getBinaryMetaData(PxOutputStream& stream)
 
 	// MaterialCore
 	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxMaterial,		mNxMaterial,			PxMetaDataFlag::ePTR)
-	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU32,			mMaterialIndex,			0)
+	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU16,			mMaterialIndex,			PxMetaDataFlag::eHANDLE)
+	PX_DEF_BIN_METADATA_ITEM(stream,	MaterialCore, PxU16,			mPadding,				PxMetaDataFlag::ePADDING)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -264,7 +265,7 @@ static void getBinaryMetaData_PxsShapeCore(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxReal,				contactOffset,	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxShapeFlags,		mShapeFlags,	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU8,				mOwnsMaterialIdxMemory,	0)
-	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU16,				materialIndex,	0)
+	PX_DEF_BIN_METADATA_ITEM(stream,		PxsShapeCore,	PxU16,				materialIndex,	PxMetaDataFlag::eHANDLE)
 }
 
 void Sc::ShapeCore::getBinaryMetaData(PxOutputStream& stream)

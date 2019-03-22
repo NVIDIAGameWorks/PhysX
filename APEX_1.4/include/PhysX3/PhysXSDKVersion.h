@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
 
 
 
@@ -45,7 +45,7 @@
 /// Minor version of PhysX
 #define PX_PHYSICS_VERSION_MINOR 4
 /// Bugfix version of PhysX
-#define PX_PHYSICS_VERSION_BUGFIX 2
+#define PX_PHYSICS_VERSION_BUGFIX 3
 
 /**
 The constant PX_PHYSICS_VERSION is used when creating certain PhysX module objects.

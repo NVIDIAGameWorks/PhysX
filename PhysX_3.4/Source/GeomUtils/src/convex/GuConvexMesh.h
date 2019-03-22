@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -102,6 +102,7 @@ namespace Gu
 														mNb.setBit();
 													}									
 
+		PX_PHYSX_COMMON_API			void			preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
 		PX_PHYSX_COMMON_API virtual	void			exportExtraData(PxSerializationContext& stream);
 		PX_PHYSX_COMMON_API			void			importExtraData(PxDeserializationContext& context);
 		PX_PHYSX_COMMON_API virtual	void			onRefCountZero();

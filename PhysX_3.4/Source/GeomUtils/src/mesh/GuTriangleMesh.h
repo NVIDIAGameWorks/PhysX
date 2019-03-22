@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -70,12 +70,11 @@ public:
 
 // PX_SERIALIZATION
 														TriangleMesh(PxBaseFlags baseFlags)	: PxTriangleMesh(baseFlags), Cm::RefCountable(PxEmpty) {}
-						virtual void					exportExtraData(PxSerializationContext& ctx);
-								void					importExtraData(PxDeserializationContext&);
+								void					preExportDataReset() { Cm::RefCountable::preExportDataReset(); }
+						virtual void					exportExtraData(PxSerializationContext& context);
+								void					importExtraData(PxDeserializationContext& context);
 	PX_PHYSX_COMMON_API	static	void					getBinaryMetaData(PxOutputStream& stream);
 						virtual	void					release();
-
-								void					resolveReferences(PxDeserializationContext& ) {}
 						virtual	void					requiresObjects(PxProcessPxBaseCallback&){}
 //~PX_SERIALIZATION
 

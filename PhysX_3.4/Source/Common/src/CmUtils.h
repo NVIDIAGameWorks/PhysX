@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -216,6 +216,10 @@ PX_INLINE void deletePxBase(T* object)
 		object->~T();
 }
 
+#define PX_PADDING_8 0xcd
+#define PX_PADDING_16 0xcdcd
+#define PX_PADDING_32 0xcdcdcdcd
+
 #if PX_CHECKED
 /**
 Mark a specified amount of memory with 0xcd pattern. This is used to check that the meta data 
@@ -238,7 +242,6 @@ Note: Only use PX_NEW_SERIALIZED once in a scope.
 
 #else
 PX_INLINE void markSerializedMem(void*, PxU32){}
-
 #define PX_NEW_SERIALIZED(v,T)  v = PX_NEW(T)
 #endif
 

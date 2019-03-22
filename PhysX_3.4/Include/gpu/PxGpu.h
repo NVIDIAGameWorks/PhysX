@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 
 #ifndef PX_GPU_H
 #define PX_GPU_H
@@ -50,6 +50,9 @@ PxGpuLoadHook can be sub-classed to provide the custom filenames.
 
 Once the names are set, the instance must be set for use by PhysX.dll using PxSetPhysXGpuLoadHook(), 
 
+\note Configuration specific functions have been marked as deprecated. They will be removed in the next release. 
+Configuration specific names are now expected to be set in the implementation of the general callback.
+
 @see PxSetPhysXGpuLoadHook()
 */
 class PxGpuLoadHook
@@ -58,9 +61,9 @@ public:
 	PxGpuLoadHook() {}
 	virtual ~PxGpuLoadHook() {}
 
-	virtual const char* getPhysXGpuDEBUGDllName() const = 0;
-	virtual const char* getPhysXGpuCHECKEDDllName() const = 0;
-	virtual const char* getPhysXGpuPROFILEDllName() const = 0;
+	PX_DEPRECATED virtual const char* getPhysXGpuDEBUGDllName() const = 0;
+	PX_DEPRECATED virtual const char* getPhysXGpuCHECKEDDllName() const = 0;
+	PX_DEPRECATED virtual const char* getPhysXGpuPROFILEDllName() const = 0;
 	virtual const char* getPhysXGpuDllName() const = 0;
 
 protected:

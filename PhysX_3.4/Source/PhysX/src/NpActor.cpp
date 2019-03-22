@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -175,8 +175,7 @@ void NpActor::releaseConstraints(PxRigidActor& owner)
 
 void NpActor::release(PxActor& owner)
 {
-// PX_AGGREGATE
-	if (mConnectorArray)  // Need to test again because the code above might purge the connector array if no element remains
+	if(mConnectorArray)  // Need to test again because the code above might purge the connector array if no element remains
 	{
 		PX_ASSERT(mConnectorArray->size() == 1);  // At this point only the aggregate should remain
 		PX_ASSERT((*mConnectorArray)[0].mType == NpConnectorType::eAggregate);
@@ -187,7 +186,6 @@ void NpActor::release(PxActor& owner)
 		PX_UNUSED(status);
 		PX_ASSERT(!mConnectorArray);  // Remove should happen in aggregate code
 	}
-//~PX_AGGREGATE
 
 	PX_ASSERT(!mConnectorArray);  // All the connector objects should have been removed at this point
 }

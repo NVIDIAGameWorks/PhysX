@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -845,12 +845,9 @@ namespace local
 			}
 		}
 
-		mTolerance = PxMax(local::PLANE_THICKNES * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
-			PxMax(PxAbs(max.y), PxAbs(min.y)) +
-			PxMax(PxAbs(max.z), PxAbs(min.z))), local::PLANE_THICKNES);
-		mPlaneTolerance = PxMax(mCookingParams.planeTolerance * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
-			PxMax(PxAbs(max.y), PxAbs(min.y)) +
-			PxMax(PxAbs(max.z), PxAbs(min.z))), mCookingParams.planeTolerance);
+		const float sizeTol = (max.x-min.x + max.y - min.y + max.z - min.z)*0.5f;
+		mTolerance = PxMax(local::PLANE_THICKNES * sizeTol, local::PLANE_THICKNES);
+		mPlaneTolerance = PxMax(mCookingParams.planeTolerance * sizeTol, mCookingParams.planeTolerance);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -909,7 +906,7 @@ namespace local
 			}
 		}
 
-		if (PxSqrt(maxDist) <= 100 * mTolerance)
+		if (PxSqrt(maxDist) <= mTolerance)
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "QuickHullConvexHullLib::findSimplex: Simplex input points appers to be colinear.");
 			return false;
@@ -932,7 +929,7 @@ namespace local
 			}
 		}
 
-		if (PxAbs(maxDist) <= 100 * mTolerance)
+		if (PxAbs(maxDist) <= mTolerance)
 		{
 			Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "QuickHullConvexHullLib::findSimplex: Simplex input points appers to be coplanar.");
 			return false;
@@ -2007,13 +2004,9 @@ bool QuickHullConvexHullLib::cleanupForSimplex(PxVec3* vertices, PxU32 vertexCou
 		}
 	}
 
-	tolerance = PxMax(local::PLANE_THICKNES * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
-		PxMax(PxAbs(max.y), PxAbs(min.y)) +
-		PxMax(PxAbs(max.z), PxAbs(min.z))), local::PLANE_THICKNES);
-
-	planeTolerance = PxMax(mCookingParams.planeTolerance * (PxMax(PxAbs(max.x), PxAbs(min.x)) +
-		PxMax(PxAbs(max.y), PxAbs(min.y)) +
-		PxMax(PxAbs(max.z), PxAbs(min.z))), mCookingParams.planeTolerance);
+	const float sizeTol = (max.x-min.x + max.y - min.y + max.z - min.z)*0.5f;
+	tolerance = PxMax(local::PLANE_THICKNES * sizeTol, local::PLANE_THICKNES);
+	planeTolerance = PxMax(mCookingParams.planeTolerance *sizeTol, mCookingParams.planeTolerance);
 
 	float fmax = 0;
 	PxU32 imax = 0;
@@ -2058,7 +2051,7 @@ bool QuickHullConvexHullLib::cleanupForSimplex(PxVec3* vertices, PxU32 vertexCou
 		}
 	}
 
-	if (PxSqrt(maxDist) <= 100 * tolerance)
+	if (PxSqrt(maxDist) < tolerance)
 	{
 		// points are collinear, we have to move the point further
 		PxVec3 u02 = simplex[2] - simplex[0];		
@@ -2067,7 +2060,7 @@ bool QuickHullConvexHullLib::cleanupForSimplex(PxVec3* vertices, PxU32 vertexCou
 		fT /= sqrLen;
 		PxVec3 n = u02 - fT*u01;
 		n.normalize();
-		const PxVec3 mP = simplex[2] + n * 100.0f * tolerance;
+		const PxVec3 mP = simplex[2] + n * tolerance;
 		simplex[2] = mP;
 		vertices[imax] = mP;		
 		retVal = false;
@@ -2090,13 +2083,13 @@ bool QuickHullConvexHullLib::cleanupForSimplex(PxVec3* vertices, PxU32 vertexCou
 		}
 	}
 
-	if (PxAbs(maxDist) <= 100.0f * tolerance)
+	if (PxAbs(maxDist) < tolerance)
 	{
 		float dist = (vertices[imax].dot(normal) - d0);
 		if (dist > 0)
-			vertices[imax] = vertices[imax] + normal * 100.0f * tolerance;
+			vertices[imax] = vertices[imax] + normal * tolerance;
 		else
-			vertices[imax] = vertices[imax] - normal * 100.0f * tolerance;
+			vertices[imax] = vertices[imax] - normal * tolerance;
 		retVal = false;
 	}
 

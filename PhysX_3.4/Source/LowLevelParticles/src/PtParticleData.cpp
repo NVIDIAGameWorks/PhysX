@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -252,10 +252,11 @@ ParticleData* ParticleData::create(PxU32 maxParticles, bool perParticleRestOffse
 
 ParticleData* ParticleData::create(PxDeserializationContext& context)
 {
-	ParticleData* mem = context.readExtraData<ParticleData, PX_SERIAL_ALIGN>();
-	new (mem) ParticleData(reinterpret_cast<PxU8*>(mem));
-	context.readExtraData<PxU8>(getDataSize(mem->getMaxParticles(), mem->getRestOffsetBuffer() != NULL));
-	return mem;
+	PxU8* header = context.readExtraData<PxU8, PX_SERIAL_ALIGN>(getHeaderSize());
+	new (header) ParticleData(header);
+	ParticleData* particleData = reinterpret_cast<ParticleData*>(header);
+	context.readExtraData<PxU8>(getDataSize(particleData->getMaxParticles(), particleData->getRestOffsetBuffer() != NULL));
+	return particleData;
 }
 
 //----------------------------------------------------------------------------//

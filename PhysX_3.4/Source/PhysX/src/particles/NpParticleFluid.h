@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -55,8 +55,8 @@ public:
 // PX_SERIALIZATION
 											NpParticleFluid(PxBaseFlags baseFlags) : NpParticleFluidT(baseFlags)	{}
 	virtual		void						requiresObjects(PxProcessPxBaseCallback&){}	
-	virtual		void						exportExtraData(PxSerializationContext& stream) { mParticleSystem.exportExtraData(stream); }
-				void						importExtraData(PxDeserializationContext& context) { mParticleSystem.importExtraData(context); }
+	virtual		void						exportExtraData(PxSerializationContext& stream);
+				void						importExtraData(PxDeserializationContext& context);
 	static		NpParticleFluid*			createObject(PxU8*& address, PxDeserializationContext& context);
 	static		void						getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION

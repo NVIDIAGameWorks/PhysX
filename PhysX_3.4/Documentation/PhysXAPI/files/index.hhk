@@ -843,6 +843,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConstraintFlag.html#86960e99b3e80ddb9e0ab51d7afc34278e00c572e54f3575284ff41432f1bec6"><param name="Name" value="PxConstraintFlag"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxConvexFlag.html#4b7bd21fa96c72b320a39e880208b4b68126f89c7d2dac99246261ca6a7ae067"><param name="Name" value="PxConvexFlag"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654cb9d90e378cc25d7bf6fee1c0c04df432"><param name="Name" value="eHANDLE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPx1DConstraintFlag.html#0d9f59379f0d8eba3bace01f8bb88b76ec86f2534814e03217b64f1a5f3141a3"><param name="Name" value="eHAS_DRIVE_LIMIT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactPatch.html#704320591170cbad6698b74b5d1d9eb9f45f36084b23d060d8d68255a5493da5"><param name="Name" value="eHAS_FACE_INDICES"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactPatch.html#704320591170cbad6698b74b5d1d9eb99e30c7fa533ce8776828ca9908126991"><param name="Name" value="eHAS_MAX_IMPULSE"></OBJECT>
@@ -4089,6 +4090,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxQueryFilterCallback.html#a93cf87c4ec4548afc8cc5476c719781"><param name="Name" value="postFilter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBatchQueryDesc.html#1eae24bb23c561c4a656d7234d9d2e5e"><param name="Name" value="postFilterShader"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxContactPairExtraDataIterator.html#8e2656d684789f0f05c135d5f5c5fa25"><param name="Name" value="postSolverVelocity"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#ec83ecde4a8c2a38a8f4be88b973160a"><param name="Name" value="preExportDataReset"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxQueryFilterCallback.html#227beae6749182b04ae18728c1aecd26"><param name="Name" value="preFilter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxBatchQueryDesc.html#f116e4058958b7c747dfd008317764ba"><param name="Name" value="preFilterShader"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxConstraintConnector.html#f04ac1b3cbd43565ac99957dd9cde100"><param name="Name" value="prepareData"></OBJECT>
@@ -8169,6 +8171,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654c0480301f6d90a4bfdafa082c2be71b14"><param name="Name" value="eEXTRA_ITEMS"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654c0d903640b00c4f61682c59c792108e96"><param name="Name" value="eEXTRA_NAME"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654cdc74b55b18447acfcf32f0d3ca7a4463"><param name="Name" value="eFORCE_DWORD"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654cb9d90e378cc25d7bf6fee1c0c04df432"><param name="Name" value="eHANDLE"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654c9b31caa710193a63e3c4f6952379410e"><param name="Name" value="ePADDING"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654c1d241c59c1e26a777c46ff7688f8f1dd"><param name="Name" value="ePTR"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxMetaDataFlag.html#5125f2eba9d78234a2bc7a00b3c3654c01cb08bb8663787a10fdc899fdcc5d41"><param name="Name" value="eTYPEDEF"></OBJECT>
@@ -9513,6 +9516,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#86026f68eb651de87e4a7720bc708893"><param name="Name" value="dumpBinaryMetaData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#d9f930bc95e3372c46bac3347742068f"><param name="Name" value="isSerializable"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#1d6242bea0c7513bfbfb24670e5cfb03"><param name="Name" value="serializeCollectionToBinary"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#159728a265b7ed81cd5cf329f8cad30e"><param name="Name" value="serializeCollectionToBinaryDeterministic"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#cbb99dac3e71e78338ab3eec4ab0ab75"><param name="Name" value="serializeCollectionToXml"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerializationContext.html"><param name="Name" value="PxSerializationContext"></OBJECT>
@@ -11167,6 +11171,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#dc99081a2fda9195f484e57f715c41d2"><param name="Name" value="mWheelsDynData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#bd3c415e538022f66f00dd926208f2f1"><param name="Name" value="mWheelsSimData"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#07c073158a6df39214f655f59d130b69"><param name="Name" value="patchupPointers"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#ec83ecde4a8c2a38a8f4be88b973160a"><param name="Name" value="preExportDataReset"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#4244d3285814fff95e2917684eb08be7"><param name="Name" value="PxVehicleConstraintShader"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#a960a335429c764ff7e258a0ec3ab5f0"><param name="Name" value="PxVehicleUpdate"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxVehicleWheels.html#fb89c7e2d53b98c310d59443213fff80"><param name="Name" value="PxVehicleWheels"></OBJECT>
@@ -11654,6 +11659,7 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structPxRepXObject.html#1c3113d49e20e25408c2bfd80fdb16f8"><param name="Name" value="serializable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#1d6242bea0c7513bfbfb24670e5cfb03"><param name="Name" value="serializeCollectionToBinary"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#159728a265b7ed81cd5cf329f8cad30e"><param name="Name" value="serializeCollectionToBinaryDeterministic"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="classPxSerialization.html#cbb99dac3e71e78338ab3eec4ab0ab75"><param name="Name" value="serializeCollectionToXml"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="group__Serializers.html"><param name="Name" value="Serializers"></OBJECT>
   <UL>

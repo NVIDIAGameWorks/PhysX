@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -239,6 +239,21 @@ public:
 	@see PxCollection, PxOutputStream, PxSerialization::complete, PxSerialization::createCollectionFromBinary, PxSerializationRegistry
 	*/
 	static	bool			serializeCollectionToBinary(PxOutputStream& outputStream, PxCollection& collection, PxSerializationRegistry& sr, const PxCollection* externalRefs = NULL, bool exportNames = false );
+
+	/**
+	\brief Serializes a collection to a binary stream.
+
+	Convenience function that serializes a collection to a stream while rebasing memory addresses and handles
+	to achieve a deterministic output, independent of the PhysX runtime environment the objects have been created in. 
+
+	The same functionality can be achieved by manually
+	- creating a binary data stream with PxSerialization::serializeCollectionToBinary
+	- producing the binary meta data of the current runtime platform with PxSerialization::dumpBinaryMetaData
+	- converting the binary data stream with the PxBinaryConverter, using the binary meta for both source and destination
+
+	@see PxSerialization::serializeCollectionToBinary, PxSerialization::dumpBinaryMetaData, PxBinaryConverter
+	*/
+	static bool				serializeCollectionToBinaryDeterministic(PxOutputStream& outputStream, PxCollection& collection, PxSerializationRegistry& sr, const PxCollection* externalRefs = NULL, bool exportNames = false);
 
 	/** 
 	\brief Dumps the binary meta-data to a stream.

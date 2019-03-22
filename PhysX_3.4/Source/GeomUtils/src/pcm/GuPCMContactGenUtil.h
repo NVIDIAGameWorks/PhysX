@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -292,7 +292,7 @@ namespace Gu
 
 		PxPlane plane = polyData.mPolygons[0].mPlane;
 		PxReal dist = plane.distance(closestP);
-		PxReal minDist = dist >= eps ? dist : PX_MAX_F32;
+		PxReal minDist = dist >= eps ? PxAbs(dist) : PX_MAX_F32;
 		pd[0] = minDist;
 		PxReal maxDist = dist;
 		PxU32 maxFaceIndex = 0;
@@ -301,7 +301,7 @@ namespace Gu
 		{
 			plane = polyData.mPolygons[i].mPlane;
 			dist = plane.distance(closestP);
-			pd[i] = dist >= eps ? dist : PX_MAX_F32;
+			pd[i] = dist >= eps ? PxAbs(dist) : PX_MAX_F32;
 			if (minDist > pd[i])
 			{
 				minDist = pd[i];

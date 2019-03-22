@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -34,6 +34,7 @@
 #include "PsString.h"
 #include "PsIntrinsics.h"
 #include "extensions/PxSerialization.h"
+#include "extensions/PxBinaryConverter.h"
 #include "SnSerializationContext.h"
 #include "PxSerializer.h"
 #include "serialization/SnSerialUtils.h"
@@ -43,6 +44,7 @@
 #include "CmCollection.h"
 #include "PxPhysicsVersion.h"
 #include "PsUtilities.h"
+#include "PsSort.h"
 
 using namespace physx;
 using namespace Cm;
@@ -118,8 +120,8 @@ using namespace Sn;
 // alignment 
 // PxU32 sizePtrs;
 // (size_t reference, PxU32 kind, SerialObjectIndex objIndex)*sizePtrs
-// PxU32 sizeIdx; 
-// (PxU32 reference, PxU32 kind, SerialObjectIndex objIndex)*sizePtrs
+// PxU32 sizeHandle16; 
+// (PxU16 reference, PxU32 kind, SerialObjectIndex objIndex)*sizeHandle16
 //
 //
 //------------------------------------------------------------------------------------
@@ -239,6 +241,13 @@ namespace
 #endif
 		stream.writeData(&markedPadding, sizeof(PxU32));
 	}
+
+	template<typename InternalReferenceType>
+	struct InternalReferencePredicate
+	{
+		PX_FORCE_INLINE bool operator()(InternalReferenceType& a, InternalReferenceType& b) const { return a.objIndex < b.objIndex; }
+	};
+
 }
 
 bool PxSerialization::serializeCollectionToBinary(PxOutputStream& outputStream, PxCollection& pxCollection, PxSerializationRegistry& sr, const PxCollection* pxExternalRefs, bool exportNames)
@@ -346,25 +355,33 @@ bool PxSerialization::serializeCollectionToBinary(PxOutputStream& outputStream, 
 
 	// write internal references
 	{
-		InternalRefMap& internalReferencesPtrMap = context.getInternalReferencesPtrMap();
-		Ps::Array<InternalReferencePtr> internalReferencesPtr(internalReferencesPtrMap.size());
+		InternalPtrRefMap& internalPtrReferencesMap = context.getInternalPtrReferencesMap();
+		Ps::Array<InternalReferencePtr> internalReferencesPtr(internalPtrReferencesMap.size());
 		PxU32 nbInternalPtrReferences = 0;
-		for(InternalRefMap::Iterator iter = internalReferencesPtrMap.getIterator(); !iter.done(); ++iter)
-			internalReferencesPtr[nbInternalPtrReferences++] = InternalReferencePtr(iter->first.first, iter->first.second, iter->second);
 
-		InternalRefMap& internalReferencesIdxMap = context.getInternalReferencesIdxMap();
-		Ps::Array<InternalReferenceIdx> internalReferencesIdx(internalReferencesIdxMap.size());
-		PxU32 nbInternalIdxReferences = 0;
-		for(InternalRefMap::Iterator iter = internalReferencesIdxMap.getIterator(); !iter.done(); ++iter)
-			internalReferencesIdx[nbInternalIdxReferences++] = InternalReferenceIdx(Ps::to32(iter->first.first), iter->first.second, iter->second);
+		InternalHandle16RefMap& internalHandle16ReferencesMap = context.getInternalHandle16ReferencesMap();
+		Ps::Array<InternalReferenceHandle16> internalReferencesHandle16(internalHandle16ReferencesMap.size());
+		PxU32 nbInternalHandle16References = 0;
+
+		{
+			for(InternalPtrRefMap::Iterator iter = internalPtrReferencesMap.getIterator(); !iter.done(); ++iter)
+				internalReferencesPtr[nbInternalPtrReferences++] = InternalReferencePtr(iter->first, iter->second);
+
+			for(InternalHandle16RefMap::Iterator iter = internalHandle16ReferencesMap.getIterator(); !iter.done(); ++iter)
+				internalReferencesHandle16[nbInternalHandle16References++] = InternalReferenceHandle16(Ps::to16(iter->first), iter->second);
+
+			//sort InternalReferences according to SerialObjectIndex for determinism
+			Ps::sort<InternalReferencePtr, InternalReferencePredicate<InternalReferencePtr> >(internalReferencesPtr.begin(), internalReferencesPtr.size(), InternalReferencePredicate<InternalReferencePtr>());
+			Ps::sort<InternalReferenceHandle16, InternalReferencePredicate<InternalReferenceHandle16> >(internalReferencesHandle16.begin(), internalReferencesHandle16.size(), InternalReferencePredicate<InternalReferenceHandle16>());
+		}
 
 		stream.alignData(PX_SERIAL_ALIGN);
 		
 		stream.writeData(&nbInternalPtrReferences, sizeof(PxU32));
 		stream.writeData(internalReferencesPtr.begin(), internalReferencesPtr.size()*sizeof(InternalReferencePtr));
 
-		stream.writeData(&nbInternalIdxReferences, sizeof(PxU32));
-		stream.writeData(internalReferencesIdx.begin(), internalReferencesIdx.size()*sizeof(InternalReferenceIdx));
+		stream.writeData(&nbInternalHandle16References, sizeof(PxU32));
+		stream.writeData(internalReferencesHandle16.begin(), internalReferencesHandle16.size()*sizeof(InternalReferenceHandle16));
 	}
 
 	// write object data
@@ -400,3 +417,27 @@ bool PxSerialization::serializeCollectionToBinary(PxOutputStream& outputStream, 
 
 	return true;
 }
+
+bool PxSerialization::serializeCollectionToBinaryDeterministic(PxOutputStream& outputStream, PxCollection& pxCollection, PxSerializationRegistry& sr, const PxCollection* pxExternalRefs, bool exportNames)
+{
+	PxDefaultMemoryOutputStream tmpOutputStream;
+	if (!serializeCollectionToBinary(tmpOutputStream, pxCollection, sr, pxExternalRefs, exportNames))
+		return false;
+
+	PxDefaultMemoryOutputStream metaDataOutput;
+	dumpBinaryMetaData(metaDataOutput, sr);
+
+	PxBinaryConverter* converter = createBinaryConverter();
+	PxDefaultMemoryInputData srcMetaData(metaDataOutput.getData(), metaDataOutput.getSize());
+	PxDefaultMemoryInputData dstMetaData(metaDataOutput.getData(), metaDataOutput.getSize());
+	
+	if (!converter->setMetaData(srcMetaData, dstMetaData))
+		return false;
+	
+	PxDefaultMemoryInputData srcBinaryData(tmpOutputStream.getData(), tmpOutputStream.getSize());
+	bool ret = converter->convert(srcBinaryData, srcBinaryData.getLength(), outputStream);
+	converter->release();
+
+	return ret;
+}
+

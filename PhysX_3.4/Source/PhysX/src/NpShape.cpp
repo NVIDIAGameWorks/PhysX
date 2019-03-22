@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -87,15 +87,18 @@ void NpShape::onRefCountZero()
 
 // PX_SERIALIZATION
 
-NpShape::NpShape(PxBaseFlags baseFlags) : PxShape(baseFlags), mShape(PxEmpty) 
+NpShape::NpShape(PxBaseFlags baseFlags) : PxShape(baseFlags), mShape(PxEmpty) {}
+
+void NpShape::preExportDataReset()
 {
+	Cm::RefCountable::preExportDataReset();
 	mExclusiveAndActorCount &= EXCLUSIVE_MASK;
 }
 
-void NpShape::exportExtraData(PxSerializationContext& stream)
+void NpShape::exportExtraData(PxSerializationContext& context)
 {	
-	getScbShape().getScShape().exportExtraData(stream);
-	stream.writeName(mName);
+	getScbShape().getScShape().exportExtraData(context);
+	context.writeName(mName);
 }
 
 void NpShape::importExtraData(PxDeserializationContext& context)
@@ -155,7 +158,7 @@ void NpShape::resolveReferences(PxDeserializationContext& context)
 			PX_ASSERT(base && base->is<PxMaterial>());
 
 			NpMaterial& material = *static_cast<NpMaterial*>(base);
-			getScbShape().getScShape().resolveMaterialReference(i, PxU16(material.getHandle()));
+			getScbShape().getScShape().resolveMaterialReference(i, material.getHandle());
 		}
 	}
 

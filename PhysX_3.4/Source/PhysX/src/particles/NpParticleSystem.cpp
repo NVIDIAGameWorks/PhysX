@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -50,6 +50,22 @@ NpParticleSystem::~NpParticleSystem()
 {}
 
 // PX_SERIALIZATION
+void NpParticleSystem::exportExtraData(PxSerializationContext& stream)
+{
+	//ordering is given by meta data definition ordering - extra data of member 
+	//fields is always assumed to be before extra data of parent classes...
+	mParticleSystem.exportExtraData(stream);
+	NpParticleSystemT::exportExtraData(stream);  
+}
+
+void NpParticleSystem::importExtraData(PxDeserializationContext& context)
+{
+	//ordering is given by meta data definition ordering - extra data of member 
+	//fields is always assumed to be before extra data of parent classes...
+	mParticleSystem.importExtraData(context);
+	NpParticleSystemT::importExtraData(context);   
+}
+
 NpParticleSystem* NpParticleSystem::createObject(PxU8*& address, PxDeserializationContext& context)
 {
 	NpParticleSystem* obj = new (address) NpParticleSystem(PxBaseFlag::eIS_RELEASABLE);

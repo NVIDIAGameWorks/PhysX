@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -58,10 +58,11 @@ public:
 // PX_SERIALIZATION
 									NpCloth(PxBaseFlags baseFlags);
 	virtual		void				requiresObjects(PxProcessPxBaseCallback& c);
-	virtual		void				exportExtraData(PxSerializationContext& stream) { mCloth.exportExtraData(stream); }
-				void				importExtraData(PxDeserializationContext& context) { mCloth.importExtraData(context); }
-				void				resolveReferences(PxDeserializationContext& context);
-	static		NpCloth*			createObject(PxU8*& address, PxDeserializationContext& context);
+	virtual		void				preExportDataReset() {}
+	virtual		void				exportExtraData(PxSerializationContext& c);
+				void				importExtraData(PxDeserializationContext& c);
+				void				resolveReferences(PxDeserializationContext& c);
+	static		NpCloth*			createObject(PxU8*& address, PxDeserializationContext& c);
 	static      void				getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
 									NpCloth(const PxTransform& globalPose, NpClothFabric& fabric, const PxClothParticle* particles, PxClothFlags flags);

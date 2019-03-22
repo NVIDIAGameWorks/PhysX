@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 
 #include "foundation/PxIO.h"
 #include "foundation/PxMemory.h"
@@ -769,7 +769,7 @@ bool MetaData::compare(const MetaData& dst) const
 
 		if (mcSrc == NULL)
 		{
-			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "dst is missing meta class %s", mcSrc->mClassName);
+			mConvX.displayMessage(PxErrorCode::eDEBUG_INFO, "src is missing meta class %s", mcDst->mClassName);
 		}
 	}
 

@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -99,7 +99,7 @@ namespace Sc
 		PX_FORCE_INLINE	PxActorType::Enum			getActorCoreType()				const 	{ return PxActorType::Enum(mActorType);	}
 
 						void						reinsertShapes();
-// PX_AGGREGATE
+
 		PX_FORCE_INLINE	void						setAggregateID(PxU32 id)
 													{
 														PX_ASSERT(id==0xffffffff || id<(1<<24));
@@ -111,7 +111,6 @@ namespace Sc
 														const PxU32 id = mAggregateIDOwnerClient & 0x00ffffff;
 														return id == 0x00ffffff ? PX_INVALID_U32 : id;
 													}
-//~PX_AGGREGATE
 	private:
 						ActorSim*					mSim;						// 
 						PxU32						mAggregateIDOwnerClient;	// PxClientID (8bit) | aggregate ID (24bit)

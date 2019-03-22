@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -41,6 +41,22 @@ using namespace physx;
 // PX_SERIALIZATION
 NpCloth::NpCloth(PxBaseFlags baseFlags) : NpClothT(baseFlags), mCloth(PxEmpty), mParticleData(*this)
 {
+}
+
+void NpCloth::exportExtraData(PxSerializationContext& stream)
+{
+	//ordering is given by meta data definition ordering - extra data of member 
+	//fields is always assumed to be before extra data of parent classes...
+	mCloth.exportExtraData(stream);
+	NpClothT::exportExtraData(stream);
+}
+
+void NpCloth::importExtraData(PxDeserializationContext& context)
+{
+	//ordering is given by meta data definition ordering - extra data of member 
+	//fields is always assumed to be before extra data of parent classes...
+	mCloth.importExtraData(context);
+	NpClothT::importExtraData(context);
 }
 //~PX_SERIALIZATION
 
@@ -94,10 +110,8 @@ void NpCloth::release()
 
 	NpPhysics::getInstance().notifyDeletionListenersUserRelease(this, userData);
 
-// PX_AGGREGATE
 	// initially no support for aggregates
 	//NpClothT::release();	// PT: added for PxAggregate
-//~PX_AGGREGATE
 
 	NpScene* npScene = NpActor::getAPIScene(*this);
 	if(npScene) // scene is 0 after scheduling for remove

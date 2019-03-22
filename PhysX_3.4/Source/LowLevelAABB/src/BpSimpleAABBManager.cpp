@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -2604,8 +2604,8 @@ class ProcessAggPairsBase : public Cm::Task
 public:
 	static const PxU32 MaxPairs = 16;
 
-	PairData mCreatedPairs[2];
-	PairData mDestroyedPairs[2];
+	PairData mCreatedPairs[VolumeBuckets::eCOUNT];
+	PairData mDestroyedPairs[VolumeBuckets::eCOUNT];
 
 	ProcessAggPairsBase(PxU64 contextID) : Cm::Task(contextID)
 	{
@@ -2613,7 +2613,7 @@ public:
 
 	void setCache(BpCacheData& data)
 	{
-		for (PxU32 i = 0; i < 2; ++i)
+		for (PxU32 i = 0; i < VolumeBuckets::eCOUNT; ++i)
 		{
 			mCreatedPairs[i].mArray = &data.mCreatedPairs[i];
 			mCreatedPairs[i].mStartIdx = data.mCreatedPairs[i].size();
@@ -2624,7 +2624,7 @@ public:
 
 	void updateCounters()
 	{
-		for (PxU32 i = 0; i < 2; ++i)
+		for (PxU32 i = 0; i < VolumeBuckets::eCOUNT; ++i)
 		{
 			mCreatedPairs[i].mCount = mCreatedPairs[i].mArray->size() - mCreatedPairs[i].mStartIdx;
 			mDestroyedPairs[i].mCount = mDestroyedPairs[i].mArray->size() - mDestroyedPairs[i].mStartIdx;
@@ -2937,7 +2937,7 @@ void SimpleAABBManager::postBpStage3(PxBaseTask*)
 			for (PxU32 a = 0; a < mAggPairTasks.size(); ++a)
 			{
 				ProcessAggPairsBase* task = mAggPairTasks[a];
-				for (PxU32 t = 0; t < 2; t++)
+				for (PxU32 t = 0; t < VolumeBuckets::eCOUNT; t++)
 				{
 					for (PxU32 i = 0, startIdx = task->mCreatedPairs[t].mStartIdx; i < task->mCreatedPairs[t].mCount; ++i)
 					{

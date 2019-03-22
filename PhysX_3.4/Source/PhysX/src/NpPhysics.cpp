@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -93,7 +93,6 @@ bool		NpPhysics::mHeightFieldsRegistered = false;	//just for error checking
 NpPhysics::NpPhysics(const PxTolerancesScale& scale, const PxvOffsetTable& pxvOffsetTable, bool trackOutstandingAllocations,
 	                 physx::pvdsdk::PsPvd* pvd) :
 	mSceneArray(PX_DEBUG_EXP("physicsSceneArray"))
-	, mSceneRunning(NULL)
 	, mPhysics(scale, pxvOffsetTable)
 	, mDeletionListenersExist(false)
 #if PX_SUPPORT_GPU_PHYSX
@@ -353,7 +352,6 @@ PxScene* NpPhysics::createScene(const PxSceneDesc& desc)
 	return npScene;
 }
 
-
 void NpPhysics::releaseSceneInternal(PxScene& scene)
 {
 	NpScene* pScene =  static_cast<NpScene*>(&scene);
@@ -370,20 +368,17 @@ void NpPhysics::releaseSceneInternal(PxScene& scene)
 	}
 }
 
-
 PxU32 NpPhysics::getNbScenes() const
 {
 	Ps::Mutex::ScopedLock lock(const_cast<Ps::Mutex&>(mSceneAndMaterialMutex));
 	return mSceneArray.size();
 }
 
-
 PxU32 NpPhysics::getScenes(PxScene** userBuffer, PxU32 bufferSize, PxU32 startIndex) const
 {
 	Ps::Mutex::ScopedLock lock(const_cast<Ps::Mutex&>(mSceneAndMaterialMutex));
 	return Cm::getArrayOfPointers(userBuffer, bufferSize, startIndex, mSceneArray.begin(), mSceneArray.size());
 }
-
 
 PxRigidStatic* NpPhysics::createRigidStatic(const PxTransform& globalPose)
 {
@@ -420,45 +415,32 @@ PxU32 NpPhysics::getShapes(PxShape** userBuffer, PxU32 bufferSize, PxU32 startIn
 	return NpFactory::getInstance().getShapes(userBuffer, bufferSize, startIndex);
 }
 
-
-
-
-
 PxRigidDynamic* NpPhysics::createRigidDynamic(const PxTransform& globalPose)
 {
 	PX_CHECK_AND_RETURN_NULL(globalPose.isSane(), "PxPhysics::createRigidDynamic: invalid transform");
 	return NpFactory::getInstance().createRigidDynamic(globalPose.getNormalized());
 }
 
-
 PxConstraint* NpPhysics::createConstraint(PxRigidActor* actor0, PxRigidActor* actor1, PxConstraintConnector& connector, const PxConstraintShaderTable& shaders, PxU32 dataSize)
 {
 	return NpFactory::getInstance().createConstraint(actor0, actor1, connector, shaders, dataSize);
 }
-
 
 PxArticulation* NpPhysics::createArticulation()
 {
 	return NpFactory::getInstance().createArticulation();
 }
 
-
-// PX_AGGREGATE
-
-
 PxAggregate* NpPhysics::createAggregate(PxU32 maxSize, bool selfCollisionEnabled)
 {
 	return NpFactory::getInstance().createAggregate(maxSize, selfCollisionEnabled);
 }
-//~PX_AGGREGATE
-
 
 #if PX_USE_PARTICLE_SYSTEM_API
 PxParticleSystem* NpPhysics::createParticleSystem(PxU32 maxParticles, bool perParticleRestOffset)
 {
 	return NpFactory::getInstance().createParticleSystem(maxParticles, perParticleRestOffset);
 }
-
 
 PxParticleFluid* NpPhysics::createParticleFluid(PxU32 maxParticles, bool perParticleRestOffset)
 {
@@ -473,9 +455,6 @@ PxCloth* NpPhysics::createCloth(const PxTransform& globalPose, PxClothFabric& fa
 	return NpFactory::getInstance().createCloth(globalPose.getNormalized(), fabric, particles, flags);
 }
 #endif
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -499,6 +478,8 @@ NpMaterial* NpPhysics::addMaterial(NpMaterial* m)
 	}
 	else
 	{
+		physx::shdfnd::getFoundation().error(physx::PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, 
+			"PxPhysics::createMaterial: limit of 64K materials reached.");
 		m->release();
 		return NULL;
 	}
@@ -877,20 +858,6 @@ void PxRegisterParticles(PxPhysics& physics)
 	Pt::registerParticles();
 	NpFactory::registerParticles();
 #endif
-}
-
-bool NpPhysics::lockScene()
-{
-	mSceneRunning.lock();
-
-	return true;
-}
-
-bool NpPhysics::unlockScene()
-{
-	mSceneRunning.unlock();
-
-	return true;
 }
 
 void PxAddCollectionToPhysics(const PxCollection& collection)

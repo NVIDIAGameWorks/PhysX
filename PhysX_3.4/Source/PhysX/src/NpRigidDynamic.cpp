@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2018 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -45,6 +45,18 @@ NpRigidDynamic::~NpRigidDynamic()
 void NpRigidDynamic::requiresObjects(PxProcessPxBaseCallback& c)
 {
 	NpRigidDynamicT::requiresObjects(c);
+}
+
+void NpRigidDynamic::preExportDataReset()
+{
+	NpRigidDynamicT::preExportDataReset();
+	if (isKinematic())
+	{
+		//Restore dynamic data in case the actor is configured as a kinematic.
+		//otherwise we would loose the data for switching the kinematic actor back to dynamic
+		//after deserialization.
+		getScbBodyFast().getScBody().restoreDynamicData();
+	}
 }
 
 NpRigidDynamic* NpRigidDynamic::createObject(PxU8*& address, PxDeserializationContext& context)
