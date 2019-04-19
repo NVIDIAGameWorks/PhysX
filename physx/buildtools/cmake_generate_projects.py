@@ -120,6 +120,8 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'android':
             return False
+        if self.targetPlatform == 'emscripten':
+            return False
         return True
 
     def getCMakeSwitches(self):
@@ -292,6 +294,11 @@ class CMakePreset:
                 os.environ['PM_CMakeModules_PATH'] + '/ios/ios.toolchain.cmake\"'
             outString = outString + ' -DPX_OUTPUT_ARCH=arm'
             return outString
+        elif self.targetPlatform == 'emscripten':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=emscripten'
+            outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
+                os.path.join(os.environ['EMSCRIPTEN'] + '/cmake/Modules/Platform/Emscripten.cmake\"')
+            return outString
         return ''
 
 
@@ -325,6 +332,8 @@ def presetProvided(pName):
 
     if os.environ.get('PM_cmake_PATH') is not None:
         cmakeExec = os.environ['PM_cmake_PATH'] + '/bin/cmake' + cmakeExt()
+    elif pName == "emscripten":
+        cmakeExec = 'emcmake cmake' + cmakeExt()
     else:
         cmakeExec = 'cmake' + cmakeExt()
     print('Cmake: ' + cmakeExec)
@@ -346,7 +355,7 @@ def presetProvided(pName):
         cleanupCompilerDir(outputDir)
 
         # run the cmake script
-        #print('Cmake params:' + cmakeParams)
+        # print('Cmake params:' + cmakeParams)
         os.chdir(os.path.join(os.environ['PHYSX_ROOT_DIR'], outputDir))
         os.system(cmakeExec + ' \"' +
                   os.environ['PHYSX_ROOT_DIR'] + '/compiler/' + cmakeMasterDir + '\"' + cmakeParams)
@@ -359,7 +368,7 @@ def presetProvided(pName):
             cleanupCompilerDir(outputDir)
 
             # run the cmake script
-            #print('Cmake params:' + cmakeParams)
+            # print('Cmake params:' + cmakeParams)
             os.chdir(os.path.join(os.environ['PHYSX_ROOT_DIR'], outputDir))
             # print(cmakeExec + ' \"' + os.environ['PHYSX_ROOT_DIR'] + '/compiler/' + cmakeMasterDir + '\"' + cmakeParams + ' -DCMAKE_BUILD_TYPE=' + config)
             os.system(cmakeExec + ' \"' + os.environ['PHYSX_ROOT_DIR'] + '/compiler/' +

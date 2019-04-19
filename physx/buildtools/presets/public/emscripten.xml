@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="emscripten" comment="Emscripten web build PhysX SDK general settings">
+  <platform targetPlatform="emscripten" compiler="emscripten" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="False" comment="Generate the snippets" />
+    <cmakeSwitch name="PX_BUILDSAMPLES" value="False" comment="Generate the samples" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />    
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/emscripten/PhysX" comment="Install path relative to PhysX SDK root" />
+  </CMakeParams>
+</preset>

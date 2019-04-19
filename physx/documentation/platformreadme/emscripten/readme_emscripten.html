@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>NVIDIA PhysX SDK for Emscripten ReadMe</title>
+<link rel="stylesheet" href="stylesheet.css" type="text/css">
+</head>
+
+<body>
+<h1 style="TEXT-ALIGN: center">NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK for Emscripten/Web ReadMe</h1>
+
+<blockquote>
+	<h4>Location of Binaries:</h4>
+	<ul>
+		<li>SDK libraries: bin/physx.wasm</li>
+	</ul>	
+
+	<h4>Required packages to generate projects:</h4>
+	<ul>
+		<li>CMake, minimum version 3.12 (can be acquired: sudo apt-get install cmake or sudo pip install cmake)</li>
+		<li>Python, minimum version 2.7</li>
+		<li>emsdk, tested on version 1.38.31</li>
+	</ul>
+
+	<h4>Generating Makefiles:</h4>
+	<ul>
+		<li>Makefiles are generated through a script in physx root directory: generate_projects.sh. source emsdk_env.sh before generating or building the project </li>
+		<li>Script generate_projects.sh expects a preset name as a parameter, if a parameter is not provided it does list the available presets and you can select one.</li>
+		<li>Supported presets for web platform are: emscripten.</li>
+		<li>Generated solutions are in folder compiler/emscripten-debug, compiler/emscripten-checked, compiler/emscripten-profile, compiler/emscripten-release.</li>
+	</ul>
+	
+	<h4>Building SDK:</h4>
+	<ul>
+		<li>Makefiles are in compiler/emscripten-debug etc</li>
+		<li>Clean solution: make clean</li>
+		<li>Build solution: make</li>		
+   </ul>
+	
+	<h4>PhysX GPU Acceleration:</h4>
+	<ul>
+		<li>GPU Acceleration is not available on web platforms</li> 
+	</ul>
+
+	<h4>PhysX Snippets and Samples:</h4>
+	<ul>
+		<li>Snippets and Samples currently do not build in emscripten</li> 
+	</ul>
+
+	This build type generates physx.wasm and physx.js files using the emscripten toolchain. 
+	
+</blockquote>
+
+<p><br>
+Copyright (c) 2008-2019 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+</p>
+</body>       
+</html>
