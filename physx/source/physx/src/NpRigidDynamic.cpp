@@ -568,6 +568,7 @@ void NpRigidDynamic::visualize(Cm::RenderOutput& out, NpScene* npScene)
 			PxReal sleepTime = getScbBodyFast().getWakeCounter() / npScene->getWakeCounterResetValueInteral();
 			PxU32 color = PxU32(0xff * (sleepTime>1.0f ? 1.0f : sleepTime));
 			color = getScbBodyFast().isSleeping() ? 0xff0000 : (color<<16 | color<<8 | color);
+			color = 0xff000000 | color;
 			PxVec3 dims = invertDiagInertia(getScbBodyFast().getInverseInertia());
 			dims = getDimsFromBodyInertia(dims, 1.0f / getScbBodyFast().getInverseMass());
 
