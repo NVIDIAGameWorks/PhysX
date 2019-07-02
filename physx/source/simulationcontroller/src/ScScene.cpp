@@ -6089,7 +6089,8 @@ void Sc::Scene::finishBroadPhaseStage2(const PxU32 ccdPass)
 						{
 							Sc::ShapeInteraction* si = static_cast<Sc::ShapeInteraction*>(interaction);
 							mNPhaseCore->lostTouchReports(si, PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH), 0, outputs, useAdaptiveForce);
-							si->destroyManager();
+							if (si->getContactManager())
+								si->destroyManager();
 							si->clearIslandGenData();
 						}
 
