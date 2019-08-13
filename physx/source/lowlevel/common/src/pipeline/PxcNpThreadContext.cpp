@@ -37,6 +37,7 @@ PxcNpThreadContext::PxcNpThreadContext(PxcNpContext* params) :
 	mContactBlockStream					(params->mNpMemBlockPool),
 	mNpCacheStreamPair					(params->mNpMemBlockPool),
 	mNarrowPhaseParams					(0.0f, params->mMeshContactMargin, params->mToleranceLength),
+	mBodySimPool						(PX_DEBUG_EXP("BodySimPool")),
 	mPCM								(false),
 	mContactCache						(false),
 	mCreateContactStream				(params->mCreateContactStream),

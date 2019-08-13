@@ -38,6 +38,8 @@
 #include "PxVehicleSuspWheelTire4.h"
 #include "PxVehicleSuspLimitConstraintShader.h"
 
+#include "PsAllocator.h"
+
 using namespace physx;
 
 namespace
@@ -337,10 +339,9 @@ void PxVehicleWheelsSimData::getBinaryMetaData(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheelsSimData, 	PxU32, 							mLowForwardSpeedSubStepCount,	0)
 	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheelsSimData, 	PxU32, 							mHighForwardSpeedSubStepCount,	0)
     PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheelsSimData, 	PxU32, 							mMinLongSlipDenominator,		0)
+	PX_DEF_BIN_METADATA_ITEM(stream,		PxVehicleWheelsSimData, 	PxU32, 							mFlags,							0)
 
 #if PX_P64_FAMILY
-	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, PxVehicleWheelsSimData, PxU32, mPad, PxMetaDataFlag::ePADDING)
-#else
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, PxVehicleWheelsSimData, PxU32, mPad, PxMetaDataFlag::ePADDING)
 #endif
 

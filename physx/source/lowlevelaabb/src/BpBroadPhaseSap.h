@@ -124,7 +124,7 @@ public:
 	virtual PxU32						getNbDeletedPairs()		const		{ return mDeletedPairsSize;		}
 	virtual BroadPhasePair*				getDeletedPairs()					{ return mDeletedPairsArray;	}
 	virtual void						freeBuffers();
-	virtual void						shiftOrigin(const PxVec3& shift);
+	virtual void						shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances);
 #if PX_CHECKED
 	virtual bool						isValid(const BroadPhaseUpdateData& updateData) const;
 #endif

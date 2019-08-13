@@ -127,11 +127,7 @@ namespace Sc
 																upper = mCore.limits[axis].high;
 															}
 
-						void								setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper)
-															{
-																mCore.limits[axis].low = lower;
-																mCore.limits[axis].high = upper;
-															}
+						void								setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper);
 
 						void								getDrive(PxArticulationAxis::Enum axis, PxReal& stiffness, PxReal& damping, PxReal& maxForce, PxArticulationDriveType::Enum& driveType) const
 															{
@@ -141,13 +137,7 @@ namespace Sc
 																driveType = mCore.drives[axis].driveType;
 															}
 
-						void								setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, PxArticulationDriveType::Enum driveType)
-															{
-																mCore.drives[axis].stiffness = stiffness;
-																mCore.drives[axis].damping = damping;
-																mCore.drives[axis].maxForce = maxForce;
-																mCore.drives[axis].driveType = driveType;
-															}
+						void								setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, PxArticulationDriveType::Enum driveType);
 
 						void								setTargetP(PxArticulationAxis::Enum axis, PxReal targetP);
 		PX_FORCE_INLINE	PxReal								getTargetP(PxArticulationAxis::Enum axis)	const	{ return mCore.targetP[axis];	}
@@ -199,6 +189,8 @@ namespace Sc
 		PX_FORCE_INLINE PxArticulationJointBase*			getRoot()									const	{ return mRootType; }
 
 	private:
+
+		void setDirty(Dy::ArticulationJointCoreDirtyFlag::Enum dirtyFlag);
 						ArticulationJointSim*				mSim;
 						Dy::ArticulationJointCore			mCore;
 						ArticulationCore*					mArticulation;

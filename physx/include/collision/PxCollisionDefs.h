@@ -56,6 +56,8 @@ namespace physx
 		PX_FORCE_INLINE	PxCache() : mCachedData(NULL), mCachedSize(0), mPairData(0), mManifoldFlags(0)
 		{
 		}
+
+		PX_FORCE_INLINE void reset() { mCachedData = NULL; mCachedSize = 0; mPairData = 0; mManifoldFlags = 0;}
 	};
 
 

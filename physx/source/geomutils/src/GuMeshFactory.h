@@ -55,7 +55,7 @@ namespace Gu
 	class TriangleMesh;
 	class TriangleMeshData;
 	class BVHStructure;
-	struct ConvexHullData;
+	struct ConvexHullInitData;
 	struct BVHStructureData;
 }
 
@@ -121,7 +121,7 @@ public:
 protected:
 
 	PxTriangleMesh*					createTriangleMesh(Gu::TriangleMeshData& data);
-	PxConvexMesh*					createConvexMesh(Gu::ConvexHullData& data);
+	PxConvexMesh*					createConvexMesh(Gu::ConvexHullInitData& data);
 	PxBVHStructure*					createBVHStructure(Gu::BVHStructureData& data);
 
 	mutable Ps::Mutex				mTrackingMutex;

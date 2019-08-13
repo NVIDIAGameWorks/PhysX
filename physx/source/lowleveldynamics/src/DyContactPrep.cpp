@@ -719,7 +719,7 @@ FloatV setupExtSolverContact(const SolverExtBody& b0, const SolverExtBody& b1,
 
 	const FloatV vrel = V3SumElems(V3Sub(vel0, vel1));
 
-	FloatV velMultiplier = FSel(FIsGrtr(FLoad(DY_ARTICULATION_MIN_RESPONSE), unitResponse), zero, FRecip(unitResponse));
+	FloatV velMultiplier = FSel(FIsGrtr(FLoad(DY_ARTICULATION_MIN_RESPONSE), unitResponse), zero, FRecip(FAdd(unitResponse, FLoad(DY_ARTICULATION_CFM))));
 	//FloatV velMultiplier = FSel(FIsGrtr(FEps(), unitResponse), zero, FRecip(unitResponse));
 	FloatV scaledBias = FMul(velMultiplier, FMax(maxPenBias, FMul(penetration, invDtp8)));
 	const FloatV penetrationInvDt = FMul(penetration, invDt);

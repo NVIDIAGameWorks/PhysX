@@ -1775,7 +1775,7 @@ void BoxManager::finalize()
 #endif
 							);
 						PxU32					finalize(BroadPhaseABP* mbp);
-						void					shiftOrigin(const PxVec3& shift);
+						void					shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances);
 
 						void					setTransientData(const PxBounds3* bounds, const PxReal* contactDistance/*, const Bp::FilterGroup::Enum* groups*/);
 
@@ -1790,8 +1790,8 @@ void BoxManager::finalize()
 						ABP_SharedData			mShared;
 						ABP_PairManager			mPairManager;
 
-				const	PxBounds3*				mTransientBounds;
-				const	PxReal*					mTransientContactDistance;
+//				const	PxBounds3*				mTransientBounds;
+//				const	PxReal*					mTransientContactDistance;
 //				const	Bp::FilterGroup::Enum*	mTransientGroups;
 	};
 
@@ -2833,9 +2833,9 @@ void ABP::Region_findOverlaps(ABP_PairManager& pairManager)
 ABP::ABP() :
 	mSBM						(FilterType::STATIC),
 	mDBM						(FilterType::DYNAMIC),
-	mKBM						(FilterType::KINEMATIC),
-	mTransientBounds			(NULL),
-	mTransientContactDistance	(NULL)
+	mKBM						(FilterType::KINEMATIC)
+//	mTransientBounds			(NULL),
+//	mTransientContactDistance	(NULL)
 //	mTransientGroups			(NULL)
 {
 }
@@ -3063,7 +3063,7 @@ void ABP::reset()
 }
 
 // PT: TODO: is is really ok to use "transient" data in this function?
-void ABP::shiftOrigin(const PxVec3& shift)
+void ABP::shiftOrigin(const PxVec3& shift, const PxBounds3* /*boundsArray*/, const PxReal* /*contactDistances*/)
 {
 	PX_UNUSED(shift);	// PT: unused because the bounds were pre-shifted before calling this function
 
@@ -3072,8 +3072,8 @@ void ABP::shiftOrigin(const PxVec3& shift)
 
 void ABP::setTransientData(const PxBounds3* bounds, const PxReal* contactDistance/*, const Bp::FilterGroup::Enum* groups*/)
 {
-	mTransientBounds = bounds;
-	mTransientContactDistance = contactDistance;
+//	mTransientBounds = bounds;
+//	mTransientContactDistance = contactDistance;
 //	mTransientGroups = groups;
 
 	mSBM.setSourceData(bounds, contactDistance);
@@ -3375,9 +3375,9 @@ bool BroadPhaseABP::isValid(const BroadPhaseUpdateData& updateData) const
 }
 #endif
 
-void BroadPhaseABP::shiftOrigin(const PxVec3& shift)
+void BroadPhaseABP::shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances)
 {
-	mABP->shiftOrigin(shift);
+	mABP->shiftOrigin(shift, boundsArray, contactDistances);
 }
 
 PxU32 BroadPhaseABP::getCurrentNbPairs() const

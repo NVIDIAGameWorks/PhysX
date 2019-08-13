@@ -356,6 +356,17 @@ Cm::SpatialVector Articulation::getMotionVelocity(const PxU32 linkID) const
 	return Cm::SpatialVector(linear, angular);
 }
 
+Cm::SpatialVector Articulation::getMotionAcceleration(const PxU32 /*linkID*/) const
+{
+	return Cm::SpatialVector(PxVec3(0.f), PxVec3(0.f));
+}
+
+void Articulation::fillIndexedManager(const PxU32 linkId, Dy::ArticulationLinkHandle& handle, PxU8& indexType)
+{
+	indexType = PxsIndexedInteraction::eARTICULATION;
+	handle = size_t(this) | linkId;
+}
+
 PxReal Articulation::getLinkMaxPenBias(const PxU32 linkID) const
 {
 	FsData& matrix = *getFsDataPtr();

@@ -3,6 +3,7 @@
   <platform targetPlatform="android" compiler="clang" />
   <CMakeSwitches>
     <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />
   </CMakeSwitches>
   <CMakeParams>
     <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/android-19/PhysX" comment="Install path relative to PhysX SDK root" />

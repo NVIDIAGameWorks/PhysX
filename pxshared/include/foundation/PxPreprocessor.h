@@ -292,7 +292,7 @@ DLL export macros
 #define PX_UNIX_EXPORT
 #endif
 
-#if PX_WINDOWS_FAMILY
+#if (PX_WINDOWS_FAMILY || PX_XBOXONE || PX_PS4)
 #define PX_DLL_EXPORT __declspec(dllexport)
 #define PX_DLL_IMPORT __declspec(dllimport)
 #else

@@ -39,7 +39,7 @@
 #if defined PX_PHYSX_STATIC_LIB
 	#define PX_FOUNDATION_API
 #else
-	#if PX_WINDOWS_FAMILY && !defined(__CUDACC__)
+	#if (PX_WINDOWS_FAMILY || PX_XBOXONE || PX_PS4) && !defined(__CUDACC__)
 		#if defined PX_PHYSX_FOUNDATION_EXPORTS
 			#define PX_FOUNDATION_API __declspec(dllexport)
 		#else

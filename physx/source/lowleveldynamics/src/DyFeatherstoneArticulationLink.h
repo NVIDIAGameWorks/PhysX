@@ -47,25 +47,20 @@ namespace physx
 
 		class ArticulationLinkData
 		{
+			const static PxU32 MaxJointRows = 3;
 		public:
 			ArticulationLinkData()
 			{
 				maxPenBias = 0.f;
 			}
 
-			Cm::SpatialVectorF				Is[6];//stI is the transpose of Is
-			SpatialTransform				childToBase;
+			Cm::SpatialVectorF				IsW[MaxJointRows];//stI is the transpose of Is
+			PxVec3							childToBase;
 			PxVec3							r; //vector from parent com to child com
 			PxVec3							rw; //vector from parent com to child com
-			PxReal							qstZIc[6];//jointForce - stZIc
+			PxReal							qstZIc[MaxJointRows];//jointForce - stZIc
 			PxReal							maxPenBias;
 
-		};
-
-		struct ArticSolverData
-		{
-			SpatialTransform		childToParent;
-			PxReal					invStIs[6][6];
 		};
 
 	}//namespace Dy

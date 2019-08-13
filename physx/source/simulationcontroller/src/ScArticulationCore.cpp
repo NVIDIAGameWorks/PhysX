@@ -152,6 +152,16 @@ void Sc::ArticulationCore::computeImpulseResponse(Sc::BodyCore& link,
 		mSim->computeImpulseResponse(link, linearResponse, angularResponse, driveCache, force, torque);
 }
 
+void Sc::ArticulationCore::setArticulationFlags(PxArticulationFlags flags)
+{
+	mCore.flags = flags;
+	if (mSim)
+	{
+		const bool isKinematicLink = flags & PxArticulationFlag::eFIX_BASE;
+		mSim->setKinematicLink(isKinematicLink);
+	}
+}
+
 PxU32 Sc::ArticulationCore::getDofs() const
 {
 	return mSim ? mSim->getDofs() : 0;
@@ -265,6 +275,16 @@ void Sc::ArticulationCore::computeGeneralizedMassMatrix(PxArticulationCache& cac
 PxU32 Sc::ArticulationCore::getCoefficientMatrixSize() const
 {
 	return mSim ? mSim->getCoefficientMatrixSize() : 0;
+}
+
+PxSpatialVelocity Sc::ArticulationCore::getLinkVelocity(const PxU32 linkId) const
+{
+	return mSim ? mSim->getLinkVelocity(linkId) : PxSpatialVelocity();
+}
+
+PxSpatialVelocity Sc::ArticulationCore::getLinkAcceleration(const PxU32 linkId) const
+{
+	return mSim ? mSim->getLinkAcceleration(linkId) : PxSpatialVelocity();
 }
 
 IG::NodeIndex Sc::ArticulationCore::getIslandNodeIndex() const

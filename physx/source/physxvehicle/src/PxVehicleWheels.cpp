@@ -124,6 +124,8 @@ PxVehicleWheelsSimData::PxVehicleWheelsSimData(const PxU32 numWheels)
 	mLowForwardSpeedSubStepCount = gLowLongSpeedSubstepCount;
 	mHighForwardSpeedSubStepCount = gHighLongSpeedSubstepCount;
 	mMinLongSlipDenominator = gMinLongSlipDenominator*gToleranceScaleLength;
+
+	mFlags = 0;
 }
 
 PxVehicleWheelsSimData* PxVehicleWheelsSimData::allocate(const PxU32 numWheels)
@@ -198,6 +200,8 @@ PxVehicleWheelsSimData& PxVehicleWheelsSimData::operator=(const PxVehicleWheelsS
 	mLowForwardSpeedSubStepCount = src.mLowForwardSpeedSubStepCount;
 	mHighForwardSpeedSubStepCount = src.mHighForwardSpeedSubStepCount;
 	mMinLongSlipDenominator = src.mMinLongSlipDenominator;
+
+	mFlags = src.mFlags;
 
 	PxMemCopy(mActiveWheelsBitmapBuffer, src.mActiveWheelsBitmapBuffer, sizeof(PxU32)* (((PX_MAX_NB_WHEELS + 31) & ~31) >> 5));
 
@@ -444,6 +448,16 @@ void PxVehicleWheelsSimData::setMinLongSlipDenominator(const PxReal minLongSlipD
 	mMinLongSlipDenominator=minLongSlipDenominator;
 }
 
+void PxVehicleWheelsSimData::setFlags(PxVehicleWheelsSimFlags flags)
+{
+	mFlags = flags;
+}
+
+PxVehicleWheelsSimFlags PxVehicleWheelsSimData::getFlags() const
+{
+	return PxVehicleWheelsSimFlags(mFlags);
+}
+
 
 
 /////////////////////////////
@@ -637,6 +651,15 @@ void PxVehicleWheels::free()
 	for(PxU32 i=0;i<numSuspWheelTire4;i++)
 	{
 		mWheelsDynData.mWheels4DynData[i].getVehicletConstraintShader().release();
+	}
+}
+
+void PxVehicleWheels::onConstraintRelease()
+{
+	mOnConstraintReleaseCounter--;
+	if (0 == mOnConstraintReleaseCounter)
+	{
+		PX_FREE(this);
 	}
 }
 

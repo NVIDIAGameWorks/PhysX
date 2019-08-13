@@ -121,6 +121,9 @@ public:
 
 	void						startNarrowPhaseTasks() {}
 
+	virtual void				lock() { mContactManagerMutex.lock(); }
+	virtual void				unlock() { mContactManagerMutex.unlock(); }
+
 	
 
 	Ps::Array<PxU32>			mRemovedContactManagers;
@@ -130,6 +133,8 @@ public:
 	PxContactModifyCallback*	mModifyCallback;
 
 	IG::IslandSim*				mIslandSim;
+
+	Ps::Mutex					mContactManagerMutex;
 
 private:
 

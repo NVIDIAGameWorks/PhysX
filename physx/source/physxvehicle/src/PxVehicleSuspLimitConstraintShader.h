@@ -37,7 +37,7 @@
 #include "extensions/PxConstraintExt.h"
 #include "PxConstraintDesc.h"
 #include "PxConstraint.h"
-#include "PsAllocator.h"
+#include "vehicle/PxVehicleWheels.h"
 
 #if !PX_DOXYGEN
 namespace physx
@@ -91,11 +91,7 @@ public:
 
 	virtual void			onConstraintRelease()
 	{
-		mVehicle->mOnConstraintReleaseCounter--;
-		if(0==mVehicle->mOnConstraintReleaseCounter)
-		{
-			PX_FREE(mVehicle);
-		}
+		mVehicle->onConstraintRelease();
 	}
 
 	virtual void*			getExternalReference(PxU32& typeID) { typeID = PxConstraintExtIDs::eVEHICLE_SUSP_LIMIT; return this; }

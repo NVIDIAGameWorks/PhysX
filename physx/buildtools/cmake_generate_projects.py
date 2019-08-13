@@ -151,6 +151,8 @@ class CMakePreset:
             outString = outString + '-G \"Visual Studio 14 2015\"'
         elif self.compiler == 'vc15':
             outString = outString + '-G \"Visual Studio 15 2017\"'
+        elif self.compiler == 'vc16':
+            outString = outString + '-G \"Visual Studio 16 2019\"'
         elif self.compiler == 'xcode':
             outString = outString + '-G Xcode'
         elif self.targetPlatform == 'android':
@@ -220,6 +222,13 @@ class CMakePreset:
                     os.environ['VS150PATH']
             outString = outString + ' -DCMAKE_GENERATOR_PLATFORM=Durango'
             outString = outString + ' -DSUPPRESS_SUFFIX=ON'
+            return outString
+        elif self.targetPlatform == 'switch32':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=switch'
+            outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                os.environ['PM_CMakeModules_PATH'] + \
+                '/switch/NX32Toolchain.txt'
+            outString = outString + ' -DCMAKE_GENERATOR_PLATFORM=NX32'
             return outString
         elif self.targetPlatform == 'switch64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=switch'

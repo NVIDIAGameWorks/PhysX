@@ -30,7 +30,7 @@
 
 STRING(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWERCASE)
 
-SET(PHYSX_WARNING_DISABLES "-Wno-invalid-offsetof -Wno-maybe-uninitialized  -Wno-unused-variable -Wno-variadic-macros -Wno-array-bounds")
+SET(PHYSX_WARNING_DISABLES "-Wno-invalid-offsetof -Wno-maybe-uninitialized  -Wno-unused-variable -Wno-variadic-macros -Wno-array-bounds -Wno-strict-aliasing")
 
 IF(${ANDROID_ABI} STREQUAL "armeabi-v7a")
 	SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -Wpedantic -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -funwind-tables -fomit-frame-pointer -funswitch-loops -finline-limit=300 -fno-strict-aliasing -fstack-protector ${PHYSX_WARNING_DISABLES}" CACHE INTERAL "PhysX CXX")

@@ -66,7 +66,7 @@ namespace Cct
 		virtual	bool								setFootPosition(const PxExtendedVec3& position);
 		virtual	PxExtendedVec3						getFootPosition()					const;
 		virtual	PxRigidDynamic*						getActor()							const					{ return mKineActor;					}
-		virtual	void								setStepOffset(const float offset)							{ if(offset>0.0f)
+		virtual	void								setStepOffset(const float offset)							{ if(offset>=0.0f)
 																													mUserParams.mStepOffset = offset;	}
 		virtual	PxF32								getStepOffset()						const					{ return mUserParams.mStepOffset;		}
 		virtual	void								setNonWalkableMode(PxControllerNonWalkableMode::Enum flag)	{ mUserParams.mNonWalkableMode = flag;	}

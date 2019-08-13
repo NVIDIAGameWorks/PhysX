@@ -1322,7 +1322,7 @@ class PxScene
 	\param[in] distance		Length of the ray. Has to be in the [0, inf) range.
 	\param[out] hitCall		Raycast hit buffer or callback object used to report raycast hits.
 	\param[in] hitFlags		Specifies which properties per hit should be computed and returned via the hit callback.
-	\param[in] filterData	Filtering data passed to the filer shader. See #PxQueryFilterData #PxBatchQueryPreFilterShader, #PxBatchQueryPostFilterShader
+	\param[in] filterData	Filtering data passed to the filter shader. See #PxQueryFilterData #PxBatchQueryPreFilterShader, #PxBatchQueryPostFilterShader
 	\param[in] filterCall	Custom filtering logic (optional). Only used if the corresponding #PxQueryFlag flags are set. If NULL, all hits are assumed to be blocking.
 	\param[in] cache		Cached hit shape (optional). Ray is tested against cached shape first. If no hit is found the ray gets queried against the scene.
 							Note: Filtering is not executed for a cached shape if supplied; instead, if a hit is found, it is assumed to be a blocking hit.

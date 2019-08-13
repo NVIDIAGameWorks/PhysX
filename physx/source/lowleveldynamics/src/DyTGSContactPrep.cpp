@@ -1911,34 +1911,34 @@ void setSolverConstantsStep(PxReal& error,
 
 	if (c.flags & Px1DConstraintFlag::eSPRING)
 	{
-		error = geomError;
+		error = 0.f;
 
-		PxReal a = dt *  (dt*c.mods.spring.stiffness + c.mods.spring.damping);
-		PxReal b = dt*(c.mods.spring.damping * c.velocityTarget /*- c.mods.spring.stiffness * geomError*/);
+		PxReal a = totalDt *  (totalDt*c.mods.spring.stiffness + c.mods.spring.damping);
+		PxReal b = totalDt*(c.mods.spring.damping * c.velocityTarget - c.mods.spring.stiffness * geomError);
+		PxReal a2 = dt *  (dt*c.mods.spring.stiffness + c.mods.spring.damping);
 		maxBias = biasClamp;
 
+		PxReal x2;
 		if (c.flags & Px1DConstraintFlag::eACCELERATION_SPRING)
 		{
-			PxReal x = 1.0f / (1.0f + a);
+			const PxReal x = 1.0f / (1.0f + a);
+			x2 = 1.0f/(1.0f + a2);
 			targetVel = x * b;
 			velMultiplier = -x * a;
-			biasScale = -x * c.mods.spring.stiffness*dt;
-			//KS - impulse multiplier for TGS solver is 1 because we consider each pass to be a separate step, with the solver computing the impulse proportional to the step dt.
-			//Alternatively, we could consider the spring over totalDt and then use an impulseMultiplier of 1-x, but this would require the bias to be constant to allow the constraint
-			//to produce stiff results if the number of iterations was large
-			impulseMultiplier = 1.0f; 
+			impulseMultiplier = 1.0f - x; 
 		}
 		else
 		{
-			PxReal x = 1.0f / (1.0f + a*unitResponse);
+			const PxReal x = 1.0f / (1.0f + a*unitResponse);
+			x2 = 1.0f / (1.0f + a2*unitResponse);
 			targetVel = x * b*unitResponse;
 			velMultiplier = -x*a*unitResponse;
-			//KS - impulse multiplier for TGS solver is 1 because we consider each pass to be a separate step, with the solver computing the impulse proportional to the step dt.
-			//Alternatively, we could consider the spring over totalDt and then use an impulseMultiplier of 1-x, but this would require the bias to be constant to allow the constraint
-			//to produce stiff results if the number of iterations was large
-			biasScale = -x * c.mods.spring.stiffness*unitResponse*dt;
-			impulseMultiplier = 1.0f;
+			impulseMultiplier = 1.0f - x;
 		}
+		const PxReal im2 = 1.f - x2;
+		biasScale = -recipdt*erp*im2;
+
+		
 
 	}
 	else
@@ -2096,8 +2096,8 @@ PxU32 setupSolverConstraintStep(
 		PxReal unitResponse;
 		PxReal normalVel = 0.0f;
 
-		PxReal angSpeedLimit = 100.f;
-		PxReal linSpeedLimit = 1000.f;
+		PxReal angSpeedLimit = invTotalDt*1.5f;
+		PxReal linSpeedLimit = invTotalDt*15.f;
 
 		PxReal vel0, vel1;
 
@@ -2134,6 +2134,8 @@ PxU32 setupSolverConstraintStep(
 		}
 		else
 		{
+			//KS - we reduce lin speed limit with articulations to avoid instabilities
+			linSpeedLimit = invTotalDt*1.5f;
 			linearErp = 0.7f;
 			erp = 0.7f;
 			const SolverExtBodyStep eb0(reinterpret_cast<const void*>(prepDesc.body0), prepDesc.body0TxI, prepDesc.bodyData0, desc.linkIndexA);

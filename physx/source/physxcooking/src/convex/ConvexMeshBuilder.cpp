@@ -154,28 +154,38 @@ bool ConvexMeshBuilder::save(PxOutputStream& stream, bool platformMismatch) cons
 //////////////////////////////////////////////////////////////////////////
 // instead of saving the data into stream, we copy the mesh data
 // into internal Gu::ConvexMesh. 
-bool ConvexMeshBuilder::copy(Gu::ConvexHullData& hullData, PxU32& nb)
+bool ConvexMeshBuilder::copy(Gu::ConvexHullInitData& hullData)
 {
 	// hull builder data copy
-	hullBuilder.copy(hullData, nb);
+	PxU32 nb = 0;
+	hullBuilder.copy(hullData.mHullData, nb);
+	hullData.mNb = nb;
+
+	hullData.mInertia = mInertia;
+	hullData.mMass = mMass;	
 
 	// mass props
-	hullData.mAABB = mHullData.mAABB;
-	hullData.mCenterOfMass = mHullData.mCenterOfMass;
+	hullData.mHullData.mAABB = mHullData.mAABB;
+	hullData.mHullData.mCenterOfMass = mHullData.mCenterOfMass;
 
 	// big convex data
 	if(mBigConvexData)
 	{				
-		hullData.mBigConvexRawData = &mBigConvexData->mData;
+		hullData.mHullData.mBigConvexRawData = &mBigConvexData->mData;
+		hullData.mBigConvexData = mBigConvexData;
+		mBigConvexData = NULL;
 	}
 	else
-		hullData.mBigConvexRawData = NULL;
+	{
+		hullData.mHullData.mBigConvexRawData = NULL;
+		hullData.mBigConvexData = NULL;
+	}
 
 	// internal data
-	hullData.mInternal.mRadius = mHullData.mInternal.mRadius;
-	hullData.mInternal.mExtents[0] = mHullData.mInternal.mExtents[0];
-	hullData.mInternal.mExtents[1] = mHullData.mInternal.mExtents[1];
-	hullData.mInternal.mExtents[2] = mHullData.mInternal.mExtents[2];
+	hullData.mHullData.mInternal.mRadius = mHullData.mInternal.mRadius;
+	hullData.mHullData.mInternal.mExtents[0] = mHullData.mInternal.mExtents[0];
+	hullData.mHullData.mInternal.mExtents[1] = mHullData.mInternal.mExtents[1];
+	hullData.mHullData.mInternal.mExtents[2] = mHullData.mInternal.mExtents[2];
 
 	return true;
 }

@@ -917,15 +917,20 @@ struct PartitionEdge
 	IG::EdgeIndex mEdgeIndex;			//! The edge index into the island manager. Used to identify the contact manager/constraint
 	IG::NodeIndex mNode0;				//! The node index for node 0. Can be obtained from the edge index alternatively
 	IG::NodeIndex mNode1;				//! The node idnex for node 1. Can be obtained from the edge index alternatively
-	bool mInfiniteMass0;					//! Whether body 0 is kinematic
-	bool mInfiniteMass1;					//! Whether body 1 is kinematic
+	bool mInfiniteMass0;				//! Whether body 0 is kinematic
+	bool mArticulation0;				//! Whether body 0 is an articulation link
+	bool mInfiniteMass1;				//! Whether body 1 is kinematic
+	bool mArticulation1;				//! Whether body 1 is an articulation link
 
 	PartitionEdge* mNextPatch;	 //! for the contact manager has more than 1 patch, we have next patch's edge and previous patch's edge to connect to this edge
 
 	PxU32 mUniqueIndex;					//! a unique ID for this edge
 
-	PartitionEdge() : mEdgeIndex(IG_INVALID_EDGE), mInfiniteMass0(false), 
-		mInfiniteMass1(false), mNextPatch(NULL)
+
+	//KS - This constructor explicitly does not set mUniqueIndex. It is filled in by the pool allocator and this constructor
+	//is called afterwards. We do not want to stomp the uniqueIndex value
+	PartitionEdge() : mEdgeIndex(IG_INVALID_EDGE), mInfiniteMass0(false), mArticulation0(false),
+		mInfiniteMass1(false), mArticulation1(false), mNextPatch(NULL)//, mUniqueIndex(IG_INVALID_EDGE)
 	{
 	}
 };

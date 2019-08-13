@@ -52,6 +52,7 @@ namespace Sc
 	class ArticulationSim;
 	class BodyCore;
 	class BodySim;
+	class ArticulationJointCore;
 
 	class ArticulationCore
 	{
@@ -138,7 +139,7 @@ namespace Sc
 		//---------------------------------------------------------------------------------
 		// external reduced coordinate API
 		//---------------------------------------------------------------------------------
-						void						setArticulationFlags(PxArticulationFlags flags) { mCore.flags = flags; }
+						void						setArticulationFlags(PxArticulationFlags flags);
 						PxArticulationFlags			getArticulationFlags() const { return mCore.flags; }
 
 						PxU32						getDofs() const;
@@ -171,6 +172,7 @@ namespace Sc
 
 						void						computeJointForce(PxArticulationCache& cache) const;
 
+
 						void						computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const;
 
 						void						computeCoefficientMatrix(PxArticulationCache& cache) const;
@@ -180,6 +182,11 @@ namespace Sc
 						void						computeGeneralizedMassMatrix(PxArticulationCache& cache) const;
 
 						PxU32						getCoefficientMatrixSize() const;
+
+						PxSpatialVelocity			getLinkVelocity(const PxU32 linkId) const;
+
+						PxSpatialVelocity			getLinkAcceleration(const PxU32 linkId) const;
+
 		//---------------------------------------------------------------------------------
 		// Internal API
 		//---------------------------------------------------------------------------------
@@ -206,6 +213,7 @@ namespace Sc
 						void						setGlobalPose();
 
 						void						setDirty(const bool dirty);
+
 	private:
 						ArticulationSim*			mSim;
 						Dy::ArticulationCore		mCore;

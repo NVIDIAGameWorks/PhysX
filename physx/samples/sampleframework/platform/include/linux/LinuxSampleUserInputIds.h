@@ -1,0 +1,141 @@
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
+// are met:
+//  * Redistributions of source code must retain the above copyright
+//    notice, this list of conditions and the following disclaimer.
+//  * Redistributions in binary form must reproduce the above copyright
+//    notice, this list of conditions and the following disclaimer in the
+//    documentation and/or other materials provided with the distribution.
+//  * Neither the name of NVIDIA CORPORATION nor the names of its
+//    contributors may be used to endorse or promote products derived
+//    from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+// OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+
+#ifndef LINUX_SAMPLE_USER_INPUT_IDS_H
+#define LINUX_SAMPLE_USER_INPUT_IDS_H
+
+namespace SampleFramework
+{
+	enum LinuxSampleUserInputIds
+	{
+		LINUXKEY_UNKNOWN = 0,
+
+		// the following keys are keyboard layout dependent
+		// its not a complete list
+		LINUXKEY_A,
+		LINUXKEY_B,
+		LINUXKEY_C,
+		LINUXKEY_D,
+		LINUXKEY_E,
+		LINUXKEY_F,
+		LINUXKEY_G,
+		LINUXKEY_H,
+		LINUXKEY_I,
+		LINUXKEY_J,
+		LINUXKEY_K,
+		LINUXKEY_L,
+		LINUXKEY_M,
+		LINUXKEY_N,
+		LINUXKEY_O,
+		LINUXKEY_P,
+		LINUXKEY_Q,
+		LINUXKEY_R,
+		LINUXKEY_S,
+		LINUXKEY_T,
+		LINUXKEY_U,
+		LINUXKEY_V,
+		LINUXKEY_W,
+		LINUXKEY_X,
+		LINUXKEY_Y,
+		LINUXKEY_Z,
+
+		LINUXKEY_0,
+		LINUXKEY_1,
+		LINUXKEY_2,
+		LINUXKEY_3,
+		LINUXKEY_4,
+		LINUXKEY_5,
+		LINUXKEY_6,
+		LINUXKEY_7,
+		LINUXKEY_8,
+		LINUXKEY_9,
+		
+		LINUXKEY_NUMPAD0,
+		LINUXKEY_NUMPAD1,
+		LINUXKEY_NUMPAD2,
+		LINUXKEY_NUMPAD3,
+		LINUXKEY_NUMPAD4,
+		LINUXKEY_NUMPAD5,
+		LINUXKEY_NUMPAD6,
+		LINUXKEY_NUMPAD7,
+		LINUXKEY_NUMPAD8,
+		LINUXKEY_NUMPAD9,
+		
+		LINUXKEY_SHIFT,
+		LINUXKEY_CONTROL,
+		LINUXKEY_SPACE,
+		LINUXKEY_RETURN,
+		LINUXKEY_ESCAPE,
+		LINUXKEY_COMMA,
+		LINUXKEY_DIVIDE,
+		LINUXKEY_SUBTRACT,
+		LINUXKEY_ADD,
+		
+		LINUXKEY_F1,
+		LINUXKEY_F2,
+		LINUXKEY_F3,
+		LINUXKEY_F4,
+		LINUXKEY_F5,
+		LINUXKEY_F6,
+		LINUXKEY_F7,
+		LINUXKEY_F8,
+		LINUXKEY_F9,
+		LINUXKEY_F10,
+		LINUXKEY_F11,
+		LINUXKEY_F12,
+		
+		LINUXKEY_TAB,
+		LINUXKEY_BACKSPACE,
+		LINUXKEY_PRIOR,
+		LINUXKEY_NEXT,
+		LINUXKEY_UP,
+		LINUXKEY_DOWN,
+		LINUXKEY_LEFT,
+		LINUXKEY_RIGHT,
+		
+		MOUSE_BUTTON_LEFT,
+		MOUSE_BUTTON_RIGHT,
+		MOUSE_BUTTON_CENTER,
+
+		MOUSE_MOVE,
+
+		SCAN_CODE_UP ,
+		SCAN_CODE_DOWN ,
+		SCAN_CODE_LEFT,
+		SCAN_CODE_RIGHT,
+		SCAN_CODE_FORWARD,
+		SCAN_CODE_BACKWARD,
+		SCAN_CODE_L,
+		SCAN_CODE_9,
+		SCAN_CODE_0,
+
+		NUM_KEY_CODES,
+	};
+	
+}
+
+#endif

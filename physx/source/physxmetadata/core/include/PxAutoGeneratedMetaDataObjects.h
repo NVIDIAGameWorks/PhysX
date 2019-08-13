@@ -893,6 +893,9 @@ template<> struct PxEnumTraits< physx::PxArticulationMotion::Enum > { PxEnumTrai
 	static PxU32ToName g_physx__PxArticulationDriveType__EnumConversion[] = {
 		{ "eFORCE", static_cast<PxU32>( physx::PxArticulationDriveType::eFORCE ) },
 		{ "eACCELERATION", static_cast<PxU32>( physx::PxArticulationDriveType::eACCELERATION ) },
+		{ "eTARGET", static_cast<PxU32>( physx::PxArticulationDriveType::eTARGET ) },
+		{ "eVELOCITY", static_cast<PxU32>( physx::PxArticulationDriveType::eVELOCITY ) },
+		{ "eNONE", static_cast<PxU32>( physx::PxArticulationDriveType::eNONE ) },
 		{ NULL, 0 }
 	};
 
@@ -1113,6 +1116,7 @@ template<> struct PxEnumTraits< physx::PxArticulationDriveType::Enum > { PxEnumT
 
 	static PxU32ToName g_physx__PxArticulationFlag__EnumConversion[] = {
 		{ "eFIX_BASE", static_cast<PxU32>( physx::PxArticulationFlag::eFIX_BASE ) },
+		{ "eDRIVE_LIMITS_ARE_FORCES", static_cast<PxU32>( physx::PxArticulationFlag::eDRIVE_LIMITS_ARE_FORCES ) },
 		{ NULL, 0 }
 	};
 
@@ -1122,6 +1126,8 @@ template<> struct PxEnumTraits< physx::PxArticulationFlag::Enum > { PxEnumTraits
 		{ "eACCELERATION", static_cast<PxU32>( physx::PxArticulationCache::eACCELERATION ) },
 		{ "ePOSITION", static_cast<PxU32>( physx::PxArticulationCache::ePOSITION ) },
 		{ "eFORCE", static_cast<PxU32>( physx::PxArticulationCache::eFORCE ) },
+		{ "eLINKVELOCITY", static_cast<PxU32>( physx::PxArticulationCache::eLINKVELOCITY ) },
+		{ "eLINKACCELERATION", static_cast<PxU32>( physx::PxArticulationCache::eLINKACCELERATION ) },
 		{ "eROOT", static_cast<PxU32>( physx::PxArticulationCache::eROOT ) },
 		{ "eALL", static_cast<PxU32>( physx::PxArticulationCache::eALL ) },
 		{ NULL, 0 }

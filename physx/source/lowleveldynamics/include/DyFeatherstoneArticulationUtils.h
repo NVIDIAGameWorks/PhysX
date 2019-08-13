@@ -44,12 +44,13 @@ namespace Dy
 
 	struct SpatialSubspaceMatrix
 	{
+		static const PxU32 MaxColumns = 3;
 	public:
 
 		PX_CUDA_CALLABLE PX_FORCE_INLINE SpatialSubspaceMatrix() :numColumns(0)
 		{
 			//PxMemZero(columns, sizeof(Cm::SpatialVectorF) * 6);
-			memset(columns, 0, sizeof(Cm::SpatialVectorF) * 6);
+			memset(columns, 0, sizeof(Cm::UnAlignedSpatialVector) * MaxColumns);
 		}
 
 		PX_CUDA_CALLABLE PX_FORCE_INLINE void setNumColumns(const PxU32 nc)
@@ -67,7 +68,7 @@ namespace Dy
 			PxReal result[6];
 			for (PxU32 i = 0; i < numColumns; ++i)
 			{
-				const Cm::SpatialVectorF& row = columns[i];
+				const Cm::UnAlignedSpatialVector& row = columns[i];
 				result[i] = row.dot(v);
 			}
 
@@ -81,27 +82,30 @@ namespace Dy
 
 		PX_CUDA_CALLABLE PX_FORCE_INLINE void setColumn(const PxU32 index, const PxVec3& top, const PxVec3& bottom)
 		{
+			PX_ASSERT(index < MaxColumns);
 			columns[index] = Cm::SpatialVectorF(top, bottom);
 		}
 
-		PX_CUDA_CALLABLE PX_FORCE_INLINE Cm::SpatialVectorF& operator[](unsigned int num)
+		PX_CUDA_CALLABLE PX_FORCE_INLINE Cm::UnAlignedSpatialVector& operator[](unsigned int num)
 		{
+			PX_ASSERT(num < MaxColumns);
 			return columns[num];
 		}
 
-		PX_CUDA_CALLABLE PX_FORCE_INLINE const Cm::SpatialVectorF& operator[](unsigned int num)  const
+		PX_CUDA_CALLABLE PX_FORCE_INLINE const Cm::UnAlignedSpatialVector& operator[](unsigned int num)  const
 		{
+			PX_ASSERT(num < MaxColumns);
 			return columns[num];
 		}
 
-		PX_CUDA_CALLABLE PX_FORCE_INLINE const Cm::SpatialVectorF* getColumns() const
+		PX_CUDA_CALLABLE PX_FORCE_INLINE const Cm::UnAlignedSpatialVector* getColumns() const
 		{
 			return columns;
 		}
 
 
 	private:
-		Cm::SpatialVectorF columns[6];			//192		192			
+		Cm::UnAlignedSpatialVector columns[MaxColumns];			//192		192			
 		PxU32	numColumns;						//4			208 (12 bytes padding)
 
 	};
@@ -219,12 +223,12 @@ namespace Dy
 
 	struct InvStIs
 	{
-		PxReal invStIs[6][6];
+		PxReal invStIs[3][3];
 	};
 
 	struct IsInvD
 	{
-		Cm::SpatialVectorF isInvD[6];
+		Cm::SpatialVectorF isInvD[3];
 	};
 
 	//this should be 6x6 matrix and initialize to

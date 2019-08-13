@@ -45,6 +45,8 @@ namespace physx
 		class Context;
 		struct Constraint;
 		class ArticulationV;
+		class FeatherstoneArticulation;
+		struct ArticulationJointCore;
 	}
 
 	namespace Cm
@@ -110,6 +112,8 @@ namespace physx
 		virtual void updateBodies(PxsRigidBody** rigidBodies, PxU32* nodeIndices, const PxU32 nbBodies) = 0;
 		virtual void updateBodiesAndShapes(PxBaseTask* continuation) = 0;
 		virtual void update(const PxU32 bitMapWordCounts) = 0;
+		virtual void updateArticulation(Dy::ArticulationV* articulation, const IG::NodeIndex& nodeIndex) = 0;
+		virtual void updateArticulationJoint(Dy::ArticulationV* articulation, const IG::NodeIndex& nodeIndex) = 0;
 		virtual void gpuDmabackData(PxsTransformCache& cache, Bp::BoundsArray& boundArray, Cm::BitMapPinned&  changedAABBMgrHandles) = 0;
 		virtual void udpateScBodyAndShapeSim(PxsTransformCache& cache, Bp::BoundsArray& boundArray, PxBaseTask* continuation) = 0;
 		virtual PxU32* getActiveBodies() = 0;

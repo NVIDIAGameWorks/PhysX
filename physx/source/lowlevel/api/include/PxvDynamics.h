@@ -90,7 +90,7 @@ struct PxsBodyCore: public PxsRigidCore
 // accordingly.
 //==================================================================================================
 
-	PxsBodyCore() : PxsRigidCore()							{}
+	PxsBodyCore() : PxsRigidCore() { kinematicLink = PxU8(0); }
 	PxsBodyCore(const PxEMPTY) : PxsRigidCore(PxEmpty)		{}
 
 	PX_FORCE_INLINE	const PxTransform& getBody2Actor()	const	{ return body2Actor;	}
@@ -129,9 +129,10 @@ struct PxsBodyCore: public PxsRigidCore
 	PxU32					numBodyInteractions;	//Used by adaptive force to keep track of the total number of body interactions
 	PxU8					isFastMoving;			//This could be a single bit but it's a u8 at the moment for simplicity's sake
 	PxU8					disableGravity;			//This could be a single bit but it's a u8 at the moment for simplicity's sake
-	PxRigidDynamicLockFlags	lockFlags;				//160 This could be a u8 but it is a u16 for simplicity's sake. All fits into 16 byte alignment
-
-	// PT: TODO: revisit this / move to PxsCCD.cpp
+	PxRigidDynamicLockFlags	lockFlags;				//This is u8. 
+	PxU8					kinematicLink;			//160 This indicates whether the articulation link is kinematic link. All fits into 16 byte alignment
+	
+													// PT: TODO: revisit this / move to PxsCCD.cpp
 	PX_FORCE_INLINE	bool	shouldCreateContactReports()	const
 	{
 		const PxU32* binary = reinterpret_cast<const PxU32*>(&contactReportThreshold);

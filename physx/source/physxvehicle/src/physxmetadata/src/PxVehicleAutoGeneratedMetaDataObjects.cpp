@@ -438,6 +438,8 @@ void setPxVehicleWheelsSimData_TireLoadFilterData( PxVehicleWheelsSimData* inObj
 PxVehicleTireLoadFilterData getPxVehicleWheelsSimData_TireLoadFilterData( const PxVehicleWheelsSimData* inObj ) { return inObj->getTireLoadFilterData(); }
 void setPxVehicleWheelsSimData_MinLongSlipDenominator( PxVehicleWheelsSimData* inObj, const PxReal inArg){ inObj->setMinLongSlipDenominator( inArg ); }
 PxF32 getPxVehicleWheelsSimData_MinLongSlipDenominator( const PxVehicleWheelsSimData* inObj ) { return inObj->getMinLongSlipDenominator(); }
+void setPxVehicleWheelsSimData_Flags( PxVehicleWheelsSimData* inObj, PxVehicleWheelsSimFlags inArg){ inObj->setFlags( inArg ); }
+PxVehicleWheelsSimFlags getPxVehicleWheelsSimData_Flags( const PxVehicleWheelsSimData* inObj ) { return inObj->getFlags(); }
 void setPxVehicleWheelsSimData_ThresholdLongSpeed( PxVehicleWheelsSimData* inObj, const PxF32 inArg){ inObj->setThresholdLongSpeed( inArg ); }
 PxF32 getPxVehicleWheelsSimData_ThresholdLongSpeed( const PxVehicleWheelsSimData* inObj ) { return inObj->getThresholdLongSpeed(); }
 void setPxVehicleWheelsSimData_LowForwardSpeedSubStepCount( PxVehicleWheelsSimData* inObj, const PxU32 inArg){ inObj->setLowForwardSpeedSubStepCount( inArg ); }
@@ -461,6 +463,7 @@ void setPxVehicleWheelsSimData_WheelEnabledState( PxVehicleWheelsSimData* inObj,
 	, AntiRollBarData( "AntiRollBarData", getPxVehicleWheelsSimData_AntiRollBarData, getNbPxVehicleWheelsSimData_AntiRollBarData, setPxVehicleWheelsSimData_AntiRollBarData )
 	, TireLoadFilterData( "TireLoadFilterData", setPxVehicleWheelsSimData_TireLoadFilterData, getPxVehicleWheelsSimData_TireLoadFilterData)
 	, MinLongSlipDenominator( "MinLongSlipDenominator", setPxVehicleWheelsSimData_MinLongSlipDenominator, getPxVehicleWheelsSimData_MinLongSlipDenominator)
+	, Flags( "Flags", setPxVehicleWheelsSimData_Flags, getPxVehicleWheelsSimData_Flags)
 	, ThresholdLongSpeed( "ThresholdLongSpeed", setPxVehicleWheelsSimData_ThresholdLongSpeed, getPxVehicleWheelsSimData_ThresholdLongSpeed)
 	, LowForwardSpeedSubStepCount( "LowForwardSpeedSubStepCount", setPxVehicleWheelsSimData_LowForwardSpeedSubStepCount, getPxVehicleWheelsSimData_LowForwardSpeedSubStepCount)
 	, HighForwardSpeedSubStepCount( "HighForwardSpeedSubStepCount", setPxVehicleWheelsSimData_HighForwardSpeedSubStepCount, getPxVehicleWheelsSimData_HighForwardSpeedSubStepCount)
@@ -469,6 +472,7 @@ void setPxVehicleWheelsSimData_WheelEnabledState( PxVehicleWheelsSimData* inObj,
  PxVehicleWheelsSimDataGeneratedValues::PxVehicleWheelsSimDataGeneratedValues( const PxVehicleWheelsSimData* inSource )
 		:TireLoadFilterData( getPxVehicleWheelsSimData_TireLoadFilterData( inSource ) )
 		,MinLongSlipDenominator( getPxVehicleWheelsSimData_MinLongSlipDenominator( inSource ) )
+		,Flags( getPxVehicleWheelsSimData_Flags( inSource ) )
 		,ThresholdLongSpeed( getPxVehicleWheelsSimData_ThresholdLongSpeed( inSource ) )
 		,LowForwardSpeedSubStepCount( getPxVehicleWheelsSimData_LowForwardSpeedSubStepCount( inSource ) )
 		,HighForwardSpeedSubStepCount( getPxVehicleWheelsSimData_HighForwardSpeedSubStepCount( inSource ) )

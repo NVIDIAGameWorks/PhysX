@@ -26,6 +26,67 @@
 
 <body>
 
+   <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 4.1.1</h1>
+    <h2 style="TEXT-ALIGN: center">August 2019</h2>
+
+    <h3>General</h3>
+    <ul>
+        <li>Added:</li>
+        <ul>
+            <li>Support for Visual Studio 2019 has been added, cmake 3.14 is required.</li>
+        </ul>
+        <li>Changed:</li>
+        <ul>
+            <li>Android binary output directory name contains Android ABI string.</li>
+        </ul>
+    </ul>
+
+    <h3>Vehicles</h3>
+    <ul>
+		<li>Added:</li>
+        <ul>
+            <li>PxVehicleWheelsSimFlags and corresponding set/get methods have been added to PxVehicleWheelsSimData. The flag eLIMIT_SUSPENSION_EXPANSION_VELOCITY can be used to avoid suspension forces being applied if the suspension can not expand fast enough to push the wheel onto the ground in a simulation step. This helps to reduce artifacts like the vehicle sticking to the ground if extreme damping ratios are chosen.</li>
+        </ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>The PxVehicleDrive::setToRestState() was not clearing all cached data, which could sometimes make vehicles misbehave after calls to this function.</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Added:</li>
+        <ul>
+            <li>Added error message when not at least four valid vertices exist after vertices cleanup.</li>
+        </ul>
+    </ul>
+
+    <h3>Serialization</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>Binary serialization of kinematic rigid dynamic actors was failing unless they were part of a scene.</li>
+        </ul>
+    </ul>
+
+    <h3> Rigid body </h3>
+    <ul>
+        <li>Fixed</li>
+        <ul>
+            <li>Out of shared memory failure with GPU articulations.</li>
+            <li>Inconsistent results when setting joint drive targets with GPU articulations compared to CPU articulations.</li>
+            <li>Assert when simulating a scene with > 64k rigid bodies and joints.</li>
+            <li>Error in PxActor::getConnectors() method when there are multiple connector types.</li>
+            <li>Setting joint positions on articulations did not update world-space link poses and velocities.</li>
+            <li>Improved TGS articulation joint drive solver.</li>
+            <li>Improved robustness of articulation spherical joints.</li>
+            <li>Joint forces/positions/velocities set through the PxArticulationCache are correctly applied when using GPU articulations.</li>
+            <li>Fixed rare crash in MBP when the system contains out-of-bounds objects.</li>
+        </ul>
+    </ul>
+
     <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 4.1.0</h1>
@@ -36,7 +97,7 @@
         <li>Immediate mode support for reduced-coordinates articulations and the temporal Gauss Seidel solver.</li>
         <li>GPU acceleration for reduced-coordinates articulations.</li>
     </ul>
-    
+
     <h3>General</h3>
     <ul>
         <li>Added:</li>
@@ -56,7 +117,7 @@
             <li>Removed PxArticulationBase::getType(), PxArticulationBase::eReducedCoordinate, PxArticulationBase::eMaximumCoordinate and added PxConcreteType::eARTICULATION_REDUCED_COORDINATE, PxConcreteType::eARTICULATION_JOINT_REDUCED_COORDINATE.</li>
         </ul>
     </ul>
-    
+
     <h3>Rigid Bodies</h3>
     <ul>
         <li>Added:</li>
@@ -80,7 +141,7 @@
             <li>Fixed an issue with articulation when removing and adding links to the articulation. </li>
         </ul>
     </ul>
-    
+
     <h3>Serialization</h3>
     <ul>
         <li>Added:</li>

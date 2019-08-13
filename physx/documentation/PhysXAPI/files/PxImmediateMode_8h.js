@@ -1,6 +1,7 @@
 var PxImmediateMode_8h =
 [
     [ "PxAddArticulationLink", "group__immediatemode.html#ga8c2749699d2f9e22cfb34ed83a7b80ce", null ],
+    [ "PxApplyArticulationCache", "group__immediatemode.html#gadcdee80ca02f10c0e31a367c7d30ca91", null ],
     [ "PxBatchConstraints", "group__immediatemode.html#ga02aa17b8f928f23a16520036c572e862", null ],
     [ "PxBatchConstraintsTGS", "group__immediatemode.html#ga78e8a4101cc5ede158fd8ae7b9a9d13b", null ],
     [ "PxComputeUnconstrainedVelocities", "group__immediatemode.html#ga4d9bc901669de439d061962e7ab9509e", null ],
@@ -9,6 +10,8 @@ var PxImmediateMode_8h =
     [ "PxConstructSolverBodiesTGS", "group__immediatemode.html#gaaa4db837c3284147da8c85356d969258", null ],
     [ "PxConstructStaticSolverBody", "group__immediatemode.html#gab1ff672bf5a0569d6cc5f137142b1c1d", null ],
     [ "PxConstructStaticSolverBodyTGS", "group__immediatemode.html#ga2dc9fa88d851b81cb15e382060e27ec7", null ],
+    [ "PxCopyInternalStateToArticulationCache", "group__immediatemode.html#ga5d5ba6074b5169c269d7e4c56ac0467d", null ],
+    [ "PxCreateArticulationCache", "group__immediatemode.html#gaa29d46bee46ce200c9e8a2a6f353c0a1", null ],
     [ "PxCreateContactConstraints", "group__immediatemode.html#ga02dd00aca33ee58a65f32472719e9b07", null ],
     [ "PxCreateContactConstraintsTGS", "group__immediatemode.html#ga81189e2221bba32ed064faf2769d9844", null ],
     [ "PxCreateFeatherstoneArticulation", "group__immediatemode.html#ga86ececaefac85fdb67e6e46332eedc75", null ],
@@ -29,6 +32,7 @@ var PxImmediateMode_8h =
     [ "PxIntegrateSolverBodiesTGS", "group__immediatemode.html#gabd1a23fee83c2fab66822275bbcf50bb", null ],
     [ "PxRegisterImmediateArticulations", "group__immediatemode.html#ga6d8ad8d1a6156da1f4473d4ec4922016", null ],
     [ "PxReleaseArticulation", "group__immediatemode.html#ga5df3edcbf7b639900668b49ff50eda22", null ],
+    [ "PxReleaseArticulationCache", "group__immediatemode.html#ga5189b5d63b22e3d7e1da1d94aa6854b7", null ],
     [ "PxSetJointData", "group__immediatemode.html#ga29ab413fa60db236c4d9ef93081f6928", null ],
     [ "PxSetMutableLinkData", "group__immediatemode.html#ga404f7b347df78a632073246c46c173ec", null ],
     [ "PxSolveConstraints", "group__immediatemode.html#gae59ded2b77c594a690169036785f2ef5", null ],

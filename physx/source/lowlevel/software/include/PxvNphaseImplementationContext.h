@@ -167,6 +167,9 @@ public:
 	virtual void							releaseContext() = 0;
 	virtual void							preallocateNewBuffers(PxU32 nbNewPairs, PxU32 maxIndex) = 0;
 
+	virtual	void							lock() = 0;
+	virtual void							unlock() = 0;
+
 	
 			
 		
@@ -198,6 +201,9 @@ public:
 	virtual void				setContactModifyCallback(PxContactModifyCallback* callback) = 0;
 
 	virtual void				removeContactManagersFallback(PxsContactManagerOutput* cmOutputs) = 0;
+
+	virtual void				lock() = 0;
+	virtual void				unlock() = 0;
 
 };
 

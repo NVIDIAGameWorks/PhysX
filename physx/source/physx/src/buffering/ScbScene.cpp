@@ -656,6 +656,7 @@ void Scb::Scene::addArticulation(Scb::Articulation& articulation)
 
 void Scb::Scene::removeArticulation(Scb::Articulation& articulation)
 {
+	mScene.removeArticulationSimControl(articulation.getScArticulation());
 	remove<Scb::Articulation>(articulation, mArticulationManager);
 	articulation.clearBufferedState();
 }

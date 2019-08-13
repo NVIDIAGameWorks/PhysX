@@ -57,7 +57,7 @@ PX_FORCE_INLINE PxU32 getArrayOfPointers(DstType** PX_RESTRICT userBuffer, PxU32
 	return writeCount;
 }
 
-PX_INLINE void transformInertiaTensor(const PxVec3& invD, const PxMat33& M, PxMat33& mIInv)
+PX_CUDA_CALLABLE PX_INLINE void transformInertiaTensor(const PxVec3& invD, const PxMat33& M, PxMat33& mIInv)
 {
 	const float	axx = invD.x*M(0,0), axy = invD.x*M(1,0), axz = invD.x*M(2,0);
 	const float	byx = invD.y*M(0,1), byy = invD.y*M(1,1), byz = invD.y*M(2,1);

@@ -387,6 +387,7 @@ var hierarchy =
     ] ],
     [ "PxSolverType", "structPxSolverType.html", null ],
     [ "PxSpatialForce", "structPxSpatialForce.html", null ],
+    [ "PxSpatialVelocity", "structPxSpatialVelocity.html", null ],
     [ "PxSphericalJointFlag", "structPxSphericalJointFlag.html", null ],
     [ "PxSpring", "classPxSpring.html", [
       [ "PxD6JointDrive", "classPxD6JointDrive.html", null ]
@@ -462,6 +463,7 @@ var hierarchy =
     [ "PxVehicleWheelQueryResult", "structPxVehicleWheelQueryResult.html", null ],
     [ "PxVehicleWheelsDynData", "classPxVehicleWheelsDynData.html", null ],
     [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html", null ],
+    [ "PxVehicleWheelsSimFlag", "structPxVehicleWheelsSimFlag.html", null ],
     [ "PxVisualizationParameter", "structPxVisualizationParameter.html", null ],
     [ "PxWheelQueryResult", "structPxWheelQueryResult.html", null ],
     [ "PxSerialization::PxXmlMiscParameter", "structPxSerialization_1_1PxXmlMiscParameter.html", null ],

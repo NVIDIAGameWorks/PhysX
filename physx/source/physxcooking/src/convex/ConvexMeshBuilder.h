@@ -54,7 +54,7 @@ namespace physx
 				bool				save(PxOutputStream& stream, bool platformMismatch)		const;
 
 				// copy the convex mesh into internal convex mesh, which can be directly used then
-				bool				copy(Gu::ConvexHullData& convexData, PxU32& nb);
+				bool				copy(Gu::ConvexHullInitData& convexData);
 
 				// loads the convex mesh from given polygons
 				bool				loadConvexHull(const PxConvexMeshDesc&, ConvexHullLib* hullLib);
@@ -72,15 +72,6 @@ namespace physx
 				// internal objects
 				void				computeInternalObjects();
 //~TEST_INTERNAL_OBJECTS
-
-				// return computed mass
-				PxReal				getMass() const { return mMass; }
-
-				// return computed inertia tensor
-				const PxMat33&		getInertia() const { return mInertia; }
-
-				// return big convex data
-				BigConvexData*		getBigConvexData() const  { return mBigConvexData; }
 
 				// set big convex data
 				void				setBigConvexData(BigConvexData* data) { mBigConvexData = data; }

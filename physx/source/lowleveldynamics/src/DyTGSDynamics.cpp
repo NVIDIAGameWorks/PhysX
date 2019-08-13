@@ -382,8 +382,23 @@ void DynamicsTGSContext::setDescFromIndices(PxSolverConstraintDesc& desc, IG::Ed
 		{
 			PX_ASSERT(node1.isArticulation());
 			Dy::ArticulationV* a = islandSim.getLLArticulation(node1);
-			desc.articulationA = a;
-			desc.linkIndexA = Ps::to16(node1.articulationLinkId());
+
+			Dy::ArticulationLinkHandle handle;
+			PxU8 type;
+
+			a->fillIndexedManager(node1.articulationLinkId(), handle, type);
+
+			if (type == PxsIndexedInteraction::eARTICULATION)
+			{
+				desc.articulationA = a;
+				desc.linkIndexA = Ps::to16(node1.articulationLinkId());
+			}
+			else
+			{
+				desc.tgsBodyA = &mWorldSolverBodyVel;
+				desc.linkIndexA = PxSolverConstraintDesc::NO_LINK;
+			}
+			
 			desc.bodyADataIndex = 0;
 		}
 		else
@@ -411,8 +426,23 @@ void DynamicsTGSContext::setDescFromIndices(PxSolverConstraintDesc& desc, IG::Ed
 		{
 			PX_ASSERT(node2.isArticulation());
 			Dy::ArticulationV* b = islandSim.getLLArticulation(node2);
-			desc.articulationB = b;
-			desc.linkIndexB = Ps::to16(node2.articulationLinkId());
+
+			Dy::ArticulationLinkHandle handle;
+			PxU8 type;
+
+			b->fillIndexedManager(node2.articulationLinkId(), handle, type);
+
+			if (type == PxsIndexedInteraction::eARTICULATION)
+			{
+				desc.articulationB = b;
+				desc.linkIndexB = Ps::to16(node2.articulationLinkId());
+			}
+			else
+			{
+				desc.tgsBodyB = &mWorldSolverBodyVel;
+				desc.linkIndexB = PxSolverConstraintDesc::NO_LINK;
+			}
+
 			desc.bodyBDataIndex = 0;
 		}
 		else
@@ -902,8 +932,8 @@ void DynamicsTGSContext::prepareBodiesAndConstraints(const SolverIslandObjectsSt
 					//Is it an articulation or not???
 					if (node1.getNodeType() == IG::Node::eARTICULATION_TYPE)
 					{
-						indexedManager.indexType0 = PxsIndexedInteraction::eARTICULATION;
-						indexedManager.solverBody0 = size_t(node1.getArticulation()) | nodeIndex1.articulationLinkId();
+						const PxU32 linkId = nodeIndex1.articulationLinkId();
+						node1.getArticulation()->fillIndexedManager(linkId, indexedManager.articulation0, indexedManager.indexType0);
 					}
 					else
 					{
@@ -933,8 +963,8 @@ void DynamicsTGSContext::prepareBodiesAndConstraints(const SolverIslandObjectsSt
 					//Is it an articulation or not???
 					if (node2.getNodeType() == IG::Node::eARTICULATION_TYPE)
 					{
-						indexedManager.indexType1 = PxsIndexedInteraction::eARTICULATION;
-						indexedManager.solverBody1 = size_t(node2.getArticulation()) | nodeIndex2.articulationLinkId();
+						const PxU32 linkId = nodeIndex2.articulationLinkId();
+						node2.getArticulation()->fillIndexedManager(linkId, indexedManager.articulation1, indexedManager.indexType1);
 					}
 					else
 					{
@@ -1133,8 +1163,24 @@ void DynamicsTGSContext::createSolverConstraints(PxSolverConstraintDesc* contact
 				blockDesc.hasForceThresholds = !!(unit.flags & PxcNpWorkUnitFlag::eFORCE_THRESHOLD);
 				blockDesc.disableStrongFriction = !!(unit.flags & PxcNpWorkUnitFlag::eDISABLE_STRONG_FRICTION);
 				blockDesc.bodyState0 = (unit.flags & PxcNpWorkUnitFlag::eARTICULATION_BODY0) ? PxSolverContactDesc::eARTICULATION : PxSolverContactDesc::eDYNAMIC_BODY;
-				blockDesc.bodyState1 = (unit.flags & PxcNpWorkUnitFlag::eARTICULATION_BODY1) ? PxSolverContactDesc::eARTICULATION : (unit.flags & PxcNpWorkUnitFlag::eHAS_KINEMATIC_ACTOR) ? PxSolverContactDesc::eKINEMATIC_BODY :
-					((unit.flags & PxcNpWorkUnitFlag::eDYNAMIC_BODY1) ? PxSolverContactDesc::eDYNAMIC_BODY : PxSolverContactDesc::eSTATIC_BODY);
+				if (unit.flags & PxcNpWorkUnitFlag::eARTICULATION_BODY1)
+				{
+					//kinematic link
+					if (desc.linkIndexB == 0xffff)
+					{
+						blockDesc.bodyState1 = PxSolverContactDesc::eSTATIC_BODY;
+					}
+					else
+					{
+						blockDesc.bodyState1 = PxSolverContactDesc::eARTICULATION;
+					}
+				}
+				else
+				{
+					blockDesc.bodyState1 = (unit.flags & PxcNpWorkUnitFlag::eHAS_KINEMATIC_ACTOR) ? PxSolverContactDesc::eKINEMATIC_BODY :
+						((unit.flags & PxcNpWorkUnitFlag::eDYNAMIC_BODY1) ? PxSolverContactDesc::eDYNAMIC_BODY : PxSolverContactDesc::eSTATIC_BODY);
+				}
+				
 				//blockDesc.flags = unit.flags;
 
 				PxReal maxImpulse0 = (unit.flags & PxcNpWorkUnitFlag::eARTICULATION_BODY0) ? static_cast<const PxsBodyCore*>(unit.rigidCore0)->maxContactImpulse : data0.maxContactImpulse;
@@ -1331,7 +1377,7 @@ void writeBackContact4(const PxConstraintBatchHeader& hdr, const PxSolverConstra
 
 void writeBack1D4(const PxConstraintBatchHeader& hdr, const PxSolverConstraintDesc* PX_RESTRICT desc, SolverContext* cache);
 
-TGSWriteBackMethod g_WritebackTGSMethods[]
+TGSWriteBackMethod g_WritebackTGSMethods[] =
 {
 	0,
 	writeBackContact,													// DY_SC_TYPE_RB_CONTACT
@@ -1363,7 +1409,7 @@ void solveConcludeContactExtBlock(const PxConstraintBatchHeader& hdr, const PxSo
 void solveConclude1DBlockExt(const PxConstraintBatchHeader& hdr, const PxSolverConstraintDesc* desc,
 	const PxTGSSolverBodyTxInertia* const txInertias, const PxReal elapsedTime, SolverContext& cache);
 
-TGSSolveConcludeMethod g_SolveConcludeTGSMethods[]
+TGSSolveConcludeMethod g_SolveConcludeTGSMethods[] =
 {
 	0,
 	solveConcludeContactBlock,											// DY_SC_TYPE_RB_CONTACT
@@ -2232,7 +2278,7 @@ public:
 
 		{
 			PxU32 descCount = mThreadContext.mNumDifferentBodyConstraints;
-			PxU32 selfConstraintDescCount = mThreadContext.contactDescArraySize - mThreadContext.mNumDifferentBodyConstraints;
+			PxU32 selfConstraintDescCount = mThreadContext.contactDescArraySize - (mThreadContext.mNumDifferentBodyConstraints + mThreadContext.mNumStaticConstraints);
 
 			Ps::Array<PxU32>& accumulatedConstraintsPerPartition = mThreadContext.mConstraintsPerPartition;
 
@@ -2827,7 +2873,6 @@ void DynamicsTGSContext::iterativeSolveIslandParallel(const SolverIslandObjectsS
 
 			d.articulation->solveInternalConstraints(stepDt, invStepDt, threadContext.mZVector.begin(),
 				threadContext.mDeltaV.begin(), false, true, elapsedTime);
-			ArticulationPImpl::updateDeltaMotion(d, stepDt, cache.deltaV);
 
 			nbArticsProcessed++;
 

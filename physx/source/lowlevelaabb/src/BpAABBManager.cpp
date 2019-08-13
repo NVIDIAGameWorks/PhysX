@@ -2438,7 +2438,7 @@ void AABBManager::freeBuffers()
 
 void AABBManager::shiftOrigin(const PxVec3& shift)
 {
-	mBroadPhase.shiftOrigin(shift);
+	mBroadPhase.shiftOrigin(shift, mBoundsArray.begin(), mContactDistance.begin());
 	mOriginShifted = true;
 }
 

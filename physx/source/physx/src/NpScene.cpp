@@ -988,6 +988,11 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 	//add loop joints
 	if (npa.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
 	{
+
+		if ((scbArt.getScArticulation().getArticulationFlags() & PxArticulationFlag::eFIX_BASE))
+		{
+			rootLink->setKinematicLink(true);
+		}
 		//This method will prepare link data for the gpu 
 		mScene.getScScene().addArticulationSimControl(scbArt.getScArticulation());
 
@@ -1062,12 +1067,6 @@ void NpScene::removeArticulationInternal(PxArticulationBase& npa, bool wakeOnLos
 		IG::NodeIndex index = impl->getScbArticulation().getScArticulation().getIslandNodeIndex();
 		if (index.isValid())
 			mScene.getScScene().resetSpeculativeCCDArticulationLink(index.index());
-	}
-
-	if (npa.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
-	{
-		Scb::Articulation& scbArt = npa.getImpl()->getScbArticulation();
-		mScene.getScScene().removeArticulationSimControl(scbArt.getScArticulation());
 	}
 
 	// Remove articulation

@@ -114,7 +114,8 @@ namespace
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU32,		numBodyInteractions,	0)
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		isFastMoving,			0)
 			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		disableGravity,			0)
-			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU16,		lockFlags,				0)
+			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		lockFlags,				0)
+			PX_DEF_BIN_METADATA_ITEM(stream,		ShadowPxsBodyCore, PxU8,		kinematicLink,			0)
 		}
 	};
 }
@@ -348,10 +349,7 @@ static void getBinaryMetaData_ArticulationJointCoreBase(PxOutputStream& stream)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxReal, targetP, 0)
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxReal, targetV, 0)
 
-	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxQuat, relativeQuat, 0)
 	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxReal, frictionCoefficient, 0)
-
-	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxU32, jointOffset, 0)
 
 	PX_DEF_BIN_METADATA_ITEMS_AUTO(stream, Dy::ArticulationJointCoreBase, PxU8, dofIds, 0)
 
@@ -361,9 +359,9 @@ static void getBinaryMetaData_ArticulationJointCoreBase(PxOutputStream& stream)
 
 	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, ArticulationJointCoreDirtyFlags, dirtyFlag, 0)
 
-	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, bool, prismaticLimited, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxU8, jointOffset, 0)
 
-	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCore, PxU8, jointType, 0)
+	PX_DEF_BIN_METADATA_ITEM(stream, Dy::ArticulationJointCoreBase, PxU8, jointType, 0)
 }
 
 

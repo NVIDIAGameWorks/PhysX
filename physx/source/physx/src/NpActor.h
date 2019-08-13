@@ -119,16 +119,20 @@ template<typename T>
 PxU32 getConnectors(NpConnectorType::Enum type, T** userBuffer, PxU32 bufferSize, PxU32 startIndex=0) const
 {
 	PxU32 nbConnectors = 0;
+	PxU32 virtualIndex = 0;
 
 	if(mConnectorArray)
 	{
 		for(PxU32 i=0; i < mConnectorArray->size(); i++)
 		{
 			NpConnector& c = (*mConnectorArray)[i];
-			if (c.mType == type && nbConnectors < bufferSize && i>=startIndex)
+			if (c.mType == type && nbConnectors < bufferSize)
 			{
-				userBuffer[nbConnectors] = static_cast<T*>(c.mObject);
-				nbConnectors++;
+				if (virtualIndex++ >= startIndex)
+				{
+					userBuffer[nbConnectors] = static_cast<T*>(c.mObject);
+					nbConnectors++;
+				}
 			}
 		}
 	}

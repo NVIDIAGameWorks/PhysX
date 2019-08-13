@@ -128,9 +128,6 @@ namespace physx
 
 				dirtyFlag = ArticulationJointCoreDirtyFlag::eMOTION;
 
-				//initial parent to child
-				relativeQuat = PxQuat(PxIdentity);
-
 				jointOffset = 0;
 			}
 
@@ -186,19 +183,15 @@ namespace physx
 				tanQTwistLow = PxTan(twistLimitLow / 4.0f);
 				tanQTwistPad = PxTan(twistLimitContactDistance / 4.0f);
 
-				prismaticLimited = false;
-
 				frictionCoefficient = 0.f;
 
 				dirtyFlag = ArticulationJointCoreDirtyFlag::eMOTION;
 
-				//initial parent to child
-				relativeQuat = (childFrame.q * (parentFrame.q.getConjugate())).getNormalized();
-
 				jointOffset = 0;
 			}
 
-			void setJointPose(ArticulationJointCoreData& jointDatum, SpatialSubspaceMatrix& motionMatrix);
+			void setJointPose(ArticulationJointCoreData& jointDatum, SpatialSubspaceMatrix& motionMatrix, bool forceUpdate,
+				PxQuat& relativeRot);
 
 			// PX_SERIALIZATION
 			ArticulationJointCore(const PxEMPTY&) : ArticulationJointCoreBase(PxEmpty) {}
@@ -368,7 +361,7 @@ namespace physx
 
 			virtual			PxU32					getDof(const PxU32 /*linkID*/) { return 0;  }
 
-			virtual			void					applyCache(PxArticulationCache& /*cache*/, const PxArticulationCacheFlags /*flag*/) {}
+			virtual			bool					applyCache(PxArticulationCache& /*cache*/, const PxArticulationCacheFlags /*flag*/) {return false;}
 
 			virtual			void					copyInternalStateToCache(PxArticulationCache&/* cache*/, const PxArticulationCacheFlags /*flag*/) {}
 
@@ -469,6 +462,8 @@ namespace physx
 			//this is called by island gen to determine whether the articulation should be awake or sleep
 			virtual			Cm::SpatialVector		getMotionVelocity(const PxU32 linkID) const = 0;
 
+			virtual			Cm::SpatialVector		getMotionAcceleration(const PxU32 linkID) const = 0;
+
 							void					setupLinks(PxU32 nbLinks, Dy::ArticulationLink* links)
 													{
 														//if this is needed, we need to re-allocated the link data
@@ -480,6 +475,7 @@ namespace physx
 														//if this is needed, we need to re-allocated the joint data
 														onUpdateSolverDesc();
 													}
+			virtual		void						fillIndexedManager(const PxU32 linkId, Dy::ArticulationLinkHandle& handle, PxU8& indexType) = 0;
 
 			//These variables are used in the constraint partition
 							PxU16					maxSolverFrictionProgress;

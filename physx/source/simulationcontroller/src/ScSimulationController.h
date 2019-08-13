@@ -38,6 +38,12 @@ namespace physx
 
 class PxsHeapMemoryAllocator;
 
+namespace Dy
+{
+	class FeatherstoneArticulation;
+	struct ArticulationJointCore;
+}
+
 namespace Sc
 {
 
@@ -68,6 +74,8 @@ namespace Sc
 		virtual void update(const PxU32 /*bitMapWordCounts*/){}
 		virtual void gpuDmabackData(PxsTransformCache& /*cache*/, Bp::BoundsArray& /*boundArray*/, Cm::BitMapPinned&  /*changedAABBMgrHandles*/){}
 		virtual void udpateScBodyAndShapeSim(PxsTransformCache& cache, Bp::BoundsArray& boundArray, PxBaseTask* continuation);
+		virtual void updateArticulation(Dy::ArticulationV* /*articulation*/, const IG::NodeIndex& /*nodeIndex*/) {}
+		virtual void updateArticulationJoint(Dy::ArticulationV* /*articulation*/, const IG::NodeIndex& /*nodeIndex*/) {}
 		virtual PxU32* getActiveBodies() { return NULL; }
 		virtual PxU32* getDeactiveBodies() { return NULL; }
 		virtual void** getRigidBodies() { return NULL; }

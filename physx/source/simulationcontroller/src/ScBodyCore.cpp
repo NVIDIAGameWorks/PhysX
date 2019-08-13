@@ -80,12 +80,6 @@ void Sc::BodyCore::restoreDynamicData()
 	restore();
 }
 
-void Sc::BodyCore::backupDynamicData()
-{
-	PX_ASSERT(mSimStateData && mSimStateData->isKine());
-	backup(*mSimStateData);
-}
-
 //--------------------------------------------------------------
 //
 // BodyCore interface implementation
@@ -680,6 +674,14 @@ void Sc::BodyCore::invalidateKinematicTarget()
 { 
 	PX_ASSERT(mSimStateData && mSimStateData->isKine()); 
 	mSimStateData->getKinematicData()->targetValid = 0; 
+}
+
+void Sc::BodyCore::setKinematicLink(const bool value)
+{
+	BodySim* sim = getSim();
+
+	if (sim)
+		sim->getLowLevelBody().mCore->kinematicLink = PxU8(value);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

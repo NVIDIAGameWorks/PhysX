@@ -90,6 +90,8 @@ namespace physx
 		/**
 		\brief If suspension travel limits forbid the wheel from touching the drivable surface then isInAir is true.
 		\note If the wheel can be placed on the contact plane of the most recent suspension line raycast/sweep then isInAir is false.
+		\note If #PxVehicleWheelsSimFlag::eLIMIT_SUSPENSION_EXPANSION_VELOCITY is set, then isInAir will also be true if the suspension
+		force is not large enough to expand to the target length in the given simulation time step.
 		\note If no raycast/sweep for the corresponding suspension was performed immediately prior to PxVehicleUpdates then isInAir
 		is computed using the contact plane that was hit by the most recent suspension line raycast/sweep.
 		*/

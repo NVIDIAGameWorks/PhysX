@@ -683,8 +683,6 @@ bool NpSceneQueries::multiQuery(
 {
 	const bool anyHit = (filterData.flags & PxQueryFlag::eANY_HIT) == PxQueryFlag::eANY_HIT;
 
-	PxI32 retval = 0; PX_UNUSED(retval);
-
 	if(HitTypeSupport<HitType>::IsRaycast == 0)
 	{
 		PX_CHECK_AND_RETURN_VAL(input.pose != NULL, "NpSceneQueries::overlap/sweep pose is NULL.", 0);

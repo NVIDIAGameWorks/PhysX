@@ -50,7 +50,7 @@ void NpRigidDynamic::requiresObjects(PxProcessPxBaseCallback& c)
 void NpRigidDynamic::preExportDataReset()
 {
 	NpRigidDynamicT::preExportDataReset();
-	if (isKinematic())
+	if (isKinematic() && NpActor::getAPIScene(*this))
 	{
 		//Restore dynamic data in case the actor is configured as a kinematic.
 		//otherwise we would loose the data for switching the kinematic actor back to dynamic

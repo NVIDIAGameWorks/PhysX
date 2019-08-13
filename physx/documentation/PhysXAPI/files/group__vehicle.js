@@ -662,6 +662,11 @@ var group__vehicle =
       [ "sourceWheelIds", "classPxVehicleCopyDynamicsMap.html#a722820ae9c733991667bfb5c2956efe5", null ],
       [ "targetWheelIds", "classPxVehicleCopyDynamicsMap.html#a202a481ce5d1ce5dc79f951935ad34ce", null ]
     ] ],
+    [ "PxVehicleWheelsSimFlag", "structPxVehicleWheelsSimFlag.html", [
+      [ "Enum", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60", [
+        [ "eLIMIT_SUSPENSION_EXPANSION_VELOCITY", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849", null ]
+      ] ]
+    ] ],
     [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html", [
       [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html#a8faa5ac1e9fc745e521224cc3e6750d8", null ],
       [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html#a9fbfa747a9ef9fe0cc1deef89a5b1238", null ],
@@ -676,6 +681,7 @@ var group__vehicle =
       [ "free", "classPxVehicleWheelsSimData.html#a2b6c609e342fd3f9fabc3e064602115b", null ],
       [ "getAntiRollBarData", "classPxVehicleWheelsSimData.html#aff980eb99861f377bbf46c069ab00e49", null ],
       [ "getBinaryMetaData", "classPxVehicleWheelsSimData.html#aab3d21ee63effbae8e311bb3efac0a8f", null ],
+      [ "getFlags", "classPxVehicleWheelsSimData.html#a52131b5c5288c9eeea1d3c647d4c079f", null ],
       [ "getHighForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#ad196c5b249c937b0ff7ccc433dee4dc4", null ],
       [ "getIsWheelDisabled", "classPxVehicleWheelsSimData.html#ab1828f78ed0726902a20354e317348d9", null ],
       [ "getLowForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#aa8d627458b6df7e72440ea2c9c948bba", null ],
@@ -712,6 +718,7 @@ var group__vehicle =
       [ "patchUpPointers", "classPxVehicleWheelsSimData.html#a7b605042d1ef0fbd4dd84491e058c1cf", null ],
       [ "setAntiRollBarData", "classPxVehicleWheelsSimData.html#ae8706a8f39a630ba469414fb814fe206", null ],
       [ "setChassisMass", "classPxVehicleWheelsSimData.html#ac022268fa66b80edb6bb9b078923ba99", null ],
+      [ "setFlags", "classPxVehicleWheelsSimData.html#a3720f1b1894f707381a5a54e61996d7d", null ],
       [ "setHighForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#ad959b05b234cf8b132d3e0a62072641a", null ],
       [ "setLowForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#a0fd598dcbca75814aab13fb002cac976", null ],
       [ "setMinLongSlipDenominator", "classPxVehicleWheelsSimData.html#a940016ddd052f0c763a21fe776fdcc9d", null ],
@@ -735,6 +742,7 @@ var group__vehicle =
       [ "PxVehicleWheels", "classPxVehicleWheelsSimData.html#ab770b7d25d1a8fee9b2a5ea18d57f345", null ],
       [ "mActiveWheelsBitmapBuffer", "classPxVehicleWheelsSimData.html#a4e21be9e2da937a316f856524fe3087d", null ],
       [ "mAntiRollBars", "classPxVehicleWheelsSimData.html#a4aee60fadd73239cce5a3f65985fc1e1", null ],
+      [ "mFlags", "classPxVehicleWheelsSimData.html#ac19a8182d65219347b5310b6b40b0f34", null ],
       [ "mHighForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#ac1943de7f8ac21f0193b2151a81087fe", null ],
       [ "mLowForwardSpeedSubStepCount", "classPxVehicleWheelsSimData.html#aa3fc3742262302f5a92a0275731261ad", null ],
       [ "mMinLongSlipDenominator", "classPxVehicleWheelsSimData.html#a958f0894fd6d5e55bf26655f3bc25c04", null ],
@@ -743,7 +751,6 @@ var group__vehicle =
       [ "mNbAntiRollBars4", "classPxVehicleWheelsSimData.html#af7cd42c61e92b3f0ca987d98821ff8e0", null ],
       [ "mNbWheels4", "classPxVehicleWheelsSimData.html#a4eb4e2dd1f12fb78783861fc2be928f3", null ],
       [ "mNormalisedLoadFilter", "classPxVehicleWheelsSimData.html#aff3bd1bcc605c0027c60d8c67d3192b6", null ],
-      [ "mPad", "classPxVehicleWheelsSimData.html#a7baa295b6de37e9b30c12d24a898d67c", null ],
       [ "mThresholdLongitudinalSpeed", "classPxVehicleWheelsSimData.html#a5073af89ff08314d2868b1f3a0cb2869", null ],
       [ "mWheels4SimData", "classPxVehicleWheelsSimData.html#a22c00f3cbb49c94119b0f667d266904f", null ]
     ] ],
@@ -799,6 +806,7 @@ var group__vehicle =
       [ "init", "classPxVehicleWheels.html#ac7de8bfda7bfd8a5c34c85a4c4ac4755", null ],
       [ "isKindOf", "classPxVehicleWheels.html#af89137887231400e356bc4d2b33052f2", null ],
       [ "isValid", "classPxVehicleWheels.html#a631f380f7e677ff0247c9dd14a3f6a49", null ],
+      [ "onConstraintRelease", "classPxVehicleWheels.html#ae6eca099bb7019976fd619338dcbf0c3", null ],
       [ "patchupPointers", "classPxVehicleWheels.html#a07c073158a6df39214f655f59d130b69", null ],
       [ "preExportDataReset", "classPxVehicleWheels.html#aec83ecde4a8c2a38a8f4be88b973160a", null ],
       [ "release", "classPxVehicleWheels.html#a47f6215d5555890bef75e38668596522", null ],
@@ -819,6 +827,7 @@ var group__vehicle =
     [ "PX_DEBUG_VEHICLE_ON", "group__vehicle.html#ga0c3a7dea79cf9968bd350a49ce0fd770", null ],
     [ "PX_MAX_NB_WHEELS", "group__vehicle.html#gaa52f6479b78eccd706af05e1e0a0c43f", null ],
     [ "PxVehicleComputeTireForce", "group__vehicle.html#ga2b7b927dd3d949d50a3f42c695264f43", null ],
+    [ "PxVehicleWheelsSimFlags", "group__vehicle.html#gab5de07a7bd475df4e4c41f3f11ddcdb5", null ],
     [ "PX_COMPILE_TIME_ASSERT", "group__vehicle.html#ga8d4cfac998db5828bcfff2253c3d1fcc", null ],
     [ "PxCloseVehicleSDK", "group__vehicle.html#ga9e1512107497cdfcc620b575d3c135e6", null ],
     [ "PxInitVehicleSDK", "group__vehicle.html#gaa7aaf3de1f2da04c2617a36d053398ca", null ],

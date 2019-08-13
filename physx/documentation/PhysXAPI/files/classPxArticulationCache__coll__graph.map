@@ -1,7 +1,8 @@
 <map id="PxArticulationCache" name="PxArticulationCache">
-<area shape="rect" id="node2" href="$structPxArticulationRootLinkData.html" title="PxArticulationRootLinkData" alt="" coords="175,243,357,269"/>
-<area shape="rect" id="node3" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="103,5,171,32"/>
-<area shape="rect" id="node4" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="252,125,347,152"/>
-<area shape="rect" id="node6" href="$structPxSpatialForce.html" title="PxSpatialForce" alt="" coords="5,192,116,219"/>
-<area shape="rect" id="node5" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="266,5,333,32"/>
+<area shape="rect" id="node2" href="$structPxSpatialVelocity.html" title="PxSpatialVelocity" alt="" coords="315,192,441,219"/>
+<area shape="rect" id="node3" href="$classPxVec3.html" title="3 Element vector class. " alt="" coords="179,5,247,32"/>
+<area shape="rect" id="node4" href="$structPxArticulationRootLinkData.html" title="PxArticulationRootLinkData" alt="" coords="17,244,198,271"/>
+<area shape="rect" id="node5" href="$classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector " alt="" coords="5,125,100,152"/>
+<area shape="rect" id="node7" href="$structPxSpatialForce.html" title="PxSpatialForce" alt="" coords="195,192,305,219"/>
+<area shape="rect" id="node6" href="$classPxQuat.html" title="This is a quaternion class. For more information on quaternion mathematics consult a mathematics sour..." alt="" coords="19,5,86,32"/>
 </map>

@@ -30,7 +30,6 @@
 #ifndef PX_PHYSICS_NP_SCENEQUERIES
 #define PX_PHYSICS_NP_SCENEQUERIES
 
-
 #include "PxQueryReport.h"
 #include "PsIntrinsics.h"
 #include "CmPhysXCommon.h"
@@ -218,17 +217,6 @@ bool NpSceneQueries::multiQuery<PxOverlapHit>(const MultiQueryInput&, PxHitCallb
 
 extern template
 bool NpSceneQueries::multiQuery<PxSweepHit>(const MultiQueryInput&, PxHitCallback<PxSweepHit>&, PxHitFlags, const PxQueryCache*, const PxQueryFilterData&, PxQueryFilterCallback*, BatchQueryFilterData*) const;
-#endif
-
-namespace Sq { class AABBPruner; class AABBTreeRuntimeNode; class AABBTree; }
-
-#if PX_VC 
-    #pragma warning(push)
-	#pragma warning( disable : 4324 ) // Padding was added at the end of a structure because of a __declspec(align) value.
-#endif
-
-#if PX_VC 
-     #pragma warning(pop) 
 #endif
 
 } // namespace physx, sq

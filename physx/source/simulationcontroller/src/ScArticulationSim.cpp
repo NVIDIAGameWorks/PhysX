@@ -44,6 +44,7 @@
 #include "PsVecMath.h"
 #include "PxsSimpleIslandManager.h"
 #include "ScShapeSim.h"
+#include "PxsSimulationController.h"
 
 using namespace physx;
 using namespace physx::Dy;
@@ -489,6 +490,17 @@ void Sc::ArticulationSim::computeImpulseResponse(Sc::BodyCore& link,
 	Ps::aos::V3StoreU(v.angular, angularResponse);
 }
 
+
+void Sc::ArticulationSim::setKinematicLink(const bool value)
+{
+	const PxU32 linkCount = mLinks.size();
+
+	if (linkCount > 0)
+	{
+		mLinks[0].bodyCore->kinematicLink = PxU8(value);
+	}
+}
+
 PxU32 Sc::ArticulationSim::getDofs() const
 {
 	return mLLArticulation->getDofs();
@@ -506,19 +518,21 @@ PxArticulationCache* Sc::ArticulationSim::createCache() const
 
 	PxU32 totalSize = getCacheDataSize() + sizeof(PxArticulationCache);
 
-	const PxU32 jointCount = mLinks.size() - 1;
+	const PxU32 linkCount = mLinks.size();
+	const PxU32 jointCount = linkCount - 1;
 
 	PxU8* tCache = reinterpret_cast<PxU8*>(PX_ALLOC(totalSize, "Articulation cache"));
 
 	PxMemZero(tCache, totalSize);
 
 	const PxU32 totalDofs = mLLArticulation->getDofs();
+	
 
 	PxArticulationCache* cache = reinterpret_cast<PxArticulationCache*>(tCache);
 
 	PxU32 offset = sizeof(PxArticulationCache);
 	cache->externalForces = reinterpret_cast<PxSpatialForce*>(tCache + offset);
-	offset += sizeof(PxSpatialForce) * mLinks.size();
+	offset += sizeof(PxSpatialForce) * linkCount;
 	
 	cache->denseJacobian = reinterpret_cast<PxReal*>(tCache + offset);
 	offset += sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6);				//size of dense jacobian assuming free floating base link.
@@ -538,6 +552,12 @@ PxArticulationCache* Sc::ArticulationSim::createCache() const
 	cache->jointForce = reinterpret_cast<PxReal*>(tCache + offset);
 
 	offset += sizeof(PxReal) * totalDofs;
+	cache->linkVelocity = reinterpret_cast<PxSpatialVelocity*>(tCache + offset);
+
+	offset += sizeof(PxSpatialVelocity) * linkCount;
+	cache->linkAcceleration = reinterpret_cast<PxSpatialVelocity*>(tCache + offset);
+
+	offset += sizeof(PxSpatialVelocity) * linkCount;
 	cache->rootLinkData = reinterpret_cast<PxArticulationRootLinkData*>(tCache + offset);
 
 	cache->coefficientMatrix = NULL;
@@ -557,14 +577,15 @@ PxArticulationCache* Sc::ArticulationSim::createCache() const
 PxU32 Sc::ArticulationSim::getCacheDataSize() const
 {
 	const PxU32 totalDofs = mLLArticulation->getDofs();
-
-	const PxU32 jointCount = mLinks.size() - 1;
+	const PxU32 linkCount = mLinks.size();
+	const PxU32 jointCount = linkCount - 1;
 	PxU32 totalSize =
-		sizeof(Cm::SpatialVector) * mLinks.size()				//external force
-		+ sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6)//offset to end of dense jacobian (assuming free floating base)
-		+ sizeof(PxReal) * totalDofs * totalDofs				//mass matrix
-		+ sizeof(PxReal) * totalDofs * 4						//jointVelocity, jointAcceleration, jointPosition, joint force
-		+ sizeof(PxArticulationRootLinkData);					//root link data
+		sizeof(PxSpatialForce) * linkCount							//external force
+		+ sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6)		//offset to end of dense jacobian (assuming free floating base)
+		+ sizeof(PxReal) * totalDofs * totalDofs						//mass matrix
+		+ sizeof(PxReal) * totalDofs * 4								//jointVelocity, jointAcceleration, jointPosition, joint force
+		+ sizeof(PxSpatialVelocity) * linkCount * 2						//link velocity, link acceleration
+		+ sizeof(PxArticulationRootLinkData);							//root link data
 	
 	return totalSize;
 }
@@ -593,7 +614,10 @@ void Sc::ArticulationSim::zeroCache(PxArticulationCache& cache) const
 void  Sc::ArticulationSim::applyCache(PxArticulationCache& cache, const PxArticulationCacheFlags flag) const
 {
 	//checkResize();
-	mLLArticulation->applyCache(cache, flag);
+	if (mLLArticulation->applyCache(cache, flag))
+	{
+		mScene.getSimulationController()->updateArticulation(mLLArticulation, mIslandNodeIndex);
+	}
 }
 
 //copy internal data to external data
@@ -693,13 +717,8 @@ void Sc::ArticulationSim::computeGeneralizedMassMatrix(PxArticulationCache& cach
 		for (PxU32 j = 0; j < totalDofs; ++j)
 		{
 			const PxReal dif = row[j] - massMatrix[j*totalDofs + i];
-			if (PxAbs(dif) > 2e-4f)
-			{
-				int bob = 0;
-				PX_UNUSED(bob);
-			}
+			PX_ASSERT (PxAbs(dif) < 2e-4f)
 		}
-
 	}
 
 	PX_FREE(massMatrix);*/
@@ -710,6 +729,18 @@ PxU32 Sc::ArticulationSim::getCoefficientMatrixSize() const
 	const PxU32 size = mLoopConstraints.size();
 	const PxU32 totalDofs = mLLArticulation->getDofs();
 	return sizeof(PxReal) * size * totalDofs;
+}
+
+PxSpatialVelocity Sc::ArticulationSim::getLinkVelocity(const PxU32 linkId) const
+{
+	Cm::SpatialVector vel = mLLArticulation->getMotionVelocity(linkId);
+	return reinterpret_cast<PxSpatialVelocity&>(vel);
+}
+
+PxSpatialVelocity Sc::ArticulationSim::getLinkAcceleration(const PxU32 linkId) const
+{
+	Cm::SpatialVector accel = mLLArticulation->getMotionAcceleration(linkId);
+	return reinterpret_cast<PxSpatialVelocity&>(accel);
 }
 
 // This method allows user teleport the root links and the articulation
@@ -723,6 +754,14 @@ void Sc::ArticulationSim::setGlobalPose()
 void Sc::ArticulationSim::setDirty(const bool dirty)
 {
 	mLLArticulation->setDirty(dirty);
+	if(dirty)
+		mScene.getSimulationController()->updateArticulation(mLLArticulation, mIslandNodeIndex);
+}
+
+void Sc::ArticulationSim::setJointDirty(Dy::ArticulationJointCore& jointCore)
+{
+	PX_UNUSED(jointCore);
+	mScene.getSimulationController()->updateArticulationJoint(mLLArticulation, mIslandNodeIndex);
 }
 
 void Sc::ArticulationSim::debugCheckWakeCounterOfLinks(PxReal wakeCounter) const

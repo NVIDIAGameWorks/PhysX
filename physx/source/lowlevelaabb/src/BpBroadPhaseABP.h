@@ -64,7 +64,7 @@ namespace Bp
 		virtual PxU32						getNbDeletedPairs()		const;
 		virtual BroadPhasePair*				getDeletedPairs();
 		virtual void						freeBuffers();
-		virtual void						shiftOrigin(const PxVec3& shift);
+		virtual void						shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances);
 #if PX_CHECKED
 		virtual bool						isValid(const BroadPhaseUpdateData& updateData)	const;
 #endif

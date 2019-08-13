@@ -491,16 +491,10 @@ Cm::SpatialVectorF* Z)
 			unitResponse = getImpulseResponse(eb0, resp0, unsimdRef(e.deltaVA), prepDesc.invMassScales.linear0, prepDesc.invMassScales.angular0,
 				eb1, resp1, unsimdRef(e.deltaVB), prepDesc.invMassScales.linear1, prepDesc.invMassScales.angular1, Z, false);
 
-			if(!(c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT))
-			{
-				PxReal totalMag = (unsimdRef(e.deltaVA) - unsimdRef(e.deltaVB)).magnitude();
-
-				PxReal ratio = unitResponse / totalMag;
-				if (ratio < 0.05f)
-					unitResponse = 0.f;
-			}
-
-
+			//Add CFM term!
+			/*if(unitResponse > DY_ARTICULATION_MIN_RESPONSE)
+				unitResponse += DY_ARTICULATION_CFM;*/
+			
 			s.ang0Writeback = c.angular0;
 			s.lin0 = resp0.linear;
 			s.ang0 = resp0.angular;

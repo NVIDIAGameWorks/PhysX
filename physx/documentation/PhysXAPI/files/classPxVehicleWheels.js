@@ -18,6 +18,7 @@ var classPxVehicleWheels =
     [ "init", "classPxVehicleWheels.html#ac7de8bfda7bfd8a5c34c85a4c4ac4755", null ],
     [ "isKindOf", "classPxVehicleWheels.html#af89137887231400e356bc4d2b33052f2", null ],
     [ "isValid", "classPxVehicleWheels.html#a631f380f7e677ff0247c9dd14a3f6a49", null ],
+    [ "onConstraintRelease", "classPxVehicleWheels.html#ae6eca099bb7019976fd619338dcbf0c3", null ],
     [ "patchupPointers", "classPxVehicleWheels.html#a07c073158a6df39214f655f59d130b69", null ],
     [ "preExportDataReset", "classPxVehicleWheels.html#aec83ecde4a8c2a38a8f4be88b973160a", null ],
     [ "release", "classPxVehicleWheels.html#a47f6215d5555890bef75e38668596522", null ],

@@ -35,7 +35,7 @@
 
 // define API function declaration
 #if !defined PX_PHYSX_STATIC_LIB 
-	#if PX_WINDOWS_FAMILY
+	#if (PX_WINDOWS_FAMILY || PX_XBOXONE || PX_PS4)
 		#if defined PX_PHYSX_COOKING_EXPORTS
 			#define PX_PHYSX_COOKING_API __declspec(dllexport)
 		#else

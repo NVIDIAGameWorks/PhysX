@@ -5,6 +5,8 @@ var classPxArticulationCache =
       [ "eACCELERATION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea9bfa940c74c9da6b9ce0a27c9f6bd8f8", null ],
       [ "ePOSITION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea74109d30461c72534eb5a36baf352e6a", null ],
       [ "eFORCE", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea89efd599f1473d4a795b89fb71c5012a", null ],
+      [ "eLINKVELOCITY", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14eacaf9eee2de38014ce959feb30fba9d1b", null ],
+      [ "eLINKACCELERATION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea1ee0f9a7f94765e59bc93944a434af54", null ],
       [ "eROOT", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea6066321f08d523d0b73cfbdf2b44041c", null ],
       [ "eALL", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea86872df915168195ac00a5cb1033ee29", null ]
     ] ],
@@ -17,6 +19,8 @@ var classPxArticulationCache =
     [ "jointPosition", "classPxArticulationCache.html#a64e8f0b09d6860f91d7a830c11bdddc9", null ],
     [ "jointVelocity", "classPxArticulationCache.html#aab37dabd7db43ef927337da7f6ea9f5a", null ],
     [ "lambda", "classPxArticulationCache.html#aa90b660a293d6ce7984d49e8be270465", null ],
+    [ "linkAcceleration", "classPxArticulationCache.html#ac67f33a6b89001467a31fd4a3f4afa23", null ],
+    [ "linkVelocity", "classPxArticulationCache.html#a91adda674694b0f628a07e4ca89bcec5", null ],
     [ "massMatrix", "classPxArticulationCache.html#a40849b1b079c9b0e517fb7eaea488ccf", null ],
     [ "rootLinkData", "classPxArticulationCache.html#ae0431d9e6e127c49cf7cc53532b4b393", null ],
     [ "scratchAllocator", "classPxArticulationCache.html#ac5356bfc4c7b57dec9bdd33c698ae96c", null ],

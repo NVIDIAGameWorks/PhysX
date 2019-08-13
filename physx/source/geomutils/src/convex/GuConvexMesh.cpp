@@ -90,15 +90,15 @@ Gu::ConvexMesh::ConvexMesh()
 	initConvexHullData(mHullData);
 }
 
-Gu::ConvexMesh::ConvexMesh(GuMeshFactory& factory, ConvexHullData& data)
+Gu::ConvexMesh::ConvexMesh(GuMeshFactory& factory, ConvexHullInitData& data)
 : PxConvexMesh(PxConcreteType::eCONVEX_MESH, PxBaseFlag::eOWNS_MEMORY | PxBaseFlag::eIS_RELEASABLE)
-, mNb(0)
-, mBigConvexData(NULL)
-, mMass(0)
-, mInertia(PxMat33(PxIdentity))
+, mNb(data.mNb)
+, mBigConvexData(data.mBigConvexData)
+, mMass(data.mMass)
+, mInertia(data.mInertia)
 , mMeshFactory(&factory)
 {
-	mHullData = data;
+	mHullData = data.mHullData;	
 }
 
 Gu::ConvexMesh::~ConvexMesh()

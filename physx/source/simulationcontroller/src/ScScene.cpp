@@ -94,7 +94,7 @@ using namespace physx::shdfnd;
 using namespace physx::Cm;
 using namespace physx::Dy;
 
-static PX_FORCE_INLINE Sc::ArticulationSim* getSim(const IG::IslandSim& islandSim, IG::NodeIndex nodeIndex)
+static PX_FORCE_INLINE Sc::ArticulationSim* getArticulationSim(const IG::IslandSim& islandSim, IG::NodeIndex nodeIndex)
 {
 	void* userData = islandSim.getLLArticulation(nodeIndex)->getUserData();
 	return reinterpret_cast<Sc::ArticulationSim*>(userData);
@@ -102,12 +102,6 @@ static PX_FORCE_INLINE Sc::ArticulationSim* getSim(const IG::IslandSim& islandSi
 
 // slightly ugly, but we don't want a compile-time dependency on DY_ARTICULATION_MAX_SIZE in the ScScene.h header
 namespace physx { 
-#if PX_SUPPORT_GPU_PHYSX
-
-PX_PHYSX_GPU_API Bp::BPMemoryAllocator* createGpuMemoryAllocator();
-
-#endif
-
 namespace Sc {
 
 class LLArticulationPool: public Ps::Pool<Articulation, Ps::AlignedAllocator<DY_ARTICULATION_MAX_SIZE> > 
@@ -1394,7 +1388,7 @@ PxU32 Sc::Scene::getBroadPhaseRegions(PxBroadPhaseRegionInfo* userBuffer, PxU32 
 PxU32 Sc::Scene::addBroadPhaseRegion(const PxBroadPhaseRegion& region, bool populateRegion)
 {
 	Bp::BroadPhase* bp = mAABBManager->getBroadPhase();
-	return bp->addRegion(region, populateRegion);
+	return bp->addRegion(region, populateRegion, mAABBManager->getBoundsArray().begin(), mAABBManager->getContactDistances());
 }
 
 bool Sc::Scene::removeBroadPhaseRegion(PxU32 handle)
@@ -2202,7 +2196,7 @@ void Sc::Scene::preRigidBodyNarrowPhase(PxBaseTask* continuation)
 	Cm::BitMap::Iterator articulateCCDIter(mSpeculativeCDDArticulationBitMap);
 	while ((index = articulateCCDIter.getNext()) != Cm::BitMap::Iterator::DONE)
 	{
-		Sc::ArticulationSim* articulationSim = getSim(islandSim, IG::NodeIndex(index));
+		Sc::ArticulationSim* articulationSim = getArticulationSim(islandSim, IG::NodeIndex(index));
 		if(articulationSim)
 		{
 			hasContactDistanceChanged = true;
@@ -2562,7 +2556,7 @@ PX_FORCE_INLINE void Sc::Scene::putObjectsToSleep(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToSleep;i++)
 	{
-		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
+		Sc::ArticulationSim* articSim = getArticulationSim(islandSim, articIndices[i]);
 		if(articSim && !islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(false, infoFlag);
 	}
@@ -2621,7 +2615,7 @@ PX_FORCE_INLINE void Sc::Scene::wakeObjectsUp(PxU32 infoFlag)
 
 	for(PxU32 i=0;i<nbArticulationsToWake;i++)
 	{
-		Sc::ArticulationSim* articSim = getSim(islandSim, articIndices[i]);
+		Sc::ArticulationSim* articSim = getArticulationSim(islandSim, articIndices[i]);
 		if (articSim && islandSim.getNode(articIndices[i]).isActive())
 			articSim->setActive(true, infoFlag);
 	}
@@ -3850,7 +3844,7 @@ public:
 
 		for (PxU32 a = 0; a < mNumArticulations; ++a)
 		{
-			Sc::ArticulationSim* PX_RESTRICT articSim = getSim(islandSim, mArticIndices[a]);
+			Sc::ArticulationSim* PX_RESTRICT articSim = getArticulationSim(islandSim, mArticIndices[a]);
 			articSim->checkResize();
 			articSim->updateForces(mDt, mSimUsesAdaptiveForce);
 			articSim->saveLastCCDTransform();
@@ -3974,16 +3968,24 @@ public:
 
 class UpdateArticulationTask : public Cm::Task
 {
-	Sc::ArticulationCore* const* mArticList;
+	
+	IG::IslandSim& mIslandSim;
+
+	const IG::NodeIndex* const PX_RESTRICT	mNodeIndices;
 	const PxU32 mNbArticulations;
 	const PxReal mDt;
 
 	PX_NOCOPY(UpdateArticulationTask)
 public:
+	static const PxU32 NbArticulationsPerTask = 64;
 
-	UpdateArticulationTask(PxU64 contextId, Sc::ArticulationCore* const* articList, PxU32 nbArticulations, PxReal dt) :
+	
+
+	UpdateArticulationTask(PxU64 contextId, PxU32 nbArticulations, PxReal dt,
+		const IG::NodeIndex* nodeIndices, IG::IslandSim& islandSim) :
 		Cm::Task			(contextId),
-		mArticList			(articList),
+		mIslandSim			(islandSim),
+		mNodeIndices		(nodeIndices),
 		mNbArticulations	(nbArticulations),
 		mDt					(dt)
 	{
@@ -3995,7 +3997,8 @@ public:
 	{
 		for (PxU32 i = 0; i < mNbArticulations; ++i)
 		{
-			Sc::ArticulationSim* articSim = mArticList[i]->getSim();
+			IG::NodeIndex nodeIndex = mNodeIndices[i];
+			Sc::ArticulationSim* articSim = getArticulationSim(mIslandSim, nodeIndex);
 			articSim->sleepCheck(mDt);
 			articSim->updateCached(NULL);
 		}
@@ -4133,18 +4136,22 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 		mLLContext->getLock().unlock();
 	}
 
+	IG::IslandSim& islandSim = mSimpleIslandManager->getAccurateIslandSim();
+
+	const PxU32 nbActiveArticulations = islandSim.getNbActiveNodes(IG::Node::eARTICULATION_TYPE);
+
 	//KS - TODO - parallelize this bit!!!!!
-	if(mArticulations.size())
+	if(nbActiveArticulations)
 	{
 		Cm::FlushPool& flushPool = mLLContext->getTaskPool();
-		ArticulationCore* const* articList = mArticulations.getEntries();
 
-		const PxU32 nbArticulationsPerTask = 64;
-		const PxU32 articCount = mArticulations.size();
-		for (PxU32 i = 0; i < articCount; i += nbArticulationsPerTask)
+		const IG::NodeIndex* activeArticulations = islandSim.getActiveNodes(IG::Node::eARTICULATION_TYPE);
+
+		for (PxU32 i = 0; i < nbActiveArticulations; i += UpdateArticulationTask::NbArticulationsPerTask)
 		{
 			UpdateArticulationTask* task =
-				PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdateArticulationTask)), UpdateArticulationTask)(getContextId(), articList + i, PxMin(nbArticulationsPerTask, PxU32(articCount - i)), mDt);
+				PX_PLACEMENT_NEW(flushPool.allocate(sizeof(UpdateArticulationTask)), UpdateArticulationTask)(getContextId(), PxMin(UpdateArticulationTask::NbArticulationsPerTask, PxU32(nbActiveArticulations - i)), mDt,
+					activeArticulations + i, islandSim);
 			task->setContinuation(continuation);
 			task->removeReference();
 		}
@@ -4154,9 +4161,9 @@ void Sc::Scene::afterIntegration(PxBaseTask* continuation)
 		
 		Sc::BodySim* ccdBodySims[DY_ARTICULATION_MAX_SIZE];
 
-		for(PxU32 i=0;i<mArticulations.size();i++)
+		for(PxU32 i=0;i<nbActiveArticulations;i++)
 		{
-			Sc::ArticulationSim* articSim = articList[i]->getSim();
+			Sc::ArticulationSim* articSim = getArticulationSim(islandSim, activeArticulations[i]);
 			
 			//KS - check links for CCD flags and add to mCcdBodies list if required....
 			PxU32 nbIdx = articSim->getCCDLinks(ccdBodySims);
@@ -5634,6 +5641,7 @@ void Sc::Scene::registerContactManagers(PxBaseTask* /*continuation*/)
 {
 	{
 		PxvNphaseImplementationContext* nphaseContext = mLLContext->getNphaseImplementationContext();
+		nphaseContext->lock();
 		PX_PROFILE_ZONE("Sim.processNewOverlaps.registerCms", getContextId());
 		//nphaseContext->registerContactManagers(mPreallocatedContactManagers.begin(), mPreallocatedContactManagers.size(), mLLContext->getContactManagerPool().getMaxUsedIndex());
 		const PxU32 nbCmsCreated = mPreallocatedContactManagers.size();
@@ -5646,6 +5654,7 @@ void Sc::Scene::registerContactManagers(PxBaseTask* /*continuation*/)
 				nphaseContext->registerContactManager(cm, 0, 0);
 			}
 		}
+		nphaseContext->unlock();
 	}
 }
 

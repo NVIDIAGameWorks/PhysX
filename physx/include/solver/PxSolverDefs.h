@@ -279,7 +279,8 @@ struct PxArticulationFlag
 {
 	enum Enum
 	{
-		eFIX_BASE = (1 << 0)
+		eFIX_BASE = (1 << 0),
+		eDRIVE_LIMITS_ARE_FORCES = (1<<1)
 	};
 };
 
@@ -291,7 +292,10 @@ struct PxArticulationDriveType
 	enum Enum
 	{
 		eFORCE = 0,
-		eACCELERATION = 1
+		eACCELERATION = 1,
+		eTARGET = 2,
+		eVELOCITY = 3,
+		eNONE = 4
 	};
 };
 

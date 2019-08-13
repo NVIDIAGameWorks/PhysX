@@ -90,3 +90,11 @@ bool Sc::ArticulationJointSim::onDeactivate_()
 	clearInteractionFlag(InteractionFlag::eIS_ACTIVE);
 	return true;
 }
+
+void Sc::ArticulationJointSim::setDirty()
+{
+	Dy::ArticulationJointCore& llCore = mCore.getCore();
+	ArticulationSim* sim = mCore.getArticulation()->getSim();
+	sim->setDirty(true); //Don't set the articulation dirty - only the joint is dirty!
+	sim->setJointDirty(llCore);
+}

@@ -1010,11 +1010,18 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 		const PxVehicleWheels4SimDataGeneratedInfo* getInfo() { return &Info; }
 	};
 
+	static PxU32ToName g_physx__PxVehicleWheelsSimFlag__EnumConversion[] = {
+		{ "eLIMIT_SUSPENSION_EXPANSION_VELOCITY", static_cast<PxU32>( physx::PxVehicleWheelsSimFlag::eLIMIT_SUSPENSION_EXPANSION_VELOCITY ) },
+		{ NULL, 0 }
+	};
+
+template<> struct PxEnumTraits< physx::PxVehicleWheelsSimFlag::Enum > { PxEnumTraits() : NameConversion( g_physx__PxVehicleWheelsSimFlag__EnumConversion ) {} const PxU32ToName* NameConversion; }; 
 	class PxVehicleWheelsSimData;
 	struct PxVehicleWheelsSimDataGeneratedValues
 	{
 		PxVehicleTireLoadFilterData TireLoadFilterData;
 		PxF32 MinLongSlipDenominator;
+		PxVehicleWheelsSimFlags Flags;
 		PxF32 ThresholdLongSpeed;
 		PxU32 LowForwardSpeedSubStepCount;
 		PxU32 HighForwardSpeedSubStepCount;
@@ -1022,6 +1029,7 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 	};
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, TireLoadFilterData, PxVehicleWheelsSimDataGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, MinLongSlipDenominator, PxVehicleWheelsSimDataGeneratedValues)
+	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, Flags, PxVehicleWheelsSimDataGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, ThresholdLongSpeed, PxVehicleWheelsSimDataGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, LowForwardSpeedSubStepCount, PxVehicleWheelsSimDataGeneratedValues)
 	DEFINE_PROPERTY_TO_VALUE_STRUCT_MAP( PxVehicleWheelsSimData, HighForwardSpeedSubStepCount, PxVehicleWheelsSimDataGeneratedValues)
@@ -1042,6 +1050,7 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 		PxExtendedIndexedPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_AntiRollBarData, PxVehicleWheelsSimData, const PxU32, PxVehicleAntiRollBarData > AntiRollBarData;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_TireLoadFilterData, PxVehicleWheelsSimData, const PxVehicleTireLoadFilterData &, PxVehicleTireLoadFilterData > TireLoadFilterData;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_MinLongSlipDenominator, PxVehicleWheelsSimData, const PxReal, PxF32 > MinLongSlipDenominator;
+		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_Flags, PxVehicleWheelsSimData, PxVehicleWheelsSimFlags, PxVehicleWheelsSimFlags > Flags;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_ThresholdLongSpeed, PxVehicleWheelsSimData, const PxF32, PxF32 > ThresholdLongSpeed;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_LowForwardSpeedSubStepCount, PxVehicleWheelsSimData, const PxU32, PxU32 > LowForwardSpeedSubStepCount;
 		PxPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsSimData_HighForwardSpeedSubStepCount, PxVehicleWheelsSimData, const PxU32, PxU32 > HighForwardSpeedSubStepCount;
@@ -1065,7 +1074,7 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 			PX_UNUSED(inStartIndex);
 			return inStartIndex;
 		}
-		static PxU32 instancePropertyCount() { return 17; }
+		static PxU32 instancePropertyCount() { return 18; }
 		static PxU32 totalPropertyCount() { return instancePropertyCount(); }
 		template<typename TOperator>
 		PxU32 visitInstanceProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
@@ -1085,11 +1094,12 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 			inOperator( AntiRollBarData, inStartIndex + 10 );; 
 			inOperator( TireLoadFilterData, inStartIndex + 11 );; 
 			inOperator( MinLongSlipDenominator, inStartIndex + 12 );; 
-			inOperator( ThresholdLongSpeed, inStartIndex + 13 );; 
-			inOperator( LowForwardSpeedSubStepCount, inStartIndex + 14 );; 
-			inOperator( HighForwardSpeedSubStepCount, inStartIndex + 15 );; 
-			inOperator( WheelEnabledState, inStartIndex + 16 );; 
-			return 17 + inStartIndex;
+			inOperator( Flags, inStartIndex + 13 );; 
+			inOperator( ThresholdLongSpeed, inStartIndex + 14 );; 
+			inOperator( LowForwardSpeedSubStepCount, inStartIndex + 15 );; 
+			inOperator( HighForwardSpeedSubStepCount, inStartIndex + 16 );; 
+			inOperator( WheelEnabledState, inStartIndex + 17 );; 
+			return 18 + inStartIndex;
 		}
 	};
 	template<> struct PxClassInfoTraits<PxVehicleWheelsSimData>

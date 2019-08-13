@@ -496,7 +496,7 @@ struct RegionData : public Ps::UserAllocated
 						void					reset();
 						void					freeBuffers();
 
-						PxU32					addRegion(const PxBroadPhaseRegion& region, bool populateRegion);
+						PxU32					addRegion(const PxBroadPhaseRegion& region, bool populateRegion, const PxBounds3* boundsArray, const PxReal* contactDistance);
 						bool					removeRegion(PxU32 handle);
 						const Region*			getRegion(PxU32 i)		const;
 		PX_FORCE_INLINE	PxU32					getNbRegions()			const	{ return mNbRegions;	}
@@ -513,9 +513,8 @@ struct RegionData : public Ps::UserAllocated
 #endif
 							);
 						PxU32					finalize(BroadPhaseMBP* mbp);
-						void					shiftOrigin(const PxVec3& shift);
+						void					shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances);
 
-						void					setTransientBounds(const PxBounds3* bounds, const PxReal* contactDistance); 
 //		private:
 						PxU32					mNbRegions;
 						MBP_ObjectIndex			mFirstFreeIndex;	// First free recycled index for mMBP_Objects
@@ -535,13 +534,10 @@ struct RegionData : public Ps::UserAllocated
 						Ps::Array<PxU32>		mOutOfBoundsObjects;	// These are BpHandle but the BP interface expects PxU32s
 						void					addToOutOfBoundsArray(BpHandle id);
 
-				const	PxBounds3*				mTransientBounds;
-				const	PxReal*					mTransientContactDistance;
-
 #ifdef USE_FULLY_INSIDE_FLAG
 						BitArray				mFullyInsideBitmap;	// Indexed by MBP_ObjectIndex
 #endif
-						void					populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regionIndex);
+						void					populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regionIndex, const PxBounds3* boundsArray, const PxReal* contactDistance);
 
 #ifdef MBP_REGION_BOX_PRUNING
 						void					buildRegionData();
@@ -1915,7 +1911,7 @@ void MBP::populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regi
 		return retval;
 	}*/
 
-void MBP::populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regionIndex)
+void MBP::populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regionIndex, const PxBounds3* boundsArray, const PxReal* contactDistance)
 {
 	const RegionData* PX_RESTRICT regions = mRegions.begin();
 	const PxU32 nbObjects = mMBP_Objects.size();
@@ -1981,8 +1977,8 @@ void MBP::populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regi
 				// PT: if the object is out-of-bounds, we're out-of-luck. We don't have the object bounds, so we need to retrieve them
 				// from the AABB manager - and then re-encode them. This is not very elegant or efficient, but it should rarely happen
 				// so this is good enough for now.
-				const PxBounds3 rawBounds = mTransientBounds[currentObject.mUserID];
-				PxVec3 c(mTransientContactDistance[currentObject.mUserID]);
+				const PxBounds3 rawBounds = boundsArray[currentObject.mUserID];
+				PxVec3 c(contactDistance[currentObject.mUserID]);
 				const PxBounds3 decodedBounds(rawBounds.minimum - c, rawBounds.maximum + c);
 				bounds.initFrom2(decodedBounds);
 
@@ -2089,7 +2085,7 @@ void MBP::populateNewRegion(const MBP_AABB& box, Region* addedRegion, PxU32 regi
 }
 #endif
 
-PxU32 MBP::addRegion(const PxBroadPhaseRegion& region, bool populateRegion)
+PxU32 MBP::addRegion(const PxBroadPhaseRegion& region, bool populateRegion, const PxBounds3* boundsArray, const PxReal* contactDistance)
 {
 	PxU32 regionHandle;
 	RegionData* PX_RESTRICT buffer;
@@ -2124,7 +2120,7 @@ PxU32 MBP::addRegion(const PxBroadPhaseRegion& region, bool populateRegion)
 
 	// PT: automatically populate new region with overlapping objects
 	if(populateRegion)
-		populateNewRegion(buffer->mBox, newRegion, regionHandle);
+		populateNewRegion(buffer->mBox, newRegion, regionHandle, boundsArray, contactDistance);
 
 #ifdef MBP_REGION_BOX_PRUNING
 	mDirtyRegions = true;
@@ -2884,7 +2880,7 @@ void MBP::reset()
 #endif
 }
 
-void MBP::shiftOrigin(const PxVec3& shift)
+void MBP::shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances)
 {
 	const PxU32 size = mNbRegions;
 	RegionData* PX_RESTRICT regions = mRegions.begin();
@@ -2920,8 +2916,8 @@ void MBP::shiftOrigin(const PxVec3& shift)
 		if(nbHandles)
 		{
 			MBP_AABB bounds;
-			const PxBounds3 rawBounds = mTransientBounds[obj.mUserID];
-			PxVec3 c(mTransientContactDistance[obj.mUserID]);
+			const PxBounds3 rawBounds = boundsArray[obj.mUserID];
+			PxVec3 c(contactDistances[obj.mUserID]);
 			const PxBounds3 decodedBounds(rawBounds.minimum - c, rawBounds.maximum + c);
 			bounds.initFrom2(decodedBounds);
 
@@ -2937,11 +2933,6 @@ void MBP::shiftOrigin(const PxVec3& shift)
 	}
 }
 
-void MBP::setTransientBounds(const PxBounds3* bounds, const PxReal* contactDistance)
-{
-	mTransientBounds = bounds;
-	mTransientContactDistance = contactDistance;
-}
 ///////////////////////////////////////////////////////////////////////////////
 
 // Below is the PhysX wrapper = link between AABBManager and MBP
@@ -3050,9 +3041,9 @@ PxU32 BroadPhaseMBP::getRegions(PxBroadPhaseRegionInfo* userBuffer, PxU32 buffer
 	return writeCount;
 }
 
-PxU32 BroadPhaseMBP::addRegion(const PxBroadPhaseRegion& region, bool populateRegion)
+PxU32 BroadPhaseMBP::addRegion(const PxBroadPhaseRegion& region, bool populateRegion, const PxBounds3* boundsArray, const PxReal* contactDistance)
 {
-	return mMBP->addRegion(region, populateRegion);
+	return mMBP->addRegion(region, populateRegion, boundsArray, contactDistance);
 }
 
 bool BroadPhaseMBP::removeRegion(PxU32 handle)
@@ -3238,7 +3229,7 @@ void BroadPhaseMBP::addObjects(const BroadPhaseUpdateData& updateData)
 
 void BroadPhaseMBP::setUpdateData(const BroadPhaseUpdateData& updateData)
 {
-	mMBP->setTransientBounds(updateData.getAABBs(), updateData.getContactDistance());
+//	mMBP->setTransientBounds(updateData.getAABBs(), updateData.getContactDistance());
 
 	const PxU32 newCapacity = updateData.getCapacity();
 	if(newCapacity>mCapacity)
@@ -3411,9 +3402,9 @@ bool BroadPhaseMBP::isValid(const BroadPhaseUpdateData& updateData) const
 #endif
 
 
-void BroadPhaseMBP::shiftOrigin(const PxVec3& shift)
+void BroadPhaseMBP::shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances)
 {
-	mMBP->shiftOrigin(shift);
+	mMBP->shiftOrigin(shift, boundsArray, contactDistances);
 }
 
 PxU32 BroadPhaseMBP::getCurrentNbPairs() const

@@ -150,7 +150,11 @@ TARGET_INCLUDE_DIRECTORIES(PhysXCooking
 	
 )
 
-TARGET_LINK_LIBRARIES(PhysXCooking PUBLIC PhysXCommon PhysXFoundation)
+TARGET_LINK_LIBRARIES(PhysXCooking 
+	PUBLIC PhysXCommon 
+	PUBLIC PhysXFoundation
+	PRIVATE ${PHYSXCOOKING_PLATFORM_LINKED_LIBS}
+)
 
 # Use generator expressions to set config specific preprocessor definitions
 TARGET_COMPILE_DEFINITIONS(PhysXCooking 

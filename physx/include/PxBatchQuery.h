@@ -135,7 +135,7 @@ class PX_DEPRECATED PxBatchQuery
 	\param[in] distance		Length of the ray. Needs to be larger than 0.
 	\param[in] maxTouchHits	Maximum number of hits to record in the touch buffer for this query. Default=0 reports a single blocking hit. If maxTouchHits is set to 0 all hits are treated as blocking by default.
 	\param[in] hitFlags		Specifies which properties per hit should be computed and returned in hit array and blocking hit.
-	\param[in] filterData	Filtering data passed to the filer shader. See #PxQueryFilterData #PxBatchQueryPreFilterShader, #PxBatchQueryPostFilterShader
+	\param[in] filterData	Filtering data passed to the filter shader. See #PxQueryFilterData #PxBatchQueryPreFilterShader, #PxBatchQueryPostFilterShader
 	\param[in] userData		User can pass any value in this argument, usually to identify this particular query
 	\param[in] cache		Cached hit shape (optional). Query is tested against cached shape first. If no hit is found the ray gets queried against the scene.
 							Note: Filtering is not executed for a cached shape if supplied; instead, if a hit is found, it is assumed to be a blocking hit.

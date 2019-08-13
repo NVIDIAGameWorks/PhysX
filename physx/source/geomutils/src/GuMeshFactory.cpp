@@ -505,10 +505,10 @@ void GuMeshFactory::addConvexMesh(ConvexMesh* np, bool lock)
 // data injected by cooking lib for runtime cooking
 PxConvexMesh* GuMeshFactory::createConvexMesh(void* data)
 {
-	return createConvexMesh(*reinterpret_cast<Gu::ConvexHullData*>(data));
+	return createConvexMesh(*reinterpret_cast<Gu::ConvexHullInitData*>(data));
 }
 
-PxConvexMesh* GuMeshFactory::createConvexMesh(Gu::ConvexHullData& data)
+PxConvexMesh* GuMeshFactory::createConvexMesh(Gu::ConvexHullInitData& data)
 {
 	Gu::ConvexMesh *np;
 	PX_NEW_SERIALIZED(np, Gu::ConvexMesh)(*this, data);

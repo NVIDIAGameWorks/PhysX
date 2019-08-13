@@ -469,6 +469,14 @@ static PX_FORCE_INLINE void separateSwingTwist(const PxQuat& q, PxQuat& twist, P
 	swing2 = swing.z != 0.f ? PxQuat(0.f, 0.f, swing.z, swing.w).getNormalized() : PxQuat(PxIdentity);
 }
 
+void NpArticulationLink::setKinematicLink(const bool value)
+{
+	NP_WRITE_CHECK(NpActor::getOwnerScene(*this));
+
+	getScbBodyFast().getScBody().setKinematicLink(value);
+
+}
+
 void NpArticulationLink::visualizeJoint(PxConstraintVisualizer& jointViz)
 {
 	NpArticulationLink* parent = getParent();

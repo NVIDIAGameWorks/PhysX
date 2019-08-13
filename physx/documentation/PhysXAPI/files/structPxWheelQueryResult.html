@@ -223,6 +223,8 @@ Public Attributes</h2></td></tr>
 <p>If suspension travel limits forbid the wheel from touching the drivable surface then isInAir is true. </p>
 <dl class="section note"><dt>Note</dt><dd>If the wheel can be placed on the contact plane of the most recent suspension line raycast/sweep then isInAir is false. </dd>
 <dd>
+If <a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849" title="Limit the suspension expansion velocity. ">PxVehicleWheelsSimFlag::eLIMIT_SUSPENSION_EXPANSION_VELOCITY</a> is set, then isInAir will also be true if the suspension force is not large enough to expand to the target length in the given simulation time step. </dd>
+<dd>
 If no raycast/sweep for the corresponding suspension was performed immediately prior to PxVehicleUpdates then isInAir is computed using the contact plane that was hit by the most recent suspension line raycast/sweep. </dd></dl>
 
 </div>

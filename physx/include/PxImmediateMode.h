@@ -35,6 +35,7 @@
 #include "PxPhysXConfig.h"
 #include "solver/PxSolverDefs.h"
 #include "collision/PxCollisionDefs.h"
+#include "PxArticulationReducedCoordinate.h"
 
 #if !PX_DOXYGEN
 namespace physx
@@ -349,6 +350,45 @@ namespace immediate
 	@see PxCreateFeatherstoneArticulation
 	*/
 	PX_C_EXPORT PX_PHYSX_CORE_API void	PxReleaseArticulation(Dy::ArticulationV* articulation);
+
+	/**
+	\brief Creates an articulation cache.
+	\param	[in] articulation	Articulation handle
+	\return	Articulation cache
+
+	@see PxReleaseArticulationCache
+	*/
+	PX_C_EXPORT PX_PHYSX_CORE_API PxArticulationCache* PxCreateArticulationCache(Dy::ArticulationV* articulation);
+	
+
+	/**
+	\brief Copy the internal data of the articulation to the cache
+	\param[in] articulation		articulation handle.
+	\param[in] cache	Articulation data
+	\param[in] flag		Indicates which values of the articulation system are copied to the cache
+
+	@see createCache PxApplyArticulationCache
+	*/
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxCopyInternalStateToArticulationCache(Dy::ArticulationV* articulation, PxArticulationCache& cache, PxArticulationCacheFlags flag);
+	
+	/**
+	\brief Apply the user defined data in the cache to the articulation system
+	\param[in] articulation 	articulation handle.
+	\param[in] cache 	Articulation data.
+	\param[in] flag		Defines which values in the cache will be applied to the articulation
+
+	@see createCache PxCopyInternalStateToArticulationCache
+	*/	
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxApplyArticulationCache(Dy::ArticulationV* articulation, PxArticulationCache& cache, PxArticulationCacheFlags flag);
+
+	/**
+	\brief Release an articulation cache
+
+	\param[in] cache	The cache to release
+
+	@see PxCreateArticulationCache PxCopyInternalStateToArticulationCache PxCopyInternalStateToArticulationCache
+	*/
+	PX_C_EXPORT PX_PHYSX_CORE_API void PxReleaseArticulationCache(PxArticulationCache& cache);
 
 	/**
 	\brief Adds a link to an immediate-mode reduced-coordinate articulation. The articulation becomes the link's owner/parent.

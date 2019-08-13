@@ -117,6 +117,7 @@ namespace physx
 		
 		virtual		void						computeJointForce(PxArticulationCache& cache) const;
 
+
 		virtual		void						computeDenseJacobian(PxArticulationCache& cache, PxU32& nRows, PxU32& nCols) const;
 
 		virtual		void						computeCoefficientMatrix(PxArticulationCache& cache) const;
@@ -136,6 +137,9 @@ namespace physx
 		virtual		PxU32						getCoefficientMatrixSize() const;
 
 		virtual		void						teleportRootLink(const PxTransform& pose, bool autowake);
+
+		virtual		PxSpatialVelocity			getLinkVelocity(const PxU32 linkId);
+		virtual		PxSpatialVelocity			getLinkAcceleration(const PxU32 linkId);
 
 		virtual		const char*					getConcreteTypeName() const { return "PxArticulationReducedCoordinate"; }
 

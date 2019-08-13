@@ -39,6 +39,7 @@
 #include "CmSpatialVector.h"
 #include "DyVArticulation.h"
 #include "DyFeatherstoneArticulationUtils.h"
+#include "DyArticulationJointCore.h"
 #include <stdio.h>
 
 namespace physx
@@ -47,17 +48,12 @@ namespace physx
 	{
 
 	
-		class ArticulationJointCoreData
+		class PX_ALIGN_PREFIX(16) ArticulationJointCoreData
 		{
 		public:
 
 			ArticulationJointCoreData() : jointOffset(0xffffffff), dofInternalConstraintMask(0)
 			{
-				for (PxU32 i = 0; i < 6; ++i)
-				{
-					targetJointPosition[i] = 0.f;
-					targetJointVelocity[i] = 0.f;
-				}
 			}
 
 
@@ -72,9 +68,8 @@ namespace physx
 				{
 				case PxArticulationJointType::ePRISMATIC:
 				{
-					PxReal* jJointAxis = jointAxis[0];
-					PxVec3 tJointAxis(jJointAxis[3], jJointAxis[4], jJointAxis[5]);
-					const PxVec3 u = (joint->childPose.rotate(tJointAxis)).getNormalized();
+					const Cm::UnAlignedSpatialVector& jJointAxis = jointAxis[0];
+					const PxVec3 u = (joint->childPose.rotate(jJointAxis.bottom)).getNormalized();
 
 					motionMatrix.setNumColumns(1);
 					motionMatrix.setColumn(0, PxVec3(0.f), u);
@@ -85,9 +80,8 @@ namespace physx
 				}
 				case PxArticulationJointType::eREVOLUTE:
 				{
-					PxReal* jJointAxis = jointAxis[0];
-					PxVec3 tJointAxis(jJointAxis[0], jJointAxis[1], jJointAxis[2]);
-					const PxVec3 u = (joint->childPose.rotate(tJointAxis)).getNormalized();
+					const Cm::UnAlignedSpatialVector& jJointAxis = jointAxis[0];
+					const PxVec3 u = (joint->childPose.rotate(jJointAxis.top)).getNormalized();
 					const PxVec3 uXd = u.cross(childOffset);
 
 					motionMatrix.setNumColumns(1);
@@ -101,9 +95,8 @@ namespace physx
 
 					for (PxU32 ind = 0; ind <dof; ++ind)
 					{
-						PxReal* jJointAxis = jointAxis[ind];
-						PxVec3 tJointAxis = PxVec3(jJointAxis[0], jJointAxis[1], jJointAxis[2]);
-						const PxVec3 u = (joint->childPose.rotate(tJointAxis)).getNormalized();
+						const Cm::UnAlignedSpatialVector& jJointAxis = jointAxis[ind];
+						const PxVec3 u = (joint->childPose.rotate(jJointAxis.top)).getNormalized();
 
 						const PxVec3 uXd = u.cross(childOffset);
 						motionMatrix.setColumn(ind, u, uXd);
@@ -146,10 +139,9 @@ namespace physx
 					dof = 0;
 					lockedAxes = 0;
 					limitedAxes = 0;
-
-					joint->prismaticLimited = false;
-
-					memset(jointAxis, 0, sizeof(PxReal) * 6 * 6);
+					
+					//KS - no need to zero memory here.
+					//PxMemZero(jointAxis, sizeof(jointAxis));
 
 					for (PxU8 i = 0; i < DY_MAX_DOF; ++i)
 					{
@@ -160,12 +152,6 @@ namespace physx
 
 							if (joint->motion[i] == PxArticulationMotion::eLIMITED)
 							{
-							
-								if(i == PxArticulationAxis::eX 
-									|| i == PxArticulationAxis::eY
-									||i == PxArticulationAxis::eZ)
-									joint->prismaticLimited = true;
-
 								limitedAxes++;
 							}
 
@@ -198,6 +184,37 @@ namespace physx
 					joint->dirtyFlag &= (~ArticulationJointCoreDirtyFlag::eMOTION);
 				}
 
+			}
+
+			//in the joint space
+			Cm::UnAlignedSpatialVector			jointAxis[3];					//72
+			//this is the dof offset for the joint in the cache
+			PxU32								jointOffset;					//76
+			//degree of freedom
+			PxU8								dof;							//77
+			PxU8								limitedAxes;					//78
+			PxU8								dofInternalConstraintMask;		//79
+			PxU8								lockedAxes;						//80		
+
+		} PX_ALIGN_SUFFIX(16);
+
+		struct PX_ALIGN_PREFIX(16) ArticulationJointTargetData
+		{
+			PxReal								targetJointVelocity[3];			//12
+			PxReal								targetJointPosition[3];			//24
+			Cm::UnAlignedSpatialVector			worldJointAxis[3];			//96
+			//PxU32								pad[2];
+			
+
+
+
+			ArticulationJointTargetData()
+			{
+				for (PxU32 i = 0; i < 3; ++i)
+				{
+					targetJointPosition[i] = 0.f;
+					targetJointVelocity[i] = 0.f;
+				}
 			}
 
 
@@ -236,22 +253,7 @@ namespace physx
 				}
 			}
 
-			//in the joint space
-			PxReal								jointAxis[6][6];				//144		144
-
-			PxReal								targetJointVelocity[6];			//24		168
-			PxReal								targetJointPosition[6];			//24		192
-			PxReal								maxDriveForce[6];				//24		216
-
-			//this is the dof offset for the joint in the cache
-			PxU32								jointOffset;					//4			220
-			//degree of freedom
-			PxU8								dof;							//1			221
-			PxU8								limitedAxes;					//1			222
-			PxU8								dofInternalConstraintMask;		//1			223
-			PxU8								lockedAxes;						//1			224		
-
-		};
+		} PX_ALIGN_SUFFIX(16);
 
 	}//namespace Dy
 }

@@ -141,22 +141,6 @@ boilerPlateFile = os.path.join(sdkRoot, os.path.normpath("tools/physxmetadatagen
 includes = ''
 includes += includeString(pxSharedRoot + '/include')
 includes += includeString(sdkRoot + '/include')
-includes += includeString(sdkRoot + '/source/foundation/include')
-includes += includeString(sdkRoot + '/source/common/src')
-includes += includeString(sdkRoot + '/source/geomutils/headers')
-includes += includeString(sdkRoot + '/source/geomutils/src')
-includes += includeString(sdkRoot + '/source/geomutils/Opcode')
-includes += includeString(sdkRoot + '/source/physx/src')
-includes += includeString(sdkRoot + '/source/physx/src/buffering')
-includes += includeString(sdkRoot + '/source/simulationcontroller/src')
-includes += includeString(sdkRoot + '/source/simulationcontroller/src/framework')
-includes += includeString(sdkRoot + '/source/simulationcontroller/include')
-includes += includeString(sdkRoot + '/source/physxcooking/include')
-includes += includeString(sdkRoot + '/source/scenequery')
-includes += includeString(sdkRoot + '/source/physxmetadata/core/include')
-includes += includeString(sdkRoot + '/source/physxgpu/include')
-includes += includeString(sdkRoot + '/source/pvd/include')
-includes += includeString(sdkRoot + '/source/fastxml/include')
 includes += includeString(sdkRoot + '/tools/physxmetadatagenerator')
 
 print("platform:", platform.system())
@@ -235,6 +219,7 @@ srcPath = "PxVehicleExtensionAPI.h"
 metaDataDir = os.path.join(sdkRoot, os.path.normpath("source/physxvehicle/src/physxmetadata"))
 
 includes += includeString(sdkRoot + '/include/vehicle')
+#TODO, get rid of source include
 includes += includeString(sdkRoot + '/source/physxvehicle/src')
 includes += includeString(pxSharedRoot + '/include/foundation')
 

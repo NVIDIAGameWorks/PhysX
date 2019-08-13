@@ -112,6 +112,10 @@ public:
 	//this is called by island gen to determine whether the articulation should be awake or sleep
 	virtual Cm::SpatialVector getMotionVelocity(const PxU32 linkID) const;
 
+	virtual Cm::SpatialVector getMotionAcceleration(const PxU32 linkID) const;
+
+	virtual	void fillIndexedManager(const PxU32 linkId, Dy::ArticulationLinkHandle& handle, PxU8& indexType);
+
 	virtual PxReal getLinkMaxPenBias(const PxU32 linkID) const;
 
 

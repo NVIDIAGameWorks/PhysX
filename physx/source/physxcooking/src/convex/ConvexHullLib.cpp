@@ -31,6 +31,7 @@
 #include "ConvexHullLib.h"
 #include "Quantizer.h"
 #include "PsAllocator.h"
+#include "PsFoundation.h"
 #include "foundation/PxBounds3.h"
 #include "foundation/PxMemory.h"
 
@@ -41,7 +42,7 @@ namespace local
 	//////////////////////////////////////////////////////////////////////////
 	// constants	
 	static const float DISTANCE_EPSILON = 0.000001f;	// close enough to consider two floating point numbers to be 'the same'.
-	static const float NORMAL_DISTANCE_EPSILON = 0.001f; // close enough to consider two floating point numbers to be 'the same' in normalized points cloud.
+	static const float NORMAL_DISTANCE_EPSILON = 0.0001f; // close enough to consider two floating point numbers to be 'the same' in normalized points cloud.
 	static const float RESIZE_VALUE = 0.01f;			// if the provided points AABB is very thin resize it to this size
 
 	//////////////////////////////////////////////////////////////////////////
@@ -269,6 +270,12 @@ bool ConvexHullLib::cleanupVertices(PxU32 svcount, const PxVec3* svertices, PxU3
 			vertices[vcount] = normalizedP;
 			vcount++;
 		}
+	}
+
+	if(vcount < 4)
+	{
+		Ps::getFoundation().error(PxErrorCode::eINTERNAL_ERROR, __FILE__, __LINE__, "ConvexHullLib::cleanupVertices: Less than four valid vertices were found. Provide at least four valid (e.g. each at a different position) vertices.");
+		return false;
 	}
 
 	// scale the verts back

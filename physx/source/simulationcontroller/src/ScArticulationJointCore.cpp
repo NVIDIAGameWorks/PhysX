@@ -90,6 +90,7 @@ Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 			mCore.drives[i].stiffness = 0.f;
 			mCore.drives[i].damping = 0.f;
 			mCore.drives[i].maxForce = 0.f;
+			mCore.drives[i].driveType = PxArticulationDriveType::eNONE;
 			mCore.targetP[i] = 0.f;
 			mCore.targetV[i] = 0.f;
 		}
@@ -106,7 +107,6 @@ Sc::ArticulationJointCore::ArticulationJointCore(const PxTransform& parentFrame,
 
 	mCore.swingLimited = false;
 	mCore.twistLimited = false;
-	mCore.prismaticLimited = false;
 	mCore.tangentialStiffness = 0.0f;
 	mCore.tangentialDamping = 0.0f;
 
@@ -132,15 +132,13 @@ Sc::ArticulationJointCore::~ArticulationJointCore()
 void Sc::ArticulationJointCore::setParentPose(const PxTransform& t)
 {
 	mCore.parentPose = t;
-	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::ePOSE;
-	mArticulation->setDirty(true);
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::ePOSE);
 }
 
 void Sc::ArticulationJointCore::setChildPose(const PxTransform& t)
 {
 	mCore.childPose = t;
-	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::ePOSE;
-	mArticulation->setDirty(true);
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::ePOSE);
 }
 
 void Sc::ArticulationJointCore::setTargetOrientation(const PxQuat& p)
@@ -172,8 +170,7 @@ PxArticulationJointType::Enum Sc::ArticulationJointCore::getJointType() const
 void Sc::ArticulationJointCore::setMotion(PxArticulationAxis::Enum axis, PxArticulationMotion::Enum motion)
 {
 	mCore.motion[axis] = PxU8(motion);
-	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::eMOTION;
-	mArticulation->setDirty(true);
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::eMOTION);
 }
 
 PxArticulationMotion::Enum Sc::ArticulationJointCore::getMotion(PxArticulationAxis::Enum axis) const
@@ -271,18 +268,43 @@ void Sc::ArticulationJointCore::setTwistLimitContactDistance(PxReal e)
 	mCore.tanQTwistPad = PxTan(e/4);
 }
 
+void Sc::ArticulationJointCore::setDirty(Dy::ArticulationJointCoreDirtyFlag::Enum dirtyFlag)
+{
+	mCore.dirtyFlag |= dirtyFlag;
+	Sc::ArticulationJointSim* sim = getSim();
+	if (sim)
+	{
+		sim->setDirty();
+	}
+}
+
 void Sc::ArticulationJointCore::setTargetP(PxArticulationAxis::Enum axis, PxReal targetP)
 {
 	mCore.targetP[axis] = targetP;
-	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::eTARGETPOSE;
-	mArticulation->setDirty(true);
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::eTARGETPOSE);
 }
 
 void Sc::ArticulationJointCore::setTargetV(PxArticulationAxis::Enum axis, PxReal targetV)
 {
 	mCore.targetV[axis] = targetV;
-	mCore.dirtyFlag |= Dy::ArticulationJointCoreDirtyFlag::eTARGETVELOCITY;
-	mArticulation->setDirty(true);
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::eTARGETVELOCITY);
+}
+
+void Sc::ArticulationJointCore::setLimit(PxArticulationAxis::Enum axis, PxReal lower, PxReal upper)
+{
+	mCore.limits[axis].low = lower;
+	mCore.limits[axis].high = upper;
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::eLIMIT);
+}
+
+void Sc::ArticulationJointCore::setDrive(PxArticulationAxis::Enum axis, PxReal stiffness, PxReal damping, PxReal maxForce, PxArticulationDriveType::Enum driveType)
+{
+	mCore.drives[axis].stiffness = stiffness;
+	mCore.drives[axis].damping = damping;
+	mCore.drives[axis].maxForce = maxForce;
+	mCore.drives[axis].driveType = driveType;
+
+	setDirty(Dy::ArticulationJointCoreDirtyFlag::eDRIVE);
 }
 
 PxArticulationJointBase* Sc::ArticulationJointCore::getPxArticulationJointBase()

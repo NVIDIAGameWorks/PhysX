@@ -221,6 +221,12 @@ var group__physics =
       [ "pad1", "structPxSpatialForce.html#aee182664c6f1807eb945d3c83ac746b3", null ],
       [ "torque", "structPxSpatialForce.html#a0c350e4c06721f54057740e212d5c0e3", null ]
     ] ],
+    [ "PxSpatialVelocity", "structPxSpatialVelocity.html", [
+      [ "angular", "structPxSpatialVelocity.html#a9f786fd589f7cdd251bce4533740a3dc", null ],
+      [ "linear", "structPxSpatialVelocity.html#ac02baccbfcfc70da86f7e26a927e2f6c", null ],
+      [ "pad0", "structPxSpatialVelocity.html#a02e82818206391c9ece02f9422ba159d", null ],
+      [ "pad1", "structPxSpatialVelocity.html#a1873df39ae53892ee11f61eecf4493ac", null ]
+    ] ],
     [ "PxArticulationRootLinkData", "structPxArticulationRootLinkData.html", [
       [ "transform", "structPxArticulationRootLinkData.html#af0dcfa25c769c89fd405eeaed52b3c1f", null ],
       [ "worldAngAccel", "structPxArticulationRootLinkData.html#ab1502e0364f2784bb5465415256ac778", null ],
@@ -234,6 +240,8 @@ var group__physics =
         [ "eACCELERATION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea9bfa940c74c9da6b9ce0a27c9f6bd8f8", null ],
         [ "ePOSITION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea74109d30461c72534eb5a36baf352e6a", null ],
         [ "eFORCE", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea89efd599f1473d4a795b89fb71c5012a", null ],
+        [ "eLINKVELOCITY", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14eacaf9eee2de38014ce959feb30fba9d1b", null ],
+        [ "eLINKACCELERATION", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea1ee0f9a7f94765e59bc93944a434af54", null ],
         [ "eROOT", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea6066321f08d523d0b73cfbdf2b44041c", null ],
         [ "eALL", "classPxArticulationCache.html#a17beddf109c14739cacb3ddc833ea14ea86872df915168195ac00a5cb1033ee29", null ]
       ] ],
@@ -246,6 +254,8 @@ var group__physics =
       [ "jointPosition", "classPxArticulationCache.html#a64e8f0b09d6860f91d7a830c11bdddc9", null ],
       [ "jointVelocity", "classPxArticulationCache.html#aab37dabd7db43ef927337da7f6ea9f5a", null ],
       [ "lambda", "classPxArticulationCache.html#aa90b660a293d6ce7984d49e8be270465", null ],
+      [ "linkAcceleration", "classPxArticulationCache.html#ac67f33a6b89001467a31fd4a3f4afa23", null ],
+      [ "linkVelocity", "classPxArticulationCache.html#a91adda674694b0f628a07e4ca89bcec5", null ],
       [ "massMatrix", "classPxArticulationCache.html#a40849b1b079c9b0e517fb7eaea488ccf", null ],
       [ "rootLinkData", "classPxArticulationCache.html#ae0431d9e6e127c49cf7cc53532b4b393", null ],
       [ "scratchAllocator", "classPxArticulationCache.html#ac5356bfc4c7b57dec9bdd33c698ae96c", null ],
@@ -274,6 +284,8 @@ var group__physics =
       [ "getCacheDataSize", "classPxArticulationReducedCoordinate.html#a86107c6d84d3132b6a46bb9b2b48666e", null ],
       [ "getCoefficientMatrixSize", "classPxArticulationReducedCoordinate.html#a54da9e7775e8b619d5172039213beaff", null ],
       [ "getDofs", "classPxArticulationReducedCoordinate.html#a4d0ed61a1f9a2b2cd18ced0cf9122355", null ],
+      [ "getLinkAcceleration", "classPxArticulationReducedCoordinate.html#ab51ab4c2ab36f1b409a1aa0468f0fe71", null ],
+      [ "getLinkVelocity", "classPxArticulationReducedCoordinate.html#a4520151744be7de9835c9f90291468c3", null ],
       [ "getLoopJoints", "classPxArticulationReducedCoordinate.html#a5a611783b278756d562f4dfe0626af18", null ],
       [ "getNbLoopJoints", "classPxArticulationReducedCoordinate.html#aa89014cf296753fd9ddffbd62ef46c4c", null ],
       [ "packJointData", "classPxArticulationReducedCoordinate.html#a32973e41c51f9dd6ed0168c401d620d7", null ],
@@ -1392,7 +1404,7 @@ var group__physics =
     [ "PxPairFlags", "group__physics.html#gacacbeccf757e60dbf45089ef382681d9", null ],
     [ "PxRaycastQueryResult", "group__physics.html#ga5d8a1dc3627cf1442f40d91a5ec6b4e3", null ],
     [ "PxRigidBodyFlags", "group__physics.html#ga2ab6803c803ae6372791ff060068c6a1", null ],
-    [ "PxRigidDynamicLockFlags", "group__physics.html#gab35e15599f740af43f399ed4ad9f04e8", null ],
+    [ "PxRigidDynamicLockFlags", "group__physics.html#ga5ff75d3f2ba94c58e7f8f928b11ebb8d", null ],
     [ "PxSceneFlags", "group__physics.html#ga54a626a9a6d80543048bffc654814704", null ],
     [ "PxShapeFlags", "group__physics.html#ga18053d8127ddb5ed5609e4c748b6ad0d", null ],
     [ "PxSimulationFilterShader", "group__physics.html#ga235380b2a5b3cc89a4cd89d089d72b33", null ],

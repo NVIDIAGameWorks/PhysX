@@ -56,7 +56,7 @@ namespace Bp
 		virtual	bool						getCaps(PxBroadPhaseCaps& caps)														const;
 		virtual	PxU32						getNbRegions()																		const;
 		virtual	PxU32						getRegions(PxBroadPhaseRegionInfo* userBuffer, PxU32 bufferSize, PxU32 startIndex=0) const;
-		virtual	PxU32						addRegion(const PxBroadPhaseRegion& region, bool populateRegion);
+		virtual	PxU32						addRegion(const PxBroadPhaseRegion& region, bool populateRegion, const PxBounds3* boundsArray, const PxReal* contactDistance);
 		virtual	bool						removeRegion(PxU32 handle);
 		virtual	PxU32						getNbOutOfBoundsObjects()	const;
 		virtual	const PxU32*				getOutOfBoundsObjects()		const;
@@ -72,7 +72,7 @@ namespace Bp
 		virtual PxU32						getNbDeletedPairs()		const;
 		virtual BroadPhasePair*				getDeletedPairs();
 		virtual void						freeBuffers();
-		virtual void						shiftOrigin(const PxVec3& shift);
+		virtual void						shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances);
 #if PX_CHECKED
 		virtual bool						isValid(const BroadPhaseUpdateData& updateData)	const;
 #endif

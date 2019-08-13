@@ -211,6 +211,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxVehicleCopyDynamicsMap.html">PxVehicleCopyDynamicsMap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used by PxVehicleCopyDynamicsData.  <a href="classPxVehicleCopyDynamicsMap.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleWheelsSimFlag.html">PxVehicleWheelsSimFlag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags to configure the vehicle wheel simulation.  <a href="structPxVehicleWheelsSimFlag.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxVehicleWheelsSimData.html">PxVehicleWheelsSimData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure describing configuration data of a vehicle with up to 20 wheels.  <a href="classPxVehicleWheelsSimData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +238,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga2b7b927dd3d949d50a3f42c695264f43"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#ga2b7b927dd3d949d50a3f42c695264f43">PxVehicleComputeTireForce</a>) (const void *shaderData, const PxF32 tireFriction, const PxF32 longSlip, const PxF32 latSlip, const PxF32 camber, const PxF32 wheelOmega, const PxF32 wheelRadius, const PxF32 recipWheelRadius, const PxF32 restTireLoad, const PxF32 normalisedTireLoad, const PxF32 tireLoad, const PxF32 gravity, const PxF32 recipGravity, PxF32 &amp;wheelTorque, PxF32 &amp;tireLongForceMag, PxF32 &amp;tireLatForceMag, PxF32 &amp;tireAlignMoment)</td></tr>
 <tr class="memdesc:ga2b7b927dd3d949d50a3f42c695264f43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prototype of shader function that is used to compute wheel torque and tire forces.  <a href="#ga2b7b927dd3d949d50a3f42c695264f43">More...</a><br /></td></tr>
 <tr class="separator:ga2b7b927dd3d949d50a3f42c695264f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5de07a7bd475df4e4c41f3f11ddcdb5"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classPxFlags.html">PxFlags</a>&lt; <a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60">PxVehicleWheelsSimFlag::Enum</a>, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#gab5de07a7bd475df4e4c41f3f11ddcdb5">PxVehicleWheelsSimFlags</a></td></tr>
+<tr class="memdesc:gab5de07a7bd475df4e4c41f3f11ddcdb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of set bits defined in <a class="el" href="structPxVehicleWheelsSimFlag.html" title="Flags to configure the vehicle wheel simulation. ">PxVehicleWheelsSimFlag</a>.  <a href="#gab5de07a7bd475df4e4c41f3f11ddcdb5">More...</a><br /></td></tr>
+<tr class="separator:gab5de07a7bd475df4e4c41f3f11ddcdb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -387,6 +393,23 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxVehicleWheelsDynData.html#a1d7405c9aeb529ca1a2bf945edd3d83f" title="Set the tire force shader function. ">PxVehicleWheelsDynData::setTireForceShaderFunction</a>, <a class="el" href="classPxVehicleWheelsDynData.html#a25312456167dbd6611450a593444928e" title="Set the tire force shader data for a specific tire. ">PxVehicleWheelsDynData::setTireForceShaderData</a> </dd></dl>
+
+</div>
+</div>
+<a id="gab5de07a7bd475df4e4c41f3f11ddcdb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab5de07a7bd475df4e4c41f3f11ddcdb5">&#9670;&nbsp;</a></span>PxVehicleWheelsSimFlags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classPxFlags.html">PxFlags</a>&lt;<a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60">PxVehicleWheelsSimFlag::Enum</a>, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&gt; <a class="el" href="group__vehicle.html#gab5de07a7bd475df4e4c41f3f11ddcdb5">PxVehicleWheelsSimFlags</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Collection of set bits defined in <a class="el" href="structPxVehicleWheelsSimFlag.html" title="Flags to configure the vehicle wheel simulation. ">PxVehicleWheelsSimFlag</a>. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxVehicleWheelsSimFlag.html" title="Flags to configure the vehicle wheel simulation. ">PxVehicleWheelsSimFlag</a> </dd></dl>
 
 </div>
 </div>

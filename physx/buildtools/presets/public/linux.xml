@@ -3,7 +3,7 @@
   <platform targetPlatform="linux" compiler="clang" />
   <CMakeSwitches>
     <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets" />
-    <cmakeSwitch name="PX_BUILDSAMPLES" value="True" comment="Generate the samples" />
+    <cmakeSwitch name="PX_BUILDPUBLICSAMPLES" value="True" comment="Generate the samples" />
     <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />    
   </CMakeSwitches>
   <CMakeParams>

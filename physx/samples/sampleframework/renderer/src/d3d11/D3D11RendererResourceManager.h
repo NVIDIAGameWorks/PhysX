@@ -32,6 +32,7 @@
 #if defined(RENDERER_ENABLE_DIRECT3D11)
 
 #include <algorithm>
+#include <typeinfo>
 
 #include "D3D11RendererTraits.h"
 #include "D3D11RendererMemoryMacros.h"

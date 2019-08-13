@@ -2590,6 +2590,9 @@ struct ProcessSuspWheelTireConstData
 
 	//Pointer to table of friction values for each combination of material and tire type.
 	const PxVehicleDrivableSurfaceToTireFrictionPairs* frictionPairs;	
+
+	//Flags related to wheel simulation (see PxVehicleWheelsSimFlags)
+	PxU32 wheelsSimFlags;
 };
 
 //This data structure is passed to processSuspTireWheels
@@ -2879,6 +2882,7 @@ void processSuspTireWheels
 	const PxF32 gravityMagnitude=constData.gravityMagnitude;
 	const bool isTank=constData.isTank;
 	const PxF32 minLongSlipDenominator=constData.minLongSlipDenominator;
+	const PxU32 wheelsSimFlags = constData.wheelsSimFlags;
 
 	//Unpack the input data (physically constant data).
 	const PxVehicleWheels4SimData& wheelsSimData=*inputData.vehWheels4SimData;
@@ -3268,9 +3272,6 @@ void processSuspTireWheels
 				tireContactPoints[i]=hitContactPoints4[i];
 				tireContactNormals[i]=hitContactNormals4[i];
 
-				//We know that the vehicle is not in the air.
-				isInAirs[i]=false;
-
 				//Clamp the spring compression so that it is never greater than the max bounce.
 				//Apply the susp limit constraint if the spring compression is greater than the max bounce.
 				suspLimitErrors[i] = (w.dot(hitNorm))*(-dx + susp.mMaxCompression);
@@ -3303,244 +3304,296 @@ void processSuspTireWheels
 				}
 
 				//Get the speed of the jounce.
-				const PxF32 jounceSpeed = (PX_MAX_F32 != prevJounces[i]) ? (jounce - prevJounces[i])*recipTimeStep : 0.0f;
-
-				//Decompose gravity into a term along w and a term perpendicular to w
-				//gravity = w*alpha + T*beta
-				//where T is a unit vector perpendicular to w; alpha and beta are scalars.
-				//The vector w*alpha*mass is the component of gravitational force that acts along the spring direction.
-				//The vector T*beta*mass is the component of gravitational force that will be resisted by the spring 
-				//because the spring only supports a single degree of freedom along w.
-				//We only really need to know T*beta so don't bother calculating T or beta.
-				const PxF32 alpha = PxMax(0.0f, gravity.dot(w));
-				const PxVec3 TTimesBeta = (0.0f != alpha) ? gravity - w*alpha : PxVec3(0,0,0);
-				//Compute the magnitude of the force along w.
-				PxF32 suspensionForceW =	
-					PxMax(0.0f, 
-					susp.mSprungMass*alpha + 							//force to support sprung mass at zero jounce
-					susp.mSpringStrength*jounce);						//linear spring
-				suspensionForceW += susp.mSpringDamperRate*jounceSpeed;	//damping
-				//Compute the total force acting on the suspension.
-				//Remember that the spring force acts along -w.
-				//Remember to account for the term perpendicular to w and that it acts along -TTimesBeta
-				PxF32 suspensionForceMag = hitNorm.dot(-w*suspensionForceW - TTimesBeta*susp.mSprungMass);
-
-				//Apply the opposite force to the hit object.
-				//Clamp suspensionForceMag if required.
-				if (dynamicHitActor && !(dynamicHitActor->getRigidBodyFlags() & PxRigidBodyFlag::eKINEMATIC))
+				PxF32 jounceSpeed;
+				PxF32 previousJounce;
+				if (PX_MAX_F32 != prevJounces[i])
 				{
-					const PxF32 dynamicActorInvMass = dynamicHitActor->getInvMass();
-					const PxF32 dynamicActorMass = dynamicHitActor->getMass();
-					const PxF32 forceSign = computeSign(suspensionForceMag);
-					const PxF32 forceMag = PxAbs(suspensionForceMag);
-					const PxF32 clampedAccelMag = PxMin(forceMag*dynamicActorInvMass, gMaxHitActorAcceleration);
-					const PxF32 clampedForceMag = clampedAccelMag*dynamicActorMass*forceSign;
-					PX_ASSERT(clampedForceMag*suspensionForceMag >= 0.0f);
-
-					suspensionForceMag = clampedForceMag;
-
-					hitActors[i] = dynamicHitActor;
-					hitActorForces[i] = hitNorm*(-clampedForceMag*timeFraction);
-					hitActorForcePositions[i] = hitContactPoints4[i];
-				}
-
-				//Store the spring force now (having a local copy avoids lhs).
-				suspensionSpringForces[i] = suspensionForceMag;
-
-				//Store the spring force in the graph.
-#if PX_DEBUG_VEHICLE_ON
-				updateGraphDataSuspForce(startWheelIndex, i, suspensionForceMag);
-#endif
-
-				//Suspension force can be computed now.
-				const PxVec3 suspensionForce = hitNorm*suspensionForceMag;
-
-				//Torque from spring force.
-				const PxVec3 suspForceCMOffset = carChassisTrnsfm.rotate(wheelsSimData.getSuspForceAppPointOffset(i));
-				const PxVec3 suspensionTorque = suspForceCMOffset.cross(suspensionForce);
-
-				//Add the suspension force/torque to the chassis force/torque.
-				chassisForce+=suspensionForce;
-				chassisTorque+=suspensionTorque;
-
-				//Now compute the tire load.
-				const PxF32 tireLoad = suspensionForceMag;
-
-				//Normalize the tire load 
-				//Now work out the normalized tire load.
-				const PxF32 normalisedTireLoad=tireLoad*recipGravityMagnitude*recipTireRestLoads[i];
-				//Filter the normalized tire load and compute the filtered tire load too.
-				const PxF32 filteredNormalisedTireLoad=computeFilteredNormalisedTireLoad(tireLoadFilterData,normalisedTireLoad);
-				const PxF32 filteredTireLoad=filteredNormalisedTireLoad*gravityMagnitude*tireRestLoads[i];
-
-#if PX_DEBUG_VEHICLE_ON
-				updateGraphDataTireLoad(startWheelIndex,i,filteredTireLoad);
-				updateGraphDataNormTireLoad(startWheelIndex,i,filteredNormalisedTireLoad);
-#endif
-
-				//Compute the lateral and longitudinal tire axes in the ground plane.
-				PxVec3 tireLongDir;
-				PxVec3 tireLatDir;
-				computeTireDirs(latDir,hitNorm,steerAngles[i],tireLongDir,tireLatDir);
-
-				//Store the tire long and lat dirs now (having a local copy avoids lhs).
-				tireLongitudinalDirs[i]= tireLongDir;
-				tireLateralDirs[i]=tireLatDir;
-
-				//Now compute the speeds along each of the tire axes.
-				const PxF32 tireLongSpeed=wheelBottomVel.dot(tireLongDir);
-				const PxF32 tireLatSpeed=wheelBottomVel.dot(tireLatDir);
-
-				//Store the forward speed (having a local copy avoids lhs).
-				forwardSpeeds[i]=tireLongSpeed;
-
-				//Now compute the slips along each axes.
-				const bool hasAccel=isAccelApplied[i];
-				const bool hasBrake=isBrakeApplied[i];
-				const PxF32 wheelOmega=wheelsDynData.mWheelSpeeds[i];
-				const PxF32 wheelRadius=wheel.mRadius;
-				PxF32 longSlip;
-				PxF32 latSlip;
-				computeTireSlips
-					(tireLongSpeed,tireLatSpeed,wheelOmega,wheelRadius,minLongSlipDenominator,
-					 hasAccel,hasBrake,
-					 isTank,
-					 longSlip,latSlip);
-
-				//Store the lat and long slip (having local copies avoids lhs).
-				longSlips[i]=longSlip;
-				latSlips[i]=latSlip;
-
-				//Camber angle.
-				PxF32 camber=susp.mCamberAtRest;
-				if(jounce>0)
-				{
-					camber += jounce*susp.mCamberAtMaxCompression*susp.getRecipMaxCompression();
+					jounceSpeed = (jounce - prevJounces[i])*recipTimeStep;
+					previousJounce = prevJounces[i];
 				}
 				else
 				{
-					camber -= jounce*susp.mCamberAtMaxDroop*susp.getRecipMaxDroop();
+					jounceSpeed = 0.0f;
+					previousJounce = jounce;
 				}
 
-				//Compute the friction that will be experienced by the tire.
-				PxF32 friction;
-				computeTireFriction(tire,longSlip,frictionMultiplier,friction);
-
-				//Store the friction (having a local copy avoids lhs).
-				frictions[i]=friction;
-
-				if(filteredTireLoad*frictionMultiplier>0)
+				const PxF32 gravitySuspDir = gravity.dot(w);
+				bool computeSuspensionForce = true;
+				if ((wheelsSimFlags & PxVehicleWheelsSimFlag::eLIMIT_SUSPENSION_EXPANSION_VELOCITY) && (jounceSpeed < 0.0f) && (jounce <= 0.0f))
 				{
-					//Either tire forces or sticky tire friction constraint will be applied here.
-					const PxVec3 tireForceCMOffset = carChassisTrnsfm.rotate(wheelsSimData.getTireForceAppPointOffset(i));
+					//Suspension is expanding and not compressed (the latter helps to avoid the suspension not being able to carry the sprung mass
+					//when many substeps are used because the expected velocity from the suspension spring might always be slightly below the velocity
+					//needed to reach the new jounce).
 
-					PxF32 newLowForwardSpeedTimer;
+					//Check if the suspension can expand fast enough to keep pushing the wheel to the ground.
+
+					const PxF32 distToMaxDroop = previousJounce + susp.mMaxDroop;  // signs chosen to point along the suspension travel direction
+					//The vehicle is considered to be in air until the suspension expands to the ground, thus the max droop is used
+					//as the rest length of the spring.
+
+					//Without the suspension elongating, the wheel would end up in the air. Compute the force that pushes the
+					//wheel towards the ground. Note that gravity is ignored here as it applies to chassis and wheel equally.
+					//Furthermore, the suspension start point (sprung mass) and the wheel are assumed to move with roughly the 
+					//same velocity, hence, damping is ignored too.
+					const PxF32 springForceAlongSuspDir = distToMaxDroop * susp.mSpringStrength;
+
+					const PxF32 suspDirVelWheel = ((springForceAlongSuspDir / wheel.mMass) + gravitySuspDir) * timeStep;
+
+					if (jounceSpeed < (-suspDirVelWheel))
 					{
-						//check the accel value here
-						//Update low forward speed timer.
-						const PxF32 recipWheelRadius=wheel.getRecipRadius();
-						newLowForwardSpeedTimer=newLowForwardSpeedTimers[i];
-						updateLowForwardSpeedTimer(tireLongSpeed,wheelOmega,wheelRadius,recipWheelRadius,isIntentionToAccelerate,timeStep,newLowForwardSpeedTimer);
+						//The suspension can not push the wheel fast enough onto the ground, so the vehicle will leave the ground.
+						//Hence, no spring forces should get applied.
+						//note: could consider applying -springForceAlongSuspDir to the chassis but this is not done in the other
+						//      scenarios where the vehicle is in the air either.
 
-						//Activate sticky tire forward friction constraint if required.
-						//If sticky tire friction is active then set the longitudinal slip to zero because 
-						//the sticky tire constraint will take care of the longitudinal component of motion.
-						bool stickyTireForwardActiveFlag=false;
-						PxF32 stickyTireForwardTargetSpeed=0.0f;
-						activateStickyFrictionForwardConstraint(tireLongSpeed,wheelOmega,newLowForwardSpeedTimer,isIntentionToAccelerate,stickyTireForwardActiveFlag,stickyTireForwardTargetSpeed);
-						stickyTireForwardTargetSpeed += hitActorVelocity.dot(tireLongDir);
+						computeSuspensionForce = false;
+						jounce = PxMin(previousJounce - (suspDirVelWheel * timeStep), susp.mMaxCompression);
+					}
+				}
 
-						//Store the sticky tire data (having local copies avoids lhs). 
-						newLowForwardSpeedTimers[i] = newLowForwardSpeedTimer;
-						stickyTireForwardActiveFlags[i]=stickyTireForwardActiveFlag;
-						stickyTireForwardTargetSpeeds[i]=stickyTireForwardTargetSpeed;
-						stickyTireForwardDirs[i]=tireLongDir;
-						stickyTireForwardCMOffsets[i]=tireForceCMOffset;
+				if (computeSuspensionForce)
+				{
+					//We know that the vehicle is not in the air.
+					isInAirs[i]=false;
 
-						//Deactivate the long slip if sticky tire constraint is active.
-						longSlip=(!stickyTireForwardActiveFlag ? longSlip : 0.0f); 
+					//Decompose gravity into a term along w and a term perpendicular to w
+					//gravity = w*alpha + T*beta
+					//where T is a unit vector perpendicular to w; alpha and beta are scalars.
+					//The vector w*alpha*mass is the component of gravitational force that acts along the spring direction.
+					//The vector T*beta*mass is the component of gravitational force that will be resisted by the spring 
+					//because the spring only supports a single degree of freedom along w.
+					//We only really need to know T*beta so don't bother calculating T or beta.
+					const PxF32 alpha = PxMax(0.0f, gravitySuspDir);
+					const PxVec3 TTimesBeta = (0.0f != alpha) ? gravity - w*alpha : PxVec3(0,0,0);
+					//Compute the magnitude of the force along w.
+					PxF32 suspensionForceW =	
+						PxMax(0.0f, 
+						susp.mSprungMass*alpha + 								//force to support sprung mass at zero jounce
+						susp.mSpringStrength*jounce);							//linear spring
+					suspensionForceW += jounceSpeed * susp.mSpringDamperRate;	//damping
 
-						//Store the long slip (having local copies avoids lhs). 
-						longSlips[i]=longSlip;
+					//Compute the total force acting on the suspension.
+					//Remember that the spring force acts along -w.
+					//Remember to account for the term perpendicular to w and that it acts along -TTimesBeta
+					PxF32 suspensionForceMag = hitNorm.dot(-w*suspensionForceW - TTimesBeta*susp.mSprungMass);
+
+					//Apply the opposite force to the hit object.
+					//Clamp suspensionForceMag if required.
+					if (dynamicHitActor && !(dynamicHitActor->getRigidBodyFlags() & PxRigidBodyFlag::eKINEMATIC))
+					{
+						const PxF32 dynamicActorInvMass = dynamicHitActor->getInvMass();
+						const PxF32 dynamicActorMass = dynamicHitActor->getMass();
+						const PxF32 forceSign = computeSign(suspensionForceMag);
+						const PxF32 forceMag = PxAbs(suspensionForceMag);
+						const PxF32 clampedAccelMag = PxMin(forceMag*dynamicActorInvMass, gMaxHitActorAcceleration);
+						const PxF32 clampedForceMag = clampedAccelMag*dynamicActorMass*forceSign;
+						PX_ASSERT(clampedForceMag*suspensionForceMag >= 0.0f);
+
+						suspensionForceMag = clampedForceMag;
+
+						hitActors[i] = dynamicHitActor;
+						hitActorForces[i] = hitNorm*(-clampedForceMag*timeFraction);
+						hitActorForcePositions[i] = hitContactPoints4[i];
 					}
 
-					PxF32 newLowSideSpeedTimer;
-					{
-						//check the accel value here
-						//Update low side speed timer.
-						newLowSideSpeedTimer=newLowSideSpeedTimers[i];
-						updateLowSideSpeedTimer(tireLatSpeed,isIntentionToAccelerate,timeStep,newLowSideSpeedTimer);
+					//Store the spring force now (having a local copy avoids lhs).
+					suspensionSpringForces[i] = suspensionForceMag;
 
-						//Activate sticky tire side friction constraint if required.
-						//If sticky tire friction is active then set the lateral slip to zero because 
-						//the sticky tire constraint will take care of the lateral component of motion.
-						bool stickyTireSideActiveFlag=false;
-						PxF32 stickyTireSideTargetSpeed=0.0f;
-						activateStickyFrictionSideConstraint(tireLatSpeed,newLowForwardSpeedTimer,newLowSideSpeedTimer,isIntentionToAccelerate,stickyTireSideActiveFlag,stickyTireSideTargetSpeed);
-						stickyTireSideTargetSpeed += hitActorVelocity.dot(tireLatDir);
-
-						//Store the sticky tire data (having local copies avoids lhs). 
-						newLowSideSpeedTimers[i] = newLowSideSpeedTimer;
-						stickyTireSideActiveFlags[i]=stickyTireSideActiveFlag;
-						stickyTireSideTargetSpeeds[i]=stickyTireSideTargetSpeed;
-						stickyTireSideDirs[i]=tireLatDir;
-						stickyTireSideCMOffsets[i]=tireForceCMOffset;
-
-						//Deactivate the lat slip if sticky tire constraint is active.
-						latSlip=(!stickyTireSideActiveFlag ? latSlip : 0.0f); 
-
-						//Store the long slip (having local copies avoids lhs). 
-						latSlips[i]=latSlip;
-					}
-
-					//Compute the various tire torques.
-					PxF32 wheelTorque=0;
-					PxF32 tireLongForceMag=0;
-					PxF32 tireLatForceMag=0;
-					PxF32 tireAlignMoment=0;
-					const PxF32 restTireLoad=gravityMagnitude*tireRestLoads[i];
-					const PxF32 recipWheelRadius=wheel.getRecipRadius();
-					tireForceCalculator.mShader(
-						tireForceCalculator.mShaderData[i],
-						friction,
-						longSlip,latSlip,camber,
-						wheelOmega,wheelRadius,recipWheelRadius,
-						restTireLoad,filteredNormalisedTireLoad,filteredTireLoad,
-						gravityMagnitude, recipGravityMagnitude,
-						wheelTorque,tireLongForceMag,tireLatForceMag,tireAlignMoment);
-
-					//Store the tire torque ((having a local copy avoids lhs).
-					tireTorques[i]=wheelTorque;
-
-					//Apply the torque to the chassis.
-					//Compute the tire force to apply to the chassis.
-					const PxVec3 tireLongForce=tireLongDir*tireLongForceMag;
-					const PxVec3 tireLatForce=tireLatDir*tireLatForceMag;
-					const PxVec3 tireForce=tireLongForce+tireLatForce;
-					//Compute the torque to apply to the chassis.
-					const PxVec3 tireTorque=tireForceCMOffset.cross(tireForce);
-					//Add all the forces/torques together.
-					chassisForce+=tireForce;
-					chassisTorque+=tireTorque;
-
-					//Graph all the data we just computed.
+					//Store the spring force in the graph.
 #if PX_DEBUG_VEHICLE_ON
-					if(gCarTireForceAppPoints)
-						gCarTireForceAppPoints[i]=carChassisTrnsfm.p + tireForceCMOffset;
-					if(gCarSuspForceAppPoints)
-						gCarSuspForceAppPoints[i]=carChassisTrnsfm.p + suspForceCMOffset;
-
-					if(gCarWheelGraphData[0])
-					{
-						updateGraphDataNormLongTireForce(startWheelIndex, i, PxAbs(tireLongForceMag)*normalisedTireLoad/tireLoad);
-						updateGraphDataNormLatTireForce(startWheelIndex, i, PxAbs(tireLatForceMag)*normalisedTireLoad/tireLoad);
-						updateGraphDataNormTireAligningMoment(startWheelIndex, i, tireAlignMoment*normalisedTireLoad/tireLoad);
-						updateGraphDataLongTireSlip(startWheelIndex, i,longSlips[i]);
-						updateGraphDataLatTireSlip(startWheelIndex, i,latSlips[i]);
-						updateGraphDataTireFriction(startWheelIndex, i,frictions[i]);
-					}
+					updateGraphDataSuspForce(startWheelIndex, i, suspensionForceMag);
 #endif
-				}//filteredTireLoad*frictionMultiplier>0
+
+					//Suspension force can be computed now.
+					const PxVec3 suspensionForce = hitNorm*suspensionForceMag;
+
+					//Torque from spring force.
+					const PxVec3 suspForceCMOffset = carChassisTrnsfm.rotate(wheelsSimData.getSuspForceAppPointOffset(i));
+					const PxVec3 suspensionTorque = suspForceCMOffset.cross(suspensionForce);
+
+					//Add the suspension force/torque to the chassis force/torque.
+					chassisForce+=suspensionForce;
+					chassisTorque+=suspensionTorque;
+
+					//Now compute the tire load.
+					const PxF32 tireLoad = suspensionForceMag;
+
+					//Normalize the tire load 
+					//Now work out the normalized tire load.
+					const PxF32 normalisedTireLoad=tireLoad*recipGravityMagnitude*recipTireRestLoads[i];
+					//Filter the normalized tire load and compute the filtered tire load too.
+					const PxF32 filteredNormalisedTireLoad=computeFilteredNormalisedTireLoad(tireLoadFilterData,normalisedTireLoad);
+					const PxF32 filteredTireLoad=filteredNormalisedTireLoad*gravityMagnitude*tireRestLoads[i];
+
+#if PX_DEBUG_VEHICLE_ON
+					updateGraphDataTireLoad(startWheelIndex,i,filteredTireLoad);
+					updateGraphDataNormTireLoad(startWheelIndex,i,filteredNormalisedTireLoad);
+#endif
+
+					//Compute the lateral and longitudinal tire axes in the ground plane.
+					PxVec3 tireLongDir;
+					PxVec3 tireLatDir;
+					computeTireDirs(latDir,hitNorm,steerAngles[i],tireLongDir,tireLatDir);
+
+					//Store the tire long and lat dirs now (having a local copy avoids lhs).
+					tireLongitudinalDirs[i]= tireLongDir;
+					tireLateralDirs[i]=tireLatDir;
+
+					//Now compute the speeds along each of the tire axes.
+					const PxF32 tireLongSpeed=wheelBottomVel.dot(tireLongDir);
+					const PxF32 tireLatSpeed=wheelBottomVel.dot(tireLatDir);
+
+					//Store the forward speed (having a local copy avoids lhs).
+					forwardSpeeds[i]=tireLongSpeed;
+
+					//Now compute the slips along each axes.
+					const bool hasAccel=isAccelApplied[i];
+					const bool hasBrake=isBrakeApplied[i];
+					const PxF32 wheelOmega=wheelsDynData.mWheelSpeeds[i];
+					const PxF32 wheelRadius=wheel.mRadius;
+					PxF32 longSlip;
+					PxF32 latSlip;
+					computeTireSlips
+						(tireLongSpeed,tireLatSpeed,wheelOmega,wheelRadius,minLongSlipDenominator,
+						 hasAccel,hasBrake,
+						 isTank,
+						 longSlip,latSlip);
+
+					//Store the lat and long slip (having local copies avoids lhs).
+					longSlips[i]=longSlip;
+					latSlips[i]=latSlip;
+
+					//Camber angle.
+					PxF32 camber=susp.mCamberAtRest;
+					if(jounce>0)
+					{
+						camber += jounce*susp.mCamberAtMaxCompression*susp.getRecipMaxCompression();
+					}
+					else
+					{
+						camber -= jounce*susp.mCamberAtMaxDroop*susp.getRecipMaxDroop();
+					}
+
+					//Compute the friction that will be experienced by the tire.
+					PxF32 friction;
+					computeTireFriction(tire,longSlip,frictionMultiplier,friction);
+
+					//Store the friction (having a local copy avoids lhs).
+					frictions[i]=friction;
+
+					if(filteredTireLoad*frictionMultiplier>0)
+					{
+						//Either tire forces or sticky tire friction constraint will be applied here.
+						const PxVec3 tireForceCMOffset = carChassisTrnsfm.rotate(wheelsSimData.getTireForceAppPointOffset(i));
+
+						PxF32 newLowForwardSpeedTimer;
+						{
+							//check the accel value here
+							//Update low forward speed timer.
+							const PxF32 recipWheelRadius=wheel.getRecipRadius();
+							newLowForwardSpeedTimer=newLowForwardSpeedTimers[i];
+							updateLowForwardSpeedTimer(tireLongSpeed,wheelOmega,wheelRadius,recipWheelRadius,isIntentionToAccelerate,timeStep,newLowForwardSpeedTimer);
+
+							//Activate sticky tire forward friction constraint if required.
+							//If sticky tire friction is active then set the longitudinal slip to zero because 
+							//the sticky tire constraint will take care of the longitudinal component of motion.
+							bool stickyTireForwardActiveFlag=false;
+							PxF32 stickyTireForwardTargetSpeed=0.0f;
+							activateStickyFrictionForwardConstraint(tireLongSpeed,wheelOmega,newLowForwardSpeedTimer,isIntentionToAccelerate,stickyTireForwardActiveFlag,stickyTireForwardTargetSpeed);
+							stickyTireForwardTargetSpeed += hitActorVelocity.dot(tireLongDir);
+
+							//Store the sticky tire data (having local copies avoids lhs). 
+							newLowForwardSpeedTimers[i] = newLowForwardSpeedTimer;
+							stickyTireForwardActiveFlags[i]=stickyTireForwardActiveFlag;
+							stickyTireForwardTargetSpeeds[i]=stickyTireForwardTargetSpeed;
+							stickyTireForwardDirs[i]=tireLongDir;
+							stickyTireForwardCMOffsets[i]=tireForceCMOffset;
+
+							//Deactivate the long slip if sticky tire constraint is active.
+							longSlip=(!stickyTireForwardActiveFlag ? longSlip : 0.0f); 
+
+							//Store the long slip (having local copies avoids lhs). 
+							longSlips[i]=longSlip;
+						}
+
+						PxF32 newLowSideSpeedTimer;
+						{
+							//check the accel value here
+							//Update low side speed timer.
+							newLowSideSpeedTimer=newLowSideSpeedTimers[i];
+							updateLowSideSpeedTimer(tireLatSpeed,isIntentionToAccelerate,timeStep,newLowSideSpeedTimer);
+
+							//Activate sticky tire side friction constraint if required.
+							//If sticky tire friction is active then set the lateral slip to zero because 
+							//the sticky tire constraint will take care of the lateral component of motion.
+							bool stickyTireSideActiveFlag=false;
+							PxF32 stickyTireSideTargetSpeed=0.0f;
+							activateStickyFrictionSideConstraint(tireLatSpeed,newLowForwardSpeedTimer,newLowSideSpeedTimer,isIntentionToAccelerate,stickyTireSideActiveFlag,stickyTireSideTargetSpeed);
+							stickyTireSideTargetSpeed += hitActorVelocity.dot(tireLatDir);
+
+							//Store the sticky tire data (having local copies avoids lhs). 
+							newLowSideSpeedTimers[i] = newLowSideSpeedTimer;
+							stickyTireSideActiveFlags[i]=stickyTireSideActiveFlag;
+							stickyTireSideTargetSpeeds[i]=stickyTireSideTargetSpeed;
+							stickyTireSideDirs[i]=tireLatDir;
+							stickyTireSideCMOffsets[i]=tireForceCMOffset;
+
+							//Deactivate the lat slip if sticky tire constraint is active.
+							latSlip=(!stickyTireSideActiveFlag ? latSlip : 0.0f); 
+
+							//Store the long slip (having local copies avoids lhs). 
+							latSlips[i]=latSlip;
+						}
+
+						//Compute the various tire torques.
+						PxF32 wheelTorque=0;
+						PxF32 tireLongForceMag=0;
+						PxF32 tireLatForceMag=0;
+						PxF32 tireAlignMoment=0;
+						const PxF32 restTireLoad=gravityMagnitude*tireRestLoads[i];
+						const PxF32 recipWheelRadius=wheel.getRecipRadius();
+						tireForceCalculator.mShader(
+							tireForceCalculator.mShaderData[i],
+							friction,
+							longSlip,latSlip,camber,
+							wheelOmega,wheelRadius,recipWheelRadius,
+							restTireLoad,filteredNormalisedTireLoad,filteredTireLoad,
+							gravityMagnitude, recipGravityMagnitude,
+							wheelTorque,tireLongForceMag,tireLatForceMag,tireAlignMoment);
+
+						//Store the tire torque ((having a local copy avoids lhs).
+						tireTorques[i]=wheelTorque;
+
+						//Apply the torque to the chassis.
+						//Compute the tire force to apply to the chassis.
+						const PxVec3 tireLongForce=tireLongDir*tireLongForceMag;
+						const PxVec3 tireLatForce=tireLatDir*tireLatForceMag;
+						const PxVec3 tireForce=tireLongForce+tireLatForce;
+						//Compute the torque to apply to the chassis.
+						const PxVec3 tireTorque=tireForceCMOffset.cross(tireForce);
+						//Add all the forces/torques together.
+						chassisForce+=tireForce;
+						chassisTorque+=tireTorque;
+
+						//Graph all the data we just computed.
+#if PX_DEBUG_VEHICLE_ON
+						if(gCarTireForceAppPoints)
+							gCarTireForceAppPoints[i]=carChassisTrnsfm.p + tireForceCMOffset;
+						if(gCarSuspForceAppPoints)
+							gCarSuspForceAppPoints[i]=carChassisTrnsfm.p + suspForceCMOffset;
+
+						if(gCarWheelGraphData[0])
+						{
+							updateGraphDataNormLongTireForce(startWheelIndex, i, PxAbs(tireLongForceMag)*normalisedTireLoad/tireLoad);
+							updateGraphDataNormLatTireForce(startWheelIndex, i, PxAbs(tireLatForceMag)*normalisedTireLoad/tireLoad);
+							updateGraphDataNormTireAligningMoment(startWheelIndex, i, tireAlignMoment*normalisedTireLoad/tireLoad);
+							updateGraphDataLongTireSlip(startWheelIndex, i,longSlips[i]);
+							updateGraphDataLatTireSlip(startWheelIndex, i,latSlips[i]);
+							updateGraphDataTireFriction(startWheelIndex, i,frictions[i]);
+						}
+#endif
+					}//filteredTireLoad*frictionMultiplier>0
+				}//if(computeSuspensionForce)
 			}//if(dx > -susp.mMaxCompression)
 		}//if(numHits>0)
 	}//i
@@ -5101,7 +5154,8 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 	const PxF32 recipSubTimeStep=1.0f/subTimestep;
 	const PxF32 recipTimestep=1.0f/timestep;
 	const PxF32 minLongSlipDenominator=vehDrive4W->mWheelsSimData.mMinLongSlipDenominator;
-	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, vehActor, &drivableSurfaceToTireFrictionPairs};
+	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, 
+		vehActor, &drivableSurfaceToTireFrictionPairs, vehDrive4W->mWheelsSimData.mFlags};
 
 	END_TIMER(TIMER_ADMIN);
 
@@ -5691,7 +5745,8 @@ void PxVehicleUpdate::updateDriveNW
 	const PxF32 recipSubTimeStep=1.0f/subTimestep;
 	const PxF32 recipTimestep=1.0f/timestep;
 	const PxF32 minLongSlipDenominator=vehDriveNW->mWheelsSimData.mMinLongSlipDenominator;
-	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, vehActor, &drivableSurfaceToTireFrictionPairs};
+	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, 
+		vehActor, &drivableSurfaceToTireFrictionPairs, vehDriveNW->mWheelsSimData.mFlags};
 	
 	END_TIMER(TIMER_ADMIN);
 
@@ -6213,7 +6268,8 @@ void PxVehicleUpdate::updateTank
 	const PxF32 recipSubTimeStep=1.0f/subTimestep;
 	const PxF32 recipTimestep=1.0f/timestep;
 	const PxF32 minLongSlipDenominator=vehDriveTank->mWheelsSimData.mMinLongSlipDenominator;
-	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, true, minLongSlipDenominator, vehActor, &drivableSurfaceToTireFrictionPairs};
+	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, true, minLongSlipDenominator, 
+		vehActor, &drivableSurfaceToTireFrictionPairs, vehDriveTank->mWheelsSimData.mFlags};
 
 	for(PxU32 k=0;k<numSubSteps;k++)
 	{
@@ -6575,7 +6631,8 @@ void PxVehicleUpdate::updateNoDrive
 	const PxF32 recipSubTimeStep=1.0f/subTimestep;
 	const PxF32 recipTimestep=1.0f/timestep;
 	const PxF32 minLongSlipDenominator=vehNoDrive->mWheelsSimData.mMinLongSlipDenominator;
-	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, vehActor, &drivableSurfaceToTireFrictionPairs};
+	ProcessSuspWheelTireConstData constData={timeFraction, subTimestep, recipSubTimeStep, gravity, gravityMagnitude, recipGravityMagnitude, false, minLongSlipDenominator, 
+		vehActor, &drivableSurfaceToTireFrictionPairs, vehNoDrive->mWheelsSimData.mFlags};
 
 	for(PxU32 k=0;k<numSubSteps;k++)
 	{

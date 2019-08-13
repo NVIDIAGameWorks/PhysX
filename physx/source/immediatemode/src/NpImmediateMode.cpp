@@ -42,6 +42,8 @@
 // PT: just for Dy::DY_ARTICULATION_MAX_SIZE
 #include "../../lowleveldynamics/include/DyFeatherstoneArticulation.h"
 
+#include "../../lowlevel/common/include/utils/PxcScratchAllocator.h"
+
 using namespace physx;
 using namespace Dy;
 using namespace immediate;
@@ -97,21 +99,23 @@ namespace
 															Cm::SpatialVectorF Z[DY_ARTICULATION_MAX_SIZE];
 															Cm::SpatialVectorF deltaV[DY_ARTICULATION_MAX_SIZE];
 
-															FeatherstoneArticulation::computeUnconstrainedVelocitiesTGSInternal(gravity, Z, deltaV);
+															FeatherstoneArticulation::computeUnconstrainedVelocitiesInternal(gravity, Z, deltaV);
 
 															setupInternalConstraints(mArticulationData.getLinks(), mArticulationData.getLinkCount(), 
-																mArticulationData.getArticulationFlags() & PxArticulationFlag::eFIX_BASE, mArticulationData, Z, totalDt, invDt, 0.7f, true);
+																mArticulationData.getArticulationFlags() & PxArticulationFlag::eFIX_BASE, mArticulationData, Z, dt, totalDt, invDt, 0.7f, true);
 														}
 
 		PX_FORCE_INLINE	void							immComputeUnconstrainedVelocities(PxReal dt, const PxVec3& gravity)
 		{
 														mArticulationData.setDt(dt);
 
-														PxU32 acCount;
 														Cm::SpatialVectorF Z[DY_ARTICULATION_MAX_SIZE];
 														Cm::SpatialVectorF deltaV[DY_ARTICULATION_MAX_SIZE];
 
-														FeatherstoneArticulation::computeUnconstrainedVelocitiesInternal(acCount, gravity, Z, deltaV);
+														FeatherstoneArticulation::computeUnconstrainedVelocitiesInternal(gravity, Z, deltaV);
+														const PxReal invDt = 1.f/dt;
+														setupInternalConstraints(mArticulationData.getLinks(), mArticulationData.getLinkCount(),
+															mArticulationData.getArticulationFlags() & PxArticulationFlag::eFIX_BASE, mArticulationData, Z, dt, dt, invDt, 1.f, false);
 		}
 
 						PxU32							addLink(const PxFeatherstoneArticulationLinkData& data);
@@ -135,7 +139,6 @@ namespace
 	class RigidBodyClassification
 	{
 		PX_NOCOPY(RigidBodyClassification)
-
 		PxU8* PX_RESTRICT mBodies;
 		const PxU32 mBodySize;
 		const PxU32 mBodyStride;
@@ -146,7 +149,7 @@ namespace
 		{
 		}
 
-		//Returns true if it is a dynamic-dynamic constriant; false if it is a dynamic-static or dynamic-kinematic constraint
+		//Returns true if it is a dynamic-dynamic constraint; false if it is a dynamic-static or dynamic-kinematic constraint
 		PX_FORCE_INLINE bool classifyConstraint(const PxSolverConstraintDesc& desc, uintptr_t& indexA, uintptr_t& indexB,
 			bool& activeA, bool& activeB, PxU32& bodyAProgress, PxU32& bodyBProgress) const
 		{
@@ -1207,7 +1210,6 @@ void immArticulation::initJointCore(Dy::ArticulationJointCore& core, const PxFea
 
 		core.swingLimited = false;
 		core.twistLimited = false;
-		core.prismaticLimited = false;
 		core.tangentialStiffness = 0.0f;
 		core.tangentialDamping = 0.0f;
 
@@ -1368,6 +1370,93 @@ Dy::ArticulationLinkHandle immediate::PxAddArticulationLink(Dy::ArticulationV* a
 
 	PX_ASSERT(!(size_t(articulation) & 63));
 	return size_t(articulation) | id;
+}
+
+PxArticulationCache* immediate::PxCreateArticulationCache(Dy::ArticulationV* articulation) 
+{
+	immArticulation *immArt = static_cast<immArticulation *>(articulation);
+	immArt->complete();
+
+	const PxU32 totalDofs = immArt->getDofs();
+	const PxU32 jointCount = immArt->getBodyCount() - 1;
+
+	PxU32 totalSize =
+		sizeof(Cm::SpatialVector) * immArt->getBodyCount()				//external force
+		+ sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6)//offset to end of dense jacobian (assuming free floating base)
+		+ sizeof(PxReal) * totalDofs * totalDofs				//mass matrix
+		+ sizeof(PxReal) * totalDofs * 4						//jointVelocity, jointAcceleration, jointPosition, joint force
+		+ sizeof(PxArticulationRootLinkData);			
+
+	PxU8* tCache = reinterpret_cast<PxU8*>(PX_ALLOC(totalSize, "Articulation cache"));
+	PxMemZero(tCache, totalSize);
+
+	PxArticulationCache* cache = reinterpret_cast<PxArticulationCache*>(tCache);
+
+	PxU32 offset = sizeof(PxArticulationCache);
+	cache->externalForces = reinterpret_cast<PxSpatialForce*>(tCache + offset);
+	offset += sizeof(PxSpatialForce) * immArt->getBodyCount();
+	
+	cache->denseJacobian = reinterpret_cast<PxReal*>(tCache + offset);
+	offset += sizeof(PxReal) * (6 + totalDofs) * ((1 + jointCount) * 6);				//size of dense jacobian assuming free floating base link.
+
+	cache->massMatrix = reinterpret_cast<PxReal*>(tCache + offset);
+
+	offset += sizeof(PxReal) *totalDofs * totalDofs;
+	cache->jointVelocity = reinterpret_cast<PxReal*>(tCache + offset);
+
+	offset += sizeof(PxReal) * totalDofs;
+	cache->jointAcceleration = reinterpret_cast<PxReal*>(tCache + offset);
+
+	offset += sizeof(PxReal) * totalDofs;
+	cache->jointPosition = reinterpret_cast<PxReal*>(tCache + offset);
+
+	offset += sizeof(PxReal) * totalDofs;
+	cache->jointForce = reinterpret_cast<PxReal*>(tCache + offset);
+
+	offset += sizeof(PxReal) * totalDofs;
+	cache->rootLinkData = reinterpret_cast<PxArticulationRootLinkData*>(tCache + offset);
+
+	cache->coefficientMatrix = NULL;
+	cache->lambda =NULL;
+
+	const PxU32 scratchMemorySize = sizeof(Cm::SpatialVectorF) * immArt->getBodyCount() * 5	//motionVelocity, motionAccelerations, coriolisVectors, spatialZAVectors, externalAccels;
+		+ sizeof(Dy::SpatialMatrix) * immArt->getBodyCount()					//compositeSpatialInertias;
+		+ sizeof(PxReal) * totalDofs * 5;						//jointVelocity, jointAcceleration, jointForces, jointPositions, jointFrictionForces
+
+	void* scratchMemory = PX_ALLOC(scratchMemorySize, "Cache scratch memory");
+	cache->scratchMemory = scratchMemory;
+
+	cache->scratchAllocator = PX_PLACEMENT_NEW(PX_ALLOC(sizeof(PxcScratchAllocator), "PxScrachAllocator"), PxcScratchAllocator)();
+
+	reinterpret_cast<PxcScratchAllocator*>(cache->scratchAllocator)->setBlock(scratchMemory, scratchMemorySize);
+
+	return cache;	
+}
+
+void immediate::PxCopyInternalStateToArticulationCache(Dy::ArticulationV* articulation, PxArticulationCache& cache, PxArticulationCacheFlags flag)
+{
+	immArticulation *immArt = static_cast<immArticulation *>(articulation);
+	immArt->copyInternalStateToCache(cache, flag);	
+}
+
+void immediate::PxApplyArticulationCache(Dy::ArticulationV* articulation, PxArticulationCache& cache, PxArticulationCacheFlags flag) {
+	immArticulation *immArt = static_cast<immArticulation *>(articulation);
+	immArt->applyCache(cache, flag);
+}
+
+void immediate::PxReleaseArticulationCache(PxArticulationCache& cache)
+{
+	if (cache.scratchAllocator)
+	{
+		PxcScratchAllocator* scratchAlloc = reinterpret_cast<PxcScratchAllocator*>(cache.scratchAllocator);
+		scratchAlloc->~PxcScratchAllocator();
+		PX_FREE_AND_RESET(cache.scratchAllocator);
+	}
+
+	if (cache.scratchMemory)
+		PX_FREE_AND_RESET(cache.scratchMemory);
+
+	PX_FREE(&cache);
 }
 
 void immediate::PxComputeUnconstrainedVelocities(Dy::ArticulationV* articulation, const PxVec3& gravity, const PxReal dt)

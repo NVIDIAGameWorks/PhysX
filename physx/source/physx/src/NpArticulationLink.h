@@ -148,6 +148,7 @@ private:
 
 public:
 	PX_INLINE	NpArticulationLink* const*	getChildren() { return mChildLinks.empty() ? NULL : &mChildLinks.front(); }
+	void		setKinematicLink(const bool value);
 
 #if PX_ENABLE_DEBUG_VISUALIZATION
 public:

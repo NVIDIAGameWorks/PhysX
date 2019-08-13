@@ -56,7 +56,7 @@ var searchData=
   ['requiresobjects',['requiresObjects',['../classPxSerializer.html#af5db22cae0884acf0c53dc8f6daf719f',1,'PxSerializer::requiresObjects()'],['../classPxSerializerDefaultAdapter.html#a480df87ac9da1fa02e6384258cd99f1a',1,'PxSerializerDefaultAdapter::requiresObjects()'],['../classPxVehicleWheels.html#ae58ab064534a9b0256665c60ed8e63d2',1,'PxVehicleWheels::requiresObjects()']]],
   ['reserveconstraintdata',['reserveConstraintData',['../classPxConstraintAllocator.html#a290d9201d3480594fee91aab84a222ee',1,'PxConstraintAllocator']]],
   ['reservefrictiondata',['reserveFrictionData',['../classPxConstraintAllocator.html#aa7ac124b5ce281e270b5e9916f1f9568',1,'PxConstraintAllocator']]],
-  ['reset',['reset',['../classphysx_1_1Gu_1_1ContactBuffer.html#a3e0ba809a9dca51174be563a6ef4a5f4',1,'physx::Gu::ContactBuffer']]],
+  ['reset',['reset',['../structPxCache.html#a7dfc5d1edea7da1ca1c717178eb21d87',1,'PxCache::reset()'],['../classphysx_1_1Gu_1_1ContactBuffer.html#a3e0ba809a9dca51174be563a6ef4a5f4',1,'physx::Gu::ContactBuffer::reset()']]],
   ['resetdependencies',['resetDependencies',['../classphysx_1_1PxTaskManager.html#a79606deb50e9eb500c5febb44ba1e764',1,'physx::PxTaskManager']]],
   ['resetfiltering',['resetFiltering',['../classPxScene.html#af648aa06d19cfec20eeee278719f345c',1,'PxScene::resetFiltering(PxActor &amp;actor)=0'],['../classPxScene.html#aae469799c2e23d06ce5c1079e36df953',1,'PxScene::resetFiltering(PxRigidActor &amp;actor, PxShape *const *shapes, PxU32 shapeCount)=0']]],
   ['resize',['resize',['../classPxController.html#a4b982db163cd5189357eee4c26430cf6',1,'PxController']]],

@@ -72,7 +72,6 @@ namespace Sc
 		static			void				getBinaryMetaData(PxOutputStream& stream);
 						void				disableInternalCaching(bool disable);
 						void				restoreDynamicData();
-						void				backupDynamicData();
 
 //~PX_SERIALIZATION
 											BodyCore(PxActorType::Enum type, const PxTransform& bodyPose);
@@ -196,7 +195,9 @@ namespace Sc
 		{ 
 			size_t offset = PX_OFFSET_OF_RT(BodyCore, mCore);
 			return *reinterpret_cast<BodyCore*>(reinterpret_cast<PxU8*>(&core) - offset); 
-		}		
+		}
+
+		void				setKinematicLink(const bool value);
 
 	private:
 						void				backup(SimStateData&);

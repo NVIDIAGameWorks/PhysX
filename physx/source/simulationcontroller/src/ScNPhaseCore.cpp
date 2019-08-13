@@ -547,8 +547,33 @@ static PX_FORCE_INLINE PxFilterInfo filterRbCollisionPair(const FilteringContext
 	if(filterJointedBodies(b0, b1, rbActor0, rbActor1))
 		return PxFilterInfo(PxFilterFlag::eSUPPRESS);
 
+	if ((actorType0 == PxActorType::eARTICULATION_LINK) ^ (actorType1 == PxActorType::eARTICULATION_LINK))
+	{
+		if (b0)
+		{
+			const PxU8 kinematicLink = b0->getLowLevelBody().mCore->kinematicLink;
+			const bool isStaticOrKinematic = (actorType1 == PxActorType::eRIGID_STATIC) || kine1;
+			if (kinematicLink && isStaticOrKinematic)
+				return PxFilterInfo(PxFilterFlag::eSUPPRESS);
+		}
+		
+		if (b1)
+		{
+			const PxU8 kinematicLink = b1->getLowLevelBody().mCore->kinematicLink;
+			const bool isStaticOrKinematic = (actorType0 == PxActorType::eRIGID_STATIC) || kine0;
+			if (kinematicLink && isStaticOrKinematic)
+				return PxFilterInfo(PxFilterFlag::eSUPPRESS);
+		}
+	}
+
 	if((actorType0 == PxActorType::eARTICULATION_LINK) && (actorType1 == PxActorType::eARTICULATION_LINK))
 	{
+
+		const PxU8 kinematicLink0 = b0->getLowLevelBody().mCore->kinematicLink;
+		const PxU8 kinematicLink1 = b1->getLowLevelBody().mCore->kinematicLink;
+		if (kinematicLink0 && kinematicLink1)
+			return PxFilterInfo(PxFilterFlag::eSUPPRESS);
+
 		if(filterArticulationLinks(rbActor0, rbActor1))
 			return PxFilterInfo(PxFilterFlag::eKILL);
 	}
@@ -804,8 +829,23 @@ Sc::ShapeInteraction* Sc::NPhaseCore::createShapeInteraction(ShapeSim& s0, Shape
 
 		const PxActorType::Enum actorType0 = rs0.getActorType();
 		const PxActorType::Enum actorType1 = rs1.getActorType();
+
+		bool articulationLinkSwap = false;
+		if (actorType0 == PxActorType::eARTICULATION_LINK && actorType1 == PxActorType::eARTICULATION_LINK)
+		{
+			Sc::BodySim* bodySim0 = s0.getBodySim();
+
+			const PxU8 kinematicLink0 = bodySim0->getLowLevelBody().mCore->kinematicLink;
+
+			if (kinematicLink0)
+			{
+				articulationLinkSwap = true;
+			}
+		}
+
 		if( actorType0 == PxActorType::eRIGID_STATIC
-			 || (actorType0 == PxActorType::eRIGID_DYNAMIC && actorType1 == PxActorType::eARTICULATION_LINK)
+			 || (actorType1 == PxActorType::eRIGID_DYNAMIC && actorType0 == PxActorType::eARTICULATION_LINK)
+			 || articulationLinkSwap
 			 || ((actorType0 == PxActorType::eRIGID_DYNAMIC && actorType1 == PxActorType::eRIGID_DYNAMIC) && s0.getBodySim()->isKinematic())
 			 || (actorType0 == actorType1 && rs0.getRigidID() < rs1.getRigidID()))
 			Ps::swap(_s0, _s1);
@@ -957,7 +997,12 @@ Sc::ElementSimInteraction* Sc::NPhaseCore::refilterInteraction(ElementSimInterac
 							{
 								// for this actor pair there was no shape pair that requested contact reports but now there is one
 								// -> all the existing shape pairs need to get re-adjusted to point to an ActorPairReport instance instead.
-								findActorPair(&s0, &s1, Ps::IntTrue);
+								Sc::ActorPair* actorPair = findActorPair(&s0, &s1, Ps::IntTrue);
+								if (si->getActorPair() == NULL)
+								{
+									actorPair->incRefCount();
+									si->setActorPair(*actorPair);
+								}
 							}
 
 							if(si->readFlag(ShapeInteraction::IN_PERSISTENT_EVENT_LIST) && (!(newPairFlags & PxPairFlag::eNOTIFY_TOUCH_PERSISTS)))
@@ -1850,7 +1895,8 @@ void Sc::NPhaseCore::lostTouchReports(ShapeInteraction* si, PxU32 flags, PxU32 c
 
 		if(flags & PairReleaseFlag::eWAKE_ON_LOST_TOUCH)
 		{
-			if(!b0 || !b1)
+			//If we removed a shape, then we wake up the objects!
+			if(!b0 || !b1)// || (flags & PairReleaseFlag::eBP_VOLUME_REMOVED))
 			{
 				if(b0)
 					b0->internalWakeUp();

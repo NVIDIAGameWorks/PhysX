@@ -33,7 +33,7 @@ IF (NOT DEFINED PHYSX_CXX_FLAGS)
 	MESSAGE(FATAL ERROR "Samples uses the PhysX CXX flags, and they're not defined when they need to be.")
 ENDIF()
 
-SET(SAMPLES_ADDITIONAL_WARNINGS "-Wno-missing-field-initializers -Wno-unused-parameter -Wno-header-hygiene -Wno-double-promotion -Wno-format-pedantic -Wno-switch-enum -Wno-unused-variable -Wno-sign-compare -Wno-shadow -Wno-sometimes-uninitialized -Wno-conditional-uninitialized -Wno-vla -Wno-vla-extension -Wno-reorder -Wno-duplicate-enum -Wno-unknown-pragmas -Wno-shadow-field -Wno-comma -Wno-cast-qual -Wno-null-pointer-arithmetic")
+SET(SAMPLES_ADDITIONAL_WARNINGS "-Wno-missing-field-initializers -Wno-macro-redefined -Wno-unused-parameter -Wno-header-hygiene -Wno-double-promotion -Wno-format-pedantic -Wno-switch-enum -Wno-unused-variable -Wno-sign-compare -Wno-shadow -Wno-sometimes-uninitialized -Wno-conditional-uninitialized -Wno-vla -Wno-vla-extension -Wno-reorder -Wno-duplicate-enum -Wno-unknown-pragmas -Wno-shadow-field -Wno-comma -Wno-cast-qual -Wno-null-pointer-arithmetic")
 
 # Get the CXX Flags from the Cached variables set by the PhysX CMakeLists
 SET(CMAKE_CXX_FLAGS "${PHYSX_CXX_FLAGS} ${SAMPLES_ADDITIONAL_WARNINGS}")

@@ -68,6 +68,16 @@ namespace Gu
 		return bytesNeeded;
 	}
 
+	struct ConvexHullInitData
+	{
+		ConvexHullData	mHullData;
+		PxU32			mNb;
+		PxReal			mMass;		
+		PxMat33			mInertia;
+		BigConvexData*	mBigConvexData;
+	};
+
+
 	// 0: includes raycast map
 	// 1: discarded raycast map
 	// 2: support map not always there
@@ -95,7 +105,7 @@ namespace Gu
 	//==================================================================================================
 	public:
 	// PX_SERIALIZATION
-		PX_PHYSX_COMMON_API 						ConvexMesh(PxBaseFlags baseFlags) : PxConvexMesh(baseFlags), Cm::RefCountable(PxEmpty), mHullData(PxEmpty), mNb(PxEmpty) 
+							 						ConvexMesh(PxBaseFlags baseFlags) : PxConvexMesh(baseFlags), Cm::RefCountable(PxEmpty), mHullData(PxEmpty), mNb(PxEmpty) 
 													{
 														mNb.setBit();
 													}									
@@ -111,7 +121,7 @@ namespace Gu
 	//~PX_SERIALIZATION
 		PX_PHYSX_COMMON_API 						ConvexMesh();
 
-													ConvexMesh(GuMeshFactory& factory, ConvexHullData& data);
+		PX_PHYSX_COMMON_API							ConvexMesh(GuMeshFactory& factory, ConvexHullInitData& data);
 
 		PX_PHYSX_COMMON_API bool					load(PxInputStream& stream);
 

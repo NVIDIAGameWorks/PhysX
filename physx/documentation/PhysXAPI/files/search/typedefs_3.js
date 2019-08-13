@@ -61,7 +61,7 @@ var searchData=
   ['pxreal',['PxReal',['../namespacephysx.html#a727d2d8426e2a21ebbc522fa65c3f97a',1,'physx']]],
   ['pxrevolutejointflags',['PxRevoluteJointFlags',['../group__extensions.html#ga064759e7f7a48b93670218bb400355e8',1,'PxRevoluteJoint.h']]],
   ['pxrigidbodyflags',['PxRigidBodyFlags',['../group__physics.html#ga2ab6803c803ae6372791ff060068c6a1',1,'PxRigidBody.h']]],
-  ['pxrigiddynamiclockflags',['PxRigidDynamicLockFlags',['../group__physics.html#gab35e15599f740af43f399ed4ad9f04e8',1,'PxRigidDynamic.h']]],
+  ['pxrigiddynamiclockflags',['PxRigidDynamicLockFlags',['../group__physics.html#ga5ff75d3f2ba94c58e7f8f928b11ebb8d',1,'PxRigidDynamic.h']]],
   ['pxsceneflags',['PxSceneFlags',['../group__physics.html#ga54a626a9a6d80543048bffc654814704',1,'PxSceneDesc.h']]],
   ['pxscenequerycache',['PxSceneQueryCache',['../group__extensions.html#ga871e9d89cdf9bbab58883b5f0822b5c3',1,'PxSceneQueryExt.h']]],
   ['pxscenequeryfiltercallback',['PxSceneQueryFilterCallback',['../group__extensions.html#gaf9d442ec851f833a9276ddb7ea46dd23',1,'PxSceneQueryExt.h']]],
@@ -85,5 +85,6 @@ var searchData=
   ['pxu32',['PxU32',['../group__foundation.html#gacce5749db3dcfb916e98c253374264ed',1,'PxU32():&#160;Px.h'],['../namespacephysx.html#a9b7fbd746d18bf5b6545713a8d818f41',1,'physx::PxU32()']]],
   ['pxu64',['PxU64',['../namespacephysx.html#a8ee037dcecf7198800e1f302795c10ee',1,'physx']]],
   ['pxu8',['PxU8',['../namespacephysx.html#a3849f86abc21d3a58949481603fe8309',1,'physx']]],
-  ['pxvehiclecomputetireforce',['PxVehicleComputeTireForce',['../group__vehicle.html#ga2b7b927dd3d949d50a3f42c695264f43',1,'PxVehicleShaders.h']]]
+  ['pxvehiclecomputetireforce',['PxVehicleComputeTireForce',['../group__vehicle.html#ga2b7b927dd3d949d50a3f42c695264f43',1,'PxVehicleShaders.h']]],
+  ['pxvehiclewheelssimflags',['PxVehicleWheelsSimFlags',['../group__vehicle.html#gab5de07a7bd475df4e4c41f3f11ddcdb5',1,'PxVehicleWheels.h']]]
 ];

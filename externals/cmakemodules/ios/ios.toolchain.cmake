@@ -113,7 +113,7 @@ set(IOS_PLATFORM ${IOS_PLATFORM} CACHE STRING
 # from the specified IOS_PLATFORM name.
 if (IOS_PLATFORM STREQUAL "OS")
   set(XCODE_IOS_PLATFORM iphoneos)
-  set(IOS_ARCH armv7 armv7s arm64)
+  set(IOS_ARCH arm64)
 elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
   set(XCODE_IOS_PLATFORM iphonesimulator)
   set(IOS_ARCH i386)

@@ -414,7 +414,11 @@ public:
 
 
 
-	static PX_FORCE_INLINE Mat33V computeDriveInertia(const FsInertia &I0, 
+	static
+#if !(PX_ANDROID && PX_DEBUG) // Not inlining for Android Debug to avoid "conditional branch out of range" compilation error on arm64-v8a ABI
+	PX_FORCE_INLINE
+#endif
+	Mat33V computeDriveInertia(const FsInertia &I0, 
 													  const FsInertia &I1, 
 													  const Cm::SpatialVectorV S[3])
 	{

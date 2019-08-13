@@ -78,7 +78,7 @@ ELSE()
 ENDIF()
 
 TARGET_LINK_LIBRARIES(Snippet${SNIPPET_NAME} 
-	PUBLIC PhysX PhysXPvdSDK PhysXVehicle PhysXCharacterKinematic PhysXExtensions PhysXCooking PhysXCommon PhysXFoundation SnippetUtils 
+	PUBLIC PhysXExtensions PhysX PhysXPvdSDK PhysXVehicle PhysXCharacterKinematic PhysXCooking PhysXCommon PhysXFoundation SnippetUtils 
 	PUBLIC ${SNIPPET_PLATFORM_LINKED_LIBS})
 
 IF(CUSTOM_SNIPPET_TARGET_PROPERTIES)

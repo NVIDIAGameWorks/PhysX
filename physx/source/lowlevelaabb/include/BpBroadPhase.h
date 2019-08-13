@@ -43,7 +43,6 @@ namespace Bp
 {
 
 class BroadPhaseUpdateData;
-class BPMemoryAllocator;
 
 
 /**
@@ -76,7 +75,7 @@ class BroadPhaseBase
 	*/
 	virtual	PxU32					getNbRegions()							const 
 	{
-		return 0;	
+		return 0;
 	}
 
 	/**
@@ -128,11 +127,13 @@ class BroadPhaseBase
 
 	\return Handle for newly created region, or 0xffffffff in case of failure.
 	*/
-	virtual	PxU32					addRegion(const PxBroadPhaseRegion& region, bool populateRegion)
+	virtual	PxU32					addRegion(const PxBroadPhaseRegion& region, bool populateRegion, const PxBounds3* boundsArray, const PxReal* contactDistance)
 	{
 		PX_UNUSED(region);
 		PX_UNUSED(populateRegion);
-		return 0xffffffff;	
+		PX_UNUSED(boundsArray);
+		PX_UNUSED(contactDistance);
+		return 0xffffffff;
 	}
 
 	/**
@@ -151,7 +152,7 @@ class BroadPhaseBase
 	virtual	bool					removeRegion(PxU32 handle)	
 	{
 		PX_UNUSED(handle);
-		return false;	
+		return false;
 	}
 
 	/*
@@ -159,7 +160,7 @@ class BroadPhaseBase
 	*/
 	virtual	PxU32						getNbOutOfBoundsObjects()	const	
 	{ 
-		return 0;						
+		return 0;
 	}
 
 	/*
@@ -167,7 +168,7 @@ class BroadPhaseBase
 	*/
 	virtual	const PxU32*				getOutOfBoundsObjects()		const	
 	{ 
-		return NULL;					
+		return NULL;
 	}
 };
 
@@ -299,7 +300,7 @@ public:
 	/**
 	\brief Adjust internal structures after all bounds have been adjusted due to a scene origin shift.
 	*/
-	virtual void					shiftOrigin(const PxVec3& shift) = 0;
+	virtual void					shiftOrigin(const PxVec3& shift, const PxBounds3* boundsArray, const PxReal* contactDistances) = 0;
 
 	/**
 	\brief Test that the created/updated/removed lists obey the rules that 

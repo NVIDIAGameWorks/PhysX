@@ -145,7 +145,7 @@ void NpArticulationReducedCoordinate::applyCache(PxArticulationCache& cache, con
 
 	mImpl.mArticulation.getScArticulation().applyCache(cache, flag);
 
-	if (flag & PxArticulationCache::ePOSITION)
+	if ((flag & PxArticulationCache::ePOSITION))
 	{
 		const PxU32 linkCount = mImpl.mArticulationLinks.size();
 
@@ -155,6 +155,21 @@ void NpArticulationReducedCoordinate::applyCache(PxArticulationCache& cache, con
 			//in the lowlevel articulation, we have already updated bodyCore's body2World
 			const PxTransform internalPose = link->getScbBodyFast().getScBody().getBody2World();
 			link->getScbBodyFast().setBody2World(internalPose, false);
+		}
+	}
+
+	if ((flag & PxArticulationCache::ePOSITION) || (flag & PxArticulationCache::eVELOCITY))
+	{
+		const PxU32 linkCount = mImpl.mArticulationLinks.size();
+
+		for (PxU32 i = 0; i < linkCount; ++i)
+		{
+			NpArticulationLink* link = mImpl.mArticulationLinks[i];
+			//in the lowlevel articulation, we have already updated bodyCore's linear/angular velocity
+			const PxVec3 internalLinVel = link->getScbBodyFast().getScBody().getLinearVelocity();
+			const PxVec3 internalAngVel = link->getScbBodyFast().getScBody().getAngularVelocity();
+			link->getScbBodyFast().setLinearVelocity(internalLinVel);
+			link->getScbBodyFast().setAngularVelocity(internalAngVel);
 		}
 	}
 
@@ -404,6 +419,26 @@ void NpArticulationReducedCoordinate::teleportRootLink(const PxTransform& pose, 
 	NpArticulationLink* root = mImpl.mArticulationLinks[0];
 
 	root->setGlobalPoseInternal(pose, autowake);
+}
+
+PxSpatialVelocity NpArticulationReducedCoordinate::getLinkVelocity(const PxU32 linkId)
+{
+	PX_CHECK_AND_RETURN_VAL(mImpl.getAPIScene(), "PxArticulationReducedCoordinate::getLinkVelocity: object must be in a scene", PxSpatialVelocity());
+	PX_CHECK_AND_RETURN_VAL(linkId < 64, "PxArticulationReducedCoordinate::getLinkVelocity index is not valid.", PxSpatialVelocity());
+
+	NP_READ_CHECK(mImpl.getOwnerScene());
+
+	return mImpl.mArticulation.getScArticulation().getLinkVelocity(linkId);
+}
+
+PxSpatialVelocity NpArticulationReducedCoordinate::getLinkAcceleration(const PxU32 linkId)
+{
+	PX_CHECK_AND_RETURN_VAL(mImpl.getAPIScene(), "PxArticulationReducedCoordinate::getLinkAcceleration: object must be in a scene", PxSpatialVelocity());
+	PX_CHECK_AND_RETURN_VAL(linkId < 64, "PxArticulationReducedCoordinate::getLinkAcceleration index is not valid.", PxSpatialVelocity());
+
+	NP_READ_CHECK(mImpl.getOwnerScene());
+
+	return mImpl.mArticulation.getScArticulation().getLinkAcceleration(linkId);
 }
 
 NpArticulationReducedCoordinate::~NpArticulationReducedCoordinate()

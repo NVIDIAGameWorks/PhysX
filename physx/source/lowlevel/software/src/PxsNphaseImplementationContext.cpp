@@ -669,6 +669,7 @@ void PxsNphaseImplementationContext::removeContactManagersFallback(PxsContactMan
 {
 	if (mRemovedContactManagers.size())
 	{
+		lock();
 		Ps::sort(mRemovedContactManagers.begin(), mRemovedContactManagers.size(), Ps::Greater<PxU32>());
 
 		for (PxU32 a = 0; a < mRemovedContactManagers.size(); ++a)
@@ -681,6 +682,7 @@ void PxsNphaseImplementationContext::removeContactManagersFallback(PxsContactMan
 		}
 
 		mRemovedContactManagers.forceSize_Unsafe(0);
+		unlock();
 	}
 }
 
@@ -921,6 +923,7 @@ void PxsNphaseImplementationContext::unregisterContactManagerInternal(PxU32 npIn
 	managers.mContactManagerMapping[index] = replaceManager;
 	managers.mCaches[index] = managers.mCaches[replaceIndex];
 	cmOutputs[index] = cmOutputs[replaceIndex];
+	managers.mCaches[replaceIndex].reset();
 
 	PxU32* edgeNodeIndices = mIslandSim->getEdgeNodeIndexPtr();
 

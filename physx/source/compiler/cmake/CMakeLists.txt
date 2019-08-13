@@ -31,9 +31,6 @@ project(PhysX C CXX)
 
 CMAKE_POLICY(SET CMP0057 NEW) # Enable IN_LIST
 
-OPTION(PX_GENERATE_GPU_PROJECTS "Generate the GPU projects, if possible." OFF)
-OPTION(PX_GENERATE_GPU_PROJECTS_ONLY "Generate ONLY the GPU projects, if possible." OFF)
-OPTION(PX_GENERATE_GPU_STATIC_LIBRARIES "Generate PhysXGPU static libraries" OFF)
 OPTION(PX_SCALAR_MATH "Disable SIMD math" OFF)
 OPTION(PX_GENERATE_STATIC_LIBRARIES "Generate static libraries" OFF)
 OPTION(PX_EXPORT_LOWLEVEL_PDB "Export low level pdb's" OFF)

@@ -301,6 +301,7 @@ var annotated_dup =
     [ "PxSolverContactDesc", "structPxSolverContactDesc.html", "structPxSolverContactDesc" ],
     [ "PxSolverType", "structPxSolverType.html", "structPxSolverType" ],
     [ "PxSpatialForce", "structPxSpatialForce.html", "structPxSpatialForce" ],
+    [ "PxSpatialVelocity", "structPxSpatialVelocity.html", "structPxSpatialVelocity" ],
     [ "PxSphereGeometry", "classPxSphereGeometry.html", "classPxSphereGeometry" ],
     [ "PxSphericalJoint", "classPxSphericalJoint.html", "classPxSphericalJoint" ],
     [ "PxSphericalJointFlag", "structPxSphericalJointFlag.html", "structPxSphericalJointFlag" ],
@@ -379,6 +380,7 @@ var annotated_dup =
     [ "PxVehicleWheels", "classPxVehicleWheels.html", "classPxVehicleWheels" ],
     [ "PxVehicleWheelsDynData", "classPxVehicleWheelsDynData.html", "classPxVehicleWheelsDynData" ],
     [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html", "classPxVehicleWheelsSimData" ],
+    [ "PxVehicleWheelsSimFlag", "structPxVehicleWheelsSimFlag.html", "structPxVehicleWheelsSimFlag" ],
     [ "PxVisualizationParameter", "structPxVisualizationParameter.html", "structPxVisualizationParameter" ],
     [ "PxWheelQueryResult", "structPxWheelQueryResult.html", "structPxWheelQueryResult" ],
     [ "RaycastCCDManager", "classRaycastCCDManager.html", "classRaycastCCDManager" ]

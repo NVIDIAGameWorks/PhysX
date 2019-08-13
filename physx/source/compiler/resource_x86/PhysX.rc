@@ -7,7 +7,10 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "windows.h"
+#include "windows.h"
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -50,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,0,0,0
- PRODUCTVERSION 4,0,0,0
+ FILEVERSION 4,1,1,0
+ PRODUCTVERSION 4,1,1,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -68,12 +71,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "NVIDIA Corporation"
             VALUE "FileDescription", "PhysX 32bit Dynamic Link Library"
-            VALUE "FileVersion", "4.1.0.0"
+            VALUE "FileVersion", "4.1.1.0"
             VALUE "InternalName", "PhysX_32"
             VALUE "LegalCopyright", "Copyright (C) 2019 NVIDIA Corporation"
             VALUE "OriginalFilename", "PhysX_32.dll"
             VALUE "ProductName", "PhysX"
-            VALUE "ProductVersion", "4.1.0.0"
+            VALUE "ProductVersion", "4.1.1.0"
         END
     END
     BLOCK "VarFileInfo"

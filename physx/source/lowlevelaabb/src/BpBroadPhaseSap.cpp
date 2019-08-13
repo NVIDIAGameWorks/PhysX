@@ -273,7 +273,7 @@ PX_FORCE_INLINE static void testPostShiftOrder(const ValType prevVal, ValType& c
 	}
 }
 
-void BroadPhaseSap::shiftOrigin(const PxVec3& shift)
+void BroadPhaseSap::shiftOrigin(const PxVec3& shift, const PxBounds3* /*boundsArray*/, const PxReal* /*contactDistances*/)
 {
 	//
 	// Note: shifting the bounds does not necessarily preserve the order of the broadphase interval endpoints. The encoding of the float bounds is a lossy

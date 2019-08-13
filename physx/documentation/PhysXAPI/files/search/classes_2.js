@@ -329,6 +329,7 @@ var searchData=
   ['pxsolvercontactdesc',['PxSolverContactDesc',['../structPxSolverContactDesc.html',1,'']]],
   ['pxsolvertype',['PxSolverType',['../structPxSolverType.html',1,'']]],
   ['pxspatialforce',['PxSpatialForce',['../structPxSpatialForce.html',1,'']]],
+  ['pxspatialvelocity',['PxSpatialVelocity',['../structPxSpatialVelocity.html',1,'']]],
   ['pxspheregeometry',['PxSphereGeometry',['../classPxSphereGeometry.html',1,'']]],
   ['pxsphericaljoint',['PxSphericalJoint',['../classPxSphericalJoint.html',1,'']]],
   ['pxsphericaljointflag',['PxSphericalJointFlag',['../structPxSphericalJointFlag.html',1,'']]],
@@ -411,6 +412,7 @@ var searchData=
   ['pxvehiclewheels',['PxVehicleWheels',['../classPxVehicleWheels.html',1,'']]],
   ['pxvehiclewheelsdyndata',['PxVehicleWheelsDynData',['../classPxVehicleWheelsDynData.html',1,'']]],
   ['pxvehiclewheelssimdata',['PxVehicleWheelsSimData',['../classPxVehicleWheelsSimData.html',1,'']]],
+  ['pxvehiclewheelssimflag',['PxVehicleWheelsSimFlag',['../structPxVehicleWheelsSimFlag.html',1,'']]],
   ['pxvisualizationparameter',['PxVisualizationParameter',['../structPxVisualizationParameter.html',1,'']]],
   ['pxwheelqueryresult',['PxWheelQueryResult',['../structPxWheelQueryResult.html',1,'']]],
   ['pxxmlmiscparameter',['PxXmlMiscParameter',['../structPxSerialization_1_1PxXmlMiscParameter.html',1,'PxSerialization']]]

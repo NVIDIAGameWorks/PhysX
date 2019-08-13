@@ -21,6 +21,8 @@ var classPxArticulationReducedCoordinate =
     [ "getCacheDataSize", "classPxArticulationReducedCoordinate.html#a86107c6d84d3132b6a46bb9b2b48666e", null ],
     [ "getCoefficientMatrixSize", "classPxArticulationReducedCoordinate.html#a54da9e7775e8b619d5172039213beaff", null ],
     [ "getDofs", "classPxArticulationReducedCoordinate.html#a4d0ed61a1f9a2b2cd18ced0cf9122355", null ],
+    [ "getLinkAcceleration", "classPxArticulationReducedCoordinate.html#ab51ab4c2ab36f1b409a1aa0468f0fe71", null ],
+    [ "getLinkVelocity", "classPxArticulationReducedCoordinate.html#a4520151744be7de9835c9f90291468c3", null ],
     [ "getLoopJoints", "classPxArticulationReducedCoordinate.html#a5a611783b278756d562f4dfe0626af18", null ],
     [ "getNbLoopJoints", "classPxArticulationReducedCoordinate.html#aa89014cf296753fd9ddffbd62ef46c4c", null ],
     [ "packJointData", "classPxArticulationReducedCoordinate.html#a32973e41c51f9dd6ed0168c401d620d7", null ],

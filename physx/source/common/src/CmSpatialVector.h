@@ -412,6 +412,11 @@ public:
 		return top.dot(v.top) + bottom.dot(v.bottom);
 	}
 
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal dot(const SpatialVectorF& v) const
+	{
+		return top.dot(v.top) + bottom.dot(v.bottom);
+	}
+
 	PX_CUDA_CALLABLE PX_FORCE_INLINE UnAlignedSpatialVector cross(const UnAlignedSpatialVector& v) const
 	{
 		UnAlignedSpatialVector a;
@@ -457,6 +462,18 @@ public:
 	{
 		val[0] = top.x; val[1] = top.y; val[2] = top.z;
 		val[3] = bottom.x; val[4] = bottom.y; val[5] = bottom.z;
+	}
+
+	PX_CUDA_CALLABLE PX_FORCE_INLINE PxReal& operator [] (const PxU32 index)
+	{
+		PX_ASSERT(index < 6);
+		return (&top.x)[index];
+	}
+
+	PX_CUDA_CALLABLE PX_FORCE_INLINE const PxReal& operator [] (const PxU32 index) const
+	{
+		PX_ASSERT(index < 6);
+		return (&top.x)[index];
 	}
 
 	PxVec3 top;					//12		12

@@ -132,6 +132,9 @@ namespace Sc
 																   const ArticulationDriveCache& driveCache,
 																   const PxVec3& force,
 																   const PxVec3& torque) const;
+
+
+					void					setKinematicLink(const bool value);
 					//external reduced coordinate implementation
 					PxU32					getDofs() const;
 
@@ -179,6 +182,11 @@ namespace Sc
 					void					computeGeneralizedMassMatrix(PxArticulationCache& cache);
 
 					PxU32					getCoefficientMatrixSize() const;
+
+					PxSpatialVelocity		getLinkVelocity(const PxU32 linkId) const;
+
+					PxSpatialVelocity		getLinkAcceleration(const PxU32 linkId) const;
+
 					//internal method implementation
 					PX_FORCE_INLINE IG::NodeIndex		getIslandNodeIndex() const { return mIslandNodeIndex; }
 
@@ -186,6 +194,8 @@ namespace Sc
 
 					void					setDirty(const bool dirty);
 					PxU32					findBodyIndex(BodySim &body) const;
+
+					void					setJointDirty(Dy::ArticulationJointCore& jointCore);
 
 					void					addLoopConstraint(ConstraintSim* constraint);
 					void					removeLoopConstraint(ConstraintSim* constraint);
