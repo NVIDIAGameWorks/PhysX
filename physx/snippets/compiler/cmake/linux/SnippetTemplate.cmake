@@ -29,7 +29,7 @@
 # Build Snippet linux template
 #
 
-IF(${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "aarch64-linux-gnu")
+IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64")
 	SET(SNIPPET_COMPILE_DEFS
 		# Common to all configurations
 
@@ -71,7 +71,7 @@ IF(${SNIPPET_NAME} STREQUAL "ArticulationLoader")
 	)
 ENDIF()
 
-IF(${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "aarch64-linux-gnu")
+IF(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64")
 	SET(SNIPPET_PLATFORM_LINKED_LIBS
 		rt pthread dl
 	)
