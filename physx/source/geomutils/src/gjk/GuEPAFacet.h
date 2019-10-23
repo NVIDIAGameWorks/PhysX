@@ -46,7 +46,7 @@
 
 namespace physx
 {
-#define MaxEdges 32
+#define MaxEdges 64
 #define MaxFacets 64
 #define MaxSupportPoints 64
 
