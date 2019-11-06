@@ -7,6 +7,6 @@
     <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />    
   </CMakeSwitches>
   <CMakeParams>
-    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/linux/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/linux" comment="Install path relative to PhysX SDK root" />
   </CMakeParams>
 </preset>
