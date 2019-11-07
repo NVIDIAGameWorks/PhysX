@@ -34,7 +34,7 @@ SET(PHYSXPVDSDK_LIBTYPE STATIC)
 # Use generator expressions to set config specific preprocessor definitions
 SET(PHYSXPVDSDK_COMPILE_DEFS 
 	# Common to all configurations
-	${PHYSX_LINUX_COMPILE_DEFS};PX_PHYSX_STATIC_LIB;
+	${PHYSX_LINUX_COMPILE_DEFS};${PXCOMMON_LIBTYPE_DEFS};
 
 	$<$<CONFIG:debug>:${PHYSX_LINUX_DEBUG_COMPILE_DEFS};>
 	$<$<CONFIG:checked>:${PHYSX_LINUX_CHECKED_COMPILE_DEFS};>

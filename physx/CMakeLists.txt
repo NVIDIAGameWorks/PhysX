@@ -27,9 +27,31 @@
 ## Copyright (c) 2019 Pablo Hernandez-Cerdan
 
 cmake_minimum_required(VERSION 3.13)
-project(PhysX C CXX)
+# Change options for CMAKE_BUILD_TYPE and set default.
+# Same values than CMAKE_CONFIGURATION_TYPES
+# From https://gitlab.kitware.com/cmake/cmake/issues/19401
+get_property(multiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(NOT multiConfig AND NOT DEFINED CMAKE_BUILD_TYPE)
+    set(default_build_type "release")
+    message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+    set(CMAKE_BUILD_TYPE ${default_build_type} CACHE STRING "Choose the type of build.")
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+        "release" "profile" "checked" "debug")
+endif()
+
+file(READ "version.txt" PHYSX_VERSION)
+project(PhysX
+    LANGUAGES C CXX
+    VERSION ${PHYSX_VERSION})
+message(STATUS "PhysX VERSION: ${PHYSX_VERSION}")
 cmake_policy(SET CMP0057 NEW) # Enable IN_LIST
 cmake_policy(SET CMP0077 NEW) # option() does nothing when variable is alredy set
+
+# Set a default build type if none was specified
+set(default_build_type "Release")
+if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+  set(default_build_type "Debug")
+endif()
 
 # PhysXSDK options:
 option(PX_BUILDSNIPPETS "Generate the snippets" OFF)
@@ -38,6 +60,19 @@ option(PX_CMAKE_SUPPRESS_REGENERATION "Disable zero_check projects" OFF)
 # PhysX options:
 option(PX_SCALAR_MATH "Disable SIMD math" OFF)
 option(PX_GENERATE_STATIC_LIBRARIES "Generate static libraries" OFF)
+if(NOT DEFINED BUILD_SHARED_LIBS)
+    if(PX_GENERATE_STATIC_LIBRARIES)
+        set(BUILD_SHARED_LIBS OFF)
+    else()
+        set(BUILD_SHARED_LIBS ON)
+    endif()
+else()
+    if(BUILD_SHARED_LIBS EQUAL PX_GENERATE_STATIC_LIBRARIES)
+        message(FATAL_ERROR "Contradictory options: BUILD_SHARED_LIBS and PX_GENERATE_STATIC_LIBRARIES have both the same value: ${BUILD_SHARED_LIBS}")
+    endif()
+endif()
+message(STATUS "BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
+message(STATUS "  PX_GENERATE_STATIC_LIBRARIES: ${PX_GENERATE_STATIC_LIBRARIES}")
 option(PX_EXPORT_LOWLEVEL_PDB "Export low level pdb's" OFF)
 option(PX_GENERATE_GPU_PROJECTS_ONLY "Generate GPU projects only. (Untested)" OFF)
 mark_as_advanced(PX_GENERATE_GPU_PROJECTS_ONLY)
@@ -55,9 +90,6 @@ if(CMAKE_CONFIGURATION_TYPES)
     set(CMAKE_SHARED_LINKER_FLAGS_CHECKED "")
     set(CMAKE_SHARED_LINKER_FLAGS_PROFILE "")
 
-    # XXX(phcerdan) PDB are not for consumers, ignore this line
-    # Build PDBs for all configurations.
-    # set(CMAKE_SHARED_LINKER_FLAGS "/DEBUG")
 endif()
 
 # Disable zero_check projects. The default for Switch and XboxOne is ON.
@@ -106,10 +138,10 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKEMODULES_PATH})
 
 ### Set platform specific files
 set(PROJECT_CMAKE_FILES_DIR source/compiler/cmake)
+set(PROJECT_CMAKE_FILES_ABSOLUTE_DIR ${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR})
 # The following files define all the flags specific to platforms, compilers and build configurations.
 # The file is included in the source/ subdirectory
-set(PLATFORM_CMAKE_FILES_DIR "${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}")
-set(PLATFORM_CMAKELISTS "${PLATFORM_CMAKE_FILES_DIR}/CMakeLists.txt")
+set(PLATFORM_CMAKELISTS "${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/CMakeLists.txt")
 
 SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 

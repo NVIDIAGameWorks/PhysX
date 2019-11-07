@@ -29,7 +29,7 @@
 # Build PhysXCharacterKinematic
 #
 
-SET(PHYSXCHARACTERKINEMATIC_LIBTYPE STATIC)
+SET(PHYSXCHARACTERKINEMATIC_LIBTYPE STATIC)	
 
 # Use generator expressions to set config specific preprocessor definitions
 SET(PHYSXCHARACTERKINEMATICS_COMPILE_DEFS 

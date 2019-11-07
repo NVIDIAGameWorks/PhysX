@@ -116,5 +116,9 @@ ELSE()
 		EXPORT PhysXSDK
 		DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
 		)
+	# export to the build tree
+	export( TARGETS ${PHYSXDISTRO_LIBS}
+		NAMESPACE PhysX::
+		APPEND FILE ${physx_build_targets_file})
 	
 ENDIF()

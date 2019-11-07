@@ -97,3 +97,20 @@ SET_PROPERTY(TARGET FastXml PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXPvdSDK PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXTask PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")
+
+# XXX(phcerdan) why targets are not installed in mac?
+IF(PX_GENERATE_STATIC_LIBRARIES)
+	SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle)
+ELSE()
+	SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle PhysXTask)
+ENDIF()	
+
+INSTALL(
+	TARGETS ${PHYSXDISTRO_LIBS}
+	EXPORT PhysXSDK
+	DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
+	)
+# export to the build tree
+export( TARGETS ${PHYSXDISTRO_LIBS}
+	NAMESPACE PhysX::
+	APPEND FILE ${physx_build_targets_file})
