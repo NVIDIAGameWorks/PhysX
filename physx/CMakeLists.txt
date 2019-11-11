@@ -77,7 +77,7 @@ option(PX_EXPORT_LOWLEVEL_PDB "Export low level pdb's" OFF)
 option(PX_GENERATE_GPU_PROJECTS_ONLY "Generate GPU projects only. (Untested)" OFF)
 mark_as_advanced(PX_GENERATE_GPU_PROJECTS_ONLY)
 
-set(PUBLIC_RELEASE 1)
+set(PUBLIC_RELEASE OFF)
 # Enable folder properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
