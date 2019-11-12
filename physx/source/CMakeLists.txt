@@ -92,7 +92,8 @@ install(FILES ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_BIN_NAME}/$<CONFIG>
 
 # Introduced based on upstream version: 4.1.1.27006925
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file(PhysXConfigVersion.cmake
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/PhysXConfigVersion.cmake
   VERSION ${PHYSX_VERSION}
   COMPATIBILITY SameMajorVersion)
 
@@ -109,8 +110,9 @@ configure_package_config_file(
   )
 
 # Install tree
-install (EXPORT PhysXSDK
+install (EXPORT PhysX
   NAMESPACE PhysX::
+  FILE PhysXTargets.cmake
   DESTINATION ${install_cmake_dir} )
 
 set(PhysX_TARGETS_FILE ${CMAKE_INSTALL_PREFIX}/${install_cmake_dir}/PhysXTargets.cmake)
@@ -121,4 +123,7 @@ configure_package_config_file(
   PATH_VARS PhysX_TARGETS_FILE
   # NO_CHECK_REQUIRED_COMPONENTS_MACRO # PhysX does not provide components
   )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/PhysXConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/PhysXConfigVersion.cmake
+        DESTINATION ${install_cmake_dir})
 

@@ -2,7 +2,7 @@
 
 include(CMakeFindDependencyMacro)
 
-# get_filename_component(PhysX_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+get_filename_component(PhysX_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 if(NOT TARGET PhysX)
-  include ("@PACKAGE_PhysX_TARGETS_FILE@")
+  include ("${PhysX_CMAKE_DIR}/PhysXTargets.cmake")
 endif()
