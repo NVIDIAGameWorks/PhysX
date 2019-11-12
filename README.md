@@ -1,5 +1,43 @@
 # NVIDIA PhysX SDK 4.1
 
+# Improved CMake integration (contributed by @phcerdan)
+- Provide PhysXConfig.cmake and exported targets file for build and install tree.
+- Other projects can use find_package(PhysX) where PhysX_DIR can be a build tree or an install tree.
+- The implementation only adds two new CMakeLists.txt that do not collide with
+the existing build procedure of Nvidia. Instead of using python and the generate_projects scripts, now it solely uses CMake in a standard way.
+- This allows PhysX to be used with modern standards of CMake, making it compatible
+   with FetchContent (add_subdirectory) and ExternalProject (find_package) commands.
+- Snippets and Samples have not been integrated into the new build procedure.
+- But added a simpler project to show find_package(PhysX) usage.
+- The original build procedure is maintained compatible for easier integration with future upstream changes from NVidia.
+
+## Example of CMake usage
+
+# Build and optionally install PhysX with just CMake:
+```bash
+mkdir PhysX;
+git clone https://github.com/phcerdan/PhysX src
+mkdir build; cd build;
+cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=release -DCMAKE_INSTALL_PREFIX:PATH=/tmp/physx ../src
+ninja install
+```
+
+# Your project using PhysX (example added)
+
+```cmake
+find_package(PhysX REQUIRED)
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE PhysX::PhysXCommon PhysX::PhysXExtensions)
+```
+
+You can also use FetchContent, or ExternalProjects for handling PhysX automatically.
+
+When building your project, just provide `PhysX_DIR` to where the PhysXConfig.cmake is located (it could be from a build or an install tree)
+```bash
+cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DPhysX_DIR:PATH=/tmp/physx/PhysX/bin/cmake/physx ../src
+```
+
+
 Copyright (c) 2019 NVIDIA Corporation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
