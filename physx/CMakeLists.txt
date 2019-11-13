@@ -143,13 +143,13 @@ set(PROJECT_CMAKE_FILES_ABSOLUTE_DIR ${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR
 # The file is included in the source/ subdirectory
 set(PLATFORM_CMAKELISTS "${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/CMakeLists.txt")
 
-SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # INSTALL PATHS
-# XXX(phcerdan) CMAKE_INSTALL_PREFIX by definition points to the root folder of the installation
-# the upstream python configuration sets PhysX in the INSTALL_PREFIX,
-# but then hack it to install PxShared in parallel to PhysX.
-SET(PHYSX_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PhysX CACHE INTERNAL "Install path to install PhysX")
+# XXX(phcerdan) CMAKE_INSTALL_PREFIX by definition has to point to the root folder of the installation
+# but the upstream python configuration adds PhysX to the CMAKE_INSTALL_PREFIX, which is not standard,
+# and then hack it to install PxShared in parallel to PhysX. Solved here:
+set(PHYSX_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PhysX CACHE INTERNAL "Install path to install PhysX")
 set(PXSHARED_PATH ${CMAKE_SOURCE_DIR}/../pxshared CACHE INTERNAL "Path to PxShared source")
 set(PXSHARED_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PxShared CACHE INTERNAL "Path to install PxShared")
 
@@ -164,8 +164,9 @@ set(PX_ROOT_LIB_DIR "${PHYSX_INSTALL_PREFIX}/bin")
 set(BUILD_SOURCE_FOLDER ${CMAKE_CURRENT_BINARY_DIR}/sdk_source_bin)
 add_subdirectory(source ${BUILD_SOURCE_FOLDER})
 
+# TODO(phcerdan) Snippets and Samples are not integrated with the new CMake procedure
+# But check the project_using_physx for hints on how to integrate it.
 if(PX_BUILDSNIPPETS)
-    # TODO(phcerdan) this is the part to simplify
     # Add Snippets projects into the solution
     add_subdirectory(${PHYSX_ROOT_DIR}/snippets/compiler/cmake ${CMAKE_CURRENT_BINARY_DIR}/sdk_snippets_bin)
 
@@ -175,7 +176,6 @@ endif()
 if(PX_BUILDPUBLICSAMPLES)
     if(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR
        CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        # TODO(phcerdan) this is the part to simplify
         # Add samples projects into the solution
         add_subdirectory(${PHYSX_ROOT_DIR}/samples/compiler/cmake ${CMAKE_CURRENT_BINARY_DIR}/sdk_samples_bin)
 

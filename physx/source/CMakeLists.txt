@@ -76,8 +76,8 @@ configure_file(${CMAKEMODULES_PATH}/template/PxIncludeTemplate.h ${PHYSX_ROOT_DI
 ### Move libPhysXGPU from source tree to build and install tree:
 # libPhysXGPU libraries are in the repository (/bin) but the CUDA code is not open
 # XXX(phcerdan) Nvdia does not provides GNU (gcc) GPU libaries, only clang.
-# XXX(phcerdan) I guess both compilers are ABI compatible, but not explicitly tested in this codebase
-# XXX(phcerdan) GCC in linux is not an option right now upstream
+# I guess both compilers are ABI compatible, but not explicitly tested in this codebase
+# GCC in linux is not an option right now upstream
 
 ##  Copy the folder containing libPhysXGPU to the build and install folder for the current CONFIG
 # Build tree
