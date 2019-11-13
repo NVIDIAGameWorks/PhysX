@@ -47,12 +47,6 @@ message(STATUS "PhysX VERSION: ${PHYSX_VERSION}")
 cmake_policy(SET CMP0057 NEW) # Enable IN_LIST
 cmake_policy(SET CMP0077 NEW) # option() does nothing when variable is alredy set
 
-# Set a default build type if none was specified
-set(default_build_type "Release")
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-  set(default_build_type "Debug")
-endif()
-
 # PhysXSDK options:
 option(PX_BUILDSNIPPETS "Generate the snippets" OFF)
 option(PX_BUILDPUBLICSAMPLES "Generate the samples" OFF)
