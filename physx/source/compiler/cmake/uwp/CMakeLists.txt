@@ -120,10 +120,12 @@ INSTALL(
 	EXPORT PhysX
 	DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
 	)
-# export to the build tree
-export( TARGETS ${PHYSXDISTRO_LIBS}
-	NAMESPACE PhysX::
-	APPEND FILE ${physx_build_targets_file})
+if(DEFINED physx_build_targets_file)
+	# export to the build tree
+	export( TARGETS ${PHYSXDISTRO_LIBS}
+		NAMESPACE PhysX::
+		FILE ${physx_build_targets_file})
+endif()
 
 IF(PX_GENERATE_STATIC_LIBRARIES)
 	STRING(APPEND HEADER_CONTENT "#define PX_PHYSX_STATIC_LIB\n")	
