@@ -91,13 +91,13 @@ if(PX_CMAKE_SUPPRESS_REGENERATION)
     set(CMAKE_SUPPRESS_REGENERATION TRUE)
 endif()
 
-### Set PHYSX_ROOT_DIR to CMAKE_SOURCE_DIR
+### Set PHYSX_ROOT_DIR to PROJECT_SOURCE_DIR
 if(DEFINED PHYSX_ROOT_DIR)
     message(WARNING "PHYSX_ROOT_DIR is externally defined, but it will be overwritten in this CMakeLists. DEPRECATED")
     message("PHYSX_ROOT_DIR (externally set --not used--): ${PHYSX_ROOT_DIR}")
-    message("PHYSX_ROOT_DIR (currently set): ${CMAKE_SOURCE_DIR}")
+    message("PHYSX_ROOT_DIR (currently set): ${PROJECT_SOURCE_DIR}")
 endif()
-set(PHYSX_ROOT_DIR ${CMAKE_SOURCE_DIR})
+set(PHYSX_ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 ### Set TARGET_BUILD_PLATFORM using CMAKE_SYSTEM_NAME
 # for compatibility with current CMake files,
@@ -123,7 +123,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
 endif()
 
 ### Set CMake folders
-set(CMAKEMODULES_PATH ${CMAKE_SOURCE_DIR}/../externals/cmakemodules/
+set(CMAKEMODULES_PATH ${PROJECT_SOURCE_DIR}/../externals/cmakemodules/
     CACHE INTERNAL "Path to CMakeModules")
 set(CMAKEMODULES_NAME "CMakeModules" CACHE INTERNAL "CMakeModules name")
 set(CMAKEMODULES_VERSION "1.27" CACHE INTERNAL "CMakeModules version from generation batch")
@@ -144,7 +144,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # but the upstream python configuration adds PhysX to the CMAKE_INSTALL_PREFIX, which is not standard,
 # and then hack it to install PxShared in parallel to PhysX. Solved here:
 set(PHYSX_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PhysX CACHE INTERNAL "Install path to install PhysX")
-set(PXSHARED_PATH ${CMAKE_SOURCE_DIR}/../pxshared CACHE INTERNAL "Path to PxShared source")
+set(PXSHARED_PATH ${PROJECT_SOURCE_DIR}/../pxshared CACHE INTERNAL "Path to PxShared source")
 set(PXSHARED_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PxShared CACHE INTERNAL "Path to install PxShared")
 
 # Set PX_ROOT_LIB_DIR (used in cmake files)

@@ -83,11 +83,11 @@ configure_file(${CMAKEMODULES_PATH}/template/PxIncludeTemplate.h ${PHYSX_ROOT_DI
 # Build tree
 add_custom_command(TARGET PhysX POST_BUILD
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
-     ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_BIN_NAME}/$<CONFIG>/
+     ${PROJECT_SOURCE_DIR}/bin/${PLATFORM_BIN_NAME}/$<CONFIG>/
      "${CMAKE_CURRENT_BINARY_DIR}/"
   COMMENT "Copying libPhysXGPU from the appropiate source folder to the build directory.")
 # Install tree
-install(FILES ${CMAKE_SOURCE_DIR}/bin/${PLATFORM_BIN_NAME}/$<CONFIG>
+install(FILES ${PROJECT_SOURCE_DIR}/bin/${PLATFORM_BIN_NAME}/$<CONFIG>
     DESTINATION ${PHYSX_INSTALL_PREFIX}/bin/)
 
 # Introduced based on upstream version: 4.1.1.27006925
