@@ -157,6 +157,7 @@ class CMakePreset:
             outString = outString + '-G \"MinGW Makefiles\"'
         elif self.targetPlatform == 'linux':
             outString = outString + '-G \"Unix Makefiles\"'
+            outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + os.environ['PM_CMakeModules_PATH'] + '/linux/LinuxRegular.cmake'
         elif self.targetPlatform == 'linuxAarch64':
             outString = outString + '-G \"Unix Makefiles\"'
 
