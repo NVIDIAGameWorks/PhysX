@@ -294,8 +294,10 @@ bool AABBTree::buildFromMesh(SourceMesh& mesh, PxU32 limit)
 		mPool->mNodePrimitives	= mIndices;
 		mPool->mNbPrimitives	= nbBoxes;
 
+		// Workaround "restrict-qualified parameter aliases" warning
+		AABBTreeNode* mPoolA = mPool;
 		// Build the hierarchy
-		local_BuildHierarchy(mPool, boxes, centers, Stats, mPool, limit);
+		local_BuildHierarchy(mPoolA, boxes, centers, Stats, mPool, limit);
 
 		// Get back total number of nodes
 		mTotalNbNodes = Stats.getCount();
