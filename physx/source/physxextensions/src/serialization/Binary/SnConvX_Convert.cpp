@@ -1218,32 +1218,18 @@ PointerRemap::~PointerRemap()
 
 void PointerRemap::setObjectRef(PxU64 object64, PxU32 ref)
 {
-	const PxU32 size = mData.size();
-	for(PxU32 i=0;i<size;i++)
-	{
-		if(mData[i].object==object64)
-		{
-			mData[i].id = ref;
-			return;
-		}
-	}
-	InternalData data;
-	data.object	= object64;
-	data.id		= ref;
-	mData.pushBack(data);
+	mData[object64] = ref;
 }
 
 bool PointerRemap::getObjectRef(PxU64 object64, PxU32& ref) const
 {	
-	const PxU32 size = mData.size();
-	for(PxU32 i=0;i<size;i++)
+	const PointerMap::Entry* entry = mData.find(object64);
+	if (NULL != entry)
 	{
-		if(mData[i].object==object64)
-		{
-			ref = mData[i].id;
-			return true;
-		}
+		ref = entry->second;
+		return true;
 	}
+
 	return false;
 }
 
@@ -1257,32 +1243,18 @@ Handle16Remap::~Handle16Remap()
 
 void Handle16Remap::setObjectRef(PxU16 object, PxU16 ref)
 {
-	const PxU32 size = mData.size();
-	for(PxU32 i=0;i<size;i++)
-	{
-		if(mData[i].object==object)
-		{
-			mData[i].id = ref;
-			return;
-		}
-	}
-	InternalData data;
-	data.object	= object;
-	data.id		= ref;
-	mData.pushBack(data);
+	mData[object] = ref;
 }
 
 bool Handle16Remap::getObjectRef(PxU16 object, PxU16& ref) const
 {	
-	const PxU32 size = mData.size();
-	for(PxU32 i=0;i<size;i++)
+	const Handle16Map::Entry* entry = mData.find(object);
+	if (NULL != entry)
 	{
-		if(mData[i].object==object)
-		{
-			ref = mData[i].id;
-			return true;
-		}
+		ref = entry->second;
+		return true;
 	}
+
 	return false;
 }
 

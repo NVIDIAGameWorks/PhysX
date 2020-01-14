@@ -34,7 +34,7 @@
 
 #include "CmPhysXCommon.h"
 #include "PsUserAllocated.h"
-#include "PsArray.h"
+#include "PsHashMap.h"
 #include "SnConvX_Common.h"
 #include "SnConvX_Union.h"
 #include "SnConvX_MetaData.h"
@@ -58,13 +58,8 @@ namespace Sn {
 		void	setObjectRef(PxU64 object64, PxU32 ref);
 		bool	getObjectRef(PxU64 object64, PxU32& ref)	const;
 
-		struct InternalData
-		{
-			PxU64	object;
-			PxU32	id;
-		};
-
-		Ps::Array<InternalData>	mData;
+		typedef Ps::HashMap<PxU64, PxU32> PointerMap;
+		PointerMap mData;
 	};
 
 	class Handle16Remap
@@ -76,13 +71,8 @@ namespace Sn {
 		void	setObjectRef(PxU16 object, PxU16 ref);
 		bool	getObjectRef(PxU16 object, PxU16& ref)	const;
 
-		struct InternalData
-		{
-			PxU16	object;
-			PxU16	id;
-		};
-
-		Ps::Array<InternalData>	mData;
+		typedef Ps::HashMap<PxU16, PxU16> Handle16Map;
+		Handle16Map mData;
 	};
 
 	class ConvX : public physx::PxBinaryConverter, public shdfnd::UserAllocated
