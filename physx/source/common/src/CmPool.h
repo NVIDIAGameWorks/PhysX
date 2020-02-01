@@ -149,7 +149,7 @@ public:
 					T** slabs = reinterpret_cast<T**>(Alloc::allocate(2* newSlabCount *sizeof(T*), __FILE__, __LINE__));
 					if (mSlabs)
 					{
-						PxMemCopy(slabs, mSlabs, sizeof(T*)*newSlabCount);
+						PxMemCopy(slabs, mSlabs, sizeof(T*)*mSlabCount);
 
 						Alloc::deallocate(mSlabs);
 					}
