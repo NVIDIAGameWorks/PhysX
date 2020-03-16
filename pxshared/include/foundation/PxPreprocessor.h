@@ -88,7 +88,7 @@ Compiler defines, see http://sourceforge.net/p/predef/wiki/Compilers/
 // Ensure we have at least 1 known compiler, note that in a cross compilation
 // scenario targeting windows with clang-cl, both PX_CLANG and the PX_VC version
 // will be set, at least if clang-cl has been instructed to use msvc compatibility
-#if !_MSC_VER && !PX_CLANG && !PX_GCC
+#if !defined(_MSC_VER) && !defined(PX_CLANG) && !defined(PX_GCC)
 	#error "Unknown compiler"
 #endif
 
