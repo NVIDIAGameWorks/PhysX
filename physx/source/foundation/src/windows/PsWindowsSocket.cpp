@@ -34,7 +34,7 @@
 #include "PsThread.h"
 #include "PsArray.h"
 
-#include <Winsock2.h>
+#include <WinSock2.h>
 #pragma comment(lib, "Ws2_32")
 
 namespace physx
