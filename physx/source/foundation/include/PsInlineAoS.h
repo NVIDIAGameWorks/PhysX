@@ -32,10 +32,10 @@
 
 #include "foundation/PxPreprocessor.h"
 
-#if PX_WINDOWS
+#if PX_WINDOWS && !PX_CLANG
 #include "windows/PsWindowsTrigConstants.h"
 #include "windows/PsWindowsInlineAoS.h"
-#elif(PX_UNIX_FAMILY || PX_PS4 || PX_SWITCH || (PX_UWP && PX_NEON))
+#elif(PX_UNIX_FAMILY || PX_PS4 || PX_SWITCH || (PX_UWP && PX_NEON) || PX_CLANG)
 #include "unix/PsUnixTrigConstants.h"
 #include "unix/PsUnixInlineAoS.h"
 #elif PX_XBOXONE
