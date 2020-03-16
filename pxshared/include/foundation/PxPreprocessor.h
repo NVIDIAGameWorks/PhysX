@@ -53,34 +53,43 @@ All definitions have a value of 1 or 0, use '#if' instead of '#ifdef'.
 Compiler defines, see http://sourceforge.net/p/predef/wiki/Compilers/
 */
 #if defined(_MSC_VER)
-#if _MSC_VER >= 1910
-#define PX_VC 15
-#elif _MSC_VER >= 1900
-#define PX_VC 14
-#elif _MSC_VER >= 1800
-#define PX_VC 12
-#elif _MSC_VER >= 1700
-#define PX_VC 11
-#elif _MSC_VER >= 1600
-#define PX_VC 10
-#elif _MSC_VER >= 1500
-#define PX_VC 9
-#else
-#error "Unknown VC version"
-#endif
-#elif defined(__clang__)
-#define PX_CLANG 1
+	#if _MSC_VER >= 1910
+		#define PX_VC 15
+	#elif _MSC_VER >= 1900
+		#define PX_VC 14
+	#elif _MSC_VER >= 1800
+		#define PX_VC 12
+	#elif _MSC_VER >= 1700
+		#define PX_VC 11
+	#elif _MSC_VER >= 1600
+		#define PX_VC 10
+	#elif _MSC_VER >= 1500
+		#define PX_VC 9
+	#else
+		#error "Unknown VC version"
+	#endif
+#endif // _MSC_VER
+
+#if defined(__clang__)
+	#define PX_CLANG 1
 	#if defined (__clang_major__) 
 		#define PX_CLANG_MAJOR __clang_major__
 	#elif defined (_clang_major)
 		#define PX_CLANG_MAJOR _clang_major
 	#else
 		#define PX_CLANG_MAJOR 0
-	#endif	
-#elif defined(__GNUC__) // note: __clang__ implies __GNUC__
-#define PX_GCC 1
-#else
-#error "Unknown compiler"
+	#endif
+#endif // __clang__
+
+#if defined(__GNUC__) // note: __clang__ implies __GNUC__
+	#define PX_GCC 1
+#endif // __GNUC__
+
+// Ensure we have at least 1 known compiler, note that in a cross compilation
+// scenario targeting windows with clang-cl, both PX_CLANG and the PX_VC version
+// will be set, at least if clang-cl has been instructed to use msvc compatibility
+#if !_MSC_VER && !PX_CLANG && !PX_GCC
+	#error "Unknown compiler"
 #endif
 
 /**
@@ -467,7 +476,7 @@ PX_CUDA_CALLABLE PX_INLINE void PX_UNUSED(T const&)
 // This assert works on win32/win64, but may need further specialization on other platforms.
 // Some GCC compilers need the compiler flag -malign-double to be set.
 // Apparently the apple-clang-llvm compiler doesn't support malign-double.
-#if PX_PS4 || PX_APPLE_FAMILY || (PX_CLANG && !PX_ARM)
+#if PX_PS4 || PX_APPLE_FAMILY || (PX_CLANG && !PX_ARM && !PX_WINDOWS)
 struct PxPackValidation
 {
 	char _;
