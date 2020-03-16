@@ -43,7 +43,7 @@ namespace shdfnd
 namespace aos
 {
 
-#if PX_EMSCRIPTEN
+#if PX_EMSCRIPTEN || (PX_WINDOWS && PX_CLANG)
 typedef int8_t   __int8_t;
 typedef int16_t  __int16_t;
 typedef int32_t  __int32_t;
