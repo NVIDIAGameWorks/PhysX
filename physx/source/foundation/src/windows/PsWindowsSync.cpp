@@ -71,7 +71,7 @@ void SyncImpl::set()
 
 bool SyncImpl::wait(uint32_t milliseconds)
 {
-	if(milliseconds == -1)
+	if(milliseconds == static_cast<uint32_t>(-1))
 		milliseconds = INFINITE;
 
 	return WaitForSingleObject(getSync(this), milliseconds) == WAIT_OBJECT_0 ? true : false;

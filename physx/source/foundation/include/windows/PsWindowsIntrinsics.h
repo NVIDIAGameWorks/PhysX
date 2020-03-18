@@ -73,7 +73,14 @@ namespace shdfnd
 */
 PX_FORCE_INLINE void memoryBarrier()
 {
+	#if PX_CLANG
+		#pragma clang diagnostic push
+		#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	#endif
 	_ReadWriteBarrier();
+	#if PX_CLANG
+		#pragma clang diagnostic pop
+	#endif
 	/* long Barrier;
 	__asm {
 	    xchg Barrier, eax
