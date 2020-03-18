@@ -360,7 +360,7 @@ void NpBatchQuery::execute()
 
 	// data declarations for double buffering the input stream
 	PxU32 curQueryOffset = 0; // first query starts at 0
-	if (mPrevOffset == eTERMINAL) // except if zero queries were queued
+	if (mPrevOffset == static_cast<uint32_t>(eTERMINAL)) // except if zero queries were queued
 	{
 		finalizeExecute();
 		return;
@@ -426,7 +426,7 @@ void NpBatchQuery::execute()
 				PX_ALWAYS_ASSERT_MESSAGE("Unexpected batch query type (raycast/overlap/sweep).");
 		}
 
-		if (h.nextQueryOffset == eTERMINAL) // end of stream
+		if (h.nextQueryOffset == static_cast<uint32_t>(eTERMINAL)) // end of stream
 			// AP: previously also had a break on hitCount==-1 which is aborted due to out of space
 			// abort stream parsing if we ran into an aborted query (hitCount==-1).. but it was easier to just continue
 			// the perf implications for aborted queries are not a significant consideration and this allows to avoid
@@ -461,7 +461,7 @@ void NpBatchQuery::writeBatchHeader(const BatchStreamHeader& h)
 	PxU32 streamPos = PxU32(mStream.getPos()); // save the stream pos before we write the header
 	mStream.write<BatchStreamHeader>(h);
 	// link into a list as offset
-	PxU32* prevPtr = (mPrevOffset == eTERMINAL) ? &mPrevOffset : reinterpret_cast<PxU32*>(mStream.begin()+mPrevOffset);
+	PxU32* prevPtr = (mPrevOffset == static_cast<uint32_t>(eTERMINAL)) ? &mPrevOffset : reinterpret_cast<PxU32*>(mStream.begin()+mPrevOffset);
 	PxU32 headerPtr = streamPos+PX_OFFSET_OF(BatchStreamHeader, nextQueryOffset);
 	*prevPtr = headerPtr;
 	mPrevOffset = headerPtr;
