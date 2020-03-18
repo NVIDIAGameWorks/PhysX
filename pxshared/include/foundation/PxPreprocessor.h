@@ -338,7 +338,7 @@ Pack macros - disabled on SPU because they are not supported
 Inline macro
 */
 #define PX_INLINE inline
-#if PX_MICROSOFT_FAMILY
+#if PX_MICROSOFT_FAMILY && !PX_CLANG // clang doesn't understand this pragma
 #pragma inline_depth(255)
 #endif
 
@@ -432,7 +432,7 @@ General defines
 */
 
 // static assert
-#if(defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY) || (PX_SWITCH) || (PX_CLANG && PX_ARM)
+#if(defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7))) || (PX_PS4) || (PX_APPLE_FAMILY) || (PX_SWITCH) || (PX_CLANG && PX_ARM) || (PX_CLANG && PX_WINDOWS)
 #define PX_COMPILE_TIME_ASSERT(exp) typedef char PX_CONCAT(PxCompileTimeAssert_Dummy, __COUNTER__)[(exp) ? 1 : -1] __attribute__((unused))
 #else
 #define PX_COMPILE_TIME_ASSERT(exp) typedef char PxCompileTimeAssert_Dummy[(exp) ? 1 : -1]
@@ -501,7 +501,7 @@ PX_COMPILE_TIME_ASSERT(PX_OFFSET_OF(PxPackValidation, a) == 8);
 #endif
 
 // use in a cpp file to suppress LNK4221
-#if PX_VC
+#if PX_VC && !PX_CLANG
 #define PX_DUMMY_SYMBOL                                                                                                \
 	namespace                                                                                                          \
 	{                                                                                                                  \
