@@ -96,7 +96,7 @@ class PxTransform
 	}
 
 	//! Equals matrix multiplication
-	PX_CUDA_CALLABLE PX_INLINE PxTransform& operator*=(PxTransform& other)
+	PX_CUDA_CALLABLE PX_INLINE PxTransform& operator*=(const PxTransform& other)
 	{
 		*this = *this * other;
 		return *this;
