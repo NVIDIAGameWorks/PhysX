@@ -36,7 +36,7 @@
 #include "PsThread.h"
 
 #include <math.h>
-#if !PX_APPLE_FAMILY && !defined(ANDROID) && !defined(__CYGWIN__) && !PX_PS4 && !PX_EMSCRIPTEN
+#if !PX_APPLE_FAMILY && !PX_ANDROID && !defined(__CYGWIN__) && !PX_PS4 && !PX_EMSCRIPTEN
 #include <bits/local_lim.h> // PTHREAD_STACK_MIN
 #endif
 #include <stdio.h>
@@ -58,7 +58,7 @@
 #endif
 
 // fwd
-#if defined(ANDROID)
+#if PX_ANDROID
 extern "C" {
 int android_getCpuCount(void);
 }
@@ -194,7 +194,7 @@ void ThreadImpl::start(uint32_t stackSize, Runnable* runnable)
 	if(stackSize == 0)
 		stackSize = getDefaultStackSize();
 
-#if defined(PTHREAD_STACK_MIN) && !defined(ANDROID)
+#if defined(PTHREAD_STACK_MIN) && !PX_ANDROID
 	if(stackSize < PTHREAD_STACK_MIN)
 	{
 		shdfnd::getFoundation().error(PxErrorCode::eDEBUG_WARNING, __FILE__, __LINE__,
@@ -271,7 +271,7 @@ __attribute__((noreturn))
 
 void ThreadImpl::kill()
 {
-#ifndef ANDROID
+#if !PX_ANDROID
 	if(getThread(this)->state == _PxThreadStarted)
 		pthread_cancel(getThread(this)->thread);
 	getThread(this)->state = _PxThreadStopped;
@@ -333,7 +333,7 @@ void ThreadImpl::setName(const char* name)
 
 	if (getThread(this)->state == _PxThreadStarted)
 	{
-#if(defined(ANDROID) && (__ANDROID_API__ > 8))
+#if (PX_ANDROID && (__ANDROID_API__ > 8))
 		pthread_setname_np(getThread(this)->thread, name);
 #elif PX_PS4
 		setNamePS4(getThread(this)->thread, name);
@@ -420,7 +420,7 @@ uint32_t ThreadImpl::getNbPhysicalCores()
 	int count;
 	size_t size = sizeof(count);
 	return sysctlbyname("hw.physicalcpu", &count, &size, NULL, 0) ? 0 : count;
-#elif defined(ANDROID)
+#elif PX_ANDROID
 	return android_getCpuCount();
 #else
 	// Linux exposes CPU topology using /sys/devices/system/cpu
