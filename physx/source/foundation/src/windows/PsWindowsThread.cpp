@@ -313,12 +313,34 @@ uint32_t ThreadImpl::setAffinityMask(uint32_t mask)
 	return 0;
 }
 
-void ThreadImpl::setName(const char* name)
+void ThreadImpl::setName(const char *name)
 {
 	getThread(this)->name = name;
 
 	if (getThread(this)->state == _ThreadImpl::Started)
 	{
+		// SetThreadDescription is preferred as it makes it possible for performance
+		// analysis tools to see the thread name. But it is only available on Windows 10.
+		// more info: https://docs.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2019
+
+		// The SetThreadDescription API was brought in version 1607 of Windows 10.
+		typedef HRESULT(WINAPI * SetThreadDescription)(HANDLE hThread, PCWSTR lpThreadDescription);
+
+		auto set_thread_description_func = reinterpret_cast<SetThreadDescription>(
+			::GetProcAddress(::GetModuleHandle("Kernel32.dll"), "SetThreadDescription"));
+
+		if (set_thread_description_func)
+		{
+			wchar_t wname[128];
+			size_t wchars = 0;
+			mbstowcs_s(&wchars, wname, strlen(name) + 1, name, _TRUNCATE);
+
+			set_thread_description_func(getThread(this)->thread, wname);
+		}
+
+		// also support the old RaiseException mechanism for older Windows versions.
+		// will at least give the debugger the thread name
+
 		THREADNAME_INFO info;
 		info.dwType = 0x1000;
 		info.szName = name;
