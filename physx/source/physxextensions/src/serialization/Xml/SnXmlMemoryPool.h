@@ -249,81 +249,23 @@ namespace physx {
 	public:
 		PxProfileAllocatorWrapper mWrapper;
 
-		//CMemoryPool<0,8> m0ItemPool;
-		//CMemoryPool<1,8> m1ItemPool;
-		//CMemoryPool<2,8> m2ItemPool;
-		//CMemoryPool<3,8> m3ItemPool;
-		//CMemoryPool<4,8> m4ItemPool;
-		//CMemoryPool<5,8> m5ItemPool;
-		//CMemoryPool<6,8> m6ItemPool;
-		//CMemoryPool<7,8> m7ItemPool;
-		//CMemoryPool<8,8> m8ItemPool;
 		CVariableMemoryPool		mVariablePool;
 		CMemoryPoolManager( PxAllocatorCallback& inAllocator )
 			: mWrapper( inAllocator )
-			//, m0ItemPool( mWrapper )
-			//, m1ItemPool( mWrapper )
-			//, m2ItemPool( mWrapper )
-			//, m3ItemPool( mWrapper )
-			//, m4ItemPool( mWrapper )
-			//, m5ItemPool( mWrapper )
-			//, m6ItemPool( mWrapper )
-			//, m7ItemPool( mWrapper )
-			//, m8ItemPool( mWrapper )
 			, mVariablePool( mWrapper )
 		{
 		}
 		PxProfileAllocatorWrapper& getWrapper() { return mWrapper; }
 		inline PxU8* allocate( PxU32 inSize )
 		{
-			/*
-			if ( inSize <= m0ItemPool.GetItemSize() )
-				return m0ItemPool.allocate();
-			if ( inSize <= m1ItemPool.GetItemSize() )
-				return m1ItemPool.allocate();
-			if ( inSize <= m2ItemPool.GetItemSize() )
-				return m2ItemPool.allocate();
-			if ( inSize <= m3ItemPool.GetItemSize() )
-				return m3ItemPool.allocate();
-			if ( inSize <= m4ItemPool.GetItemSize() )
-				return m4ItemPool.allocate();
-			if ( inSize <= m5ItemPool.GetItemSize() )
-				return m5ItemPool.allocate();
-			if ( inSize <= m6ItemPool.GetItemSize() )
-				return m6ItemPool.allocate();
-			if ( inSize <= m7ItemPool.GetItemSize() )
-				return m7ItemPool.allocate();
-			if ( inSize <= m8ItemPool.GetItemSize() )
-				return m8ItemPool.allocate();
-				*/
 			return mVariablePool.allocate( inSize );
 		}
 		inline void deallocate( PxU8* inMemory )
 		{
 			if ( inMemory == NULL )
 				return;
-			/*
-			if ( inSize <= m0ItemPool.GetItemSize() )
-				m0ItemPool.deallocate(inMemory);
-			else if ( inSize <= m1ItemPool.GetItemSize() )
-				m1ItemPool.deallocate(inMemory);
-			else if ( inSize <= m2ItemPool.GetItemSize() )
-				m2ItemPool.deallocate(inMemory);
-			else if ( inSize <= m3ItemPool.GetItemSize() )
-				m3ItemPool.deallocate(inMemory);
-			else if ( inSize <= m4ItemPool.GetItemSize() )
-				m4ItemPool.deallocate(inMemory);
-			else if ( inSize <= m5ItemPool.GetItemSize() )
-				m5ItemPool.deallocate(inMemory);
-			else if ( inSize <= m6ItemPool.GetItemSize() )
-				m6ItemPool.deallocate(inMemory);
-			else if ( inSize <= m7ItemPool.GetItemSize() )
-				m7ItemPool.deallocate(inMemory);
-			else if ( inSize <= m8ItemPool.GetItemSize() )
-				m8ItemPool.deallocate(inMemory);
-			else
-			*/
-				mVariablePool.deallocate(inMemory);
+
+			mVariablePool.deallocate(inMemory);
 		}
 		/**
 		 *	allocate an object.  Calls constructor on the new memory.
