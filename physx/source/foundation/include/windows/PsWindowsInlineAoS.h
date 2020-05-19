@@ -63,11 +63,7 @@ PX_FORCE_INLINE bool isValidFloatV(const FloatV a)
 	{
 		return true;
 	}
-	
-	#if PX_VC
-		#pragma warning(push)
-		#pragma warning(disable : 4723) /* "potential divide by 0" This may actually be a valid warning? */
-	#endif
+
 	if (
 		(PxAbs((x - y) / x) < FLOAT_COMPONENTS_EQUAL_THRESHOLD) &&
 		(PxAbs((x - z) / x) < FLOAT_COMPONENTS_EQUAL_THRESHOLD) &&
@@ -77,9 +73,6 @@ PX_FORCE_INLINE bool isValidFloatV(const FloatV a)
 		return true;
 	}
 
-	#if PX_VC
-		#pragma warning(pop)
-	#endif
 	return false;
 }
 
