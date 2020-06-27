@@ -20,7 +20,7 @@ def cmakeExt():
 
 
 def filterPreset(presetName):
-    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile']
+    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile', 'emscripten']
     if sys.platform == 'win32':        
         if any(presetName.find(elem) != -1 for elem in winPresetFilter):
             return True

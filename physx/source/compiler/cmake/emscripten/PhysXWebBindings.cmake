@@ -85,13 +85,17 @@ SET_TARGET_PROPERTIES(PhysXWebBindings PROPERTIES
 	OUTPUT_NAME PhysXWebBindings
 )
 
+TARGET_COMPILE_DEFINITIONS(PhysXWebBindings
+	PRIVATE ${PHYSX_WEB_BINDINGS_COMPILE_DEFS}
+)
+
 
 SET_TARGET_PROPERTIES(PhysXWebBindings PROPERTIES
 	LINK_FLAGS "${EMSCRIPTEN_BASE_OPTIONS} -s ASSERTIONS=${EMSCRIPTEN_USE_ASSERTIONS}"
 )
 
 TARGET_LINK_LIBRARIES(PhysXWebBindings
-	PUBLIC PhysX PhysXCharacterKinematic PhysXCommon PhysXCooking PhysXExtensions PhysXFoundation PhysXVehicle 
+	PUBLIC PhysXCharacterKinematic PhysXCooking PhysXExtensions PhysXVehicle
 )
 GET_TARGET_PROPERTY(PHYSXFOUNDATION_INCLUDES PhysXFoundation INTERFACE_INCLUDE_DIRECTORIES)
 
@@ -103,3 +107,5 @@ TARGET_INCLUDE_DIRECTORIES(PhysXWebBindings
 
 # name the output library 'physx' as this is really a union of all of js-bound PhysX
 set_target_properties(PhysXWebBindings PROPERTIES OUTPUT_NAME "physx.${CMAKE_BUILD_TYPE}")
+
+SET_TARGET_PROPERTIES(PhysXWebBindings PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

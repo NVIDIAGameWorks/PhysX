@@ -323,7 +323,7 @@ namespace physx {
 				m8ItemPool.deallocate(inMemory);
 			else
 			*/
-				mVariablePool.deallocate(inMemory);
+			mVariablePool.deallocate(inMemory);
 		}
 		/**
 		 *	allocate an object.  Calls constructor on the new memory.
