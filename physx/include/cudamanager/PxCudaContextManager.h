@@ -81,8 +81,8 @@ struct PxCudaInteropRegisterFlag
 
 @see NxCudaInteropRegisterFlag
 */
-typedef PxFlags<PxCudaInteropRegisterFlag::Enum, uint32_t> PxCudaInteropRegisterFlags;
-PX_FLAGS_OPERATORS(PxCudaInteropRegisterFlag::Enum, uint32_t)
+typedef PxFlags<PxCudaInteropRegisterFlag::Enum, uint64_t> PxCudaInteropRegisterFlags;
+PX_FLAGS_OPERATORS(PxCudaInteropRegisterFlag::Enum, uint64_t)
 
 //! \brief Descriptor used to create a PxCudaContextManager
 class PxCudaContextManagerDesc
