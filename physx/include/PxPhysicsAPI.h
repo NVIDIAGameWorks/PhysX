@@ -202,6 +202,7 @@ Alternatively, one can instead directly #include a subset of the below files.
 #include "vehicle/PxVehicleShaders.h"
 #include "vehicle/PxVehicleTireFriction.h"
 #include "vehicle/PxVehicleUpdate.h"
+#include "vehicle/PxVehicleUtil.h"
 #include "vehicle/PxVehicleUtilControl.h"
 #include "vehicle/PxVehicleUtilSetup.h"
 #include "vehicle/PxVehicleUtilTelemetry.h"
