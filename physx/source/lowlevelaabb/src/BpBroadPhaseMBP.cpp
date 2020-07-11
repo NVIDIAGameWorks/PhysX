@@ -90,6 +90,8 @@ using namespace Cm;
 		return ir;
 	}*/
 
+namespace internalMBP {
+
 struct RegionHandle : public Ps::UserAllocated
 {
 	PxU16	mHandle;			// Handle from region
@@ -581,6 +583,10 @@ struct RegionData : public Ps::UserAllocated
 	}
 	#endif
 #endif
+
+}
+
+using namespace internalMBP;
 
 ///////////////////////////////////////////////////////////////////////////////
 

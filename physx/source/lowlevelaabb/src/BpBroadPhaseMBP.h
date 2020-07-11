@@ -35,8 +35,10 @@
 #include "BpBroadPhaseMBPCommon.h"
 #include "BpMBPTasks.h"
 
+namespace internalMBP {
 	class MBP;
-	
+}
+
 namespace physx
 {
 namespace Bp
@@ -84,7 +86,7 @@ namespace Bp
 				MBPUpdateWorkTask			mMBPUpdateWorkTask;
 				MBPPostUpdateWorkTask		mMBPPostUpdateWorkTask;
 
-				MBP*						mMBP;		// PT: TODO: aggregate
+				internalMBP::MBP*			mMBP;		// PT: TODO: aggregate
 
 				MBP_Handle*					mMapping;
 				PxU32						mCapacity;
