@@ -15,7 +15,7 @@ the existing build procedure of Nvidia. Instead of using python and the generate
 
 # Build and optionally install PhysX with just CMake:
 ```bash
-mkdir PhysX;
+mkdir PhysX; cd PhysX
 git clone https://github.com/phcerdan/PhysX src
 mkdir build; cd build;
 cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=release -DCMAKE_INSTALL_PREFIX:PATH=/tmp/physx ../src
