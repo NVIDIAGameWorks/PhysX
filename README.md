@@ -1,5 +1,121 @@
 # NVIDIA PhysX SDK 4.1
 
+# Improved CMake integration (contributed by @phcerdan)
+- Provide PhysXConfig.cmake and exported targets file for build and install tree.
+- Other projects can use find_package(PhysX) where PhysX_DIR can be a build tree or an install tree.
+- The implementation only adds two new CMakeLists.txt that do not collide with
+the existing build procedure of Nvidia. Instead of using python and the generate_projects scripts, now it solely uses CMake in a standard way.
+- This allows PhysX to be used with modern standards of CMake, making it compatible
+   with FetchContent (add_subdirectory) and ExternalProject (find_package) commands.
+- Snippets and Samples have not been integrated into the new build procedure.
+- But added a simpler project to show find_package(PhysX) usage.
+- The original build procedure is maintained compatible for easier integration with future upstream changes from NVidia.
+
+## Example of CMake usage
+
+# Build and optionally install PhysX with just CMake:
+```bash
+mkdir PhysX; cd PhysX
+git clone https://github.com/phcerdan/PhysX src
+mkdir build; cd build;
+cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=release -DCMAKE_INSTALL_PREFIX:PATH=/tmp/physx ../src
+ninja install
+```
+
+# Your project using PhysX (example added)
+
+```cmake
+find_package(PhysX REQUIRED)
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE PhysX::PhysXCommon PhysX::PhysXExtensions)
+```
+
+You can also use FetchContent, or ExternalProjects for handling PhysX automatically.
+
+When building your project, just provide `PhysX_DIR` to where the PhysXConfig.cmake is located (it could be from a build or an install tree)
+```bash
+cmake -GNinja -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DPhysX_DIR:PATH=/tmp/physx/PhysX/bin/cmake/physx ../src
+```
+
+## Using FetchContent (building at configure time)
+
+For now, the `CONFIGURATION_TYPES` of Nvidia PhysX are not default.
+In order to "map" the standard CMake build/config types between a project and PhysX
+we have to do extra work.
+The following `CMake` gist configure and build PhysX using the variable `PHYSX_CONFIG_TYPE` (default to `release`)
+to build PhysX with the chosen config type.
+Also provides a install script to install PhysX with the project.
+TODO(phcerdan): this installation script might require more flexibility and testing.
+See [conversation](https://discourse.cmake.org/t/mapping-cmake-build-type-and-cmake-configuration-types-between-project-subdirectories/192/2)
+that inspired this approach (thanks to @craig.scott)
+
+```cmake
+  # Fetch physx (CMake phcerdan branch)
+  include(FetchContent)
+  FetchContent_Declare(
+    physx
+    GIT_REPOSITORY https://github.com/phcerdan/PhysX
+    GIT_TAG cmake_for_easier_integration
+  )
+  FetchContent_GetProperties(physx)
+  if(NOT physx_POPULATED)
+    message(STATUS "  Populating PhysX...")
+    FetchContent_Populate(physx)
+    message(STATUS "  Configuring PhysX...")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND}
+        -S ${physx_SOURCE_DIR}/physx/
+        -B ${physx_BINARY_DIR}
+        -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+      WORKING_DIRECTORY ${physx_BINARY_DIR}
+      COMMAND_ECHO STDOUT
+      # OUTPUT_FILE       ${physx_BINARY_DIR}/configure_output.log
+      # ERROR_FILE        ${physx_BINARY_DIR}/configure_output.log
+      RESULT_VARIABLE   result_config
+      )
+    if(result_config)
+        message(FATAL_ERROR "Failed PhysX configuration")
+        # see configuration log at:\n    ${physx_BINARY_DIR}/configure_output.log")
+    endif()
+    # PhysX is always on release mode, but can be explicitly changed by user:
+    set(PHYSX_CONFIG_TYPE "release" CACHE INTERNAL "Config/build type for PhysX")
+    message(STATUS "Building PhysX... with CONFIG: ${PHYSX_CONFIG_TYPE}")
+    execute_process(
+      COMMAND ${CMAKE_COMMAND}
+      --build ${physx_BINARY_DIR}
+      --config ${PHYSX_CONFIG_TYPE}
+      WORKING_DIRECTORY ${physx_BINARY_DIR}
+      COMMAND_ECHO STDOUT
+      # OUTPUT_FILE       ${physx_BINARY_DIR}/build_output.log
+      # ERROR_FILE        ${physx_BINARY_DIR}/build_output.log
+      RESULT_VARIABLE   result_build
+      )
+    message(STATUS "  PhysX build complete")
+    if(result_build)
+        message(FATAL_ERROR "Failed PhysX build")
+        # see build log at:\n    ${physx_BINARY_DIR}/build_output.log")
+    endif()
+    # add_subdirectory(${physx_SOURCE_DIR}/physx ${physx_BINARY_DIR})
+  endif()
+  # create rule to install PhysX when installing this project
+  install (CODE "
+  execute_process(
+    COMMAND ${CMAKE_COMMAND}
+    --build ${physx_BINARY_DIR}
+    --config ${PHYSX_CONFIG_TYPE}
+    --target install
+    WORKING_DIRECTORY ${physx_BINARY_DIR}
+    COMMAND_ECHO STDOUT
+    )")
+  # find_package works
+  find_package(PhysX REQUIRED
+    PATHS ${physx_BINARY_DIR}/sdk_source_bin
+    NO_DEFAULT_PATH
+    )
+```
+
+
 Copyright (c) 2019 NVIDIA Corporation. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

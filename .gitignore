@@ -1,0 +1,39 @@
+# Generated files (placed in source tree)
+PxConfig.h
+
+#GitHub C++ gitignore
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+# Precompiled Headers
+*.gch
+*.pch
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+# Fortran module files
+*.mod
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+# Executables
+*.exe
+*.out
+*.app
+
+#EDITORS#
+*.swp
+*.swo
+*.orig
+*.*.orig
+Session.vim
+.eclimrc
+*.project
+*.cproject
+*.ycm_extra_conf.pyc
+

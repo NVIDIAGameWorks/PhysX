@@ -69,6 +69,11 @@ MESSAGE("Using CXX Compiler: " ${CMAKE_CXX_COMPILER})
 
 INCLUDE(NvidiaBuildOptions)
 
+# In the presets configuration, CMAKE_INSTALL_PREFIX already contains PhysX folder.
+# But then, the PXSHARED_INSTALL_PREFIX is hacked replacing PhysX for PxShared
+# This variable is set to be compatible with the non-python (only CMake) build: "Install path to PhysX"
+SET(PHYSX_INSTALL_PREFIX ".")
+
 IF (NOT EXISTS ${PXSHARED_PATH})
 	IF (NOT EXISTS $ENV{PM_PxShared_PATH})
 		MESSAGE(FATAL_ERROR "Trying to set PxShared path, but PM_PxShared_PATH is not valid: '$ENV{PM_PxShared_PATH}'.")
@@ -77,9 +82,7 @@ IF (NOT EXISTS ${PXSHARED_PATH})
 
 	STRING(REPLACE "\\" "/" PXSHARED_PATH_TMP ${PXSHARED_PATH_TMP})
 	SET(PXSHARED_PATH ${PXSHARED_PATH_TMP} CACHE INTERNAL "Path to PxShared")
-	
-	STRING(REGEX REPLACE "/PhysX$" "/PxShared" PXSHARED_INSTALL_PREFIX_TMP ${CMAKE_INSTALL_PREFIX})
-	SET(PXSHARED_INSTALL_PREFIX ${PXSHARED_INSTALL_PREFIX_TMP} CACHE INTERNAL "Path to PxShared")
+	SET(PXSHARED_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/PxShared CACHE INTERNAL "Install path to PxShared")
 ENDIF()
 
 IF(CMAKE_CONFIGURATION_TYPES)

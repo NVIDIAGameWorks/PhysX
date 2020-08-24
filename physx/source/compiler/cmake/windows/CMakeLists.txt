@@ -145,27 +145,27 @@ ENDIF()
 
 # Include all of the projects
 IF(PX_GENERATE_GPU_PROJECTS_ONLY)
-	INCLUDE(PhysXFoundation.cmake)
-	INCLUDE(PhysXCommon.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXFoundation.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXCommon.cmake)
 
 	SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")	
 	SET_PROPERTY(TARGET PhysXCommon PROPERTY FOLDER "PhysX SDK")	
 ELSE()
-	INCLUDE(PhysXFoundation.cmake)
-	INCLUDE(LowLevel.cmake)
-	INCLUDE(LowLevelAABB.cmake)
-	INCLUDE(LowLevelDynamics.cmake)
-	INCLUDE(PhysX.cmake)
-	INCLUDE(PhysXCharacterKinematic.cmake)
-	INCLUDE(PhysXCommon.cmake)
-	INCLUDE(PhysXCooking.cmake)
-	INCLUDE(PhysXExtensions.cmake)
-	INCLUDE(PhysXVehicle.cmake)
-	INCLUDE(SceneQuery.cmake)
-	INCLUDE(SimulationController.cmake)
-	INCLUDE(FastXml.cmake)
-	INCLUDE(PhysXPvdSDK.cmake)
-	INCLUDE(PhysXTask.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXFoundation.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/LowLevel.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/LowLevelAABB.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/LowLevelDynamics.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysX.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXCharacterKinematic.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXCommon.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXCooking.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXExtensions.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXVehicle.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/SceneQuery.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/SimulationController.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/FastXml.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXPvdSDK.cmake)
+	INCLUDE(${PHYSX_ROOT_DIR}/${PROJECT_CMAKE_FILES_DIR}/PhysXTask.cmake)
 
 	# Set folder PhysX SDK to all common SDK source projects
 	SET_PROPERTY(TARGET PhysX PROPERTY FOLDER "PhysX SDK")
@@ -192,10 +192,15 @@ ELSE()
 	
 	INSTALL(
 		TARGETS ${PHYSXDISTRO_LIBS}
-		EXPORT PhysXSDK
+		EXPORT PhysX
 		DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
 		)
-	
+	if(DEFINED physx_build_targets_file)
+		# export to the build tree
+		export( TARGETS ${PHYSXDISTRO_LIBS}
+			NAMESPACE PhysX::
+			FILE ${physx_build_targets_file})
+	endif()
 ENDIF()
 
 IF(PX_GENERATE_STATIC_LIBRARIES)

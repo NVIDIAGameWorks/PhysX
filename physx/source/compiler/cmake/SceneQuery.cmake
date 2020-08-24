@@ -81,6 +81,7 @@ ADD_LIBRARY(SceneQuery ${SCENEQUERY_LIBTYPE}
 	${SCENEQUERY_HEADERS}
 	${SCENEQUERY_SOURCE}
 )
+ADD_LIBRARY(PhysX::SceneQuery ALIAS SceneQuery)
 
 # Target specific compile options
 
