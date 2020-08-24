@@ -31,6 +31,18 @@ cmake_minimum_required(VERSION 3.13)
 # Same values than CMAKE_CONFIGURATION_TYPES
 # From https://gitlab.kitware.com/cmake/cmake/issues/19401
 get_property(multiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(DEFINED CMAKE_BUILD_TYPE)
+    # Because CMAKE_BUILD_TYPE is not standard for this project, we will restore the original
+    # after configuring this project
+    set(RESTORE_CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+    if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+        set(CMAKE_BUILD_TYPE "release" CACHE STRING "Choose the type of build.")
+    else if(${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+        set(CMAKE_BUILD_TYPE "profile" CACHE STRING "Choose the type of build.")
+    else if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set(CMAKE_BUILD_TYPE "debug" CACHE STRING "Choose the type of build.")
+    endif()
+endif()
 if(NOT multiConfig AND NOT DEFINED CMAKE_BUILD_TYPE)
     set(default_build_type "release")
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
@@ -175,5 +187,9 @@ if(PX_BUILDPUBLICSAMPLES)
 
         message("Added Samples")
     endif()
+endif()
+# Restore the CMAKE_BUILD_TYPE
+if(DEFINED RESTORE_CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE ${RESTORE_CMAKE_BUILD_TYPE} CACHE STRING "Choose the type of build.")
 endif()
 
