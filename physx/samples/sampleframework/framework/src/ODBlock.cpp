@@ -392,7 +392,7 @@ ODBlock * ODBlock::getBlock(const char * ident,bool bRecursiveSearch)		//returns
 					if ((*i)->identifier && ident && strncmp((*i)->identifier,ident,OD_MAXID) == 0)
 						return (*i);
 				}
-				return NULL;
+			return NULL;
 		}
 	}
 

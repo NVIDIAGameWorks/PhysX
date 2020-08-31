@@ -154,8 +154,8 @@ void initPhysics(bool /*interactive*/)
 		createStack(PxTransform(PxVec3(0,0,stackZ-=10.0f)), 20, 1.0f);
 
 	//if(!interactive)
-		PxRigidDynamic* ball = createDynamic(PxTransform(PxVec3(0,20,100)), PxSphereGeometry(5), PxVec3(0,-25,-100));
-		PxRigidBodyExt::updateMassAndInertia(*ball, 1000.f);
+	PxRigidDynamic* ball = createDynamic(PxTransform(PxVec3(0,20,100)), PxSphereGeometry(5), PxVec3(0,-25,-100));
+	PxRigidBodyExt::updateMassAndInertia(*ball, 1000.f);
 }
 
 void stepPhysics(bool /*interactive*/)

@@ -303,16 +303,16 @@ bool CDDSImage::load(string filename, bool flipImage)
     clear();
     
     // open file
-	SampleRenderer::File *fp = 0;
-	PxToolkit::fopen_s(&fp, filename.c_str(), "rb");
+    SampleRenderer::File *fp = 0;
+    PxToolkit::fopen_s(&fp, filename.c_str(), "rb");
     if (fp == NULL)
         return false;
 
-	bool success = load(fp, flipImage);
+    bool success = load(fp, flipImage);
 
-	fclose(fp);
+    fclose(fp);
 
-	return success;
+    return success;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -330,7 +330,7 @@ bool CDDSImage::load(SampleRenderer::File* fp, bool flipImage)
     // read in file marker, make sure its a DDS file
     char filecode[4];
     size_t numRead = fread(filecode, 1, 4, fp);
-	if(numRead != 4) { return false; }
+    if(numRead != 4) { return false; }
 
     if (strncmp(filecode, "DDS ", 4) != 0)
     {
@@ -340,7 +340,7 @@ bool CDDSImage::load(SampleRenderer::File* fp, bool flipImage)
     // read in DDS header
     DDS_HEADER ddsh;
     numRead = fread(&ddsh, 1, sizeof(DDS_HEADER), fp);
-	if(numRead != sizeof(DDS_HEADER)) { return false; }
+    if(numRead != sizeof(DDS_HEADER)) { return false; }
 
     swap_endian(&ddsh.dwSize);
     swap_endian(&ddsh.dwFlags);
@@ -402,11 +402,11 @@ bool CDDSImage::load(SampleRenderer::File* fp, bool flipImage)
         m_format = TextureBGR; 
         m_components = 3;
     }
-	else if (ddsh.ddspf.dwRGBBitCount == 8)
-	{
-		m_format = TextureLuminance;
-		m_components = 1;
-	}
+    else if (ddsh.ddspf.dwRGBBitCount == 8)
+    {
+        m_format = TextureLuminance;
+        m_components = 1;
+    }
     else 
     {
         return false;
@@ -472,7 +472,7 @@ bool CDDSImage::load(SampleRenderer::File* fp, bool flipImage)
 
             unsigned char *pixels = new unsigned char[size];
             numRead = fread(pixels, 1, size, fp);
-			if(numRead != size) { delete [] pixels; return false; }
+            if(numRead != size) { delete [] pixels; return false; }
 
             mipmap.create(w, h, d, size, pixels);
             
@@ -520,23 +520,23 @@ bool CDDSImage::save(std::string filename, bool flipImage)
     assert(m_type != TextureNone);
 
     // open file
-	SampleRenderer::File* fp = 0;
-	PxToolkit::fopen_s(&fp, filename.c_str(), "wb");
+    SampleRenderer::File* fp = 0;
+    PxToolkit::fopen_s(&fp, filename.c_str(), "wb");
     if (fp == NULL)
         return false;
 
-	bool result = save(fp, flipImage);
+    bool result = save(fp, flipImage);
 
-	fclose(fp);
+    fclose(fp);
 
-	return result;
+    return result;
 }
 
 bool CDDSImage::save(SampleRenderer::File* fp, bool flipImage)
 {
     assert(m_valid);
     assert(m_type != TextureNone);
-	assert(fp != 0);
+    assert(fp != 0);
 
     DDS_HEADER ddsh;
     unsigned int headerSize = sizeof(DDS_HEADER);
@@ -702,7 +702,7 @@ inline void CDDSImage::swap_endian(void *val)
             ((*ival <<  8) & 0x00ff0000) |
             ((*ival << 24) & 0xff000000);
 #else
-	(void)val;
+    (void)val;
 #endif
 }
 
