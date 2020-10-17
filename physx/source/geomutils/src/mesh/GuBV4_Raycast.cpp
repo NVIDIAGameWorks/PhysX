@@ -100,7 +100,13 @@ PX_FORCE_INLINE Ps::IntBool RayTriOverlapT(PxRaycastHit& mStabbedFace, const PxV
 
 		// Else go on
 		const float OneOverDet = 1.0f / det;
-		mStabbedFace.distance = d * OneOverDet;
+		const float hitDistance = d * OneOverDet;
+
+		// Filter hit by max distance
+		if (hitDistance > params->mStabbedFace.mDistance)
+			return 0;
+
+		mStabbedFace.distance = hitDistance;
 		mStabbedFace.u = u * OneOverDet;
 		mStabbedFace.v = v * OneOverDet;
 	}
@@ -128,8 +134,10 @@ PX_FORCE_INLINE Ps::IntBool RayTriOverlapT(PxRaycastHit& mStabbedFace, const PxV
 		// Calculate t, ray intersects triangle
 		const float d = edge2.dot(qvec) * OneOverDet;
 		// Intersection point is valid if distance is positive (else it can just be a face behind the orig point)
-		if(d<0.0f)
+		// Filter hit by max distance
+		if(d<0.0f || d > params->mStabbedFace.mDistance)
 			return 0;
+
 		mStabbedFace.distance = d;
 		mStabbedFace.u = u;
 		mStabbedFace.v = v;
