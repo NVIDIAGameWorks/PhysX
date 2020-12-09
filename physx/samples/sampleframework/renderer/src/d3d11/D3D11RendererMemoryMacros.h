@@ -44,10 +44,10 @@ template<class T>
 PX_INLINE bool dxReleaseAndReturnTrue( T& t ) { dxSafeRelease(t); return true; }
 
 template<class T>
-PX_INLINE void deleteAll( T& t ) { std::remove_if(t.begin(), t.end(), deleteAndReturnTrue<typename T::value_type>); };
+PX_INLINE void deleteAll( T& t ) { static_cast<void>(std::remove_if(t.begin(), t.end(), deleteAndReturnTrue<typename T::value_type>)); };
 
 template<class T>
-PX_INLINE void dxSafeReleaseAll( T& t ) { std::remove_if(t.begin(), t.end(), dxReleaseAndReturnTrue<typename T::value_type>); };
+PX_INLINE void dxSafeReleaseAll( T& t ) { static_cast<void>(std::remove_if(t.begin(), t.end(), dxReleaseAndReturnTrue<typename T::value_type>)); };
 
 template<class T>
 PX_INLINE void resizeIfSmallerThan( T& t, typename T::size_type s, typename T::value_type v = typename T::value_type() ) 

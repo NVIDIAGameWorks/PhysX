@@ -144,6 +144,7 @@ private:
 		virtual const std::type_info& type_info() const = 0;
 		virtual Proxy *clone() const = 0;
 		virtual void release() = 0;
+		virtual ~Proxy() { };
 #if !USE_ANY_AS_CONTAINER
 		virtual bool operator<(const Proxy&) const = 0;
 		virtual bool operator==(const Proxy&) const = 0;
