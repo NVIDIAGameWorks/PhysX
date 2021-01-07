@@ -1,0 +1,7 @@
+/bazel-*
+/physx/bin
+/physx/compiler/linux-*
+.*.swp
+.*.swo
+/physx/install
+.idea
