@@ -245,7 +245,7 @@ public:
 	PX_FORCE_INLINE Core&				getScArticulationJoint()				{ return mJoint; }  // Only use if you know what you're doing!
 
 
-	static			size_t				getScOffset()							{ return reinterpret_cast<size_t>(&reinterpret_cast<ArticulationJoint*>(0)->mJoint);	}
+	static			size_t				getScOffset()							{ return PX_OFFSET_OF(ArticulationJoint, mJoint);	}
 
 	PX_FORCE_INLINE void				setScArticulation(Scb::Articulation* articulation)	{ mJoint.setArticulation(&articulation->getScArticulation()); }
 

@@ -38,8 +38,8 @@ using namespace Scb;
 
 Actor::Offsets::Offsets()
 {
-	const size_t staticOffset	= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::RigidStatic*>(0)->getScStatic()));
-	const size_t bodyOffset		= reinterpret_cast<size_t>(&(reinterpret_cast<Scb::Body*>(0)->getScBody()));
+	const size_t staticOffset	= Scb::RigidStatic::getScOffset();
+	const size_t bodyOffset		= Scb::Body::getScOffset();
 
 	scToScb[PxActorType::eRIGID_STATIC] = staticOffset;
 	scToScb[PxActorType::eRIGID_DYNAMIC] = bodyOffset;

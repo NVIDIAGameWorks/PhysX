@@ -208,7 +208,7 @@ public:
 
 	template<bool sync> PX_FORCE_INLINE void checkUpdateOnRemove(Scene* s);
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Shape*>(0)->mShape);	}
+	static size_t getScOffset()	{ return PX_OFFSET_OF(Shape, mShape);	}
 
 private:
 					bool				setMaterialsHelper(PxMaterial* const* materials, PxU16 materialCount);

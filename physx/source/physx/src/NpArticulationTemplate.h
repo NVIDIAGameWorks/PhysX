@@ -122,6 +122,7 @@ public:
 
 	PX_FORCE_INLINE	Scb::Articulation&			getScbArticulation() { return mArticulation; }
 	PX_FORCE_INLINE	const Scb::Articulation&	getScbArticulation() const { return mArticulation; }
+	static PX_FORCE_INLINE size_t				getScbArticulationOffset() { return PX_OFFSET_OF(PxArticulationImpl, mArticulation); }
 
 	PX_FORCE_INLINE	void						increaseCacheVersion()	{ mCacheVersion++; }
 

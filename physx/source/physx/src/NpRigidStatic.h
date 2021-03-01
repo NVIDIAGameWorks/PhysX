@@ -98,6 +98,7 @@ public:
 
 	PX_FORCE_INLINE	const Scb::RigidStatic&	getScbRigidStaticFast()	const	{ return mRigidStatic;	}
 	PX_FORCE_INLINE	Scb::RigidStatic&		getScbRigidStaticFast()			{ return mRigidStatic;	}
+	PX_FORCE_INLINE	static std::size_t		getScbRigidStaticOffset()		{ return PX_OFFSET_OF(NpRigidStatic, mRigidStatic);	}
 
 	PX_FORCE_INLINE	const PxTransform&		getGlobalPoseFast()		const	{ return mRigidStatic.getActor2World();	}
 

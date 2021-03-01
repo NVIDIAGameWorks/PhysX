@@ -191,10 +191,11 @@ namespace Sc
 
 		PX_FORCE_INLINE SimStateData*		getSimStateData_Unchecked()			const	{ return mSimStateData; }
 
+		static PX_FORCE_INLINE size_t		getCoreOffset()								{ return PX_OFFSET_OF(BodyCore, mCore); }
+
 		static PX_FORCE_INLINE BodyCore&	getCore(PxsBodyCore& core)
 		{ 
-			size_t offset = PX_OFFSET_OF_RT(BodyCore, mCore);
-			return *reinterpret_cast<BodyCore*>(reinterpret_cast<PxU8*>(&core) - offset); 
+			return *reinterpret_cast<BodyCore*>(reinterpret_cast<PxU8*>(&core) - getCoreOffset()); 
 		}
 
 		void				setKinematicLink(const bool value);

@@ -98,7 +98,7 @@ public:
 	//---------------------------------------------------------------------------------
 	PX_INLINE void						syncState();
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<RigidStatic*>(0)->mStatic);	}
+	static size_t getScOffset()	{ return PX_OFFSET_OF(RigidStatic, mStatic);	}
 
 	PX_FORCE_INLINE Sc::StaticCore&		getScStatic()				{	return mStatic; }
 

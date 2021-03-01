@@ -110,6 +110,8 @@ public:
 	PX_FORCE_INLINE	const Scb::Body&	getScbBodyFast()		const	{ return mBody;			}	// PT: important: keep returning an address here (else update prefetch in SceneQueryManager::addShapes)
 	PX_FORCE_INLINE	Scb::Body&			getScbBodyFast()				{ return mBody;			}	// PT: important: keep returning an address here (else update prefetch in SceneQueryManager::addShapes)
 
+	static PX_FORCE_INLINE size_t		getScbBodyOffset()				{ return PX_OFFSET_OF(NpRigidBodyTemplate, mBody);	}
+
 	PX_FORCE_INLINE	Scb::Actor&			getScbActorFast()				{ return mBody;			}
 	PX_FORCE_INLINE	const Scb::Actor&	getScbActorFast()		const	{ return mBody;			}
 

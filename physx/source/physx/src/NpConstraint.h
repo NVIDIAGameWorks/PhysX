@@ -108,6 +108,7 @@ public:
 					NpScene*						getSceneFromActors() const;
 	PX_FORCE_INLINE	Scb::Constraint&				getScbConstraint()				{ return mConstraint; }
 	PX_FORCE_INLINE	const Scb::Constraint&			getScbConstraint() const		{ return mConstraint; }
+	static PX_FORCE_INLINE size_t					getScbConstraintOffset()		{ return PX_OFFSET_OF(NpConstraint, mConstraint); }
 	PX_FORCE_INLINE	bool							isDirty() const					{ return mIsDirty; }
 
 

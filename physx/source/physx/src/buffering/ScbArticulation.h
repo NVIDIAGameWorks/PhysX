@@ -151,7 +151,7 @@ public:
 	PX_FORCE_INLINE static Articulation&		fromSc(Core &a)					{ return *reinterpret_cast<Articulation*>(reinterpret_cast<PxU8*>(&a)-getScOffset()); }
 	PX_FORCE_INLINE static const Articulation&	fromSc(const Core &a)			{ return *reinterpret_cast<const Articulation*>(reinterpret_cast<const PxU8*>(&a)-getScOffset()); }
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Articulation*>(0)->mArticulation);	}
+	static size_t getScOffset()	{ return PX_OFFSET_OF(Articulation, mArticulation);	}
 
 	PX_FORCE_INLINE	void		wakeUpInternal(PxReal wakeCounter);
 

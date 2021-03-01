@@ -261,7 +261,7 @@ public:
 	PX_INLINE		void				syncState();
 	PX_INLINE		void				syncCollisionWriteThroughState();
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Body*>(0)->mBodyCore);	}
+	static size_t getScOffset()	{ return PX_OFFSET_OF(Body, mBodyCore);	}
 	
 	/**
 	\brief Shadowed method of #Scb::Base::markUpdated() to store the buffered property flags in a separate location (ran out of flag space)

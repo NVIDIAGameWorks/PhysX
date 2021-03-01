@@ -112,12 +112,13 @@ namespace Sc
 		PX_FORCE_INLINE	PxShapeFlags				getFlags()									const	{ return PxShapeFlags(mCore.mShapeFlags);	}
 		PX_FORCE_INLINE	void						setFlags(PxShapeFlags f)							{ mCore.mShapeFlags = f;					}
 
+		static PX_FORCE_INLINE size_t				getCoreOffset()										{ return PX_OFFSET_OF(ShapeCore, mCore);	}
+
 		PX_FORCE_INLINE const PxsShapeCore&			getCore()									const	{ return mCore;								}
 
 		static PX_FORCE_INLINE ShapeCore&			getCore(PxsShapeCore& core)			
 		{ 
-			size_t offset = PX_OFFSET_OF(ShapeCore, mCore);
-			return *reinterpret_cast<ShapeCore*>(reinterpret_cast<PxU8*>(&core) - offset); 
+			return *reinterpret_cast<ShapeCore*>(reinterpret_cast<PxU8*>(&core) - getCoreOffset()); 
 		}	
 
 	protected:

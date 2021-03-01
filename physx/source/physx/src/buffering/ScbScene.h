@@ -334,7 +334,7 @@ namespace Scb
 		void								switchRigidToNoSim(Scb::RigidObject&, bool isDynamic);
 		void								switchRigidFromNoSim(Scb::RigidObject&, bool isDynamic);
 
-		static size_t						getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Scene*>(0)->mScene); }
+		static size_t						getScOffset()	{ return PX_OFFSET_OF(Scene, mScene); }
 
 #if PX_SUPPORT_PVD
 		PX_FORCE_INLINE	Vd::ScbScenePvdClient&			getScenePvdClient()			{ return mScenePvdClient; }

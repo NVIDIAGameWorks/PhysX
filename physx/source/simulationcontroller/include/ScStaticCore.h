@@ -60,6 +60,7 @@ namespace Sc
 						void				setActor2World(const PxTransform& actor2World);
 
 		PX_FORCE_INLINE	PxsRigidCore&		getCore()				{ return mCore;				}
+		static PX_FORCE_INLINE size_t		getCoreOffset()			{ return PX_OFFSET_OF(StaticCore, mCore);	}
 
 											StaticCore(const PxEMPTY) :	RigidCore(PxEmpty), mCore(PxEmpty) {}
 		static			void				getBinaryMetaData(PxOutputStream& stream);

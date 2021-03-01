@@ -76,6 +76,7 @@ public:
 
 	PX_INLINE	const Scb::ArticulationJoint&	getScbArticulationJoint() const { return mJoint; }
 	PX_INLINE	Scb::ArticulationJoint&			getScbArticulationJoint()		{ return mJoint; }
+	static PX_INLINE size_t						getScbArticulationJointOffset()	{ return PX_OFFSET_OF(PxArticulationJointImpl, mJoint); }
 
 	PX_INLINE	PxArticulationLink&				getParentArticulationLink() const;
 	PX_INLINE	PxArticulationLink&				getChildArticulationLink() const;

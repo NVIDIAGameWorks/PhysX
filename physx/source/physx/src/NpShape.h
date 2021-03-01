@@ -184,6 +184,7 @@ public:
 
 	PX_FORCE_INLINE	const Scb::Shape&			getScbShape()			const	{ return mShape;	}
 	PX_FORCE_INLINE	Scb::Shape&					getScbShape()					{ return mShape;	}
+	static PX_FORCE_INLINE size_t				getScbShapeOffset()				{ return PX_OFFSET_OF(NpShape, mShape);	}
 
 	PX_INLINE		PxMaterial*					getMaterial(PxU32 index) const { return mShape.getMaterial(index); }
 	static			bool						checkMaterialSetup(const PxGeometry& geom, const char* errorMsgPrefix, PxMaterial*const* materials, PxU16 materialCount);

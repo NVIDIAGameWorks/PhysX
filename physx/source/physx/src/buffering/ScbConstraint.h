@@ -122,7 +122,7 @@ public:
 	PX_FORCE_INLINE static Constraint&			fromSc(Core &a)					{ return *reinterpret_cast<Constraint*>(reinterpret_cast<PxU8*>(&a)-getScOffset()); }
 	PX_FORCE_INLINE static const Constraint&	fromSc(const Core &a)			{ return *reinterpret_cast<const Constraint*>(reinterpret_cast<const PxU8*>(&a)-getScOffset()); }
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Constraint*>(0)->mConstraint);	}
+	static size_t getScOffset()	{ return PX_OFFSET_OF(Constraint, mConstraint);	}
 
 private:
 	Core		mConstraint;
