@@ -517,10 +517,11 @@ Temporal Gauss-Seidel
 PhysX provides a default Projected Gauss-Seidel-style (PGS) solver and an optional Temporal Gauss-Seidel (TGS) solver.
 
 Temporal gauss-seidel offers several advantages over the PGS-style solver:
-- Dramatically improved convergence
-- Improved handling of high-mass ratios
-- Minimizes energy introduced when correcting penetrations (depending on solver convergence)
-- Improved joint drive accuracy
+
+* Dramatically improved convergence
+* Improved handling of high-mass ratios
+* Minimizes energy introduced when correcting penetrations (depending on solver convergence)
+* Improved joint drive accuracy
 
 TGS is generally a little slower than PGS. This is partially due to the increased complexity of the constraint solver and also partially due to TGS solving friction constraints every iteration, whereas PGS solves friction constraints only in the final 3 position iterations by default.
 

@@ -6,6 +6,8 @@ var classPxVehicleWheelsDynData =
     [ "computeByteSize", "classPxVehicleWheelsDynData.html#ae26f98f5ee9ddaf52e26f76f9c7a49f4", null ],
     [ "copy", "classPxVehicleWheelsDynData.html#ada0c743a9a3bfffd57b404fa0ec9e4cb", null ],
     [ "getBinaryMetaData", "classPxVehicleWheelsDynData.html#a2334f46dee346d2f3643cad7836ef4d9", null ],
+    [ "getConstraints", "classPxVehicleWheelsDynData.html#ae9773fbeeef07a828c1f3d20fdc921c8", null ],
+    [ "getNbConstraints", "classPxVehicleWheelsDynData.html#a8ffbce495ddbb8db4913c85d2fbe7d71", null ],
     [ "getNbWheelRotationAngle", "classPxVehicleWheelsDynData.html#ae519737c26f129dd48ef9c8220dd5d05", null ],
     [ "getNbWheelRotationSpeed", "classPxVehicleWheelsDynData.html#abb58c5057bbdc2869045c0a5cbbd5909", null ],
     [ "getTireForceShaderData", "classPxVehicleWheelsDynData.html#a91a804964365dce971e76bdd55fd081f", null ],

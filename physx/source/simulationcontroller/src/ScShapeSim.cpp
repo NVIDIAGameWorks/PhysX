@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -138,10 +138,11 @@ ShapeSim::~ShapeSim()
 
 Bp::FilterGroup::Enum ShapeSim::getBPGroup() const
 {
-	bool isKinematic = false;
 	BodySim* bs = getBodySim();
-	if(bs)
-		isKinematic = bs->isKinematic();
+
+	bool isKinematic = bs ? bs->isKinematic() : false;
+	if(isKinematic && bs->hasForcedKinematicNotif())
+		isKinematic = false;
 
 	RigidSim& rbSim = getRbSim();
 	return Bp::getFilterGroup(rbSim.getActorType()==PxActorType::eRIGID_STATIC, rbSim.getRigidID(), isKinematic);
@@ -298,7 +299,7 @@ void ShapeSim::getAbsPoseAligned(PxTransform* PX_RESTRICT globalPose) const
 	else
 	{
 		PxsBodyCore& core = static_cast<BodySim&>(getActor()).getBodyCore().getCore();
-		if(!core.mIdtBody2Actor)
+		if(!core.hasIdtBody2Actor())
 		{
 			Cm::getDynamicGlobalPoseAligned(core.body2World, shape2Actor, core.getBody2Actor(), *globalPose);
 			return;

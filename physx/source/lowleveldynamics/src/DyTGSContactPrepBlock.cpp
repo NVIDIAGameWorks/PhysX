@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -390,7 +390,7 @@ static void setupFinalizeSolverConstraints4Step(PxTGSSolverContactDesc* PX_RESTR
 
 
 	const FloatV invDt = FLoad(invDtF32);
-	const FloatV frictionBiasScale = invDt;
+	const FloatV frictionBiasScale = FMul(invDt, FLoad(0.8f));
 	const FloatV invTotalDt = FLoad(invTotalDtF32);
 	const FloatV p8 = FLoad(0.8f);
 	const Vec4V p84 = V4Splat(p8);
@@ -682,7 +682,7 @@ static void setupFinalizeSolverConstraints4Step(PxTGSSolverContactDesc* PX_RESTR
 				const Vec4V dotDelAngVel0 = V4MulAdd(delAngVel0X, delAngVel0X, V4MulAdd(delAngVel0Y, delAngVel0Y, V4Mul(delAngVel0Z, delAngVel0Z)));
 				const Vec4V relAngVel0 = V4MulAdd(raXnZ, angVelT20, V4MulAdd(raXnY, angVelT10, V4Mul(raXnX, angVelT00)));
 
-				Vec4V unitResponse = V4MulAdd(invMass0D0, angDom0, dotDelAngVel0);
+				Vec4V unitResponse = V4MulAdd(dotDelAngVel0, angDom0, invMass0D0);
 				Vec4V vrel0 = V4Add(norVel0, relAngVel0);
 				Vec4V vrel1 = norVel1;
 
@@ -1743,7 +1743,8 @@ void setSolverConstantsStep(PxReal& error,
 	PxReal totalDt,
 	PxReal biasClamp,
 	PxReal recipdt,
-	PxReal recipTotalDt);
+	PxReal recipTotalDt,
+	PxReal velTarget);
 
 
 namespace
@@ -1772,13 +1773,16 @@ namespace
 		//PxReal biasClamp = c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? 50.f : 200.f*lengthScale;
 		PxReal biasClamp = c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? 100.f : 1000.f*lengthScale;
 
-		setSolverConstantsStep(error, biasScale, targetVel, maxBias, velMultiplier, impulseMultiplier, rcpResponse, c, nv, unitResponse,
-			minRowResponse, c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? erp : linearErp, dt, totalDt, biasClamp, recipdt, recipTotalDt);
+		PxReal velTarget = 0.f;
+		if (isKinematic0)
+			velTarget -= nv0;
+		if (isKinematic1)
+			velTarget += nv1;
 
-		if(isKinematic0)
-			targetVel -= nv0;
-		if(isKinematic1)
-			targetVel += nv1;
+		setSolverConstantsStep(error, biasScale, targetVel, maxBias, velMultiplier, impulseMultiplier, rcpResponse, c, nv, unitResponse,
+			minRowResponse, c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? erp : linearErp, dt, totalDt, biasClamp, recipdt, recipTotalDt, velTarget);
+
+		
 	}
 
 	void setOrthoData(const PxReal& ang0X, const PxReal& ang0Y, const PxReal& ang0Z, const PxReal& ang1X, const PxReal& ang1Y, const PxReal& ang1Z,

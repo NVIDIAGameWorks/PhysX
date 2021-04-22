@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -103,6 +103,16 @@ NpPhysics::NpPhysics(const PxTolerancesScale& scale, const PxvOffsetTable& pxvOf
 #else
 	PX_UNUSED(pvd);
 #endif
+
+/*	printf("sizeof(NpScene)          = %d\n", sizeof(NpScene));
+	printf("sizeof(NpShape)          = %d\n", sizeof(NpShape));
+	printf("sizeof(NpActor)          = %d\n", sizeof(NpActor));
+	printf("sizeof(NpRigidStatic)    = %d\n", sizeof(NpRigidStatic));
+	printf("sizeof(NpRigidDynamic)   = %d\n", sizeof(NpRigidDynamic));
+	printf("sizeof(NpMaterial)       = %d\n", sizeof(NpMaterial));
+	printf("sizeof(NpConstraint)     = %d\n", sizeof(NpConstraint));
+	printf("sizeof(NpAggregate)      = %d\n", sizeof(NpAggregate));
+	printf("sizeof(NpArticulationRC) = %d\n", sizeof(NpArticulationReducedCoordinate));*/
 }
 
 NpPhysics::~NpPhysics()
@@ -151,15 +161,15 @@ void NpPhysics::initOffsetTables(PxvOffsetTable& pxvOffsetTable)
 	// init offset tables for Pxs/Sc/Scb/Px conversions
 	{
 		Sc::OffsetTable& offsetTable =  Sc::gOffsetTable;
-		offsetTable.scRigidStatic2PxActor				= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpRigidStatic*>(0)->getScbRigidStaticFast())) - static_cast<ptrdiff_t>(Scb::RigidStatic::getScOffset());
-		offsetTable.scRigidDynamic2PxActor				= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpRigidDynamic*>(0)->getScbBodyFast()))		- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
-		offsetTable.scArticulationLink2PxActor			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationLink*>(0)->getScbBodyFast()))	- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
-		offsetTable.scArticulationMC2Px					= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulation*>(0)->mImpl.getScbArticulation()))	- static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
-		offsetTable.scArticulationRC2Px					= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationReducedCoordinate*>(0)->mImpl.getScbArticulation())) - static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
-		offsetTable.scArticulationJointMC2Px			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationJoint*>(0)->mImpl.getScbArticulationJoint()))	- static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
-		offsetTable.scArticulationJointRC2Px			= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpArticulationJointReducedCoordinate*>(0)->mImpl.getScbArticulationJoint())) - static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
-		offsetTable.scConstraint2Px						= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpConstraint*>(0)->getScbConstraint()))		- static_cast<ptrdiff_t>(Scb::Constraint::getScOffset());
-		offsetTable.scShape2Px							= -reinterpret_cast<ptrdiff_t>(&(reinterpret_cast<NpShape*>(0)->getScbShape()))					- static_cast<ptrdiff_t>(Scb::Shape::getScOffset());
+		offsetTable.scRigidStatic2PxActor =			-static_cast<ptrdiff_t>(NpRigidStatic::getScbRigidStaticOffset())					- static_cast<ptrdiff_t>(Scb::RigidStatic::getScOffset());
+		offsetTable.scRigidDynamic2PxActor =		-static_cast<ptrdiff_t>(NpRigidDynamic::getScbBodyOffset())							- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
+		offsetTable.scArticulationLink2PxActor =	-static_cast<ptrdiff_t>(NpArticulationLink::getScbBodyOffset())						- static_cast<ptrdiff_t>(Scb::Body::getScOffset());
+		offsetTable.scArticulationMC2Px =			-static_cast<ptrdiff_t>(NpArticulation::getScbArticulationOffset())						- static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
+		offsetTable.scArticulationRC2Px =			-static_cast<ptrdiff_t>(NpArticulationReducedCoordinate::getScbArticulationOffset())				- static_cast<ptrdiff_t>(Scb::Articulation::getScOffset());
+		offsetTable.scArticulationJointMC2Px =		-static_cast<ptrdiff_t>(NpArticulationJoint::getScbArticulationJointOffset())	- static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
+		offsetTable.scArticulationJointRC2Px =		-static_cast<ptrdiff_t>(NpArticulationJointReducedCoordinate::getScbArticulationJointOffset())	- static_cast<ptrdiff_t>(Scb::ArticulationJoint::getScOffset());
+		offsetTable.scConstraint2Px =				-static_cast<ptrdiff_t>(NpConstraint::getScbConstraintOffset())						- static_cast<ptrdiff_t>(Scb::Constraint::getScOffset());
+		offsetTable.scShape2Px =					-static_cast<ptrdiff_t>(NpShape::getScbShapeOffset())								- static_cast<ptrdiff_t>(Scb::Shape::getScOffset());
 
 		for(PxU32 i=0;i<PxActorType::eACTOR_COUNT;i++)
 			offsetTable.scCore2PxActor[i] = 0;
@@ -169,9 +179,9 @@ void NpPhysics::initOffsetTables(PxvOffsetTable& pxvOffsetTable)
 	}
 	{
 		Sc::OffsetTable& scOffsetTable = Sc::gOffsetTable;
-		pxvOffsetTable.pxsShapeCore2PxShape			= scOffsetTable.scShape2Px				- reinterpret_cast<ptrdiff_t>(&static_cast<Sc::ShapeCore*>(0)->getCore());
-		pxvOffsetTable.pxsRigidCore2PxRigidBody		= scOffsetTable.scRigidDynamic2PxActor	- reinterpret_cast<ptrdiff_t>(&static_cast<Sc::BodyCore*>(0)->getCore());
-		pxvOffsetTable.pxsRigidCore2PxRigidStatic	= scOffsetTable.scRigidStatic2PxActor	- reinterpret_cast<ptrdiff_t>(&static_cast<Sc::StaticCore*>(0)->getCore());
+		pxvOffsetTable.pxsShapeCore2PxShape =		scOffsetTable.scShape2Px				- static_cast<ptrdiff_t>(Sc::ShapeCore::getCoreOffset());
+		pxvOffsetTable.pxsRigidCore2PxRigidBody =	scOffsetTable.scRigidDynamic2PxActor	- static_cast<ptrdiff_t>(Sc::BodyCore::getCoreOffset());
+		pxvOffsetTable.pxsRigidCore2PxRigidStatic =	scOffsetTable.scRigidStatic2PxActor		- static_cast<ptrdiff_t>(Sc::StaticCore::getCoreOffset());
 	}
 }
 

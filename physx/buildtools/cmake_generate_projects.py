@@ -20,7 +20,7 @@ def cmakeExt():
 
 
 def filterPreset(presetName):
-    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile']
+    winPresetFilter = ['win','uwp','ps4','switch','xboxone','android','crosscompile','xboxseriesx']
     if sys.platform == 'win32':        
         if any(presetName.find(elem) != -1 for elem in winPresetFilter):
             return True
@@ -134,6 +134,10 @@ class CMakePreset:
                     print('VS15CL:' + os.environ['VS150CLPATH'])
                     outString = outString + ' -DCUDA_HOST_COMPILER=' + \
                         os.environ['VS150CLPATH']
+                if self.compiler == 'vc16':
+                    print('VS16CL:' + os.environ['VS160CLPATH'])
+                    outString = outString + ' -DCUDA_HOST_COMPILER=' + \
+                        os.environ['VS160CLPATH']
 
         return outString
 
@@ -220,7 +224,35 @@ class CMakePreset:
                 outString = outString + ' -T v141'
                 outString = outString + ' -DCMAKE_VS150PATH=' + \
                     os.environ['VS150PATH']
+            elif self.compiler == 'vc16':
+                # TODO: Toolchain file need to be created
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    os.environ['PM_CMakeModules_PATH'] + \
+                    '/xboxone/XboxOneToolchainVC16.txt'
+                outString = outString + ' -T v142'
+                outString = outString + ' -DCMAKE_VS160PATH=' + \
+                    os.environ['VS160PATH']            
             outString = outString + ' -DCMAKE_GENERATOR_PLATFORM=Durango'
+            outString = outString + ' -DSUPPRESS_SUFFIX=ON'
+            return outString
+        elif self.targetPlatform == 'xboxseriesx':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=xboxseriesx'
+            if self.compiler == 'vc15':
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    os.environ['PM_CMakeModules_PATH'] + \
+                    '/xboxseriesx/XboxSeriesXToolchainVC15.txt'
+                outString = outString + ' -T v141'
+                outString = outString + ' -DCMAKE_VS150PATH=' + \
+                    os.environ['VS150PATH']
+            if self.compiler == 'vc16':
+                # TODO: Toolchain file need to be created
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    os.environ['PM_CMakeModules_PATH'] + \
+                    '/xboxseriesx/XboxSeriesXToolchainVC16.txt'
+                outString = outString + ' -T v142'
+                outString = outString + ' -DCMAKE_VS160PATH=' + \
+                    os.environ['VS160PATH']
+            outString = outString + ' -DCMAKE_GENERATOR_PLATFORM=Gaming.Xbox.Scarlett.x64'
             outString = outString + ' -DSUPPRESS_SUFFIX=ON'
             return outString
         elif self.targetPlatform == 'switch32':

@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -182,6 +182,17 @@ PxF32 PxVehicleGraph::getLatestValue(const PxU32 channel) const
 {
 	PX_CHECK_AND_RETURN_VAL(channel < mNbChannels, "PxVehicleGraph::getLatestValue: Illegal channel", 0.0f);
 	return mChannelSamples[channel][mSampleTide];
+}
+
+void PxVehicleGraph::getRawData(const PxU32 channel, PxReal* values) const
+{
+	PX_ASSERT(channel<mNbChannels);
+
+	for (PxU32 i = 0; i < PxVehicleGraph::eMAX_NB_SAMPLES; i++)
+	{
+		const PxU32 index = (mSampleTide+1+i) % PxVehicleGraph::eMAX_NB_SAMPLES;
+		values[i] = mChannelSamples[channel][index];
+	}
 }
 
 void PxVehicleGraph::setupEngineGraph

@@ -345,7 +345,7 @@ Functions</h2></td></tr>
 
 <p>Create an instance of the cooking interface. </p>
 <p>Note that the foundation object is handled as an application-wide singleton in statically linked executables and a DLL-wide singleton in dynamically linked executables. Therefore, if you are using the runtime SDK in the same executable as cooking, you should pass the Physics's copy of foundation (acquired with <a class="el" href="classPxPhysics.html#a1c2899065d7b3d9367a409b0207848cc" title="Retrieves the Foundation instance. ">PxPhysics::getFoundation()</a>) to the cooker. This will also ensure correct handling of memory for objects passed from the cooker to the SDK.</p>
-<p>To use cooking in standalone mode, create an instance of the Foundation object with PxCreateCookingFoundation. You should pass the same foundation object to all instances of the cooking interface.</p>
+<p>To use cooking in standalone mode, create an instance of the Foundation object with PxCreateFoundation. You should pass the same foundation object to all instances of the cooking interface.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">version</td><td>the SDK version number </td></tr>
@@ -444,7 +444,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

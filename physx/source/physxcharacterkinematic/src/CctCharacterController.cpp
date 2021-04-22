@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,13 +23,14 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #include "common/PxProfileZone.h"
 #include "geometry/PxMeshQuery.h"
 #include "PxRigidDynamic.h"
+#include "foundation/PxMathUtils.h"
 
 #include "CctCharacterController.h"
 #include "CctCharacterControllerManager.h"
@@ -44,7 +45,7 @@
 
 // PT: TODO: remove those includes.... shouldn't be allowed from here
 #include "characterkinematic/PxControllerObstacles.h"	// (*)
-#include "characterkinematic/PxControllerManager.h"	// (*)
+#include "characterkinematic/PxControllerManager.h"		// (*)
 #include "characterkinematic/PxControllerBehavior.h"	// (*)
 #include "CctInternalStructs.h"		// (*)
 
@@ -1973,53 +1974,15 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 #include "CctCharacterControllerManager.h"
 #include "CctObstacleContext.h"
 
-	// PT: we use a local class instead of making "Controller" a PxQueryFilterCallback, since it would waste more memory.
-	// Ideally we'd have a C-style callback and a user-data pointer, instead of being forced to create a class.
-	class ControllerFilter : public PxQueryFilterCallback
-	{
-	public:
-		PxQueryHitType::Enum	preFilter(const PxFilterData& filterData, const PxShape* shape, const PxRigidActor* actor, PxHitFlags& queryFlags)
-		{
-			// PT: ignore triggers
-			if(shape->getFlags() & physx::PxShapeFlag::eTRIGGER_SHAPE)
-				return PxQueryHitType::eNONE;
-
-			// PT: we want to discard our own internal shapes only
-			if(mShapeHashSet->contains(const_cast<PxShape*>(shape)))
-				return PxQueryHitType::eNONE;
-
-			// PT: otherwise we revert to the user-callback, if it exists, and if users enabled that call
-			if(mUserFilterCallback && (mUserFilterFlags | PxQueryFlag::ePREFILTER))
-				return mUserFilterCallback->preFilter(filterData, shape, actor, queryFlags);
-
-			return PxQueryHitType::eBLOCK;
-		}
-
-		PxQueryHitType::Enum	postFilter(const PxFilterData& filterData, const PxQueryHit& hit)
-		{
-			// PT: we may get called if users have asked for such a callback
-			if(mUserFilterCallback && (mUserFilterFlags | PxQueryFlag::ePOSTFILTER))
-				return mUserFilterCallback->postFilter(filterData, hit);
-
-			PX_ASSERT(0);	// PT: otherwise we shouldn't have been called
-			return PxQueryHitType::eNONE;
-		}
-
-		Ps::HashSet<PxShape*>*	mShapeHashSet;
-		PxQueryFilterCallback*	mUserFilterCallback;
-		PxQueryFlags			mUserFilterFlags;
-	};
-
-
 bool Controller::filterTouchedShape(const PxControllerFilters& filters)
 {
-	PxQueryFlags filterFlags = PxQueryFlag::eDYNAMIC|PxQueryFlag::ePREFILTER;
-	PxQueryFilterData filterData(filters.mFilterData ? *filters.mFilterData : PxFilterData(), filterFlags);
-	PxHitFlags hitFlags = PxHitFlags(0);
-
-	if(filters.mFilterCallback && (filters.mFilterFlags | PxQueryFlag::ePREFILTER))
+	if(filters.mFilterCallback && (filters.mFilterFlags & PxQueryFlag::ePREFILTER))
 	{
-		PxQueryHitType::Enum retVal = filters.mFilterCallback->preFilter(filterData.data, mCctModule.mTouchedShape.get(), mCctModule.mTouchedActor.get(), hitFlags);
+		const PxQueryFlags filterFlags = PxQueryFlag::eDYNAMIC|PxQueryFlag::ePREFILTER;
+		const PxQueryFilterData filterData(filters.mFilterData ? *filters.mFilterData : PxFilterData(), filterFlags);
+		PxHitFlags hitFlags = PxHitFlags(0);
+
+		const PxQueryHitType::Enum retVal = filters.mFilterCallback->preFilter(filterData.data, mCctModule.mTouchedShape.get(), mCctModule.mTouchedActor.get(), hitFlags);
 		if(retVal != PxQueryHitType::eNONE)
 			return true;
 		else
@@ -2040,6 +2003,43 @@ void Controller::findTouchedObject(const PxControllerFilters& filters, const PxO
 	// PT: for starter, if user doesn't want to collide against dynamics, we can skip the whole thing
 	if(filters.mFilterFlags & PxQueryFlag::eDYNAMIC)
 	{
+		// PT: we use a local class instead of making "Controller" a PxQueryFilterCallback, since it would waste more memory.
+		// Ideally we'd have a C-style callback and a user-data pointer, instead of being forced to create a class.
+		class ControllerFilter : public PxQueryFilterCallback
+		{
+		public:
+			PxQueryHitType::Enum	preFilter(const PxFilterData& filterData, const PxShape* shape, const PxRigidActor* actor, PxHitFlags& queryFlags)
+			{
+				// PT: ignore triggers
+				if(shape->getFlags() & physx::PxShapeFlag::eTRIGGER_SHAPE)
+					return PxQueryHitType::eNONE;
+
+				// PT: we want to discard our own internal shapes only
+				if(mShapeHashSet->contains(const_cast<PxShape*>(shape)))
+					return PxQueryHitType::eNONE;
+
+				// PT: otherwise we revert to the user-callback, if it exists, and if users enabled that call
+				if(mUserFilterCallback && (mUserFilterFlags & PxQueryFlag::ePREFILTER))
+					return mUserFilterCallback->preFilter(filterData, shape, actor, queryFlags);
+
+				return PxQueryHitType::eBLOCK;
+			}
+
+			PxQueryHitType::Enum	postFilter(const PxFilterData& filterData, const PxQueryHit& hit)
+			{
+				// PT: we may get called if users have asked for such a callback
+				if(mUserFilterCallback && (mUserFilterFlags & PxQueryFlag::ePOSTFILTER))
+					return mUserFilterCallback->postFilter(filterData, hit);
+
+				PX_ASSERT(0);	// PT: otherwise we shouldn't have been called
+				return PxQueryHitType::eNONE;
+			}
+
+			Ps::HashSet<PxShape*>*	mShapeHashSet;
+			PxQueryFilterCallback*	mUserFilterCallback;
+			PxQueryFlags			mUserFilterFlags;
+		};
+
 		ControllerFilter preFilter;
 		preFilter.mShapeHashSet			= &mManager->mCCTShapes;
 		preFilter.mUserFilterCallback	= filters.mFilterCallback;

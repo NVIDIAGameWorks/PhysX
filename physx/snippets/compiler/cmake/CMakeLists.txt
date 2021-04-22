@@ -11,7 +11,7 @@
 ##    contributors may be used to endorse or promote products derived
 ##    from this software without specific prior written permission.
 ##
-## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 ## EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 ## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 ## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
-## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
+## Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 cmake_minimum_required(VERSION 3.7)
 project(Snippets C CXX)
@@ -85,7 +85,7 @@ SET(SOURCE_DISTRO_FILE_LIST "")
 SET(SNIPPETS_LIST Articulation BVHStructure ContactModification ContactReport ContactReportCCD ConvexMeshCreate
 	CustomJoint CustomProfiler DeformableMesh HelloWorld ImmediateArticulation ImmediateMode Joint MBP MultiThreading
 	PrunerSerialization RaycastCCD Serialization SplitFetchResults 
-	SplitSim Stepper ToleranceScale TriangleMeshCreate)
+	SplitSim Stepper ToleranceScale TriangleMeshCreate Triggers)
 	
 LIST(APPEND SNIPPETS_LIST ${PLATFORM_SNIPPETS_LIST})
 		
@@ -96,11 +96,11 @@ LIST(APPEND SNIPPETS_VEHICLE_LIST ${PLATFORM_SNIPPETS_VEHICLE_LIST})
 
 IF(SNIPPET_RENDER_ENABLED)
 	INCLUDE(SnippetRender.cmake)
-	SET_PROPERTY(TARGET SnippetRender PROPERTY FOLDER "Snippets")
+	SET_PROPERTY(TARGET SnippetRender PROPERTY FOLDER "Snippets/Libraries only")
 ENDIF()
 
 INCLUDE(SnippetUtils.cmake)
-SET_PROPERTY(TARGET SnippetUtils PROPERTY FOLDER "Snippets")
+SET_PROPERTY(TARGET SnippetUtils PROPERTY FOLDER "Snippets/Libraries only")
 
 FOREACH(SNIPPET_NAME ${SNIPPETS_LIST})
 	INCLUDE(SnippetTemplate.cmake)

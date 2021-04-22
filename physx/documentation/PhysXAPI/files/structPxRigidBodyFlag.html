@@ -106,7 +106,11 @@ Public Types</h2></td></tr>
 &#160;&#160;<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ac89b33b0290d667f6f2ae69298631d01">eENABLE_POSE_INTEGRATION_PREVIEW</a> = (1 &lt;&lt; 4), 
 <a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596af13d6aa80b364fe2cef81a0039e37d45">eENABLE_SPECULATIVE_CCD</a> = (1 &lt;&lt; 5), 
 <a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ab2bb4cc4246807076a2103d72bd69e00">eENABLE_CCD_MAX_CONTACT_IMPULSE</a> = (1 &lt;&lt; 6), 
-<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f">eRETAIN_ACCELERATIONS</a> = (1&lt;&lt;7)
+<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f">eRETAIN_ACCELERATIONS</a> = (1&lt;&lt;7), 
+<br />
+&#160;&#160;<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a698967abdd9280abb3a7aea8b712a9f9">eFORCE_KINE_KINE_NOTIFICATIONS</a> = (1&lt;&lt;8), 
+<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a3500d16d79229a7aba7ec54e66adaed6">eFORCE_STATIC_KINE_NOTIFICATIONS</a> = (1&lt;&lt;9), 
+<a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a19c3d420263e8b29250817344bf7bc9f">eRESERVED</a> = (1&lt;&lt;15)
 <br />
  }</td></tr>
 <tr class="separator:a5fd4878ae66a98c030a9d976e8ba8596"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,6 +164,21 @@ Public Types</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f"></a>eRETAIN_ACCELERATIONS&#160;</td><td class="fielddoc"><p>Carries over forces/accelerations between frames, rather than clearning them. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a5fd4878ae66a98c030a9d976e8ba8596a698967abdd9280abb3a7aea8b712a9f9"></a>eFORCE_KINE_KINE_NOTIFICATIONS&#160;</td><td class="fielddoc"><p>Forces kinematic-kinematic pairs notifications for this actor. </p>
+<p>This flag overrides the global scene-level <a class="el" href="structPxPairFilteringMode.html">PxPairFilteringMode</a> setting for kinematic actors. This is equivalent to having <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615a15ecf48d452c22f6fb755df16919eca4">PxPairFilteringMode::eKEEP</a> for pairs involving this actor.</p>
+<p>A particular use case is when you have a large amount of kinematic actors, but you are only interested in interactions between a few of them. In this case it is best to use set <a class="el" href="classPxSceneDesc.html#a90e220df7cb1f25852d4cc62cecd8869" title="Filtering mode for kinematic-kinematic pairs in the broadphase. ">PxSceneDesc.kineKineFilteringMode</a> = <a class="el" href="structPxPairFilteringMode.html#aeaa62ad327b874e4b199022401bf7615ad053cb78e88913567e0cb208ea2c458c">PxPairFilteringMode::eKILL</a>, and then raise the eFORCE_KINE_KINE_NOTIFICATIONS flag on the small set of kinematic actors that need notifications.</p>
+<dl class="section note"><dt>Note</dt><dd>This has no effect if <a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596abd76e6985e9db78efb7a66148ea4c212" title="Enables kinematic mode for the actor. ">PxRigidBodyFlag::eKINEMATIC</a> is not set.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Changing this flag at runtime will not have an effect until you remove and re-add the actor to the scene.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxPairFilteringMode.html">PxPairFilteringMode</a> <a class="el" href="classPxSceneDesc.html#a90e220df7cb1f25852d4cc62cecd8869" title="Filtering mode for kinematic-kinematic pairs in the broadphase. ">PxSceneDesc.kineKineFilteringMode</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldname"><a id="a5fd4878ae66a98c030a9d976e8ba8596a3500d16d79229a7aba7ec54e66adaed6"></a>eFORCE_STATIC_KINE_NOTIFICATIONS&#160;</td><td class="fielddoc"><p>Forces static-kinematic pairs notifications for this actor. </p>
+<p>Similar to eFORCE_KINE_KINE_NOTIFICATIONS, but for static-kinematic interactions.</p>
+<dl class="section note"><dt>Note</dt><dd>This has no effect if <a class="el" href="structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596abd76e6985e9db78efb7a66148ea4c212" title="Enables kinematic mode for the actor. ">PxRigidBodyFlag::eKINEMATIC</a> is not set.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Changing this flag at runtime will not have an effect until you remove and re-add the actor to the scene.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxPairFilteringMode.html">PxPairFilteringMode</a> <a class="el" href="classPxSceneDesc.html#a1ff29795e987f8f9b347545468915de2" title="Filtering mode for static-kinematic pairs in the broadphase. ">PxSceneDesc.staticKineFilteringMode</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldname"><a id="a5fd4878ae66a98c030a9d976e8ba8596a19c3d420263e8b29250817344bf7bc9f"></a>eRESERVED&#160;</td><td class="fielddoc"><p>Reserved for internal usage. </p>
+</td></tr>
 </table>
 
 </div>
@@ -174,7 +193,7 @@ Public Types</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structPxRigidBodyFlag.html">PxRigidBodyFlag</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

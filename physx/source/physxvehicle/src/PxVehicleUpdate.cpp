@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -726,187 +726,158 @@ void enable3WMode(const PxU32 rightDirection, const PxU32 upDirection, const boo
 
 #if PX_DEBUG_VEHICLE_ON
 
-//Render data.
-PxVec3* gCarTireForceAppPoints=NULL;
-PxVec3* gCarSuspForceAppPoints=NULL;
+struct VehicleTelemetryDataContext
+{
+	PxF32 wheelGraphData[PX_MAX_NB_WHEELS][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS];
+	PxF32 engineGraphData[PxVehicleDriveGraphChannel::eMAX_NB_DRIVE_CHANNELS];
+	PxVec3 suspForceAppPoints[PX_MAX_NB_WHEELS];
+	PxVec3 tireForceAppPoints[PX_MAX_NB_WHEELS];
+};
 
-//Graph data
-PxF32* gCarWheelGraphData[PX_MAX_NB_WHEELS]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-PxF32* gCarEngineGraphData=NULL;
-
-PX_FORCE_INLINE void updateGraphDataInternalWheelDynamics(const PxU32 startIndex, const PxF32* carWheelSpeeds)
+PX_FORCE_INLINE void updateGraphDataInternalWheelDynamics(const PxU32 startIndex, const PxF32* carWheelSpeeds, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
 	//Grab the internal rotation speeds for graphing before we update them.
-	if(gCarWheelGraphData[startIndex])
+	for(PxU32 i=0;i<4;i++)
 	{
-		for(PxU32 i=0;i<4;i++)
-		{
-			PX_ASSERT((startIndex+i) < PX_MAX_NB_WHEELS);
-			PX_ASSERT(gCarWheelGraphData[startIndex+i]);
-			gCarWheelGraphData[startIndex+i][PxVehicleWheelGraphChannel::eWHEEL_OMEGA]=carWheelSpeeds[i];
-		}
+		PX_ASSERT((startIndex+i) < PX_MAX_NB_WHEELS);
+		PX_ASSERT(carWheelGraphData[startIndex+i]);
+		carWheelGraphData[startIndex+i][PxVehicleWheelGraphChannel::eWHEEL_OMEGA]=carWheelSpeeds[i];
 	}
 }
 
-PX_FORCE_INLINE void updateGraphDataInternalEngineDynamics(const PxF32 carEngineSpeed)
+PX_FORCE_INLINE void updateGraphDataInternalEngineDynamics(const PxF32 carEngineSpeed, PxF32* carEngineGraphData)
 {
-	if(gCarEngineGraphData)
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eENGINE_REVS]=carEngineSpeed;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eENGINE_REVS]=carEngineSpeed;
 }
 
-PX_FORCE_INLINE void updateGraphDataControlInputs(const PxF32 accel, const PxF32 brake, const PxF32 handbrake, const PxF32 steerLeft, const PxF32 steerRight)
+PX_FORCE_INLINE void updateGraphDataControlInputs(const PxF32 accel, const PxF32 brake, const PxF32 handbrake, const PxF32 steerLeft, const PxF32 steerRight,
+	PxF32* carEngineGraphData)
 {
-	if(gCarEngineGraphData)
+	carEngineGraphData[PxVehicleDriveGraphChannel::eACCEL_CONTROL]=accel;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eBRAKE_CONTROL]=brake;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eHANDBRAKE_CONTROL]=handbrake;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eSTEER_LEFT_CONTROL]=steerLeft;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eSTEER_RIGHT_CONTROL]=steerRight;
+}
+PX_FORCE_INLINE void updateGraphDataGearRatio(const PxF32 G, PxF32* carEngineGraphData)
+{
+	carEngineGraphData[PxVehicleDriveGraphChannel::eGEAR_RATIO]=G;
+}
+PX_FORCE_INLINE void updateGraphDataEngineDriveTorque(const PxF32 engineDriveTorque, PxF32* carEngineGraphData)
+{
+	carEngineGraphData[PxVehicleDriveGraphChannel::eENGINE_DRIVE_TORQUE]=engineDriveTorque;
+}
+PX_FORCE_INLINE void updateGraphDataClutchSlip(const PxF32* wheelSpeeds, const PxF32* aveWheelSpeedContributions, const PxF32 engineSpeed, const PxF32 G,
+	PxF32* carEngineGraphData)
+{
+	PxF32 averageWheelSpeed=0;
+	for(PxU32 i=0;i<4;i++)
 	{
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eACCEL_CONTROL]=accel;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eBRAKE_CONTROL]=brake;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eHANDBRAKE_CONTROL]=handbrake;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eSTEER_LEFT_CONTROL]=steerLeft;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eSTEER_RIGHT_CONTROL]=steerRight;
+		averageWheelSpeed+=wheelSpeeds[i]*aveWheelSpeedContributions[i];
 	}
+	averageWheelSpeed*=G;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eCLUTCH_SLIP]=averageWheelSpeed-engineSpeed;
 }
-PX_FORCE_INLINE void updateGraphDataGearRatio(const PxF32 G)
+PX_FORCE_INLINE void updateGraphDataClutchSlipNW(const PxU32 numWheels4, const PxVehicleWheels4DynData* wheelsDynData, const PxF32* aveWheelSpeedContributions, const PxF32 engineSpeed, const PxF32 G,
+	PxF32* carEngineGraphData)
 {
-	if(gCarEngineGraphData)
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eGEAR_RATIO]=G;
-}
-PX_FORCE_INLINE void updateGraphDataEngineDriveTorque(const PxF32 engineDriveTorque)
-{
-	if(gCarEngineGraphData)
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eENGINE_DRIVE_TORQUE]=engineDriveTorque;
-}
-PX_FORCE_INLINE void updateGraphDataClutchSlip(const PxF32* wheelSpeeds, const PxF32* aveWheelSpeedContributions, const PxF32 engineSpeed, const PxF32 G)
-{
-	if(gCarEngineGraphData)
+	PxF32 averageWheelSpeed=0;
+	for(PxU32 i=0;i<numWheels4;i++)
 	{
-		PxF32 averageWheelSpeed=0;
-		for(PxU32 i=0;i<4;i++)
-		{
-			averageWheelSpeed+=wheelSpeeds[i]*aveWheelSpeedContributions[i];
-		}
-		averageWheelSpeed*=G;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eCLUTCH_SLIP]=averageWheelSpeed-engineSpeed;
+		averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[0]*aveWheelSpeedContributions[4*i+0];
+		averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[1]*aveWheelSpeedContributions[4*i+1];
+		averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[2]*aveWheelSpeedContributions[4*i+2];
+		averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[3]*aveWheelSpeedContributions[4*i+3];
 	}
-}
-PX_FORCE_INLINE void updateGraphDataClutchSlipNW(const PxU32 numWheels4, const PxVehicleWheels4DynData* wheelsDynData, const PxF32* aveWheelSpeedContributions, const PxF32 engineSpeed, const PxF32 G)
-{
-	if(gCarEngineGraphData)
-	{
-		PxF32 averageWheelSpeed=0;
-		for(PxU32 i=0;i<numWheels4;i++)
-		{
-			averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[0]*aveWheelSpeedContributions[4*i+0];
-			averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[1]*aveWheelSpeedContributions[4*i+1];
-			averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[2]*aveWheelSpeedContributions[4*i+2];
-			averageWheelSpeed+=wheelsDynData[i].mWheelSpeeds[3]*aveWheelSpeedContributions[4*i+3];
-		}
-		averageWheelSpeed*=G;
-		gCarEngineGraphData[PxVehicleDriveGraphChannel::eCLUTCH_SLIP]=averageWheelSpeed-engineSpeed;
-	}
+	averageWheelSpeed*=G;
+	carEngineGraphData[PxVehicleDriveGraphChannel::eCLUTCH_SLIP]=averageWheelSpeed-engineSpeed;
 }
 
-PX_FORCE_INLINE void zeroGraphDataWheels(const PxU32 startIndex, const PxU32 type)
+PX_FORCE_INLINE void zeroGraphDataWheels(const PxU32 startIndex, const PxU32 type, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
+	for(PxU32 i=0;i<4;i++)
 	{
-		for(PxU32 i=0;i<4;i++)
-		{
-			PX_ASSERT((startIndex+i) < PX_MAX_NB_WHEELS);
-			PX_ASSERT(gCarWheelGraphData[startIndex+i]);
-			gCarWheelGraphData[startIndex+i][type]=0.0f;
-		}
+		PX_ASSERT((startIndex+i) < PX_MAX_NB_WHEELS);
+		PX_ASSERT(carWheelGraphData[startIndex+i]);
+		carWheelGraphData[startIndex+i][type]=0.0f;
 	}
 }
-PX_FORCE_INLINE void updateGraphDataSuspJounce(const PxU32 startIndex, const PxU32 wheel, const PxF32 jounce)
+PX_FORCE_INLINE void updateGraphDataSuspJounce(const PxU32 startIndex, const PxU32 wheel, const PxF32 jounce, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eJOUNCE]=jounce;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eJOUNCE]=jounce;
 }
-PX_FORCE_INLINE void updateGraphDataSuspForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 springForce)
+PX_FORCE_INLINE void updateGraphDataSuspForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 springForce, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eSUSPFORCE]=springForce;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eSUSPFORCE]=springForce;
 }
-PX_FORCE_INLINE void updateGraphDataTireLoad(const PxU32 startIndex, const PxU32 wheel, const PxF32 filteredTireLoad)
+PX_FORCE_INLINE void updateGraphDataTireLoad(const PxU32 startIndex, const PxU32 wheel, const PxF32 filteredTireLoad, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRELOAD]=filteredTireLoad;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRELOAD]=filteredTireLoad;
 }
-PX_FORCE_INLINE void updateGraphDataNormTireLoad(const PxU32 startIndex, const PxU32 wheel, const PxF32 filteredNormalisedTireLoad)
+PX_FORCE_INLINE void updateGraphDataNormTireLoad(const PxU32 startIndex, const PxU32 wheel, const PxF32 filteredNormalisedTireLoad, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORMALIZED_TIRELOAD]=filteredNormalisedTireLoad;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORMALIZED_TIRELOAD]=filteredNormalisedTireLoad;
 }
-PX_FORCE_INLINE void updateGraphDataNormLongTireForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 normForce)
+PX_FORCE_INLINE void updateGraphDataNormLongTireForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 normForce, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_LONG_FORCE]=normForce;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_LONG_FORCE]=normForce;
 }
-PX_FORCE_INLINE void updateGraphDataNormLatTireForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 normForce)
+PX_FORCE_INLINE void updateGraphDataNormLatTireForce(const PxU32 startIndex, const PxU32 wheel, const PxF32 normForce, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_LAT_FORCE]=normForce;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_LAT_FORCE]=normForce;
 }
-PX_FORCE_INLINE void updateGraphDataLatTireSlip(const PxU32 startIndex, const PxU32 wheel, const PxF32 latSlip)
+PX_FORCE_INLINE void updateGraphDataLatTireSlip(const PxU32 startIndex, const PxU32 wheel, const PxF32 latSlip, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_LAT_SLIP]=latSlip;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_LAT_SLIP]=latSlip;
 }
-PX_FORCE_INLINE void updateGraphDataLongTireSlip(const PxU32 startIndex, const PxU32 wheel, const PxF32 longSlip)
+PX_FORCE_INLINE void updateGraphDataLongTireSlip(const PxU32 startIndex, const PxU32 wheel, const PxF32 longSlip, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_LONG_SLIP]=longSlip;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_LONG_SLIP]=longSlip;
 }
-PX_FORCE_INLINE void updateGraphDataTireFriction(const PxU32 startIndex, const PxU32 wheel, const PxF32 friction)
+PX_FORCE_INLINE void updateGraphDataTireFriction(const PxU32 startIndex, const PxU32 wheel, const PxF32 friction, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_FRICTION]=friction;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eTIRE_FRICTION]=friction;
 }
-PX_FORCE_INLINE void updateGraphDataNormTireAligningMoment(const PxU32 startIndex, const PxU32 wheel, const PxF32 normAlignMoment)
+PX_FORCE_INLINE void updateGraphDataNormTireAligningMoment(const PxU32 startIndex, const PxU32 wheel, const PxF32 normAlignMoment, 
+	PxF32 carWheelGraphData[][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS])
 {
-	if(gCarWheelGraphData[0])
-	{
-		PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
-		PX_ASSERT(gCarWheelGraphData[startIndex+wheel]);
-		gCarWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_ALIGNING_MOMENT]=normAlignMoment;
-	}
+	PX_ASSERT((startIndex+wheel) < PX_MAX_NB_WHEELS);
+	PX_ASSERT(carWheelGraphData[startIndex+wheel]);
+	carWheelGraphData[startIndex+wheel][PxVehicleWheelGraphChannel::eNORM_TIRE_ALIGNING_MOMENT]=normAlignMoment;
 }
+
+#else
+
+struct VehicleTelemetryDataContext;
 
 #endif //DEBUG_VEHICLE_ON
 
@@ -2412,23 +2383,19 @@ bool intersectPlanes(const PxVec4& a, const PxVec4& b, PxVec3& v, PxVec3& w)
 	return success;
 }
 
-bool intersectCylinderPlane
+static bool intersectCylinderPlane
 (const PxTransform& wheelPoseAtZeroJounce, const PxVec3 suspDir,
  const PxF32 width, const PxF32 radius, const PxF32 maxCompression,
  const PxVec4& hitPlane, 
  const bool rejectFromThresholds, 
- PxF32& jounce, PxVec3& wheelBottomPos)
+ PxF32& jounce, PxVec3& wheelBottomPos,
+ const PxVec3& contactPt, float hitDist, bool useDirectSweepResults)
 {
-	PX_UNUSED(maxCompression);
-	PX_UNUSED(width);
-
 	//Reject based on the contact normal.
-	if (rejectFromThresholds)
+	if(rejectFromThresholds)
 	{
-		if (suspDir.dot(-hitPlane.getXYZ()) < gNormalRejectAngleThreshold)
-		{
+		if(suspDir.dot(-hitPlane.getXYZ()) < gNormalRejectAngleThreshold)
 			return false;
-		}
 	}
 
 	//Construct the wheel plane that contains the wheel disc.
@@ -2442,79 +2409,116 @@ bool intersectCylinderPlane
 		wheelPlane.w = d;
 	}
 
-	//Intersect the plane of the wheel with the hit plane.
-	//This generates an intersection edge.
-	PxVec3 intersectionEdgeV, intersectionEdgeW;
-	const bool intersectPlaneSuccess = intersectPlanes(wheelPlane, hitPlane, intersectionEdgeV, intersectionEdgeW);
-	if(!intersectPlaneSuccess)
+	if(useDirectSweepResults)
 	{
-		jounce = 0.0f;
-		wheelBottomPos = PxVec3(0,0,0);
-		return false;
-	}
+		// PT: looks like we didn't use actual planes in PhysX 4 so let's recreate them
+		PxPlane wheelPlane_;
+		wheelPlane_.n.x = wheelPlane.x;
+		wheelPlane_.n.y = wheelPlane.y;
+		wheelPlane_.n.z = wheelPlane.z;
+		wheelPlane_.d = wheelPlane.w;
 
-	//Compute the position on the intersection edge that is closest to the wheel centre.
-	PxVec3 closestPointOnIntersectionEdge;
-	{
-		const PxVec3& p = wheelPoseAtZeroJounce.p;
-		const PxVec3& w = intersectionEdgeW;
-		const PxVec3& v = intersectionEdgeV;
-		const PxF32 t = (p - v).dot(w);
-		closestPointOnIntersectionEdge = v + w*t;
-	}
+		// PT: this codepath fixes PX-2184 / PX-2170 / PX-2297
+		// We start from the results we want to obtain, i.e. the data provided by the sweeps:
+		jounce = maxCompression + radius - hitDist;
+		wheelBottomPos = wheelPlane_.project(contactPt);
 
-	//Compute the vector that joins the wheel centre to the intersection edge;
-	PxVec3 dir;
-	{
-		const PxF32 wheelCentreD = hitPlane.x*wheelPoseAtZeroJounce.p.x + hitPlane.y*wheelPoseAtZeroJounce.p.y + hitPlane.z*wheelPoseAtZeroJounce.p.z + hitPlane.w;
-		dir = ((wheelCentreD >= 0) ? closestPointOnIntersectionEdge - wheelPoseAtZeroJounce.p : wheelPoseAtZeroJounce.p - closestPointOnIntersectionEdge);
-		dir.normalize();
-	}
-
-	//Now work out if we accept the hit.
-	//Compare dir with the suspension direction.
-	if (rejectFromThresholds)
-	{
-		if (suspDir.dot(dir) < gPointRejectAngleThreshold)
+		// PT: and then we re-derive other variables from them, to do the culling.
+		// This is only needed for touching hits.
+		if(rejectFromThresholds)
 		{
-			return false;
+			PxPlane hitPlane_;
+			hitPlane_.n.x = hitPlane.x;
+			hitPlane_.n.y = hitPlane.y;
+			hitPlane_.n.z = hitPlane.z;
+			hitPlane_.d = hitPlane.w;
+
+			// Derive t & pos from above data
+			const PxF32 t = -jounce;						// From "jounce = -t;" in original codepath
+			const PxVec3 pos = wheelBottomPos - suspDir*t;	// From "wheelBottomPos = pos + suspDir*t;" in original codepath
+
+			//If the sweep started inside the hit plane then return false
+			const PxVec3 startPos = pos - suspDir*(radius + maxCompression);
+			if(hitPlane_.n.dot(startPos) + hitPlane_.d < 0.0f)
+				return false;
+
+			// PT: derive dir from "const PxVec3 pos = wheelPoseAtZeroJounce.p + dir*radius;" in original codepath.
+			// We need a normalized dir though so we skip the division by radius.
+			PxVec3 dir = (pos - wheelPoseAtZeroJounce.p);
+			dir.normalize();
+
+			//Now work out if we accept the hit.
+			//Compare dir with the suspension direction.
+			if(suspDir.dot(dir) < gPointRejectAngleThreshold)
+				return false;
 		}
 	}
-
-	//Compute the point on the disc diameter that will be the closest to the hit plane or the deepest inside the hit plane.
-	PxVec3 pos;
+	else
 	{
-		pos = wheelPoseAtZeroJounce.p + dir*radius;
+		//Intersect the plane of the wheel with the hit plane.
+		//This generates an intersection edge.
+		PxVec3 intersectionEdgeV, intersectionEdgeW;
+		const bool intersectPlaneSuccess = intersectPlanes(wheelPlane, hitPlane, intersectionEdgeV, intersectionEdgeW);
+		if(!intersectPlaneSuccess)
+		{
+			jounce = 0.0f;
+			wheelBottomPos = PxVec3(0,0,0);
+			return false;
+		}
+
+		//Compute the position on the intersection edge that is closest to the wheel centre.
+		PxVec3 closestPointOnIntersectionEdge;
+		{
+			const PxVec3& p = wheelPoseAtZeroJounce.p;
+			const PxVec3& w = intersectionEdgeW;
+			const PxVec3& v = intersectionEdgeV;
+			const PxF32 t = (p - v).dot(w);
+			closestPointOnIntersectionEdge = v + w*t;
+		}
+
+		//Compute the vector that joins the wheel centre to the intersection edge;
+		PxVec3 dir;
+		{
+			const PxF32 wheelCentreD = hitPlane.x*wheelPoseAtZeroJounce.p.x + hitPlane.y*wheelPoseAtZeroJounce.p.y + hitPlane.z*wheelPoseAtZeroJounce.p.z + hitPlane.w;
+			dir = ((wheelCentreD >= 0) ? closestPointOnIntersectionEdge - wheelPoseAtZeroJounce.p : wheelPoseAtZeroJounce.p - closestPointOnIntersectionEdge);
+			dir.normalize();
+		}
+
+		//Now work out if we accept the hit.
+		//Compare dir with the suspension direction.
+		if(rejectFromThresholds)
+		{
+			if(suspDir.dot(dir) < gPointRejectAngleThreshold)
+				return false;
+		}
+
+		//Compute the point on the disc diameter that will be the closest to the hit plane or the deepest inside the hit plane.
+		const PxVec3 pos = wheelPoseAtZeroJounce.p + dir*radius;
+
+		//If the sweep started inside the hit plane then return false
+		const PxVec3 startPos = pos - suspDir*(radius + maxCompression);
+		if(hitPlane.x*startPos.x + hitPlane.y*startPos.y + hitPlane.z*startPos.z + hitPlane.w < 0.0f)
+			return false;
+
+		//Now compute the maximum depth of the inside and outside discs against the plane.
+		PxF32 depth;
+		{
+			const PxVec3 latDir = wheelPoseAtZeroJounce.rotate(gRight);
+			const PxF32 signDot = computeSign(hitPlane.x*latDir.x + hitPlane.y*latDir.y + hitPlane.z*latDir.z);
+			const PxVec3 deepestPos = pos - latDir*(signDot*0.5f*width);
+			depth = hitPlane.x*deepestPos.x + hitPlane.y*deepestPos.y + hitPlane.z*deepestPos.z + hitPlane.w;
+		}
+
+		//How far along the susp dir do we have to move to place the wheel exactly on the plane.
+		const PxF32 t = -depth/(hitPlane.x*suspDir.x + hitPlane.y*suspDir.y + hitPlane.z*suspDir.z);
+
+		//+ve means that the spring is compressed
+		//-ve means that the spring is elongated.
+		jounce = -t;
+
+		//Compute a point at the bottom of the wheel that is at the centre.
+		wheelBottomPos = pos + suspDir*t;
 	}
-
-	//If the sweep started inside the hit plane then return false
-	const PxVec3 startPos = pos - suspDir*(radius + maxCompression);
-	if(hitPlane.x*startPos.x + hitPlane.y*startPos.y + hitPlane.z*startPos.z + hitPlane.w < 0.0f)
-	{
-		return false;
-	}
-
-	//Now compute the maximum depth of the inside and outside discs against the plane.
-	PxF32 depth;
-	{
-		const PxVec3 latDir = wheelPoseAtZeroJounce.rotate(gRight);
-		const PxF32 signDot = computeSign(hitPlane.x*latDir.x + hitPlane.y*latDir.y + hitPlane.z*latDir.z);
-		const PxVec3 deepestPos = pos - latDir*(signDot*0.5f*width);
-		depth = hitPlane.x*deepestPos.x + hitPlane.y*deepestPos.y + hitPlane.z*deepestPos.z + hitPlane.w;
-	}
-
-
-	//How far along the susp dir do we have to move to place the wheel exactly on the plane.
-	const PxF32 t = -depth/(hitPlane.x*suspDir.x + hitPlane.y*suspDir.y + hitPlane.z*suspDir.z);
-
-	//+ve means that the spring is compressed
-	//-ve means that the spring is elongated.
-	jounce = -t;
-
-	//Compute a point at the bottom of the wheel that is at the centre.
-	wheelBottomPos = pos + suspDir*t;
-
-	//Finished.
 	return true;
 }
 
@@ -2524,7 +2528,8 @@ bool intersectCylinderPlane
  const PxVec3& bodySpaceWheelCentreOffset, const PxVec3& bodySpaceSuspTravelDir, const PxF32 width, const PxF32 radius, const PxF32 maxCompression,
  const PxVec4& hitPlane,
  const bool rejectFromThresholds,
- PxF32& jounce, PxVec3& wheelBottomPos)
+ PxF32& jounce, PxVec3& wheelBottomPos,
+ const PxVec3& contactPt, float hitDist, bool useDirectSweepResults)
 {
 	//Compute the pose of the wheel
 	PxTransform wheelPostsAtZeroJounce;
@@ -2541,7 +2546,7 @@ bool intersectCylinderPlane
 		 width, radius, maxCompression,
 		 hitPlane,
 		 rejectFromThresholds, 
-		 jounce, wheelBottomPos);
+		 jounce, wheelBottomPos, contactPt, hitDist, useDirectSweepResults);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -2850,11 +2855,17 @@ void storeHit
 	cachedHitQueryTypes[i] = hitQueryType;
 }
 
-void processSuspTireWheels
+static void processSuspTireWheels
 (const PxU32 startWheelIndex, 
  const ProcessSuspWheelTireConstData& constData, const ProcessSuspWheelTireInputData& inputData, 
- ProcessSuspWheelTireOutputData& outputData)
+ ProcessSuspWheelTireOutputData& outputData,
+ VehicleTelemetryDataContext* vehTelemetryDataContext)
 {
+#if !PX_DEBUG_VEHICLE_ON
+	PX_UNUSED(startWheelIndex);
+	PX_UNUSED(vehTelemetryDataContext);
+#endif
+
 	PX_SIMD_GUARD; //tzRaw.normalize(); in computeTireDirs threw a denorm exception on osx
 	
 #if PX_DEBUG_VEHICLE_ON
@@ -2862,15 +2873,18 @@ void processSuspTireWheels
 #endif
 
 #if PX_DEBUG_VEHICLE_ON
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eJOUNCE);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eSUSPFORCE);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRELOAD);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORMALIZED_TIRELOAD);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORM_TIRE_LONG_FORCE);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORM_TIRE_LAT_FORCE);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_LONG_SLIP);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_LAT_SLIP);
-	zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_FRICTION);
+	if (vehTelemetryDataContext)
+	{
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eJOUNCE, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eSUSPFORCE, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRELOAD, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORMALIZED_TIRELOAD, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORM_TIRE_LONG_FORCE, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eNORM_TIRE_LAT_FORCE, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_LONG_SLIP, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_LAT_SLIP, vehTelemetryDataContext->wheelGraphData);
+		zeroGraphDataWheels(startWheelIndex,PxVehicleWheelGraphChannel::eTIRE_FRICTION, vehTelemetryDataContext->wheelGraphData);
+	}
 #endif
 
 	//Unpack the logically constant data.
@@ -3088,16 +3102,18 @@ void processSuspTireWheels
 						const PxF32 hitD = -hitNorm.dot(hitPos);
 						PxVec4 hitPlane(hitNorm, hitD);
 
+						const bool useDirectSweepResults = (wheelsSimFlags & PxVehicleWheelsSimFlag::eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST)!=0;
+
 						//Intersect the wheel disc with the hit plane and compute the jounce required to move the wheel free of the hit plane.
 						PxF32 dx;
 						PxVec3 wheelBottomPos;
-						bool successIntersection = 
+						const bool successIntersection = 
 							intersectCylinderPlane
 								(suspPose, suspDir,
 								 width, radius, maxBounce,
 								 hitPlane,
 								 true, 
-								 dx, wheelBottomPos);
+								 dx, wheelBottomPos, hit.position, hit.distance, useDirectSweepResults);
 
 						//If we accept the intersection and it requires more jounce than previously encountered then 
 						//store the hit. 
@@ -3202,7 +3218,8 @@ void processSuspTireWheels
 		//Reset the graph of the jounce to max droop.
 		//This will get updated as we learn more about the suspension.
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataSuspJounce(startWheelIndex, i,-susp.mMaxDroop);
+		if (vehTelemetryDataContext)
+			updateGraphDataSuspJounce(startWheelIndex, i,-susp.mMaxDroop, vehTelemetryDataContext->wheelGraphData);
 #endif
 
 		//Reset the jounce to max droop.
@@ -3247,6 +3264,8 @@ void processSuspTireWheels
 			}
 			else
 			{
+				const bool useDirectSweepResults = (wheelsSimFlags & PxVehicleWheelsSimFlag::eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST)!=0;
+
 				PX_ASSERT(1 == hitQueryTypes4[i]);
 				successIntersection = intersectCylinderPlane
 					(carChassisTrnsfm, 
@@ -3254,7 +3273,7 @@ void processSuspTireWheels
 					 bodySpaceWheelCentreOffset, bodySpaceSuspTravelDir, wheel.mWidth, wheel.mRadius, susp.mMaxCompression, 
 					 hitPlanes4[i], 
 					 false, 
-					 dx, wheelBottomPos);
+					 dx, wheelBottomPos, hitContactPoints4[i], hitDistances4[i], useDirectSweepResults);
 			}
 
 			//If the spring is elongated past its max droop then the wheel isn't touching the ground.
@@ -3285,7 +3304,8 @@ void processSuspTireWheels
 
 				//Store the jounce in the graph.
 #if PX_DEBUG_VEHICLE_ON
-				updateGraphDataSuspJounce(startWheelIndex, i,jounce);
+				if (vehTelemetryDataContext)
+					updateGraphDataSuspJounce(startWheelIndex, i,jounce, vehTelemetryDataContext->wheelGraphData);
 #endif
 
 				//Compute the speed of the rigid body along the suspension travel dir at the 
@@ -3375,7 +3395,11 @@ void processSuspTireWheels
 					//Compute the total force acting on the suspension.
 					//Remember that the spring force acts along -w.
 					//Remember to account for the term perpendicular to w and that it acts along -TTimesBeta
-					PxF32 suspensionForceMag = hitNorm.dot(-w*suspensionForceW - TTimesBeta*susp.mSprungMass);
+					PxF32 suspensionForceMag;
+					if(wheelsSimFlags & PxVehicleWheelsSimFlag::eDISABLE_SUSPENSION_FORCE_PROJECTION)
+						suspensionForceMag = suspensionForceW - hitNorm.dot(TTimesBeta*susp.mSprungMass);
+					else
+						suspensionForceMag = hitNorm.dot(-w*suspensionForceW - TTimesBeta*susp.mSprungMass);
 
 					//Apply the opposite force to the hit object.
 					//Clamp suspensionForceMag if required.
@@ -3401,7 +3425,8 @@ void processSuspTireWheels
 
 					//Store the spring force in the graph.
 #if PX_DEBUG_VEHICLE_ON
-					updateGraphDataSuspForce(startWheelIndex, i, suspensionForceMag);
+					if (vehTelemetryDataContext)
+						updateGraphDataSuspForce(startWheelIndex, i, suspensionForceMag, vehTelemetryDataContext->wheelGraphData);
 #endif
 
 					//Suspension force can be computed now.
@@ -3426,8 +3451,11 @@ void processSuspTireWheels
 					const PxF32 filteredTireLoad=filteredNormalisedTireLoad*gravityMagnitude*tireRestLoads[i];
 
 #if PX_DEBUG_VEHICLE_ON
-					updateGraphDataTireLoad(startWheelIndex,i,filteredTireLoad);
-					updateGraphDataNormTireLoad(startWheelIndex,i,filteredNormalisedTireLoad);
+					if (vehTelemetryDataContext)
+					{
+						updateGraphDataTireLoad(startWheelIndex,i,filteredTireLoad, vehTelemetryDataContext->wheelGraphData);
+						updateGraphDataNormTireLoad(startWheelIndex,i,filteredNormalisedTireLoad, vehTelemetryDataContext->wheelGraphData);
+					}
 #endif
 
 					//Compute the lateral and longitudinal tire axes in the ground plane.
@@ -3577,19 +3605,17 @@ void processSuspTireWheels
 
 						//Graph all the data we just computed.
 #if PX_DEBUG_VEHICLE_ON
-						if(gCarTireForceAppPoints)
-							gCarTireForceAppPoints[i]=carChassisTrnsfm.p + tireForceCMOffset;
-						if(gCarSuspForceAppPoints)
-							gCarSuspForceAppPoints[i]=carChassisTrnsfm.p + suspForceCMOffset;
-
-						if(gCarWheelGraphData[0])
+						if (vehTelemetryDataContext)
 						{
-							updateGraphDataNormLongTireForce(startWheelIndex, i, PxAbs(tireLongForceMag)*normalisedTireLoad/tireLoad);
-							updateGraphDataNormLatTireForce(startWheelIndex, i, PxAbs(tireLatForceMag)*normalisedTireLoad/tireLoad);
-							updateGraphDataNormTireAligningMoment(startWheelIndex, i, tireAlignMoment*normalisedTireLoad/tireLoad);
-							updateGraphDataLongTireSlip(startWheelIndex, i,longSlips[i]);
-							updateGraphDataLatTireSlip(startWheelIndex, i,latSlips[i]);
-							updateGraphDataTireFriction(startWheelIndex, i,frictions[i]);
+							vehTelemetryDataContext->tireForceAppPoints[i] = carChassisTrnsfm.p + tireForceCMOffset;
+							vehTelemetryDataContext->suspForceAppPoints[i] = carChassisTrnsfm.p + suspForceCMOffset;
+
+							updateGraphDataNormLongTireForce(startWheelIndex, i, PxAbs(tireLongForceMag)*normalisedTireLoad/tireLoad, vehTelemetryDataContext->wheelGraphData);
+							updateGraphDataNormLatTireForce(startWheelIndex, i, PxAbs(tireLatForceMag)*normalisedTireLoad/tireLoad, vehTelemetryDataContext->wheelGraphData);
+							updateGraphDataNormTireAligningMoment(startWheelIndex, i, tireAlignMoment*normalisedTireLoad/tireLoad, vehTelemetryDataContext->wheelGraphData);
+							updateGraphDataLongTireSlip(startWheelIndex, i,longSlips[i], vehTelemetryDataContext->wheelGraphData);
+							updateGraphDataLatTireSlip(startWheelIndex, i,latSlips[i], vehTelemetryDataContext->wheelGraphData);
+							updateGraphDataTireFriction(startWheelIndex, i,frictions[i], vehTelemetryDataContext->wheelGraphData);
 						}
 #endif
 					}//filteredTireLoad*frictionMultiplier>0
@@ -4636,12 +4662,14 @@ public:
 #if PX_DEBUG_VEHICLE_ON
 	static void updateSingleVehicleAndStoreTelemetryData(
 		const PxF32 timestep, const PxVec3& gravity, const PxVehicleDrivableSurfaceToTireFrictionPairs& vehicleDrivableSurfaceToTireFrictionPairs, 
-		PxVehicleWheels* focusVehicle, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleTelemetryData& telemetryData);
+		PxVehicleWheels* focusVehicle, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleTelemetryData& telemetryData,
+		PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates);
 #endif
 
 	static void update(
 		const PxF32 timestep, const PxVec3& gravity, const PxVehicleDrivableSurfaceToTireFrictionPairs& vehicleDrivableSurfaceToTireFrictionPairs, 
-		const PxU32 numVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* wheelQueryResults, PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates);
+		const PxU32 numVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* wheelQueryResults, PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates,
+		VehicleTelemetryDataContext* vehicleTelemetryDataContext);
 
 	static void updatePost(
 		const PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates, const PxU32 numVehicles, PxVehicleWheels** vehicles);
@@ -4656,31 +4684,35 @@ public:
 		const PxU32 numVehicles, PxVehicleWheels** vehicles, 
 		const PxU32 numSceneQueryResults, PxSweepQueryResult* sceneQueryResults, const PxU16 nbHitsPerQuery,
 		const bool* vehiclesToRaycast,
-		const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale);
+		const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale, const PxF32 sweepInflation);
 
 	static void updateDrive4W(
 		const PxF32 timestep, 
 		const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
 		const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
-		PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates);
+		PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+		VehicleTelemetryDataContext*);
 
 	static void updateDriveNW(
 		const PxF32 timestep, 
 		const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
 		const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
-		PxVehicleDriveNW* vehDriveNW, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates);
+		PxVehicleDriveNW* vehDriveNW, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+		VehicleTelemetryDataContext*);
 
 	static void updateTank(
 		const PxF32 timestep, 
 		const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
 		const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
-		PxVehicleDriveTank* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates);
+		PxVehicleDriveTank* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+		VehicleTelemetryDataContext*);
 
 	static void updateNoDrive(
 		const PxF32 timestep, 
 		const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
 		const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
-		PxVehicleNoDrive* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates);
+		PxVehicleNoDrive* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+		VehicleTelemetryDataContext*);
 
 	static PxU32 computeNumberOfSubsteps(const PxVehicleWheelsSimData& wheelsSimData, const PxVec3& linVel, const PxTransform& globalPose, const PxVec3& forward)
 	{
@@ -4745,7 +4777,7 @@ public:
 
 			for(PxU32 j=0;j<4;j++)
 			{
-				if(!wheelsSimData.getIsWheelDisabled(4*i + j))
+				if(!wheelsSimData.getIsWheelDisabled(4*i + j) && (raycastResults || sweepResults))
 				{
 					const PxU32 hitCount = PxU32(raycastResults ? raycastResults[j].hasBlock : sweepResults[j].hasBlock);
 					const PxLocationHit& hit = raycastResults ? static_cast<const PxLocationHit&>(raycastResults[j].block) : static_cast<const PxLocationHit&>(sweepResults[j].block);
@@ -4838,8 +4870,13 @@ void PxVehicleUpdate::updateDrive4W(
 const PxF32 timestep, 
 const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
 const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
-PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates)
+PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+VehicleTelemetryDataContext* vehTelemetryDataContext)
 {
+#if !PX_DEBUG_VEHICLE_ON
+	PX_UNUSED(vehTelemetryDataContext);
+#endif
+
 	PX_SIMD_GUARD; // denorm exception in transformInertiaTensor() on osx
 
 	START_TIMER(TIMER_ADMIN);
@@ -4896,11 +4933,14 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 	START_TIMER(TIMER_GRAPHS);
 
 #if PX_DEBUG_VEHICLE_ON
-	for(PxU32 i=0;i<vehDrive4W->mWheelsSimData.mNbWheels4;i++)
+	if (vehTelemetryDataContext)
 	{
-		updateGraphDataInternalWheelDynamics(4*i,vehDrive4W->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds);
+		for(PxU32 i=0;i<vehDrive4W->mWheelsSimData.mNbWheels4;i++)
+		{
+			updateGraphDataInternalWheelDynamics(4*i,vehDrive4W->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds, vehTelemetryDataContext->wheelGraphData);
+		}
+		updateGraphDataInternalEngineDynamics(vehDrive4W->mDriveDynData.getEngineRotationSpeed(), vehTelemetryDataContext->engineGraphData);
 	}
-	updateGraphDataInternalEngineDynamics(vehDrive4W->mDriveDynData.getEngineRotationSpeed());
 #endif
 
 	END_TIMER(TIMER_GRAPHS);
@@ -4935,7 +4975,7 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 	}
 
 	//Awake or sleep.
-	if(vehActor->isSleeping())
+	if(vehActor->getScene() && vehActor->isSleeping())  //Support case where actor is not in a scene and constraints get solved via immediate mode
 	{
 		if(finiteInputApplied)
 		{
@@ -5069,7 +5109,8 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 		currentGear=driveDynData.getCurrentGear();
 		G=computeGearRatio(gearsData,currentGear);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataGearRatio(G);
+		if (vehTelemetryDataContext)
+			updateGraphDataGearRatio(G, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -5083,7 +5124,8 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 		accel=autoboxCompensatedAnalogAccel;
 		isIntentionToAccelerate = (accel>0.0f && 0.0f==brake && 0.0f==handbrake && PxVehicleGearsData::eNEUTRAL != currentGear);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataControlInputs(accel,brake,handbrake,steerLeft,steerRight);
+		if (vehTelemetryDataContext)
+			updateGraphDataControlInputs(accel,brake,handbrake,steerLeft,steerRight, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -5110,7 +5152,8 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 		computeDiffAveWheelSpeedContributions(diffData,handbrake,aveWheelSpeedContributions);
 
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataClutchSlip(wheels4DynData.mWheelSpeeds,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G);
+		if (vehTelemetryDataContext)
+			updateGraphDataClutchSlip(wheels4DynData.mWheelSpeeds,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G, vehTelemetryDataContext->engineGraphData);
 #endif
 
 		PX_CHECK_AND_RETURN(
@@ -5187,7 +5230,7 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 				wheelLocalPoseRotations, wheelThetas, &wheels4SimData, &wheels4DynData, &tires4ForceCalculator, &tireLoadFilterData, numActiveWheelsPerBlock4[0]
 			};
 			ProcessSuspWheelTireOutputData outputData;
-			processSuspTireWheels(0, constData, inputData, outputData);
+			processSuspTireWheels(0, constData, inputData, outputData, vehTelemetryDataContext);
 			updateLowSpeedTimers(outputData.newLowForwardSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowForwardSpeedTimers));
 			updateLowSpeedTimers(outputData.newLowSideSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowSideSpeedTimers));
 			updateJounces(outputData.jounces, const_cast<PxF32*>(inputData.vehWheels4DynData->mJounces));
@@ -5227,7 +5270,8 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 				const PxF32 engineOmega=driveDynData.getEngineRotationSpeed();
 				engineDriveTorque=computeEngineDriveTorque(engineData,engineOmega,accel);
 	#if PX_DEBUG_VEHICLE_ON
-				updateGraphDataEngineDriveTorque(engineDriveTorque);
+				if (vehTelemetryDataContext)
+					updateGraphDataEngineDriveTorque(engineDriveTorque, vehTelemetryDataContext->engineGraphData);
 	#endif
 			}
 
@@ -5308,7 +5352,7 @@ PxVehicleDrive4W* vehDrive4W, PxVehicleWheelQueryResult* vehWheelQueryResults, P
 				&wheelLocalPoseRotations[j], &wheelThetas[j], &wheels4SimDatas[j], &wheels4DynDatas[j], &tires4ForceCalculators[j], &tireLoadFilterData, numActiveWheelsPerBlock4[j],
 			};
 			ProcessSuspWheelTireOutputData extraOutputData;
-			processSuspTireWheels(4*j, constData, extraInputData, extraOutputData);
+			processSuspTireWheels(4*j, constData, extraInputData, extraOutputData, vehTelemetryDataContext);
 			updateLowSpeedTimers(extraOutputData.newLowForwardSpeedTimers, const_cast<PxF32*>(extraInputData.vehWheels4DynData->mTireLowForwardSpeedTimers));
 			updateLowSpeedTimers(extraOutputData.newLowSideSpeedTimers, const_cast<PxF32*>(extraInputData.vehWheels4DynData->mTireLowSideSpeedTimers));
 			updateJounces(extraOutputData.jounces, const_cast<PxF32*>(extraInputData.vehWheels4DynData->mJounces));
@@ -5428,8 +5472,13 @@ void PxVehicleUpdate::updateDriveNW
 (const PxF32 timestep, 
  const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude,
  const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
- PxVehicleDriveNW* vehDriveNW, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates)
+ PxVehicleDriveNW* vehDriveNW, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+ VehicleTelemetryDataContext* vehTelemetryDataContext)
 {
+#if !PX_DEBUG_VEHICLE_ON
+	PX_UNUSED(vehTelemetryDataContext);
+#endif
+
 	PX_SIMD_GUARD; // denorm exception triggered in transformInertiaTensor() on osx
 
 	START_TIMER(TIMER_ADMIN);
@@ -5477,11 +5526,14 @@ void PxVehicleUpdate::updateDriveNW
 	START_TIMER(TIMER_GRAPHS);
 
 #if PX_DEBUG_VEHICLE_ON
-	for(PxU32 i=0;i<vehDriveNW->mWheelsSimData.mNbWheels4;i++)
+	if (vehTelemetryDataContext)
 	{
-		updateGraphDataInternalWheelDynamics(4*i,vehDriveNW->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds);
+		for(PxU32 i=0;i<vehDriveNW->mWheelsSimData.mNbWheels4;i++)
+		{
+			updateGraphDataInternalWheelDynamics(4*i,vehDriveNW->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds, vehTelemetryDataContext->wheelGraphData);
+		}
+		updateGraphDataInternalEngineDynamics(vehDriveNW->mDriveDynData.getEngineRotationSpeed(), vehTelemetryDataContext->engineGraphData);
 	}
-	updateGraphDataInternalEngineDynamics(vehDriveNW->mDriveDynData.getEngineRotationSpeed());
 #endif
 
 	END_TIMER(TIMER_GRAPHS);
@@ -5528,7 +5580,7 @@ void PxVehicleUpdate::updateDriveNW
 
 	//Awake or sleep.
 	{
-		if(vehActor->isSleeping())
+		if(vehActor->getScene() && vehActor->isSleeping())  //Support case where actor is not in a scene and constraints get solved via immediate mode
 		{
 			if(finiteInputApplied)
 			{
@@ -5653,7 +5705,8 @@ void PxVehicleUpdate::updateDriveNW
 		currentGear=driveDynData.getCurrentGear();
 		G=computeGearRatio(gearsData,currentGear);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataGearRatio(G);
+		if (vehTelemetryDataContext)
+			updateGraphDataGearRatio(G, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -5667,7 +5720,8 @@ void PxVehicleUpdate::updateDriveNW
 		accel=autoboxCompensatedAnalogAccel;
 		isIntentionToAccelerate = (accel>0.0f && 0.0f==brake && 0.0f==handbrake && PxVehicleGearsData::eNEUTRAL != currentGear);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataControlInputs(accel,brake,handbrake,steerLeft,steerRight);
+		if (vehTelemetryDataContext)
+			updateGraphDataControlInputs(accel,brake,handbrake,steerLeft,steerRight, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -5690,7 +5744,8 @@ void PxVehicleUpdate::updateDriveNW
 		aveWheelSpeedContributions[i] = diffData.getIsDrivenWheel(i) ? invNumDrivenWheels : 0;
 	}
 #if PX_DEBUG_VEHICLE_ON
-	updateGraphDataClutchSlipNW(numWheels4,wheels4DynDatas,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G);
+	if (vehTelemetryDataContext)
+		updateGraphDataClutchSlipNW(numWheels4,wheels4DynDatas,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G, vehTelemetryDataContext->engineGraphData);
 #endif
 
 	//Compute a per-wheel accelerator pedal value.
@@ -5779,7 +5834,7 @@ void PxVehicleUpdate::updateDriveNW
 				carChassisTransform, carChassisLinVel, carChassisAngVel, 
 				&wheelLocalPoseRotations[i], &wheelThetas[i], &wheels4SimDatas[i], &wheels4DynDatas[i], &tires4ForceCalculators[i], &tireLoadFilterData, numActiveWheelsPerBlock4[i]
 			};
-			processSuspTireWheels(4*i, constData, inputData, outputData[i]); 
+			processSuspTireWheels(4*i, constData, inputData, outputData[i], vehTelemetryDataContext);
 			updateLowSpeedTimers(outputData[i].newLowForwardSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowForwardSpeedTimers));
 			updateLowSpeedTimers(outputData[i].newLowSideSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowSideSpeedTimers));
 			updateJounces(outputData[i].jounces, const_cast<PxF32*>(inputData.vehWheels4DynData->mJounces));
@@ -5816,7 +5871,8 @@ void PxVehicleUpdate::updateDriveNW
 			const PxF32 engineOmega=driveDynData.getEngineRotationSpeed();
 			engineDriveTorque=computeEngineDriveTorque(engineData,engineOmega,accel);
 #if PX_DEBUG_VEHICLE_ON
-			updateGraphDataEngineDriveTorque(engineDriveTorque);
+			if (vehTelemetryDataContext)
+				updateGraphDataEngineDriveTorque(engineDriveTorque, vehTelemetryDataContext->engineGraphData);
 #endif
 		}
 
@@ -5947,8 +6003,13 @@ void PxVehicleUpdate::updateTank
 (const PxF32 timestep, 
  const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude, 
  const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
- PxVehicleDriveTank* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates)
+ PxVehicleDriveTank* vehDriveTank, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+ VehicleTelemetryDataContext* vehTelemetryDataContext)
 {
+#if !PX_DEBUG_VEHICLE_ON
+	PX_UNUSED(vehTelemetryDataContext);
+#endif
+
 	PX_SIMD_GUARD; // denorm exception in transformInertiaTensor()
 	
 	PX_CHECK_AND_RETURN(
@@ -6018,11 +6079,14 @@ void PxVehicleUpdate::updateTank
 
 
 #if PX_DEBUG_VEHICLE_ON
-	for(PxU32 i=0;i<vehDriveTank->mWheelsSimData.mNbWheels4;i++)
+	if (vehTelemetryDataContext)
 	{
-		updateGraphDataInternalWheelDynamics(4*i,vehDriveTank->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds);
+		for(PxU32 i=0;i<vehDriveTank->mWheelsSimData.mNbWheels4;i++)
+		{
+			updateGraphDataInternalWheelDynamics(4*i,vehDriveTank->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds, vehTelemetryDataContext->wheelGraphData);
+		}
+		updateGraphDataInternalEngineDynamics(vehDriveTank->mDriveDynData.getEngineRotationSpeed(), vehTelemetryDataContext->engineGraphData);
 	}
-	updateGraphDataInternalEngineDynamics(vehDriveTank->mDriveDynData.getEngineRotationSpeed());
 #endif
 
 	//Unpack the tank simulation and instanced dynamics components.
@@ -6054,7 +6118,7 @@ void PxVehicleUpdate::updateTank
 
 	//Awake or sleep.
 	{
-		if(vehActor->isSleeping())
+		if(vehActor->getScene() && vehActor->isSleeping())  //Support case where actor is not in a scene and constraints get solved via immediate mode
 		{
 			if(finiteInputApplied)
 			{
@@ -6155,7 +6219,8 @@ void PxVehicleUpdate::updateTank
 	{
 		getTankControlValues(driveDynData,accel,brakeLeft,brakeRight,thrustLeft,thrustRight);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataControlInputs(accel,brakeLeft,brakeRight,thrustLeft,thrustRight);
+		if (vehTelemetryDataContext)
+			updateGraphDataControlInputs(accel,brakeLeft,brakeRight,thrustLeft,thrustRight, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -6197,7 +6262,8 @@ void PxVehicleUpdate::updateTank
 		currentGear=driveDynData.getCurrentGear();
 		G=computeGearRatio(gearsData,currentGear);
 #if PX_DEBUG_VEHICLE_ON
-		updateGraphDataGearRatio(G);
+		if (vehTelemetryDataContext)
+			updateGraphDataGearRatio(G, vehTelemetryDataContext->engineGraphData);
 #endif
 	}
 
@@ -6245,7 +6311,8 @@ void PxVehicleUpdate::updateTank
 
 
 #if PX_DEBUG_VEHICLE_ON
-	updateGraphDataClutchSlip(wheels4DynDatas[0].mWheelSpeeds,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G);
+	if (vehTelemetryDataContext)
+		updateGraphDataClutchSlip(wheels4DynDatas[0].mWheelSpeeds,aveWheelSpeedContributions,driveDynData.getEngineRotationSpeed(),G, vehTelemetryDataContext->engineGraphData);
 #endif
 
 	//Ackermann-corrected steer angles 
@@ -6299,7 +6366,7 @@ void PxVehicleUpdate::updateTank
 				carChassisTransform, carChassisLinVel, carChassisAngVel,
 				&wheelLocalPoseRotations[i], &wheelThetas[i], &wheels4SimDatas[i], &wheels4DynDatas[i], &tires4ForceCalculators[i], &tireLoadFilterData, numActiveWheelsPerBlock4[i],
 			};
-			processSuspTireWheels(i*4, constData, inputData, outputData[i]);
+			processSuspTireWheels(i*4, constData, inputData, outputData[i], vehTelemetryDataContext);
 			updateLowSpeedTimers(outputData[i].newLowForwardSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowForwardSpeedTimers));
 			updateLowSpeedTimers(outputData[i].newLowSideSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowSideSpeedTimers));
 			updateJounces(outputData[i].jounces, const_cast<PxF32*>(inputData.vehWheels4DynData->mJounces));
@@ -6333,7 +6400,8 @@ void PxVehicleUpdate::updateTank
 			const PxF32 engineOmega=driveDynData.getEngineRotationSpeed();
 			engineDriveTorque=computeEngineDriveTorque(engineData,engineOmega,accel);
 #if PX_DEBUG_VEHICLE_ON
-			updateGraphDataEngineDriveTorque(engineDriveTorque);
+			if (vehTelemetryDataContext)
+				updateGraphDataEngineDriveTorque(engineDriveTorque, vehTelemetryDataContext->engineGraphData);
 #endif
 		}
 
@@ -6452,8 +6520,13 @@ void PxVehicleUpdate::updateNoDrive
 (const PxF32 timestep, 
  const PxVec3& gravity, const PxF32 gravityMagnitude, const PxF32 recipGravityMagnitude,
  const PxVehicleDrivableSurfaceToTireFrictionPairs& drivableSurfaceToTireFrictionPairs,
- PxVehicleNoDrive* vehNoDrive, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates)
+ PxVehicleNoDrive* vehNoDrive, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleConcurrentUpdateData* vehConcurrentUpdates,
+ VehicleTelemetryDataContext* vehTelemetryDataContext)
 {
+#if !PX_DEBUG_VEHICLE_ON
+	PX_UNUSED(vehTelemetryDataContext);
+#endif
+
 	PX_SIMD_GUARD; // denorm exception in transformInertiaTensor() on osx
 
 	PX_CHECK_AND_RETURN(
@@ -6474,9 +6547,12 @@ void PxVehicleUpdate::updateNoDrive
 #endif
 
 #if PX_DEBUG_VEHICLE_ON
-	for(PxU32 i=0;i<vehNoDrive->mWheelsSimData.mNbWheels4;i++)
+	if (vehTelemetryDataContext)
 	{
-		updateGraphDataInternalWheelDynamics(4*i,vehNoDrive->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds);
+		for(PxU32 i=0;i<vehNoDrive->mWheelsSimData.mNbWheels4;i++)
+		{
+			updateGraphDataInternalWheelDynamics(4*i,vehNoDrive->mWheelsDynData.mWheels4DynData[i].mWheelSpeeds, vehTelemetryDataContext->wheelGraphData);
+		}
 	}
 #endif
 
@@ -6513,7 +6589,7 @@ void PxVehicleUpdate::updateNoDrive
 
 	//Wake or sleep.
 	{
-		if(vehActor->isSleeping())
+		if(vehActor->getScene() && vehActor->isSleeping())  //Support case where actor is not in a scene and constraints get solved via immediate mode
 		{
 			if(finiteInputApplied)
 			{
@@ -6676,7 +6752,7 @@ void PxVehicleUpdate::updateNoDrive
 				&wheelLocalPoseRotations[i], &wheelThetas[i], &wheels4SimData, &wheels4DynData, &tires4ForceCalculators[i], &tireLoadFilterData, numActiveWheelsPerBlock4[i]
 			};
 			ProcessSuspWheelTireOutputData outputData;
-			processSuspTireWheels(4*i, constData, inputData, outputData);
+			processSuspTireWheels(4*i, constData, inputData, outputData, vehTelemetryDataContext);
 			updateLowSpeedTimers(outputData.newLowForwardSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowForwardSpeedTimers));
 			updateLowSpeedTimers(outputData.newLowSideSpeedTimers, const_cast<PxF32*>(inputData.vehWheels4DynData->mTireLowSideSpeedTimers));
 			updateJounces(outputData.jounces, const_cast<PxF32*>(inputData.vehWheels4DynData->mJounces));
@@ -6849,149 +6925,31 @@ void PxVehicleUpdate::shiftOrigin(const PxVec3& shift, const PxU32 numVehicles, 
 //Update a single vehicle of any type and record the associated telemetry data.
 /////////////////////////////////////////////////////////////////////////////////
 
-void PxVehicleUpdate::updateSingleVehicleAndStoreTelemetryData
+PX_FORCE_INLINE void PxVehicleUpdate::updateSingleVehicleAndStoreTelemetryData
 (const PxF32 timestep, const PxVec3& gravity, const PxVehicleDrivableSurfaceToTireFrictionPairs& vehicleDrivableSurfaceToTireFrictionPairs, 
- PxVehicleWheels* vehWheels, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleTelemetryData& telemetryData)
+ PxVehicleWheels* vehWheels, PxVehicleWheelQueryResult* vehWheelQueryResults, PxVehicleTelemetryData& telemetryData,
+ PxVehicleConcurrentUpdateData* vehConcurrentUpdates)
 {
 	START_TIMER(TIMER_ALL);
 
-	PX_CHECK_MSG(gravity.magnitude()>0, "gravity vector must have non-zero length");
-	PX_CHECK_MSG(timestep>0, "timestep must be greater than zero");
-	PX_CHECK_AND_RETURN(gThresholdForwardSpeedForWheelAngleIntegration>0, "PxInitVehicleSDK needs to be called before ever calling PxVehicleUpdateSingleVehicleAndStoreTelemetryData");
 	PX_CHECK_MSG(vehWheels->mWheelsSimData.getNbWheels()==telemetryData.getNbWheelGraphs(), "vehicle and telemetry data need to have the same number of wheels");
-	PX_CHECK_AND_RETURN(NULL==vehWheelQueryResults || vehWheelQueryResults->nbWheelQueryResults >= vehWheels->mWheelsSimData.getNbWheels(),
-		"nbWheelQueryResults must always be greater than or equal to number of wheels in corresponding vehicle");
 
-#if PX_CHECKED
-	for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbWheels4;i++)
-	{
-		PX_CHECK_MSG(vehWheels->mWheelsDynData.mWheels4DynData[i].mRaycastResults || vehWheels->mWheelsDynData.mWheels4DynData[i].mSweepResults,
-			"Need to call PxVehicleSuspensionRaycasts or PxVehicleSuspensionSweeps before trying to update");
-	}
-	for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
-	{
-		PX_CHECK_MSG(vehWheels->mWheelsDynData.mTireForceCalculators->mShaderData[i], "Need to set non-null tire force shader data ptr");
-	}
-	PX_CHECK_MSG(vehWheels->mWheelsDynData.mTireForceCalculators->mShader, "Need to set non-null tire force shader function");
+	VehicleTelemetryDataContext vehicleTelemetryDataContext;
+	PxMemZero(vehicleTelemetryDataContext.wheelGraphData, sizeof(vehicleTelemetryDataContext.wheelGraphData));
+	PxMemZero(vehicleTelemetryDataContext.engineGraphData, sizeof(vehicleTelemetryDataContext.engineGraphData));
+	PxMemZero(vehicleTelemetryDataContext.suspForceAppPoints, sizeof(vehicleTelemetryDataContext.suspForceAppPoints));
+	PxMemZero(vehicleTelemetryDataContext.tireForceAppPoints, sizeof(vehicleTelemetryDataContext.tireForceAppPoints));
+
+	update(timestep, gravity, vehicleDrivableSurfaceToTireFrictionPairs, 1, &vehWheels, vehWheelQueryResults, vehConcurrentUpdates,
+		&vehicleTelemetryDataContext);
 
 	for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
 	{
-		PX_CHECK_AND_RETURN(!vehWheels->mWheelsSimData.getIsWheelDisabled(i) || -1==vehWheels->mWheelsSimData.getWheelShapeMapping(i), 
-			"Disabled wheels must not be associated with a PxShape:  use setWheelShapeMapping to remove the association");
-		PX_CHECK_AND_RETURN(!vehWheels->mWheelsSimData.getIsWheelDisabled(i) || 0==vehWheels->mWheelsDynData.getWheelRotationSpeed(i), 
-			"Disabled wheels must have zero rotation speed:  use setWheelRotationSpeed to set the wheel to zero rotation speed");
+		telemetryData.mWheelGraphs[i].updateTimeSlice(vehicleTelemetryDataContext.wheelGraphData[i]);
+		telemetryData.mSuspforceAppPoints[i]=vehicleTelemetryDataContext.suspForceAppPoints[i];
+		telemetryData.mTireforceAppPoints[i]=vehicleTelemetryDataContext.tireForceAppPoints[i];
 	}
-#endif
-
-	PxF32 engineGraphData[PxVehicleDriveGraphChannel::eMAX_NB_DRIVE_CHANNELS];
-	PxMemZero(&engineGraphData[0], PxVehicleDriveGraphChannel::eMAX_NB_DRIVE_CHANNELS*sizeof(PxF32));
-	gCarEngineGraphData=engineGraphData;
-
-	PxF32 wheelGraphData[PX_MAX_NB_WHEELS][PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS];
-	PxMemZero(&wheelGraphData[0][0], PX_MAX_NB_WHEELS*PxVehicleWheelGraphChannel::eMAX_NB_WHEEL_CHANNELS*sizeof(PxF32));
-	for(PxU32 i=0;i<4*vehWheels->mWheelsSimData.mNbWheels4;i++)
-	{
-		gCarWheelGraphData[i]=wheelGraphData[i];
-	}
-	for(PxU32 i=4*vehWheels->mWheelsSimData.mNbWheels4; i<PX_MAX_NB_WHEELS;i++)
-	{
-		gCarWheelGraphData[i]=NULL;
-	}
-
-	PxVec3 suspForceAppPoints[PX_MAX_NB_WHEELS];
-	PxMemZero(suspForceAppPoints, PX_MAX_NB_WHEELS*sizeof(PxVec3));
-	gCarSuspForceAppPoints=suspForceAppPoints;
-
-	PxVec3 tireForceAppPoints[PX_MAX_NB_WHEELS];
-	PxMemZero(tireForceAppPoints, PX_MAX_NB_WHEELS*sizeof(PxVec3));
-	gCarTireForceAppPoints=tireForceAppPoints;
-
-	const PxF32 gravityMagnitude=gravity.magnitude();
-	const PxF32 recipGravityMagnitude=1.0f/gravityMagnitude;
-
-	switch(vehWheels->mType)
-	{
-	case PxVehicleTypes::eDRIVE4W:
-		{
-			PxVehicleDrive4W* vehDrive4W=static_cast<PxVehicleDrive4W*>(vehWheels);
-
-			PxVehicleUpdate::updateDrive4W(
-				timestep,
-				gravity, gravityMagnitude, recipGravityMagnitude,
-				vehicleDrivableSurfaceToTireFrictionPairs,
-				vehDrive4W, vehWheelQueryResults, NULL);
-				
-			for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
-			{
-				telemetryData.mWheelGraphs[i].updateTimeSlice(wheelGraphData[i]);
-				telemetryData.mSuspforceAppPoints[i]=suspForceAppPoints[i];
-				telemetryData.mTireforceAppPoints[i]=tireForceAppPoints[i];
-			}
-			telemetryData.mEngineGraph->updateTimeSlice(engineGraphData);
-		}
-		break;
-	case PxVehicleTypes::eDRIVENW:
-		{
-			PxVehicleDriveNW* vehDriveNW=static_cast<PxVehicleDriveNW*>(vehWheels);
-
-			PxVehicleUpdate::updateDriveNW(
-				timestep,
-				gravity, gravityMagnitude, recipGravityMagnitude,
-				vehicleDrivableSurfaceToTireFrictionPairs,
-				vehDriveNW, vehWheelQueryResults, NULL);
-
-			for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
-			{
-				telemetryData.mWheelGraphs[i].updateTimeSlice(wheelGraphData[i]);
-				telemetryData.mSuspforceAppPoints[i]=suspForceAppPoints[i];
-				telemetryData.mTireforceAppPoints[i]=tireForceAppPoints[i];
-			}
-			telemetryData.mEngineGraph->updateTimeSlice(engineGraphData);
-		}
-		break;
-
-	case PxVehicleTypes::eDRIVETANK:
-		{
-			PxVehicleDriveTank* vehDriveTank=static_cast<PxVehicleDriveTank*>(vehWheels);
-
-			PxVehicleUpdate::updateTank(
-				timestep,
-				gravity,gravityMagnitude,recipGravityMagnitude,
-				vehicleDrivableSurfaceToTireFrictionPairs,
-				vehDriveTank, vehWheelQueryResults, NULL);
-				
-			for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
-			{
-				telemetryData.mWheelGraphs[i].updateTimeSlice(wheelGraphData[i]);
-				telemetryData.mSuspforceAppPoints[i]=suspForceAppPoints[i];
-				telemetryData.mTireforceAppPoints[i]=tireForceAppPoints[i];
-			}
-			telemetryData.mEngineGraph->updateTimeSlice(engineGraphData);
-		}
-		break;
-	case PxVehicleTypes::eNODRIVE:
-		{
-			PxVehicleNoDrive* vehDriveNoDrive=static_cast<PxVehicleNoDrive*>(vehWheels);
-
-			PxVehicleUpdate::updateNoDrive(					
-				timestep,
-				gravity,gravityMagnitude,recipGravityMagnitude,
-				vehicleDrivableSurfaceToTireFrictionPairs,
-				vehDriveNoDrive, vehWheelQueryResults, NULL);
-
-			for(PxU32 i=0;i<vehWheels->mWheelsSimData.mNbActiveWheels;i++)
-			{
-				telemetryData.mWheelGraphs[i].updateTimeSlice(wheelGraphData[i]);
-				telemetryData.mSuspforceAppPoints[i]=suspForceAppPoints[i];
-				telemetryData.mTireforceAppPoints[i]=tireForceAppPoints[i];
-			}
-		}
-		break;
-
-	default:
-		PX_CHECK_MSG(false, "updateSingleVehicleAndStoreTelemetryData - unsupported vehicle type"); 
-		break;
-	}
+	telemetryData.mEngineGraph->updateTimeSlice(vehicleTelemetryDataContext.engineGraphData);
 
 	END_TIMER(TIMER_ALL);
 
@@ -7034,10 +6992,12 @@ void PxVehicleUpdate::updateSingleVehicleAndStoreTelemetryData
 
 void physx::PxVehicleUpdateSingleVehicleAndStoreTelemetryData
 (const PxReal timestep, const PxVec3& gravity, const physx::PxVehicleDrivableSurfaceToTireFrictionPairs& vehicleDrivableSurfaceToTireFrictionPairs, 
- PxVehicleWheels* focusVehicle, PxVehicleWheelQueryResult* wheelQueryResults, PxVehicleTelemetryData& telemetryData)
+ PxVehicleWheels* focusVehicle, PxVehicleWheelQueryResult* wheelQueryResults, PxVehicleTelemetryData& telemetryData,
+ PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates)
 {
 	PxVehicleUpdate::updateSingleVehicleAndStoreTelemetryData
-		(timestep, gravity, vehicleDrivableSurfaceToTireFrictionPairs, focusVehicle, wheelQueryResults, telemetryData);
+		(timestep, gravity, vehicleDrivableSurfaceToTireFrictionPairs, focusVehicle, wheelQueryResults, telemetryData,
+		vehicleConcurrentUpdates);
 }
 
 #endif
@@ -7048,11 +7008,12 @@ void physx::PxVehicleUpdateSingleVehicleAndStoreTelemetryData
 
 void PxVehicleUpdate::update
 (const PxF32 timestep, const PxVec3& gravity, const PxVehicleDrivableSurfaceToTireFrictionPairs& vehicleDrivableSurfaceToTireFrictionPairs, 
- const PxU32 numVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* vehicleWheelQueryResults, PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates)
+ const PxU32 numVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* vehicleWheelQueryResults, PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates,
+ VehicleTelemetryDataContext* vehicleTelemetryDataContext)
 {
 	PX_CHECK_AND_RETURN(gravity.magnitude()>0, "gravity vector must have non-zero length");
 	PX_CHECK_AND_RETURN(timestep>0, "timestep must be greater than zero");
-	PX_CHECK_AND_RETURN(gThresholdForwardSpeedForWheelAngleIntegration>0, "PxInitVehicleSDK needs to be called before ever calling PxVehicleUpdates");
+	PX_CHECK_AND_RETURN(gThresholdForwardSpeedForWheelAngleIntegration>0, "PxInitVehicleSDK needs to be called before ever calling PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData");
 
 #if PX_CHECKED
 	for(PxU32 i=0;i<numVehicles;i++)
@@ -7100,16 +7061,6 @@ void PxVehicleUpdate::update
 	}
 #endif
 
-#if PX_DEBUG_VEHICLE_ON
-	gCarEngineGraphData=NULL;
-	for(PxU32 j=0;j<PX_MAX_NB_WHEELS;j++)
-	{
-		gCarWheelGraphData[j]=NULL;
-	}
-	gCarSuspForceAppPoints=NULL;
-	gCarTireForceAppPoints=NULL;
-#endif
-
 	const PxF32 gravityMagnitude=gravity.magnitude();
 	const PxF32 recipGravityMagnitude=1.0f/gravityMagnitude;
 
@@ -7128,7 +7079,7 @@ void PxVehicleUpdate::update
 					timestep,
 					gravity,gravityMagnitude,recipGravityMagnitude,
 					vehicleDrivableSurfaceToTireFrictionPairs,
-					vehDrive4W, vehWheelQueryResults, vehConcurrentUpdateData);
+					vehDrive4W, vehWheelQueryResults, vehConcurrentUpdateData, vehicleTelemetryDataContext);
 				}
 			break;
 
@@ -7140,7 +7091,7 @@ void PxVehicleUpdate::update
 					timestep,
 					gravity,gravityMagnitude,recipGravityMagnitude,
 					vehicleDrivableSurfaceToTireFrictionPairs,
-					vehDriveNW, vehWheelQueryResults, vehConcurrentUpdateData);
+					vehDriveNW, vehWheelQueryResults, vehConcurrentUpdateData, vehicleTelemetryDataContext);
 			}
 			break;
 
@@ -7152,7 +7103,7 @@ void PxVehicleUpdate::update
 					timestep,
 					gravity,gravityMagnitude,recipGravityMagnitude,
 					vehicleDrivableSurfaceToTireFrictionPairs,
-					vehDriveTank, vehWheelQueryResults, vehConcurrentUpdateData);
+					vehDriveTank, vehWheelQueryResults, vehConcurrentUpdateData, vehicleTelemetryDataContext);
 			}
 			break;	
 
@@ -7164,7 +7115,7 @@ void PxVehicleUpdate::update
 					timestep,
 					gravity,gravityMagnitude,recipGravityMagnitude,
 					vehicleDrivableSurfaceToTireFrictionPairs,
-					vehDriveNoDrive, vehWheelQueryResults, vehConcurrentUpdateData);
+					vehDriveNoDrive, vehWheelQueryResults, vehConcurrentUpdateData, vehicleTelemetryDataContext);
 			}
 			break;
 			
@@ -7215,7 +7166,7 @@ void PxVehicleUpdate::updatePost
 		if(!vehicleConcurrentUpdate.staySleeping)
 		{
 			//Wake the vehicle's actor up as required.
-			if(vehicleConcurrentUpdate.wakeup)
+			if(vehicleConcurrentUpdate.wakeup && vehActor->getScene())  //Support case where actor is not in a scene and constraints get solved via immediate mode
 			{
 				vehActor->wakeUp();
 			}
@@ -7279,7 +7230,8 @@ void physx::PxVehicleUpdates
  const PxU32 numVehicles, PxVehicleWheels** vehicles, PxVehicleWheelQueryResult* vehicleWheelQueryResults, PxVehicleConcurrentUpdateData* vehicleConcurrentUpdates)
 {
 	PX_PROFILE_ZONE("PxVehicleUpdates::ePROFILE_UPDATES",0);
-	PxVehicleUpdate::update(timestep, gravity, vehicleDrivableSurfaceToTireFrictionPairs, numVehicles, vehicles, vehicleWheelQueryResults, vehicleConcurrentUpdates);
+	PxVehicleUpdate::update(timestep, gravity, vehicleDrivableSurfaceToTireFrictionPairs, numVehicles, vehicles, vehicleWheelQueryResults, vehicleConcurrentUpdates,
+		NULL);
 }
 
 void physx::PxVehiclePostUpdates
@@ -7468,7 +7420,7 @@ void PxVehicleWheels4SuspensionSweeps
  const PxU16 nbHitsPerQuery,
  const PxI32* wheelShapeIds,
  PxRigidDynamic* vehActor,
- const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale)
+ const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale, const PxF32 sweepInflation)
 {
 	PX_UNUSED(sweepWidthScale);
 	PX_UNUSED(sweepRadiusScale);
@@ -7556,7 +7508,7 @@ void PxVehicleWheels4SuspensionSweeps
 		batchQuery->sweep(sweep.mGometries[j].any(),
 			suspPoseStart, suspLineDir, suspLineLength, nbHitsPerQuery,
 			PxHitFlag::ePOSITION|PxHitFlag::eNORMAL|PxHitFlag::eUV, 
-			carFilterData[j]);
+			carFilterData[j], NULL, NULL, sweepInflation);
 	}
 }
 
@@ -7566,7 +7518,7 @@ void PxVehicleUpdate::suspensionSweeps
  const PxU32 numVehicles, PxVehicleWheels** vehicles, 
  const PxU32 numSceneQueryResults, PxSweepQueryResult* sceneQueryResults, const PxU16 nbHitsPerQuery,
  const bool* vehiclesToSweep,
- const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale)
+ const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale, const PxF32 sweepInflation)
 {
 	PX_CHECK_MSG(sweepWidthScale > 0.0f, "PxVehicleUpdate::suspensionSweeps - sweepWidthScale must be greater than 0.0");
 	PX_CHECK_MSG(sweepRadiusScale > 0.0f, "PxVehicleUpdate::suspensionSweeps - sweepRadiusScale must be greater than 0.0");
@@ -7639,7 +7591,7 @@ void PxVehicleUpdate::suspensionSweeps
 						nbHitsPerQuery,
 						wheelShapeIds4,
 						vehActor, 
-						sweepWidthScale, sweepRadiusScale);
+						sweepWidthScale, sweepRadiusScale, sweepInflation);
 				}
 				else
 				{
@@ -7677,7 +7629,7 @@ void PxVehicleUpdate::suspensionSweeps
 						nbHitsPerQuery,
 						wheelShapeIds4,
 						vehActor,
-						sweepWidthScale, sweepRadiusScale);
+						sweepWidthScale, sweepRadiusScale, sweepInflation);
 				}
 				else
 				{
@@ -7700,11 +7652,10 @@ namespace physx
      const PxU32 nbVehicles, PxVehicleWheels** vehicles,
      const PxU32 nbSceneQueryResults, PxSweepQueryResult* sceneQueryResults, const PxU16 nbHitsPerQuery,
      const bool* vehiclesToSweep,
-     const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale)
+     const PxF32 sweepWidthScale, const PxF32 sweepRadiusScale, const PxF32 sweepInflation)
     {
         PX_PROFILE_ZONE("PxVehicleSuspensionSweeps::ePROFILE_SWEEPS",0);
-        PxVehicleUpdate::suspensionSweeps(
-                                          batchQuery, nbVehicles, vehicles, nbSceneQueryResults, sceneQueryResults, nbHitsPerQuery, vehiclesToSweep, sweepWidthScale, sweepRadiusScale);
+        PxVehicleUpdate::suspensionSweeps(batchQuery, nbVehicles, vehicles, nbSceneQueryResults, sceneQueryResults, nbHitsPerQuery, vehiclesToSweep, sweepWidthScale, sweepRadiusScale, sweepInflation);
     }
 }
 

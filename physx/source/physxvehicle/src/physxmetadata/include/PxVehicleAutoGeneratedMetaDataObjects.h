@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -1012,6 +1012,8 @@ template<> struct PxEnumTraits< physx::PxVehicleClutchAccuracyMode::Enum > { PxE
 
 	static PxU32ToName g_physx__PxVehicleWheelsSimFlag__EnumConversion[] = {
 		{ "eLIMIT_SUSPENSION_EXPANSION_VELOCITY", static_cast<PxU32>( physx::PxVehicleWheelsSimFlag::eLIMIT_SUSPENSION_EXPANSION_VELOCITY ) },
+		{ "eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST", static_cast<PxU32>( physx::PxVehicleWheelsSimFlag::eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST ) },
+		{ "eDISABLE_SUSPENSION_FORCE_PROJECTION", static_cast<PxU32>( physx::PxVehicleWheelsSimFlag::eDISABLE_SUSPENSION_FORCE_PROJECTION ) },
 		{ NULL, 0 }
 	};
 
@@ -1123,6 +1125,7 @@ template<> struct PxEnumTraits< physx::PxVehicleWheelsSimFlag::Enum > { PxEnumTr
 		PxExtendedIndexedPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsDynData_WheelRotationSpeed, PxVehicleWheelsDynData, const PxU32, PxReal > WheelRotationSpeed;
 		PxExtendedIndexedPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsDynData_WheelRotationAngle, PxVehicleWheelsDynData, const PxU32, PxReal > WheelRotationAngle;
 		PxReadOnlyPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsDynData_Wheel4DynData, PxVehicleWheelsDynData, PxVehicleWheels4DynData * > Wheel4DynData;
+		PxReadOnlyCollectionPropertyInfo<PX_PROPERTY_INFO_NAME::PxVehicleWheelsDynData_Constraints, PxVehicleWheelsDynData, PxConstraint * > Constraints;
 
 		 PxVehicleWheelsDynDataGeneratedInfo();
 		template<typename TReturnType, typename TOperator>
@@ -1142,7 +1145,7 @@ template<> struct PxEnumTraits< physx::PxVehicleWheelsSimFlag::Enum > { PxEnumTr
 			PX_UNUSED(inStartIndex);
 			return inStartIndex;
 		}
-		static PxU32 instancePropertyCount() { return 4; }
+		static PxU32 instancePropertyCount() { return 5; }
 		static PxU32 totalPropertyCount() { return instancePropertyCount(); }
 		template<typename TOperator>
 		PxU32 visitInstanceProperties( TOperator inOperator, PxU32 inStartIndex = 0 ) const
@@ -1153,7 +1156,8 @@ template<> struct PxEnumTraits< physx::PxVehicleWheelsSimFlag::Enum > { PxEnumTr
 			inOperator( WheelRotationSpeed, inStartIndex + 1 );; 
 			inOperator( WheelRotationAngle, inStartIndex + 2 );; 
 			inOperator( Wheel4DynData, inStartIndex + 3 );; 
-			return 4 + inStartIndex;
+			inOperator( Constraints, inStartIndex + 4 );; 
+			return 5 + inStartIndex;
 		}
 	};
 	template<> struct PxClassInfoTraits<PxVehicleWheelsDynData>

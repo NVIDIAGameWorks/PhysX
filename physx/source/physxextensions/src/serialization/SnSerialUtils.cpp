@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -57,7 +57,7 @@ const PxU32 sBinaryPlatformTags[SN_NUM_BINARY_PLATFORMS] =
 	PX_MAKE_FOURCC('N','X','6','4'),
 	PX_MAKE_FOURCC('L','A','6','4'),
 	PX_MAKE_FOURCC('W','A','3','2'),
-	PX_MAKE_FOURCC('W','A','6','4')
+	PX_MAKE_FOURCC('W','A','6','4'),
 };
 
 const char* sBinaryPlatformNames[SN_NUM_BINARY_PLATFORMS] =
@@ -77,7 +77,7 @@ const char* sBinaryPlatformNames[SN_NUM_BINARY_PLATFORMS] =
 	"switch64",
 	"linuxaarch64",
 	"uwparm",
-	"uwparm64"
+	"uwparm64",
 };
 
 }
@@ -106,7 +106,7 @@ PxU32 getBinaryPlatformTag()
 	return sBinaryPlatformTags[8];
 #elif PX_IOS && PX_A64
 	return sBinaryPlatformTags[9];
-#elif PX_XBOXONE
+#elif PX_XBOXONE || PX_XBOX_SERIES_X
 	return sBinaryPlatformTags[10];
 #elif PX_SWITCH && !PX_A64
 	return sBinaryPlatformTags[11];

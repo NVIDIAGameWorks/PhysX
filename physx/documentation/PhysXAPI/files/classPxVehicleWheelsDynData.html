@@ -145,6 +145,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae519737c26f129dd48ef9c8220dd5d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da81b038812e2575103f5e1c50cdc45"><td class="memItemLeft" align="right" valign="top">PxVehicleWheels4DynData *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxVehicleWheelsDynData.html#a5da81b038812e2575103f5e1c50cdc45">getWheel4DynData</a> () const</td></tr>
 <tr class="separator:a5da81b038812e2575103f5e1c50cdc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ffbce495ddbb8db4913c85d2fbe7d71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxVehicleWheelsDynData.html#a8ffbce495ddbb8db4913c85d2fbe7d71">getNbConstraints</a> () const</td></tr>
+<tr class="memdesc:a8ffbce495ddbb8db4913c85d2fbe7d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the number of <a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> objects associated with the vehicle.  <a href="#a8ffbce495ddbb8db4913c85d2fbe7d71">More...</a><br /></td></tr>
+<tr class="separator:a8ffbce495ddbb8db4913c85d2fbe7d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9773fbeeef07a828c1f3d20fdc921c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxVehicleWheelsDynData.html#ae9773fbeeef07a828c1f3d20fdc921c8">getConstraints</a> (<a class="el" href="classPxConstraint.html">PxConstraint</a> **userBuffer, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> bufferSize, <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> startIndex=0) const</td></tr>
+<tr class="memdesc:ae9773fbeeef07a828c1f3d20fdc921c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve all the <a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> objects associated with the vehicle.  <a href="#ae9773fbeeef07a828c1f3d20fdc921c8">More...</a><br /></td></tr>
+<tr class="separator:ae9773fbeeef07a828c1f3d20fdc921c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -373,6 +379,83 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9773fbeeef07a828c1f3d20fdc921c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9773fbeeef07a828c1f3d20fdc921c8">&#9670;&nbsp;</a></span>getConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxVehicleWheelsDynData::getConstraints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classPxConstraint.html">PxConstraint</a> **&#160;</td>
+          <td class="paramname"><em>userBuffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>bufferSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td>
+          <td class="paramname"><em>startIndex</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve all the <a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> objects associated with the vehicle. </p>
+<p>There is one <a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> per block of 4 wheels. The count can be extracted through <a class="el" href="classPxVehicleWheelsDynData.html#a8ffbce495ddbb8db4913c85d2fbe7d71" title="Retrieve the number of PxConstraint objects associated with the vehicle. ">getNbConstraints()</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">userBuffer</td><td>The buffer to store the constraint pointers. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">bufferSize</td><td>Size of provided user buffer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">startIndex</td><td>Index of first constraint pointer to be retrieved </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of constraint pointers written to the buffer.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> <a class="el" href="classPxVehicleWheelsDynData.html#a8ffbce495ddbb8db4913c85d2fbe7d71" title="Retrieve the number of PxConstraint objects associated with the vehicle. ">getNbConstraints()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8ffbce495ddbb8db4913c85d2fbe7d71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ffbce495ddbb8db4913c85d2fbe7d71">&#9670;&nbsp;</a></span>getNbConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> PxVehicleWheelsDynData::getNbConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieve the number of <a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> objects associated with the vehicle. </p>
+<p>You can use <a class="el" href="classPxVehicleWheelsDynData.html#ae9773fbeeef07a828c1f3d20fdc921c8" title="Retrieve all the PxConstraint objects associated with the vehicle. ">getConstraints()</a> to retrieve the constraint pointers.</p>
+<dl class="section return"><dt>Returns</dt><dd>Number of constraints associated with this vehicle.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxConstraint.html" title="A plugin class for implementing constraints. ">PxConstraint</a> <a class="el" href="classPxVehicleWheelsDynData.html#ae9773fbeeef07a828c1f3d20fdc921c8" title="Retrieve all the PxConstraint objects associated with the vehicle. ">getConstraints()</a> </dd></dl>
 
 </div>
 </div>
@@ -1037,7 +1120,7 @@ Friends</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPxVehicleWheelsDynData.html">PxVehicleWheelsDynData</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -53,10 +53,10 @@ public:
 // PX_SERIALIZATION
 										NpAggregate(PxBaseFlags baseFlags) : PxAggregate(baseFlags), mAggregate(PxEmpty) {}
 						void			preExportDataReset();
-	    virtual	        void	     	exportExtraData(PxSerializationContext& context);
+		virtual			void			exportExtraData(PxSerializationContext& context);
 						void			importExtraData(PxDeserializationContext& context);
 						void			resolveReferences(PxDeserializationContext& context);
-	    virtual	        void			requiresObjects(PxProcessPxBaseCallback& c);
+		virtual			void			requiresObjects(PxProcessPxBaseCallback& c);
 		static			NpAggregate*	createObject(PxU8*& address, PxDeserializationContext& context);
 		static			void			getBinaryMetaData(PxOutputStream& stream);
 //~PX_SERIALIZATION
@@ -89,6 +89,7 @@ public:
 						bool			removeArticulationAndReinsert(PxArticulationBase& art, bool reinsert);
 
 		PX_FORCE_INLINE	Scb::Aggregate&	getScbAggregate() { return mAggregate; }
+		static PX_FORCE_INLINE size_t	getScbAggregateOffset()	{ return PX_OFFSET_OF_RT(NpAggregate, mAggregate); }
 
 private:
 						Scb::Aggregate	mAggregate;

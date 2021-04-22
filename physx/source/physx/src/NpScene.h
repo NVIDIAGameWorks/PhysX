@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -130,7 +130,7 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 	virtual			PxU32							getArticulations(PxArticulationBase** userBuffer, PxU32 bufferSize, PxU32 startIndex=0) const;
 
 	// Aggregates
-    virtual			void							addAggregate(PxAggregate&);
+	virtual			void							addAggregate(PxAggregate&);
 	virtual			void							removeAggregate(PxAggregate&, bool wakeOnLostTouch);
 	virtual			PxU32							getNbAggregates()	const;
 	virtual			PxU32							getAggregates(PxAggregate** userBuffer, PxU32 bufferSize, PxU32 startIndex=0)	const;
@@ -229,9 +229,9 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 
 	virtual			PxCudaContextManager*			getCudaContextManager() { return mCudaContextManager; }
 					
-	virtual         void							setNbContactDataBlocks(PxU32 numBlocks);
-	virtual         PxU32							getNbContactDataBlocksUsed() const;
-	virtual         PxU32							getMaxNbContactDataBlocksUsed() const;
+	virtual			void							setNbContactDataBlocks(PxU32 numBlocks);
+	virtual			PxU32							getNbContactDataBlocksUsed() const;
+	virtual			PxU32							getMaxNbContactDataBlocksUsed() const;
 
 	virtual			PxU32							getContactReportStreamBufferSize() const;
 
@@ -265,7 +265,7 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 
 	virtual			void							shiftOrigin(const PxVec3& shift);
 
-	virtual         PxPvdSceneClient*				getScenePvdClient();
+	virtual			PxPvdSceneClient*				getScenePvdClient();
 
 	//Implementations for NpSceneAccessor interface!
 	virtual	PxsSimulationController*				getSimulationController();
@@ -339,6 +339,8 @@ class NpScene : public NpSceneQueries, public Ps::UserAllocated
 #endif
 
 	PX_FORCE_INLINE PxReal							getWakeCounterResetValueInteral() const { return mScene.getWakeCounterResetValue(); }
+
+	static PX_FORCE_INLINE size_t					getScbSceneOffset() { return PX_OFFSET_OF_RT(NpScene, mScene); }
 
 private:
 					bool							checkResultsInternal(bool block);

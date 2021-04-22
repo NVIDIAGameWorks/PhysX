@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -80,7 +80,7 @@ public:
 		PxReal dt,
 		const PxVec3& gravity, PxU64 contextID, Cm::SpatialVectorF* Z, Cm::SpatialVectorF* DeltaV);
 
-	typedef void(*UpdateDeltaMotionFn)(const ArticulationSolverDesc &m, const PxReal dt, Cm::SpatialVectorF* DeltaV);
+	typedef void(*UpdateDeltaMotionFn)(const ArticulationSolverDesc &m, const PxReal dt, Cm::SpatialVectorF* DeltaV, const PxReal totalInvDt);
 
 	typedef void(*DeltaMotionToMotionVelFn)(const ArticulationSolverDesc &m, const PxReal dt);
 
@@ -160,12 +160,12 @@ public:
 		(sComputeUnconstrainedVelocitiesTGS[type])(desc, dt, gravity, contextID, Z, DeltaV);
 	}
 
-	static void	updateDeltaMotion(const ArticulationSolverDesc& desc, const PxReal dt, Cm::SpatialVectorF* DeltaV)
+	static void	updateDeltaMotion(const ArticulationSolverDesc& desc, const PxReal dt, Cm::SpatialVectorF* DeltaV, const PxReal totalInvDt)
 	{
 		PxU32 type = desc.articulation->getType();
 		PX_ASSERT(sUpdateDeltaMotion[type]);
 		if (sUpdateDeltaMotion[type])
-			(*sUpdateDeltaMotion[type])(desc, dt, DeltaV);
+			(*sUpdateDeltaMotion[type])(desc, dt, DeltaV, totalInvDt);
 	}
 
 	static void	deltaMotionToMotionVel(const ArticulationSolverDesc& desc, const PxReal invDt)

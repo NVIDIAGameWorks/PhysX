@@ -226,6 +226,15 @@ Functions</h2></td></tr>
 <tr class="separator:gaeeccb7f7eed92f30cbbece3c45d2f5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gade7a77d4ae9d14e363364a9d72cf4932"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxVec3.html">PxVec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#gade7a77d4ae9d14e363364a9d72cf4932">PxDiagonalize</a> (const <a class="el" href="classPxMat33.html">PxMat33</a> &amp;m, <a class="el" href="classPxQuat.html">PxQuat</a> &amp;axes)</td></tr>
 <tr class="separator:gade7a77d4ae9d14e363364a9d72cf4932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60805c0463b00baf463d5281e034a141"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#ga60805c0463b00baf463d5281e034a141">PxTransformFromSegment</a> (const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;p0, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;p1, PxReal *halfHeight=NULL)</td></tr>
+<tr class="memdesc:ga60805c0463b00baf463d5281e034a141"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a transform from the endpoints of a segment, suitable for an actor transform for a <a class="el" href="classPxCapsuleGeometry.html" title="Class representing the geometry of a capsule. ">PxCapsuleGeometry</a>  <a href="#ga60805c0463b00baf463d5281e034a141">More...</a><br /></td></tr>
+<tr class="separator:ga60805c0463b00baf463d5281e034a141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7702c73625ee858ad6458b97856d475"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#gad7702c73625ee858ad6458b97856d475">PxTransformFromPlaneEquation</a> (const <a class="el" href="classPxPlane.html">PxPlane</a> &amp;<a class="el" href="PxGeometryHelpers_8h.html#a978f4c1b4f2780d4cfb3d4a31ba30f64">plane</a>)</td></tr>
+<tr class="memdesc:gad7702c73625ee858ad6458b97856d475"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a transform from a plane equation, suitable for an actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a>  <a href="#gad7702c73625ee858ad6458b97856d475">More...</a><br /></td></tr>
+<tr class="separator:gad7702c73625ee858ad6458b97856d475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8024f8608f335fb039e332a3e5afbe89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="el" href="classPxPlane.html">PxPlane</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#ga8024f8608f335fb039e332a3e5afbe89">PxPlaneEquationFromTransform</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;transform)</td></tr>
+<tr class="memdesc:ga8024f8608f335fb039e332a3e5afbe89"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a plane equation from a transform, such as the actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a>  <a href="#ga8024f8608f335fb039e332a3e5afbe89">More...</a><br /></td></tr>
+<tr class="separator:ga8024f8608f335fb039e332a3e5afbe89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf2bc9f0c0e1ee44a548900a13bb1136c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#gaf2bc9f0c0e1ee44a548900a13bb1136c">PxTolerancesScale::PxTolerancesScale</a> ()</td></tr>
 <tr class="memdesc:gaf2bc9f0c0e1ee44a548900a13bb1136c"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor sets to default  <a href="#gaf2bc9f0c0e1ee44a548900a13bb1136c">More...</a><br /></td></tr>
 <tr class="separator:gaf2bc9f0c0e1ee44a548900a13bb1136c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -632,6 +641,35 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga8024f8608f335fb039e332a3e5afbe89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8024f8608f335fb039e332a3e5afbe89">&#9670;&nbsp;</a></span>PxPlaneEquationFromTransform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="el" href="classPxPlane.html">PxPlane</a> PxPlaneEquationFromTransform </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;&#160;</td>
+          <td class="paramname"><em>transform</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>creates a plane equation from a transform, such as the actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">transform</td><td>the transform </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the plane </dd></dl>
+
+<p class="reference">References <a class="el" href="classPxTransform.html#adf6d2666a8113a72b4abbfe2e993a781">PxTransform::transform()</a>.</p>
+
+</div>
+</div>
 <a id="gaeeccb7f7eed92f30cbbece3c45d2f5dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaeeccb7f7eed92f30cbbece3c45d2f5dd">&#9670;&nbsp;</a></span>PxShortestRotation()</h2>
 
@@ -689,13 +727,85 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gad7702c73625ee858ad6458b97856d475"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad7702c73625ee858ad6458b97856d475">&#9670;&nbsp;</a></span>PxTransformFromPlaneEquation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a> PxTransformFromPlaneEquation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPxPlane.html">PxPlane</a> &amp;&#160;</td>
+          <td class="paramname"><em>plane</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>creates a transform from a plane equation, suitable for an actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">plane</td><td>the desired plane equation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector ">PxTransform</a> which will transform the plane <a class="el" href="classPxPlane.html" title="Representation of a plane. ">PxPlane(1,0,0,0)</a> to the specified plane </dd></dl>
+
+</div>
+</div>
+<a id="ga60805c0463b00baf463d5281e034a141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga60805c0463b00baf463d5281e034a141">&#9670;&nbsp;</a></span>PxTransformFromSegment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a> PxTransformFromSegment </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;&#160;</td>
+          <td class="paramname"><em>p0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;&#160;</td>
+          <td class="paramname"><em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PxReal *&#160;</td>
+          <td class="paramname"><em>halfHeight</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>creates a transform from the endpoints of a segment, suitable for an actor transform for a <a class="el" href="classPxCapsuleGeometry.html" title="Class representing the geometry of a capsule. ">PxCapsuleGeometry</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p0</td><td>one end of major axis of the capsule </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p1</td><td>the other end of the axis of the capsule </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">halfHeight</td><td>the halfHeight of the capsule. This parameter is optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classPxTransform.html" title="class representing a rigid euclidean transform as a quaternion and a vector ">PxTransform</a> which will transform the vector (1,0,0) to the capsule axis shrunk by the halfHeight </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.14-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

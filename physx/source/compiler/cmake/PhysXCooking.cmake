@@ -11,7 +11,7 @@
 ##    contributors may be used to endorse or promote products derived
 ##    from this software without specific prior written permission.
 ##
-## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 ## EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 ## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 ## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
-## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
+## Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 #
 # Build PhysXCooking common
@@ -128,19 +128,19 @@ TARGET_INCLUDE_DIRECTORIES(PhysXCooking
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/include
 	PRIVATE ${PHYSX_SOURCE_DIR}/common/src
 	
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/include
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/contact
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/common
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/convex
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/distance
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/sweep
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/gjk
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/intersection
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/mesh
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/hf
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/pcm
-	PUBLIC ${PHYSX_SOURCE_DIR}/geomutils/src/ccd
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/include
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/contact
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/common
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/convex
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/distance
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/sweep
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/gjk
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/intersection
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/mesh
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/hf
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/pcm
+	PRIVATE ${PHYSX_SOURCE_DIR}/geomutils/src/ccd
 
 	PRIVATE ${PHYSX_SOURCE_DIR}/physxcooking/src
 	PRIVATE ${PHYSX_SOURCE_DIR}/physxcooking/src/mesh

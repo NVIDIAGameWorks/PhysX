@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -50,6 +50,9 @@ using namespace immediate;
 
 void immediate::PxConstructSolverBodies(const PxRigidBodyData* inRigidData, PxSolverBodyData* outSolverBodyData, const PxU32 nbBodies, const PxVec3& gravity, const PxReal dt)
 {
+	PX_ASSERT((reinterpret_cast<size_t>(inRigidData) & 0xf) == 0);
+	PX_ASSERT((reinterpret_cast<size_t>(outSolverBodyData) & 0xf) == 0);
+
 	for(PxU32 a=0; a<nbBodies; a++)
 	{
 		const PxRigidBodyData& rigidData = inRigidData[a];
@@ -61,12 +64,17 @@ void immediate::PxConstructSolverBodies(const PxRigidBodyData* inRigidData, PxSo
 
 void immediate::PxConstructStaticSolverBody(const PxTransform& globalPose, PxSolverBodyData& solverBodyData)
 {
+	PX_ASSERT((reinterpret_cast<size_t>(&solverBodyData) & 0xf) == 0);
+
 	const PxVec3 zero(0.0f);
 	Dy::copyToSolverBodyData(zero, zero, 0.f, zero, globalPose, -PX_MAX_F32, PX_MAX_F32, IG_INVALID_NODE, PX_MAX_F32, solverBodyData, 0);
 }
 
 void immediate::PxIntegrateSolverBodies(PxSolverBodyData* solverBodyData, PxSolverBody* solverBody, const PxVec3* linearMotionVelocity, const PxVec3* angularMotionState, const PxU32 nbBodiesToIntegrate, const PxReal dt)
 {
+	PX_ASSERT((reinterpret_cast<size_t>(solverBodyData) & 0xf) == 0);
+	PX_ASSERT((reinterpret_cast<size_t>(solverBody) & 0xf) == 0);
+
 	for (PxU32 i = 0; i < nbBodiesToIntegrate; ++i)
 	{
 		PxVec3 lmv = linearMotionVelocity[i];
@@ -623,6 +631,8 @@ PxU32 immediate::PxBatchConstraints(const PxSolverConstraintDesc* solverConstrai
 									PxConstraintBatchHeader* outBatchHeaders, PxSolverConstraintDesc* outOrderedConstraintDescs,
 									Dy::ArticulationV** articulations, const PxU32 nbArticulations)
 {
+	PX_ASSERT((reinterpret_cast<size_t>(solverBodies) & 0xf) == 0);
+
 	if(!nbArticulations)
 	{
 		RigidBodyClassification classification(reinterpret_cast<PxU8*>(solverBodies), nbBodies, sizeof(PxSolverBody));
@@ -840,10 +850,13 @@ bool immediate::PxCreateJointConstraintsWithShaders(PxConstraintBatchHeader* bat
 		static PX_FORCE_INLINE bool getData(PxConstraint** constraints, PxU32 i, PxConstraintSolverPrep* prep, const void** constantBlock)
 		{
 			NpConstraint* npConstraint = static_cast<NpConstraint*>(constraints[i]);
-
-			npConstraint->updateConstants();
-
 			Sc::ConstraintCore& core = npConstraint->getScbConstraint().getScConstraint();
+
+			if (npConstraint->isDirty())
+			{
+				core.getPxConnector()->prepareData();
+				npConstraint->markClean();
+			}
 
 			*prep = core.getPxConnector()->getPrep();
 			*constantBlock = core.getPxConnector()->getConstantBlock();
@@ -890,6 +903,7 @@ void immediate::PxSolveConstraints(const PxConstraintBatchHeader* batchHeaders, 
 	PX_ASSERT(nbPositionIterations > 0);
 	PX_ASSERT(nbVelocityIterations > 0);
 	PX_ASSERT(PxIsZero(solverBodies, nbSolverBodies)); //Ensure that solver body velocities have been zeroed before solving
+	PX_ASSERT((reinterpret_cast<size_t>(solverBodies) & 0xf) == 0);
 
 	//Stage 1: solve the position iterations...
 	Dy::SolveBlockMethod* solveTable = Dy::getSolveBlockTable();
@@ -1958,10 +1972,13 @@ bool immediate::PxCreateJointConstraintsWithShadersTGS(PxConstraintBatchHeader* 
 		static PX_FORCE_INLINE bool getData(PxConstraint** constraints, PxU32 i, PxConstraintSolverPrep* prep, const void** constantBlock)
 		{
 			NpConstraint* npConstraint = static_cast<NpConstraint*>(constraints[i]);
-
-			npConstraint->updateConstants();
-
 			Sc::ConstraintCore& core = npConstraint->getScbConstraint().getScConstraint();
+
+			if (npConstraint->isDirty())
+			{
+				core.getPxConnector()->prepareData();
+				npConstraint->markClean();
+			}
 
 			*prep = core.getPxConnector()->getPrep();
 			*constantBlock = core.getPxConnector()->getConstantBlock();
@@ -2032,16 +2049,18 @@ void immediate::PxSolveConstraintsTGS(const PxConstraintBatchHeader* batchHeader
 			}
 		}
 
-		static PX_FORCE_INLINE void stepArticulations(const float dt, const PxU32 nbSolverArticulations, Dy::ArticulationV** solverArticulations,
+		static PX_FORCE_INLINE void stepArticulations(const float dt, const PxReal totalInvDt, const PxU32 nbSolverArticulations, Dy::ArticulationV** solverArticulations,
 			Cm::SpatialVectorF* deltaV)
 		{
 			for (PxU32 a = 0; a<nbSolverArticulations; a++)
 			{
 				immArticulation* immArt = static_cast<immArticulation*>(solverArticulations[a]);
-				immArt->recordDeltaMotion(immArt->getSolverDesc(), dt, deltaV);
+				immArt->recordDeltaMotion(immArt->getSolverDesc(), dt, deltaV, totalInvDt);
 			}
 		}
 	};
+
+	const PxReal invTotalDt = 1.f/(dt*nbPositionIterations);
 
 	PxReal elapsedTime = 0.f;
 	for (PxU32 i = nbPositionIterations; i>1; --i)
@@ -2058,7 +2077,7 @@ void immediate::PxSolveConstraintsTGS(const PxConstraintBatchHeader* batchHeader
 		for(PxU32 j = 0; j < nbSolverBodies; ++j)
 			Dy::integrateCoreStep(solverBodies[j], txInertias[j], dt);
 
-		Articulations::stepArticulations(dt, nbSolverArticulations, solverArticulations, deltaV);
+		Articulations::stepArticulations(dt, invTotalDt, nbSolverArticulations, solverArticulations, deltaV);
 		elapsedTime += dt;
 	}
 
@@ -2076,7 +2095,7 @@ void immediate::PxSolveConstraintsTGS(const PxConstraintBatchHeader* batchHeader
 	for (PxU32 j = 0; j < nbSolverBodies; ++j)
 		Dy::integrateCoreStep(solverBodies[j], txInertias[j], dt);
 
-	Articulations::stepArticulations(dt, nbSolverArticulations, solverArticulations, deltaV);
+	Articulations::stepArticulations(dt, invTotalDt, nbSolverArticulations, solverArticulations, deltaV);
 	elapsedTime += dt;
 
 	for (PxU32 i = nbVelocityIterations; i>1; --i)

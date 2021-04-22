@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -477,10 +477,10 @@ void NpScene::addActorsInternal(PxActor*const* PX_RESTRICT actors, PxU32 nbActor
 	Sc::BatchInsertionState scState;
 	scScene.startBatchInsertion(scState);
 
-	scState.staticActorOffset		= ptrdiff_t(size_t(&(reinterpret_cast<NpRigidStatic*>(0)->getScbRigidStaticFast().getScStatic())));
-	scState.staticShapeTableOffset	= ptrdiff_t(size_t(&(reinterpret_cast<NpRigidStatic*>(0)->getShapeManager().getShapeTable())));
-	scState.dynamicActorOffset		= ptrdiff_t(size_t(&(reinterpret_cast<NpRigidDynamic*>(0)->getScbBodyFast().getScBody())));
-	scState.dynamicShapeTableOffset = ptrdiff_t(size_t(&(reinterpret_cast<NpRigidDynamic*>(0)->getShapeManager().getShapeTable())));
+	scState.staticActorOffset		= ptrdiff_t(NpRigidStatic::getScbRigidStaticOffset() + Scb::RigidStatic::getScOffset());
+	scState.staticShapeTableOffset	= ptrdiff_t(NpRigidStatic::getNpShapeManagerOffset() + NpShapeManager::getShapeTableOffset());
+	scState.dynamicActorOffset		= ptrdiff_t(NpRigidDynamic::getScbBodyOffset() + Scb::Body::getScOffset());
+	scState.dynamicShapeTableOffset = ptrdiff_t(NpRigidDynamic::getNpShapeManagerOffset() + NpShapeManager::getShapeTableOffset());
 	scState.shapeOffset				= ptrdiff_t(NpShapeGetScPtrOffset());
 
 	Ps::InlineArray<PxBounds3, 8> shapeBounds;
@@ -945,6 +945,11 @@ void NpScene::addArticulationInternal(PxArticulationBase& npa)
 				if (npa.getConcreteType() == PxConcreteType::eARTICULATION_REDUCED_COORDINATE)
 				{
 					PxArticulationJointReducedCoordinate* joint = static_cast<PxArticulationJointReducedCoordinate*>(child->getInboundJoint());
+					PxArticulationJointImpl* j = joint->getImpl();
+					Scb::ArticulationJoint& scbJoint = j->getScbArticulationJoint();
+
+					scbJoint.getScArticulationJoint().getCore().dirtyFlag = Dy::ArticulationJointCoreDirtyFlag::eALL;
+
 					PxArticulationJointType::Enum jointType = joint->getJointType();
 
 					if (jointType == PxArticulationJointType::eUNDEFINED)

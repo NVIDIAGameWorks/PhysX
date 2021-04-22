@@ -107,9 +107,11 @@ $(document).ready(function(){initNavTree('deprecated.html','');});
 <dd>Use getTwistAngle instead. Deprecated since PhysX version 4.0  </dd>
 <dt><a class="anchor" id="_deprecated000002"></a>Member <a class="el" href="classPxD6Joint.html#aa9390d44469f8d131a960f1d4cda6415">PxD6Joint::setLinearLimit</a>  (const <a class="el" href="classPxJointLinearLimit.html" title="Describes a one-sided linear limit. ">PxJointLinearLimit</a> &amp;limit)</dt>
 <dd>Use setDistanceLimit instead. Deprecated since PhysX version 4.0  </dd>
-<dt><a class="anchor" id="_deprecated000011"></a>Member <a class="el" href="classPxScene.html#a080866698f34876134941cf42949592b">PxScene::createBatchQuery</a>  (const <a class="el" href="classPxBatchQueryDesc.html" title="Descriptor class for PxBatchQuery. ">PxBatchQueryDesc</a> &amp;desc)=0</dt>
+<dt><a class="anchor" id="_deprecated000012"></a>Member <a class="el" href="classPxScene.html#a080866698f34876134941cf42949592b">PxScene::createBatchQuery</a>  (const <a class="el" href="classPxBatchQueryDesc.html" title="Descriptor class for PxBatchQuery. ">PxBatchQueryDesc</a> &amp;desc)=0</dt>
 <dd>The batched query feature has been deprecated in PhysX version 3.4 </dd>
-<dt><a class="anchor" id="_deprecated000012"></a>Member <a class="el" href="structPxTriggerPair.html#a483aaaaecb45e77230879bb0b303b8df">PxTriggerPair::otherShape</a>  </dt>
+<dt><a class="anchor" id="_deprecated000011"></a>Member <a class="el" href="classPxScene.html#a959989fbe4fadd5067fc355004cec779">PxScene::setFrictionType</a>  (<a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96b">PxFrictionType::Enum</a> frictionType)=0</dt>
+<dd>The friction type cannot be changed after the first simulate call so this function is deprecated. Set the friction type at scene creation time in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a>. </dd>
+<dt><a class="anchor" id="_deprecated000013"></a>Member <a class="el" href="structPxTriggerPair.html#a483aaaaecb45e77230879bb0b303b8df">PxTriggerPair::otherShape</a>  </dt>
 <dd>(see <a class="el" href="classPxSimulationEventCallback.html#a768b2ee9fe28736da3fcdc6a0eae9733" title="This is called with the current trigger pair events. ">PxSimulationEventCallback::onTrigger()</a>) If collision between trigger shapes is enabled, then this member might point to a trigger shape as well. </dd>
 </dl>
 </div></div><!-- contents -->
@@ -118,7 +120,7 @@ $(document).ready(function(){initNavTree('deprecated.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

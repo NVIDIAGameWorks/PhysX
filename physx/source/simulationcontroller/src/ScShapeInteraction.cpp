@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
            
@@ -298,22 +298,19 @@ void Sc::ShapeInteraction::processUserNotificationSync()
 {
 	PX_ASSERT(hasTouch());
 
-	if (mManager)
+	if(mManager)
 		Ps::prefetchLine(mManager);
-
-	Scene& scene = getScene();
-	NPhaseCore* npcore = scene.getNPhaseCore();
-	PX_UNUSED(npcore);
 
 	// make sure shape A and shape B are the same way round as the actors (in compounds they may be swapped)
 	// TODO: make "unswapped" a SIP flag and set it in updateState()
-	if (mActorPair == NULL)
-	{
+	if(!mActorPair)
 		return;
-	}
+
+	NPhaseCore* npcore = getScene().getNPhaseCore();
+
 	ActorPairReport& aPairReport = getActorPairReport();
 
-	if (!aPairReport.isInContactReportActorPairSet())
+	if(!aPairReport.isInContactReportActorPairSet())
 	{
 		aPairReport.setInContactReportActorPairSet();
 		npcore->addToContactReportActorPairSet(&aPairReport);

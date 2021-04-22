@@ -26,6 +26,120 @@
 
 <body>
 
+	<!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 4.1.2</h1>
+    <h2 style="TEXT-ALIGN: center">April 2021</h2>
+
+	<h3>General</h3>
+	<ul>
+		<li>Added:</li>
+		<ul>
+			<li>Added SnippetTriggers to show how to emulate triggers using regular non-trigger shapes. This supports trigger-trigger notifications and CCD.</li>
+			<li>Added Android 64 bits target:</li>
+			<ul>
+			    <li>Added build preset for Android arm64-v8a architecture.</li>
+				<li>Using ANDROID ABI as part of the Android output folder to avoid name collisions between 32 and 64 bit binaries.</li>
+			    <li>Ignoring strict-aliasing warning on Android.</li>
+		    	<li>Fixed compilation error on Android debug armv8: Not inlining computeDriveInertia function to fix "conditional branch out of range" error.</li>
+			</ul>
+			<li>Added support to build iOS with dynamic libraries:</li>
+			<ul>
+				<li>The changes are copied from macOS makefiles, now iOS makefiles are in line with macOS ones.</li>
+				<li>Update toolchain cmake file to only generate 64 bits target on iOS (as its preset suggests because it's called "ios64").</li>
+			</ul>
+			<li>Added support to build Android with dynamic libraries.</li>
+			<ul>
+				<li>The changes are copied from iOS makefiles, now Android makefiles are in line with iOS ones.</li>
+			</ul>
+			<li>Modified cmake files of PhysXCharacterKinematic and PhysXExtension projects for Mac/iOS/Android so they add the suffix "_static" like the other platforms.</li>
+		</ul>
+        <li>Fixed</li>
+        <ul>
+            <li>Some profile zones did not properly setup the "context" parameter. This has been fixed.</li>
+            <li>Removed duplicate closing cross-thread event for Basic.narrowPhase event.</li>
+            <li>Fixed buffer over-read in CmPool.h</li>
+            <li>Replaced all custom offsetof expressions that seem to dereference a null pointer with the PX_OFFSET_OF_RT macro.</li>
+            <li>Replaced run-time assert on sizeof(PxHeightFieldSample::height) with compile-time assert in physx::Gu::HeightFieldUtil constructor.</li>
+            <li>Various minor issues (doc typos, const correctness, compilation warnings, etc) reported on GitHub have been fixed.</li>
+        </ul>
+	</ul>
+
+    <h3> Rigid body </h3>
+    <ul>
+        <li>Changed:</li>
+        <ul>
+            <li>PxScene::setFrictionType() has been marked as deprecated due to its strong limitations. Simply set the desired friction type in PxSceneDesc.</li>
+            <li>It is now legal to set the number of velocity iterations to zero. In some difficult configurations involving large mass ratios, the TGS solver's convergence can be negatively impacted by velocity iterations.</li>
+        </ul>
+        <li>Fixed</li>
+        <ul>
+            <li>The PxContactSet::ignore() function was not working properly and has been fixed. This may have caused issues in PxVehicleModifyWheelContacts.</li>
+            <li>The debug visualization code could crash when using PxVisualizationParameter::eCOLLISION_COMPOUNDS. This has been fixed.</li>
+            <li>Fixed a crash in the reduced-coordinates articulation system when the application removes the articulation from the scene and reinserts it back into the scene.</li>
+            <li>Improved stacking quality with TGS solver simulating stacks of articulations.</li>
+            <li>Fixed TGS solver stability issue constraining a rigid body to a kinematic actor. </li>
+            <li>Fixed typo with ang dominance in CPU block solver.</li>
+            <li>Fixed rare crash destroying a contact manager during CCD.</li>
+            <li>Fixed buffer over-write when simulating a convex mesh with more than 64 vertices in a single face.</li>
+        </ul>
+        <li>Added</li>
+        <ul>
+            <li>PxRigidBodyFlag::eFORCE_KINE_KINE_NOTIFICATIONS and PxRigidBodyFlag::eFORCE_STATIC_KINE_NOTIFICATIONS have been added.</li>
+        </ul>
+    </ul>
+
+    <h3>Cooking</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>The number of bytes allocated for vertices by the convex hull builder was incorrect. This has been fixed.</li>
+        </ul>
+    </ul>
+
+    <h3>Serialization</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>A performance problem in PxBinaryConverter when converting large collections has been fixed.</li>
+        </ul>
+    </ul>
+
+    <h3>Vehicles</h3>
+    <ul>
+        <li>Added:</li>
+        <ul>
+            <li>PxVehicleWheelsDynData::getConstraints() and PxVehicleWheelsDynData::getNbConstraints() have been added to potentially have vehicles use immediate mode for solving the vehicle rigid body constraints.</li>
+			<li>New method PxVehicleGraph::getRawData() to extract raw telemetry data.</li>
+			<li>An inflation parameter has been added to PxVehicleSuspensionSweeps.</li>
+			<li>New flags PxVehicleWheelsSimFlag::eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST and PxVehicleWheelsSimFlag::eDISABLE_SUSPENSION_FORCE_PROJECTION have been added.</li>			
+        </ul>
+		<li>Changed:</li>
+        <ul>
+            <li>Concurrent calls to PxVehicleUpdateSingleVehicleAndStoreTelemetryData() are now permitted if the additional parameter vehicleConcurrentUpdates is used. </li>
+        </ul>
+		<li>Fixed:</li>
+		<ul>
+			<li>A null pointer dereference bug has been fixed. The bug occurred if the vehicle's rigid body actor was asleep and the vehicle relied on cached tire contact planes rather than the results of a fresh suspension query.</li>
+		</ul>
+    </ul>
+
+    <h3>Character controller</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>The prefilter & postfilters callback were called all the time, ignoring the PxQueryFlag::ePREFILTER and PxQueryFlag::ePOSTFILTER flags. This has been fixed.</li>
+        </ul>
+    </ul>
+
+    <h3>Scene queries</h3>
+    <ul>
+        <li>Fixed:</li>
+        <ul>
+            <li>The BVH34 codepath had a bug in the raycast-vs-mesh-with-mutiple-hits case, where returned hits could be further away than defined max hit distance. This has been fixed.</li>
+        </ul>
+    </ul>
+	
    <!-- -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <h1 style="TEXT-ALIGN: center">Release Notes - NVIDIA<sup>&reg;</sup> PhysX<sup>&reg;</sup> SDK 4.1.1</h1>
@@ -3841,7 +3955,7 @@
 
             <p>
                 <br>
-                Copyright (C) 2008-2019 NVIDIA Corporation, 2701 San Thomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
+                Copyright (C) 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <A href="http://www.nvidia.com">www.nvidia.com</A>
             </p>
 </body>
 </html>

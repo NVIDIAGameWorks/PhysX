@@ -90,6 +90,8 @@ $(document).ready(function(){initNavTree('PxMathUtils_8h.html','');});
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="Px_8h_source.html">foundation/Px.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PxFoundationConfig_8h_source.html">foundation/PxFoundationConfig.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PxPlane_8h_source.html">foundation/PxPlane.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PxTransform_8h_source.html">foundation/PxTransform.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
@@ -111,6 +113,15 @@ Functions</h2></td></tr>
 <tr class="separator:gaeeccb7f7eed92f30cbbece3c45d2f5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gade7a77d4ae9d14e363364a9d72cf4932"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxVec3.html">PxVec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#gade7a77d4ae9d14e363364a9d72cf4932">PxDiagonalize</a> (const <a class="el" href="classPxMat33.html">PxMat33</a> &amp;m, <a class="el" href="classPxQuat.html">PxQuat</a> &amp;axes)</td></tr>
 <tr class="separator:gade7a77d4ae9d14e363364a9d72cf4932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60805c0463b00baf463d5281e034a141"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#ga60805c0463b00baf463d5281e034a141">PxTransformFromSegment</a> (const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;p0, const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;p1, PxReal *halfHeight=NULL)</td></tr>
+<tr class="memdesc:ga60805c0463b00baf463d5281e034a141"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a transform from the endpoints of a segment, suitable for an actor transform for a <a class="el" href="classPxCapsuleGeometry.html" title="Class representing the geometry of a capsule. ">PxCapsuleGeometry</a>  <a href="group__common.html#ga60805c0463b00baf463d5281e034a141">More...</a><br /></td></tr>
+<tr class="separator:ga60805c0463b00baf463d5281e034a141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7702c73625ee858ad6458b97856d475"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gae7058022ea016a0af40eb7728a30c928">PX_FOUNDATION_API</a> <a class="el" href="classPxTransform.html">PxTransform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#gad7702c73625ee858ad6458b97856d475">PxTransformFromPlaneEquation</a> (const <a class="el" href="classPxPlane.html">PxPlane</a> &amp;<a class="el" href="PxGeometryHelpers_8h.html#a978f4c1b4f2780d4cfb3d4a31ba30f64">plane</a>)</td></tr>
+<tr class="memdesc:gad7702c73625ee858ad6458b97856d475"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a transform from a plane equation, suitable for an actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a>  <a href="group__common.html#gad7702c73625ee858ad6458b97856d475">More...</a><br /></td></tr>
+<tr class="separator:gad7702c73625ee858ad6458b97856d475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8024f8608f335fb039e332a3e5afbe89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacb03347b642a2a5bdea1f9b305a6fbec">PX_INLINE</a> <a class="el" href="classPxPlane.html">PxPlane</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__common.html#ga8024f8608f335fb039e332a3e5afbe89">PxPlaneEquationFromTransform</a> (const <a class="el" href="classPxTransform.html">PxTransform</a> &amp;transform)</td></tr>
+<tr class="memdesc:ga8024f8608f335fb039e332a3e5afbe89"><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a plane equation from a transform, such as the actor transform for a <a class="el" href="classPxPlaneGeometry.html" title="Class describing a plane geometry. ">PxPlaneGeometry</a>  <a href="group__common.html#ga8024f8608f335fb039e332a3e5afbe89">More...</a><br /></td></tr>
+<tr class="separator:ga8024f8608f335fb039e332a3e5afbe89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -118,8 +129,8 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2969af80058834902e7cdf6ae4c741d8.html">include</a></li><li class="navelem"><a class="el" href="dir_8a647736464c17a0a941dbcb4e3dbb2d.html">foundation</a></li><li class="navelem"><a class="el" href="PxMathUtils_8h.html">PxMathUtils.h</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="navelem"><a class="el" href="dir_713b4d6d20ce249967929ad234a3da6e.html">include</a></li><li class="navelem"><a class="el" href="dir_cb1a8f4e4d71fdf9a4c3b6f9df3a7c05.html">foundation</a></li><li class="navelem"><a class="el" href="PxMathUtils_8h.html">PxMathUtils.h</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

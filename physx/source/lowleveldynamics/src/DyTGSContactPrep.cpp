@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -558,7 +558,7 @@ namespace Dy
 
 		const FloatV invDtp8 = FMul(invDt, p8);
 
-		const PxReal frictionBiasScale = disableStrongFriction ? 0.f : invDtF32;
+		const PxReal frictionBiasScale = disableStrongFriction ? 0.f : invDtF32 * 0.8f;
 
 
 		for (PxU32 i = 0; i<c.frictionPatchCount; i++)
@@ -1070,7 +1070,7 @@ namespace Dy
 			staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W = V4SetX(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, FLoad(staticFriction));
 			staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W = V4SetY(staticFrictionX_dynamicFrictionY_dominance0Z_dominance1W, FLoad(dynamicFriction));
 
-			const PxReal frictionBiasScale = disableStrongFriction ? 0.f : invDtF32;
+			const PxReal frictionBiasScale = disableStrongFriction ? 0.f : invDtF32 * 0.8f;
 
 			SolverContactHeaderStep* PX_RESTRICT header = reinterpret_cast<SolverContactHeaderStep*>(ptr);
 			ptr += sizeof(SolverContactHeaderStep);
@@ -1180,6 +1180,8 @@ namespace Dy
 
 				header->frictionBrokenWritebackByte = writeback;
 
+				PxReal frictionScale = (contactBase0->materialFlags & PxMaterialFlag::eIMPROVED_PATCH_FRICTION && frictionPatch.anchorCount == 2) ? 0.5f : 1.f;
+
 				for (PxU32 j = 0; j < frictionPatch.anchorCount; j++)
 				{
 					SolverContactFrictionStepExt* PX_RESTRICT f0 = reinterpret_cast<SolverContactFrictionStepExt*>(ptr);
@@ -1221,6 +1223,7 @@ namespace Dy
 						f0->linDeltaVB = deltaV1.linear;
 						f0->angDeltaVA = deltaV0.angular;
 						f0->angDeltaVB = deltaV1.angular;
+						f0->frictionScale = frictionScale;
 					}
 
 					{
@@ -1256,6 +1259,7 @@ namespace Dy
 						f1->linDeltaVB = deltaV1.linear;
 						f1->angDeltaVA = deltaV0.angular;
 						f1->angDeltaVB = deltaV1.angular;
+						f1->frictionScale = frictionScale;
 					}
 				}
 
@@ -1896,7 +1900,8 @@ void setSolverConstantsStep(PxReal& error,
 	PxReal totalDt,
 	PxReal biasClamp,
 	PxReal recipdt,
-	PxReal recipTotalDt)
+	PxReal recipTotalDt,
+	PxReal velTarget)
 {
 	PX_UNUSED(dt);
 	PX_UNUSED(totalDt);
@@ -1911,35 +1916,30 @@ void setSolverConstantsStep(PxReal& error,
 
 	if (c.flags & Px1DConstraintFlag::eSPRING)
 	{
-		error = 0.f;
+		error = geomError;
 
-		PxReal a = totalDt *  (totalDt*c.mods.spring.stiffness + c.mods.spring.damping);
-		PxReal b = totalDt*(c.mods.spring.damping * c.velocityTarget - c.mods.spring.stiffness * geomError);
-		PxReal a2 = dt *  (dt*c.mods.spring.stiffness + c.mods.spring.damping);
+		PxReal a = dt *  (dt*c.mods.spring.stiffness + c.mods.spring.damping);
+		PxReal b = dt*(c.mods.spring.damping * c.velocityTarget);// - c.mods.spring.stiffness * geomError);
 		maxBias = biasClamp;
 
-		PxReal x2;
 		if (c.flags & Px1DConstraintFlag::eACCELERATION_SPRING)
 		{
 			const PxReal x = 1.0f / (1.0f + a);
-			x2 = 1.0f/(1.0f + a2);
 			targetVel = x * b;
 			velMultiplier = -x * a;
-			impulseMultiplier = 1.0f - x; 
+			impulseMultiplier = 1.0f; 
+			biasScale = -x * c.mods.spring.stiffness * dt;
 		}
 		else
 		{
 			const PxReal x = 1.0f / (1.0f + a*unitResponse);
-			x2 = 1.0f / (1.0f + a2*unitResponse);
 			targetVel = x * b*unitResponse;
 			velMultiplier = -x*a*unitResponse;
-			impulseMultiplier = 1.0f - x;
+			impulseMultiplier = 1.0f;
+			biasScale = -c.mods.spring.stiffness * x * unitResponse * dt;
 		}
-		const PxReal im2 = 1.f - x2;
-		biasScale = -recipdt*erp*im2;
 
-		
-
+		maxBias = biasClamp;
 	}
 	else
 	{
@@ -1979,6 +1979,7 @@ void setSolverConstantsStep(PxReal& error,
 
 		}
 	}
+	targetVel -= velMultiplier * velTarget;
 }
 
 
@@ -2176,16 +2177,20 @@ PxU32 setupSolverConstraintStep(
 
 		PxReal recipResponse = 0.f;
 
+		PxReal velTarget = 0.f;
+		if (isKinematic0)
+			velTarget += vel0 * s.velMultiplier;
+		if (isKinematic1)
+			velTarget -= vel1 * s.velMultiplier;
+
+
 		setSolverConstantsStep(s.error, s.biasScale, s.velTarget, s.maxBias, s.velMultiplier, s.impulseMultiplier, recipResponse, c,
 			normalVel, unitResponse, isExtended ? 1e-5f : prepDesc.minResponseThreshold, (c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? erp : linearErp), dt, totalDt,
-			c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? angSpeedLimit : linSpeedLimit*lengthScale, recipDt, invTotalDt);
+			c.flags & Px1DConstraintFlag::eANGULAR_CONSTRAINT ? angSpeedLimit : linSpeedLimit*lengthScale, recipDt, invTotalDt, velTarget);
 
 		s.recipResponse = recipResponse;
 
-		if(isKinematic0)
-			s.velTarget -= vel0;
-		if(isKinematic1)
-			s.velMultiplier += vel1;
+		
 
 		
 
@@ -3110,6 +3115,8 @@ void solveExtContactStep(const PxSolverConstraintDesc& desc, Vec3V& linVel0, Vec
 				const Vec3V raXnI = f.angDeltaVA;
 				const Vec3V rbXnI = f.angDeltaVB;
 
+				const FloatV frictionScale = FLoad(f.frictionScale);
+
 				const FloatV appliedForce = FLoad(f.appliedForce);
 				const FloatV biasScale = FLoad(f.biasScale);
 				const FloatV velMultiplier = V4GetW(rbXn_velMultiplierW);
@@ -3119,7 +3126,7 @@ void solveExtContactStep(const PxSolverConstraintDesc& desc, Vec3V& linVel0, Vec
 				const FloatV negMaxDynFrictionImpulse = FNeg(maxDynFrictionImpulse);
 				//const FloatV negMaxFrictionImpulse = FNeg(maxFrictionImpulse);
 
-				const FloatV error = FAdd(initialError, FScaleAdd(targetVel, elapsedTime, FAdd(FSub(V3Dot(raXn, angDelta0), V3Dot(rbXn, angDelta1)), V3Dot(normal, relMotion))));
+				const FloatV error = FAdd(initialError, FNegScaleSub(targetVel, elapsedTime, FAdd(FSub(V3Dot(raXn, angDelta0), V3Dot(rbXn, angDelta1)), V3Dot(normal, relMotion))));
 
 				const FloatV bias = FMul(error, biasScale);
 
@@ -3144,9 +3151,9 @@ void solveExtContactStep(const PxSolverConstraintDesc& desc, Vec3V& linVel0, Vec
 				// On XBox this clamping code uses the vector simple pipe rather than vector float,
 				// which eliminates a lot of stall cycles
 
-				const BoolV clamp = FIsGrtr(FAbs(totalImpulse), maxFrictionImpulse);
+				const BoolV clamp = FIsGrtr(FAbs(totalImpulse), FMul(maxFrictionImpulse, frictionScale));
 
-				const FloatV totalClamped = FMin(maxDynFrictionImpulse, FMax(negMaxDynFrictionImpulse, totalImpulse));
+				const FloatV totalClamped = FMin(FMul(maxDynFrictionImpulse, frictionScale), FMax(FMul(negMaxDynFrictionImpulse, frictionScale), totalImpulse));
 
 				const FloatV newAppliedForce = FSel(clamp, totalClamped, totalImpulse);
 

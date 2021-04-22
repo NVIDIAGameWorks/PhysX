@@ -98,7 +98,7 @@ var classPxScene =
     [ "setDynamicTreeRebuildRateHint", "classPxScene.html#abf2322887ca4db2fdea0229a44e2892c", null ],
     [ "setFilterShaderData", "classPxScene.html#a5ab05d2a2c908d98aed4ca642c5f394d", null ],
     [ "setFlag", "classPxScene.html#a6610c08a5a92c894dcac9d658e48b7de", null ],
-    [ "setFrictionType", "classPxScene.html#a9ff7784b4d51acf2d56b9462e256b58b", null ],
+    [ "setFrictionType", "classPxScene.html#a959989fbe4fadd5067fc355004cec779", null ],
     [ "setGravity", "classPxScene.html#a575ed34c73adbd61892d728a688479f3", null ],
     [ "setLimits", "classPxScene.html#a1c9025d9a26efa7b90c8c75cb7126b92", null ],
     [ "setNbContactDataBlocks", "classPxScene.html#a148be23880c4e2d67f9f772066a9f966", null ],

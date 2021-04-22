@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -593,7 +593,7 @@ public:
 
 	virtual void runInternal()
 	{
-		PX_PROFILE_ZONE("ConstraintPostProcess", 0);
+		PX_PROFILE_ZONE("ConstraintPostProcess", mContext.getContextId());
 		PxU32 endIndex = mStartIndex + mStride;
 
 		ThreadContext* threadContext = mContext.getThreadContext();
@@ -1107,7 +1107,7 @@ public:
 
 	void setupDescTask()
 	{
-		PX_PROFILE_ZONE("SetupDescs", 0);
+		PX_PROFILE_ZONE("SetupDescs", mContext.getContextId());
 		ThreadContext& mThreadContext = *mIslandContext.mThreadContext;
 		PxSolverConstraintDesc* contactDescPtr = mThreadContext.mContactDescPtr;
 
@@ -1439,7 +1439,7 @@ public:
 
 	virtual void runInternal()
 	{
-		PX_PROFILE_ZONE("PartitionConstraints", 0);
+		PX_PROFILE_ZONE("PartitionConstraints", mContext.getContextId());
 		ThreadContext& mThreadContext = *mIslandContext.mThreadContext;
 
 		//Compact articulation pairs...
@@ -2497,7 +2497,7 @@ static void preIntegrationParallel(
 void PxsPreIntegrateTask::runInternal()
 {
 	{
-		PX_PROFILE_ZONE("PreIntegration", 0);
+		PX_PROFILE_ZONE("PreIntegration", mContext.getContextId());
 		preIntegrationParallel(mDt, mBodyArray + mStartIndex, mOriginalBodyArray + mStartIndex, mNodeIndexArray + mStartIndex, mNumToIntegrate,
 							mSolverBodies + mStartIndex, mSolverBodyDataPool + mStartIndex,
 							mMaxSolverPositionIterations, mMaxSolverVelocityIterations, mGravity);
@@ -2674,7 +2674,7 @@ void DynamicsContext::integrateCoreParallel(SolverIslandParams& params, IG::Isla
 static PxU32 createFinalizeContacts_Parallel(PxSolverBodyData* solverBodyData, ThreadContext& mThreadContext, DynamicsContext& context,
 									  PxU32 startIndex, PxU32 endIndex, PxsContactManagerOutputIterator& outputs)
 {
-	PX_PROFILE_ZONE("createFinalizeContacts_Parallel", 0);
+	PX_PROFILE_ZONE("createFinalizeContacts_Parallel", context.getContextId());
 	const PxFrictionType::Enum frictionType = context.getFrictionType();
 	const PxReal correlationDist = context.getCorrelationDistance();
 	const PxReal bounceThreshold = context.getBounceThreshold();
@@ -3005,7 +3005,7 @@ public:
 
 void PxsSolverCreateFinalizeConstraintsTask::runInternal()
 {
-	PX_PROFILE_ZONE("CreateConstraints", 0);
+	PX_PROFILE_ZONE("CreateConstraints", mContext.getContextId());
 	ThreadContext& mThreadContext = *mIslandContext.mThreadContext;
 	PxU32 descCount = mThreadContext.mNumDifferentBodyConstraints;
 	PxU32 selfConstraintDescCount = mThreadContext.contactDescArraySize - (mThreadContext.mNumDifferentBodyConstraints + mThreadContext.mNumStaticConstraints);

@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -302,7 +302,7 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 	cache.mSharedThresholdStream = thresholdStream;
 	cache.mSharedThresholdStreamLength = thresholdStreamLength;
 	cache.mSharedOutThresholdPairs = outThresholdPairs;
-	for(; iteration < PxI32(velocityIterations); ++iteration)
+	//PGS solver always runs at least one velocity iteration (otherwise writeback won't happen)
 	{
 		SolveBlockParallel(constraintList, batchCount, normalIter * batchCount, batchCount, 
 			cache, contactIterator, gVTableSolveWriteBackBlock, normalIter);
@@ -314,7 +314,7 @@ void SolverCoreGeneral::solveV_Blocks(SolverIslandParams& params) const
 		}
 
 		++normalIter;
-	}	
+	}
 
 	//Write back remaining threshold streams
 	if(cache.mThresholdStreamIndex > 0)

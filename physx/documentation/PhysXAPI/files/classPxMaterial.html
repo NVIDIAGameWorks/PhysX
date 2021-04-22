@@ -143,12 +143,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a06db9f154df542598da209a31fdc123f"><td class="memItemLeft" align="right" valign="top">virtual PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#a06db9f154df542598da209a31fdc123f">getRestitution</a> () const =0</td></tr>
 <tr class="memdesc:a06db9f154df542598da209a31fdc123f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the coefficient of restitution.  <a href="#a06db9f154df542598da209a31fdc123f">More...</a><br /></td></tr>
 <tr class="separator:a06db9f154df542598da209a31fdc123f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dbcd175e805766442291c1285eafe8c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#a3dbcd175e805766442291c1285eafe8c">setFlag</a> (<a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298">PxMaterialFlag::Enum</a> flag, bool)=0</td></tr>
-<tr class="memdesc:a3dbcd175e805766442291c1285eafe8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raises or clears a particular material flag.  <a href="#a3dbcd175e805766442291c1285eafe8c">More...</a><br /></td></tr>
-<tr class="separator:a3dbcd175e805766442291c1285eafe8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a452856bae712ad60a281ec45a4bd69a9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#a452856bae712ad60a281ec45a4bd69a9">setFlags</a> (<a class="el" href="group__physics.html#gaacd9cb0f0e89fbbc09fec759b254d109">PxMaterialFlags</a> inFlags)=0</td></tr>
-<tr class="memdesc:a452856bae712ad60a281ec45a4bd69a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets all the material flags.  <a href="#a452856bae712ad60a281ec45a4bd69a9">More...</a><br /></td></tr>
-<tr class="separator:a452856bae712ad60a281ec45a4bd69a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a182e929b4b5e0f70b06f6420cd18de"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#a0a182e929b4b5e0f70b06f6420cd18de">setFlag</a> (<a class="el" href="structPxMaterialFlag.html#a0cbfebf648d620e4619a5a81b49cc298">PxMaterialFlag::Enum</a> flag, bool b)=0</td></tr>
+<tr class="memdesc:a0a182e929b4b5e0f70b06f6420cd18de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raises or clears a particular material flag.  <a href="#a0a182e929b4b5e0f70b06f6420cd18de">More...</a><br /></td></tr>
+<tr class="separator:a0a182e929b4b5e0f70b06f6420cd18de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a928373a0c917e4334d23ce4af85e8fa2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#a928373a0c917e4334d23ce4af85e8fa2">setFlags</a> (<a class="el" href="group__physics.html#gaacd9cb0f0e89fbbc09fec759b254d109">PxMaterialFlags</a> <a class="el" href="PxConstraintDesc_8h.html#acfdd81caa30ceb0af5fafb4064b1bc67">flags</a>)=0</td></tr>
+<tr class="memdesc:a928373a0c917e4334d23ce4af85e8fa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">sets all the material flags.  <a href="#a928373a0c917e4334d23ce4af85e8fa2">More...</a><br /></td></tr>
+<tr class="separator:a928373a0c917e4334d23ce4af85e8fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8fca7a3079e8da26c8275a9fe3ce635"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__physics.html#gaacd9cb0f0e89fbbc09fec759b254d109">PxMaterialFlags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxMaterial.html#af8fca7a3079e8da26c8275a9fe3ce635">getFlags</a> () const =0</td></tr>
 <tr class="memdesc:af8fca7a3079e8da26c8275a9fe3ce635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the flags. See <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a>.  <a href="#af8fca7a3079e8da26c8275a9fe3ce635">More...</a><br /></td></tr>
 <tr class="separator:af8fca7a3079e8da26c8275a9fe3ce635"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -433,7 +433,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Retrieves the flags. See <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The material flags.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a> <a class="el" href="classPxMaterial.html#a452856bae712ad60a281ec45a4bd69a9" title="sets all the material flags. ">setFlags()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a> <a class="el" href="classPxMaterial.html#a928373a0c917e4334d23ce4af85e8fa2" title="sets all the material flags. ">setFlags()</a> </dd></dl>
 
 </div>
 </div>
@@ -684,8 +684,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a3dbcd175e805766442291c1285eafe8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dbcd175e805766442291c1285eafe8c">&#9670;&nbsp;</a></span>setFlag()</h2>
+<a id="a0a182e929b4b5e0f70b06f6420cd18de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a182e929b4b5e0f70b06f6420cd18de">&#9670;&nbsp;</a></span>setFlag()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -703,7 +703,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -720,19 +720,21 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Raises or clears a particular material flag. </p>
 <p>See the list of flags <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a></p>
+<p><b>Default:</b> no flags are set</p>
 <p><b>Sleeping:</b> Does <b>NOT</b> wake any actors which may be affected.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">flag</td><td>The <a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties. ">PxMaterial</a> flag to raise(set) or clear.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">flag</td><td>The <a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties. ">PxMaterial</a> flag to raise(set) or clear. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>New state of the flag</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxMaterial.html#af8fca7a3079e8da26c8275a9fe3ce635" title="Retrieves the flags. See PxMaterialFlag. ">getFlags()</a> <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxMaterial.html#af8fca7a3079e8da26c8275a9fe3ce635" title="Retrieves the flags. See PxMaterialFlag. ">getFlags()</a> <a class="el" href="classPxMaterial.html#a928373a0c917e4334d23ce4af85e8fa2" title="sets all the material flags. ">setFlags()</a> <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a> </dd></dl>
 
 </div>
 </div>
-<a id="a452856bae712ad60a281ec45a4bd69a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a452856bae712ad60a281ec45a4bd69a9">&#9670;&nbsp;</a></span>setFlags()</h2>
+<a id="a928373a0c917e4334d23ce4af85e8fa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a928373a0c917e4334d23ce4af85e8fa2">&#9670;&nbsp;</a></span>setFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -744,7 +746,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">virtual void PxMaterial::setFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="group__physics.html#gaacd9cb0f0e89fbbc09fec759b254d109">PxMaterialFlags</a>&#160;</td>
-          <td class="paramname"><em>inFlags</em></td><td>)</td>
+          <td class="paramname"><em>flags</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -757,7 +759,15 @@ Additional Inherited Members</h2></td></tr>
 
 <p>sets all the material flags. </p>
 <p>See the list of flags <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a></p>
-<p><b>Sleeping:</b> Does <b>NOT</b> wake any actors which may be affected. </p>
+<p><b>Default:</b> no flags are set</p>
+<p><b>Sleeping:</b> Does <b>NOT</b> wake any actors which may be affected.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">flags</td><td>All <a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties. ">PxMaterial</a> flags</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxMaterial.html#af8fca7a3079e8da26c8275a9fe3ce635" title="Retrieves the flags. See PxMaterialFlag. ">getFlags()</a> <a class="el" href="classPxMaterial.html#a0a182e929b4b5e0f70b06f6420cd18de" title="Raises or clears a particular material flag. ">setFlag()</a> <a class="el" href="structPxMaterialFlag.html" title="Flags which control the behavior of a material. ">PxMaterialFlag</a> </dd></dl>
 
 </div>
 </div>
@@ -787,6 +797,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Sets the friction combine mode. </p>
 <p>See the enum <a class="el" href="structPxCombineMode.html" title="enumeration that determines the way in which two material properties will be combined to yield a fric...">PxCombineMode</a> .</p>
+<p><b>Default:</b> <a class="el" href="structPxCombineMode.html#a7d586f7800efb63ee14c7a24e0eb6727a2c12a95b4b7cde20d845c629be849c92" title="Average: (a + b)/2. ">PxCombineMode::eAVERAGE</a></p>
 <p><b>Sleeping:</b> Does <b>NOT</b> wake any actors which may be affected.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -861,6 +872,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Sets the restitution combine mode. </p>
 <p>See the enum <a class="el" href="structPxCombineMode.html" title="enumeration that determines the way in which two material properties will be combined to yield a fric...">PxCombineMode</a> .</p>
+<p><b>Default:</b> <a class="el" href="structPxCombineMode.html#a7d586f7800efb63ee14c7a24e0eb6727a2c12a95b4b7cde20d845c629be849c92" title="Average: (a + b)/2. ">PxCombineMode::eAVERAGE</a></p>
 <p><b>Sleeping:</b> Does <b>NOT</b> wake any actors which may be affected.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -936,7 +948,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPxMaterial.html">PxMaterial</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

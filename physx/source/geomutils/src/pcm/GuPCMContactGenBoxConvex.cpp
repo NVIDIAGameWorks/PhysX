@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -36,6 +36,7 @@
 #include "GuVecCapsule.h"
 #include "GuVecBox.h"
 #include "GuEPA.h"
+#include "geomutils/GuContactBuffer.h"
 
 
 #define PCM_USE_INTERNAL_OBJECT 1
@@ -437,6 +438,9 @@ namespace Gu
 				{
 					inside++;
 
+					if (numContacts == Gu::ContactBuffer::MAX_CONTACTS)
+						return;
+
 					const Vec4V localNormalPen = V4SetW(Vec4V_From_Vec3V(contactNormal), points1In0TValue[i]);
 					manifoldContacts[numContacts].mLocalPointA = vert1;
 					manifoldContacts[numContacts].mLocalPointB = M33TrnspsMulV3(rot, points1In0[i]);
@@ -480,6 +484,9 @@ namespace Gu
 
 				if(FAllGrtr(t, contactDist))
 					continue;
+
+				if (numContacts == Gu::ContactBuffer::MAX_CONTACTS)
+					return;
 
 
 				inside++;
@@ -554,6 +561,9 @@ namespace Gu
 						const FloatV pen = FSub(V3GetZ(pBB), V3GetZ(pAA));
 						if(FAllGrtr(pen, contactDist))
 							continue;
+
+						if (numContacts == Gu::ContactBuffer::MAX_CONTACTS)
+							return;
 
 
 						const Vec4V localNormalPen = V4SetW(Vec4V_From_Vec3V(contactNormal), pen);

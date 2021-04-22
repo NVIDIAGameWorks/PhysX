@@ -11,7 +11,7 @@
 ##    contributors may be used to endorse or promote products derived
 ##    from this software without specific prior written permission.
 ##
-## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 ## EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 ## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 ## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
-## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
+## Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 OPTION(PX_COPY_EXTERNAL_DLL "Copy external dlls into SDK bin directory" OFF)
 
@@ -41,9 +41,9 @@ ENDIF()
 # Cache the CXX flags so the other CMakeLists.txt can use them if needed
 SET(PHYSX_CXX_FLAGS "/Wall /d2Zi+ /MP /WX /W4 /GF /GS- /GR- /Gd ${PHYSX_FP_MODE} ${PHYSX_WARNING_DISABLES}" CACHE INTERNAL "PhysX CXX")
 SET(PHYSX_CXX_FLAGS_DEBUG "/Od ${WINCRT_DEBUG} /Zi" CACHE INTERNAL "PhysX Debug CXX Flags")
-SET(PHYSX_CXX_FLAGS_CHECKED "/Ox ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Checked CXX Flags")
-SET(PHYSX_CXX_FLAGS_PROFILE "/Ox ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Profile CXX Flags")
-SET(PHYSX_CXX_FLAGS_RELEASE "/Ox ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Release CXX Flags")
+SET(PHYSX_CXX_FLAGS_CHECKED "/O2 ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Checked CXX Flags")
+SET(PHYSX_CXX_FLAGS_PROFILE "/O2 ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Profile CXX Flags")
+SET(PHYSX_CXX_FLAGS_RELEASE "/O2 ${WINCRT_NDEBUG} /Zi" CACHE INTERNAL "PhysX Release CXX Flags")
 
 # These flags are local to the directory the CMakeLists.txt is in, so don't get carried over to OTHER CMakeLists.txt (thus the CACHE variables above)
 SET(CMAKE_CXX_FLAGS ${PHYSX_CXX_FLAGS})

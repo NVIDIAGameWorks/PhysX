@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -595,10 +595,15 @@ void PxVehicleWheels::setToRestState()
 	{
 		mActor->setLinearVelocity(PxVec3(0,0,0));
 		mActor->setAngularVelocity(PxVec3(0,0,0));
-		mActor->clearForce(PxForceMode::eACCELERATION);
-		mActor->clearForce(PxForceMode::eVELOCITY_CHANGE);
-		mActor->clearTorque(PxForceMode::eACCELERATION);
-		mActor->clearTorque(PxForceMode::eVELOCITY_CHANGE);
+
+		//Support case where actor is not in a scene and constraints get solved via immediate mode
+		if (mActor->getScene())
+		{
+			mActor->clearForce(PxForceMode::eACCELERATION);
+			mActor->clearForce(PxForceMode::eVELOCITY_CHANGE);
+			mActor->clearTorque(PxForceMode::eACCELERATION);
+			mActor->clearTorque(PxForceMode::eVELOCITY_CHANGE);
+		}
 	}
 
 	//Set the wheels to rest state.
@@ -874,6 +879,19 @@ void PxVehicleWheelsDynData::copy(const PxVehicleWheelsDynData& src, const PxU32
 		cachedHitResultTrg.mCounts[trgWheel & 3] = cachedHitResultSrc.mCounts[srcWheel & 3];
 		cachedHitResultTrg.mDistances[trgWheel & 3] = cachedHitResultSrc.mDistances[srcWheel & 3];
 	}
+}
+
+PxU32 PxVehicleWheelsDynData::getConstraints(PxConstraint** userBuffer, PxU32 bufferSize, PxU32 startIndex) const
+{
+	const PxU32 remainder = PxU32(PxMax<PxI32>(PxI32(mNbWheels4 - startIndex), 0));
+	const PxU32 writeCount = PxMin(remainder, bufferSize);
+	PxVehicleWheels4DynData* wheels4DynData = mWheels4DynData + startIndex;
+	for (PxU32 i = 0; i < writeCount; i++)
+	{
+		userBuffer[i] = wheels4DynData->getVehicletConstraintShader().getPxConstraint();
+		wheels4DynData++;
+	}
+	return writeCount;
 }
 
 

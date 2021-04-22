@@ -26,27 +26,65 @@ IF ERRORLEVEL 1 (
 
 :CMAKE_EXTERNAL
 
-where /q python
-IF ERRORLEVEL 1 (
-    if "%PM_python_PATH%" == "" (        
-        ECHO Python is missing, please install python version 2.7.6 and up. Or set env variable PM_python_PATH pointing to python root directory.
-        set /p DUMMY=Hit ENTER to continue...
-        exit /b 1
-    )
+:: Use the Python launcher if it exists
+py --version 2>NUL
+IF ERRORLEVEL 0 (
+    set PM_PYTHON=py
 )
 
-if "%PM_python_PATH%" == "" (    
-    set PM_PYTHON=python.exe
-) else (
-    set PM_PYTHON="%PM_python_PATH%\python.exe"
+IF ERRORLEVEL 1 (
+    python --version 2>NUL
+    IF ERRORLEVEL 1 (
+        if "%PM_python_PATH%" == "" (        
+            ECHO Python is missing, please install python version 2.7.6 and up. If Python is installed but not in the PATH, then set the env variable PM_python_PATH pointing to python root directory.
+            set /p DUMMY=Hit ENTER to continue...
+            exit /b 1
+        )
+    )
+    IF ERRORLEVEL 0 (
+        if "%PM_python_PATH%" == "" (    
+        set PM_PYTHON=python.exe
+        ) else (
+            set PM_PYTHON="%PM_python_PATH%\python.exe"
+        )
+    )
 )
 
 IF %1.==. GOTO ADDITIONAL_PARAMS_MISSING
 
-for /f "usebackq tokens=*" %%i in (`"%PM_vswhere_PATH%\VsWhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
-	set InstallDir=%%i
-	set VS150PATH="%%i"		
+for /f "usebackq tokens=*" %%i in (`"%PM_vswhere_PATH%\VsWhere.exe  -version [15.0,16.0) -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath"`) do (
+	set Install2017Dir=%%i
+	set VS150PATH="%%i"
+)
+
+for /f "usebackq tokens=*" %%i in (`"%PM_vswhere_PATH%\VsWhere.exe  -version [16.0,17.0) -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath"`) do (
+  set Install2019Dir=%%i
+	set VS160PATH="%%i"	
 )	
+
+if exist "%Install2017Dir%\VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt" (
+  pushd "%Install2017Dir%\VC\Auxiliary\Build\"
+  set /p Version=<Microsoft.VCToolsVersion.default.txt
+  for /f "delims=" %%x in (Microsoft.VCToolsVersion.default.txt) do (
+	if not %%x=="" (
+	  rem Example hardcodes x64 as the host and target architecture, but you could parse it from arguments
+	  set VS150CLPATH="%Install2017Dir%\VC\Tools\MSVC\%%x\bin\HostX64\x64\cl.exe"
+	)
+  )  
+  popd
+)
+
+if exist "%Install2019Dir%\VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt" (
+  pushd "%Install2019Dir%\VC\Auxiliary\Build\"
+  set /p Version=<Microsoft.VCToolsVersion.default.txt
+  for /f "delims=" %%x in (Microsoft.VCToolsVersion.default.txt) do (
+	if not %%x=="" (
+	  rem Example hardcodes x64 as the host and target architecture, but you could parse it from arguments
+	  set VS160CLPATH="%Install2019Dir%\VC\Tools\MSVC\%%x\bin\HostX64\x64\cl.exe"
+	)
+  )  
+  popd
+)
 
 :ADDITIONAL_PARAMS_MISSING
 pushd %~dp0

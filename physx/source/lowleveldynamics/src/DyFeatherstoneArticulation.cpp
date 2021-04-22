@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -708,7 +708,7 @@ namespace Dy
 	}
 
 	void FeatherstoneArticulation::recordDeltaMotion(const ArticulationSolverDesc& desc, 
-		const PxReal dt, Cm::SpatialVectorF* deltaV)
+		const PxReal dt, Cm::SpatialVectorF* deltaV, const PxReal totalInvDt)
 	{
 		FeatherstoneArticulation* articulation = static_cast<FeatherstoneArticulation*>(desc.articulation);
 		ArticulationData& data = articulation->mArticulationData;
@@ -724,8 +724,9 @@ namespace Dy
 		PxReal* jointPosition = data.getJointPositions();
 		PxReal* jointVelocities = data.getJointVelocities();
 		PxReal* jointDeltaVelocities = data.getJointDeltaVelocities();
+		PxReal* jointAcceleration = data.getJointAccelerations();
 		
-		data.mAccumulatedDt += dt;
+		//data.mAccumulatedDt += dt;
 		data.setDt(dt);
 
 		const bool fixBase = data.getArticulationFlags() & PxArticulationFlag::eFIX_BASE;
@@ -766,6 +767,11 @@ namespace Dy
 		for (PxU32 linkID = 1; linkID < linkCount; linkID++)
 		{
 			ArticulationJointCoreData& jointDatum = data.getJointData(linkID);
+
+			for (PxU32 i = 0, idx = jointDatum.jointOffset; i < jointDatum.dof; ++i, idx++)
+			{
+				jointAcceleration[idx] += jointDeltaVelocities[idx] * totalInvDt;
+			}
 			
 			const PxTransform newPose = articulation->propagateTransform(linkID, data.getLinks(), jointDatum, data.getMotionVelocities(),
 				dt, data.mAccumulatedPoses[data.getLink(linkID).parent], data.mAccumulatedPoses[linkID], 
@@ -779,10 +785,7 @@ namespace Dy
 
 			data.mDeltaQ[linkID] = dq;
 
-			for (PxU32 i = 0, idx = jointDatum.jointOffset; i < jointDatum.dof; ++i, idx++)
-			{
-				jointDeltaVelocities[idx] = 0.f;
-			}
+			
 
 			/*PxVec3 lin, ang;
 			calculateNewVelocity(newPose, data.mPreTransform[linkID],
@@ -1139,8 +1142,8 @@ namespace Dy
 		}
 	}
 
-	PxQuat computeSphericalJointPositions(const PxQuat relativeQuat,
-		const PxQuat newRot, const PxQuat pBody2WorldRot,
+	PxQuat computeSphericalJointPositions(const PxQuat& relativeQuat,
+		const PxQuat& newRot, const PxQuat& pBody2WorldRot,
 		PxReal* jPositions, const SpatialSubspaceMatrix& motionMatrix);
 
 	PxTransform FeatherstoneArticulation::propagateTransform(const PxU32 linkID, ArticulationLink* links,
@@ -2161,8 +2164,7 @@ namespace Dy
 				PxTGSSolverBodyTxInertia& txI1 = txInertia[desc.bodyBDataIndex];
 
 				PxU8 flags = unit.rigidCore0->mFlags;
-				if (unit.rigidCore1)
-					flags |= PxU8(unit.rigidCore1->mFlags);
+				flags |= PxU8(unit.rigidCore1->mFlags);
 
 				blockDesc.bodyFrame0 = unit.rigidCore0->body2World;
 				blockDesc.bodyFrame1 = unit.rigidCore1->body2World;
@@ -2569,14 +2571,13 @@ namespace Dy
 						{
 							const PxReal targetVelocity = jointTranDatum.targetJointVelocity[dofId];
 							PxReal targetPos = jointTranDatum.targetJointPosition[dofId];
-							PxReal jointPos = jPosition[dofId];
 
 							//KS - clamp drive target within limits - no point in having 2 parts fight against each-other
 							if (j.motion[i] == PxArticulationMotion::eLIMITED)
 								targetPos = PxClamp(targetPos, j.limits[i].low, j.limits[i].high);
 
 							
-							PxReal x = 0.f, x2 = 0.f;
+							PxReal x = 0.f;
 
 							PxReal stiffness = j.drives[i].stiffness;
 							PxReal damping = j.drives[i].damping;
@@ -2596,11 +2597,8 @@ namespace Dy
 								type = PxArticulationDriveType::eFORCE;
 							}
 
-							const PxReal a = dt * (dt*stiffness + damping);
-							const PxReal b = dt * (damping * targetVelocity + stiffness * (targetPos - jointPos));
-							const PxReal a2 = stepDt*(stepDt*stiffness + damping);
-
-							PxReal vm2 = 0.f;
+							const PxReal a = stepDt * (stepDt*stiffness + damping);
+							const PxReal b = stepDt * (damping * targetVelocity);// + stiffness * (targetPos - jointPos));
 
 							switch (type)
 							{
@@ -2608,20 +2606,18 @@ namespace Dy
 							{
 								
 								x = unitResponse > 0.f ? 1.0f / (1.0f + a*unitResponse) : 0.f;
-								x2 = unitResponse > 0.f ? 1.f/(1.f + a2*unitResponse) : 0.f;
 								constraints->driveTargetVel = x * b;
 								constraints->driveVelMultiplier = -x*a;
-								vm2 = x2*a2;
+								constraints->driveBiasCoefficient = stiffness * x * stepDt;
 								break;
 							}
 							
 							case PxArticulationDriveType::eACCELERATION:
 							{
 								x = 1.0f / (1.0f + a);
-								x2 = 1.f / (1.f + a2);
 								constraints->driveTargetVel = x * b*recipResponse;
 								constraints->driveVelMultiplier = -x*a*recipResponse;
-								vm2 = x2*a2*recipResponse;
+								constraints->driveBiasCoefficient = stiffness * x * recipResponse * stepDt;
 								break;
 							}
 							//KS - this is required to avoid a warning on Linux
@@ -2634,14 +2630,12 @@ namespace Dy
 
 							//constraints->driveBiasCoefficient = 0.f;//recipResponse * invDt;
 							const PxReal im = 1.0f - x;
-							const PxReal im2 = 1.0f - x2;
-							constraints->driveBiasCoefficient = 0.f;//invDt*erp*im2*recipResponse;
-							constraints->driveTarget = jointPos;
+							constraints->driveTarget = targetPos;
 							//constraints->driveTarget = targetPos;
-							constraints->driveImpulseMultiplier = /*isTGSSolver ? 1.f :*/ im;
+							constraints->driveImpulseMultiplier = isTGSSolver ? 1.f : im;
 							constraints->maxDriveForce = j.drives[i].maxForce* maxForceScale;// *dt;
 							constraints->driveForce = 0.f;
-							constraints->driveBackPropagateScale = vm2*unitResponse*im2*erp; //*vm2;
+							constraints->driveBackPropagateScale = 0.f; //*vm2;
 						}
 						else
 						{
@@ -2730,13 +2724,12 @@ namespace Dy
 						{
 							const PxReal targetVelocity = -jointTranDatum.targetJointVelocity[dofId];
 							PxReal targetPos = jointTranDatum.targetJointPosition[dofId];
-							PxReal jointPos = jPosition[dofId];
 
 							//KS - clamp drive target within limits - no point in having 2 parts fight against each-other
 							if (j.motion[i] == PxArticulationMotion::eLIMITED)
 								targetPos = PxClamp(targetPos, j.limits[i].low, j.limits[i].high);
 
-							PxReal x = 0.f, x2 = 0.f;
+							PxReal x = 0.f;
 
 							PxReal stiffness = j.drives[i].stiffness;
 							PxReal damping = j.drives[i].damping;
@@ -2756,30 +2749,25 @@ namespace Dy
 								type = PxArticulationDriveType::eFORCE;
 							}
 
-							const PxReal a = dt * (dt * stiffness + damping);
-							const PxReal b = dt * (damping * targetVelocity + stiffness * (targetPos - jointPos));
-							const PxReal a2 = stepDt * (stepDt * stiffness + damping);
-
-							PxReal vm2 = 0.f;
+							const PxReal a = stepDt * (stepDt * stiffness + damping);
+							const PxReal b = stepDt * (damping * targetVelocity);// + stiffness * (targetPos - jointPos));
 
 							switch (type)
 							{
 							case PxArticulationDriveType::eFORCE:
 							{
 								x = unitResponse > 0.f ? 1.0f / (1.0f + a*unitResponse) : 0.f;
-								x2 = unitResponse > 0.f ? 1.0f / (1.0f + a2*unitResponse) : 0.f;
 								constraints->driveTargetVel = x * b;
 								constraints->driveVelMultiplier = -x*a;
-								vm2 = x2*a2;
+								constraints->driveBiasCoefficient = stiffness * x * stepDt;
 								break;
 							}
 							case PxArticulationDriveType::eACCELERATION:
 							{
 								x = 1.0f / (1.0f + a);
-								x2 = 1.0f / (1.0f + a2);
 								constraints->driveTargetVel = x * b*recipResponse;
 								constraints->driveVelMultiplier = -x*a*recipResponse;
-								vm2 = x2*a2*recipResponse;
+								constraints->driveBiasCoefficient = stiffness * x * recipResponse * stepDt;
 								break;
 							}
 							//KS - this is required to avoid a warning on Linux
@@ -2791,14 +2779,12 @@ namespace Dy
 							}
 
 							const PxReal im = 1.f - x;
-							const PxReal im2 = 1.f-x2;
 
-							constraints->driveBiasCoefficient = 0.f;//invDt*erp*im2*recipResponse;
-							constraints->driveTarget = jointPos;
-							constraints->driveImpulseMultiplier = im;
+							constraints->driveTarget = targetPos;
+							constraints->driveImpulseMultiplier = isTGSSolver ? 1.f : im;
 							constraints->maxDriveForce = j.drives[i].maxForce* maxForceScale;
 							constraints->driveForce = 0.f;
-							constraints->driveBackPropagateScale = vm2*unitResponse*im2*erp;
+							constraints->driveBackPropagateScale = 0.f;
 						}
 						else
 						{
@@ -3338,19 +3324,20 @@ namespace Dy
 
 	//This can be called by forward dynamic
 	void FeatherstoneArticulation::computeD(ArticulationData& data, ScratchData& scratchData,
-		Cm::SpatialVectorF* Z, Cm::SpatialVectorF* DeltaV)
+		Cm::SpatialVectorF* /*Z*/, Cm::SpatialVectorF* DeltaV)
 	{
+		PX_UNUSED(DeltaV);
 		Cm::SpatialVectorF* motionVelocities = scratchData.motionVelocities;
 		
-		Cm::SpatialVectorF* dragImpulse = Z;
+		//Cm::SpatialVectorF* dragImpulse = Z;
 
-		const Cm::SpatialVectorF* ZAForces = scratchData.spatialZAVectors;
+		Cm::SpatialVectorF* ZAForces = scratchData.spatialZAVectors;
 
-		PxMemZero(dragImpulse, sizeof(Cm::SpatialVectorF)*data.getLinkCount());
+		//PxMemZero(dragImpulse, sizeof(Cm::SpatialVectorF)*data.getLinkCount());
 
 		const PxReal dt = data.getDt();
+		const PxReal invDt = 1.f/dt;
 
-		bool bAppliedImpusle = false;
 
 		for (PxU32 linkID = 0; linkID < data.getLinkCount(); ++linkID)
 		{
@@ -3364,7 +3351,7 @@ namespace Dy
 			//PxMat33& I = linkDatum.spatialArticulatedInertia.bottomLeft;
 			const PxVec3 I = PxVec3(1.f / core.inverseInertia.x, 1.f / core.inverseInertia.y, 1.f / core.inverseInertia.z);
 
-			Cm::SpatialVectorF& d = dragImpulse[linkID];
+			Cm::SpatialVectorF d(PxVec3(0.f), PxVec3(0.f));
 
 			Cm::SpatialVectorF v;
 			v.top = motionVelocities[linkID].top;
@@ -3375,9 +3362,9 @@ namespace Dy
 				const PxReal linDamp = PxMin(core.linearDamping*dt, 1.f);
 				const PxReal angDamp = PxMin(core.angularDamping*dt, 1.f);
 
-				d.top += (v.bottom * linDamp*m) -ZAForces[linkID].top * dt * linDamp;
-				d.bottom += core.body2World.rotate(I.multiply(core.body2World.rotateInv(v.top)* angDamp)) -ZAForces[linkID].bottom * dt * angDamp;
-				bAppliedImpusle = true;
+				
+				ZAForces[linkID].top += (v.bottom * linDamp*m) -ZAForces[linkID].top * linDamp;
+				ZAForces[linkID].bottom += core.body2World.rotate(I.multiply(core.body2World.rotateInv(v.top)* angDamp)) -ZAForces[linkID].bottom * angDamp;
 			}
 
 			const PxReal maxAng = core.maxAngularVelocitySq;
@@ -3394,8 +3381,6 @@ namespace Dy
 					const PxVec3 tmpaccelerationAng = core.body2World.rotate((I.multiply(core.body2World.rotateInv(v.top))*scale));
 					PX_UNUSED(tmpaccelerationAng);
 					d.bottom += tmpaccelerationAng;
-
-					bAppliedImpusle = true;
 				}
 
 				if (linMag > maxLin)
@@ -3404,29 +3389,31 @@ namespace Dy
 					const PxVec3 tmpaccelerationLin = (v.bottom*m*scale);
 					PX_UNUSED(tmpaccelerationLin);
 					d.top += tmpaccelerationLin;
-
-					bAppliedImpusle = true;
 				}
 			}
+
+			ZAForces[linkID] += d * invDt;
 		}
 
-		if (bAppliedImpusle)
-		{
-			applyImpulses(dragImpulse, DeltaV);
+		//if (bAppliedImpusle)
+		//{
+		//	//const PxReal invDt = 1.f/data.getDt();
+		//	applyImpulses(dragImpulse, DeltaV);
 
-			PxReal* deltaV = data.getJointDeltaVelocities();
-			PxReal* jointV = data.getJointVelocities();
+		//	PxReal* deltaV = data.getJointDeltaVelocities();
+		//	PxReal* jointV = data.getJointVelocities();
 
-			for (PxU32 linkID = 1; linkID < data.getLinkCount(); ++linkID)
-			{
-				ArticulationJointCoreData& tJointDatum = data.getJointData()[linkID];
-				for (PxU32 i = 0; i < tJointDatum.dof; ++i)
-				{
-					jointV[i + tJointDatum.jointOffset] += deltaV[i + tJointDatum.jointOffset];
-					deltaV[i + tJointDatum.jointOffset] = 0.f;
-				}
-			}
-		}
+		//	for (PxU32 linkID = 1; linkID < data.getLinkCount(); ++linkID)
+		//	{
+		//		ArticulationJointCoreData& tJointDatum = data.getJointData()[linkID];
+		//		for (PxU32 i = 0; i < tJointDatum.dof; ++i)
+		//		{
+		//			const PxReal dv = deltaV[i + tJointDatum.jointOffset];
+		//			jointV[i + tJointDatum.jointOffset] += dv;
+		//			deltaV[i + tJointDatum.jointOffset] = 0.f;
+		//		}
+		//	}
+		//}
 
 		////Last ditch effort - clamp velocities..
 		//for (PxU32 linkID = 0; linkID < data.getLinkCount(); ++linkID)
@@ -3490,11 +3477,10 @@ namespace Dy
 			if (jointDatum.dof > 0)
 			{
 				Cm::SpatialVectorF relVel(PxVec3(0.f), PxVec3(0.f));
-				//const PxReal maxJVel = joint->maxJointVelocity;
 				for (PxU32 ind = 0; ind < jointDatum.dof; ++ind)
 				{
 					//Clamp joint velocity used in coriolis terms to reduce chances of unstable feed-back loops
-					const PxReal jV = jVelocity[ind];//PxClamp(jVelocity[ind], -maxJVel, maxJVel);
+					const PxReal jV = jVelocity[ind];
 					relVel.top += data.mWorldMotionMatrix[linkID][ind].top * jV;
 					relVel.bottom += data.mWorldMotionMatrix[linkID][ind].bottom * jV;
 				}
@@ -3836,7 +3822,7 @@ namespace Dy
 		Cm::SpatialVectorF* motionVelocities = scratchData.motionVelocities;
 		Cm::SpatialVectorF* motionAccelerations = scratchData.motionAccelerations;
 
-		const PxReal* jointVelocities = scratchData.jointVelocities;
+		PxReal* jointVelocities = scratchData.jointVelocities;
 
 		const ArticulationLink& baseLink = links[0];
 		ArticulationLinkData& baseLinkDatum = linkData[0];
@@ -3874,12 +3860,16 @@ namespace Dy
 			if (jointVelocities)
 			{
 				ArticulationJointCoreData& jointDatum = data.getJointData(linkID);
-				const PxReal* jVelocity = &jointVelocities[jointDatum.jointOffset];
+				PxReal* jVelocity = &jointVelocities[jointDatum.jointOffset];
+
+				const PxReal maxJVelocity = link.inboundJoint->maxJointVelocity;
 
 				Cm::UnAlignedSpatialVector deltaV = Cm::UnAlignedSpatialVector::Zero();
 				for (PxU32 ind = 0; ind < jointDatum.dof; ++ind)
 				{
-					deltaV += data.mWorldMotionMatrix[linkID][ind] * jVelocity[ind];
+					PxReal jVel = PxClamp(jVelocity[ind], -maxJVelocity, maxJVelocity);
+					deltaV += data.mWorldMotionMatrix[linkID][ind] * jVel;
+					jVelocity[ind] = jVel;
 				}
 
 				vel.top += deltaV.top;
@@ -4058,6 +4048,10 @@ namespace Dy
 
 	void conclude1D(const PxSolverConstraintDesc& desc, SolverContext& cache);
 
+	void concludeContact(const PxSolverConstraintDesc& desc);
+
+	void conclude1DStep(const PxSolverConstraintDesc& desc);
+
 
 	void FeatherstoneArticulation::concludeInternalConstraints(bool isTGS)
 	{
@@ -4066,18 +4060,18 @@ namespace Dy
 		for (PxU32 i = 0; i < mStaticConstraints.size(); ++i)
 		{
 			PxSolverConstraintDesc& desc = mStaticConstraints[i];
-			/*if (isTGS)
+			if (isTGS)
 			{
 				if (*desc.constraint == DY_SC_TYPE_EXT_CONTACT)
 				{
-					writeBackContact(static_cast<PxSolverConstraintDesc&>(desc), NULL);
+					concludeContact(desc);
 				}
 				else
 				{
-					writeBack1D(static_cast<PxSolverConstraintDesc&>(desc));
+					conclude1DStep(desc);
 				}
 			}
-			else*/
+			else
 			{
 
 				if (*desc.constraint == DY_SC_TYPE_EXT_CONTACT)

@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -261,8 +261,6 @@ public:
 	PX_INLINE		void				syncState();
 	PX_INLINE		void				syncCollisionWriteThroughState();
 
-	static size_t getScOffset()	{ return reinterpret_cast<size_t>(&reinterpret_cast<Body*>(0)->mBodyCore);	}
-	
 	/**
 	\brief Shadowed method of #Scb::Base::markUpdated() to store the buffered property flags in a separate location (ran out of flag space)
 	*/
@@ -279,6 +277,7 @@ public:
 public:
 	PX_FORCE_INLINE	const Sc::BodyCore&	getScBody()	const		{ return mBodyCore; }  // Only use if you know what you're doing!
 	PX_FORCE_INLINE	Sc::BodyCore&		getScBody()				{ return mBodyCore; }  // Only use if you know what you're doing!
+	PX_FORCE_INLINE static size_t		getScOffset()			{ return PX_OFFSET_OF_RT(Body, mBodyCore); }
 
 	PX_FORCE_INLINE static const Body&	fromSc(const Core& a)	{ return static_cast<const Body&>(Actor::fromSc(a));	}
 	PX_FORCE_INLINE static Body&		fromSc(Core &a)			{ return static_cast<Body&>(Actor::fromSc(a));			}

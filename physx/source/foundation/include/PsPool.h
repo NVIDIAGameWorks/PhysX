@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -213,60 +213,6 @@ definition for serialized classes is complete in checked builds.
 				else
 					tIt->~T();
 			}
-		}
-	}
-
-	/*
-	Go through all slabs and call destructor if the slab is empty
-	*/
-	void releaseEmptySlabs()
-	{
-		Array<void*, Alloc> freeNodes(*this);
-		Array<void*, Alloc> slabNodes(mSlabs, *this);
-		while(mFreeElement)
-		{
-			freeNodes.pushBack(mFreeElement);
-			mFreeElement = mFreeElement->mNext;
-		}
-
-		typename Array<void*, Alloc>::Iterator freeIt = freeNodes.begin(), freeEnd = freeNodes.end(),
-		                                       lastCheck = freeNodes.end() - mElementsPerSlab;
-
-		if(freeNodes.size() > mElementsPerSlab)
-		{
-			Alloc& alloc(*this);
-			sort(freeNodes.begin(), freeNodes.size(), Less<void*>(), alloc);
-			sort(slabNodes.begin(), slabNodes.size(), Less<void*>(), alloc);
-
-			mSlabs.clear();
-			for(void** slabIt = slabNodes.begin(), *slabEnd = slabNodes.end(); slabIt != slabEnd; ++slabIt)
-			{
-				while((freeIt < lastCheck) && (*slabIt > (*freeIt)))
-				{
-					push(reinterpret_cast<FreeList*>(*freeIt));
-					freeIt++;
-				}
-
-				if(*slabIt == (*freeIt)) // the slab's first element in freeList
-				{
-					const size_t endSlabAddress = size_t(*slabIt) + mSlabSize;
-					const size_t endFreeAddress = size_t(*(freeIt + mElementsPerSlab - 1));
-					if(endFreeAddress + sizeof(T) == endSlabAddress)
-					{ // all slab's element in freeList
-						Alloc::deallocate(*slabIt);
-						freeIt += mElementsPerSlab;
-						continue;
-					}
-				}
-
-				mSlabs.pushBack(*slabIt);
-			}
-		}
-
-		while(freeIt != freeEnd)
-		{
-			push(reinterpret_cast<FreeList*>(*freeIt));
-			++freeIt;
 		}
 	}
 };

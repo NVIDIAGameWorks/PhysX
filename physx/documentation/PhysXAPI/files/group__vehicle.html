@@ -188,10 +188,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleWheelQueryResult.html">PxVehicleWheelQueryResult</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleWheelConcurrentUpdateData.html">PxVehicleWheelConcurrentUpdateData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing data that is computed for a wheel during concurrent calls to PxVehicleUpdates but which cannot be safely concurrently applied.  <a href="structPxVehicleWheelConcurrentUpdateData.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing data that is computed for a wheel during concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData but which cannot be safely concurrently applied.  <a href="structPxVehicleWheelConcurrentUpdateData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleConcurrentUpdateData.html">PxVehicleConcurrentUpdateData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing data that is computed for a vehicle and its wheels during concurrent calls to PxVehicleUpdates but which cannot be safely concurrently applied.  <a href="structPxVehicleConcurrentUpdateData.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing data that is computed for a vehicle and its wheels during concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData but which cannot be safely concurrently applied.  <a href="structPxVehicleConcurrentUpdateData.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleKeySmoothingData.html">PxVehicleKeySmoothingData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to produce smooth vehicle driving control values from key inputs.  <a href="structPxVehicleKeySmoothingData.html#details">More...</a><br /></td></tr>
@@ -267,9 +267,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga2020b9fcb5092e2a2d81e82ba7461dfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#ga2020b9fcb5092e2a2d81e82ba7461dfd">PxVehicleSuspensionRaycasts</a> (<a class="el" href="classPxBatchQuery.html">PxBatchQuery</a> *batchQuery, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVehicles, <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> **vehicles, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSceneQueryResults, <a class="el" href="group__physics.html#ga5d8a1dc3627cf1442f40d91a5ec6b4e3">PxRaycastQueryResult</a> *sceneQueryResults, const bool *vehiclesToRaycast=NULL)</td></tr>
 <tr class="memdesc:ga2020b9fcb5092e2a2d81e82ba7461dfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform raycasts for all suspension lines for all vehicles.  <a href="#ga2020b9fcb5092e2a2d81e82ba7461dfd">More...</a><br /></td></tr>
 <tr class="separator:ga2020b9fcb5092e2a2d81e82ba7461dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c9f3da897c9294c9164aa41b18150e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#ga3c9f3da897c9294c9164aa41b18150e3">PxVehicleSuspensionSweeps</a> (<a class="el" href="classPxBatchQuery.html">PxBatchQuery</a> *batchQuery, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVehicles, <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> **vehicles, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSceneQueryResults, <a class="el" href="group__physics.html#ga89ec6835295298336ceaca7069ba96e4">PxSweepQueryResult</a> *sceneQueryResults, const PxU16 nbHitsPerQuery, const bool *vehiclesToSweep=NULL, const PxF32 sweepWidthScale=1.0f, const PxF32 sweepRadiusScale=1.0f)</td></tr>
-<tr class="memdesc:ga3c9f3da897c9294c9164aa41b18150e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform sweeps for all suspension lines for all vehicles.  <a href="#ga3c9f3da897c9294c9164aa41b18150e3">More...</a><br /></td></tr>
-<tr class="separator:ga3c9f3da897c9294c9164aa41b18150e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga609c26d70a0e7452c313ebe8c58d9da5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#ga609c26d70a0e7452c313ebe8c58d9da5">PxVehicleSuspensionSweeps</a> (<a class="el" href="classPxBatchQuery.html">PxBatchQuery</a> *batchQuery, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVehicles, <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> **vehicles, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbSceneQueryResults, <a class="el" href="group__physics.html#ga89ec6835295298336ceaca7069ba96e4">PxSweepQueryResult</a> *sceneQueryResults, const PxU16 nbHitsPerQuery, const bool *vehiclesToSweep=NULL, const PxF32 sweepWidthScale=1.0f, const PxF32 sweepRadiusScale=1.0f, const PxF32 sweepInflation=0.0f)</td></tr>
+<tr class="memdesc:ga609c26d70a0e7452c313ebe8c58d9da5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform sweeps for all suspension lines for all vehicles.  <a href="#ga609c26d70a0e7452c313ebe8c58d9da5">More...</a><br /></td></tr>
+<tr class="separator:ga609c26d70a0e7452c313ebe8c58d9da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1acc47dad2914768ee6074320b0a5643"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#ga1acc47dad2914768ee6074320b0a5643">PxVehicleModifyWheelContacts</a> (const <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> &amp;vehicle, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> wheelId, const PxF32 wheelTangentVelocityMultiplier, const PxReal <a class="el" href="PxContact_8h.html#a0a05cbea8c3ce31569c312d33d562f08">maxImpulse</a>, <a class="el" href="classPxContactModifyPair.html">PxContactModifyPair</a> &amp;contactModifyPair)</td></tr>
 <tr class="memdesc:ga1acc47dad2914768ee6074320b0a5643"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function called from <a class="el" href="classPxContactModifyCallback.html#a383f0448886bf352215c886b3066f790" title="Passes modifiable arrays of contacts to the application. ">PxContactModifyCallback::onContactModify</a>. The function determines if rigid body contact points recorded for the wheel's <a class="el" href="classPxShape.html" title="Abstract class for collision shapes. ">PxShape</a> are likely to be duplicated and resolved by the wheel's suspension raycast. Contact points that will be resolved by the suspension are ignored. Contact points that are accepted (rather than ignored) are modified to account for the effect of the suspension geometry and the angular speed of the wheel.  <a href="#ga1acc47dad2914768ee6074320b0a5643">More...</a><br /></td></tr>
 <tr class="separator:ga1acc47dad2914768ee6074320b0a5643"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -277,7 +277,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga47aff43683966ca9d1118a1bf4a1f5c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update an array of vehicles by either applying an acceleration to the rigid body actor associated with each vehicle or by an immediate update of the velocity of the actor.  <a href="#ga47aff43683966ca9d1118a1bf4a1f5c2">More...</a><br /></td></tr>
 <tr class="separator:ga47aff43683966ca9d1118a1bf4a1f5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf9349122c5cf95fec09bd09ce5e540d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#gaf9349122c5cf95fec09bd09ce5e540d2">PxVehiclePostUpdates</a> (const <a class="el" href="structPxVehicleConcurrentUpdateData.html">PxVehicleConcurrentUpdateData</a> *vehicleConcurrentUpdates, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVehicles, <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> **vehicles)</td></tr>
-<tr class="memdesc:gaf9349122c5cf95fec09bd09ce5e540d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply actor changes that were computed in concurrent calls to PxVehicleUpdates but which could not be safely applied due to the concurrency.  <a href="#gaf9349122c5cf95fec09bd09ce5e540d2">More...</a><br /></td></tr>
+<tr class="memdesc:gaf9349122c5cf95fec09bd09ce5e540d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply actor changes that were computed in concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData but which could not be safely applied due to the concurrency.  <a href="#gaf9349122c5cf95fec09bd09ce5e540d2">More...</a><br /></td></tr>
 <tr class="separator:gaf9349122c5cf95fec09bd09ce5e540d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae62e4d3360ae24537d7fe2100e79f24c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__vehicle.html#gae62e4d3360ae24537d7fe2100e79f24c">PxVehicleShiftOrigin</a> (const <a class="el" href="classPxVec3.html">PxVec3</a> &amp;shift, const <a class="el" href="group__foundation.html#gacce5749db3dcfb916e98c253374264ed">PxU32</a> nbVehicles, <a class="el" href="classPxVehicleWheels.html">PxVehicleWheels</a> **vehicles)</td></tr>
 <tr class="memdesc:gae62e4d3360ae24537d7fe2100e79f24c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the origin of vehicles by the specified vector.  <a href="#gae62e4d3360ae24537d7fe2100e79f24c">More...</a><br /></td></tr>
@@ -1197,16 +1197,16 @@ Reduce maxImpulse if the wheels are frequently colliding with light objects with
       </table>
 </div><div class="memdoc">
 
-<p>Apply actor changes that were computed in concurrent calls to PxVehicleUpdates but which could not be safely applied due to the concurrency. </p>
+<p>Apply actor changes that were computed in concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData but which could not be safely applied due to the concurrency. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">vehicleConcurrentUpdates</td><td>is an array of length nbVehicles where vehicleConcurrentUpdates[i] contains data describing actor changes that were computed for vehicles[i] during concurrent calls to PxVehicleUpdates.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vehicleConcurrentUpdates</td><td>is an array of length nbVehicles where vehicleConcurrentUpdates[i] contains data describing actor changes that were computed for vehicles[i] during concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData.</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">nbVehicles</td><td>is the number of vehicles pointers in the vehicles array</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">vehicles</td><td>is an array of length nbVehicles containing all vehicles that were partially updated in concurrent calls to PxVehicleUpdates.</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">vehicles</td><td>is an array of length nbVehicles containing all vehicles that were partially updated in concurrent calls to PxVehicleUpdates or PxVehicleUpdateSingleVehicleAndStoreTelemetryData.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga47aff43683966ca9d1118a1bf4a1f5c2" title="Update an array of vehicles by either applying an acceleration to the rigid body actor associated wit...">PxVehicleUpdates</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga47aff43683966ca9d1118a1bf4a1f5c2" title="Update an array of vehicles by either applying an acceleration to the rigid body actor associated wit...">PxVehicleUpdates</a>, PxVehicleUpdateSingleVehicleAndStoreTelemetryData </dd></dl>
 
 </div>
 </div>
@@ -1305,7 +1305,7 @@ Default value of maxHitActorAcceleration is PX_MAX_REAL </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>PxVehicleUpdates ignores the rejection angles for raycasts and for sweeps that return blocking hits.</dd>
 <dd>
 Both angles have default values of Pi/4.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga3c9f3da897c9294c9164aa41b18150e3" title="Perform sweeps for all suspension lines for all vehicles. ">PxVehicleSuspensionSweeps</a>, <a class="el" href="group__vehicle.html#ga1acc47dad2914768ee6074320b0a5643" title="A function called from PxContactModifyCallback::onContactModify. The function determines if rigid bod...">PxVehicleModifyWheelContacts</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga609c26d70a0e7452c313ebe8c58d9da5" title="Perform sweeps for all suspension lines for all vehicles. ">PxVehicleSuspensionSweeps</a>, <a class="el" href="group__vehicle.html#ga1acc47dad2914768ee6074320b0a5643" title="A function called from PxContactModifyCallback::onContactModify. The function determines if rigid bod...">PxVehicleModifyWheelContacts</a> </dd></dl>
 
 </div>
 </div>
@@ -1456,8 +1456,8 @@ Only blocking hits are supported (<a class="el" href="structPxQueryHitType.html#
 
 </div>
 </div>
-<a id="ga3c9f3da897c9294c9164aa41b18150e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3c9f3da897c9294c9164aa41b18150e3">&#9670;&nbsp;</a></span>PxVehicleSuspensionSweeps()</h2>
+<a id="ga609c26d70a0e7452c313ebe8c58d9da5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga609c26d70a0e7452c313ebe8c58d9da5">&#9670;&nbsp;</a></span>PxVehicleSuspensionSweeps()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1514,7 +1514,13 @@ Only blocking hits are supported (<a class="el" href="structPxQueryHitType.html#
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const PxF32&#160;</td>
-          <td class="paramname"><em>sweepRadiusScale</em> = <code>1.0f</code>&#160;</td>
+          <td class="paramname"><em>sweepRadiusScale</em> = <code>1.0f</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PxF32&#160;</td>
+          <td class="paramname"><em>sweepInflation</em> = <code>0.0f</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1536,6 +1542,7 @@ Only blocking hits are supported (<a class="el" href="structPxQueryHitType.html#
     <tr><td class="paramdir">[in]</td><td class="paramname">vehiclesToSweep</td><td>is an array of bools of length nbVehicles that is used to decide if sweeps will be performed for the corresponding vehicle in the vehicles array. If vehiclesToSweep[i] is true then suspension sweeps will be performed for vehicles[i]. If vehiclesToSweep[i] is false then suspension sweeps will not be performed for vehicles[i].</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sweepWidthScale</td><td>scales the geometry of the wheel used in the sweep. Values &lt; 1 result in a thinner swept wheel, while values &gt; 1 result in a fatter swept wheel.</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">sweepRadiusScale</td><td>scales the geometry of the wheel used in the sweep. Values &lt; 1 result in a larger swept wheel, while values &gt; 1 result in a smaller swept wheel.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sweepInflation</td><td>Inflation parameter for sweeps. This is the inflation parameter from <a class="el" href="classPxScene.html#a9b07b2a98e64105a06e97ffaeba2a63d" title="Performs a sweep test against objects in the scene, returns results in a PxSweepBuffer object or via ...">PxScene::sweep()</a>. It inflates the shape and makes it rounder, which gives smoother and more reliable normals.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1552,7 +1559,7 @@ A scale can be applied to the shape so that a modified shape is swept through th
 Blocking hits (<a class="el" href="structPxQueryHitType.html#acab1ef408184995d169330ed689b79e3a60dc59a348d85c101747ed45d9b20750" title="a hit on the shape blocks the query (does not block overlap queries) ">PxQueryHitType::eBLOCK</a>) and non-blocking hits (PxQueryHitType::TOUCH) are supported. If the pre-and post-filter functions of the <a class="el" href="classPxBatchQuery.html" title="Batched queries object. This is used to perform several queries at the same time. ...">PxBatchQuery</a> instance are set up to return blocking hits it is recommended to set nbHitsPerQuery = 1. If the filter functions returns touch hits then it is recommended to set nbHitsPerQuery &gt; 1. The exact value depends on the expected complexity of the geometry that lies under the wheel. For complex geometry, especially with dynamic objects, it is recommended to use non-blocking hits. The vehicle update function will analyze all returned hits and choose the most appropriate using the thresholds set in PxVehicleSetSweepHitRejectionAngles.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxVehicleDrive4W.html#a37811fb8cf89260d45276a97b767acce" title="Set a vehicle to its rest state. Aside from the rigid body transform, this will set the vehicle and r...">PxVehicleDrive4W::setToRestState</a>, <a class="el" href="classPxVehicleDriveNW.html#aa66886e48cb1b6e635e804ee8267e5b3" title="Set a vehicle to its rest state. Aside from the rigid body transform, this will set the vehicle and r...">PxVehicleDriveNW::setToRestState</a>, <a class="el" href="classPxVehicleDriveTank.html#adbbad11dfa6fb32b6d209ddabf8f9132" title="Set a vehicle to its rest state. Aside from the rigid body transform, this will set the vehicle and r...">PxVehicleDriveTank::setToRestState</a>, <a class="el" href="classPxVehicleNoDrive.html#a284e8e6ff3c1617b8c39bab3edc217c7" title="Set a vehicle to its rest state. Aside from the rigid body transform, this will set the vehicle and r...">PxVehicleNoDrive::setToRestState</a></dd>
 <dd>
-<a class="el" href="classPxBatchQuery.html#abf15206e4dcf2238db75f47565078b49" title="Performs a sweep test against objects in the scene, returns results in PxBatchQueryMemory::userSweepR...">PxBatchQuery::sweep</a></dd>
+<a class="el" href="classPxBatchQuery.html#abf15206e4dcf2238db75f47565078b49" title="Performs a sweep test against objects in the scene, returns results in PxBatchQueryMemory::userSweepR...">PxBatchQuery::sweep</a> <a class="el" href="classPxScene.html#a9b07b2a98e64105a06e97ffaeba2a63d" title="Performs a sweep test against objects in the scene, returns results in a PxSweepBuffer object or via ...">PxScene::sweep()</a></dd>
 <dd>
 <a class="el" href="group__vehicle.html#gaf1eb208ee9ffdbfa91d20ee3bb5087e0" title="Set threshold angles that are used to determine if a wheel hit is to be resolved by vehicle suspensio...">PxVehicleSetSweepHitRejectionAngles</a> </dd></dl>
 
@@ -1678,7 +1685,7 @@ The suspension sprung masses are updated so that the natural frequency and dampi
     <tr><td class="paramdir">[in]</td><td class="paramname">nbVehicles</td><td>is the number of vehicles pointers in the vehicles array</td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">vehicles</td><td>is an array of length nbVehicles containing all vehicles to be updated by the specified timestep</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">vehicleWheelQueryResults</td><td>is an array of length nbVehicles storing the wheel query results of each corresponding vehicle and wheel in the vehicles array. A NULL pointer is permitted.</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">vehicleConcurrentUpdates</td><td>is an array of length nbVehicles. It is only necessary to specify vehicleConcurrentUpdates if PxVehicleUpdates is called concurrently. The element vehicleWheelQueryResults[i] of the array stores data that is computed for vehicle[i] during PxVehicleUpdates but which cannot be safely written when concurrently called. The data computed and stored in vehicleConcurrentUpdates must be passed to PxVehiclePostUpdates, where it is applied to all relevant actors in sequence. A NULL pointer is permitted.</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vehicleConcurrentUpdates</td><td>is an array of length nbVehicles. It is only necessary to specify vehicleConcurrentUpdates if PxVehicleUpdates is called concurrently (also concurrently with PxVehicleUpdateSingleVehicleAndStoreTelemetryData). The element vehicleConcurrentUpdates[i] of the array stores data that is computed for vehicle[i] during PxVehicleUpdates but which cannot be safely written when concurrently called. The data computed and stored in vehicleConcurrentUpdates must be passed to PxVehiclePostUpdates, where it is applied to all relevant actors in sequence. A NULL pointer is permitted.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1686,14 +1693,14 @@ The suspension sprung masses are updated so that the natural frequency and dampi
 <dd>
 The vehicleWheelQueryResults buffer is left unmodified for vehicles with sleeping rigid bodies whose control inputs indicate they should remain inert.</dd>
 <dd>
-If PxVehicleUpdates is called concurrently then vehicleConcurrentUpdates must be specified. Do not specify vehicleConcurrentUpdates is PxVehicleUpdates is not called concurrently.</dd>
+If PxVehicleUpdates is called concurrently then vehicleConcurrentUpdates must be specified. Do not specify vehicleConcurrentUpdates if PxVehicleUpdates is not called concurrently.</dd>
 <dd>
 The vehicleConcurrentUpdates buffer must persist until the end of PxVehiclePostUpdate.</dd>
 <dd>
 If any vehicle has one or more disabled wheels (<a class="el" href="classPxVehicleWheelsSimData.html#a98eb5965f7c02a507ae7979cea8b54c0" title="Disable a wheel so that zero suspension forces and zero tire forces are applied to the rigid body fro...">PxVehicleWheelsSimData::disableWheel</a>) then the disabled wheels must not be associated with a <a class="el" href="classPxShape.html" title="Abstract class for collision shapes. ">PxShape</a> (<a class="el" href="classPxVehicleWheelsSimData.html#a07988e7e4bfd905ae1dd182ef3a1cab1" title="Set mapping between wheel id and position of corresponding wheel shape in the list of actor shapes...">PxVehicleWheelsSimData::setWheelShapeMapping</a>); the differential of the vehicle must be configured so that no drive torque is delivered to a disabled wheel; and the wheel must have zero rotation speed (<a class="el" href="classPxVehicleWheelsDynData.html#aef9282166f0b158d978b7ae8e8c28153" title="Set the wheel rotation speed (radians per second) about the rolling axis for the specified wheel...">PxVehicleWheelsDynData::setWheelRotationSpeed</a>)</dd>
 <dd>
-PxVehicleUpdates may be called concurrently provided all concurrent calls to PxVehicleUpdates involve only vehicles in the scene specified by PxVehicleUpdateSetScene. PxVehicleUpdates must never run concurrently with PxVehicleUpdateSingleVehicleAndStoreTelemetryData.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga3b853549d4313bbbbf6a23ccd96817c5" title="Set the effect of PxVehicleUpdates to be either to modify each vehicle&#39;s rigid body actor...">PxVehicleSetUpdateMode</a>, <a class="el" href="classPxVehicleWheelsSimData.html#a98eb5965f7c02a507ae7979cea8b54c0" title="Disable a wheel so that zero suspension forces and zero tire forces are applied to the rigid body fro...">PxVehicleWheelsSimData::disableWheel</a>, <a class="el" href="classPxVehicleWheelsSimData.html#a07988e7e4bfd905ae1dd182ef3a1cab1" title="Set mapping between wheel id and position of corresponding wheel shape in the list of actor shapes...">PxVehicleWheelsSimData::setWheelShapeMapping</a>, <a class="el" href="classPxVehicleWheelsDynData.html#aef9282166f0b158d978b7ae8e8c28153" title="Set the wheel rotation speed (radians per second) about the rolling axis for the specified wheel...">PxVehicleWheelsDynData::setWheelRotationSpeed</a>, <a class="el" href="group__vehicle.html#gaf9349122c5cf95fec09bd09ce5e540d2" title="Apply actor changes that were computed in concurrent calls to PxVehicleUpdates but which could not be...">PxVehiclePostUpdates</a> </dd></dl>
+Concurrent calls to PxVehicleUpdates and PxVehicleUpdateSingleVehicleAndStoreTelemetryData are permitted if the parameter vehicleConcurrentUpdates is used.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__vehicle.html#ga3b853549d4313bbbbf6a23ccd96817c5" title="Set the effect of PxVehicleUpdates to be either to modify each vehicle&#39;s rigid body actor...">PxVehicleSetUpdateMode</a>, <a class="el" href="classPxVehicleWheelsSimData.html#a98eb5965f7c02a507ae7979cea8b54c0" title="Disable a wheel so that zero suspension forces and zero tire forces are applied to the rigid body fro...">PxVehicleWheelsSimData::disableWheel</a>, <a class="el" href="classPxVehicleWheelsSimData.html#a07988e7e4bfd905ae1dd182ef3a1cab1" title="Set mapping between wheel id and position of corresponding wheel shape in the list of actor shapes...">PxVehicleWheelsSimData::setWheelShapeMapping</a>, <a class="el" href="classPxVehicleWheelsDynData.html#aef9282166f0b158d978b7ae8e8c28153" title="Set the wheel rotation speed (radians per second) about the rolling axis for the specified wheel...">PxVehicleWheelsDynData::setWheelRotationSpeed</a>, <a class="el" href="group__vehicle.html#gaf9349122c5cf95fec09bd09ce5e540d2" title="Apply actor changes that were computed in concurrent calls to PxVehicleUpdates or PxVehicleUpdateSing...">PxVehiclePostUpdates</a> </dd></dl>
 
 </div>
 </div>
@@ -1703,7 +1710,7 @@ PxVehicleUpdates may be called concurrently provided all concurrent calls to PxV
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

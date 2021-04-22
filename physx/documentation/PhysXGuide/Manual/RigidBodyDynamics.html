@@ -643,11 +643,13 @@
 <div class="section" id="temporal-gauss-seidel">
 <span id="temporalgaussseidel"></span><h2>Temporal Gauss-Seidel<a class="headerlink" href="#temporal-gauss-seidel" title="Permalink to this headline">¶</a></h2>
 <p>PhysX provides a default Projected Gauss-Seidel-style (PGS) solver and an optional Temporal Gauss-Seidel (TGS) solver.</p>
-<p>Temporal gauss-seidel offers several advantages over the PGS-style solver:
-- Dramatically improved convergence
-- Improved handling of high-mass ratios
-- Minimizes energy introduced when correcting penetrations (depending on solver convergence)
-- Improved joint drive accuracy</p>
+<p>Temporal gauss-seidel offers several advantages over the PGS-style solver:</p>
+<ul class="simple">
+<li>Dramatically improved convergence</li>
+<li>Improved handling of high-mass ratios</li>
+<li>Minimizes energy introduced when correcting penetrations (depending on solver convergence)</li>
+<li>Improved joint drive accuracy</li>
+</ul>
 <p>TGS is generally a little slower than PGS. This is partially due to the increased complexity of the constraint solver and also partially due to TGS solving friction constraints every iteration, whereas PGS solves friction constraints only in the final 3 position iterations by default.</p>
 <p>Enabling the TGS solver requires setting PxSceneDesc::solverType to PxSolverType::eTGS. This is an immutable scene property that must be set before the scene is constructed.</p>
 <p>The TGS solver is available when using both CPU and GPU simulation.</p>
@@ -674,7 +676,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2008-2019 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved
+        &copy; Copyright 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved
 
     </p>
   </div> 

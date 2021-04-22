@@ -319,7 +319,7 @@
 </div>
 <div class="section" id="kill-kinematic-pairs-early">
 <h3>Kill kinematic pairs early<a class="headerlink" href="#kill-kinematic-pairs-early" title="Permalink to this headline">¶</a></h3>
-<p>If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline. This is especially effective with the PxBroadPhaseType::eABP broadphase.</p>
+<p>If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline. This is especially effective with the PxBroadPhaseType::eABP broadphase. Sometimes it is not possible to disable all kinematic pairs globally because a few of them are necessary. In that case the PxRigidBodyFlag::eFORCE_KINE_KINE_NOTIFICATIONS and PxRigidBodyFlag::eFORCE_STATIC_KINE_NOTIFICATIONS flags can help.</p>
 </div>
 <div class="section" id="beware-of-pxscene-getactors">
 <h3>Beware of PxScene::getActors()<a class="headerlink" href="#beware-of-pxscene-getactors" title="Permalink to this headline">¶</a></h3>
@@ -580,7 +580,7 @@ The transformation is performed as follows (in pseudo-code):</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2008-2019 NVIDIA Corporation, 2701 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved
+        &copy; Copyright 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved
 
     </p>
   </div> 

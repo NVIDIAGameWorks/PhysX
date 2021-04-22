@@ -97,7 +97,9 @@ $(document).ready(function(){initNavTree('structPxVehicleWheelsSimFlag.html','')
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ae22cac8835a33a55a7bddc2223638d60"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60">Enum</a> { <a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849">eLIMIT_SUSPENSION_EXPANSION_VELOCITY</a> = (1 &lt;&lt; 0)
+<tr class="memitem:ae22cac8835a33a55a7bddc2223638d60"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60">Enum</a> { <a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849">eLIMIT_SUSPENSION_EXPANSION_VELOCITY</a> = (1 &lt;&lt; 0), 
+<a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60adb3a0112f6926f83168d2a2e42b4337f">eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST</a> = (1 &lt;&lt; 1), 
+<a class="el" href="structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a3a002582b154a7057c01474da357d015">eDISABLE_SUSPENSION_FORCE_PROJECTION</a> = (1 &lt;&lt; 2)
  }</td></tr>
 <tr class="separator:ae22cac8835a33a55a7bddc2223638d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -120,6 +122,14 @@ Public Types</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849"></a>eLIMIT_SUSPENSION_EXPANSION_VELOCITY&#160;</td><td class="fielddoc"><p>Limit the suspension expansion velocity. </p>
 <p>For extreme damping ratios, large damping forces might result in the vehicle sticking to the ground where one would rather expect to see the vehicle lift off. While it is highly recommended to use somewhat realistic damping ratios, this flag can be used to limit the velocity of the suspension. In more detail, the simulation will check whether the suspension can extend to the target length in the given simulation time step. If that is the case, the suspension force will be computed as usual, else the force will be set to zero. Enabling this feature gives a slightly more realisitic behavior at the potential cost of more easily losing control when steering the vehicle. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ae22cac8835a33a55a7bddc2223638d60adb3a0112f6926f83168d2a2e42b4337f"></a>eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST&#160;</td><td class="fielddoc"><p>Disable internal cylinder-plane intersection test. </p>
+<p>By default the internal code runs a post-process on sweep results, approximating the wheel shape with a cylinder and tweaking the sweep hit results accordingly. This can produce artefacts in certain cases, in particular when the swept shape is very different from a cylinder - e.g. with swept spheres. This flag tells the system to disable this internal test, and reuse the direct user-provided sweep results.</p>
+<p>The default code refines the sweep results in each substep. Enabling this flag makes the system partially reuse the same sweep results over each substep, which could potentially create other artefacts. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae22cac8835a33a55a7bddc2223638d60a3a002582b154a7057c01474da357d015"></a>eDISABLE_SUSPENSION_FORCE_PROJECTION&#160;</td><td class="fielddoc"><p>Disable suspension force projection. </p>
+<p>By default the internal code modulates the suspension force with the contact normal, i.e. the more the contact normal is aligned with the suspension direction, the bigger the force. This can create issues when using a single blocking hit, whose unique contact normal sometimes does not accurately capture the reality of the surrounding geometry. For example it can weaken the suspension force too much, which visually makes the wheel move up and down against e.g. a kerb. Enabling this flag tells the system to disable the modulation of the suspension force by the contact normal.</p>
+<p>The rationale is that a real tire has a deformed contact patch containing multiple normals, and even if some of these normals are bent when colliding against a kerb, there would still be a large area of the contact patch touching the ground, and getting normals aligned with the suspension. This is difficult to capture with simple sweep results, especially with a single sweep hit whose normal is computed by a less than accurate algorithm like GJK. Using this flag shortcuts these issues, which can improves the behavior when driving over kerbs or small obstacles. </p>
+</td></tr>
 </table>
 
 </div>
@@ -134,7 +144,7 @@ Public Types</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structPxVehicleWheelsSimFlag.html">PxVehicleWheelsSimFlag</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

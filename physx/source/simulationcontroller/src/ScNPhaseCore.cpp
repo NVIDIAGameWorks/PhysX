@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -427,29 +427,42 @@ static PX_FORCE_INLINE bool filterJointedBodies(const Sc::BodySim* b0, const Sc:
 	return false;
 }
 
+static PX_FORCE_INLINE bool hasForceNotifEnabled(const Sc::BodySim* a, PxRigidBodyFlag::Enum flag)
+{
+	if(!a)
+		return false;
+
+	const PxsRigidCore& core = a->getBodyCore().getCore();
+	return core.mFlags.isSet(flag);
+}
+
+static PX_FORCE_INLINE bool validateSuppress(const Sc::BodySim* b0, const Sc::BodySim* b1, PxRigidBodyFlag::Enum flag)
+{
+	if(hasForceNotifEnabled(b0, flag))
+		return false;
+
+	if(hasForceNotifEnabled(b1, flag))
+		return false;
+
+	return true;
+}
+
 static PX_FORCE_INLINE bool filterKinematics(const Sc::BodySim* b0, const Sc::BodySim* b1, bool kine0, bool kine1, /*const PxSceneFlags& sceneFlags*/
 	const PxPairFilteringMode::Enum kineKineFilteringMode, const PxPairFilteringMode::Enum staticKineFilteringMode)
 {
-	// if at least one object is kinematic
 	const bool kinematicPair = kine0 | kine1;
 	if(kinematicPair)
 	{
-		const bool keepStaticKine = staticKineFilteringMode == PxPairFilteringMode::eKEEP;
-
-		// ...then ignore kinematic vs. static pairs
-		if(!keepStaticKine)
+		if(staticKineFilteringMode != PxPairFilteringMode::eKEEP)
 		{
 			if(!b0 || !b1)
-				return true;
+				return validateSuppress(b0, b1, PxRigidBodyFlag::eFORCE_STATIC_KINE_NOTIFICATIONS);
 		}
 
-		const bool keepKineKine = kineKineFilteringMode == PxPairFilteringMode::eKEEP;
-
-		// ...and ignore kinematic vs. kinematic pairs
-		if(!keepKineKine)
+		if(kineKineFilteringMode != PxPairFilteringMode::eKEEP)
 		{
 			if(kine0 && kine1)
-				return true;
+				return validateSuppress(b0, b1, PxRigidBodyFlag::eFORCE_KINE_KINE_NOTIFICATIONS);
 		}
 	}
 	return false;
@@ -1503,6 +1516,7 @@ void Sc::NPhaseCore::visualize(Cm::RenderOutput& renderOut, PxsContactManagerOut
 		static_cast<ShapeInteraction*>(*interactions++)->visualize(renderOut, outputs);
 }
 
+#ifdef REMOVED
 class ProcessPersistentContactTask : public Cm::Task
 {
 	Sc::NPhaseCore& mCore;
@@ -1577,7 +1591,7 @@ public:
 	}
 
 };
-
+#endif
 
 void Sc::NPhaseCore::processPersistentContactEvents(PxsContactManagerOutputIterator& outputs, PxBaseTask* continuation)
 {

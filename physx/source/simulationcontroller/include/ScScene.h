@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -440,8 +440,8 @@ namespace Sc
 	PX_FORCE_INLINE Sc::SimulationStage::Enum	getSimulationStage() const { return mSimulationStage; }
 	PX_FORCE_INLINE void						setSimulationStage(Sc::SimulationStage::Enum stage) { mSimulationStage = stage; }
 
-					void						addShape(RigidSim&, ShapeCore&, PxBounds3* uninflatedBounds);
-					void						removeShape(ShapeSim&, bool wakeOnLostTouch);
+					void						addShape_(RigidSim&, ShapeCore&);
+					void						removeShape_(ShapeSim&, bool wakeOnLostTouch);
 
 					void						registerShapeInNphase(const ShapeCore& shapeCore);
 					void						unregisterShapeFromNphase(const ShapeCore& shapeCore);
@@ -788,14 +788,14 @@ namespace Sc
 					PxSimulationFilterShader	mFilterShader;
 					PxSimulationFilterCallback*	mFilterCallback;
 
-					PxPairFilteringMode::Enum	mKineKineFilteringMode;
-					PxPairFilteringMode::Enum	mStaticKineFilteringMode;
+			const	PxPairFilteringMode::Enum	mKineKineFilteringMode;
+			const	PxPairFilteringMode::Enum	mStaticKineFilteringMode;
 
 					Ps::CoalescedHashSet<BodyCore*> mSleepBodies;
 					Ps::CoalescedHashSet<BodyCore*> mWokeBodies;
 					bool						mWokeBodyListValid;
 					bool						mSleepBodyListValid;
-					bool						mEnableStabilization;
+			const	bool						mEnableStabilization;
 					Ps::Array<Client*>			mClients;	//an array of transform arrays, one for each client.
 
 						Ps::Array<PxActor*>				mActiveActors;
@@ -925,7 +925,6 @@ namespace Sc
 					Ps::Array<Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhaseAABB> >			mCCDBroadPhaseAABB;
 					Ps::Array<Cm::DelegateTask<Sc::Scene, &Sc::Scene::ccdBroadPhase> >			mCCDBroadPhase;
 					Ps::Array<Cm::DelegateTask<Sc::Scene, &Sc::Scene::postCCDPass> >			mPostCCDPass;
-					PxU32																		mCurrentCCDTask;
 
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::afterIntegration>				mAfterIntegration;
 					Cm::DelegateTask<Sc::Scene, &Sc::Scene::constraintProjection>			mConstraintProjection;

@@ -284,9 +284,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac02554e87f89db490aca6803056db522"><td class="memItemLeft" align="right" valign="top">virtual PxReal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#ac02554e87f89db490aca6803056db522">getFrictionOffsetThreshold</a> () const =0</td></tr>
 <tr class="memdesc:ac02554e87f89db490aca6803056db522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the value of frictionOffsetThreshold that was set in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a> when creating the scene with <a class="el" href="classPxPhysics.html#a6dcded7be00c17004432a04a78569db1" title="Creates a scene. ">PxPhysics::createScene</a>.  <a href="#ac02554e87f89db490aca6803056db522">More...</a><br /></td></tr>
 <tr class="separator:ac02554e87f89db490aca6803056db522"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ff7784b4d51acf2d56b9462e256b58b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a9ff7784b4d51acf2d56b9462e256b58b">setFrictionType</a> (<a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96b">PxFrictionType::Enum</a> frictionType)=0</td></tr>
-<tr class="memdesc:a9ff7784b4d51acf2d56b9462e256b58b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the friction model.  <a href="#a9ff7784b4d51acf2d56b9462e256b58b">More...</a><br /></td></tr>
-<tr class="separator:a9ff7784b4d51acf2d56b9462e256b58b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a959989fbe4fadd5067fc355004cec779"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="group__foundation.html#gafd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#a959989fbe4fadd5067fc355004cec779">setFrictionType</a> (<a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96b">PxFrictionType::Enum</a> frictionType)=0</td></tr>
+<tr class="memdesc:a959989fbe4fadd5067fc355004cec779"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the friction model.  <a href="#a959989fbe4fadd5067fc355004cec779">More...</a><br /></td></tr>
+<tr class="separator:a959989fbe4fadd5067fc355004cec779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaca4a2838bc3bf7ffece380c8c7f0f4e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96b">PxFrictionType::Enum</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPxScene.html#aaca4a2838bc3bf7ffece380c8c7f0f4e">getFrictionType</a> () const =0</td></tr>
 <tr class="memdesc:aaca4a2838bc3bf7ffece380c8c7f0f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the friction model.  <a href="#aaca4a2838bc3bf7ffece380c8c7f0f4e">More...</a><br /></td></tr>
 <tr class="separator:aaca4a2838bc3bf7ffece380c8c7f0f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1022,7 +1022,7 @@ If the aggregate already contains actors, those actors are added to the scene as
 
 <p>Creates a BatchQuery object. </p>
 <p>Scene queries like raycasts, overlap tests and sweeps are batched in this object and are then executed at once. See <a class="el" href="classPxBatchQuery.html" title="Batched queries object. This is used to perform several queries at the same time. ...">PxBatchQuery</a>.</p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000012">Deprecated:</a></b></dt><dd>The batched query feature has been deprecated in PhysX version 3.4</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">desc</td><td>The descriptor of scene query. Scene Queries need to register a callback. See <a class="el" href="classPxBatchQueryDesc.html" title="Descriptor class for PxBatchQuery. ">PxBatchQueryDesc</a>.</td></tr>
@@ -4139,8 +4139,8 @@ Do not use this method while the simulation is running. Calls to this method whi
 
 </div>
 </div>
-<a id="a9ff7784b4d51acf2d56b9462e256b58b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ff7784b4d51acf2d56b9462e256b58b">&#9670;&nbsp;</a></span>setFrictionType()</h2>
+<a id="a959989fbe4fadd5067fc355004cec779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a959989fbe4fadd5067fc355004cec779">&#9670;&nbsp;</a></span>setFrictionType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4149,7 +4149,7 @@ Do not use this method while the simulation is running. Calls to this method whi
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void PxScene::setFrictionType </td>
+          <td class="memname">virtual <a class="el" href="group__foundation.html#gafd8f8779793627061774cfcfa1b9fbd7">PX_DEPRECATED</a> void PxScene::setFrictionType </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96b">PxFrictionType::Enum</a>&#160;</td>
           <td class="paramname"><em>frictionType</em></td><td>)</td>
@@ -4164,6 +4164,7 @@ Do not use this method while the simulation is running. Calls to this method whi
 </div><div class="memdoc">
 
 <p>Set the friction model. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>The friction type cannot be changed after the first simulate call so this function is deprecated. Set the friction type at scene creation time in <a class="el" href="classPxSceneDesc.html" title="Descriptor class for scenes. See PxScene. ">PxSceneDesc</a>.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxFrictionType.html" title="Enum for selecting the friction algorithm used for simulation. ">PxFrictionType</a>, <a class="el" href="classPxSceneDesc.html#ab1f18b0666adb645d92fc2f53373b1e9" title="Selects the friction algorithm to use for simulation. ">PxSceneDesc::frictionType</a> </dd></dl>
 
 </div>
@@ -4802,7 +4803,7 @@ If a shape from the scene is already overlapping with the query shape in its sta
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPxScene.html">PxScene</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

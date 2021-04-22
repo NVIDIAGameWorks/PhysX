@@ -1,5 +1,9 @@
 var NAVTREEINDEX19 =
 {
+"structPxCache.html#a2036c1ece05d3f66936c57ac18b25f55":[3,0,57,2],
+"structPxCache.html#a437d421942f96ec7503807250c5767f3":[3,0,57,4],
+"structPxCache.html#a6e2a00201b3952eebf1c6fd960b416f4":[3,0,57,0],
+"structPxCache.html#a7dfc5d1edea7da1ca1c717178eb21d87":[3,0,57,1],
 "structPxCache.html#a8595cb14cdd176983223d2b61f9dece7":[3,0,57,3],
 "structPxCache.html#ac64e5785004b9564907686b4e8193d3e":[3,0,57,5],
 "structPxCapsuleClimbingMode.html":[2,0,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX19 =
 "structPxControllerCollisionFlag.html#ab8257830a035142d00b1adf70b559169":[2,0,7,0],
 "structPxControllerCollisionFlag.html#ab8257830a035142d00b1adf70b559169a1626c47e22d8cc275d2be873c3a42593":[2,0,7,0,0],
 "structPxControllerCollisionFlag.html#ab8257830a035142d00b1adf70b559169a4a2f1feb8a7f2792b3401010116af455":[2,0,7,0,2],
-"structPxControllerCollisionFlag.html#ab8257830a035142d00b1adf70b559169aa985ece77e0cdec72cd3822859f1b465":[2,0,7,0,1],
-"structPxControllerDebugRenderFlag.html":[2,0,21],
-"structPxControllerDebugRenderFlag.html#a2ca2d1c4bfca5877efb137362de83b9c":[2,0,21,0],
-"structPxControllerDebugRenderFlag.html#a2ca2d1c4bfca5877efb137362de83b9ca0e3676fd229bd7fddd94550ce053618a":[2,0,21,0,4],
-"structPxControllerDebugRenderFlag.html#a2ca2d1c4bfca5877efb137362de83b9ca5a38627c1acae4a4c1c6a5e41cd71e53":[2,0,21,0,2]
+"structPxControllerCollisionFlag.html#ab8257830a035142d00b1adf70b559169aa985ece77e0cdec72cd3822859f1b465":[2,0,7,0,1]
 };

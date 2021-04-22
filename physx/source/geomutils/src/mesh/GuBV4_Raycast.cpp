@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -511,9 +511,12 @@ public:
 			PxRaycastHit& StabbedFace = reinterpret_cast<PxRaycastHit&>(buffer);
 			if(RayTriOverlapT<RayParams>(StabbedFace, p0, p1, p2, params))
 			{
-				HitCode Code = (params->mCallback)(params->mUserData, p0, p1, p2, primIndex, StabbedFace.distance, StabbedFace.u, StabbedFace.v);
-				if(Code==HIT_EXIT)
-					return 1;
+				if (StabbedFace.distance < params->mStabbedFace.mDistance)
+				{
+					HitCode Code = (params->mCallback)(params->mUserData, p0, p1, p2, primIndex, StabbedFace.distance, StabbedFace.u, StabbedFace.v);
+					if (Code == HIT_EXIT)
+						return 1;
+				}
 
 				// PT: TODO: no shrinking here? (TA34704)
 			}

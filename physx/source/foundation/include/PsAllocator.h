@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -35,9 +35,13 @@
 #include "PxFoundation.h"
 #include "Ps.h"
 
-#if(PX_WINDOWS_FAMILY || PX_XBOXONE)
+#if(PX_WINDOWS_FAMILY || PX_XBOXONE || PX_XBOX_SERIES_X)
 	#include <exception>
-	#include <typeinfo.h>
+	#if(_MSC_VER >= 1923)
+		#include <typeinfo>
+	#else
+		#include <typeinfo.h>
+	#endif
 #endif
 #if(PX_APPLE_FAMILY)
 	#include <typeinfo>
@@ -106,6 +110,9 @@
 	#include <memory.h>
 	#define PxAlloca(x) alloca(x)
 #elif PX_XBOXONE
+	#include <malloc.h>
+	#define PxAlloca(x) alloca(x)
+#elif PX_XBOX_SERIES_X
 	#include <malloc.h>
 	#define PxAlloca(x) alloca(x)
 #elif PX_SWITCH

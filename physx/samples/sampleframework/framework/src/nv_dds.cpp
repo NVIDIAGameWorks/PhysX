@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // PHYSX-CHANGES:
 //   - Removed dependency on OpenGL. -jdolan
 //   - MACOS does not always equate to BIG_ENDIAN... fixed it for all platforms. -jdolan
@@ -306,7 +306,9 @@ bool CDDSImage::load(string filename, bool flipImage)
 	SampleRenderer::File *fp = 0;
 	PxToolkit::fopen_s(&fp, filename.c_str(), "rb");
     if (fp == NULL)
+    {
         return false;
+    }
 
 	bool success = load(fp, flipImage);
 
@@ -523,8 +525,9 @@ bool CDDSImage::save(std::string filename, bool flipImage)
 	SampleRenderer::File* fp = 0;
 	PxToolkit::fopen_s(&fp, filename.c_str(), "wb");
     if (fp == NULL)
+    {
         return false;
-
+    }
 	bool result = save(fp, flipImage);
 
 	fclose(fp);

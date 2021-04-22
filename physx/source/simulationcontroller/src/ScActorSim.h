@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -76,13 +76,12 @@ namespace Sc
 		PX_FORCE_INLINE	ElementSim*			getElements_()						{ return mFirstElement;		}
 		PX_FORCE_INLINE	const ElementSim*	getElements_()				const	{ return mFirstElement;		}
 
-		PX_FORCE_INLINE PxU32				getElementCount()			const	{ return mElementCount; }
-
 		// Get the type ID of the actor
 		PX_FORCE_INLINE	PxActorType::Enum	getActorType()				const	{ return mCore.getActorCoreType();	}
 
 		// Returns true if the actor is a dynamic rigid body (including articulation links)
 		PX_FORCE_INLINE	bool				isDynamicRigid()			const	{ const PxActorType::Enum type = getActorType(); return type == PxActorType::eRIGID_DYNAMIC || type == PxActorType::eARTICULATION_LINK; }
+		PX_FORCE_INLINE	bool				isStaticRigid()				const   { const PxActorType::Enum type = getActorType(); return type == PxActorType::eRIGID_STATIC; }
 
 						void				onElementAttach(ElementSim& element);
 						void				onElementDetach(ElementSim& element);

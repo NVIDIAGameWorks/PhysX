@@ -60,7 +60,7 @@ var searchData=
   ['pxraycastqueryresult',['PxRaycastQueryResult',['../group__physics.html#ga5d8a1dc3627cf1442f40d91a5ec6b4e3',1,'PxBatchQueryDesc.h']]],
   ['pxreal',['PxReal',['../namespacephysx.html#a727d2d8426e2a21ebbc522fa65c3f97a',1,'physx']]],
   ['pxrevolutejointflags',['PxRevoluteJointFlags',['../group__extensions.html#ga064759e7f7a48b93670218bb400355e8',1,'PxRevoluteJoint.h']]],
-  ['pxrigidbodyflags',['PxRigidBodyFlags',['../group__physics.html#ga2ab6803c803ae6372791ff060068c6a1',1,'PxRigidBody.h']]],
+  ['pxrigidbodyflags',['PxRigidBodyFlags',['../group__physics.html#ga0759d7f23b4fa7e24cd69c51d3efe5bf',1,'PxRigidBody.h']]],
   ['pxrigiddynamiclockflags',['PxRigidDynamicLockFlags',['../group__physics.html#ga5ff75d3f2ba94c58e7f8f928b11ebb8d',1,'PxRigidDynamic.h']]],
   ['pxsceneflags',['PxSceneFlags',['../group__physics.html#ga54a626a9a6d80543048bffc654814704',1,'PxSceneDesc.h']]],
   ['pxscenequerycache',['PxSceneQueryCache',['../group__extensions.html#ga871e9d89cdf9bbab58883b5f0822b5c3',1,'PxSceneQueryExt.h']]],

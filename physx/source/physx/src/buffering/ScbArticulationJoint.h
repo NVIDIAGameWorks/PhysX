@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -244,8 +244,7 @@ public:
 	PX_FORCE_INLINE const Core&			getScArticulationJoint()		const	{ return mJoint; }  // Only use if you know what you're doing!
 	PX_FORCE_INLINE Core&				getScArticulationJoint()				{ return mJoint; }  // Only use if you know what you're doing!
 
-
-	static			size_t				getScOffset()							{ return reinterpret_cast<size_t>(&reinterpret_cast<ArticulationJoint*>(0)->mJoint);	}
+	static			size_t				getScOffset()							{ return PX_OFFSET_OF_RT(ArticulationJoint, mJoint); }
 
 	PX_FORCE_INLINE void				setScArticulation(Scb::Articulation* articulation)	{ mJoint.setArticulation(&articulation->getScArticulation()); }
 

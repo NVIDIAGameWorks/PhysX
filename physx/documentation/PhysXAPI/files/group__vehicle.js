@@ -664,7 +664,9 @@ var group__vehicle =
     ] ],
     [ "PxVehicleWheelsSimFlag", "structPxVehicleWheelsSimFlag.html", [
       [ "Enum", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60", [
-        [ "eLIMIT_SUSPENSION_EXPANSION_VELOCITY", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849", null ]
+        [ "eLIMIT_SUSPENSION_EXPANSION_VELOCITY", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a75d4ea0ed70a2383d36939a947f50849", null ],
+        [ "eDISABLE_INTERNAL_CYLINDER_PLANE_INTERSECTION_TEST", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60adb3a0112f6926f83168d2a2e42b4337f", null ],
+        [ "eDISABLE_SUSPENSION_FORCE_PROJECTION", "structPxVehicleWheelsSimFlag.html#ae22cac8835a33a55a7bddc2223638d60a3a002582b154a7057c01474da357d015", null ]
       ] ]
     ] ],
     [ "PxVehicleWheelsSimData", "classPxVehicleWheelsSimData.html", [
@@ -761,6 +763,8 @@ var group__vehicle =
       [ "computeByteSize", "classPxVehicleWheelsDynData.html#ae26f98f5ee9ddaf52e26f76f9c7a49f4", null ],
       [ "copy", "classPxVehicleWheelsDynData.html#ada0c743a9a3bfffd57b404fa0ec9e4cb", null ],
       [ "getBinaryMetaData", "classPxVehicleWheelsDynData.html#a2334f46dee346d2f3643cad7836ef4d9", null ],
+      [ "getConstraints", "classPxVehicleWheelsDynData.html#ae9773fbeeef07a828c1f3d20fdc921c8", null ],
+      [ "getNbConstraints", "classPxVehicleWheelsDynData.html#a8ffbce495ddbb8db4913c85d2fbe7d71", null ],
       [ "getNbWheelRotationAngle", "classPxVehicleWheelsDynData.html#ae519737c26f129dd48ef9c8220dd5d05", null ],
       [ "getNbWheelRotationSpeed", "classPxVehicleWheelsDynData.html#abb58c5057bbdc2869045c0a5cbbd5909", null ],
       [ "getTireForceShaderData", "classPxVehicleWheelsDynData.html#a91a804964365dce971e76bdd55fd081f", null ],
@@ -850,7 +854,7 @@ var group__vehicle =
     [ "PxVehicleSetUpdateMode", "group__vehicle.html#ga3b853549d4313bbbbf6a23ccd96817c5", null ],
     [ "PxVehicleShiftOrigin", "group__vehicle.html#gae62e4d3360ae24537d7fe2100e79f24c", null ],
     [ "PxVehicleSuspensionRaycasts", "group__vehicle.html#ga2020b9fcb5092e2a2d81e82ba7461dfd", null ],
-    [ "PxVehicleSuspensionSweeps", "group__vehicle.html#ga3c9f3da897c9294c9164aa41b18150e3", null ],
+    [ "PxVehicleSuspensionSweeps", "group__vehicle.html#ga609c26d70a0e7452c313ebe8c58d9da5", null ],
     [ "PxVehicleUpdateCMassLocalPose", "group__vehicle.html#ga946f4d23cff6fdf36dca694641e20779", null ],
     [ "PxVehicleUpdates", "group__vehicle.html#ga47aff43683966ca9d1118a1bf4a1f5c2", null ]
 ];

@@ -335,10 +335,7 @@ var group__geomutils =
     [ "isValid", "group__geomutils.html#ga0e0681b04cf2ae73994df0939e74e85f", null ],
     [ "PX_ALIGN_SUFFIX", "group__geomutils.html#ga657370d4666df870740a609fc2037f05", null ],
     [ "PxHeightFieldDesc", "group__geomutils.html#ga0e3fd140462fac286debed6c6a960c3d", null ],
-    [ "PxPlaneEquationFromTransform", "group__geomutils.html#ga8024f8608f335fb039e332a3e5afbe89", null ],
     [ "PxSimpleTriangleMesh", "group__geomutils.html#ga9acd5763a76bcf9f41b42c3a30a6421a", null ],
-    [ "PxTransformFromPlaneEquation", "group__geomutils.html#gad7702c73625ee858ad6458b97856d475", null ],
-    [ "PxTransformFromSegment", "group__geomutils.html#ga60805c0463b00baf463d5281e034a141", null ],
     [ "setToDefault", "group__geomutils.html#gad6110ba2e5505fb809d3c3ebeb82e2f5", null ],
     [ "setToDefault", "group__geomutils.html#gadd7ec6c255262ddceeb7e04600bc47b5", null ]
 ];

@@ -1,8 +1,8 @@
 var classPxContactSet =
 [
     [ "getDynamicFriction", "classPxContactSet.html#a649785dca7f48629279cd0dccf73f18d", null ],
-    [ "getInternalFaceIndex0", "classPxContactSet.html#a02f160a1a9135d6d7f1e5f77557ce63e", null ],
-    [ "getInternalFaceIndex1", "classPxContactSet.html#a6535e80819a6d2a5bbe38db6aa86684e", null ],
+    [ "getInternalFaceIndex0", "classPxContactSet.html#a146b7d2559ef1e91bac73211e74d07d7", null ],
+    [ "getInternalFaceIndex1", "classPxContactSet.html#a703eb105820453cb909269e280a32fa8", null ],
     [ "getInvInertiaScale0", "classPxContactSet.html#ad5eeabcc4bcf3d3bfcf4c123fb763010", null ],
     [ "getInvInertiaScale1", "classPxContactSet.html#a7294514e0c3e773a40ba0ecec449b03e", null ],
     [ "getInvMassScale0", "classPxContactSet.html#a2bf52bb6a14a67d82e23e233e06fa0c3", null ],

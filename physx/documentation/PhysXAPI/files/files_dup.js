@@ -32,7 +32,7 @@ var files_dup =
     [ "PxBVHStructureDesc.h", "PxBVHStructureDesc_8h.html", null ],
     [ "Pxc.h", "Pxc_8h.html", "Pxc_8h" ],
     [ "PxCapsuleController.h", "PxCapsuleController_8h.html", null ],
-    [ "PxCapsuleGeometry.h", "PxCapsuleGeometry_8h.html", "PxCapsuleGeometry_8h" ],
+    [ "PxCapsuleGeometry.h", "PxCapsuleGeometry_8h.html", null ],
     [ "PxClient.h", "PxClient_8h.html", "PxClient_8h" ],
     [ "PxCollection.h", "PxCollection_8h.html", "PxCollection_8h" ],
     [ "PxCollectionExt.h", "PxCollectionExt_8h.html", null ],
@@ -120,7 +120,7 @@ var files_dup =
     [ "PxPhysXCommonConfig.h", "PxPhysXCommonConfig_8h.html", "PxPhysXCommonConfig_8h" ],
     [ "PxPhysXConfig.h", "PxPhysXConfig_8h.html", null ],
     [ "PxPlane.h", "PxPlane_8h.html", null ],
-    [ "PxPlaneGeometry.h", "PxPlaneGeometry_8h.html", "PxPlaneGeometry_8h" ],
+    [ "PxPlaneGeometry.h", "PxPlaneGeometry_8h.html", null ],
     [ "PxPreprocessor.h", "PxPreprocessor_8h.html", "PxPreprocessor_8h" ],
     [ "PxPrismaticJoint.h", "PxPrismaticJoint_8h.html", "PxPrismaticJoint_8h" ],
     [ "PxProfiler.h", "PxProfiler_8h.html", [

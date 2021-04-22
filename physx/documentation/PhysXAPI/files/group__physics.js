@@ -509,8 +509,8 @@ var group__physics =
     ] ],
     [ "PxContactSet", "classPxContactSet.html", [
       [ "getDynamicFriction", "classPxContactSet.html#a649785dca7f48629279cd0dccf73f18d", null ],
-      [ "getInternalFaceIndex0", "classPxContactSet.html#a02f160a1a9135d6d7f1e5f77557ce63e", null ],
-      [ "getInternalFaceIndex1", "classPxContactSet.html#a6535e80819a6d2a5bbe38db6aa86684e", null ],
+      [ "getInternalFaceIndex0", "classPxContactSet.html#a146b7d2559ef1e91bac73211e74d07d7", null ],
+      [ "getInternalFaceIndex1", "classPxContactSet.html#a703eb105820453cb909269e280a32fa8", null ],
       [ "getInvInertiaScale0", "classPxContactSet.html#ad5eeabcc4bcf3d3bfcf4c123fb763010", null ],
       [ "getInvInertiaScale1", "classPxContactSet.html#a7294514e0c3e773a40ba0ecec449b03e", null ],
       [ "getInvMassScale0", "classPxContactSet.html#a2bf52bb6a14a67d82e23e233e06fa0c3", null ],
@@ -692,8 +692,8 @@ var group__physics =
       [ "isKindOf", "classPxMaterial.html#a3c240b5123bbabc0673c0c8f9441e155", null ],
       [ "release", "classPxMaterial.html#ac0635989d3c9a12d55d25fe468e91256", null ],
       [ "setDynamicFriction", "classPxMaterial.html#a971a4c6a385310c28aaeaa1f5ead78e9", null ],
-      [ "setFlag", "classPxMaterial.html#a3dbcd175e805766442291c1285eafe8c", null ],
-      [ "setFlags", "classPxMaterial.html#a452856bae712ad60a281ec45a4bd69a9", null ],
+      [ "setFlag", "classPxMaterial.html#a0a182e929b4b5e0f70b06f6420cd18de", null ],
+      [ "setFlags", "classPxMaterial.html#a928373a0c917e4334d23ce4af85e8fa2", null ],
       [ "setFrictionCombineMode", "classPxMaterial.html#a15c32fcd28a63a02caad0247dd2e9835", null ],
       [ "setRestitution", "classPxMaterial.html#a9038f690c180b962a7543734f44ec0f1", null ],
       [ "setRestitutionCombineMode", "classPxMaterial.html#a8f9930b0e18a932e428a061891e4683f", null ],
@@ -774,7 +774,10 @@ var group__physics =
         [ "eENABLE_POSE_INTEGRATION_PREVIEW", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ac89b33b0290d667f6f2ae69298631d01", null ],
         [ "eENABLE_SPECULATIVE_CCD", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596af13d6aa80b364fe2cef81a0039e37d45", null ],
         [ "eENABLE_CCD_MAX_CONTACT_IMPULSE", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ab2bb4cc4246807076a2103d72bd69e00", null ],
-        [ "eRETAIN_ACCELERATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f", null ]
+        [ "eRETAIN_ACCELERATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f", null ],
+        [ "eFORCE_KINE_KINE_NOTIFICATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a698967abdd9280abb3a7aea8b712a9f9", null ],
+        [ "eFORCE_STATIC_KINE_NOTIFICATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a3500d16d79229a7aba7ec54e66adaed6", null ],
+        [ "eRESERVED", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a19c3d420263e8b29250817344bf7bc9f", null ]
       ] ]
     ] ],
     [ "PxRigidBody", "classPxRigidBody.html", [
@@ -977,7 +980,7 @@ var group__physics =
       [ "setDynamicTreeRebuildRateHint", "classPxScene.html#abf2322887ca4db2fdea0229a44e2892c", null ],
       [ "setFilterShaderData", "classPxScene.html#a5ab05d2a2c908d98aed4ca642c5f394d", null ],
       [ "setFlag", "classPxScene.html#a6610c08a5a92c894dcac9d658e48b7de", null ],
-      [ "setFrictionType", "classPxScene.html#a9ff7784b4d51acf2d56b9462e256b58b", null ],
+      [ "setFrictionType", "classPxScene.html#a959989fbe4fadd5067fc355004cec779", null ],
       [ "setGravity", "classPxScene.html#a575ed34c73adbd61892d728a688479f3", null ],
       [ "setLimits", "classPxScene.html#a1c9025d9a26efa7b90c8c75cb7126b92", null ],
       [ "setNbContactDataBlocks", "classPxScene.html#a148be23880c4e2d67f9f772066a9f966", null ],
@@ -1403,7 +1406,7 @@ var group__physics =
     [ "PxOverlapQueryResult", "group__physics.html#gae0a66b10a979f7449050bc97669530b2", null ],
     [ "PxPairFlags", "group__physics.html#gacacbeccf757e60dbf45089ef382681d9", null ],
     [ "PxRaycastQueryResult", "group__physics.html#ga5d8a1dc3627cf1442f40d91a5ec6b4e3", null ],
-    [ "PxRigidBodyFlags", "group__physics.html#ga2ab6803c803ae6372791ff060068c6a1", null ],
+    [ "PxRigidBodyFlags", "group__physics.html#ga0759d7f23b4fa7e24cd69c51d3efe5bf", null ],
     [ "PxRigidDynamicLockFlags", "group__physics.html#ga5ff75d3f2ba94c58e7f8f928b11ebb8d", null ],
     [ "PxSceneFlags", "group__physics.html#ga54a626a9a6d80543048bffc654814704", null ],
     [ "PxShapeFlags", "group__physics.html#ga18053d8127ddb5ed5609e4c748b6ad0d", null ],

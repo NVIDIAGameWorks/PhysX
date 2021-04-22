@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 #ifndef __glut_h__
 #define __glut_h__

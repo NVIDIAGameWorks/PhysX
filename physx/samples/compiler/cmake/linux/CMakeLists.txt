@@ -11,7 +11,7 @@
 ##    contributors may be used to endorse or promote products derived
 ##    from this software without specific prior written permission.
 ##
-## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 ## EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ## IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 ## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 ## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 ## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ##
-## Copyright (c) 2018-2019 NVIDIA Corporation. All rights reserved.
+## Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 IF(NOT DEFINED PHYSX_LINUX_COMPILE_DEFS)
 	MESSAGE(FATAL ERROR "Samples uses the PhysX compile defs, and they're not defined when they need to be.")
@@ -51,11 +51,11 @@ INCLUDE(SampleFramework.cmake)
 INCLUDE(SampleRenderer.cmake)
 INCLUDE(SamplePlatform.cmake)
 INCLUDE(SamplesToolkit.cmake)
-SET_PROPERTY(TARGET SampleToolkit PROPERTY FOLDER "PhysX Samples")
-SET_PROPERTY(TARGET SampleBase PROPERTY FOLDER "PhysX Samples")
-SET_PROPERTY(TARGET SampleFramework PROPERTY FOLDER "PhysX Samples")
-SET_PROPERTY(TARGET SamplePlatform PROPERTY FOLDER "PhysX Samples")
-SET_PROPERTY(TARGET SampleRenderer PROPERTY FOLDER "PhysX Samples")
+SET_PROPERTY(TARGET SampleToolkit PROPERTY FOLDER "PhysX Samples/Libraries only")
+SET_PROPERTY(TARGET SampleBase PROPERTY FOLDER "PhysX Samples/Libraries only")
+SET_PROPERTY(TARGET SampleFramework PROPERTY FOLDER "PhysX Samples/Libraries only")
+SET_PROPERTY(TARGET SamplePlatform PROPERTY FOLDER "PhysX Samples/Libraries only")
+SET_PROPERTY(TARGET SampleRenderer PROPERTY FOLDER "PhysX Samples/Libraries only")
 
 IF(PX_BUILDSAMPLES)
 	INCLUDE(Samples.cmake)

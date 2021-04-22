@@ -8,6 +8,9 @@ var structPxRigidBodyFlag =
       [ "eENABLE_POSE_INTEGRATION_PREVIEW", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ac89b33b0290d667f6f2ae69298631d01", null ],
       [ "eENABLE_SPECULATIVE_CCD", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596af13d6aa80b364fe2cef81a0039e37d45", null ],
       [ "eENABLE_CCD_MAX_CONTACT_IMPULSE", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ab2bb4cc4246807076a2103d72bd69e00", null ],
-      [ "eRETAIN_ACCELERATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f", null ]
+      [ "eRETAIN_ACCELERATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596ae3f262927cf4d13f517c6f0c08ec448f", null ],
+      [ "eFORCE_KINE_KINE_NOTIFICATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a698967abdd9280abb3a7aea8b712a9f9", null ],
+      [ "eFORCE_STATIC_KINE_NOTIFICATIONS", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a3500d16d79229a7aba7ec54e66adaed6", null ],
+      [ "eRESERVED", "structPxRigidBodyFlag.html#a5fd4878ae66a98c030a9d976e8ba8596a19c3d420263e8b29250817344bf7bc9f", null ]
     ] ]
 ];

@@ -600,6 +600,7 @@ var group__foundation =
     [ "PX_WINDOWS_FAMILY", "group__foundation.html#ga5121e2d88c11a94738ee44b0b6b339a2", null ],
     [ "PX_X64", "group__foundation.html#ga559a6fbf1f502edf3e25e3b90647f111", null ],
     [ "PX_X86", "group__foundation.html#ga4f7abce9f24240386fb46d29e4332d3d", null ],
+    [ "PX_XBOX_SERIES_X", "group__foundation.html#ga6479493426d89a1b6a1c1786ecdf8fa7", null ],
     [ "PX_XBOXONE", "group__foundation.html#ga966bf639353d2b617e4925513859c1ff", null ],
     [ "USE_VOLATILE_UNION", "group__foundation.html#ga471d6bb3bd98ced0974dbc866268c15a", null ],
     [ "PxBitAndByte", "group__foundation.html#ga8c8d56ad8584332dc0d55c7936fb0af3", null ],

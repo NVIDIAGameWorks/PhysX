@@ -91,7 +91,7 @@ Use PxPhysicsInsertionCallback for objects that are cooked at runtime. This is f
 
 Kill kinematic pairs early
 ==========================
-If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline. This is especially effective with the PxBroadPhaseType::eABP broadphase.
+If you do not need them, use PxPairFilteringMode::eKILL to disable kinematic pairs earlier in the pipeline. This is especially effective with the PxBroadPhaseType::eABP broadphase. Sometimes it is not possible to disable all kinematic pairs globally because a few of them are necessary. In that case the PxRigidBodyFlag::eFORCE_KINE_KINE_NOTIFICATIONS and PxRigidBodyFlag::eFORCE_STATIC_KINE_NOTIFICATIONS flags can help.
 
 Beware of PxScene::getActors()
 ==============================

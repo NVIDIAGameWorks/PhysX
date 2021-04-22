@@ -270,7 +270,7 @@ Public Attributes</h2></td></tr>
 <p>A contact with a relative velocity below this will not bounce. A typical value for simulation. stability is about 0.2 * gravity. </p>
 <p><b>Range:</b> [0, PX_MAX_F32)<br />
  <b>Default:</b> 0.2 * <a class="el" href="classPxTolerancesScale.html#a629358a15988697feaa85759d5c57e33">PxTolerancesScale::speed</a></p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties. ">PxMaterial</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxMaterial.html" title="Material class to represent a set of surface properties. ">PxMaterial</a> <a class="el" href="classPxScene.html#a1e102ec1b29dea3b588b7507561e656e" title="Set the bounce threshold velocity. Collision speeds below this threshold will not cause a bounce...">PxScene.setBounceThresholdVelocity()</a> <a class="el" href="classPxScene.html#a36f1319b6695b33823529924f389ca3e" title="Return the bounce threshold velocity. ">PxScene.getBounceThresholdVelocity()</a> </dd></dl>
 
 <p class="reference">Referenced by <a class="el" href="group__physics.html#ga7faafa414d3b4a468091cdaf785a931e">isValid()</a>.</p>
 
@@ -651,7 +651,7 @@ This parameter can be used to tune the separation distance of contact points at 
 <dl class="section note"><dt>Note</dt><dd>frictionType cannot be modified after the first call to any of <a class="el" href="classPxScene.html#a9a9cacecc3b0f6adaf2f3d2168c2aff5" title="Advances the simulation by an elapsedTime time. ">PxScene::simulate</a>, PxScene::solve and <a class="el" href="classPxScene.html#a17c3863f711ef79c08c6054b69fd430c" title="Performs collision detection for the scene over elapsedTime. ">PxScene::collide</a></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structPxFrictionType.html" title="Enum for selecting the friction algorithm used for simulation. ">PxFrictionType</a> <b>Default:</b> <a class="el" href="structPxFrictionType.html#a603c53fd85805e2528a338252496a96bacf891c8b96deb40e1e475237fe4f4047" title="Select default patch-friction model. ">PxFrictionType::ePATCH</a></dd>
 <dd>
-<a class="el" href="classPxScene.html#a9ff7784b4d51acf2d56b9462e256b58b" title="Set the friction model. ">PxScene::setFrictionType</a>, <a class="el" href="classPxScene.html#aaca4a2838bc3bf7ffece380c8c7f0f4e" title="Return the friction model. ">PxScene::getFrictionType</a> </dd></dl>
+<a class="el" href="classPxScene.html#a959989fbe4fadd5067fc355004cec779" title="Set the friction model. ">PxScene::setFrictionType</a>, <a class="el" href="classPxScene.html#aaca4a2838bc3bf7ffece380c8c7f0f4e" title="Return the friction model. ">PxScene::getFrictionType</a> </dd></dl>
 
 </div>
 </div>
@@ -721,7 +721,7 @@ This parameter can be used to tune the separation distance of contact points at 
 <p>Gravity vector. </p>
 <p><b>Range:</b> force vector<br />
  <b>Default:</b> Zero</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxScene.html#a575ed34c73adbd61892d728a688479f3" title="Sets a constant gravity for the entire scene. ">PxScene.setGravity()</a></dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classPxScene.html#a575ed34c73adbd61892d728a688479f3" title="Sets a constant gravity for the entire scene. ">PxScene.setGravity()</a> <a class="el" href="classPxScene.html#a6fe48dbf9144be415d63f1d2f3ce0b16" title="Retrieves the current gravity setting. ">PxScene.getGravity()</a></dd></dl>
 <p>When setting gravity, you should probably also set bounce threshold. </p>
 
 </div>
@@ -1049,7 +1049,7 @@ This parameter can be used to tune the separation distance of contact points at 
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classPxSceneDesc.html">PxSceneDesc</a></li>
-    <li class="footer">Copyright &copy; 2008-2019 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95050 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
+    <li class="footer">Copyright &copy; 2008-2021 NVIDIA Corporation, 2788 San Tomas Expressway, Santa Clara, CA 95051 U.S.A. All rights reserved. <a href="http://www.nvidia.com ">www.nvidia.com</a></li>
   </ul>
 </div>
 </body>

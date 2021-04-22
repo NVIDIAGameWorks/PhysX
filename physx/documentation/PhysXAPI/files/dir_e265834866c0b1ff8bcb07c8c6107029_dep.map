@@ -1,0 +1,18 @@
+<map id="characterkinematic" name="characterkinematic">
+<area shape="rect" id="node1" href="dir_e265834866c0b1ff8bcb07c8c6107029.html" title="characterkinematic" alt="" coords="27,52,159,100"/>
+<area shape="rect" id="node2" href="dir_e1ab1c2afe6edf020a20ecbe699cc903.html" title="geometry" alt="" coords="94,148,170,196"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000011_000012.html" title="1" alt="" coords="119,121,127,135"/>
+<area shape="rect" id="node3" href="dir_614c92edf36df8b9e1f64405ff8ea5e2.html" title="common" alt="" coords="21,244,93,292"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000011_000009.html" title="1" alt="" coords="69,220,77,235"/>
+<area shape="rect" id="node4" href="dir_266c30cc99b40eba7d94345de82f8db9.html" title="packman&#45;repo" alt="" coords="47,436,151,484"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000011_000003.html" title="4" alt="" coords="74,409,82,424"/>
+<area shape="rect" id="node5" href="dir_cb1a8f4e4d71fdf9a4c3b6f9df3a7c05.html" title="foundation" alt="" coords="169,340,250,388"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000011_000008.html" title="1" alt="" coords="217,315,225,329"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000012_000009.html" title="19" alt="" coords="86,228,101,242"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000012_000003.html" title="19" alt="" coords="105,411,119,426"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000012_000008.html" title="3" alt="" coords="197,312,205,327"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000009_000003.html" title="13" alt="" coords="91,409,105,424"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000009_000008.html" title="2" alt="" coords="157,316,165,330"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000008_000003.html" title="5" alt="" coords="141,423,149,438"/>
+<area shape="rect" id="clust1" href="dir_713b4d6d20ce249967929ad234a3da6e.html" title="include" alt="" coords="16,16,171,111"/>
+</map>

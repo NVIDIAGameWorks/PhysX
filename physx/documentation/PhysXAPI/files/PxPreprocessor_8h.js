@@ -69,6 +69,7 @@ var PxPreprocessor_8h =
     [ "PX_WINDOWS_FAMILY", "group__foundation.html#ga5121e2d88c11a94738ee44b0b6b339a2", null ],
     [ "PX_X64", "group__foundation.html#ga559a6fbf1f502edf3e25e3b90647f111", null ],
     [ "PX_X86", "group__foundation.html#ga4f7abce9f24240386fb46d29e4332d3d", null ],
+    [ "PX_XBOX_SERIES_X", "group__foundation.html#ga6479493426d89a1b6a1c1786ecdf8fa7", null ],
     [ "PX_XBOXONE", "group__foundation.html#ga966bf639353d2b617e4925513859c1ff", null ],
     [ "PX_COMPILE_TIME_ASSERT", "group__foundation.html#ga289f38577d111c621dfc38704bf887ac", null ],
     [ "PX_UNUSED", "group__foundation.html#ga9727af514012bc32f852e20278a7b04e", null ]

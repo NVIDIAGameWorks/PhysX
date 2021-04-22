@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
 #ifndef D3D11_RENDERER_MEMORY_MACROS_H
 #define D3D11_RENDERER_MEMORY_MACROS_H
@@ -44,10 +44,10 @@ template<class T>
 PX_INLINE bool dxReleaseAndReturnTrue( T& t ) { dxSafeRelease(t); return true; }
 
 template<class T>
-PX_INLINE void deleteAll( T& t ) { std::remove_if(t.begin(), t.end(), deleteAndReturnTrue<typename T::value_type>); };
+PX_INLINE void deleteAll( T& t ) { static_cast<void>(std::remove_if(t.begin(), t.end(), deleteAndReturnTrue<typename T::value_type>)); };
 
 template<class T>
-PX_INLINE void dxSafeReleaseAll( T& t ) { std::remove_if(t.begin(), t.end(), dxReleaseAndReturnTrue<typename T::value_type>); };
+PX_INLINE void dxSafeReleaseAll( T& t ) { static_cast<void>(std::remove_if(t.begin(), t.end(), dxReleaseAndReturnTrue<typename T::value_type>)); };
 
 template<class T>
 PX_INLINE void resizeIfSmallerThan( T& t, typename T::size_type s, typename T::value_type v = typename T::value_type() ) 

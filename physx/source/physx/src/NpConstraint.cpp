@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -266,7 +266,7 @@ void NpConstraint::updateConstants()
 
 	//ML - we can't just set dirty to false because this fails with constraints that were created while the scene was buffering!
 	if(mConstraint.updateConstants(mConstraint.getPxConnector()->prepareData()))
-		mIsDirty = false;
+		markClean();
 #if PX_SUPPORT_PVD
 	Scb::Scene* scbScene = mConstraint.getScbSceneForAPI();
 	//Changed to use the visual scenes update system which respects
@@ -371,8 +371,7 @@ Scb::RigidObject* NpConstraint::getScbRigidObject(PxRigidActor* a)
 
 void physx::NpConstraintGetRigidObjectsFromScb(const Scb::Constraint&c, Scb::RigidObject*&b0, Scb::RigidObject*&b1)
 {
-	const size_t offset = size_t(&(reinterpret_cast<NpConstraint*>(0)->getScbConstraint()));
-	const NpConstraint* np = reinterpret_cast<const NpConstraint*>(reinterpret_cast<const char*>(&c)-offset);
+	const NpConstraint* np = reinterpret_cast<const NpConstraint*>(reinterpret_cast<const char*>(&c)-NpConstraint::getScbConstraintOffset());
 
 	PxRigidActor* a0, * a1;
 	np->getActors(a0, a1);

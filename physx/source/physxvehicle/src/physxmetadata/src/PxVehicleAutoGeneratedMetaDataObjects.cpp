@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -487,11 +487,14 @@ PxReal getPxVehicleWheelsDynData_WheelRotationAngle( const PxVehicleWheelsDynDat
 PxU32 getNbPxVehicleWheelsDynData_WheelRotationAngle( const PxVehicleWheelsDynData* inObj ) { return inObj->getNbWheelRotationAngle(  ); }
 void setPxVehicleWheelsDynData_WheelRotationAngle( PxVehicleWheelsDynData* inObj, const PxU32 inIndex, PxReal inValue ){ inObj->setWheelRotationAngle( inIndex, inValue ); }
 PxVehicleWheels4DynData * getPxVehicleWheelsDynData_Wheel4DynData( const PxVehicleWheelsDynData* inObj ) { return inObj->getWheel4DynData(); }
+PxU32 getPxVehicleWheelsDynData_Constraints( const PxVehicleWheelsDynData* inObj, PxConstraint ** outBuffer, PxU32 inBufSize ) { return inObj->getConstraints( outBuffer, inBufSize ); }
+PxU32 getNbPxVehicleWheelsDynData_Constraints( const PxVehicleWheelsDynData* inObj ) { return inObj->getNbConstraints(  ); }
  PxVehicleWheelsDynDataGeneratedInfo::PxVehicleWheelsDynDataGeneratedInfo()
 	: TireForceShaderFunction( "TireForceShaderFunction", setPxVehicleWheelsDynData_TireForceShaderFunction)
 	, WheelRotationSpeed( "WheelRotationSpeed", getPxVehicleWheelsDynData_WheelRotationSpeed, getNbPxVehicleWheelsDynData_WheelRotationSpeed, setPxVehicleWheelsDynData_WheelRotationSpeed )
 	, WheelRotationAngle( "WheelRotationAngle", getPxVehicleWheelsDynData_WheelRotationAngle, getNbPxVehicleWheelsDynData_WheelRotationAngle, setPxVehicleWheelsDynData_WheelRotationAngle )
 	, Wheel4DynData( "Wheel4DynData", getPxVehicleWheelsDynData_Wheel4DynData)
+	, Constraints( "Constraints", getPxVehicleWheelsDynData_Constraints, getNbPxVehicleWheelsDynData_Constraints )
 {}
  PxVehicleWheelsDynDataGeneratedValues::PxVehicleWheelsDynDataGeneratedValues( const PxVehicleWheelsDynData* inSource )
 		:Wheel4DynData( getPxVehicleWheelsDynData_Wheel4DynData( inSource ) )

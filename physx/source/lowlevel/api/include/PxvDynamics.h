@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -55,29 +55,18 @@ struct PxsRigidCore
 // accordingly.
 //==================================================================================================
 
-	PxsRigidCore() : mFlags(0), mIdtBody2Actor(0), solverIterationCounts(0)	{}
-	PxsRigidCore(const PxEMPTY) : mFlags(PxEmpty)							{}
+	PxsRigidCore() : mFlags(0), solverIterationCounts(0)	{}
+	PxsRigidCore(const PxEMPTY) : mFlags(PxEmpty)			{}
 
 	PX_ALIGN_PREFIX(16)
 	PxTransform			body2World PX_ALIGN_SUFFIX(16);
 	PxRigidBodyFlags	mFlags;					// API body flags
-	PxU8				mIdtBody2Actor;			// PT: true if PxsBodyCore::body2Actor is identity
-	PxU16				solverIterationCounts;	//vel iters are in low word and pos iters in high word.
+	PxU16				solverIterationCounts;	// vel iters are in low word and pos iters in high word.
 
-	PX_FORCE_INLINE	PxU32 isKinematic() const
-	{
-		return mFlags & PxRigidBodyFlag::eKINEMATIC;
-	}
-
-	PX_FORCE_INLINE PxU32 hasCCD() const
-	{
-		return mFlags & PxRigidBodyFlag::eENABLE_CCD;
-	}
-
-	PX_FORCE_INLINE	PxU32 hasCCDFriction() const
-	{
-		return mFlags & PxRigidBodyFlag::eENABLE_CCD_FRICTION;
-	}
+	PX_FORCE_INLINE	PxU32 isKinematic()			const	{ return mFlags & PxRigidBodyFlag::eKINEMATIC;				}
+	PX_FORCE_INLINE PxU32 hasCCD()				const	{ return mFlags & PxRigidBodyFlag::eENABLE_CCD;				}
+	PX_FORCE_INLINE	PxU32 hasCCDFriction()		const	{ return mFlags & PxRigidBodyFlag::eENABLE_CCD_FRICTION;	}
+	PX_FORCE_INLINE	PxU32 hasIdtBody2Actor()	const	{ return mFlags & PxRigidBodyFlag::eRESERVED;				}
 };
 PX_COMPILE_TIME_ASSERT(sizeof(PxsRigidCore) == 32);
 
@@ -96,7 +85,10 @@ struct PxsBodyCore: public PxsRigidCore
 	PX_FORCE_INLINE	const PxTransform& getBody2Actor()	const	{ return body2Actor;	}
 	PX_FORCE_INLINE	void setBody2Actor(const PxTransform& t)
 	{
-		mIdtBody2Actor = PxU8(t.p.isZero() && t.q.isIdentity());
+		if(t.p.isZero() && t.q.isIdentity())
+			mFlags |= PxRigidBodyFlag::eRESERVED;
+		else
+			mFlags.clear(PxRigidBodyFlag::eRESERVED);
 
 		body2Actor = t;
 	}

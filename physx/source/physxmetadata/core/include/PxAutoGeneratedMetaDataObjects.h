@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
@@ -369,6 +369,9 @@ template<> struct PxEnumTraits< physx::PxForceMode::Enum > { PxEnumTraits() : Na
 		{ "eENABLE_SPECULATIVE_CCD", static_cast<PxU32>( physx::PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD ) },
 		{ "eENABLE_CCD_MAX_CONTACT_IMPULSE", static_cast<PxU32>( physx::PxRigidBodyFlag::eENABLE_CCD_MAX_CONTACT_IMPULSE ) },
 		{ "eRETAIN_ACCELERATIONS", static_cast<PxU32>( physx::PxRigidBodyFlag::eRETAIN_ACCELERATIONS ) },
+		{ "eFORCE_KINE_KINE_NOTIFICATIONS", static_cast<PxU32>( physx::PxRigidBodyFlag::eFORCE_KINE_KINE_NOTIFICATIONS ) },
+		{ "eFORCE_STATIC_KINE_NOTIFICATIONS", static_cast<PxU32>( physx::PxRigidBodyFlag::eFORCE_STATIC_KINE_NOTIFICATIONS ) },
+		{ "eRESERVED", static_cast<PxU32>( physx::PxRigidBodyFlag::eRESERVED ) },
 		{ NULL, 0 }
 	};
 
@@ -862,10 +865,10 @@ template<> struct PxEnumTraits< physx::PxArticulationJointDriveType::Enum > { Px
 	};
 
 	static PxU32ToName g_physx__PxArticulationJointType__EnumConversion[] = {
+		{ "eFIX", static_cast<PxU32>( physx::PxArticulationJointType::eFIX ) },
 		{ "ePRISMATIC", static_cast<PxU32>( physx::PxArticulationJointType::ePRISMATIC ) },
 		{ "eREVOLUTE", static_cast<PxU32>( physx::PxArticulationJointType::eREVOLUTE ) },
 		{ "eSPHERICAL", static_cast<PxU32>( physx::PxArticulationJointType::eSPHERICAL ) },
-		{ "eFIX", static_cast<PxU32>( physx::PxArticulationJointType::eFIX ) },
 		{ "eUNDEFINED", static_cast<PxU32>( physx::PxArticulationJointType::eUNDEFINED ) },
 		{ NULL, 0 }
 	};

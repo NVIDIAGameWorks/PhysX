@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -1062,6 +1062,19 @@ void AABBManager::reserveShapeSpace(PxU32 nbTotalBounds)
 	mRemovedHandleMap.resize(nbTotalBounds);
 }
 
+static void buildFreeBitmap(Cm::BitMap& bitmap, PxU32 currentFree, const Ps::Array<Aggregate*>& aggregates)
+{
+	const PxU32 N = aggregates.size();
+
+	bitmap.resizeAndClear(N);
+
+	while(currentFree!=PX_INVALID_U32)
+	{
+		bitmap.set(currentFree);
+		currentFree = PxU32(size_t(aggregates[currentFree]));
+	}
+}
+
 #if PX_VC
 #pragma warning(disable: 4355 )	// "this" used in base member initializer list
 #endif
@@ -1138,23 +1151,16 @@ void AABBManager::destroy()
 	releasePairs(mActorAggregatePairs);
 	releasePairs(mAggregateAggregatePairs);
 
-	const PxU32 nb = mAggregates.size();
-	for(PxU32 i=0;i<nb;i++)
 	{
-		bool found = false;
-		PxU32 currentFree = mFirstFreeAggregate;
-		while(currentFree!=PX_INVALID_U32)
-		{
-			if(currentFree==i)
-			{
-				found = true;
-				break;
-			}
-			currentFree = PxU32(reinterpret_cast<size_t>(mAggregates[currentFree]));
-		}
+		Cm::BitMap bitmap;
+		buildFreeBitmap(bitmap, mFirstFreeAggregate, mAggregates);
 
-		if(!found)
+		const PxU32 nb = mAggregates.size();
+		for(PxU32 i=0;i<nb;i++)
 		{
+			if(bitmap.test(i))
+				continue;
+
 			Aggregate* a = mAggregates[i];
 			PX_DELETE(a);
 		}
@@ -2481,9 +2487,15 @@ void AABBManager::visualize(Cm::RenderOutput& out)
 	const PxTransform idt = PxTransform(PxIdentity);
 	out << idt;
 
+	Cm::BitMap bitmap;
+	buildFreeBitmap(bitmap, mFirstFreeAggregate, mAggregates);
+
 	const PxU32 N = mAggregates.size();
 	for(PxU32 i=0;i<N;i++)
 	{
+		if(bitmap.test(i))
+			continue;
+
 		Aggregate* aggregate = mAggregates[i];
 		if(aggregate->getNbAggregated())
 		{

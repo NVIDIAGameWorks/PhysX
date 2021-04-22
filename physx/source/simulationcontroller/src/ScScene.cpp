@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,10 +23,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
-
 
 #define NOMINMAX
 
@@ -61,7 +60,7 @@
 #include "PxsContext.h"
 #include "ScSqBoundsManager.h"
 #include "ScElementSim.h"
-
+#include "CmPtrTable.h"
 
 #if defined(__APPLE__) && defined(__POWERPC__)
 #include <ppc_intrinsics.h>
@@ -2631,7 +2630,6 @@ void Sc::Scene::postIslandGen(PxBaseTask* continuationTask)
 
 void Sc::Scene::solver(PxBaseTask* continuation)
 {
-	PX_PROFILE_STOP_CROSSTHREAD("Basic.narrowPhase", getContextId());
 	PX_PROFILE_START_CROSSTHREAD("Basic.rigidBodySolver", getContextId());
 	//Update forces per body in parallel. This can overlap with the other work in this phase.
 	beforeSolver(continuation);
@@ -4834,7 +4832,7 @@ void Sc::Scene::removeShapes(Sc::RigidSim& sim, Ps::InlineArray<Sc::ShapeSim*, 6
 	}
 
 	for(PxU32 i=0;i<shapesBuffer.size();i++)
-		removeShape(*shapesBuffer[i], wakeOnLostTouch);
+		removeShape_(*shapesBuffer[i], wakeOnLostTouch);
 }
 
 void Sc::Scene::addStatic(StaticCore& ro, void*const *shapes, PxU32 nbShapes, size_t shapePtrOffset, PxBounds3* uninflatedBounds)
@@ -4951,19 +4949,18 @@ void Sc::Scene::removeBody(BodyCore& body, Ps::InlineArray<const Sc::ShapeCore*,
 	}
 }
 
-void Sc::Scene::addShape(RigidSim& owner, ShapeCore& shapeCore, PxBounds3* uninflatedBounds)
+void Sc::Scene::addShape_(RigidSim& owner, ShapeCore& shapeCore)
 {
 	ShapeSim* sim = mShapeSimPool->construct(owner, shapeCore);
 	mNbGeometries[shapeCore.getGeometryType()]++;
 
 	//register shape
 	mSimulationController->addShape(&sim->getLLShapeSim(), sim->getID());
-	if (uninflatedBounds)
-		*uninflatedBounds = mBoundsArray->getBounds(sim->getElementID());
+
 	registerShapeInNphase(shapeCore);
 }
 
-void Sc::Scene::removeShape(ShapeSim& shape, bool wakeOnLostTouch)
+void Sc::Scene::removeShape_(ShapeSim& shape, bool wakeOnLostTouch)
 {
 	//BodySim* body = shape.getBodySim();
 	//if(body)
@@ -6098,7 +6095,12 @@ void Sc::Scene::finishBroadPhaseStage2(const PxU32 ccdPass)
 						{
 							Sc::ShapeInteraction* si = static_cast<Sc::ShapeInteraction*>(interaction);
 							mNPhaseCore->lostTouchReports(si, PxU32(PairReleaseFlag::eWAKE_ON_LOST_TOUCH), 0, outputs, useAdaptiveForce);
-							si->destroyManager();
+
+							//We must check to see if we have a contact manager here. There is an edge case where actors could be put to 
+							//sleep after discrete simulation, prior to CCD, causing their contactManager() to be destroyed. If their bounds
+							//also ceased overlapping, then this code will try to destroy the manager again.
+							if(si->getContactManager())
+								si->destroyManager();
 							si->clearIslandGenData();
 						}
 

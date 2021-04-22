@@ -11,7 +11,7 @@
 //    contributors may be used to endorse or promote products derived
 //    from this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 // PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -23,7 +23,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
+// Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
 // Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
 
@@ -213,24 +213,24 @@ static bool finishContacts(const PxcNpWorkUnit& input, PxsContactManagerOutput& 
 
 	PX_ASSERT((npOutput.statusFlag & PxsContactManagerStatusFlag::eTOUCH_KNOWN) != PxsContactManagerStatusFlag::eTOUCH_KNOWN);
 	PxU8 statusFlags = PxU16(npOutput.statusFlag & (~PxsContactManagerStatusFlag::eTOUCH_KNOWN));
-	if (buffer.count != 0)
+	if(buffer.count)
 		statusFlags |= PxsContactManagerStatusFlag::eHAS_TOUCH;
 	else
 		statusFlags |= PxsContactManagerStatusFlag::eHAS_NO_TOUCH;
 
 	npOutput.nbContacts = Ps::to8(buffer.count);
 
-	if(buffer.count==0)
+	if(!buffer.count)
 	{
 		npOutput.statusFlag = statusFlags;
 		npOutput.nbContacts = 0;
 		npOutput.nbPatches = 0;
 		return true;
 	}
+	PX_ASSERT(buffer.count);
 
 #if PX_ENABLE_SIM_STATS
-	if(buffer.count)
-		threadContext.mNbDiscreteContactPairsWithContacts++;
+	threadContext.mNbDiscreteContactPairsWithContacts++;
 #endif
 
 	npOutput.statusFlag = statusFlags;
@@ -246,16 +246,16 @@ static bool finishContacts(const PxcNpWorkUnit& input, PxsContactManagerOutput& 
 		|| threadContext.mCreateContactStream
 		|| (input.flags & PxcNpWorkUnitFlag::eFORCE_THRESHOLD);
 
-	if(!buffer.count || (!isMeshType && !createReports))
+	if((!isMeshType && !createReports))
 		contactForceByteSize = 0;
 
 	bool res = (writeCompressedContact(buffer.contacts, buffer.count, &threadContext, npOutput.nbContacts, npOutput.contactPatches, npOutput.contactPoints, compressedContactSize,
 		reinterpret_cast<PxReal*&>(npOutput.contactForces), contactForceByteSize, threadContext.mMaterialManager, ((input.flags & PxcNpWorkUnitFlag::eMODIFIABLE_CONTACT) != 0), 
 		false, pMaterials, npOutput.nbPatches, 0, NULL, NULL, threadContext.mCreateAveragePoint, threadContext.mContactStreamPool, 
-		threadContext.mPatchStreamPool, threadContext.mForceAndIndiceStreamPool, isMeshType) != 0) || (buffer.count == 0);
+		threadContext.mPatchStreamPool, threadContext.mForceAndIndiceStreamPool, isMeshType) != 0);
 
 	//handle buffer overflow
-	if (buffer.count && !npOutput.nbContacts)
+	if(!npOutput.nbContacts)
 	{
 		PxU8 thisStatusFlags = PxU16(npOutput.statusFlag & (~PxsContactManagerStatusFlag::eTOUCH_KNOWN));
 		thisStatusFlags |= PxsContactManagerStatusFlag::eHAS_NO_TOUCH;
@@ -264,8 +264,7 @@ static bool finishContacts(const PxcNpWorkUnit& input, PxsContactManagerOutput& 
 		npOutput.nbContacts = 0;
 		npOutput.nbPatches = 0;
 #if PX_ENABLE_SIM_STATS
-		if(buffer.count)
-			threadContext.mNbDiscreteContactPairsWithContacts--;
+		threadContext.mNbDiscreteContactPairsWithContacts--;
 #endif
 	}
 	return res;
