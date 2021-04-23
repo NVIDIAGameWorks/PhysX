@@ -2179,9 +2179,9 @@ PxU32 setupSolverConstraintStep(
 
 		PxReal velTarget = 0.f;
 		if (isKinematic0)
-			velTarget += vel0 * s.velMultiplier;
+			velTarget -= vel0;
 		if (isKinematic1)
-			velTarget -= vel1 * s.velMultiplier;
+			velTarget += vel1;
 
 
 		setSolverConstantsStep(s.error, s.biasScale, s.velTarget, s.maxBias, s.velMultiplier, s.impulseMultiplier, recipResponse, c,
