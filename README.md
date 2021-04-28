@@ -32,6 +32,18 @@ Welcome to the NVIDIA PhysX SDK source code repository. This depot includes the 
 
 The NVIDIA PhysX SDK is a scalable multi-platform physics solution supporting a wide range of devices, from smartphones to high-end multicore CPUs and GPUs. PhysX is already integrated into some of the most popular game engines, including Unreal Engine, and Unity3D. [PhysX SDK on developer.nvidia.com](https://developer.nvidia.com/physx-sdk).
 
+## Building physx - Using vcpkg
+
+You can download and install physx using the [vcpkg](https://github.com/Microsoft/vcpkg) dependency manager:
+
+    git clone https://github.com/Microsoft/vcpkg.git
+    cd vcpkg
+    ./bootstrap-vcpkg.sh
+    ./vcpkg integrate install
+    ./vcpkg install physx
+
+The physx port in vcpkg is kept up to date by Microsoft team members and community contributors. If the version is out of date, please [create an issue or pull request](https://github.com/Microsoft/vcpkg) on the vcpkg repository.
+
 ## Documentation
 
 Please see [Release Notes](http://gameworksdocs.nvidia.com/PhysX/4.1/release_notes.html) for updates pertaining to the latest version.
