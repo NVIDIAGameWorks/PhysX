@@ -145,6 +145,9 @@ void NpRigidActorTemplate<APIClass>::preExportDataReset()
 	actorCore.setAggregateID(PX_INVALID_U32);
 	mShapeManager.preExportDataReset();
 	mIndex = 0xFFFFFFFF;
+
+	//Clearing the pointer of rigid actor's name.
+	mName = nullptr;
 }
 
 template<class APIClass>
