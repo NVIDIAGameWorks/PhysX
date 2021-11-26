@@ -1,4 +1,4 @@
-//
+﻿//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -1005,7 +1005,7 @@ public:
 						mCCDContext->getCCDContactModifyCallback())
 					{
 
-						PX_ALIGN(16, PxU8 dataBuffer[sizeof(PxModifiableContact) + sizeof(PxContactPatch)]);
+						PX_ALIGN(16, PxU8 dataBuffer[sizeof(PxModifiableContact) + sizeof(PxContactPatch) + 2* sizeof(PxU32)]); // add 2 PxU32 to support faceIndex, stored in the last U32
 
 						PxContactPatch* patch = reinterpret_cast<PxContactPatch*>(dataBuffer);
 						PxModifiableContact* point = reinterpret_cast<PxModifiableContact*>(patch + 1);
@@ -1026,15 +1026,17 @@ public:
 						patch->nbContacts = 1;
 
 						patch->materialFlags = 0;
-						patch->internalFlags = 0;											//44  //Can be a U16
-
+						patch->internalFlags = PxU32(PxContactPatch::eMODIFIABLE);		//44  //Can be a U16
+						if (pair.mG1 == PxGeometryType::eTRIANGLEMESH || pair.mG1 == PxGeometryType::eHEIGHTFIELD)
+						{
+							patch->internalFlags |= PxContactPatch::eHAS_FACE_INDICES;
+							PxU32* faceIndexBuffer = (reinterpret_cast<PxU32*>(point + 1)) + 1;
+							*faceIndexBuffer = pair.mFaceIndex;
+						}
 
 						point->contact = pair.mMinToiPoint;
-						point->normal = pair.mMinToiNormal;
+						point->normal = -pair.mMinToiNormal; //CCD normal is reversed
 
-						//KS - todo - reintroduce face indices!!!!
-						//point.internalFaceIndex0 = PXC_CONTACT_NO_FACE_INDEX;
-						//point.internalFaceIndex1 = pair.mFaceIndex;
 						point->materialIndex0 = pair.mMaterialIndex0;
 						point->materialIndex1 = pair.mMaterialIndex1;
 						point->dynamicFriction = pair.mDynamicFriction;
@@ -1055,7 +1057,7 @@ public:
 						pair.mStaticFriction = point->staticFriction;
 						pair.mRestitution = point->restitution;
 						pair.mMinToiPoint = point->contact;
-						pair.mMinToiNormal = point->normal;
+						pair.mMinToiNormal = -point->normal; //reverse back normal from contact modification
 
 					}
 
@@ -2053,5 +2055,3 @@ void PxsCCDContext::runCCDModifiableContact(PxModifiableContact* PX_RESTRICT con
 
 
 } //namespace physx
-
-
