@@ -1,4 +1,4 @@
-//
+﻿//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -532,7 +532,8 @@ static void setupFinalizeSolverConstraints4(PxSolverContactDesc* PX_RESTRICT des
 				const Vec4V dotDelAngVel0 = V4MulAdd(delAngVel0X, delAngVel0X, V4MulAdd(delAngVel0Y, delAngVel0Y, V4Mul(delAngVel0Z, delAngVel0Z)));
 				const Vec4V dotRaXnAngVel0 = V4MulAdd(raXnZ, angVelT20, V4MulAdd(raXnY, angVelT10, V4Mul(raXnX, angVelT00)));
 
-				Vec4V unitResponse = V4MulAdd(invMass0D0, angDom0, dotDelAngVel0);
+				Vec4V unitResponse = V4MulAdd(dotDelAngVel0, angDom0, invMass0D0);
+				
 				Vec4V vrel = V4Add(relNorVel, dotRaXnAngVel0);
 
 
@@ -1528,5 +1529,3 @@ SolverConstraintPrepState::Enum createFinalizeSolverContacts4(
 }
 
 }
-
-
