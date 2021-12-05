@@ -1,4 +1,4 @@
-//
+﻿//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions
 // are met:
@@ -135,7 +135,7 @@ public:
 
 				const PxMeshScale& s = c.scale;
 				mass = unscaledMass * s.scale.x * s.scale.y * s.scale.z;
-				centerOfMass = s.rotation.rotate(s.scale.multiply(s.rotation.rotateInv(unscaledCoM)));
+				centerOfMass = s.rotation.rotateInv(s.scale.multiply(s.rotation.rotate(unscaledCoM)));
 				inertiaTensor = scaleInertia(unscaledInertiaTensorCOM, s.rotation, s.scale);
 			}
 			break;
