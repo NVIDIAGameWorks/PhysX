@@ -1,0 +1,52 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.pdb
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#VS files
+*.vcxproj.*
+*.log
+*.tlog
+*.map
+*.exp
+
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/.suo
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Browse.VC.db
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Browse.VC.db-shm
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Browse.VC.db-wal
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Browse.VC.opendb
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Solution.VC.db
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Solution.VC.db-shm
+PhysX_3.4/Source/compiler/vc15win64/.vs/PhysX/v16/Solution.VC.db-wal
+*.vcxproj
+*.recipe
+*.res
