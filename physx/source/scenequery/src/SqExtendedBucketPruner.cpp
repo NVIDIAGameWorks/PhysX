@@ -297,7 +297,7 @@ void ExtendedBucketPruner::refitMarkedNodes(const PxBounds3* boxes)
 		// edge case path, tree does not have a valid root node bounds - all objects from the tree were released
 		// we might even fire perf warning
 		// compact the tree array - no holes in the array, remember the swap position
-		PxU32* swapMap = reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*mCurrentTreeIndex + 1, "Swap Map"));
+		PxU32* swapMap = reinterpret_cast<PxU32*>(PX_ALLOC(sizeof(PxU32)*(mCurrentTreeIndex + 1), "Swap Map"));
 		PxU32 writeIndex = 0;
 		for (PxU32 i = 0; i < mCurrentTreeIndex; i++)
 		{
