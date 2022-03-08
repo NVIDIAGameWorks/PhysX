@@ -248,7 +248,7 @@ static PxU32 DistanceJointSolverPrep(Px1DConstraint* constraints,
 	PxTransform cA2w, cB2w;
 	joint::ConstraintHelper ch(constraints, invMassScale, cA2w, cB2w, body0WorldOffset, data, bA2w, bB2w);
 
-	cA2wOut = cB2w.p;
+	cA2wOut = cA2w.p;
 	cB2wOut = cB2w.p;
 
 	PxVec3 direction = cA2w.p - cB2w.p;
