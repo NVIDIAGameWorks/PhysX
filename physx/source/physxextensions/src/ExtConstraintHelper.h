@@ -201,7 +201,7 @@ namespace Ext
 
 				body0WorldOffset = cB2w.p - bA2w.p;
 
-				mRa = cB2w.p - bA2w.p;
+				mRa = cA2w.p - bA2w.p;
 				mRb = cB2w.p - bB2w.p;
 
 				mCA2w = cA2w.p;
