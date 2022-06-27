@@ -703,7 +703,7 @@ PxU32 Gu::HeightField::computeCellCoordinates(PxReal x, PxReal z, PxReal& fracX,
 	PX_ASSERT(x >= 0.0f && x < PxF32(mData.rows));
 	PX_ASSERT(z >= 0.0f && z < PxF32(mData.columns));
 
-	const PxU32 vertexIndex = PxU32(x * (mData.nbColumns) + z);
+	const PxU32 vertexIndex = PxU32(x) * mData.columns + PxU32(z);
 	PX_ASSERT(vertexIndex < (mData.rows)*(mData.columns));
 
 	return vertexIndex;
