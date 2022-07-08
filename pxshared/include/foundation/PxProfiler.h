@@ -66,6 +66,14 @@ public:
 	\note eventName plus contextId can be used to uniquely match up start and end of a zone.
 	*/
 	virtual void zoneEnd(void* profilerData, const char* eventName, bool detached, uint64_t contextId) = 0;
+
+	/**
+	\brief print a log message via backend logging systems.
+	\param[in] verbosity	The verbosity levels of the backend logging systems are reserved. (i.e. Fatal = 1, Error = 2, Warning = 3, ...)
+	\param[in] format		A formatted text
+	\param[in] ...			Variable arguments used in format
+	*/
+	virtual void logMessage(uint8_t verbosity, const char* format, ...) = 0;
 };
 
 class PxProfileScoped

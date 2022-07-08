@@ -192,6 +192,8 @@ class PvdImpl : public PsPvd, public shdfnd::UserAllocated
 
 	virtual void zoneEnd(void* profilerData, const char *eventName, bool detached, uint64_t contextId);
 
+	virtual void logMessage(uint8_t verbosity, const char *format, ...);
+
   private:
 	void sendTransportInitialization();
 

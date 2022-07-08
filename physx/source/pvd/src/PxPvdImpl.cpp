@@ -394,6 +394,13 @@ void PvdImpl::zoneEnd(void* /*profilerData*/, const char* eventName, bool detach
 	}
 #endif
 }
+
+void PvdImpl::logMessage(uint8_t /* verbosity */, const char /* *format */, ...)
+{
+	/* Unused */
+}
+
+
 } // pvd
 
 } // physx

@@ -40,10 +40,14 @@
 	#define PX_PROFILE_STOP_CROSSTHREAD(x, y)							\
 		if(PxGetProfilerCallback())										\
 			PxGetProfilerCallback()->zoneEnd(NULL, x, true, y)
+	#define PX_PROFILE_MSG(verbosity, format, ...)						\
+		if (PxGetProfilerCallback())									\
+			PxGetProfilerCallback()->logMessage(verbosity, format,  ##__VA_ARGS__)
 #else
 	#define PX_PROFILE_ZONE(x, y)
 	#define PX_PROFILE_START_CROSSTHREAD(x, y)
 	#define PX_PROFILE_STOP_CROSSTHREAD(x, y)
+	#define PX_PROFILE_MSG(verbosity, format, ...)
 #endif
 
 #define PX_PROFILE_POINTER_TO_U64(pointer) static_cast<uint64_t>(reinterpret_cast<size_t>(pointer))
