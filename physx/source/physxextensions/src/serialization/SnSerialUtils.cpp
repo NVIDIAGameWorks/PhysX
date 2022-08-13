@@ -118,6 +118,8 @@ PxU32 getBinaryPlatformTag()
 	return sBinaryPlatformTags[14];
 #elif PX_UWP && PX_A64
 	return sBinaryPlatformTags[15];
+#elif PX_OSX && PX_ARM
+    return sBinaryPlatformTags[5];
 #else
 	#error Unknown binary platform
 #endif

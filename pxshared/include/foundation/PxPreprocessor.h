@@ -100,10 +100,13 @@ Operating system defines, see http://sourceforge.net/p/predef/wiki/OperatingSyst
 #define PX_ANDROID 1
 #elif defined(__linux__) || defined (__EMSCRIPTEN__) // note: __ANDROID__ implies __linux__
 #define PX_LINUX 1
-#elif defined(__APPLE__) && (defined(__arm__) || defined(__arm64__))
-#define PX_IOS 1
 #elif defined(__APPLE__)
-#define PX_OSX 1
+#include "TargetConditionals.h"
+#if TARGET_OS_IPHONE && TARGET_OS_SIMULATOR
+    #define PX_IOS 1
+#else
+    #define PX_OSX 1
+#endif
 #elif defined(__ORBIS__)
 #define PX_PS4 1
 #elif defined(__NX__)
@@ -115,7 +118,9 @@ Operating system defines, see http://sourceforge.net/p/predef/wiki/OperatingSyst
 /**
 Architecture defines, see http://sourceforge.net/p/predef/wiki/Architectures/
 */
-#if defined(__x86_64__) || defined(_M_X64) // ps4 compiler defines _M_X64 without value
+#if defined PX_OSX
+#define PX_ARM 1
+#elif defined(__x86_64__) || defined(_M_X64) // ps4 compiler defines _M_X64 without value
 #define PX_X64 1
 #elif defined(__i386__) || defined(_M_IX86) || defined (__EMSCRIPTEN__)
 #define PX_X86 1
@@ -255,7 +260,7 @@ family shortcuts
 // architecture
 #define PX_INTEL_FAMILY (PX_X64 || PX_X86)
 #define PX_ARM_FAMILY (PX_ARM || PX_A64)
-#define PX_P64_FAMILY (PX_X64 || PX_A64) // shortcut for 64-bit architectures
+#define PX_P64_FAMILY (PX_X64 || PX_A64 || PX_ARM) // shortcut for 64-bit architectures
 
 /**
 C++ standard library defines

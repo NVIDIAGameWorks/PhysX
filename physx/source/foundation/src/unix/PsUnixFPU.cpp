@@ -33,7 +33,7 @@
 PX_COMPILE_TIME_ASSERT(8 * sizeof(uint32_t) >= sizeof(fenv_t));
 #endif
 
-#if PX_OSX
+#if PX_OSX && !defined(PX_ARM)
 // osx defines SIMD as standard for floating point operations.
 #include <xmmintrin.h>
 #endif
@@ -48,9 +48,13 @@ physx::shdfnd::FPUGuard::FPUGuard()
 	// not supported
 	PX_UNUSED(mControlWords);
 #elif PX_OSX
+#ifdef PX_ARM
+    PX_UNUSED(mControlWords);
+#else
 	mControlWords[0] = _mm_getcsr();
 	// set default (disable exceptions: _MM_MASK_MASK) and FTZ (_MM_FLUSH_ZERO_ON), DAZ (_MM_DENORMALS_ZERO_ON: (1<<6))
 	_mm_setcsr(_MM_MASK_MASK | _MM_FLUSH_ZERO_ON | (1 << 6));
+#endif
 #elif defined(__EMSCRIPTEN__)
 // not supported
 #else
@@ -77,9 +81,12 @@ physx::shdfnd::FPUGuard::~FPUGuard()
 #elif PX_PS4
 // not supported
 #elif PX_OSX
+#ifdef PX_ARM
+#else
 	// restore control word and clear exception flags
 	// (setting exception state flags cause exceptions on the first following fp operation)
 	_mm_setcsr(mControlWords[0] & ~_MM_EXCEPT_MASK);
+#endif
 #elif defined(__EMSCRIPTEN__)
 // not supported
 #else
@@ -93,6 +100,8 @@ PX_FOUNDATION_API void physx::shdfnd::enableFPExceptions()
 	feclearexcept(FE_ALL_EXCEPT);
 	feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #elif PX_OSX
+#ifdef PX_ARM
+#else
 	// clear any pending exceptions
 	// (setting exception state flags cause exceptions on the first following fp operation)
 	uint32_t control = _mm_getcsr() & ~_MM_EXCEPT_MASK;
@@ -100,7 +109,7 @@ PX_FOUNDATION_API void physx::shdfnd::enableFPExceptions()
 	// enable all fp exceptions except inexact and underflow (common, benign)
 	// note: denorm has to be disabled as well because underflow can create denorms
 	_mm_setcsr((control & ~_MM_MASK_MASK) | _MM_MASK_INEXACT | _MM_MASK_UNDERFLOW | _MM_MASK_DENORM);
-
+#endif
 #endif
 }
 
@@ -109,9 +118,12 @@ PX_FOUNDATION_API void physx::shdfnd::disableFPExceptions()
 #if PX_LINUX && !defined(__EMSCRIPTEN__)
 	fedisableexcept(FE_ALL_EXCEPT);
 #elif PX_OSX
+#ifdef PX_ARM
+#else
 	// clear any pending exceptions
 	// (setting exception state flags cause exceptions on the first following fp operation)
 	uint32_t control = _mm_getcsr() & ~_MM_EXCEPT_MASK;
 	_mm_setcsr(control | _MM_MASK_MASK);
+#endif
 #endif
 }
