@@ -1523,7 +1523,7 @@ bool SweepTest::doSweepTest(const InternalCBData_FindTouchedGeom* userData,
 				// TODO:  1. should we treat stationary kinematics the same as statics.
 				//		  2. should we treat all kinematics the same as statics.
 				//		  3. should we treat no kinematics the same as statics.
-				if((touchedActor->getConcreteType() == PxConcreteType::eRIGID_STATIC) && (C.mInternalIndex!=PX_INVALID_U32))
+				if((C.mInternalIndex!=PX_INVALID_U32))
 				{
 					mFlags |= STF_VALIDATE_TRIANGLE_DOWN;
 					const PxTriangle& touchedTri = mWorldTriangles.getTriangle(C.mInternalIndex);
@@ -1558,7 +1558,7 @@ bool SweepTest::doSweepTest(const InternalCBData_FindTouchedGeom* userData,
 			}
 			else if(sweepPass==SWEEP_PASS_SIDE || sweepPass==SWEEP_PASS_SENSOR)
 			{
-				if((touchedActor->getConcreteType() == PxConcreteType::eRIGID_STATIC) && (C.mInternalIndex!=PX_INVALID_U32))
+				if((C.mInternalIndex!=PX_INVALID_U32))
 				{
 					mFlags |= STF_VALIDATE_TRIANGLE_SIDE;
 					const PxTriangle& touchedTri = mWorldTriangles.getTriangle(C.mInternalIndex);
