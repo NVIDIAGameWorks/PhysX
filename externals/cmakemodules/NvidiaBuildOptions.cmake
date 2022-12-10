@@ -102,7 +102,8 @@ IF(NV_USE_GAMEWORKS_OUTPUT_DIRS)
 	SET(PX_ROOT_LIB_DIR "bin/${PLATFORM_BIN_NAME}" CACHE INTERNAL "Relative root of the lib output directory")
 	SET(PX_ROOT_EXE_DIR "bin/${PLATFORM_BIN_NAME}" CACHE INTERNAL "Relative root dir of the exe output directory")
 
-	IF (NOT DEFINED PX_OUTPUT_ARCH)  # platforms with fixed arch like ps4 dont need to have arch defined
+	# platforms with fixed arch like ps4 dont need to have arch defined
+	IF (NOT DEFINED PX_OUTPUT_ARCH AND NOT (NV_FORCE_64BIT_SUFFIX OR NV_FORCE_32BIT_SUFFIX))
 		SET(EXE_SUFFIX "")
 	ENDIF()
 	
@@ -201,7 +202,8 @@ IF(NV_APPEND_CONFIG_NAME)
 	SET(CMAKE_CHECKED_POSTFIX "CHECKED_${LIBPATH_SUFFIX}")
 	SET(CMAKE_RELEASE_POSTFIX "_${LIBPATH_SUFFIX}")
 ELSE()
-	IF (DEFINED PX_OUTPUT_ARCH)  # platforms with fixed arch like ps4 dont need to have arch defined, then dont add bitness
+	# platforms with fixed arch like ps4 dont need to have arch defined, then dont add bitness
+	IF (DEFINED PX_OUTPUT_ARCH OR NV_FORCE_64BIT_SUFFIX OR NV_FORCE_32BIT_SUFFIX)
 		SET(CMAKE_DEBUG_POSTFIX "_${LIBPATH_SUFFIX}")
 		SET(CMAKE_PROFILE_POSTFIX "_${LIBPATH_SUFFIX}")
 		SET(CMAKE_CHECKED_POSTFIX "_${LIBPATH_SUFFIX}")

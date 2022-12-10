@@ -3567,28 +3567,23 @@ PX_FORCE_INLINE VecU32V V4U32SplatElement(VecU32V a)
 template <int index>
 PX_FORCE_INLINE Vec4V V4SplatElement(Vec4V a)
 {
-#if PX_UWP
-	if(index == 0)
-	{
-		return vdupq_lane_f32(vget_low_f32(a), 0);
-	}
-	else if (index == 1)
-	{
-		return vdupq_lane_f32(vget_low_f32(a), 1);
-	}
-#else
-	if(index < 2)
-	{
-		return vdupq_lane_f32(vget_low_f32(a), index);
-	}
-#endif
-	else if(index == 2)
-	{
-		return vdupq_lane_f32(vget_high_f32(a), 0);
-	}
-	else if(index == 3)
-	{
-		return vdupq_lane_f32(vget_high_f32(a), 1);
+	switch(index){
+		case 0:
+		{
+			return vdupq_lane_f32(vget_low_f32(a), 0);
+		}
+		case 1:
+		{
+			return vdupq_lane_f32(vget_low_f32(a), 1);
+		}
+		case 2:
+		{
+			return vdupq_lane_f32(vget_high_f32(a), 0);
+		}
+		case 3:
+		{
+			return vdupq_lane_f32(vget_high_f32(a), 1);
+		}
 	}
 }
 
