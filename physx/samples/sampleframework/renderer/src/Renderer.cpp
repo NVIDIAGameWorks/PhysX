@@ -887,6 +887,8 @@ static const bool gFlip = false;
 static const bool gFlip = true;
 #elif PX_ARM_FAMILY
 static const bool gFlip = false;
+#elif PX_LOONGARCH_FAMILY
+static const bool gFlip = false;
 #else
 #error Unknown platform!
 #endif

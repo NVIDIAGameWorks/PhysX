@@ -58,6 +58,8 @@
 #define COMPILE_VECTOR_INTRINSICS 1
 #elif PX_SWITCH
 #define COMPILE_VECTOR_INTRINSICS 1
+#elif PX_LSX
+#define COMPILE_VECTOR_INTRINSICS 1
 #else
 #define COMPILE_VECTOR_INTRINSICS 0
 #endif
@@ -71,6 +73,10 @@
 #include <emmintrin.h>
 #endif
 #include <xmmintrin.h>
+#endif
+
+#if PX_LSX
+#include <lsxintrin.h>
 #endif
 
 #if COMPILE_VECTOR_INTRINSICS
