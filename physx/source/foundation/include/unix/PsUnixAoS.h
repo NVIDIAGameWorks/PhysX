@@ -40,6 +40,8 @@
 #include "sse2/PsUnixSse2AoS.h"
 #elif PX_NEON
 #include "neon/PsUnixNeonAoS.h"
+#elif PX_LSX
+#include "lsx/PsUnixLsxAoS.h"
 #else
 #error No SIMD implementation for this unix platform.
 #endif

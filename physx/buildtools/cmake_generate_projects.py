@@ -120,6 +120,8 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'android':
             return False
+        elif self.targetPlatform == 'loongarch64':
+            return False
         return True
 
     def getCMakeSwitches(self):
@@ -164,6 +166,8 @@ class CMakePreset:
         elif self.targetPlatform == 'linux':
             outString = outString + '-G \"Unix Makefiles\"'
         elif self.targetPlatform == 'linuxAarch64':
+            outString = outString + '-G \"Unix Makefiles\"'
+        elif self.targetPlatform == 'loongarch64':
             outString = outString + '-G \"Unix Makefiles\"'
 
         if self.targetPlatform == 'win32':
@@ -313,6 +317,19 @@ class CMakePreset:
                 outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
                     os.environ['PM_CMakeModules_PATH'] + \
                     '/linux/LinuxAarch64.cmake\"'
+            return outString
+        elif self.targetPlatform == 'loongarch64':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=linux'
+            outString = outString + ' -DPX_OUTPUT_ARCH=loongarch64'
+            if self.compiler == 'clang':
+                if os.environ.get('PM_clang_PATH') is not None:
+                    outString = outString + ' -DCMAKE_C_COMPILER=' + \
+                        os.environ['PM_clang_PATH'] + '/bin/clang'
+                    outString = outString + ' -DCMAKE_CXX_COMPILER=' + \
+                        os.environ['PM_clang_PATH'] + '/bin/clang++'
+                else:
+                    outString = outString + ' -DCMAKE_C_COMPILER=clang'
+                    outString = outString + ' -DCMAKE_CXX_COMPILER=clang++'
             return outString
         elif self.targetPlatform == 'mac64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=mac'
