@@ -25,6 +25,10 @@
 ##
 ## Copyright (c) 2008-2021 NVIDIA Corporation. All rights reserved.
 
+IF(DEFINED IOS_DEPLOYMENT_TARGET)
+    SET(CMAKE_OSX_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET} CACHE STRING
+        "iOS deployment target" FORCE)
+ENDIF()
 
 SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -ferror-limit=0 -Wall -Wextra -Werror -fstrict-aliasing -Wstrict-aliasing=2 -Weverything -Wno-unknown-warning-option -Wno-documentation-deprecated-sync -Wno-documentation-unknown-command -Wno-float-equal -Wno-padded -Wno-weak-vtables -Wno-cast-align -Wno-conversion -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-shift-sign-overflow -Wno-covered-switch-default -Wno-exit-time-destructors -Wno-global-constructors -Wno-missing-prototypes -Wno-unreachable-code -Wno-unused-macros -Wno-unused-member-function -Wno-used-but-marked-unused -Wno-weak-template-vtables -Wno-deprecated -Wno-non-virtual-dtor -Wno-invalid-noreturn -Wno-return-type-c-linkage -Wno-reserved-id-macro -Wno-c++98-compat-pedantic -Wno-unused-local-typedef -Wno-old-style-cast -Wno-newline-eof -Wno-unused-private-field -Wno-undefined-reinterpret-cast -Wno-invalid-offsetof -Wno-zero-as-null-pointer-constant -Wno-atomic-implicit-seq-cst -gdwarf-2" CACHE INTERNAL "PhysX CXX")
 
@@ -90,3 +94,34 @@ SET_PROPERTY(TARGET FastXml PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXPvdSDK PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXTask PROPERTY FOLDER "PhysX SDK")
 SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")
+
+IF(PHYSXCOMMON_LIBTYPE STREQUAL "SHARED")
+    SET(PHYSX_IOS_IDENTIFIER "com.nvidia.lib.physx")
+    SET(PHYSX_COMMON_IOS_IDENTIFIER "com.nvidia.lib.physxcommon")
+    SET(PHYSX_COOKING_IOS_IDENTIFIER "com.nvidia.lib.physxcooking")
+    SET(PHYSX_FOUNDATION_IOS_IDENTIFIER "com.nvidia.lib.physxfoundation")
+
+    SET_TARGET_PROPERTIES(PhysX PROPERTIES
+        FRAMEWORK TRUE
+        MACOSX_FRAMEWORK_IDENTIFIER ${PHYSX_IOS_IDENTIFIER}
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${PHYSX_IOS_IDENTIFIER}
+    )
+
+    SET_TARGET_PROPERTIES(PhysXCommon PROPERTIES
+        FRAMEWORK TRUE
+        MACOSX_FRAMEWORK_IDENTIFIER ${PHYSX_COMMON_IOS_IDENTIFIER}
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${PHYSX_COMMON_IOS_IDENTIFIER}
+    )
+
+    SET_TARGET_PROPERTIES(PhysXCooking PROPERTIES
+        FRAMEWORK TRUE
+        MACOSX_FRAMEWORK_IDENTIFIER ${PHYSX_COOKING_IOS_IDENTIFIER}
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${PHYSX_COOKING_IOS_IDENTIFIER}
+    )
+
+    SET_TARGET_PROPERTIES(PhysXFoundation PROPERTIES
+        FRAMEWORK TRUE
+        MACOSX_FRAMEWORK_IDENTIFIER ${PHYSX_FOUNDATION_IOS_IDENTIFIER}
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER ${PHYSX_FOUNDATION_IOS_IDENTIFIER}
+    )
+ENDIF()
