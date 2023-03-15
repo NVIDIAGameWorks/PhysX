@@ -36,6 +36,11 @@ IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -fstrict-aliasing ${CLANG_WARNINGS}" CACHE INTERNAL "PhysX CXX")
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -fno-strict-aliasing ${GCC_WARNINGS}" CACHE INTERNAL "PhysX CXX")
+
+	# Enable SSE2 and fix double alignment for 32-bit x86 builds
+	IF (CMAKE_SYSTEM_PROCESSOR MATCHES "i686.*|i386.*|x86.*")
+		STRING(APPEND PHYSX_CXX_FLAGS " -malign-double -msse2")
+	ENDIF()
 ENDIF()
 
 # Build debug info for all configurations
