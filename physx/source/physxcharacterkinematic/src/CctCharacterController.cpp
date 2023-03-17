@@ -66,6 +66,13 @@ static const PxU32 gObstacleDebugColor = PxU32(PxDebugColor::eARGB_CYAN);
 static const PxU32 gTBVDebugColor = PxU32(PxDebugColor::eARGB_MAGENTA);
 static const bool gUsePartialUpdates = true;
 
+PX_FORCE_INLINE	bool testSideNormal(const PxVec3& normal, const PxVec3& upDirection, PxF32 slopeLimit)
+{
+	const float dp = normal.dot(upDirection);
+	return dp<slopeLimit;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 static PX_FORCE_INLINE PxHitFlags getSweepHitFlags(const CCTParams& params)
@@ -1870,7 +1877,7 @@ PxControllerCollisionFlags SweepTest::moveCharacter(
 					// I will keep that code nonetheless, since it seems to be useful for them.
 //printf("%d\n", mFlags & STF_VALIDATE_TRIANGLE_SIDE);
 					// constrainedClimbingMode
-					if((mFlags & STF_VALIDATE_TRIANGLE_SIDE) && testSlope(mContactNormalSidePass, upDirection, mUserParams.mSlopeLimit))
+					if((mFlags & STF_VALIDATE_TRIANGLE_SIDE) && testSideNormal(mContactNormalSidePass, upDirection, mUserParams.mSlopeLimit))
 					{
 //printf("%d\n", mFlags & STF_VALIDATE_TRIANGLE_SIDE);
                         if(constrainedClimbingMode && PxExtended(mContactPointHeight) > originalBottomPoint + PxExtended(stepOffset))
