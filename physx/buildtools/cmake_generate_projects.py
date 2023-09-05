@@ -118,6 +118,8 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'linuxAarch64':
             return False
+        elif self.targetPlatform == 'linuxE2K':
+            return False
         elif self.targetPlatform == 'android':
             return False
         return True
@@ -164,6 +166,8 @@ class CMakePreset:
         elif self.targetPlatform == 'linux':
             outString = outString + '-G \"Unix Makefiles\"'
         elif self.targetPlatform == 'linuxAarch64':
+            outString = outString + '-G \"Unix Makefiles\"'
+        elif self.targetPlatform == 'linuxE2K':
             outString = outString + '-G \"Unix Makefiles\"'
 
         if self.targetPlatform == 'win32':
@@ -313,6 +317,12 @@ class CMakePreset:
                 outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
                     os.environ['PM_CMakeModules_PATH'] + \
                     '/linux/LinuxAarch64.cmake\"'
+            return outString
+        elif self.targetPlatform == 'linuxE2K':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=linux'
+            outString = outString + ' -DPX_OUTPUT_ARCH=e2k'
+            outString = outString + ' -DCMAKE_C_COMPILER=gcc'
+            outString = outString + ' -DCMAKE_CXX_COMPILER=g++'
             return outString
         elif self.targetPlatform == 'mac64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=mac'

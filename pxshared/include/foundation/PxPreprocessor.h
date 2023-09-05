@@ -125,6 +125,8 @@ Architecture defines, see http://sourceforge.net/p/predef/wiki/Architectures/
 #define PX_ARM 1
 #elif defined(__ppc__) || defined(_M_PPC) || defined(__CELLOS_LV2__)
 #define PX_PPC 1
+#elif defined(__e2k__)
+#define PX_E2K 1
 #else
 #error "Unknown architecture"
 #endif
@@ -204,6 +206,9 @@ define anything not defined on this platform to 0
 #ifndef PX_PPC
 #define PX_PPC 0
 #endif
+#ifndef PX_E2K
+#define PX_E2K 0
+#endif
 #ifndef PX_SSE2
 #define PX_SSE2 0
 #endif
@@ -255,7 +260,7 @@ family shortcuts
 // architecture
 #define PX_INTEL_FAMILY (PX_X64 || PX_X86)
 #define PX_ARM_FAMILY (PX_ARM || PX_A64)
-#define PX_P64_FAMILY (PX_X64 || PX_A64) // shortcut for 64-bit architectures
+#define PX_P64_FAMILY (PX_X64 || PX_A64 || PX_E2K) // shortcut for 64-bit architectures
 
 /**
 C++ standard library defines

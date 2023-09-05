@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="linux-e2k" comment="Linux-e2k mcst-lcc (gcc compatible) PhysX SDK general settings">
+  <platform targetPlatform="linuxE2K" compiler="gcc" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets" />
+    <cmakeSwitch name="PX_BUILDPUBLICSAMPLES" value="False" comment="Generate the samples" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/linux-e2k/PhysX" comment="Install path relative to PhysX SDK root" />
+  </CMakeParams>
+</preset>
