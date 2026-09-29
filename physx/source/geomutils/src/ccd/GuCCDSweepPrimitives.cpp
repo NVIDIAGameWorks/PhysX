@@ -67,10 +67,10 @@ static PxReal CCDSweep(ConvexA& a, ConvexB& b,  const PxTransform& transform0, c
 	const Vec3V zero = V3Zero();
 
 	const QuatV q0 = QuatVLoadA(&transform0.q.x);
-	const Vec3V p0 = V3LoadA(&lastTm0.p.x);
+	const Vec3V p0 = V3LoadU(&lastTm0.p.x);
 
 	const QuatV q1 = QuatVLoadA(&transform1.q.x);
-	const Vec3V p1 = V3LoadA(&lastTm1.p.x);
+	const Vec3V p1 = V3LoadU(&lastTm1.p.x);
 
 	const PsTransformV tr0(p0, q0);
 	const PsTransformV tr1(p1, q1);
